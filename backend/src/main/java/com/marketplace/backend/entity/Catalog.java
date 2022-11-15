@@ -10,18 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "mirrors")
+@Table(name = "catalogs")
 @Data
-public class Mirror {
+public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-
-    @Column(name = "description")
-    private String description;
 
     @Column(name = "alias", nullable = false, unique = true)
     private String alias;

@@ -12,5 +12,4 @@ public interface MirrorService {
     Mirror getMirror(long id);
 
     void deleteMirror(long id);
-
 }
