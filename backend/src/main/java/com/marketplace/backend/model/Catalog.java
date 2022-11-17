@@ -11,8 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -37,6 +39,14 @@ public class Catalog {
 
     private boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "catalog")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "catalog_id")
     private Set<Product> products;
+
+    public void addProductToCatalogProducts(Product product) {
+        if(products == null) {
+            products = new HashSet<>();
+        }
+        products.add(product);
+    }
 }

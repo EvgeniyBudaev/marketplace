@@ -1,5 +1,7 @@
 package com.marketplace.backend.controller;
 
+import com.marketplace.backend.dao.CatalogDao;
+import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.dao.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class ProductController {
     @Autowired
     private ProductDao productDao;
 
+    @Autowired
+    private CatalogDao catalogDao;
+
     @GetMapping("/products")
     public List<Product> showAllProducts() {
         return productDao.getAll();
@@ -32,7 +37,10 @@ public class ProductController {
 
     @PostMapping("/products")
     public Product addNewProduct(@RequestBody Product product) {
+        Catalog catalog = catalogDao.getById(product.getId())   ;
         productDao.save(product);
+        catalog.addProductToCatalogProducts(product);
+        catalogDao.save(catalog);
         return product;
     }
 
