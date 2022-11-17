@@ -1,6 +1,9 @@
 package com.marketplace.backend.model;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +18,9 @@ import java.util.Set;
 @Entity
 @Table(name = "catalogs")
 @Data
+@DynamicUpdate
+@DynamicInsert
+@SelectBeforeUpdate
 public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

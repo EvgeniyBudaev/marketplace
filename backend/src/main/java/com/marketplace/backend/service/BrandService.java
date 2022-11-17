@@ -1,15 +1,41 @@
 package com.marketplace.backend.service;
 
+import com.marketplace.backend.dao.BrandDao;
 import com.marketplace.backend.model.Brand;
+import com.marketplace.backend.repository.BrandRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface BrandService {
-    List<Brand> getAllBrands();
+@Service
+public class BrandService implements BrandDao {
+    @Autowired
+    private BrandRepository brandRepository;
 
-    void saveBrand(Brand brand);
+    @Override
+    public List<Brand> getAll() {
+        return brandRepository.findAll();
+    }
 
-    Brand getBrand(long id);
+    @Override
+    public void save(Brand brand) {
+        brandRepository.save(brand);
+    }
 
-    void deleteBrand(long id);
+    @Override
+    public Brand getById(long id) {
+        Brand brand = null;
+        Optional<Brand> optional = brandRepository.findById(id);
+        if (optional.isPresent()) {
+            brand = optional.get();
+        }
+        return brand;
+    }
+
+    @Override
+    public void delete(long id) {
+        brandRepository.deleteById(id);
+    }
 }

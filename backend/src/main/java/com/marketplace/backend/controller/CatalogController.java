@@ -1,7 +1,7 @@
 package com.marketplace.backend.controller;
 
 import com.marketplace.backend.model.Catalog;
-import com.marketplace.backend.service.CatalogService;
+import com.marketplace.backend.dao.CatalogDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,33 +18,33 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class CatalogController {
     @Autowired
-    private CatalogService catalogService;
+    private CatalogDao catalogDao;
 
     @GetMapping("/catalogs")
     public List<Catalog> showAllCatalogs() {
-        return catalogService.getAllCatalogs();
+        return catalogDao.getAll();
     }
 
     @GetMapping("/catalogs/{id}")
     public Catalog getCatalog(@PathVariable long id) {
-        return catalogService.getCatalog(id);
+        return catalogDao.getById(id);
     }
 
     @PostMapping("/catalogs")
     public Catalog addNewCatalog(@RequestBody Catalog catalog) {
-        catalogService.saveCatalog(catalog);
+        catalogDao.save(catalog);
         return catalog;
     }
 
     @PutMapping("/catalogs")
     public Catalog updateCatalog(@RequestBody Catalog catalog) {
-        catalogService.saveCatalog(catalog);
+        catalogDao.save(catalog);
         return catalog;
     }
 
     @DeleteMapping("/catalogs/{id}")
     public String deleteCatalog(@PathVariable long id) {
-        catalogService.deleteCatalog(id);
+        catalogDao.delete(id);
         return "Catalog with ID = " + id + " was deleted";
     }
 }

@@ -1,7 +1,7 @@
 package com.marketplace.backend.controller;
 
 import com.marketplace.backend.model.Brand;
-import com.marketplace.backend.service.BrandService;
+import com.marketplace.backend.dao.BrandDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,33 +18,33 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class BrandController {
     @Autowired
-    private BrandService brandService;
+    private BrandDao brandDao;
 
     @GetMapping("/brands")
     public List<Brand> showAllBrands() {
-        return brandService.getAllBrands();
+        return brandDao.getAll();
     }
 
     @GetMapping("/brands/{id}")
     public Brand getBrand(@PathVariable long id) {
-        return brandService.getBrand(id);
+        return brandDao.getById(id);
     }
 
     @PostMapping("/brands")
     public Brand addNewBrand(@RequestBody Brand brand) {
-        brandService.saveBrand(brand);
+        brandDao.save(brand);
         return brand;
     }
 
     @PutMapping("/brands")
     public Brand updateBrand(@RequestBody Brand brand) {
-        brandService.saveBrand(brand);
+        brandDao.save(brand);
         return brand;
     }
 
     @DeleteMapping("/brands/{id}")
     public String deleteBrand(@PathVariable long id) {
-        brandService.deleteBrand(id);
+        brandDao.delete(id);
         return "Brand with ID = " + id + " was deleted";
     }
 }
