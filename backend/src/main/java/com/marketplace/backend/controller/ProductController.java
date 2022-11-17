@@ -37,7 +37,7 @@ public class ProductController {
 
     @PostMapping("/products")
     public Product addNewProduct(@RequestBody Product product) {
-        Catalog catalog = catalogDao.getById(product.getId())   ;
+        Catalog catalog = catalogDao.getById(product.getId());
         productDao.save(product);
         catalog.addProductToCatalogProducts(product);
         catalogDao.save(catalog);

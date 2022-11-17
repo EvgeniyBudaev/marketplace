@@ -29,7 +29,9 @@ public class Product {
     @Column(name = "alias", nullable = false, unique = true)
     private String alias;
 
+    @Column(name = "enabled")
     private Boolean enabled;
 
+    @Column(name = "catalog_id")
     private Long catalogId;
 }

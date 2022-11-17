@@ -37,6 +37,7 @@ public class Catalog {
     @Column(name = "image", nullable = false)
     private String image;
 
+    @Column(name = "enabled")
     private boolean enabled;
 
     @OneToMany(cascade = CascadeType.ALL)
