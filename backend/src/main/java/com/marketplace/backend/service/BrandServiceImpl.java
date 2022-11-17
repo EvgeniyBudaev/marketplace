@@ -1,6 +1,6 @@
 package com.marketplace.backend.service;
 
-import com.marketplace.backend.entity.Brand;
+import com.marketplace.backend.model.Brand;
 import com.marketplace.backend.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

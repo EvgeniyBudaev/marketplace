@@ -1,6 +1,6 @@
 package com.marketplace.backend.service;
 
-import com.marketplace.backend.entity.Catalog;
+import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.repository.CatalogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

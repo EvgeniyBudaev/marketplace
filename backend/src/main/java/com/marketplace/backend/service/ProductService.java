@@ -1,6 +1,6 @@
 package com.marketplace.backend.service;
 
-import com.marketplace.backend.entity.Product;
+import com.marketplace.backend.model.Product;
 
 import java.util.List;
 

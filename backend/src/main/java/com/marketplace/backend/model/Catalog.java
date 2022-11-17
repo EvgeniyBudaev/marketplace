@@ -1,18 +1,21 @@
-package com.marketplace.backend.entity;
+package com.marketplace.backend.model;
 
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
-@Table(name = "mirrors")
+@Table(name = "catalogs")
 @Data
-public class Mirror {
+public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,11 +23,14 @@ public class Mirror {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "alias", nullable = false, unique = true)
     private String alias;
 
+    @Column(name = "image", nullable = false)
+    private String image;
+
     private boolean enabled;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "catalog")
+    private Set<Product> products;
 }

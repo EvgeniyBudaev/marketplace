@@ -1,6 +1,6 @@
 package com.marketplace.backend.controller;
 
-import com.marketplace.backend.entity.Brand;
+import com.marketplace.backend.model.Brand;
 import com.marketplace.backend.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

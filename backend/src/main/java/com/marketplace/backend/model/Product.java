@@ -1,4 +1,4 @@
-package com.marketplace.backend.entity;
+package com.marketplace.backend.model;
 
 import lombok.Data;
 
@@ -7,12 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "catalogs")
+@Table(name = "products")
 @Data
-public class Catalog {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,4 +26,8 @@ public class Catalog {
     private String alias;
 
     private boolean enabled;
+
+    @ManyToOne
+    @JoinColumn(name = "catalog_id")
+    private Catalog catalog;
 }

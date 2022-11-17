@@ -1,4 +1,4 @@
-package com.marketplace.backend.entity;
+package com.marketplace.backend.model;
 
 import lombok.Data;
 
@@ -27,9 +27,6 @@ public class Brand {
 
     @Column(name = "alias", nullable = false, unique = true)
     private String alias;
-
-    @Column(name = "logo", unique = true)
-    private String logo;
 
     @ManyToMany
     @JoinTable(

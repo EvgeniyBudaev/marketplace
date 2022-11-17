@@ -1,6 +1,6 @@
 package com.marketplace.backend.controller;
 
-import com.marketplace.backend.entity.Product;
+import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -37,7 +38,7 @@ public class ProductController {
     }
 
     @PutMapping("/products")
-    public Product updateCatalog(@RequestBody Product product) {
+    public Product updateProduct(@RequestBody Product product) {
         productService.saveProduct(product);
         return product;
     }
