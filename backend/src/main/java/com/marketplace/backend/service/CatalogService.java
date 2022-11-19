@@ -25,7 +25,7 @@ public class CatalogService implements CatalogDao {
     }
 
     @Override
-    public Catalog getById(long id) {
+    public Catalog findById(Long id) {
         Catalog catalog = null;
         Optional<Catalog> optional = catalogRepository.findById(id);
         if (optional.isPresent()) {
@@ -35,7 +35,7 @@ public class CatalogService implements CatalogDao {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         catalogRepository.deleteById(id);
     }
 }
