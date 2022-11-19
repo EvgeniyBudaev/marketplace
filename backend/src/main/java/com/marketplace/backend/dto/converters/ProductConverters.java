@@ -28,4 +28,13 @@ public class ProductConverters {
         responseDto.setCatalogId(catalogId);
         return responseDto;
     }
+    public ResponseProductDto convertProductToResponseProductDto(Product product){
+        ResponseProductDto responseDto = new ResponseProductDto();
+        responseDto.setId(product.getId());
+        responseDto.setName(product.getName());
+        responseDto.setAlias(product.getAlias());
+        responseDto.setEnabled(product.getEnabled());
+        responseDto.setCatalogId(1L);
+        return responseDto;
+    }
 }

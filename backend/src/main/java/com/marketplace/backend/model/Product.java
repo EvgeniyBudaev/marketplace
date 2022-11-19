@@ -24,10 +24,12 @@ public class Product {
     @Column(name = "alias", nullable = false, unique = true)
     private String alias;
 
+    /* Поле enabled это и есть статус*/
     @Column(name = "enabled")
     private Boolean enabled;
 
     @ManyToOne
     @JoinColumn(name = "catalog_id",nullable = false)
     private Catalog catalog;
+
 }
