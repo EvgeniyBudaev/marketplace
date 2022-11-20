@@ -1,0 +1,34 @@
+@import "styles";
+
+.Avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--avatar-height);
+  width: var(--avatar-width);
+  color: var(--avatar-color);
+  background-color: var(--avatar-backgroundColor);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.Inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.Face {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  transition: all 0.15s ease-out;
+}
