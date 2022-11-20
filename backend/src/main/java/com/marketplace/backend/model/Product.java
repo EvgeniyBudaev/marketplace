@@ -5,12 +5,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
@@ -29,9 +24,12 @@ public class Product {
     @Column(name = "alias", nullable = false, unique = true)
     private String alias;
 
+    /* Поле enabled это и есть статус*/
     @Column(name = "enabled")
     private Boolean enabled;
 
-    @Column(name = "catalog_id")
-    private Long catalogId;
+    @ManyToOne
+    @JoinColumn(name = "catalog_id",nullable = false)
+    private Catalog catalog;
+
 }

@@ -5,17 +5,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "catalogs")
@@ -40,14 +31,6 @@ public class Catalog {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "catalog_id")
-    private Set<Product> products;
-
-    public void addProductToCatalogProducts(Product product) {
-        if(products == null) {
-            products = new HashSet<>();
-        }
-        products.add(product);
-    }
+    @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL)
+    private List<Product> products;
 }

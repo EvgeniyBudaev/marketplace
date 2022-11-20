@@ -25,7 +25,7 @@ public class BrandService implements BrandDao {
     }
 
     @Override
-    public Brand getById(long id) {
+    public Brand findById(Long id) {
         Brand brand = null;
         Optional<Brand> optional = brandRepository.findById(id);
         if (optional.isPresent()) {
@@ -35,7 +35,7 @@ public class BrandService implements BrandDao {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         brandRepository.deleteById(id);
     }
 }

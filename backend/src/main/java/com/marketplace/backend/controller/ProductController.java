@@ -1,57 +1,67 @@
 package com.marketplace.backend.controller;
 
-import com.marketplace.backend.dao.CatalogDao;
-import com.marketplace.backend.model.Catalog;
-import com.marketplace.backend.model.Product;
 import com.marketplace.backend.dao.ProductDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.marketplace.backend.dto.converters.ProductConverters;
+import com.marketplace.backend.dto.request.product.RequestSaveProductDto;
+import com.marketplace.backend.dto.response.product.ResponseProductDto;
+import com.marketplace.backend.model.Product;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/products")
+@Slf4j
 public class ProductController {
-    @Autowired
-    private ProductDao productDao;
+    private final ProductDao productDao;
+    private final ProductConverters productConverters;
 
-    @Autowired
-    private CatalogDao catalogDao;
+    public ProductController(ProductDao productDao, ProductConverters productConverters) {
+        this.productDao = productDao;
+        this.productConverters = productConverters;
+    }
 
-    @GetMapping("/products")
+    @GetMapping
     public List<Product> showAllProducts() {
         return productDao.getAll();
     }
 
-    @GetMapping("/products/{id}")
-    public Product getProduct(@PathVariable long id) {
-        return productDao.getById(id);
+    @GetMapping("/all_by_page")
+    public Page<ResponseProductDto> showAllProductsByPage(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                                                  @RequestParam(name = "count", defaultValue = "10") Integer countOfPage){
+        log.info("Запрос на продукты пришел 8");
+        return productDao.productWithPage(page,countOfPage)
+                .map(x->productConverters.convertProductToResponseProductDto(x,x.getCatalog().getId()));
     }
 
-    @PostMapping("/products")
-    public Product addNewProduct(@RequestBody Product product) {
-        Catalog catalog = catalogDao.getById(product.getId());
-        productDao.save(product);
-        catalog.addProductToCatalogProducts(product);
-        catalogDao.save(catalog);
-        return product;
+    @GetMapping("/catalog")
+    public List<ResponseProductDto> findProductInCatalogByAlias(@RequestParam(value = "catalog") String catalog){
+        return productDao.findProductsInCatalogByAlias(catalog)
+                .stream().map(productConverters::convertProductToResponseProductDto).collect(Collectors.toList());
+    }
+    @GetMapping("/{id}")
+    public ResponseProductDto getProduct(@PathVariable Long id) {
+        Product product = productDao.findById(id);
+        return productConverters.convertProductToResponseProductDto(product, product.getCatalog().getId());
     }
 
-    @PutMapping("/products")
-    public Product updateProduct(@RequestBody Product product) {
-        productDao.save(product);
-        return product;
+    @GetMapping("/alias")
+    public ResponseProductDto getProductByAlias(@RequestParam(value = "alias") String alias) {
+        Product product = productDao.findProductByAlias(alias);
+        return productConverters.convertProductToResponseProductDto(product, product.getCatalog().getId());
     }
 
-    @DeleteMapping("/products/{id}")
-    public String deleteProduct(@PathVariable long id) {
+    @PostMapping
+    public ResponseProductDto saveOrNewProduct(@RequestBody RequestSaveProductDto productDto) {
+        Product product=productDao.save(productDto);
+        return productConverters.convertProductToResponseProductDto(product,product.getCatalog().getId());
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable Long id) {
         productDao.delete(id);
         return "Product with ID = " + id + " was deleted";
     }

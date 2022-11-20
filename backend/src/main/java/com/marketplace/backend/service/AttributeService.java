@@ -25,7 +25,7 @@ public class AttributeService implements AttributeDao {
     }
 
     @Override
-    public Attribute getById(long id) {
+    public Attribute findById(Long id) {
         Attribute attribute = null;
         Optional<Attribute> optional = attributeRepository.findById(id);
         if (optional.isPresent()) {
@@ -35,7 +35,7 @@ public class AttributeService implements AttributeDao {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         attributeRepository.deleteById(id);
     }
 }

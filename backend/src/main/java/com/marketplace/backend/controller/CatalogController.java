@@ -1,49 +1,49 @@
 package com.marketplace.backend.controller;
 
-import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.dao.CatalogDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.marketplace.backend.dto.converters.CatalogConverters;
+import com.marketplace.backend.dto.request.catalog.RequestSaveCatalogDto;
+import com.marketplace.backend.dto.response.catalog.ResponseCatalogDto;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/catalogs")
 public class CatalogController {
-    @Autowired
-    private CatalogDao catalogDao;
 
-    @GetMapping("/catalogs")
-    public List<Catalog> showAllCatalogs() {
-        return catalogDao.getAll();
+    private final CatalogDao catalogDao;
+    private final CatalogConverters catalogConverters;
+
+    public CatalogController(CatalogDao catalogDao, CatalogConverters catalogConverters) {
+        this.catalogDao = catalogDao;
+        this.catalogConverters = catalogConverters;
     }
 
-    @GetMapping("/catalogs/{id}")
-    public Catalog getCatalog(@PathVariable long id) {
-        return catalogDao.getById(id);
+    @GetMapping
+    public List<ResponseCatalogDto> showAllCatalogs() {
+        return catalogDao.getAll().stream().map(catalogConverters::convertCatalogToResponseCatalogDto).collect(Collectors.toList());
     }
 
-    @PostMapping("/catalogs")
-    public Catalog addNewCatalog(@RequestBody Catalog catalog) {
-        catalogDao.save(catalog);
-        return catalog;
+    @GetMapping("/{id}")
+    public ResponseCatalogDto getCatalogById(@PathVariable Long id) {
+        return catalogConverters.convertCatalogToResponseCatalogDto(catalogDao.findById(id));
     }
 
-    @PutMapping("/catalogs")
-    public Catalog updateCatalog(@RequestBody Catalog catalog) {
-        catalogDao.save(catalog);
-        return catalog;
+    @GetMapping("/{catalog}")
+    public ResponseCatalogDto getCatalogByAlias(@PathVariable String catalog) {
+        return catalogConverters.convertCatalogToResponseCatalogDto(catalogDao.findCatalogByAlias(catalog));
     }
 
-    @DeleteMapping("/catalogs/{id}")
-    public String deleteCatalog(@PathVariable long id) {
+    @PostMapping
+    public ResponseCatalogDto saveOrUpdateCatalog(@RequestBody RequestSaveCatalogDto dto) {
+        return catalogConverters.convertCatalogToResponseCatalogDto(catalogDao.save(dto));
+    }
+
+
+    @DeleteMapping("{id}")
+    public String deleteCatalog(@PathVariable Long id) {
         catalogDao.delete(id);
         return "Catalog with ID = " + id + " was deleted";
     }

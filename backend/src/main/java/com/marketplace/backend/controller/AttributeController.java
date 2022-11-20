@@ -4,14 +4,7 @@ package com.marketplace.backend.controller;
 import com.marketplace.backend.dao.AttributeDao;
 import com.marketplace.backend.model.Attribute;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +21,7 @@ public class AttributeController {
 
     @GetMapping("/attributes/{id}")
     public Attribute getAttribute(@PathVariable long id) {
-        return attributeDao.getById(id);
+        return attributeDao.findById(id);
     }
 
     @PostMapping("/attributes")
