@@ -24,7 +24,7 @@ public class MirrorAttributeService implements MirrorAttributeDao {
     }
 
     @Override
-    public MirrorAttribute getById(long id) {
+    public MirrorAttribute findById(Long id) {
         MirrorAttribute mirrorAttribute = null;
         Optional<MirrorAttribute> optional = mirrorAttributeRepository.findById(id);
         if (optional.isPresent()) {
@@ -34,7 +34,7 @@ public class MirrorAttributeService implements MirrorAttributeDao {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         mirrorAttributeRepository.deleteById(id);
     }
 }
