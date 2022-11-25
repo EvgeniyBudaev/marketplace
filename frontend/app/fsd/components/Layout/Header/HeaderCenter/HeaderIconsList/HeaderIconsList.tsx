@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import isNull from "lodash/isNull";
 import { ROUTES } from "../../../../../constants";
 import classes from "./HeaderIconsList.module.scss";
+import {Icon} from "../../../../../uikit";
 
 type TProps = {
   className?: string;
@@ -17,9 +18,8 @@ export const HeaderIconsList: React.FC<TProps> = ({
 }) => {
   const [cartId, setCartId] = useState("");
   const [cartItemsCountTotal, setCartItemsCountTotal] = useState(0);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const refToggleDropDown = useRef(null);
+  const refToggleDropDown = useRef<any>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export const HeaderIconsList: React.FC<TProps> = ({
                 pathname: `${ROUTES.CART}${cartId}`,
               }}
             >
-              {/* <Icon className={classes.Icon} type="Cart" /> */}
+              <Icon className={classes.Icon} type="Cart" />
               <div className={classes.IconDescription}>Корзина</div>
               <div className={classes.CartItemsCount}>
                 {cartItemsCountTotal}
@@ -78,7 +78,7 @@ export const HeaderIconsList: React.FC<TProps> = ({
         )}
       >
         <Link className={classes.IconLink} href={ROUTES.LOGIN}>
-          {/* <Icon className={classes.Icon} type="User" /> */}
+          <Icon className={classes.Icon} type="User" />
           <div className={classes.IconDescription}>Войти</div>
         </Link>
       </div>

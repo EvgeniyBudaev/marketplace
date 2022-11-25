@@ -1,4 +1,4 @@
-import React, { DOMAttributes, useEffect, useRef } from "react";
+import React, {DOMAttributes, memo, useEffect, useRef} from "react";
 import clsx from "clsx";
 import { setAtToStringAndPx } from "../../utils";
 import { IconType, iconTypes } from "./IconType";
@@ -6,7 +6,7 @@ import classes from "./Icon.module.scss";
 
 const getIcon = (type: string) => iconTypes.get(type);
 
-export interface IProps extends DOMAttributes<HTMLSpanElement> {
+interface IProps extends DOMAttributes<HTMLSpanElement> {
   className?: string;
   height?: number;
   size?: number;
@@ -14,7 +14,7 @@ export interface IProps extends DOMAttributes<HTMLSpanElement> {
   width?: number;
 }
 
-export const Icon: React.FC<IProps> = ({
+const IconComponent: React.FC<IProps> = ({
   className,
   height,
   width,
@@ -54,3 +54,5 @@ export const Icon: React.FC<IProps> = ({
     </div>
   );
 };
+
+export const Icon = memo(IconComponent);

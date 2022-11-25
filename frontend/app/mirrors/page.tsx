@@ -13,7 +13,6 @@ export default async function MirrorsPage() {
 
   return (
     <div>
-      <h1>Зеркала</h1>
       <Catalog data={data} />
     </div>
   );

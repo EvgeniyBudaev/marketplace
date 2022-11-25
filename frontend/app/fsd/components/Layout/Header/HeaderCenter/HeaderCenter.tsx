@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useRef, useState } from "react";
 import clsx from "clsx";
 import { Logo } from "../../../Logo";
-//import { HeaderIconsList } from "./HeaderIconsList";
+import { HeaderIconsList } from "./HeaderIconsList";
 import { Button, Hamburger, Sidebar, Spacer } from "../../../../uikit";
 import classes from "./HeaderCenter.module.scss";
 
@@ -46,12 +46,12 @@ export const HeaderCenter: React.FC<TProps> = ({
             <Spacer />
             <Logo isHomePage={isHomePage} />
             <Spacer />
-            {/*
+
                         <HeaderIconsList
-                            className={styles.Desktop}
+                            className={classes.Desktop}
                             isHomePage={isHomePage}
                         />
-                         */}
+
           </div>
           <div className={classes.Mobile}>
             <Button
@@ -68,12 +68,12 @@ export const HeaderCenter: React.FC<TProps> = ({
               />
             </Button>
             <Logo className={classes.LogoMobile} isHomePage={isHomePage} />
-            {/*
+
                                                 <HeaderIconsList
-                            className={styles.HeaderIconsListMobile}
+                            className={classes.HeaderIconsListMobile}
                             isHomePage={isHomePage}
                         />
-                         */}
+
             <Sidebar
               ref={nodeRef}
               isActive={isSidebar}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import clsx from "clsx";
 import classes from "./Hamburger.module.scss";
 
@@ -17,7 +17,7 @@ type TProps = {
   onClick?: (event: React.MouseEvent) => void;
 };
 
-export const Hamburger: React.FC<TProps> = ({
+const HamburgerComponent: React.FC<TProps> = ({
   className,
   color = HamburgerColor.BLACK,
   isActive = false,
@@ -37,3 +37,5 @@ export const Hamburger: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const Hamburger = memo(HamburgerComponent);

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { getInitial, setAtToStringAndPx } from "../../utils";
 import classes from "./Avatar.module.scss";
@@ -15,7 +15,7 @@ type TProps = {
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
-export const Avatar: React.FC<TProps> = ({
+const AvatarComponent: React.FC<TProps> = ({
   className,
   altImage = "",
   backgroundColor = "#E9E9ED",
@@ -96,3 +96,5 @@ export const Avatar: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const Avatar = memo(AvatarComponent);

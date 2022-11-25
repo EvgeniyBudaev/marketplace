@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, {memo, useRef} from "react";
 import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 
@@ -9,7 +9,7 @@ type TProps = {
   onClick?: (event: React.MouseEvent) => void;
 };
 
-export const Overlay: React.FC<TProps> = ({
+const OverlayComponent: React.FC<TProps> = ({
   className,
   timeout = 300,
   isActive = false,
@@ -30,3 +30,5 @@ export const Overlay: React.FC<TProps> = ({
     </CSSTransition>
   );
 };
+
+export const Overlay = memo(OverlayComponent);

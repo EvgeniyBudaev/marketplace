@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, ReactNode } from "react";
+import React, {ForwardedRef, forwardRef, memo, ReactNode} from "react";
 import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 import { Overlay } from "../Overlay";
@@ -13,7 +13,7 @@ type TProps = {
   onClose?: (event: React.MouseEvent) => void;
 };
 
-export const Sidebar = forwardRef(
+const SidebarComponent = forwardRef(
   (
     {
       className,
@@ -41,4 +41,6 @@ export const Sidebar = forwardRef(
   }
 );
 
-Sidebar.displayName = "Sidebar";
+SidebarComponent.displayName = "Sidebar";
+
+export const Sidebar = memo(SidebarComponent);

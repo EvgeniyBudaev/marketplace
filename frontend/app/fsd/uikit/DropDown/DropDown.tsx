@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, {memo, useRef} from "react";
 import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 import { TRANSITION } from "../../constants";
@@ -10,7 +10,7 @@ type TProps = {
   isOpen?: boolean;
 };
 
-export const DropDown: React.FC<TProps> = ({
+const DropDownComponent: React.FC<TProps> = ({
   className,
   children,
   isOpen,
@@ -31,3 +31,5 @@ export const DropDown: React.FC<TProps> = ({
     </CSSTransition>
   );
 };
+
+export const DropDown = memo(DropDownComponent);

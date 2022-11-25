@@ -1,17 +1,17 @@
-import React, { DOMAttributes, useRef } from "react";
+import React, {DOMAttributes, memo, useRef} from "react";
 import clsx from "clsx";
 import classes from "./Button.module.scss";
 
-export type ButtonType = "button" | "reset" | "submit";
+type ButtonType = "button" | "reset" | "submit";
 
-export interface IProps extends DOMAttributes<HTMLButtonElement> {
+interface IProps extends DOMAttributes<HTMLButtonElement> {
   className?: string;
   type?: ButtonType;
   isDisabled?: boolean;
   onClick?: (event?: React.MouseEvent) => void;
 }
 
-export const Button: React.FC<IProps> = ({
+const ButtonComponent: React.FC<IProps> = ({
   className,
   children,
   type = "button",
@@ -59,3 +59,5 @@ export const Button: React.FC<IProps> = ({
     </button>
   );
 };
+
+export const Button = memo(ButtonComponent);
