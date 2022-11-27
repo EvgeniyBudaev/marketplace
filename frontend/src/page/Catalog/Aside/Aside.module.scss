@@ -1,0 +1,13 @@
+@import "styles/index";
+
+.Aside {
+  min-width: 224px;
+  margin-right: 20px;
+  margin-top: 47px;
+}
+
+@media (max-width: 768px) {
+  .Aside {
+    margin-top: 0;
+  }
+}

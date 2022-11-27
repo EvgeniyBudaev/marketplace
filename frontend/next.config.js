@@ -22,6 +22,7 @@ const nextConfig = {
       "62.84.119.86",
       "62.84.119.86:80",
       "62.84.119.86:8000",
+      "www.semashko.com",
     ],
   },
   webpack(config) {
