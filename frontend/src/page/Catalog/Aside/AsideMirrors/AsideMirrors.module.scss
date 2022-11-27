@@ -1,0 +1,13 @@
+@import "styles/index";
+
+.AsideFilterDesktop {
+  display: flex;
+  flex-direction: column;
+  margin-top: -8px;
+}
+
+@media (max-width: 768px) {
+  .AsideFilterDesktop {
+    display: none;
+  }
+}
