@@ -64,9 +64,78 @@ export const ProductListItem: FC<TProps> = ({
               className={classes.ContentTitle}
               href={`${ROUTES.MIRRORS}${product.alias}`}
             >
-              {product.name}
+              Венецианское зеркало
             </Link>
           </div>
+          <ul className={classes.ContentDescriptionLine}>
+            <li className={classes.ContentDescriptionLinePrice}>
+              {/*{numberWithSpaces(parseInt(mirror.price))} ₽*/}
+              1 000 ₽
+            </li>
+            <li className={classes.ContentTitleLine}>
+              <Link href={`${ROUTES.MIRRORS}${product.alias}`}>
+                <span className={classes.ContentTitle}>venetian</span>
+              </Link>
+            </li>
+            <li className={classes.RowLine}>
+              <div className={classes.LabelLine}>Материал зеркала:</div>
+              <div className={classes.ValueLine}>
+                Стекло
+              </div>
+            </li>
+            <li className={classes.RowLine}>
+              <div className={classes.LabelLine}>Материал рамы:</div>
+              <div className={classes.ValueLine}>
+                ДСП
+              </div>
+            </li>
+            <li className={classes.RowLine}>
+              <div className={classes.LabelLine}>Цвет рамы:</div>
+              <div className={classes.ValueLine}>
+                Черный
+              </div>
+            </li>
+            <li className={classes.RowLine}>
+              <div className={classes.LabelLine}>Размер внешний, с рамой:</div>
+              <div className={classes.ValueLine}>
+                10 x 10
+              </div>
+            </li>
+            <li className={classes.RowLine}>
+              <div className={classes.LabelLine}>Размер зеркала без рамы:</div>
+              <div className={classes.ValueLine}>
+                10 x 10
+              </div>
+            </li>
+            <li className={classes.RowLine}>
+              <div className={classes.LabelLine}>Вес:</div>
+              <div className={classes.ValueLine}>
+                10 кг
+              </div>
+            </li>
+            <li className={classes.RowLine}>
+              <div className={classes.LabelLine}>Наличие фацета:</div>
+              <div className={classes.ValueLine}>
+                Да
+              </div>
+            </li>
+            <li className={classes.RowLine}>
+              <div className={classes.LabelLine}>Форма:</div>
+              <div className={classes.ValueLine}>
+                Овальная
+              </div>
+            </li>
+            <li className={classes.RowLine}>
+              <div className={classes.LabelLine}>Производитель:</div>
+              <div className={classes.ValueLine}>Mirror Look</div>
+            </li>
+            <li className={classes.ContentDescriptionLineStatus}>
+              В наличии
+            </li>
+            <li className={classes.ContentDescriptionLineAddToCartLine}>
+              <button>Click</button>
+            </li>
+          </ul>
         </div>
         <div className={classes.Footer}>
           <div className={classes.FooterPrice}>

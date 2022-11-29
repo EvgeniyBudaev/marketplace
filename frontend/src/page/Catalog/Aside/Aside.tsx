@@ -1,5 +1,5 @@
 import { FC } from "react";
-import {CATALOG_ALIAS, TRANSITION} from "src/constants";
+import { CATALOG_ALIAS, TRANSITION } from "src/constants";
 import { Overlay } from "src/uikit";
 import { AsideMirrors } from "./AsideMirrors";
 import classes from "./Aside.module.scss";
@@ -14,7 +14,7 @@ export const Aside: FC<TProps> = ({ catalogAlias }) => {
       case CATALOG_ALIAS.MIRRORS:
         return <AsideMirrors />;
       default:
-        return <div>Not</div>;
+        return null;
     }
   };
 

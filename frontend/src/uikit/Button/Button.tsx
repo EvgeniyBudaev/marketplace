@@ -4,14 +4,14 @@ import classes from "./Button.module.scss";
 
 type ButtonType = "button" | "reset" | "submit";
 
-interface IProps extends DOMAttributes<HTMLButtonElement> {
+export interface IButtonProps extends DOMAttributes<HTMLButtonElement> {
   className?: string;
   type?: ButtonType;
   isDisabled?: boolean;
   onClick?: (event?: React.MouseEvent) => void;
 }
 
-const ButtonComponent: React.FC<IProps> = ({
+const ButtonComponent: React.FC<IButtonProps> = ({
   className,
   children,
   type = "button",

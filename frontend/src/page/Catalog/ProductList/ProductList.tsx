@@ -18,8 +18,8 @@ export const ProductList: FC<TProps> = ({
 }) => {
   return (
     <ul
-      className={clsx(classes.ProductsList, {
-        [classes.ProductsList__line]: isClickedDisplayLine,
+      className={clsx(classes.ProductList, {
+        [classes.ProductList__line]: isClickedDisplayLine,
       })}
     >
       {!isNil(products) &&

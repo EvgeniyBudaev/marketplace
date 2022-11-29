@@ -1,7 +1,7 @@
 import React, { memo, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
-import { TRANSITION } from "../../constants";
+import { TRANSITION } from "src/constants";
 import classes from "./DropDown.module.scss";
 
 type TProps = {

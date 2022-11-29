@@ -2,9 +2,10 @@
 
 import { FC, useState } from "react";
 import { TProduct } from "src/types";
+import { Aside } from "./Aside";
 import { ProductList } from "./ProductList";
 import classes from "./Catalog.module.scss";
-import { Aside } from "./Aside";
+import {Panel} from "./Panel";
 
 type TProps = {
   products?: TProduct[];
@@ -15,6 +16,11 @@ export const Catalog: FC<TProps> = ({ products }) => {
   console.log("Catalog products: ", products);
   const catalogAlias = "mirrors";
   const catalogName = "Зеркала";
+
+    const handleDisplayLine = () => {
+        setIsClickedDisplayLine(prev => !prev);
+    };
+
   return (
     <div className={classes.Catalog}>
       <div className={classes.Row}>
@@ -23,6 +29,7 @@ export const Catalog: FC<TProps> = ({ products }) => {
       <div className={classes.Inner}>
         <Aside catalogAlias={catalogAlias} />
         <div className={classes.Wrapper}>
+            <Panel isClickedDisplayLine={isClickedDisplayLine} onDisplayLine={handleDisplayLine} />
           <ProductList
             catalogName={catalogName}
             products={products}

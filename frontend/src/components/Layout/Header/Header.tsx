@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
+import {FC} from "react";
 import clsx from "clsx";
 //import useWindowScroll from "hooks/useWindowScroll";
 import { HeaderCenter } from "./HeaderCenter";
@@ -9,7 +10,7 @@ type TProps = {
   isHomePage?: boolean;
 };
 
-export const Header: React.FC<TProps> = ({ isHomePage }) => {
+export const Header: FC<TProps> = ({ isHomePage }) => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const nodeRef = useRef(null);
   const headerRef = useRef(null);
