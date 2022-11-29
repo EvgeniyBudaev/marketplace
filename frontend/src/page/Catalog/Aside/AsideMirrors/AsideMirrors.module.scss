@@ -6,6 +6,10 @@
   margin-top: -8px;
 }
 
+.CheckboxItem + .CheckboxItem {
+  margin-top: 8px;
+}
+
 @media (max-width: 768px) {
   .AsideFilterDesktop {
     display: none;
