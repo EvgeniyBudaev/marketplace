@@ -18,6 +18,17 @@ public class MirrorAttribute {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "frameColor")
-    private String frameColor;
+    /*     FORM_TYPES = (
+        ('Круглая', 'Круглая'),
+        ('Овальная', 'Овальная'),
+        ('Прямоугольная', 'Прямоугольная'),
+        ('Фигурная', 'Фигурная'),
+    ) */
+
+    /* TODO: сделать выбор из FORM_TYPES */
+    @Column(name = "form")
+    private String form;
+
+    @Column(name = "weight")
+    private double weight;
 }
