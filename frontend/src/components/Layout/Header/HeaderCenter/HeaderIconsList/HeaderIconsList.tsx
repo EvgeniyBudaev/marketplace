@@ -3,9 +3,9 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import isNull from "lodash/isNull";
-import { ROUTES } from "../../../../../constants";
+import { ROUTES } from "src/constants";
+import { Icon } from "src/uikit";
 import classes from "./HeaderIconsList.module.scss";
-import { Icon } from "../../../../../uikit";
 
 type TProps = {
   className?: string;

@@ -46,7 +46,7 @@ export const ProductListItem: FC<TProps> = ({
       <div className={classes.Wrapper}>
         <div className={classes.Content}>
           <div className={classes.ContentImg}>
-            <Link href={`${ROUTES.MIRRORS}${product.alias}`}>
+            <Link href={`product/${product.alias}`}>
               <Image
                 className={classes.ContentImage}
                 alt={product.name}
@@ -62,76 +62,57 @@ export const ProductListItem: FC<TProps> = ({
           <div className={classes.ContentDescription}>
             <Link
               className={classes.ContentTitle}
-              href={`${ROUTES.MIRRORS}${product.alias}`}
+              href={`product/${product.alias}`}
             >
               Венецианское зеркало
             </Link>
           </div>
           <ul className={classes.ContentDescriptionLine}>
             <li className={classes.ContentDescriptionLinePrice}>
-              {/*{numberWithSpaces(parseInt(mirror.price))} ₽*/}
-              1 000 ₽
+              {/*{numberWithSpaces(parseInt(mirror.price))} ₽*/}1 000 ₽
             </li>
             <li className={classes.ContentTitleLine}>
-              <Link href={`${ROUTES.MIRRORS}${product.alias}`}>
+              <Link href={`product/${product.alias}`}>
                 <span className={classes.ContentTitle}>venetian</span>
               </Link>
             </li>
             <li className={classes.RowLine}>
               <div className={classes.LabelLine}>Материал зеркала:</div>
-              <div className={classes.ValueLine}>
-                Стекло
-              </div>
+              <div className={classes.ValueLine}>Стекло</div>
             </li>
             <li className={classes.RowLine}>
               <div className={classes.LabelLine}>Материал рамы:</div>
-              <div className={classes.ValueLine}>
-                ДСП
-              </div>
+              <div className={classes.ValueLine}>ДСП</div>
             </li>
             <li className={classes.RowLine}>
               <div className={classes.LabelLine}>Цвет рамы:</div>
-              <div className={classes.ValueLine}>
-                Черный
-              </div>
+              <div className={classes.ValueLine}>Черный</div>
             </li>
             <li className={classes.RowLine}>
               <div className={classes.LabelLine}>Размер внешний, с рамой:</div>
-              <div className={classes.ValueLine}>
-                10 x 10
-              </div>
+              <div className={classes.ValueLine}>10 x 10</div>
             </li>
             <li className={classes.RowLine}>
               <div className={classes.LabelLine}>Размер зеркала без рамы:</div>
-              <div className={classes.ValueLine}>
-                10 x 10
-              </div>
+              <div className={classes.ValueLine}>10 x 10</div>
             </li>
             <li className={classes.RowLine}>
               <div className={classes.LabelLine}>Вес:</div>
-              <div className={classes.ValueLine}>
-                10 кг
-              </div>
+              <div className={classes.ValueLine}>10 кг</div>
             </li>
             <li className={classes.RowLine}>
               <div className={classes.LabelLine}>Наличие фацета:</div>
-              <div className={classes.ValueLine}>
-                Да
-              </div>
+              <div className={classes.ValueLine}>Да</div>
             </li>
             <li className={classes.RowLine}>
               <div className={classes.LabelLine}>Форма:</div>
-              <div className={classes.ValueLine}>
-                Овальная
-              </div>
+              <div className={classes.ValueLine}>Овальная</div>
             </li>
             <li className={classes.RowLine}>
               <div className={classes.LabelLine}>Производитель:</div>
               <div className={classes.ValueLine}>Mirror Look</div>
             </li>
-            <li className={classes.ContentDescriptionLineStatus}>
-              В наличии
-            </li>
+            <li className={classes.ContentDescriptionLineStatus}>В наличии</li>
             <li className={classes.ContentDescriptionLineAddToCartLine}>
               <button>Click</button>
             </li>

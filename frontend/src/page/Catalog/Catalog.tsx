@@ -5,7 +5,7 @@ import { TProduct } from "src/types";
 import { Aside } from "./Aside";
 import { ProductList } from "./ProductList";
 import classes from "./Catalog.module.scss";
-import {Panel} from "./Panel";
+import { Panel } from "./Panel";
 
 type TProps = {
   products?: TProduct[];
@@ -17,9 +17,9 @@ export const Catalog: FC<TProps> = ({ products }) => {
   const catalogAlias = "mirrors";
   const catalogName = "Зеркала";
 
-    const handleDisplayLine = () => {
-        setIsClickedDisplayLine(prev => !prev);
-    };
+  const handleDisplayLine = () => {
+    setIsClickedDisplayLine(prev => !prev);
+  };
 
   return (
     <div className={classes.Catalog}>
@@ -29,7 +29,10 @@ export const Catalog: FC<TProps> = ({ products }) => {
       <div className={classes.Inner}>
         <Aside catalogAlias={catalogAlias} />
         <div className={classes.Wrapper}>
-            <Panel isClickedDisplayLine={isClickedDisplayLine} onDisplayLine={handleDisplayLine} />
+          <Panel
+            isClickedDisplayLine={isClickedDisplayLine}
+            onDisplayLine={handleDisplayLine}
+          />
           <ProductList
             catalogName={catalogName}
             products={products}
