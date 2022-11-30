@@ -1,0 +1,64 @@
+@import "styles";
+
+.RatingNumber {
+  display: inline-block;
+  position: relative;
+  float: none;
+  margin-right: 15px;
+  padding: 1px 3px 0 6px;
+  color: white;
+  font-size: 13px;
+  line-height: 21px;
+
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    border: solid;
+    border-width: 11px 0 11px 6px;
+  }
+
+  &__default {
+    background-color: $color-silver-gray;
+    &::after {
+      border-left-color: $color-silver-gray;
+    }
+  }
+
+  &__green {
+    background-color: $color-green;
+    &::after {
+      border-left-color: $color-green;
+    }
+  }
+
+  &__light_green {
+    background-color: $color-light-green;
+    &::after {
+      border-left-color: $color-light-green;
+    }
+  }
+
+  &__yellow_green {
+    background-color: $color-yellow-green;
+    &::after {
+      border-left-color: $color-yellow-green;
+    }
+  }
+
+  &__yellow {
+    background-color: $color-yellow;
+    &::after {
+      border-left-color: $color-yellow;
+    }
+  }
+
+  &__red {
+    background-color: $color-red;
+    &::after {
+      border-left-color: $color-red;
+    }
+  }
+}

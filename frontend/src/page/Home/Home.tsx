@@ -5,7 +5,7 @@ import classes from "./Home.module.scss";
 export const Home: FC = () => {
   return (
     <div className={classes.Home}>
-      <LinkButton href="/mirrors">Каталог зеркал</LinkButton>
+      <LinkButton href="/catalog/mirrors">Каталог зеркал</LinkButton>
     </div>
   );
 };

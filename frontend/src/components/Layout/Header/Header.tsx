@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import {FC} from "react";
+import { FC } from "react";
 import clsx from "clsx";
 //import useWindowScroll from "hooks/useWindowScroll";
 import { HeaderCenter } from "./HeaderCenter";
