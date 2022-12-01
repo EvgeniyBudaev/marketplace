@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import clsx from "clsx";
-import { Logo } from "../../../Logo";
+import { Logo } from "src/components";
+import { Button, Hamburger, Sidebar, Spacer } from "src/uikit";
 import { HeaderIconsList } from "./HeaderIconsList";
-import { Button, Hamburger, Sidebar, Spacer } from "../../../../uikit";
 import classes from "./HeaderCenter.module.scss";
 
 type TProps = {
@@ -39,8 +39,8 @@ export const HeaderCenter: React.FC<TProps> = ({
         <div className={classes.Inner}>
           <div className={classes.InnerDesktop}>
             <div>
-              <Link className={classes.Text} href={"tel:+79955053978"}>
-                +7 (995) 505-39-78
+              <Link className={classes.Text} href={"tel:+79957776655"}>
+                +7 (995) 777-66-55
               </Link>
             </div>
             <Spacer />
