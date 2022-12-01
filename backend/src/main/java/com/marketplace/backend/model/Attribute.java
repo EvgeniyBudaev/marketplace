@@ -1,25 +1,41 @@
 package com.marketplace.backend.model;
 
+import com.marketplace.backend.model.values.DoubleValue;
+import com.marketplace.backend.model.values.IntegerValue;
+import com.marketplace.backend.model.values.StringValue;
 import lombok.Data;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "attributes")
 @Data
-@DynamicUpdate
-@DynamicInsert
-@SelectBeforeUpdate
 public class Attribute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "title")
+    private String title;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "attribute_id")
-    private Set<MirrorAttribute> mirrorAttributes;
+    @Column(name = "enabled")
+    private Boolean enabled;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private EAttributeType type;
+
+    @ManyToOne
+    @JoinColumn(name = "catalog_id",nullable = false)
+    private Catalog catalog;
+
+
+    @OneToMany(mappedBy = "attribute")
+    private List<StringValue> stringValue;
+
+    @OneToMany(mappedBy = "attribute")
+    private List<IntegerValue> integerValue;
+
+    @OneToMany(mappedBy = "attribute")
+    private List<DoubleValue> doubleValues;
 }
