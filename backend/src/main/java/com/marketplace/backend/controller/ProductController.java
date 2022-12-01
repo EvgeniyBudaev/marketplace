@@ -33,9 +33,8 @@ public class ProductController {
     @GetMapping("/all_by_page")
     public Page<ResponseProductDto> showAllProductsByPage(@RequestParam(name = "page", defaultValue = "1") Integer page,
                                                   @RequestParam(name = "count", defaultValue = "10") Integer countOfPage){
-        log.info("Запрос на продукты пришел 8");
         return productDao.productWithPage(page,countOfPage)
-                .map(x->productConverters.convertProductToResponseProductDto(x,x.getCatalog().getId()));
+                .map(productConverters::convertProductToResponseProductDto);
     }
 
     @GetMapping("/catalog")
@@ -46,19 +45,19 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseProductDto getProduct(@PathVariable Long id) {
         Product product = productDao.findById(id);
-        return productConverters.convertProductToResponseProductDto(product, product.getCatalog().getId());
+        return productConverters.convertProductToResponseProductDto(product);
     }
 
     @GetMapping("/alias")
     public ResponseProductDto getProductByAlias(@RequestParam(value = "alias") String alias) {
         Product product = productDao.findProductByAlias(alias);
-        return productConverters.convertProductToResponseProductDto(product, product.getCatalog().getId());
+        return productConverters.convertProductToResponseProductDto(product);
     }
 
     @PostMapping
     public ResponseProductDto saveOrNewProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
         Product product=productDao.save(productDto);
-        return productConverters.convertProductToResponseProductDto(product,product.getCatalog().getId());
+        return productConverters.convertProductToResponseProductDto(product);
     }
 
     @DeleteMapping("/{id}")

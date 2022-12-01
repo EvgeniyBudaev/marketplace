@@ -2,8 +2,12 @@ package com.marketplace.backend.dto.converters;
 
 import com.marketplace.backend.dto.request.catalog.RequestSaveCatalogDto;
 import com.marketplace.backend.dto.response.catalog.ResponseCatalogDto;
+import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CatalogConverters {
@@ -14,9 +18,21 @@ public class CatalogConverters {
         dto.setEnabled(catalog.isEnabled());
         dto.setAlias(catalog.getAlias());
         dto.setImage(catalog.getImage());
+        dto.setAttribute(convertAttributeToDto(catalog.getAttributes()));
         return dto;
     }
 
+    private List<ResponseCatalogDto.AttributeDto> convertAttributeToDto(List<Attribute> list){
+        List<ResponseCatalogDto.AttributeDto> result = new ArrayList<>();
+        for (Attribute attribute: list){
+            ResponseCatalogDto.AttributeDto dto = new ResponseCatalogDto.AttributeDto();
+            dto.setId(attribute.getId());
+            dto.setType(attribute.getType().name());
+            dto.setTitle(attribute.getTitle());
+            result.add(dto);
+        }
+        return result;
+    }
     public Catalog convertRequestSaveCatalogDtoToCatalog(RequestSaveCatalogDto dto){
         Catalog catalog = new Catalog();
         catalog.setId(dto.getId());
