@@ -1,0 +1,156 @@
+@import "styles";
+
+$height: 44px;
+
+.HeaderBottom {
+  display: flex;
+  position: relative;
+  height: $height;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  &::before,
+  &:after {
+    height: $height;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  &::before {
+    left: -100%;
+    top: 0;
+  }
+
+  &:after {
+    right: -100%;
+    top: -1px;
+  }
+
+  &__catalogOpen {
+    border-top: 1px solid white;
+    box-shadow: none;
+
+    .Link {
+      display: none;
+    }
+  }
+
+  &__isHomePage {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    &::before,
+    &:after {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .Text {
+      color: white;
+    }
+  }
+
+  & .SearchControlsMobile {
+    display: none;
+    max-width: 100%;
+  }
+}
+
+.Container {
+  max-width: 1230px;
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+.Desktop {
+  display: block;
+  width: 100%;
+}
+
+.Info {
+  width: 100%;
+}
+
+.InfoInner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.InfoLeft,
+.InfoRight {
+  display: flex;
+}
+
+.InfoLeft .Text {
+  margin-right: 25px;
+}
+
+.InfoLeft .Text:last-child {
+  margin-right: 0;
+}
+
+.InfoRight .Text:last-child {
+  margin-left: 25px;
+}
+
+.Text {
+  @include roboto-16-regular;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin-left: 25px;
+  color: $color-text;
+  transition: all 0.15s;
+
+  &__isActive {
+    color: $color-beige;
+  }
+
+  &:hover {
+    color: $color-beige;
+  }
+}
+
+.ButtonCatalog {
+  top: -1px;
+  height: 42px;
+  border-radius: 0;
+  box-shadow: none;
+
+  span {
+    display: flex;
+    justify-content: center;
+  }
+
+  &Hamburger {
+  }
+
+  &Text {
+    margin-left: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Desktop {
+    display: none;
+  }
+
+  .HeaderBottom {
+    border-top: 1px solid transparent;
+    padding-bottom: 16px;
+
+    & .SearchControlsMobile {
+      display: block;
+      max-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .HeaderBottom {
+    padding-bottom: 8px;
+    margin-top: -10px;
+  }
+}
