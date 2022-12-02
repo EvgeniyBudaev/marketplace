@@ -3,42 +3,39 @@ package com.marketplace.backend.controller;
 
 import com.marketplace.backend.dao.AttributeDao;
 import com.marketplace.backend.model.Attribute;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/attributes")
 public class AttributeController {
-    @Autowired
-    private AttributeDao attributeDao;
+    private final AttributeDao attributeDao;
 
-    @GetMapping("/attributes")
+    public AttributeController(AttributeDao attributeDao) {
+        this.attributeDao = attributeDao;
+    }
+
+    /*TODO обернуть page*/
+    @GetMapping
     public List<Attribute> showAllAttributes() {
-        return attributeDao.getAll();
+        return null;
     }
 
-    @GetMapping("/attributes/{id}")
+    @GetMapping("/{id}")
     public Attribute getAttribute(@PathVariable long id) {
-        return attributeDao.findById(id);
+        return null;
     }
 
-    @PostMapping("/attributes")
+    @PostMapping
     public Attribute addNewAttribute(@RequestBody Attribute attribute) {
         attributeDao.save(attribute);
         return attribute;
     }
 
-    @PutMapping("/attributes")
-    public Attribute updateBrand(@RequestBody Attribute attribute) {
-        attributeDao.save(attribute);
-        return attribute;
-    }
 
-    @DeleteMapping("/attributes/{id}")
+    @DeleteMapping("{id}")
     public String deleteAttribute(@PathVariable long id) {
-        attributeDao.delete(id);
-        return "Attribute with ID = " + id + " was deleted";
+        return null;
     }
 }

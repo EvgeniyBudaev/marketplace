@@ -13,10 +13,13 @@ public class RequestSaveProductDto {
     @Size(min = 5,max = 250)
     private String name;
     @NotNull
+    @Size(max = 250)
+    private String description;
+    @NotNull
     @Size(min = 5,max = 250)
     private String alias;
     @NotNull
     private Boolean enabled;
     @NotNull
-    private Long catalogId;
+    private String catalogAlias;
 }

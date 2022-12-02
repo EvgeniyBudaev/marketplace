@@ -30,6 +30,6 @@ public class Catalog {
     @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Product> products;
 
-    @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+   @ManyToMany(mappedBy = "catalog")
     private List<Attribute> attributes;
 }

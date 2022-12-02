@@ -6,7 +6,6 @@ import com.marketplace.backend.model.values.StringValue;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Entity
@@ -29,16 +28,12 @@ public class Product {
     @Column(name = "enabled")
     private Boolean enabled;
 
-    /*TODO наверное лучше проверки осуществлять на DTO а не на сущности*/
-    @PositiveOrZero
     @Column(name = "count", nullable = false)
     private int count;
 
     @Column(name = "price")
     private String price;
 
-    /*TODO А рейтинг с фронта прилетать будет? Если нет и бэкенд сам расчивает то проверка излишна*/
-    @PositiveOrZero
     @Column(name = "rating", nullable = false)
     private double rating;
 

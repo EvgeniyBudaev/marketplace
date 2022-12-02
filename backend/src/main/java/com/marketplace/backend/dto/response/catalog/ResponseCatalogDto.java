@@ -19,5 +19,6 @@ public class ResponseCatalogDto {
         private Long id;
         private String title;
         private String type;
+
     }
 }

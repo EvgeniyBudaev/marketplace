@@ -7,6 +7,8 @@ import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.repository.CatalogRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 @Service
@@ -14,15 +16,12 @@ public class CatalogService implements CatalogDao {
 
     private final CatalogRepository catalogRepository;
     private final CatalogConverters catalogConverters;
+    private final EntityManager entityManager;
 
-    public CatalogService(CatalogRepository catalogRepository, CatalogConverters catalogConverters) {
+    public CatalogService(CatalogRepository catalogRepository, CatalogConverters catalogConverters, EntityManager entityManager) {
         this.catalogRepository = catalogRepository;
         this.catalogConverters = catalogConverters;
-    }
-
-    @Override
-    public List<Catalog> getAll() {
-        return catalogRepository.findAll();
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -43,14 +42,22 @@ public class CatalogService implements CatalogDao {
     }
 
     @Override
-    public Catalog findById(Long id) {
-        return catalogRepository.findById(id).orElseThrow();
+    public List<Catalog> getAll() {
+        return catalogRepository.findAllByEnabled(true);
     }
 
-    /*TODO надо ли проверять что каталог пустой перед удалением надоли ли удалять все что в каталоге*/
+
     @Override
-    public void delete(Long id) {
-        catalogRepository.deleteById(id);
+    public void delete(String alias) {
+        Query query = entityManager.createQuery("Select count (p.products) from Catalog as p where p.alias=:alias");
+        query.setParameter("alias",alias);
+        Integer count = (Integer) query.getSingleResult();
+        if(count>0){
+            throw  new RuntimeException("Каталог содержит продукты удаление невозможно");
+        }
+        Query queryDelete = entityManager.createQuery("UPDATE Catalog as c set c.enabled = false where c.alias=:alias");
+        queryDelete.setParameter("alias",alias);
+        queryDelete.executeUpdate();
     }
 
 

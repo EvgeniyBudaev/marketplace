@@ -15,8 +15,8 @@ public class Attribute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "title")
-    private String title;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "enabled")
     private Boolean enabled;
@@ -25,10 +25,12 @@ public class Attribute {
     @Enumerated(EnumType.STRING)
     private EAttributeType type;
 
-    @ManyToOne
-    @JoinColumn(name = "catalog_id",nullable = false)
-    private Catalog catalog;
 
+    @ManyToMany
+    @JoinTable(name = "attributes_catalogs",
+    joinColumns = @JoinColumn(name = "attribute_id"),
+    inverseJoinColumns = @JoinColumn(name = "catalog_id"))
+    private List<Catalog> catalog;
 
     @OneToMany(mappedBy = "attribute")
     private List<StringValue> stringValue;

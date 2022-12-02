@@ -24,11 +24,14 @@ public class CatalogConverters {
 
     private List<ResponseCatalogDto.AttributeDto> convertAttributeToDto(List<Attribute> list){
         List<ResponseCatalogDto.AttributeDto> result = new ArrayList<>();
+        if(list==null){
+            return result;
+        }
         for (Attribute attribute: list){
             ResponseCatalogDto.AttributeDto dto = new ResponseCatalogDto.AttributeDto();
             dto.setId(attribute.getId());
             dto.setType(attribute.getType().name());
-            dto.setTitle(attribute.getTitle());
+            dto.setTitle(attribute.getName());
             result.add(dto);
         }
         return result;
