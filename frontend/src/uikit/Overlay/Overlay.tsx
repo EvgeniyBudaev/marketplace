@@ -1,6 +1,7 @@
 import React, { memo, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
+import "./Overlay.scss";
 
 type TProps = {
   className?: string;

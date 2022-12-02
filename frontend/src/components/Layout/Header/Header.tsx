@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { FC } from "react";
 import clsx from "clsx";
 //import useWindowScroll from "hooks/useWindowScroll";
-import {HeaderBottom} from "./HeaderBottom";
+import { HeaderBottom } from "./HeaderBottom";
 import { HeaderCenter } from "./HeaderCenter";
 import classes from "./Header.module.scss";
 
@@ -33,11 +33,11 @@ export const Header: FC<TProps> = ({ isHomePage }) => {
             isHomePage={!isScroll && isHomePage}
             isScroll={isScroll}
           />
-            <HeaderBottom
-                isCatalogOpen={isCatalogOpen}
-                isHomePage={!isScroll && isHomePage}
-                onCatalogToggle={() => {}}
-            />
+          <HeaderBottom
+            isCatalogOpen={isCatalogOpen}
+            isHomePage={!isScroll && isHomePage}
+            onCatalogToggle={() => {}}
+          />
         </header>
       </div>
     </>

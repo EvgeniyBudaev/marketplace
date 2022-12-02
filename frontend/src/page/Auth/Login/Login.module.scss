@@ -1,0 +1,76 @@
+@import "styles";
+
+.Login {
+  display: flex;
+  justify-content: center;
+  height: 50vh;
+}
+
+.SectionCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  flex-direction: column;
+  max-width: 470px;
+  width: 100%;
+}
+
+.SectionCenter_Content {
+  padding: 24px;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: $shadow-form;
+}
+
+.SectionCenterContent_Title {
+  @include roboto-32-bold;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.SectionCenter_Control {
+  display: flex;
+  justify-content: center;
+}
+
+.SectionCenter_Button {
+  margin-bottom: 20px;
+}
+
+.SectionCenter_Registration {
+  text-align: center;
+
+  span {
+    margin-right: 10px;
+  }
+
+  a {
+    color: $color-beige;
+    transition: all 0.15s;
+
+    &:hover {
+      color: $color-beige-hover;
+    }
+  }
+}
+
+.RememberPassword {
+  margin-bottom: 5px;
+  text-align: end;
+
+  a {
+    color: $color-beige;
+    transition: all 0.15s;
+
+    &:hover {
+      color: $color-beige-hover;
+    }
+  }
+}
+
+.FormFieldGroup {
+  position: relative;
+  margin-bottom: 50px;
+}
