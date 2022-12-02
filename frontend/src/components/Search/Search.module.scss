@@ -1,0 +1,121 @@
+@import "styles";
+
+$maxWidth: 620px;
+$heightDropDown: 335px;
+$height: 44px;
+
+.Search {
+  $this: &;
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: $maxWidth;
+  width: 100%;
+  background-color: transparent;
+
+  &__isHomePage {
+    #{$this}InputWrapper {
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #{$this}Input {
+      color: white;
+
+      &::placeholder {
+        color: white;
+      }
+    }
+
+    #{$this}Icon {
+      svg {
+        fill: rgba(255, 255, 255, 0.9);
+      }
+    }
+
+    &#{$this}__active {
+      #{$this}Input {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .Form {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+
+  &InputWrapper {
+    padding: 0;
+    width: 100%;
+    height: $height;
+    background-color: transparent;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  &Input {
+    @include roboto-16-regular;
+    margin: 0;
+    padding: 0 50px 0 16px;
+    width: 100%;
+    height: $height;
+    color: $color-text;
+    background-color: transparent;
+    border: none;
+    outline: transparent;
+
+    &::placeholder {
+      color: $color-text;
+    }
+  }
+
+  &Icon {
+    position: absolute;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+
+    svg {
+      fill: $color-text;
+    }
+  }
+
+  &__active {
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    z-index: 101;
+
+    #{$this}InputWrapper {
+      border: 2px solid transparent;
+    }
+
+    #{$this}Input {
+      background-color: white;
+    }
+
+    #{$this}Button {
+      height: $height;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .Search {
+    &Input {
+      @include roboto-14-regular;
+      height: $height;
+    }
+    &InputWrapper {
+      border: none;
+    }
+
+    &Icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
