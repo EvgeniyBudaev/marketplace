@@ -16,6 +16,7 @@ public class ResponseProductDto {
     private String description;
     private Double rating;
     private String price;
+    private String count;
     private List<AttributeValueDto> attributes = new ArrayList<>();
 
     @Data

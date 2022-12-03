@@ -34,6 +34,7 @@ public class ProductConverters {
         responseDto.setAlias(product.getAlias());
         responseDto.setEnabled(product.getEnabled());
         responseDto.setPrice(product.getPrice());
+        responseDto.setCount(String.valueOf(product.getCount()));
         responseDto.getAttributes().addAll(convertDoubleValueToDto(product.getDoubleValues()));
         responseDto.getAttributes().addAll(convertIntegerValueToDto(product.getIntegerValues()));
         responseDto.getAttributes().addAll(convertStringValueToDto(product.getStringValues()));
