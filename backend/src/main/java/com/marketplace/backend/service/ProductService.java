@@ -13,10 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.Map;
 
 
@@ -60,25 +56,16 @@ public class ProductService implements ProductDao {
     @Override
     public Paging<Product> findProductsInCatalogByAlias(String alias, Integer page, Integer pageSize, Map<String,String> filters) {
         /*Получаем общее количество элементов результата запроса*/
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> countQuery = criteriaBuilder
-                .createQuery(Long.class);
-        countQuery.select(criteriaBuilder
-                .count(countQuery.from(Product.class)));
-        Long count = entityManager.createQuery(countQuery)
-                .getSingleResult();
+        Query countQuery = entityManager.createQuery("SELECT count(p) from Product as p where p.catalog.alias=:alias");
+        countQuery.setParameter("alias",alias);
+        Long count = (Long) countQuery.getSingleResult();
         /*Бъем на страницы*/
-        CriteriaQuery<Product> criteriaQuery = criteriaBuilder
-                .createQuery(Product.class);
-        Root<Product> from = criteriaQuery.from(Product.class);
-        CriteriaQuery<Product> select = criteriaQuery.select(from);
-        TypedQuery<Product> typedQuery = entityManager.createQuery(select);
-        Paging<Product> result = new Paging<>();
-            result.setPageSize(pageSize);
-            result.setCurrentPage(page);
-            typedQuery.setFirstResult(page - 1);
-            typedQuery.setMaxResults(pageSize);
-            result.setContent(typedQuery.getResultList());
+        Query resultQuery = entityManager.createQuery("SELECT p from Product as p where p.catalog.alias=:alias");
+        resultQuery.setParameter("alias",alias);
+        Paging<Product> result = new Paging<>(count,pageSize,Long.valueOf(page));
+            resultQuery.setFirstResult((page-1)*pageSize );
+            resultQuery.setMaxResults(pageSize);
+            result.setContent(resultQuery.getResultList());
             return result;
     }
 
