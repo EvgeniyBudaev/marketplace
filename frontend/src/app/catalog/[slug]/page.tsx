@@ -1,19 +1,28 @@
 import { Catalog } from "src/index";
 import { URL_BASE } from "src/constants";
-import { TProduct } from "src/types";
+import { TCatalog } from "src/entities/catalogs";
+import { TProducts } from "src/entities/products";
 
-async function getData(slug: string) {
-  const res = await fetch(
-    `${URL_BASE}/api/v1/products/catalog?catalog=${slug}`
-  );
+async function getCatalog(slug: string) {
+  const catalog = await fetch(`${URL_BASE}/api/v1/catalogs/by_alias/${slug}`);
 
-  // Recommendation: handle errors
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
+  if (!catalog.ok) {
     throw new Error("Failed to fetch data");
   }
 
-  return res.json();
+  return catalog.json();
+}
+
+async function getProducts(slug: string) {
+  const products = await fetch(
+    `${URL_BASE}/api/v1/products/page?catalog=${slug}`
+  );
+
+  if (!products.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return products.json();
 }
 
 type TProps = {
@@ -25,12 +34,12 @@ type TProps = {
 
 export default async function CatalogPage(props: TProps) {
   //console.log("props: ", props);
-  const data = (await getData(props.params.slug)) as TProduct[];
-  //console.log("data: ", data);
+  const catalog = (await getCatalog(props.params.slug)) as TCatalog;
+  const products = (await getProducts(props.params.slug)) as TProducts;
 
   return (
     <div>
-      <Catalog products={data} />
+      <Catalog catalog={catalog} products={products} />
     </div>
   );
 }

@@ -4,10 +4,11 @@ import { FC } from "react";
 import { useMediaQuery } from "react-responsive";
 import clsx from "clsx";
 import { ROUTES } from "src/constants";
-import { TProduct } from "src/types";
+import { TProduct } from "src/entities/products";
 import { Button } from "src/uikit";
 import { formatValueWithSpaces } from "src/utils";
 import classes from "./ProductListItem.module.scss";
+import { AttributeItem } from "../AttributeItem";
 
 type TProps = {
   product: TProduct;
@@ -69,49 +70,16 @@ export const ProductListItem: FC<TProps> = ({
           </div>
           <ul className={classes.ContentDescriptionLine}>
             <li className={classes.ContentDescriptionLinePrice}>
-              {/*{numberWithSpaces(parseInt(mirror.price))} ₽*/}1 000 ₽
+              {formatValueWithSpaces(parseInt(product.price))} ₽
             </li>
             <li className={classes.ContentTitleLine}>
               <Link href={`product/${product.alias}`}>
                 <span className={classes.ContentTitle}>venetian</span>
               </Link>
             </li>
-            <li className={classes.RowLine}>
-              <div className={classes.LabelLine}>Материал зеркала:</div>
-              <div className={classes.ValueLine}>Стекло</div>
-            </li>
-            <li className={classes.RowLine}>
-              <div className={classes.LabelLine}>Материал рамы:</div>
-              <div className={classes.ValueLine}>ДСП</div>
-            </li>
-            <li className={classes.RowLine}>
-              <div className={classes.LabelLine}>Цвет рамы:</div>
-              <div className={classes.ValueLine}>Черный</div>
-            </li>
-            <li className={classes.RowLine}>
-              <div className={classes.LabelLine}>Размер внешний, с рамой:</div>
-              <div className={classes.ValueLine}>10 x 10</div>
-            </li>
-            <li className={classes.RowLine}>
-              <div className={classes.LabelLine}>Размер зеркала без рамы:</div>
-              <div className={classes.ValueLine}>10 x 10</div>
-            </li>
-            <li className={classes.RowLine}>
-              <div className={classes.LabelLine}>Вес:</div>
-              <div className={classes.ValueLine}>10 кг</div>
-            </li>
-            <li className={classes.RowLine}>
-              <div className={classes.LabelLine}>Наличие фацета:</div>
-              <div className={classes.ValueLine}>Да</div>
-            </li>
-            <li className={classes.RowLine}>
-              <div className={classes.LabelLine}>Форма:</div>
-              <div className={classes.ValueLine}>Овальная</div>
-            </li>
-            <li className={classes.RowLine}>
-              <div className={classes.LabelLine}>Производитель:</div>
-              <div className={classes.ValueLine}>Mirror Look</div>
-            </li>
+            {product.stringValues.map(item => (
+              <AttributeItem key={item.attributeName} attribute={item} />
+            ))}
             <li className={classes.ContentDescriptionLineStatus}>В наличии</li>
             <li className={classes.ContentDescriptionLineAddToCartLine}>
               <button>Click</button>
@@ -120,7 +88,7 @@ export const ProductListItem: FC<TProps> = ({
         </div>
         <div className={classes.Footer}>
           <div className={classes.FooterPrice}>
-            {formatValueWithSpaces(parseInt("2500"))} ₽
+            {formatValueWithSpaces(parseInt(product.price))} ₽
           </div>
           <div className={classes.FooterStatus}>
             {count_in_stock > 0 ? "В наличии" : "Товар отсутствует"}

@@ -1,21 +1,20 @@
 "use client";
 
 import { FC, useState } from "react";
-import { TProduct } from "src/types";
+import { TCatalog } from "src/entities/catalogs";
+import { TProducts } from "src/entities/products";
 import { Aside } from "./Aside";
 import { ProductList } from "./ProductList";
-import classes from "./Catalog.module.scss";
 import { Panel } from "./Panel";
+import classes from "./Catalog.module.scss";
 
 type TProps = {
-  products?: TProduct[];
+  catalog?: TCatalog;
+  products?: TProducts;
 };
 
-export const Catalog: FC<TProps> = ({ products }) => {
+export const Catalog: FC<TProps> = ({ catalog, products }) => {
   const [isClickedDisplayLine, setIsClickedDisplayLine] = useState(false);
-  console.log("Catalog products: ", products);
-  const catalogAlias = "mirrors";
-  const catalogName = "Зеркала";
 
   const handleDisplayLine = () => {
     setIsClickedDisplayLine(prev => !prev);
@@ -27,14 +26,14 @@ export const Catalog: FC<TProps> = ({ products }) => {
         <h1 className={classes.Title}>Зеркала</h1>
       </div>
       <div className={classes.Inner}>
-        <Aside catalogAlias={catalogAlias} />
+        <Aside catalog={catalog} />
         <div className={classes.Wrapper}>
           <Panel
             isClickedDisplayLine={isClickedDisplayLine}
             onDisplayLine={handleDisplayLine}
           />
           <ProductList
-            catalogName={catalogName}
+            catalogName={catalog?.name}
             products={products}
             isClickedDisplayLine={isClickedDisplayLine}
           />
