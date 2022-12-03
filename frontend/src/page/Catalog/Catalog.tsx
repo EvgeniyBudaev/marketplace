@@ -1,11 +1,11 @@
 "use client";
 
 import { FC, useState } from "react";
-import {TCatalog} from "src/entities/catalogs";
-import {TProducts} from "src/entities/products";
+import { TCatalog } from "src/entities/catalogs";
+import { TProducts } from "src/entities/products";
 import { Aside } from "./Aside";
 import { ProductList } from "./ProductList";
-import { Panel } from "./Panel"
+import { Panel } from "./Panel";
 import classes from "./Catalog.module.scss";
 
 type TProps = {

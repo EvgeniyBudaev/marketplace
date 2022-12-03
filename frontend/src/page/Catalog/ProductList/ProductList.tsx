@@ -1,7 +1,7 @@
 import { FC } from "react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
-import {TProducts} from "src/entities/products";
+import { TProducts } from "src/entities/products";
 import { ProductListItem } from "../ProductListItem";
 import classes from "./ProductList.module.scss";
 

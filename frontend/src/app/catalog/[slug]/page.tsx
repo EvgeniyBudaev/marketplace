@@ -1,12 +1,10 @@
 import { Catalog } from "src/index";
 import { URL_BASE } from "src/constants";
-import {TCatalog} from "src/entities/catalogs";
-import {TProducts} from "src/entities/products";
+import { TCatalog } from "src/entities/catalogs";
+import { TProducts } from "src/entities/products";
 
 async function getCatalog(slug: string) {
-  const catalog = await fetch(
-      `${URL_BASE}/api/v1/catalogs/by_alias/${slug}`
-  );
+  const catalog = await fetch(`${URL_BASE}/api/v1/catalogs/by_alias/${slug}`);
 
   if (!catalog.ok) {
     throw new Error("Failed to fetch data");

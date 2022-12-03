@@ -4,11 +4,11 @@ import { FC } from "react";
 import { useMediaQuery } from "react-responsive";
 import clsx from "clsx";
 import { ROUTES } from "src/constants";
-import {TProduct} from "src/entities/products";
+import { TProduct } from "src/entities/products";
 import { Button } from "src/uikit";
 import { formatValueWithSpaces } from "src/utils";
 import classes from "./ProductListItem.module.scss";
-import {AttributeItem} from "../AttributeItem";
+import { AttributeItem } from "../AttributeItem";
 
 type TProps = {
   product: TProduct;
@@ -77,9 +77,9 @@ export const ProductListItem: FC<TProps> = ({
                 <span className={classes.ContentTitle}>venetian</span>
               </Link>
             </li>
-            {
-              product.stringValues.map(item => <AttributeItem key={item.attributeName} attribute={item} />)
-            }
+            {product.stringValues.map(item => (
+              <AttributeItem key={item.attributeName} attribute={item} />
+            ))}
             <li className={classes.ContentDescriptionLineStatus}>В наличии</li>
             <li className={classes.ContentDescriptionLineAddToCartLine}>
               <button>Click</button>
