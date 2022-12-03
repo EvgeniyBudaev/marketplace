@@ -34,48 +34,49 @@ public class ProductConverters {
         responseDto.setAlias(product.getAlias());
         responseDto.setEnabled(product.getEnabled());
         responseDto.setPrice(product.getPrice());
-        responseDto.setDoubleValues(convertDoubleValueToDto(product.getDoubleValues()));
-        responseDto.setIntegerValues(convertIntegerValueToDto(product.getIntegerValues()));
-        responseDto.setStringValues(convertStringValueToDto(product.getStringValues()));
+        responseDto.setCount(String.valueOf(product.getCount()));
+        responseDto.getAttributes().addAll(convertDoubleValueToDto(product.getDoubleValues()));
+        responseDto.getAttributes().addAll(convertIntegerValueToDto(product.getIntegerValues()));
+        responseDto.getAttributes().addAll(convertStringValueToDto(product.getStringValues()));
         responseDto.setDescription(product.getDescription());
         responseDto.setRating(product.getRating());
         return responseDto;
     }
 
 
-    private List<ResponseProductDto.DoubleValueDto> convertDoubleValueToDto(List<DoubleValue> list){
-        List<ResponseProductDto.DoubleValueDto> result = new ArrayList<>();
+    private List<ResponseProductDto.AttributeValueDto> convertDoubleValueToDto(List<DoubleValue> list){
+        List<ResponseProductDto.AttributeValueDto> result = new ArrayList<>();
         if (list==null){
             return result;
         }
         for(DoubleValue doubleValue:list){
-            ResponseProductDto.DoubleValueDto valueDto = new ResponseProductDto.DoubleValueDto();
-            valueDto.setValue(doubleValue.getValue());
+            ResponseProductDto.AttributeValueDto valueDto = new ResponseProductDto.AttributeValueDto();
+            valueDto.setValue(doubleValue.getValue().toString());
             valueDto.setAttributeName(doubleValue.getAttribute().getName());
             result.add(valueDto);
         }
         return result;
     }
-    private List<ResponseProductDto.IntegerValueDto> convertIntegerValueToDto(List<IntegerValue> list){
-        List<ResponseProductDto.IntegerValueDto> result = new ArrayList<>();
+    private List<ResponseProductDto.AttributeValueDto> convertIntegerValueToDto(List<IntegerValue> list){
+        List<ResponseProductDto.AttributeValueDto> result = new ArrayList<>();
         if (list==null){
             return result;
         }
         for(IntegerValue integerValue:list){
-            ResponseProductDto.IntegerValueDto valueDto = new ResponseProductDto.IntegerValueDto();
-            valueDto.setValue(integerValue.getValue());
+            ResponseProductDto.AttributeValueDto valueDto = new ResponseProductDto.AttributeValueDto();
+            valueDto.setValue(integerValue.getValue().toString());
             valueDto.setAttributeName(integerValue.getAttribute().getName());
             result.add(valueDto);
         }
         return result;
     }
-    private List<ResponseProductDto.StringValueDto> convertStringValueToDto(List<StringValue> list){
-        List<ResponseProductDto.StringValueDto> result = new ArrayList<>();
+    private List<ResponseProductDto.AttributeValueDto> convertStringValueToDto(List<StringValue> list){
+        List<ResponseProductDto.AttributeValueDto> result = new ArrayList<>();
         if (list==null){
             return result;
         }
         for(StringValue integerValue:list){
-            ResponseProductDto.StringValueDto valueDto = new ResponseProductDto.StringValueDto();
+            ResponseProductDto.AttributeValueDto valueDto = new ResponseProductDto.AttributeValueDto();
             valueDto.setValue(integerValue.getValue());
             valueDto.setAttributeName(integerValue.getAttribute().getName());
             result.add(valueDto);

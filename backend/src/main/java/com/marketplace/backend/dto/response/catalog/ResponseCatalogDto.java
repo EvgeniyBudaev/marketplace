@@ -2,6 +2,7 @@ package com.marketplace.backend.dto.response.catalog;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,8 +18,8 @@ public class ResponseCatalogDto {
     @Data
     public static class AttributeDto{
         private Long id;
-        private String title;
+        private String name;
         private String type;
-
+        private ArrayList<String> values;
     }
 }

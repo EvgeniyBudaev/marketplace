@@ -4,10 +4,12 @@ import com.marketplace.backend.dao.CatalogDao;
 import com.marketplace.backend.dto.converters.CatalogConverters;
 import com.marketplace.backend.dto.request.catalog.RequestSaveCatalogDto;
 import com.marketplace.backend.dto.response.catalog.ResponseCatalogDto;
+import com.marketplace.backend.dto.response.catalog.ResponseListCatalogDto;
+import com.marketplace.backend.model.Catalog;
+import com.marketplace.backend.model.Paging;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,9 +24,20 @@ public class CatalogController {
         this.catalogConverters = catalogConverters;
     }
 
-    @GetMapping
-    public List<ResponseCatalogDto> showAllCatalogs() {
-        return catalogDao.getAll().stream().map(catalogConverters::convertCatalogToResponseCatalogDto).collect(Collectors.toList());
+    @GetMapping("/page")
+    public Paging<ResponseListCatalogDto> showAllCatalogs(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                                                          @RequestParam(name = "size", defaultValue = "5") Integer pageSize) {
+        if (page < 1) {
+            page = 1;
+        }
+        if (pageSize <1){
+            pageSize = 5;
+        }
+        Paging<Catalog> resultQuery = catalogDao.getAll(page,pageSize);
+        Paging<ResponseListCatalogDto> result = new Paging<>(resultQuery.getCountOfResult(),pageSize,Long.valueOf(page));
+        result.setContent(resultQuery.getContent()
+                .stream().map(catalogConverters::convertCatalogToSimpleDto).collect(Collectors.toList()));
+        return result;
     }
 
     @GetMapping("/by_alias/{catalog}")

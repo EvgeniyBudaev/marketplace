@@ -37,9 +37,7 @@ public class ProductController {
             pageSize = 5;
         }
         Paging<Product> resultQuery= productDao.findProductsInCatalogByAlias(catalogAlias,page, pageSize, filters);
-        Paging<ResponseProductDto> result = new Paging<>();
-        result.setPageSize(resultQuery.getPageSize());
-        result.setCurrentPage(resultQuery.getCurrentPage());
+        Paging<ResponseProductDto> result = new Paging<>(resultQuery.getCountOfResult(),pageSize,Long.valueOf(page));
         result.setContent(resultQuery.getContent()
                 .stream().map(x->productConverters.convertProductToResponseProductDto(x,catalogAlias)).collect(Collectors.toList()));
         return result;

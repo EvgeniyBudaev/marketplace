@@ -4,12 +4,12 @@ import com.marketplace.backend.dao.CatalogDao;
 import com.marketplace.backend.dto.converters.CatalogConverters;
 import com.marketplace.backend.dto.request.catalog.RequestSaveCatalogDto;
 import com.marketplace.backend.model.Catalog;
+import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.repository.CatalogRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.List;
 
 @Service
 public class CatalogService implements CatalogDao {
@@ -42,8 +42,14 @@ public class CatalogService implements CatalogDao {
     }
 
     @Override
-    public List<Catalog> getAll() {
-        return catalogRepository.findAllByEnabled(true);
+    public Paging<Catalog> getAll(Integer page, Integer pageSize) {
+       Query countQuery = entityManager.createQuery("select count (c) from Catalog as c where c.enabled=true");
+       Long count = (Long) countQuery.getSingleResult();
+
+       Query resultQuery = entityManager.createQuery("select c from Catalog  as c where c.enabled=true");
+       Paging<Catalog> result = new Paging<>(count,pageSize,Long.valueOf(page));
+       result.setContent(resultQuery.getResultList());
+       return result;
     }
 
 
