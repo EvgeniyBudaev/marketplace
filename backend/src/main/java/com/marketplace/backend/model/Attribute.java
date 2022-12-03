@@ -2,7 +2,7 @@ package com.marketplace.backend.model;
 
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.IntegerValue;
-import com.marketplace.backend.model.values.StringValue;
+import com.marketplace.backend.model.values.SelectableValue;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,13 +18,15 @@ public class Attribute {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "alias", nullable = false, unique = true)
+    private String alias;
+
     @Column(name = "enabled")
     private Boolean enabled;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private EAttributeType type;
-
 
     @ManyToMany
     @JoinTable(name = "attributes_catalogs",
@@ -33,7 +35,7 @@ public class Attribute {
     private List<Catalog> catalog;
 
     @OneToMany(mappedBy = "attribute")
-    private List<StringValue> stringValue;
+    private List<SelectableValue> singleSelectableValue;
 
     @OneToMany(mappedBy = "attribute")
     private List<IntegerValue> integerValue;

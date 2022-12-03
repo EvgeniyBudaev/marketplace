@@ -39,19 +39,10 @@
 		{
 			"name": "get all catalogs",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"alias\": \"Zerkala\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/catalogs",
+					"raw": "http://localhost:8080/api/v1/catalogs/page?page=5",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -60,7 +51,14 @@
 					"path": [
 						"api",
 						"v1",
-						"catalogs"
+						"catalogs",
+						"page"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "5"
+						}
 					]
 				}
 			},
@@ -68,8 +66,11 @@
 		},
 		{
 			"name": "get catalog by alias",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -81,7 +82,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/catalogs",
+					"raw": "http://localhost:8080/api/v1/catalogs/by_alias/mirrors_alias",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -90,7 +91,9 @@
 					"path": [
 						"api",
 						"v1",
-						"catalogs"
+						"catalogs",
+						"by_alias",
+						"mirrors_alias"
 					]
 				}
 			},
@@ -103,7 +106,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"alias\": \"venetian-mirror\",\n    \"enabled\": true,\n    \"catalogId\":1,\n    \"name\": \"Внецианское зеркало\"\n}",
+					"raw": "{\n    \"alias\": \"venetian-mirror\",\n    \"description\": \"Это очень новое зеркало\",\n    \"enabled\": true,\n    \"catalogAlias\": \"mirrors_alias\",\n    \"name\": \"Внецианское зеркало\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -132,7 +135,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/products?catalog=\"Zerkala\"",
+					"raw": "http://localhost:8080/api/v1/products/page?catalog=mirrors_alias&page=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -141,12 +144,17 @@
 					"path": [
 						"api",
 						"v1",
-						"products"
+						"products",
+						"page"
 					],
 					"query": [
 						{
 							"key": "catalog",
-							"value": "\"Zerkala\""
+							"value": "mirrors_alias"
+						},
+						{
+							"key": "page",
+							"value": "1"
 						}
 					]
 				}
@@ -171,7 +179,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/products/alias?alias=venetian-mirror",
+					"raw": "http://localhost:8080/api/v1/products/by_alias?alias=round_mirror_alias2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -181,12 +189,12 @@
 						"api",
 						"v1",
 						"products",
-						"alias"
+						"by_alias"
 					],
 					"query": [
 						{
 							"key": "alias",
-							"value": "venetian-mirror"
+							"value": "round_mirror_alias2"
 						}
 					]
 				}

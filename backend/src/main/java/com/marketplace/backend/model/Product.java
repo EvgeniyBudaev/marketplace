@@ -2,7 +2,7 @@ package com.marketplace.backend.model;
 
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.IntegerValue;
-import com.marketplace.backend.model.values.StringValue;
+import com.marketplace.backend.model.values.SelectableValue;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -47,6 +47,6 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<IntegerValue> integerValues;
 
-    @OneToMany(mappedBy = "product")
-    private List<StringValue> stringValues;
+    @ManyToMany(mappedBy = "products")
+    private List<SelectableValue> selectableValues;
 }

@@ -3,7 +3,7 @@ package com.marketplace.backend.controller;
 import com.marketplace.backend.dao.CatalogDao;
 import com.marketplace.backend.dto.converters.CatalogConverters;
 import com.marketplace.backend.dto.request.catalog.RequestSaveCatalogDto;
-import com.marketplace.backend.dto.response.catalog.ResponseCatalogDto;
+import com.marketplace.backend.dto.response.catalog.ResponseSingleCatalogDto;
 import com.marketplace.backend.dto.response.catalog.ResponseListCatalogDto;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
@@ -41,12 +41,12 @@ public class CatalogController {
     }
 
     @GetMapping("/by_alias/{catalog}")
-    public ResponseCatalogDto getCatalogByAlias(@PathVariable String catalog) {
+    public ResponseSingleCatalogDto getCatalogByAlias(@PathVariable String catalog) {
         return catalogConverters.convertCatalogToResponseCatalogDto(catalogDao.findCatalogByAlias(catalog));
     }
 
     @PostMapping
-    public ResponseCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
+    public ResponseSingleCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
         return catalogConverters.convertCatalogToResponseCatalogDto(catalogDao.save(dto));
     }
 

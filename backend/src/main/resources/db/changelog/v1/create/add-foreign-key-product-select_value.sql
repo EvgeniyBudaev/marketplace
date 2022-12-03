@@ -1,4 +1,4 @@
-ALTER TABLE string_value
-    ADD CONSTRAINT fk_strings_product
+ALTER TABLE products_selectable
+    ADD CONSTRAINT fk_select_product
         FOREIGN KEY (product_id)
             REFERENCES products(id);

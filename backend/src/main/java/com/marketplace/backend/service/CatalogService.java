@@ -7,6 +7,7 @@ import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.repository.CatalogRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -41,7 +42,9 @@ public class CatalogService implements CatalogDao {
         return catalogRepository.findCatalogByAlias(alias).orElseThrow();
     }
 
+
     @Override
+    @Transactional
     public Paging<Catalog> getAll(Integer page, Integer pageSize) {
        Query countQuery = entityManager.createQuery("select count (c) from Catalog as c where c.enabled=true");
        Long count = (Long) countQuery.getSingleResult();
@@ -54,6 +57,7 @@ public class CatalogService implements CatalogDao {
 
 
     @Override
+    @Transactional
     public void delete(String alias) {
         Query query = entityManager.createQuery("Select count (p.products) from Catalog as p where p.alias=:alias");
         query.setParameter("alias",alias);

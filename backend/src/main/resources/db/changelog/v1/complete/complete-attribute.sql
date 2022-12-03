@@ -1,6 +1,5 @@
-INSERT INTO attributes (name, type)
-VALUES ('Категория', 'STRING'),
-       ('Форма', 'STRING'),
-       ('Цвет', 'STRING'),
-       ('Количество ядер', 'INTEGER'),
-       ('Вес', 'DOUBLE');
+INSERT INTO attributes (name, type,alias)
+VALUES ('Категория', 'SELECTABLE','category'),
+       ('Форма', 'SELECTABLE','form'),
+       ('Цвет', 'SELECTABLE','color'),
+       ('Вес','DOUBLE','weight')

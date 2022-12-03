@@ -22,7 +22,6 @@ public class ProductService implements ProductDao {
     private final ProductConverters productConverters;
     private final ProductRepository productRepository;
     private final EntityManager entityManager;
-
     private final CatalogDao catalogDao;
 
     public ProductService(ProductConverters productConverters, ProductRepository productRepository, EntityManager entityManager, CatalogDao catalogDao) {

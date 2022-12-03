@@ -6,7 +6,7 @@ import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.IntegerValue;
-import com.marketplace.backend.model.values.StringValue;
+import com.marketplace.backend.model.values.SelectableValue;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class ProductConverters {
         responseDto.setCount(String.valueOf(product.getCount()));
         responseDto.getAttributes().addAll(convertDoubleValueToDto(product.getDoubleValues()));
         responseDto.getAttributes().addAll(convertIntegerValueToDto(product.getIntegerValues()));
-        responseDto.getAttributes().addAll(convertStringValueToDto(product.getStringValues()));
+        responseDto.getAttributes().addAll(convertSelectValueToDto(product.getSelectableValues()));
         responseDto.setDescription(product.getDescription());
         responseDto.setRating(product.getRating());
         return responseDto;
@@ -70,15 +70,15 @@ public class ProductConverters {
         }
         return result;
     }
-    private List<ResponseProductDto.AttributeValueDto> convertStringValueToDto(List<StringValue> list){
+    private List<ResponseProductDto.AttributeValueDto> convertSelectValueToDto(List<SelectableValue> list){
         List<ResponseProductDto.AttributeValueDto> result = new ArrayList<>();
         if (list==null){
             return result;
         }
-        for(StringValue integerValue:list){
+        for(SelectableValue selectableValue :list){
             ResponseProductDto.AttributeValueDto valueDto = new ResponseProductDto.AttributeValueDto();
-            valueDto.setValue(integerValue.getValue());
-            valueDto.setAttributeName(integerValue.getAttribute().getName());
+            valueDto.setValue(selectableValue.getValue());
+            valueDto.setAttributeName(selectableValue.getAttribute().getName());
             result.add(valueDto);
         }
         return result;
