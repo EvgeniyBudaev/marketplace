@@ -1,0 +1,20 @@
+@import "styles";
+
+.RowLine {
+  display: flex;
+}
+
+.RowLine + .RowLine {
+  margin-top: 8px;
+}
+
+.LabelLine {
+  margin-right: 8px;
+  font-size: 13px;
+  color: $color-suit-gray;
+  white-space: nowrap;
+}
+
+.ValueLine {
+  font-size: 13px;
+}
