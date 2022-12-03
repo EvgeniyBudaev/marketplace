@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { CATALOG_ALIAS, TRANSITION } from "src/constants";
-import {TCatalog} from "src/entities/catalogs";
+import { TCatalog } from "src/entities/catalogs";
 import { Overlay } from "src/uikit";
 import { AsideMirrors } from "./AsideMirrors";
 import classes from "./Aside.module.scss";
