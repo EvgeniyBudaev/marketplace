@@ -36,8 +36,10 @@ type TProps = {
 
 export default async function CatalogPage(props: TProps) {
   console.log("props: ", props);
-  const catalog = (props.params && await getCatalog(props.params.slug)) as TCatalog;
-  const products = (props.params && await getProducts(props.params.slug)) as TProducts;
+  const catalog = (props.params &&
+    (await getCatalog(props.params.slug))) as TCatalog;
+  const products = (props.params &&
+    (await getProducts(props.params.slug))) as TProducts;
 
   return (
     <div>

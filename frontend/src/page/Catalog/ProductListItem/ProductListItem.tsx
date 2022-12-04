@@ -74,7 +74,9 @@ export const ProductListItem: FC<TProps> = ({
             </li>
             <li className={classes.ContentTitleLine}>
               <Link href={`product/${product.alias}`}>
-                <span className={classes.ContentTitle}>{product.description}</span>
+                <span className={classes.ContentTitle}>
+                  {product.description}
+                </span>
               </Link>
             </li>
             {product.attributes.map(item => (
