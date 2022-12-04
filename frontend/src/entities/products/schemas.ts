@@ -15,9 +15,8 @@ export const productsItemSchema = z.object({
   description: z.string().nullish(),
   rating: z.number(),
   price: z.string(),
-  doubleValues: attributeItemSchema.array(),
-  stringValues: attributeItemSchema.array(),
-  integerValues: attributeItemSchema.array(),
+  count: z.string(),
+  attributes: attributeItemSchema.array(),
 });
 
 export const productsSchema = paginationSchema.extend({

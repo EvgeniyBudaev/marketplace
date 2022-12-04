@@ -1,9 +1,10 @@
 import { z } from "zod";
 
-const attributeItemSchema = z.object({
+export const catalogAttributeItemSchema = z.object({
   id: z.number(),
-  title: z.string(),
-  type: z.string(),
+  name: z.string(),
+  alias: z.string(),
+  values: z.string().array(),
 });
 
 export const catalogDetailSchema = z.object({
@@ -12,5 +13,5 @@ export const catalogDetailSchema = z.object({
   alias: z.string(),
   image: z.string().nullish(),
   enabled: z.boolean(),
-  attribute: attributeItemSchema.array(),
+  selectAttribute: catalogAttributeItemSchema.array(),
 });

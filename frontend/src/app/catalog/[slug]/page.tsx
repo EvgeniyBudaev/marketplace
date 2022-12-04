@@ -26,16 +26,18 @@ async function getProducts(slug: string) {
 }
 
 type TProps = {
-  params: {
+  params?: {
     slug: string;
   };
-  searchParams: any;
+  searchParams?: {
+    search?: string;
+  };
 };
 
 export default async function CatalogPage(props: TProps) {
-  //console.log("props: ", props);
-  const catalog = (await getCatalog(props.params.slug)) as TCatalog;
-  const products = (await getProducts(props.params.slug)) as TProducts;
+  console.log("props: ", props);
+  const catalog = (props.params && await getCatalog(props.params.slug)) as TCatalog;
+  const products = (props.params && await getProducts(props.params.slug)) as TProducts;
 
   return (
     <div>

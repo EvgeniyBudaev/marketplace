@@ -4,8 +4,7 @@ import { Icon } from "src/uikit";
 import classes from "./Checkbox.module.scss";
 
 type TValue = {
-  category: string[];
-  form: string[];
+  [key: string]: string[];
 };
 
 type TProps = {

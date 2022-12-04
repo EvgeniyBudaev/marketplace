@@ -7,8 +7,8 @@ import { ROUTES } from "src/constants";
 import { TProduct } from "src/entities/products";
 import { Button } from "src/uikit";
 import { formatValueWithSpaces } from "src/utils";
-import classes from "./ProductListItem.module.scss";
 import { AttributeItem } from "../AttributeItem";
+import classes from "./ProductListItem.module.scss";
 
 type TProps = {
   product: TProduct;
@@ -19,7 +19,7 @@ export const ProductListItem: FC<TProps> = ({
   product,
   isClickedDisplayLine,
 }) => {
-  const count_in_stock = 10;
+  const count = Number(product.count);
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
 
   const imageResponsiveSizeWidth = () => {
@@ -65,7 +65,7 @@ export const ProductListItem: FC<TProps> = ({
               className={classes.ContentTitle}
               href={`product/${product.alias}`}
             >
-              Венецианское зеркало
+              {product.name}
             </Link>
           </div>
           <ul className={classes.ContentDescriptionLine}>
@@ -74,13 +74,15 @@ export const ProductListItem: FC<TProps> = ({
             </li>
             <li className={classes.ContentTitleLine}>
               <Link href={`product/${product.alias}`}>
-                <span className={classes.ContentTitle}>venetian</span>
+                <span className={classes.ContentTitle}>{product.description}</span>
               </Link>
             </li>
-            {product.stringValues.map(item => (
+            {product.attributes.map(item => (
               <AttributeItem key={item.attributeName} attribute={item} />
             ))}
-            <li className={classes.ContentDescriptionLineStatus}>В наличии</li>
+            <li className={classes.ContentDescriptionLineStatus}>
+              {count > 0 ? "В наличии" : "Товар отсутствует"}
+            </li>
             <li className={classes.ContentDescriptionLineAddToCartLine}>
               <button>Click</button>
             </li>
@@ -91,12 +93,12 @@ export const ProductListItem: FC<TProps> = ({
             {formatValueWithSpaces(parseInt(product.price))} ₽
           </div>
           <div className={classes.FooterStatus}>
-            {count_in_stock > 0 ? "В наличии" : "Товар отсутствует"}
+            {count > 0 ? "В наличии" : "Товар отсутствует"}
           </div>
           <div className={classes.FooterAddToCartGrid}>
             <Button
               className={classes.ButtonAddToCart}
-              isDisabled={count_in_stock <= 0}
+              isDisabled={count <= 0}
               onClick={() => {}}
             >
               В корзину

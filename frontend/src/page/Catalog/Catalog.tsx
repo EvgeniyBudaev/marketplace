@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 import { TCatalog } from "src/entities/catalogs";
 import { TProducts } from "src/entities/products";
-import { Aside } from "./Aside";
+import { Filter } from "./Filter";
 import { ProductList } from "./ProductList";
 import { Panel } from "./Panel";
 import classes from "./Catalog.module.scss";
@@ -26,7 +26,7 @@ export const Catalog: FC<TProps> = ({ catalog, products }) => {
         <h1 className={classes.Title}>Зеркала</h1>
       </div>
       <div className={classes.Inner}>
-        <Aside catalog={catalog} />
+        {catalog && <Filter catalog={catalog} />}
         <div className={classes.Wrapper}>
           <Panel
             isClickedDisplayLine={isClickedDisplayLine}

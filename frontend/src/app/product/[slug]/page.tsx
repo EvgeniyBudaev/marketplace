@@ -1,6 +1,6 @@
 import { URL_BASE } from "src/constants";
 import { ProductDetail } from "src/page";
-import { TProduct } from "src/types";
+import { TProduct } from "src/entities/products";
 
 async function getData(slug: string) {
   const res = await fetch(`${URL_BASE}/api/v1/products/${slug}`);
@@ -15,10 +15,12 @@ async function getData(slug: string) {
 }
 
 type TProps = {
-  params: {
+  params?: {
     slug: string;
   };
-  searchParams: any;
+  searchParams?: {
+    search?: string;
+  };
 };
 
 export default async function ProductPage(props: TProps) {
