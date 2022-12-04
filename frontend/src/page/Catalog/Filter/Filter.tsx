@@ -12,7 +12,7 @@ type TProps = {
 };
 
 export const Filter: FC<TProps> = ({ catalog }) => {
-  console.log("Filter catalog: ", catalog);
+  // console.log("Filter catalog: ", catalog);
   const mapToInitialState = (
     attributes: TCatalogAttributeItem[]
   ): { [key: string]: string[] } =>
@@ -23,7 +23,7 @@ export const Filter: FC<TProps> = ({ catalog }) => {
   // console.log("initialState: ", initialState);
   const [checked, setChecked] = useState(initialState);
   const router = useRouter();
-  console.log("checked: ", checked);
+  // console.log("checked: ", checked);
 
   const onChangeCheckedBox = (
     event: ChangeEvent<HTMLInputElement>,

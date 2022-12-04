@@ -2,40 +2,37 @@
 
 import { useRouter } from "next/navigation";
 import { FC, useCallback, useEffect, useState } from "react";
-import { TCatalog } from "src/entities/catalogs";
-import { TProduct, TProducts } from "src/entities/products";
 import { TParams } from "src/types";
 import { transformObjectToURLParams } from "src/utils";
-import { Filter } from "./Filter";
-import { Panel } from "./Panel";
 import { ProductList } from "./ProductList";
 import classes from "./Catalog.module.scss";
+import isNil from "lodash/isNil";
 
-type TProps = {
-  catalog?: TCatalog;
-  products?: TProducts;
+type TTodo = {
+  id: number;
+  title: string;
 };
 
-export const Catalog: FC<TProps> = ({ catalog, products }) => {
-  const initialProducts = products?.content ?? [];
-  const totalElements = products?.countOfResult ?? 0;
+type TProps = {
+  todos: TTodo[];
+};
 
+export const Todos: FC<TProps> = ({ todos }) => {
   const [isClickedDisplayLine, setIsClickedDisplayLine] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(false);
-  const [productList, setProductList] = useState<TProduct[]>([]);
+  const [productList, setProductList] = useState<TTodo[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
     if (fetching) {
       onLoad({
-        page: currentPage + 1,
-        size: 5,
+        _page: currentPage + 1,
       });
-      setProductList([...productList, ...initialProducts]);
+      setProductList([...productList, ...todos]);
       setCurrentPage(prevState => prevState + 1);
-      setTotalCount(totalElements);
+      setTotalCount(100);
     }
     setFetching(false);
   }, [fetching]);
@@ -45,14 +42,10 @@ export const Catalog: FC<TProps> = ({ catalog, products }) => {
     return () => document.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleDisplayLine = () => {
-    setIsClickedDisplayLine(prev => !prev);
-  };
-
   const onLoad = useCallback((params?: TParams) => {
-    if (catalog) {
+    if (todos) {
       router.push(
-        `/catalog/${catalog.alias}?${transformObjectToURLParams({ ...params })}`
+        `/catalog/mirrors?${transformObjectToURLParams({ ...params })}`
       );
     }
   }, []);
@@ -71,19 +64,16 @@ export const Catalog: FC<TProps> = ({ catalog, products }) => {
   return (
     <div className={classes.Catalog}>
       <div className={classes.Row}>
-        <h1 className={classes.Title}>{catalog?.name}</h1>
+        <h1 className={classes.Title}>Todos</h1>
       </div>
       <div className={classes.Inner}>
-        {catalog && <Filter catalog={catalog} />}
         <div className={classes.Wrapper}>
-          <Panel
-            isClickedDisplayLine={isClickedDisplayLine}
-            onDisplayLine={handleDisplayLine}
-          />
-          <ProductList
-            products={productList}
-            isClickedDisplayLine={isClickedDisplayLine}
-          />
+          {!isNil(todos) &&
+            todos.map(product => (
+              <div key={product.id} style={{ height: "50px" }}>
+                {product.title}
+              </div>
+            ))}
         </div>
       </div>
     </div>
