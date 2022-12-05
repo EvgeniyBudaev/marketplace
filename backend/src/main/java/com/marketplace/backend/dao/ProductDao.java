@@ -1,6 +1,6 @@
 package com.marketplace.backend.dao;
 
-import com.marketplace.backend.dto.request.product.RequestSaveProductDto;
+import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 

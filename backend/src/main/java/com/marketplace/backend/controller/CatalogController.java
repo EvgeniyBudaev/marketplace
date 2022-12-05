@@ -1,10 +1,10 @@
 package com.marketplace.backend.controller;
 
 import com.marketplace.backend.dao.CatalogDao;
-import com.marketplace.backend.dto.converters.CatalogConverters;
-import com.marketplace.backend.dto.request.catalog.RequestSaveCatalogDto;
-import com.marketplace.backend.dto.response.catalog.ResponseSingleCatalogDto;
-import com.marketplace.backend.dto.response.catalog.ResponseListCatalogDto;
+import com.marketplace.backend.dto.catalog.CatalogConverters;
+import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
+import com.marketplace.backend.dto.catalog.response.ResponseListCatalogDto;
+import com.marketplace.backend.dto.catalog.response.ResponseSingleCatalogDto;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import org.springframework.web.bind.annotation.*;

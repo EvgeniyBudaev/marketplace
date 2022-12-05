@@ -1,4 +1,4 @@
-package com.marketplace.backend.dto.request.product;
+package com.marketplace.backend.dto.product.request;
 
 
 import lombok.Data;

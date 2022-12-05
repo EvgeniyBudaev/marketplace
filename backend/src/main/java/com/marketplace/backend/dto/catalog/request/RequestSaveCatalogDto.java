@@ -1,4 +1,4 @@
-package com.marketplace.backend.dto.request.catalog;
+package com.marketplace.backend.dto.catalog.request;
 
 import lombok.Data;
 
@@ -19,4 +19,5 @@ public class RequestSaveCatalogDto {
     private String image;
     @NotNull
     private boolean enabled;
+
 }

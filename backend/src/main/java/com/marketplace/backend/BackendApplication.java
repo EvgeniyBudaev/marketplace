@@ -7,8 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackendApplication {
 
     /*TODO добавить ControllerAdvice*/
-    /*TODO обсудить стринговый Attribute*/
-    /*TODO доставать сущности только  enabled true*/
+    /*TODO добавить к Attribute признак того что по ним можно строить фильтры*/
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }

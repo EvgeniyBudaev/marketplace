@@ -2,8 +2,8 @@ package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.CatalogDao;
 import com.marketplace.backend.dao.ProductDao;
-import com.marketplace.backend.dto.converters.ProductConverters;
-import com.marketplace.backend.dto.request.product.RequestSaveProductDto;
+import com.marketplace.backend.dto.product.ProductConverters;
+import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
@@ -52,6 +52,7 @@ public class ProductService implements ProductDao {
         return  product;
     }
 
+
     @Override
     public Paging<Product> findProductsInCatalogByAlias(String alias, Integer page, Integer pageSize, Map<String,String> filters) {
         /*Получаем общее количество элементов результата запроса*/
@@ -62,10 +63,10 @@ public class ProductService implements ProductDao {
         Query resultQuery = entityManager.createQuery("SELECT p from Product as p where p.catalog.alias=:alias");
         resultQuery.setParameter("alias",alias);
         Paging<Product> result = new Paging<>(count,pageSize,Long.valueOf(page));
-            resultQuery.setFirstResult((page-1)*pageSize );
-            resultQuery.setMaxResults(pageSize);
-            result.setContent(resultQuery.getResultList());
-            return result;
+        resultQuery.setFirstResult((page-1)*pageSize );
+        resultQuery.setMaxResults(pageSize);
+        result.setContent(resultQuery.getResultList());
+        return result;
     }
 
     @Override

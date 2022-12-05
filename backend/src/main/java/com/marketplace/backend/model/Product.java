@@ -1,16 +1,20 @@
 package com.marketplace.backend.model;
 
+import com.marketplace.backend.model.values.BooleanValue;
 import com.marketplace.backend.model.values.DoubleValue;
-import com.marketplace.backend.model.values.IntegerValue;
 import com.marketplace.backend.model.values.SelectableValue;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "products")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,12 +45,12 @@ public class Product {
     @JoinColumn(name = "catalog_id",nullable = false)
     private Catalog catalog;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     private List<DoubleValue> doubleValues;
 
-    @OneToMany(mappedBy = "product")
-    private List<IntegerValue> integerValues;
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
+    private List<BooleanValue> booleanValues;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "products",fetch = FetchType.LAZY)
     private List<SelectableValue> selectableValues;
 }

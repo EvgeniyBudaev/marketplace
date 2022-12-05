@@ -1,8 +1,8 @@
 package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.CatalogDao;
-import com.marketplace.backend.dto.converters.CatalogConverters;
-import com.marketplace.backend.dto.request.catalog.RequestSaveCatalogDto;
+import com.marketplace.backend.dto.catalog.CatalogConverters;
+import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.repository.CatalogRepository;

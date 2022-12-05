@@ -1,11 +1,11 @@
-package com.marketplace.backend.dto.converters;
+package com.marketplace.backend.dto.product;
 
-import com.marketplace.backend.dto.request.product.RequestSaveProductDto;
-import com.marketplace.backend.dto.response.product.ResponseProductDto;
+import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Product;
+import com.marketplace.backend.model.values.BooleanValue;
 import com.marketplace.backend.model.values.DoubleValue;
-import com.marketplace.backend.model.values.IntegerValue;
 import com.marketplace.backend.model.values.SelectableValue;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ public class ProductConverters {
         responseDto.setPrice(product.getPrice());
         responseDto.setCount(String.valueOf(product.getCount()));
         responseDto.getAttributes().addAll(convertDoubleValueToDto(product.getDoubleValues()));
-        responseDto.getAttributes().addAll(convertIntegerValueToDto(product.getIntegerValues()));
+        responseDto.getAttributes().addAll(convertIntegerValueToDto(product.getBooleanValues()));
         responseDto.getAttributes().addAll(convertSelectValueToDto(product.getSelectableValues()));
         responseDto.setDescription(product.getDescription());
         responseDto.setRating(product.getRating());
@@ -57,15 +57,15 @@ public class ProductConverters {
         }
         return result;
     }
-    private List<ResponseProductDto.AttributeValueDto> convertIntegerValueToDto(List<IntegerValue> list){
+    private List<ResponseProductDto.AttributeValueDto> convertIntegerValueToDto(List<BooleanValue> list){
         List<ResponseProductDto.AttributeValueDto> result = new ArrayList<>();
         if (list==null){
             return result;
         }
-        for(IntegerValue integerValue:list){
+        for(BooleanValue booleanValue :list){
             ResponseProductDto.AttributeValueDto valueDto = new ResponseProductDto.AttributeValueDto();
-            valueDto.setValue(integerValue.getValue().toString());
-            valueDto.setAttributeName(integerValue.getAttribute().getName());
+            valueDto.setValue(booleanValue.getValue().toString());
+            valueDto.setAttributeName(booleanValue.getAttribute().getName());
             result.add(valueDto);
         }
         return result;

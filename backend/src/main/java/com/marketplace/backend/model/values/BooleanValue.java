@@ -8,12 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "integer_value")
+@Table(name = "boolean_value")
 @Getter
 @Setter
-public class IntegerValue extends BaseValue{
+public class BooleanValue extends BaseValue{
 
     @Column(name = "value")
-    private Integer value;
+    private Boolean value;
 
 }

@@ -1,15 +1,17 @@
 package com.marketplace.backend.model;
 
-import lombok.Data;
-import org.hibernate.annotations.SelectBeforeUpdate;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "catalogs")
-@Data
-@SelectBeforeUpdate
+@Getter
+@Setter
+@NoArgsConstructor
 public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,6 @@ public class Catalog {
     @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Product> products;
 
-   @ManyToMany(mappedBy = "catalog")
+   @ManyToMany(mappedBy = "catalog",fetch = FetchType.LAZY)
     private List<Attribute> attributes;
 }

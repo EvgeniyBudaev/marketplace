@@ -1,9 +1,9 @@
 package com.marketplace.backend.controller;
 
 import com.marketplace.backend.dao.ProductDao;
-import com.marketplace.backend.dto.converters.ProductConverters;
-import com.marketplace.backend.dto.request.product.RequestSaveProductDto;
-import com.marketplace.backend.dto.response.product.ResponseProductDto;
+import com.marketplace.backend.dto.product.ProductConverters;
+import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import lombok.extern.slf4j.Slf4j;

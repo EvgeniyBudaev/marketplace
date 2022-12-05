@@ -1,6 +1,7 @@
-package com.marketplace.backend.dto.response.catalog;
+package com.marketplace.backend.dto.catalog.response;
 
 import lombok.Data;
+
 import java.util.List;
 import java.util.Set;
 
