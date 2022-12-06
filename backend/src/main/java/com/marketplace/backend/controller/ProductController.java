@@ -4,14 +4,16 @@ import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
+import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -25,22 +27,38 @@ public class ProductController {
         this.productConverters = productConverters;
     }
 
-    @GetMapping("/page")
-    public Paging<ResponseProductDto> findProductInCatalogByAlias(@RequestParam(value = "catalog") String catalogAlias,
-                                                                  @RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                                  @RequestParam(name = "size", defaultValue = "5") Integer pageSize,
-                                                                  @RequestParam Map<String,String> filters){
-        if (page < 1) {
+    @GetMapping("/page/")
+    public Paging<ResponseProductDto> findProductInCatalog(@RequestParam MultiValueMap<String, String> allParameters){
+
+        int page;
+        List<String> pageList = allParameters.remove("page");
+        if(pageList==null){
             page = 1;
+        }else {
+            page = Integer.parseInt(pageList.get(0));
+            if(page<1){
+                page=1;
+            }
         }
-        if (pageSize <1){
+        int pageSize;
+        List<String> pageSizeList = allParameters.remove("pagesize");
+        if(pageList==null){
             pageSize = 5;
+        }else {
+            pageSize = Integer.parseInt(pageSizeList.get(0));
+            if(pageSize<5){
+                pageSize=5;
+            }
         }
-        Paging<Product> resultQuery= productDao.findProductsInCatalogByAlias(catalogAlias,page, pageSize, filters);
-        Paging<ResponseProductDto> result = new Paging<>(resultQuery.getCountOfResult(),pageSize,Long.valueOf(page));
-        result.setContent(resultQuery.getContent()
-                .stream().map(x->productConverters.convertProductToResponseProductDto(x,catalogAlias)).collect(Collectors.toList()));
-        return result;
+        List<String> catalogList = allParameters.remove("catalog");
+       if(catalogList==null){
+           throw new ResourceNotFoundException("В параметрах запроса не указан или указан неправильно каталог");
+       }
+        String catalogAlias = catalogList.get(0);
+        List<String> param = new ArrayList<>();
+        allParameters.values().forEach(param::addAll);
+        System.out.println(param);
+        return productDao.findProductsInCatalog(catalogAlias,page,pageSize,param);
     }
 
     @GetMapping("/by_alias")

@@ -4,6 +4,7 @@ import com.marketplace.backend.dao.CatalogDao;
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -54,7 +56,7 @@ public class ProductService implements ProductDao {
 
 
     @Override
-    public Paging<Product> findProductsInCatalogByAlias(String alias, Integer page, Integer pageSize, Map<String,String> filters) {
+    public Paging<ResponseProductDto> findProductsInCatalog(String alias, Integer page, Integer pageSize, List<String> param) {
         /*Получаем общее количество элементов результата запроса*/
         Query countQuery = entityManager.createQuery("SELECT count(p) from Product as p where p.catalog.alias=:alias");
         countQuery.setParameter("alias",alias);
@@ -62,10 +64,13 @@ public class ProductService implements ProductDao {
         /*Бъем на страницы*/
         Query resultQuery = entityManager.createQuery("SELECT p from Product as p where p.catalog.alias=:alias");
         resultQuery.setParameter("alias",alias);
-        Paging<Product> result = new Paging<>(count,pageSize,Long.valueOf(page));
+        Paging<ResponseProductDto> result = new Paging<>(count,pageSize,Long.valueOf(page));
         resultQuery.setFirstResult((page-1)*pageSize );
         resultQuery.setMaxResults(pageSize);
-        result.setContent(resultQuery.getResultList());
+        List<Product> productList = resultQuery.getResultList();
+        result.setContent(productList
+                .stream().map(x->productConverters.convertProductToResponseProductDto(x,alias))
+                .collect(Collectors.toList()));
         return result;
     }
 

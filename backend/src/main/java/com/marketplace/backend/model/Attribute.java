@@ -29,6 +29,9 @@ public class Attribute {
     @Column(name = "enabled")
     private Boolean enabled;
 
+    @Column(name = "filter")
+    private Boolean filter;
+
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private EAttributeType type;
