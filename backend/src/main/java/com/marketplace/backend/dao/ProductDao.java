@@ -1,18 +1,19 @@
 package com.marketplace.backend.dao;
 
-import com.marketplace.backend.dto.request.product.RequestSaveProductDto;
+import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
-import org.springframework.data.domain.Page;
 
-import java.util.List;
+import java.util.Map;
 
 public interface ProductDao extends GeneralDao<Product> {
-
-    Page<Product> productWithPage(Integer pageNumber,Integer countOfPage);
 
     Product findProductByAlias(String alias);
 
     Product save(RequestSaveProductDto dto);
 
-    List<Product> findProductsInCatalogByAlias(String alias);
+    Paging<Product> findProductsInCatalogByAlias(String alias,
+                                                 Integer page,
+                                                 Integer pageSize,
+                                                 Map<String,String> filters);
 }

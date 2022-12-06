@@ -1,15 +1,15 @@
 package com.marketplace.backend.controller;
 
 import com.marketplace.backend.dao.CatalogDao;
-import com.marketplace.backend.dto.converters.CatalogConverters;
-import com.marketplace.backend.dto.request.catalog.RequestSaveCatalogDto;
-import com.marketplace.backend.dto.response.catalog.ResponseCatalogDto;
+import com.marketplace.backend.dto.catalog.CatalogConverters;
+import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
+import com.marketplace.backend.dto.catalog.response.ResponseListCatalogDto;
+import com.marketplace.backend.dto.catalog.response.ResponseSingleCatalogDto;
+import com.marketplace.backend.model.Catalog;
+import com.marketplace.backend.model.Paging;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -18,45 +18,42 @@ public class CatalogController {
 
     private final CatalogDao catalogDao;
     private final CatalogConverters catalogConverters;
-    private final EntityManager entityManager;
 
-    public CatalogController(CatalogDao catalogDao, CatalogConverters catalogConverters, EntityManager entityManager) {
+    public CatalogController(CatalogDao catalogDao, CatalogConverters catalogConverters) {
         this.catalogDao = catalogDao;
         this.catalogConverters = catalogConverters;
-        this.entityManager = entityManager;
     }
 
-    @GetMapping
-    public List<ResponseCatalogDto> showAllCatalogs() {
-        return catalogDao.getAll().stream().map(catalogConverters::convertCatalogToResponseCatalogDto).collect(Collectors.toList());
+    @GetMapping("/page")
+    public Paging<ResponseListCatalogDto> showAllCatalogs(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                                                          @RequestParam(name = "size", defaultValue = "5") Integer pageSize) {
+        if (page < 1) {
+            page = 1;
+        }
+        if (pageSize <1){
+            pageSize = 5;
+        }
+        Paging<Catalog> resultQuery = catalogDao.getAll(page,pageSize);
+        Paging<ResponseListCatalogDto> result = new Paging<>(resultQuery.getCountOfResult(),pageSize,Long.valueOf(page));
+        result.setContent(resultQuery.getContent()
+                .stream().map(catalogConverters::convertCatalogToSimpleDto).collect(Collectors.toList()));
+        return result;
     }
 
-    @GetMapping("/{id}")
-    public ResponseCatalogDto getCatalogById(@PathVariable Long id) {
-        return catalogConverters.convertCatalogToResponseCatalogDto(catalogDao.findById(id));
-    }
-
-    @GetMapping("/{catalog}")
-    public ResponseCatalogDto getCatalogByAlias(@PathVariable String catalog) {
+    @GetMapping("/by_alias/{catalog}")
+    public ResponseSingleCatalogDto getCatalogByAlias(@PathVariable String catalog) {
         return catalogConverters.convertCatalogToResponseCatalogDto(catalogDao.findCatalogByAlias(catalog));
     }
 
     @PostMapping
-    public ResponseCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
+    public ResponseSingleCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
         return catalogConverters.convertCatalogToResponseCatalogDto(catalogDao.save(dto));
     }
 
 
-    /*Пока сделано так что невозможно удалить каталог если у него есть продукты*/
-    @DeleteMapping("{id}")
-    public String deleteCatalog(@PathVariable Long id) {
-        Query query = entityManager.createQuery("Select count (p.products) from Catalog as p where p.id=:id");
-        query.setParameter("id",id);
-        Integer count = (Integer) query.getSingleResult();
-        if(count>0){
-            throw  new RuntimeException("Каталог содержит продукты удаление невозможно");
-        }
-        catalogDao.delete(id);
-        return "Catalog with ID = " + id + " was deleted";
+    @DeleteMapping("{alias}")
+    public String deleteCatalog(@PathVariable String alias) {
+        catalogDao.delete(alias);
+        return "Catalog with alias = " + alias + " was deleted";
     }
 }

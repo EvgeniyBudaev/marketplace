@@ -1,19 +1,17 @@
 package com.marketplace.backend.model;
 
-import lombok.Data;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SelectBeforeUpdate;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "catalogs")
-@Data
-@DynamicUpdate
-@DynamicInsert
-@SelectBeforeUpdate
+@Getter
+@Setter
+@NoArgsConstructor
 public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +29,9 @@ public class Catalog {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Product> products;
+
+   @ManyToMany(mappedBy = "catalog",fetch = FetchType.LAZY)
+    private List<Attribute> attributes;
 }
