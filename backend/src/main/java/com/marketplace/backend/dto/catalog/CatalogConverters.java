@@ -5,10 +5,10 @@ import com.marketplace.backend.dto.catalog.response.ResponseListCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSingleCatalogDto;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
-import com.marketplace.backend.model.values.SelectableValue;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,8 +43,9 @@ public class CatalogConverters {
             dto.setId(attribute.getId());
             dto.setName(attribute.getName());
             dto.setAlias(attribute.getAlias());
-            dto.setValues(Set.copyOf(attribute.getSingleSelectableValue()
-                    .stream().map(SelectableValue::getValue).collect(Collectors.toList())));
+            dto.setValues(attribute.getSingleSelectableValue()
+                    .stream().map(x->new ResponseSingleCatalogDto
+                            .SelectValue(x.getId(),x.getValue())).collect(Collectors.toSet()));
             result.add(dto);
         }
         return result;

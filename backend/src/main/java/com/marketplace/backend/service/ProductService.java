@@ -75,18 +75,30 @@ public class ProductService implements ProductDao {
         List<Long> selectableValuesId = new ArrayList<>();
         selectedValue.forEach(attribute -> {
             List<String> attrIds = filters.get(attribute.getAlias());
-            System.out.println(attrIds.toString()+"size: "+attrIds.size());
             attrIds.forEach(s -> selectableValuesId.addAll(Arrays.stream(s.split(",")).map(Long::parseLong).toList()));
         });
         /*Получаем количество выбираемых результатов*/
+        String query;
+        if(!selectableValuesId.isEmpty()){
+            query= " from Product as p join p.selectableValues sv where sv.id in (:listId) and p.catalog.alias=:alias and p.enabled=true";
+        }else {
+            query = "from Product as p where p.catalog.alias=:alias and p.enabled=true";
+        }
         TypedQuery<Long> productCountQuery = entityManager
-                .createQuery("SELECT count (p) from Product as p join p.selectableValues sv where sv.id in (:listId) and p.catalog.alias=:alias", Long.class);
-        productCountQuery.setParameter("listId",selectableValuesId);
+                .createQuery("SELECT count (p) "+query, Long.class);
+        if(!selectableValuesId.isEmpty()){
+            System.out.println(selectableValuesId);
+            productCountQuery.setParameter("listId",selectableValuesId);
+        }
         productCountQuery.setParameter("alias",catalogAlias);
         Integer count  = Math.toIntExact(productCountQuery.getSingleResult());
+        /*Выбираем результаты*/
         TypedQuery<Product> productQueryResult = entityManager
-                .createQuery("SELECT p from Product as p join p.selectableValues sv where sv.id in (:listId) and p.catalog.alias=:alias", Product.class);
-        productQueryResult.setParameter("listId",selectableValuesId);
+                .createQuery("SELECT p "+query, Product.class);
+        if(!selectableValuesId.isEmpty()){
+            System.out.println(selectableValuesId);
+            productQueryResult.setParameter("listId",selectableValuesId);
+        }
         productQueryResult.setParameter("alias",catalogAlias);
         Paging<ResponseProductDto> result = new Paging<>(count,pageSize,page);
         productQueryResult.setFirstResult((result.getCurrentPage()-1)* result.getPageSize() );
