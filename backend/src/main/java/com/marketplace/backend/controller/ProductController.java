@@ -12,7 +12,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -55,10 +54,8 @@ public class ProductController {
            throw new ResourceNotFoundException("В параметрах запроса не указан или указан неправильно каталог");
        }
         String catalogAlias = catalogList.get(0);
-        List<String> param = new ArrayList<>();
-        allParameters.values().forEach(param::addAll);
-        System.out.println(param);
-        return productDao.findProductsInCatalog(catalogAlias,page,pageSize,param);
+
+        return productDao.findProductsInCatalog(catalogAlias,page,pageSize,allParameters);
     }
 
     @GetMapping("/by_alias")

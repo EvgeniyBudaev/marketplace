@@ -34,7 +34,7 @@ public class CatalogController {
             pageSize = 5;
         }
         Paging<Catalog> resultQuery = catalogDao.getAll(page,pageSize);
-        Paging<ResponseListCatalogDto> result = new Paging<>(resultQuery.getCountOfResult(),pageSize,Long.valueOf(page));
+        Paging<ResponseListCatalogDto> result = new Paging<>(resultQuery.getCountOfResult(),pageSize,page);
         result.setContent(resultQuery.getContent()
                 .stream().map(catalogConverters::convertCatalogToSimpleDto).collect(Collectors.toList()));
         return result;

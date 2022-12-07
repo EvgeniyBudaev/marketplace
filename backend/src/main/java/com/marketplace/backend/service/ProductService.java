@@ -5,16 +5,19 @@ import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
-import com.marketplace.backend.model.Catalog;
-import com.marketplace.backend.model.Paging;
-import com.marketplace.backend.model.Product;
+import com.marketplace.backend.model.*;
 import com.marketplace.backend.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -56,21 +59,41 @@ public class ProductService implements ProductDao {
 
 
     @Override
-    public Paging<ResponseProductDto> findProductsInCatalog(String alias, Integer page, Integer pageSize, List<String> param) {
-        /*Получаем общее количество элементов результата запроса*/
-        Query countQuery = entityManager.createQuery("SELECT count(p) from Product as p where p.catalog.alias=:alias");
-        countQuery.setParameter("alias",alias);
-        Long count = (Long) countQuery.getSingleResult();
-        /*Бъем на страницы*/
-        Query resultQuery = entityManager.createQuery("SELECT p from Product as p where p.catalog.alias=:alias");
-        resultQuery.setParameter("alias",alias);
-        Paging<ResponseProductDto> result = new Paging<>(count,pageSize,Long.valueOf(page));
-        resultQuery.setFirstResult((page-1)*pageSize );
-        resultQuery.setMaxResults(pageSize);
-        List<Product> productList = resultQuery.getResultList();
-        result.setContent(productList
-                .stream().map(x->productConverters.convertProductToResponseProductDto(x,alias))
-                .collect(Collectors.toList()));
+    public Paging<ResponseProductDto> findProductsInCatalog(String catalogAlias, Integer page, Integer pageSize, MultiValueMap<String, String> filters) {
+        Set<String> attributesAlias = filters.keySet();
+        TypedQuery<Attribute> attributeQuery = entityManager.createQuery("SELECT a from Attribute as a where a.alias in (:list)",Attribute.class);
+        attributeQuery.setParameter("list",attributesAlias);
+        List<Attribute>  attributes = attributeQuery.getResultList();
+        /*Разбераем наши аттрибуты по типам значений в них*/
+        List<Attribute> selectedValue = attributes.stream()
+                .filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
+        List<Attribute> doubleValue = attributes.stream()
+                .filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
+        List<Attribute> booleanValue = attributes.stream()
+                .filter(x -> x.getType().equals(EAttributeType.BOOLEAN)).toList();
+        /*Выбираем id всех SelectableValue*/
+        List<Long> selectableValuesId = new ArrayList<>();
+        selectedValue.forEach(attribute -> {
+            List<String> attrIds = filters.get(attribute.getAlias());
+            System.out.println(attrIds.toString()+"size: "+attrIds.size());
+            attrIds.forEach(s -> selectableValuesId.addAll(Arrays.stream(s.split(",")).map(Long::parseLong).toList()));
+        });
+        /*Получаем количество выбираемых результатов*/
+        TypedQuery<Long> productCountQuery = entityManager
+                .createQuery("SELECT count (p) from Product as p join p.selectableValues sv where sv.id in (:listId) and p.catalog.alias=:alias", Long.class);
+        productCountQuery.setParameter("listId",selectableValuesId);
+        productCountQuery.setParameter("alias",catalogAlias);
+        Integer count  = Math.toIntExact(productCountQuery.getSingleResult());
+        TypedQuery<Product> productQueryResult = entityManager
+                .createQuery("SELECT p from Product as p join p.selectableValues sv where sv.id in (:listId) and p.catalog.alias=:alias", Product.class);
+        productQueryResult.setParameter("listId",selectableValuesId);
+        productQueryResult.setParameter("alias",catalogAlias);
+        Paging<ResponseProductDto> result = new Paging<>(count,pageSize,page);
+        productQueryResult.setFirstResult((result.getCurrentPage()-1)* result.getPageSize() );
+        productQueryResult.setMaxResults(pageSize);
+        result.setContent(productQueryResult
+                .getResultList().stream().map(x->productConverters
+                        .convertProductToResponseProductDto(x,catalogAlias)).collect(Collectors.toList()));
         return result;
     }
 

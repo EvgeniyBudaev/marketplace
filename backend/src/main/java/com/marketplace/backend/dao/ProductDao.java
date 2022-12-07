@@ -4,8 +4,7 @@ import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
-
-import java.util.List;
+import org.springframework.util.MultiValueMap;
 
 public interface ProductDao extends GeneralDao<Product> {
 
@@ -13,8 +12,8 @@ public interface ProductDao extends GeneralDao<Product> {
 
     Product save(RequestSaveProductDto dto);
 
-    Paging<ResponseProductDto> findProductsInCatalog(String alias,
+    Paging<ResponseProductDto> findProductsInCatalog(String catalogAlias,
                                                      Integer page,
                                                      Integer pageSize,
-                                                     List<String> filters);
+                                                     MultiValueMap<String, String> filters);
 }

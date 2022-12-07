@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,13 +41,13 @@ public class AttributeService implements AttributeDao {
     @Override
     @Transactional
     public Paging<ResponseAttributeForGetAll> showAllAttribute(Integer page,Integer pageSize){
-        Query query = entityManager.createQuery("SELECT count (a) from Attribute a where a.enabled=true");
-        Long count = (Long) query.getSingleResult();
-        Paging<ResponseAttributeForGetAll> result = new Paging<>(count,pageSize,Long.valueOf(page));
-        Query resultQuery = entityManager.createQuery("SELECT a from Attribute a where a.enabled=true");
+        TypedQuery<Long> query = entityManager.createQuery("SELECT count (a) from Attribute a where a.enabled=true",Long.class);
+        Integer count =  Math.toIntExact(query.getSingleResult());
+        Paging<ResponseAttributeForGetAll> result = new Paging<>(count,pageSize,page);
+        TypedQuery<Attribute> resultQuery = entityManager.createQuery("SELECT a from Attribute a where a.enabled=true", Attribute.class);
         resultQuery.setFirstResult((page-1)*pageSize );
         resultQuery.setMaxResults(pageSize);
-        result.setContent(resultQuery.getResultList());
+        result.setContent(resultQuery.getResultList().stream().map(ResponseAttributeForGetAll::new).collect(Collectors.toList()));
         return result;
     }
 

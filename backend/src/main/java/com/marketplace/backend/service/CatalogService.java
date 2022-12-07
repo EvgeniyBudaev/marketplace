@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 @Service
 public class CatalogService implements CatalogDao {
@@ -46,11 +47,10 @@ public class CatalogService implements CatalogDao {
     @Override
     @Transactional
     public Paging<Catalog> getAll(Integer page, Integer pageSize) {
-       Query countQuery = entityManager.createQuery("select count (c) from Catalog as c where c.enabled=true");
-       Long count = (Long) countQuery.getSingleResult();
-
-       Query resultQuery = entityManager.createQuery("select c from Catalog  as c where c.enabled=true");
-       Paging<Catalog> result = new Paging<>(count,pageSize,Long.valueOf(page));
+       TypedQuery<Long> countQuery = entityManager.createQuery("select count (c) from Catalog as c where c.enabled=true", Long.class);
+       Integer count = Math.toIntExact(countQuery.getSingleResult());
+       TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c where c.enabled=true", Catalog.class);
+       Paging<Catalog> result = new Paging<>(count,pageSize,page);
        result.setContent(resultQuery.getResultList());
        return result;
     }
@@ -59,9 +59,9 @@ public class CatalogService implements CatalogDao {
     @Override
     @Transactional
     public void delete(String alias) {
-        Query query = entityManager.createQuery("Select count (p.products) from Catalog as p where p.alias=:alias");
+        TypedQuery<Long> query = entityManager.createQuery("Select count (p.products) from Catalog as p where p.alias=:alias", Long.class);
         query.setParameter("alias",alias);
-        Integer count = (Integer) query.getSingleResult();
+        int count = Math.toIntExact(query.getSingleResult());
         if(count>0){
             throw  new RuntimeException("Каталог содержит продукты удаление невозможно");
         }
