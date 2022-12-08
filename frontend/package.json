@@ -6,7 +6,7 @@
     "dev": "concurrently \"npm run sass\" \"remix dev\"",
     "start": "remix-serve build",
     "typecheck": "tsc -b",
-    "sass": "sass --watch app/:app/"
+    "sass": "sass --watch app/:app/ styles/:styles/ -I styles"
   },
   "dependencies": {
     "@remix-run/node": "^1.8.1",

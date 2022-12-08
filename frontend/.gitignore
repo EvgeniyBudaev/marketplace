@@ -4,3 +4,8 @@ node_modules
 /build
 /public/build
 .env
+
+/styles/*.css
+/styles/*.css.map
+/app/pages/*/*.css
+/app/pages/*/*.css.map
