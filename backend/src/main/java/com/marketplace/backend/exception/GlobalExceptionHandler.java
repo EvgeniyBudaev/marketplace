@@ -12,6 +12,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<AppError> catchResourceNotFoundException(ResourceNotFoundException e) {
         log.error(e.getMessage(), e);
-        return new ResponseEntity<>(new AppError(HttpStatus.NOT_FOUND.name(), e.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new AppError(HttpStatus.NOT_FOUND.name(),
+                e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchBadRequestParam(IllegalRequestParam e){
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.name(),
+                e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

@@ -5,19 +5,20 @@ import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
-import com.marketplace.backend.model.*;
+import com.marketplace.backend.model.Attribute;
+import com.marketplace.backend.model.Catalog;
+import com.marketplace.backend.model.Paging;
+import com.marketplace.backend.model.Product;
 import com.marketplace.backend.repository.ProductRepository;
+import com.marketplace.backend.service.utils.queryes.ProductQueryResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -59,53 +60,35 @@ public class ProductService implements ProductDao {
 
 
     @Override
-    public Paging<ResponseProductDto> findProductsInCatalog(String catalogAlias, Integer page, Integer pageSize, MultiValueMap<String, String> filters) {
-        Set<String> attributesAlias = filters.keySet();
+    public Paging<ResponseProductDto> findProductsInCatalog(ProductQueryResolver resolver) {
+
         TypedQuery<Attribute> attributeQuery = entityManager.createQuery("SELECT a from Attribute as a where a.alias in (:list)",Attribute.class);
-        attributeQuery.setParameter("list",attributesAlias);
-        List<Attribute>  attributes = attributeQuery.getResultList();
-        /*Разбераем наши аттрибуты по типам значений в них*/
-        List<Attribute> selectedValue = attributes.stream()
-                .filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
-        List<Attribute> doubleValue = attributes.stream()
-                .filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
-        List<Attribute> booleanValue = attributes.stream()
-                .filter(x -> x.getType().equals(EAttributeType.BOOLEAN)).toList();
-        /*Выбираем id всех SelectableValue*/
-        List<Long> selectableValuesId = new ArrayList<>();
-        selectedValue.forEach(attribute -> {
-            List<String> attrIds = filters.get(attribute.getAlias());
-            attrIds.forEach(s -> selectableValuesId.addAll(Arrays.stream(s.split(",")).map(Long::parseLong).toList()));
-        });
+        attributeQuery.setParameter("list",resolver.getAttributesAlias());
+        List<Attribute> res1 = attributeQuery.getResultList();
+        res1.forEach(x-> System.out.println(x.getId()+" "+x.getAlias()));
+        resolver.setAttributes(res1);
+
         /*Получаем количество выбираемых результатов*/
-        String query;
-        if(!selectableValuesId.isEmpty()){
-            query= " from Product as p join p.selectableValues sv where sv.id in (:listId) and p.catalog.alias=:alias and p.enabled=true";
-        }else {
-            query = "from Product as p where p.catalog.alias=:alias and p.enabled=true";
-        }
-        TypedQuery<Long> productCountQuery = entityManager
-                .createQuery("SELECT count (p) "+query, Long.class);
-        if(!selectableValuesId.isEmpty()){
-            System.out.println(selectableValuesId);
-            productCountQuery.setParameter("listId",selectableValuesId);
-        }
-        productCountQuery.setParameter("alias",catalogAlias);
-        Integer count  = Math.toIntExact(productCountQuery.getSingleResult());
-        /*Выбираем результаты*/
+
+        TypedQuery<Long> productQueryCount = entityManager
+                .createQuery(resolver.getCountWithFilters(),Long.class);
         TypedQuery<Product> productQueryResult = entityManager
-                .createQuery("SELECT p "+query, Product.class);
-        if(!selectableValuesId.isEmpty()){
-            System.out.println(selectableValuesId);
-            productQueryResult.setParameter("listId",selectableValuesId);
+                .createQuery(resolver.getSelectWithFilters(), Product.class);
+        for (Map.Entry<String, Object> entry : resolver.getQueryParameters().entrySet()) {
+            productQueryCount.setParameter(entry.getKey(), entry.getValue());
+            productQueryResult.setParameter(entry.getKey(), entry.getValue());
         }
-        productQueryResult.setParameter("alias",catalogAlias);
-        Paging<ResponseProductDto> result = new Paging<>(count,pageSize,page);
+        Integer count  = Math.toIntExact(productQueryCount.getSingleResult());
+        /*Выбираем результаты*/
+        Paging<ResponseProductDto> result =
+                new Paging<>(count,resolver.getPageSize(), resolver.getCurrentPage());
         productQueryResult.setFirstResult((result.getCurrentPage()-1)* result.getPageSize() );
-        productQueryResult.setMaxResults(pageSize);
+        productQueryResult.setMaxResults(resolver.getPageSize());
         result.setContent(productQueryResult
                 .getResultList().stream().map(x->productConverters
-                        .convertProductToResponseProductDto(x,catalogAlias)).collect(Collectors.toList()));
+                        .convertProductToResponseProductDto(x, resolver.getCatalogAlias())).collect(Collectors.toList()));
+       /* TypedQuery<Product> query = entityManager
+                .createQuery("SELECT p from Product as p left join p.doubleValues as dv where (dv.attribute.id=5 and dv.value between 40 and 70)", Product.class);*/
         return result;
     }
 

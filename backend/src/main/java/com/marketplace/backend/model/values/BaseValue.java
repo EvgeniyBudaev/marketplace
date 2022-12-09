@@ -15,6 +15,7 @@ public class BaseValue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @ManyToOne
     @JoinColumn(name = "attribute_id",nullable = false)
     private Attribute attribute;

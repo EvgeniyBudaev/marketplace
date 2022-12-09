@@ -4,7 +4,7 @@ import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
-import org.springframework.util.MultiValueMap;
+import com.marketplace.backend.service.utils.queryes.ProductQueryResolver;
 
 public interface ProductDao extends GeneralDao<Product> {
 
@@ -12,8 +12,5 @@ public interface ProductDao extends GeneralDao<Product> {
 
     Product save(RequestSaveProductDto dto);
 
-    Paging<ResponseProductDto> findProductsInCatalog(String catalogAlias,
-                                                     Integer page,
-                                                     Integer pageSize,
-                                                     MultiValueMap<String, String> filters);
+    Paging<ResponseProductDto> findProductsInCatalog(ProductQueryResolver resolver);
 }
