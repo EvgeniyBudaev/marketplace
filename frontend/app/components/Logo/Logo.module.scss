@@ -1,0 +1,51 @@
+@import "component";
+
+.Logo {
+  $this: &;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: max-content;
+
+  &#{$this}__isHomePage {
+    & svg {
+      fill: white;
+    }
+  }
+
+  svg {
+    max-width: 100px;
+    width: 50px;
+    height: 50px;
+    fill: $color-text;
+    opacity: 0.9;
+    transition: all 0.15s;
+
+    path {
+      transition: all 0.15s;
+    }
+
+    &:hover {
+      fill: $color-beige;
+      opacity: 1;
+
+      path {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .Logo {
+    height: 35px;
+    width: 35px;
+  }
+}
+
+@media (max-width: 350px) {
+  .Logo {
+    height: 24px;
+    width: 24px;
+  }
+}

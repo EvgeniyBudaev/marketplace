@@ -1,0 +1,37 @@
+@import "component";
+
+/* ----- Выпадающее окно в поиске ----- */
+
+$maxWidth: 620px;
+
+.SearchDropDownWindow {
+  content: "";
+  position: absolute;
+  top: 50px;
+  max-width: $maxWidth;
+  width: 100%;
+  height: max-content;
+  background-color: $color-white;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  z-index: 101;
+
+  &.enter {
+    opacity: 0;
+  }
+
+  &.enter-active {
+    opacity: 1;
+    transition: opacity $transition;
+  }
+
+  &.exit {
+    opacity: 1;
+    transition: opacity $transition;
+  }
+
+  &.exit-active {
+    opacity: 0;
+    transition: opacity $transition;
+  }
+}

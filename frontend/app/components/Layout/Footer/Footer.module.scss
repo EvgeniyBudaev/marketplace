@@ -1,0 +1,79 @@
+@import "component";
+
+.Footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 15px;
+  min-height: 50px;
+  width: 100%;
+  background-color: #dfd5c3;
+  overflow-y: hidden;
+  z-index: 1;
+
+  &-Inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &-LogoWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  &-Copy {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-Text {
+    margin-left: 32px;
+    text-align: center;
+    color: $color-alto-gray;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &-Link {
+    color: $color-text;
+    transition: all 0.15s;
+
+    &:hover {
+      color: $color-hover;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .Footer-LogoWrapper {
+    & svg {
+      max-width: max-content;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .Footer-LogoWrapper {
+    .Footer-Logo {
+      max-width: max-content;
+    }
+    & svg {
+      max-width: max-content;
+    }
+  }
+  .Footer-Copy {
+    flex-direction: column;
+  }
+  .Footer-Text {
+    margin-bottom: 8px;
+    margin-left: 0;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

@@ -1,10 +1,9 @@
-import {About, links as aboutLinks} from "~/pages/About";
+import { About, aboutLinks } from "~/pages/About";
 
 export default function AboutPage() {
-    return <About />
+  return <About />;
 }
 
 export function links() {
-    return [...aboutLinks()];
+  return [...aboutLinks()];
 }
-

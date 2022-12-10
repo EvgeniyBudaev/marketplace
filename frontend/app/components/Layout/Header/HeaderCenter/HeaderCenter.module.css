@@ -1,0 +1,127 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.HeaderCenter {
+  height: 100px;
+  background-color: transparent;
+  transition: all 0.15s;
+  z-index: 102;
+}
+.HeaderCenter__isHomePage .Text {
+  color: white;
+}
+.HeaderCenter__isScroll {
+  height: 60px;
+  background-color: white;
+  z-index: 102;
+}
+.HeaderCenter__isScroll .HeaderCenter-Inner {
+  height: 60px;
+}
+.HeaderCenter-Container {
+  max-width: 1230px;
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+.HeaderCenter-Inner {
+  display: flex;
+  align-items: center;
+  height: 100px;
+  transition: all 0.15s;
+}
+.HeaderCenter-InnerDesktop {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.HeaderCenter-ButtonSidebar {
+  padding: 10px;
+}
+.HeaderCenter-Mobile {
+  display: none;
+  width: 100%;
+}
+.HeaderCenter-Text {
+  color: rgb(51, 51, 51);
+  transition: all 0.15s;
+}
+.HeaderCenter-Text:hover {
+  color: rgb(176, 151, 106);
+}
+
+@media (max-width: 1000px) {
+  .HeaderCenter-ButtonCatalogText {
+    display: none;
+    padding: 10px 26px;
+    width: 44px;
+  }
+}
+@media (max-width: 768px) {
+  .HeaderCenter {
+    height: 60px;
+  }
+  .HeaderCenter .HeaderCenter-SearchControlsDesktop {
+    display: none;
+  }
+  .HeaderCenter .HeaderCenter-LogoMobile {
+    max-width: max-content;
+  }
+  .HeaderCenter .HeaderCenter-LogoMobile svg {
+    max-width: max-content;
+  }
+  .HeaderCenter .HeaderCenter-HeaderIconsListMobile {
+    max-width: max-content;
+  }
+  .HeaderCenter .HeaderCenter-ButtonSidebar {
+    background-color: rgb(255, 255, 255);
+    box-shadow: none;
+  }
+  .HeaderCenter .HeaderCenter-ButtonSidebar__isHomePage {
+    background-color: transparent;
+  }
+  .HeaderCenter-Inner {
+    height: 60px;
+  }
+  .HeaderCenter-InnerDesktop {
+    display: none;
+  }
+  .HeaderCenter-Desktop {
+    display: none;
+  }
+  .HeaderCenter-Mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/*# sourceMappingURL=HeaderCenter.module.css.map */

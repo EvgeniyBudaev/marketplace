@@ -1,0 +1,48 @@
+@charset "UTF-8";
+.Layout {
+  height: 100%;
+}
+.Layout-Wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.Layout-Content {
+  flex: 1 0 auto;
+}
+.Layout-Main {
+  padding-top: 0;
+  height: 100%;
+}
+.Layout-Main__isScroll {
+  padding-top: 120px;
+}
+.Layout-Container {
+  /*ширина контейнера чистая 1200px*/
+  margin: 0 auto;
+  padding: 0 15px;
+  max-width: 1230px;
+  width: 100%;
+}
+.Layout-Container__is404 {
+  padding: 0;
+  max-width: 100%;
+}
+.Layout-ContainerHomePage {
+  /*ширина контейнера чистая 1440px*/
+  max-width: 1470px;
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .Layout-Main {
+    padding-top: 0;
+  }
+  .Layout-Main__isScroll {
+    padding-top: 140px;
+  }
+}
+
+/*# sourceMappingURL=Layout.module.css.map */

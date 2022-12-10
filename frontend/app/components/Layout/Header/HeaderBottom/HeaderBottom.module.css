@@ -1,0 +1,155 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.HeaderBottom {
+  display: flex;
+  position: relative;
+  height: 44px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.HeaderBottom::before,
+.HeaderBottom:after {
+  height: 44px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.HeaderBottom::before {
+  left: -100%;
+  top: 0;
+}
+.HeaderBottom:after {
+  right: -100%;
+  top: -1px;
+}
+.HeaderBottom__catalogOpen {
+  border-top: 1px solid white;
+  box-shadow: none;
+}
+.HeaderBottom__catalogOpen .HeaderBottom-Link {
+  display: none;
+}
+.HeaderBottom__isHomePage {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.HeaderBottom__isHomePage::before,
+.HeaderBottom__isHomePage:after {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.HeaderBottom__isHomePage .HeaderBottom-Text {
+  color: white;
+}
+.HeaderBottom .HeaderBottom-SearchControlsMobile {
+  display: none;
+  max-width: 100%;
+}
+.HeaderBottom-Container {
+  max-width: 1230px;
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+.HeaderBottom-Desktop {
+  display: block;
+  width: 100%;
+}
+.HeaderBottom-Info {
+  width: 100%;
+}
+.HeaderBottom-InfoInner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.HeaderBottom-InfoLeft,
+.HeaderBottom-InfoRight {
+  display: flex;
+}
+.HeaderBottom-InfoLeft .HeaderBottom-Text {
+  margin-right: 25px;
+}
+.HeaderBottom-InfoLeft .HeaderBottom-Text:last-child {
+  margin-right: 0;
+}
+.HeaderBottom-InfoRight .HeaderBottom-Text:last-child {
+  margin-left: 25px;
+}
+.HeaderBottom-Text {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin-left: 25px;
+  color: rgb(51, 51, 51);
+  transition: all 0.15s;
+}
+.HeaderBottom-Text__isActive {
+  color: rgb(176, 151, 106);
+}
+.HeaderBottom-Text:hover {
+  color: rgb(176, 151, 106);
+}
+.HeaderBottom-ButtonCatalog {
+  top: -1px;
+  height: 42px;
+  border-radius: 0;
+  box-shadow: none;
+}
+.HeaderBottom-ButtonCatalog span {
+  display: flex;
+  justify-content: center;
+}
+.HeaderBottom-ButtonCatalogText {
+  margin-left: 12px;
+}
+
+@media (max-width: 768px) {
+  .HeaderBottom {
+    border-top: 1px solid transparent;
+    padding-bottom: 16px;
+  }
+  .HeaderBottom-Desktop {
+    display: none;
+  }
+  .HeaderBottom .HeaderBottom-SearchControlsMobile {
+    display: block;
+    max-width: 100%;
+  }
+}
+@media (max-width: 500px) {
+  .HeaderBottom {
+    padding-bottom: 8px;
+    margin-top: -10px;
+  }
+}
+
+/*# sourceMappingURL=HeaderBottom.module.css.map */
