@@ -1,0 +1,24 @@
+.Filter {
+  min-width: 224px;
+  margin-right: 20px;
+  margin-top: 47px;
+}
+.Filter-Desktop {
+  display: flex;
+  flex-direction: column;
+  margin-top: -8px;
+}
+.Filter-CheckboxItem + .Filter-CheckboxItem {
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .Filter {
+    margin-top: 0;
+  }
+  .Filter-Desktop {
+    display: none;
+  }
+}
+
+/*# sourceMappingURL=Filter.module.css.map */

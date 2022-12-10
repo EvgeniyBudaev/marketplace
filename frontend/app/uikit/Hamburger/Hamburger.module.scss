@@ -1,0 +1,95 @@
+@import "component";
+
+.Hamburger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+
+  &__actve {
+  }
+
+  &__isHomePage {
+  }
+
+  &-Burger {
+    $this: &;
+    position: relative;
+    width: 18px;
+    height: 2px;
+    border-radius: 5px;
+    transition: all 0.15s ease-in-out;
+
+    &__black {
+      background-color: $color-text;
+
+      &::before,
+      &::after {
+        background-color: $color-text;
+      }
+    }
+
+    &__white {
+      background-color: $color-white;
+
+      &::before,
+      &::after {
+        background-color: $color-white;
+      }
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 18px;
+      height: 2px;
+      border-radius: 5px;
+      transition: all 0.15s ease-in-out;
+    }
+
+    &::before {
+      transform: translateY(-5px);
+    }
+
+    &::after {
+      transform: translateY(5px);
+    }
+
+    &__active {
+      transform: translateX(-18px);
+      background-color: transparent;
+      box-shadow: none;
+
+      &::before {
+        transform: rotate(45deg) translate(10px, -10px);
+      }
+
+      &::after {
+        transform: rotate(-45deg) translate(10px, 10px);
+      }
+    }
+
+    &__isHomePage {
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .Hamburger {
+    width: 18px;
+    height: 18px;
+
+    &-Burger {
+      width: 16px;
+      &::before,
+      &::after {
+        width: 16px;
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+@import "component";
+
+.Header {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  opacity: 1;
+  z-index: 102;
+
+  &-Wrapper {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+    height: max-content;
+    background-color: white;
+    box-shadow: 0 1rem 1.7rem rgba(0, 0, 0, 0.05);
+    z-index: 102;
+
+    &__isCatalogOpen {
+      box-shadow: none;
+    }
+
+    &__isHomePage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: transparent;
+    }
+
+    &__isScroll {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      z-index: 102;
+    }
+  }
+
+  &-Banner {
+    &__isScroll {
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .Header-Wrapper {
+    height: 90px;
+
+    &__isScroll {
+      height: 100px;
+    }
+  }
+}

@@ -1,0 +1,75 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Header {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  opacity: 1;
+  z-index: 102;
+}
+.Header-Wrapper {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  height: max-content;
+  background-color: white;
+  box-shadow: 0 1rem 1.7rem rgba(0, 0, 0, 0.05);
+  z-index: 102;
+}
+.Header-Wrapper__isCatalogOpen {
+  box-shadow: none;
+}
+.Header-Wrapper__isHomePage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: transparent;
+}
+.Header-Wrapper__isScroll {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 102;
+}
+@media (max-width: 500px) {
+  .Header-Wrapper {
+    height: 90px;
+  }
+  .Header-Wrapper__isScroll {
+    height: 100px;
+  }
+}
+
+/*# sourceMappingURL=Header.module.css.map */

@@ -1,0 +1,121 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Search {
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 620px;
+  width: 100%;
+  background-color: transparent;
+}
+.Search__isHomePage .SearchInputWrapper {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+.Search__isHomePage .SearchInput {
+  color: white;
+}
+.Search__isHomePage .SearchInput::placeholder {
+  color: white;
+}
+.Search__isHomePage .SearchIcon svg {
+  fill: rgba(255, 255, 255, 0.9);
+}
+.Search__isHomePage.Search__active .SearchInput {
+  background-color: transparent;
+}
+.Search-Form {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+.Search-InputWrapper {
+  padding: 0;
+  width: 100%;
+  height: 44px;
+  background-color: transparent;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.Search-Input {
+  margin: 0;
+  padding: 0 50px 0 16px;
+  width: 100%;
+  height: 44px;
+  color: rgb(51, 51, 51);
+  background-color: transparent;
+  border: none;
+  outline: transparent;
+}
+.Search-Input::placeholder {
+  color: rgb(51, 51, 51);
+}
+.Search-Icon {
+  position: absolute;
+  right: 15px;
+  width: 24px;
+  height: 24px;
+}
+.Search-Icon svg {
+  fill: rgb(51, 51, 51);
+}
+.Search__active {
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  z-index: 101;
+}
+.Search__active .SearchInputWrapper {
+  border: 2px solid transparent;
+}
+.Search__active .SearchInput {
+  background-color: white;
+}
+.Search__active .SearchButton {
+  height: 44px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 768px) {
+  .Search-Input {
+    height: 44px;
+  }
+  .Search-InputWrapper {
+    border: none;
+  }
+  .Search-Icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/*# sourceMappingURL=Search.module.css.map */
