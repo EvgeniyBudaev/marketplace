@@ -6,12 +6,13 @@ import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
+import com.marketplace.backend.service.utils.queryes.ProductQueryResolver;
+import com.marketplace.backend.service.utils.queryes.ProductQueryResolverImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -25,22 +26,11 @@ public class ProductController {
         this.productConverters = productConverters;
     }
 
-    @GetMapping("/page")
-    public Paging<ResponseProductDto> findProductInCatalogByAlias(@RequestParam(value = "catalog") String catalogAlias,
-                                                                  @RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                                  @RequestParam(name = "size", defaultValue = "5") Integer pageSize,
-                                                                  @RequestParam Map<String,String> filters){
-        if (page < 1) {
-            page = 1;
-        }
-        if (pageSize <1){
-            pageSize = 5;
-        }
-        Paging<Product> resultQuery= productDao.findProductsInCatalogByAlias(catalogAlias,page, pageSize, filters);
-        Paging<ResponseProductDto> result = new Paging<>(resultQuery.getCountOfResult(),pageSize,Long.valueOf(page));
-        result.setContent(resultQuery.getContent()
-                .stream().map(x->productConverters.convertProductToResponseProductDto(x,catalogAlias)).collect(Collectors.toList()));
-        return result;
+    @GetMapping("/page/")
+    public Paging<ResponseProductDto> findProductInCatalog(HttpServletRequest request){
+        ProductQueryResolver resolver = new ProductQueryResolverImpl();
+        resolver.resolveQuery(request.getQueryString());
+        return productDao.findProductsInCatalog(resolver);
     }
 
     @GetMapping("/by_alias")

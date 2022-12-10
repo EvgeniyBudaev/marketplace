@@ -12,12 +12,14 @@ public class BaseAttributeDto {
     private String name;
     private String alias;
     private EAttributeType type;
+    private Boolean filter;
 
-    public BaseAttributeDto(){};
+    public BaseAttributeDto(){}
     public BaseAttributeDto(Attribute attribute){
         this.setId(attribute.getId());
         this.setAlias(attribute.getAlias());
         this.setName(attribute.getName());
         this.setType(attribute.getType());
+        this.setFilter(attribute.getFilter());
     }
 }

@@ -18,7 +18,7 @@ databaseChangeLog:
   - include:
       file: db/changelog/v1/create/add-foreign-key-products.sql
   - include:
-      file: db/changelog/v1/create/add-foreign-key-attribute-integer_value.sql
+      file: db/changelog/v1/create/add-foreign-key-attribute-boolean_value.sql
   - include:
       file: db/changelog/v1/create/add-foreign-key-attribute-string_value.sql
   - include:
@@ -47,5 +47,7 @@ databaseChangeLog:
       file: db/changelog/v1/complete/complete-selectable_values.sql
   - include:
       file: db/changelog/v1/complete/complete-products_selectable.sql
+  - include:
+      file: db/changelog/v1/complete/complete-products_double-values.sql
 
 

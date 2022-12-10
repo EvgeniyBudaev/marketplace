@@ -1,5 +1,5 @@
 package com.marketplace.backend.model;
 
 public enum EAttributeType {
-    INTEGER,SELECTABLE,DOUBLE
+    BOOLEAN,SELECTABLE,DOUBLE
 }

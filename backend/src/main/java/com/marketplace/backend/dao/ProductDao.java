@@ -1,10 +1,10 @@
 package com.marketplace.backend.dao;
 
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
-
-import java.util.Map;
+import com.marketplace.backend.service.utils.queryes.ProductQueryResolver;
 
 public interface ProductDao extends GeneralDao<Product> {
 
@@ -12,8 +12,5 @@ public interface ProductDao extends GeneralDao<Product> {
 
     Product save(RequestSaveProductDto dto);
 
-    Paging<Product> findProductsInCatalogByAlias(String alias,
-                                                 Integer page,
-                                                 Integer pageSize,
-                                                 Map<String,String> filters);
+    Paging<ResponseProductDto> findProductsInCatalog(ProductQueryResolver resolver);
 }
