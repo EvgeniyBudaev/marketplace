@@ -5,12 +5,12 @@ import com.marketplace.backend.dto.attributes.AttributeConverter;
 import com.marketplace.backend.dto.attributes.request.RequestSaveNonSelectableAttribute;
 import com.marketplace.backend.dto.attributes.request.RequestSaveSelectableAttribute;
 import com.marketplace.backend.dto.attributes.response.*;
+import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.repository.AttributeRepository;
-import com.marketplace.backend.repository.values.SelectableValueRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +24,12 @@ import java.util.stream.Collectors;
 @Service
 public class AttributeService implements AttributeDao {
     private final AttributeRepository attributeRepository;
-    private final SelectableValueRepository selectableValueRepository;
     private final EntityManager entityManager;
     private final AttributeConverter attributeConverter;
 
     public AttributeService(AttributeRepository attributeRepository,
-                            SelectableValueRepository selectableValueRepository,
                             EntityManager entityManager) {
         this.attributeRepository = attributeRepository;
-        this.selectableValueRepository = selectableValueRepository;
         this.entityManager = entityManager;
         this.attributeConverter = new AttributeConverter();
     }
@@ -55,7 +52,9 @@ public class AttributeService implements AttributeDao {
     @Override
     @Transactional
     public ResponseSingleAttributeByAlias attributeByAlias(String alias){
-        Attribute attribute = attributeRepository.findAttributeByAliasAndEnabledIsTrue(alias).orElseThrow();
+        Attribute attribute = attributeRepository.
+                findAttributeByAliasAndEnabledIsTrue(alias).
+                orElseThrow(()->new ResourceNotFoundException("Атрибут с псевдонимом "+alias+" не найден"));
         if(attribute.getType().equals(EAttributeType.SELECTABLE)){
             return  new ResponseSingleAttributeByAlias(attribute,attribute.getSingleSelectableValue());
         }

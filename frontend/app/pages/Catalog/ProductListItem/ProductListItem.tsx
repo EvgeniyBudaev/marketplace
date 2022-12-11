@@ -10,10 +10,10 @@ import styles from "./ProductListItem.module.css";
 
 type TProps = {
   product: TProduct;
-  isClickedDisplayLine: boolean;
+  isCardsLine: boolean;
 };
 
-export const ProductListItem: FC<TProps> = ({ product, isClickedDisplayLine }) => {
+export const ProductListItem: FC<TProps> = ({ product, isCardsLine }) => {
   const count = Number(product.count);
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
 
@@ -36,7 +36,7 @@ export const ProductListItem: FC<TProps> = ({ product, isClickedDisplayLine }) =
   return (
     <li
       className={clsx("ProductListItem", {
-        ProductListItem__line: isClickedDisplayLine,
+        ProductListItem__line: isCardsLine,
       })}
     >
       <div className="ProductListItem-Wrapper">
@@ -83,7 +83,7 @@ export const ProductListItem: FC<TProps> = ({ product, isClickedDisplayLine }) =
           <div className="ProductListItem-FooterPrice">
             {formatValueWithSpaces(parseInt(product.price))} ₽
           </div>
-          <div className="ProductListItem-FooterPrice">
+          <div className="ProductListItem-FooterStatus">
             {count > 0 ? "В наличии" : "Товар отсутствует"}
           </div>
           <div className="ProductListItem-FooterAddToCartGrid">

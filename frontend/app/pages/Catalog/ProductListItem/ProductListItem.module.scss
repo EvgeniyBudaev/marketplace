@@ -46,31 +46,31 @@
         color: $color-beige;
       }
     }
+  }
 
-    &-Footer {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      text-align: center;
-      min-height: 50px;
+  &-Footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    min-height: 50px;
 
-      #{$this}FooterPrice {
-        //@include roboto-18-bold;
-        margin: 16px 0;
-      }
+    &Price {
+      //@include roboto-18-bold;
+      margin: 16px 0;
+    }
 
-      #{$this}FooterStatus {
-        margin-bottom: 16px;
-        color: $color-beige;
-      }
+    &Status {
+      margin-bottom: 16px;
+      color: $color-beige;
+    }
 
-      #{$this}FooterAddToCartLine {
-        display: none;
-      }
+    &AddToCartLine {
+      display: none;
+    }
 
-      #{$this}FooterAddToCartGrid {
-        margin-bottom: 16px;
-      }
+    &AddToCartGrid {
+      margin-bottom: 16px;
     }
   }
 

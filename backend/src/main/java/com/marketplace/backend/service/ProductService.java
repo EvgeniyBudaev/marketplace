@@ -52,7 +52,7 @@ public class ProductService implements ProductDao {
 
     @Override
     public Product save(RequestSaveProductDto dto) {
-        Catalog catalog = catalogDao.findCatalogByAlias(dto.getCatalogAlias());
+        Catalog catalog = catalogDao.findEntityByAlias(dto.getCatalogAlias());
         Product product = productConverters.requestSaveProductDtoToProduct(dto,catalog);
         productRepository.save(product);
         return  product;
@@ -65,7 +65,6 @@ public class ProductService implements ProductDao {
         TypedQuery<Attribute> attributeQuery = entityManager.createQuery("SELECT a from Attribute as a where a.alias in (:list)",Attribute.class);
         attributeQuery.setParameter("list",resolver.getAttributesAlias());
         List<Attribute> res1 = attributeQuery.getResultList();
-        res1.forEach(x-> System.out.println(x.getId()+" "+x.getAlias()));
         resolver.setAttributes(res1);
 
         /*Получаем количество выбираемых результатов*/

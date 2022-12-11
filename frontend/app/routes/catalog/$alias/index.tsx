@@ -11,6 +11,7 @@ export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
+  console.log("[formValues] ", formValues);
   const { alias } = params as { alias: string };
 
   const catalogResponse = await getCatalogDetail(request, { alias });

@@ -39,6 +39,6 @@ const IconComponent: FC<IProps> = ({ className, height, width, size, type, ...re
 
 export const Icon = memo(IconComponent);
 
-export function links() {
+export function iconLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

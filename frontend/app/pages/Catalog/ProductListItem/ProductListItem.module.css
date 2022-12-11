@@ -67,24 +67,24 @@
 .ProductListItem-Content .ProductListItem-ContentTitle:hover {
   color: rgb(176, 151, 106);
 }
-.ProductListItem-Content-Footer {
+.ProductListItem-Footer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
   min-height: 50px;
 }
-.ProductListItem-Content-Footer .ProductListItemFooterPrice {
+.ProductListItem-FooterPrice {
   margin: 16px 0;
 }
-.ProductListItem-Content-Footer .ProductListItemFooterStatus {
+.ProductListItem-FooterStatus {
   margin-bottom: 16px;
   color: rgb(176, 151, 106);
 }
-.ProductListItem-Content-Footer .ProductListItemFooterAddToCartLine {
+.ProductListItem-FooterAddToCartLine {
   display: none;
 }
-.ProductListItem-Content-Footer .ProductListItemFooterAddToCartGrid {
+.ProductListItem-FooterAddToCartGrid {
   margin-bottom: 16px;
 }
 .ProductListItem.ProductListItem__line {

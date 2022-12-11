@@ -12,23 +12,25 @@ type TProps = {
   className?: string;
   id: string;
   label: string;
+  name: string;
   nameGroup: string;
   checkedBox: TValue;
   children?: ReactNode;
-  onClick: (event: ChangeEvent<HTMLInputElement>, nameGroup: string) => void;
+  onClick: (event: ChangeEvent<HTMLInputElement>, id: string, nameGroup: string) => void;
 };
 
 export const CheckboxComponent: FC<TProps> = ({
   className,
   id,
   label,
+  name,
   nameGroup,
   checkedBox,
   children,
   onClick,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onClick(event, nameGroup);
+    onClick(event, id, nameGroup);
   };
 
   return (
@@ -37,9 +39,9 @@ export const CheckboxComponent: FC<TProps> = ({
         className="Checkbox"
         id={id}
         type="checkbox"
-        name={label}
-        value={label}
-        checked={checkedBox && checkedBox[nameGroup as keyof TValue].includes(label)}
+        name={name}
+        value={id}
+        checked={checkedBox && checkedBox[nameGroup as keyof TValue].includes(id)}
         onChange={handleChange}
       />
       {label && (
@@ -55,6 +57,6 @@ export const CheckboxComponent: FC<TProps> = ({
 
 export const Checkbox = memo(CheckboxComponent);
 
-export function links() {
+export function checkboxLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

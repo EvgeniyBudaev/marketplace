@@ -7,21 +7,23 @@ export * from "./DropDown";
 export * from "./Hamburger";
 export * from "./Icon";
 export * from "./Overlay";
+export * from "./Select";
 export * from "./Sidebar";
 export * from "./Spacer";
 
-import { links as accordionLinks } from "~/uikit/Accordion";
-import { links as alertLinks } from "~/uikit/Alert";
-import { links as avatarLinks } from "~/uikit/Avatar";
-import { links as buttonLinks } from "~/uikit/Button/Button";
-import { links as checkboxLinks } from "~/uikit/Checkbox";
-import { iconButtonLinks as iconButtonLinks } from "~/uikit/Button/IconButton";
-import { links as dropDownLinks } from "~/uikit/DropDown";
-import { links as hamburgerLinks } from "~/uikit/Hamburger";
-import { links as iconLinks } from "~/uikit/Icon";
-import { linkButtonLinks as linkButtonLinks } from "~/uikit/Button/LinkButton";
-import { links as overlayLinks } from "~/uikit/Overlay";
-import { links as spacerLinks } from "~/uikit/Spacer";
+import { accordionLinks } from "~/uikit/Accordion";
+import { alertLinks } from "~/uikit/Alert";
+import { avatarLinks } from "~/uikit/Avatar";
+import { buttonLinks } from "~/uikit/Button/Button";
+import { checkboxLinks } from "~/uikit/Checkbox";
+import { iconButtonLinks } from "~/uikit/Button/IconButton";
+import { dropDownLinks } from "~/uikit/DropDown";
+import { hamburgerLinks } from "~/uikit/Hamburger";
+import { iconLinks } from "~/uikit/Icon";
+import { linkButtonLinks } from "~/uikit/Button/LinkButton";
+import { overlayLinks } from "~/uikit/Overlay";
+import { selectLinks } from "~/uikit/Select";
+import { spacerLinks } from "~/uikit/Spacer";
 
 export const links = () => {
   return [
@@ -36,6 +38,7 @@ export const links = () => {
     ...iconLinks(),
     ...linkButtonLinks(),
     ...overlayLinks(),
+    ...selectLinks(),
     ...spacerLinks(),
   ];
 };

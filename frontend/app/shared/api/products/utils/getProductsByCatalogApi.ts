@@ -8,7 +8,9 @@ export const getProductsByCatalogApi: TApiFunction<TProductsByCatalogSearchParam
 ) => {
   const encodeAndJoinPair = (pair: any) => pair.map(encodeURIComponent).join("=");
   const searchParams = params && Object.entries(params).map(encodeAndJoinPair).join("&");
+  console.log("searchParams: ", searchParams);
   const url = `/api/v1/products/page/?catalog=${alias}${searchParams ? `&${searchParams}` : ""}`;
+  console.log("[url] ", url);
 
   return fetchApi<TProducts>(request, url, {
     method: "GET",

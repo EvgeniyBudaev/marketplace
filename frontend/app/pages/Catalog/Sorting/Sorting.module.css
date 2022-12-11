@@ -1,0 +1,29 @@
+.Sorting {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+.Sorting-Label {
+  display: inline-block;
+  margin-right: 30px;
+}
+.Sorting-Select {
+  max-width: 220px;
+  width: 100%;
+}
+.Sorting-Select svg {
+  fill: black;
+  transition: all 0.15s;
+}
+.Sorting-Select__active svg {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+  .Sorting-Label {
+    margin-right: 8px;
+  }
+}
+
+/*# sourceMappingURL=Sorting.module.css.map */
