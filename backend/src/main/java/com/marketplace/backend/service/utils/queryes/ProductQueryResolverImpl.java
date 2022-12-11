@@ -95,6 +95,7 @@ public class ProductQueryResolverImpl implements ProductQueryResolver {
         if (httpQuery.isEmpty() || httpQuery.length() > 450) {
             throw new IllegalRequestParam("Не поддерживаемый запрос");
         }
+        httpQuery=httpQuery.replaceAll("%2C",",");
         String[] res1 = httpQuery.split("&");
         for (String row : res1) {
             String[] row1 = row.split("=");
