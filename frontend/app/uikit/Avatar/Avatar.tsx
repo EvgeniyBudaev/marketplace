@@ -76,6 +76,6 @@ const AvatarComponent: FC<TProps> = ({
 
 export const Avatar = memo(AvatarComponent);
 
-export function links() {
+export function avatarLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

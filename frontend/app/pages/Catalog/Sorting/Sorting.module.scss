@@ -1,12 +1,28 @@
 .Sorting {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
 
   &-Label {
     display: inline-block;
     margin-right: 30px;
+  }
+
+  &-Select {
+    max-width: 220px;
+    width: 100%;
+
+    svg {
+      fill: black;
+      transition: all 0.15s;
+    }
+
+    &__active {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
   }
 }
 

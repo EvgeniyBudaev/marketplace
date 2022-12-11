@@ -63,6 +63,6 @@ const ButtonComponent: FC<IButtonProps> = ({
 
 export const Button = memo(ButtonComponent);
 
-export function links() {
+export function buttonLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

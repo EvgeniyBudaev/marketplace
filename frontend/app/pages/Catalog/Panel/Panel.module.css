@@ -32,17 +32,6 @@
 .Panel {
   margin-bottom: 30px;
 }
-.Panel-SelectPrice {
-  max-width: 220px;
-  width: 100%;
-}
-.Panel-SelectPrice svg {
-  fill: black;
-  transition: all 0.15s;
-}
-.Panel-SelectPrice__active svg {
-  transform: rotate(180deg);
-}
 .Panel-Inner {
   position: relative;
 }

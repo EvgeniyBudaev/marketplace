@@ -64,6 +64,6 @@ const AccordionComponent: FC<TProps> = ({
 
 export const Accordion = memo(AccordionComponent);
 
-export function links() {
+export function accordionLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

@@ -30,6 +30,6 @@ const DropDownComponent: FC<TProps> = ({ className, children, isOpen }: TProps) 
 
 export const DropDown = memo(DropDownComponent);
 
-export function links() {
+export function dropDownLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

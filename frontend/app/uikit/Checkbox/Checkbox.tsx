@@ -57,6 +57,6 @@ export const CheckboxComponent: FC<TProps> = ({
 
 export const Checkbox = memo(CheckboxComponent);
 
-export function links() {
+export function checkboxLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

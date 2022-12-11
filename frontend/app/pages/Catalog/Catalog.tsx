@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { FC } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useFetcher } from "@remix-run/react";
@@ -83,8 +83,7 @@ export const Catalog: FC<TProps> = (props) => {
   };
 
   return (
-    <>
-      <div className="Catalog">
+      <section className="Catalog">
         <div className="Catalog-Row">
           <h1 className="Catalog-Title">{catalog?.name}</h1>
         </div>
@@ -93,22 +92,21 @@ export const Catalog: FC<TProps> = (props) => {
           <div className="Catalog-Wrapper">
             <Panel isCardsLine={isCardsLine} onCardsSwitcher={onCardsSwitcher} />
             <InfiniteScroll
-              dataLength={productList.length}
-              next={getMoreProducts}
-              hasMore={true}
-              loader={isLoading ? <h4>Loading...</h4> : null}
-              endMessage={
-                <p style={{ textAlign: "center" }}>
-                  <b>Yay! You have seen it all</b>
-                </p>
-              }
+                dataLength={productList.length}
+                next={getMoreProducts}
+                hasMore={true}
+                loader={isLoading ? <h4>Loading...</h4> : null}
+                endMessage={
+                  <p style={{ textAlign: "center" }}>
+                    <b>Yay! You have seen it all</b>
+                  </p>
+                }
             >
               <ProductList products={productList} isCardsLine={isCardsLine} />
             </InfiniteScroll>
           </div>
         </div>
-      </div>
-    </>
+      </section>
   );
 };
 
