@@ -2,14 +2,14 @@ import { useCallback, useState } from "react";
 import type { ChangeEvent, FC } from "react";
 import { useNavigate } from "@remix-run/react";
 import { TRANSITION } from "~/constants";
-import { TCatalog, TCatalogAttributeItem } from "~/shared/api/catalogs";
+import {TCatalogAttributeItem, TCatalogDetail} from "~/shared/api/catalogs";
 import { TParams } from "~/types";
 import { Accordion, Button, Checkbox, Overlay } from "~/uikit";
 import { transformObjectToURLParams } from "~/utils";
 import styles from "./Filter.module.css";
 
 type TProps = {
-  catalog: TCatalog;
+  catalog: TCatalogDetail;
 };
 
 export const Filter: FC<TProps> = ({ catalog }) => {
@@ -19,10 +19,10 @@ export const Filter: FC<TProps> = ({ catalog }) => {
 
   const attributes = catalog.selectAttribute;
   const initialState = mapToInitialState(attributes);
-  // console.log("initialState: ", initialState);
+  console.log("initialState: ", initialState);
   const [checked, setChecked] = useState(initialState);
   const navigate = useNavigate();
-  // console.log("checked: ", checked);
+  console.log("checked: ", checked);
 
   const onChangeCheckedBox = (event: ChangeEvent<HTMLInputElement>, nameGroup: string) => {
     const {
@@ -55,12 +55,12 @@ export const Filter: FC<TProps> = ({ catalog }) => {
       <Overlay timeout={TRANSITION} onClick={() => {}} isActive={false} />
       <form className="Filter-AsideFilterDesktop" onSubmit={handleSubmit}>
         {attributes.map((item) => (
-          <Accordion key={item.name} title={item.name} isActive={true}>
-            {item.values.map((label, index) => (
+          <Accordion key={item.alias} title={item.name} isActive={true}>
+            {item.values.map((valueItem, index) => (
               <Checkbox
                 className="Filter-CheckboxItem"
-                id={index.toString() + label}
-                label={label.value}
+                id={index.toString() + valueItem.id}
+                label={valueItem.value}
                 checkedBox={checked}
                 key={index}
                 nameGroup={item.alias}

@@ -83,7 +83,7 @@ export const ProductListItem: FC<TProps> = ({ product, isClickedDisplayLine }) =
           <div className="ProductListItem-FooterPrice">
             {formatValueWithSpaces(parseInt(product.price))} ₽
           </div>
-          <div className="ProductListItem-FooterPrice">
+          <div className="ProductListItem-FooterStatus">
             {count > 0 ? "В наличии" : "Товар отсутствует"}
           </div>
           <div className="ProductListItem-FooterAddToCartGrid">

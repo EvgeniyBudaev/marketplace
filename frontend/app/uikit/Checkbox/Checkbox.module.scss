@@ -82,21 +82,21 @@
       cursor: pointer;
       transition: all 0.15s;
     }
+
+    &-Icon {
+      position: absolute;
+      left: 2px;
+    }
   }
 
   &:hover {
     .Checkbox {
       border: 1px solid $color-border-hover;
-    }
 
-    &-Label,
-    &-Description {
-      color: $color-beige;
+      &-Label,
+      &-Description {
+        color: $color-beige;
+      }
     }
-  }
-
-  &-Icon {
-    position: absolute;
-    left: 2px;
   }
 }
