@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ChangeEvent, FC } from "react";
+import { Form, useSearchParams } from "@remix-run/react";
 import { TRANSITION } from "~/constants";
 import { TCatalogAttributeItem, TCatalogDetail } from "~/shared/api/catalogs";
 import { TParams } from "~/types";
@@ -12,8 +13,13 @@ type TProps = {
 };
 
 export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
+  const [searchParams] = useSearchParams();
+
   const mapToInitialState = (attributes: TCatalogAttributeItem[]): { [key: string]: string[] } =>
-    attributes.reduce((acc, item) => ({ ...acc, [item.alias]: [] }), {});
+    attributes.reduce((acc, item) => {
+      const all = searchParams.getAll(item.alias);
+      return { ...acc, [item.alias]: all.length > 0 ? all : [] };
+    }, {});
 
   const attributes = catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
   const initialState = mapToInitialState(attributes);
@@ -41,14 +47,13 @@ export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
   };
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
     onLoad(checked);
   };
 
   return (
     <aside className="Filter">
       <Overlay timeout={TRANSITION} onClick={() => {}} isActive={false} />
-      <form className="Filter-AsideFilterDesktop" onSubmit={handleSubmit}>
+      <Form className="Filter-AsideFilterDesktop" method="get" onSubmit={handleSubmit}>
         {attributes.map((item) => (
           <Accordion key={item.alias} title={item.name} isActive={true}>
             {item.values.map((valueItem, index) => (
@@ -58,6 +63,7 @@ export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
                 label={valueItem.value}
                 checkedBox={checked}
                 key={index}
+                name={item.alias}
                 nameGroup={item.alias}
                 onClick={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
               />
@@ -65,7 +71,7 @@ export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
           </Accordion>
         ))}
         <Button type="submit">Применить</Button>
-      </form>
+      </Form>
     </aside>
   );
 };

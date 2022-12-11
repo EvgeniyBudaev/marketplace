@@ -12,6 +12,7 @@ type TProps = {
   className?: string;
   id: string;
   label: string;
+  name: string;
   nameGroup: string;
   checkedBox: TValue;
   children?: ReactNode;
@@ -22,6 +23,7 @@ export const CheckboxComponent: FC<TProps> = ({
   className,
   id,
   label,
+  name,
   nameGroup,
   checkedBox,
   children,
@@ -37,7 +39,7 @@ export const CheckboxComponent: FC<TProps> = ({
         className="Checkbox"
         id={id}
         type="checkbox"
-        name={label}
+        name={name}
         value={id}
         checked={checkedBox && checkedBox[nameGroup as keyof TValue].includes(id)}
         onChange={handleChange}

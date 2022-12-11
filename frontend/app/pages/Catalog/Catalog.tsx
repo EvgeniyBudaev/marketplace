@@ -35,7 +35,6 @@ export const Catalog: FC<TProps> = (props) => {
 
   const [isCardsLine, setIsCardsLine] = useState(false);
   const [productList, setProductList] = useState<TProduct[]>(products.content);
-  console.log("productList: ", productList);
 
   const onCardsSwitcher = () => {
     setIsCardsLine((prev) => !prev);
