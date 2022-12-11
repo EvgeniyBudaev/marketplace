@@ -1,43 +1,20 @@
 import { FC } from "react";
-import clsx from "clsx";
-import { IconButton } from "~/uikit";
+import { CardsSwitcher } from "~/pages/Catalog/CardsSwitcher";
 import styles from "./Panel.module.css";
+import { Sorting } from "~/pages/Catalog/Sorting";
 
 type TProps = {
-  isClickedDisplayLine?: boolean;
-  onDisplayLine: () => void;
+  isCardsLine: boolean;
+  onCardsSwitcher: () => void;
 };
 
-export const Panel: FC<TProps> = ({ isClickedDisplayLine, onDisplayLine }) => {
+export const Panel: FC<TProps> = ({ isCardsLine, onCardsSwitcher }) => {
   return (
     <div className="Panel">
       <div className="Panel-Inner">
-        <div className="Panel-SelectGroup">Select</div>
-        <div className="Panel-ListingViewSwitcher">
-          <div className="Panel-ListingViewSwitcherInner">
-            <div
-              className={clsx("Panel-ListingViewSwitcherPointer", {
-                "Panel-ListingViewSwitcherPointer__line": isClickedDisplayLine,
-              })}
-            />
-            <div className="Panel-DisplayButtons">
-              <IconButton
-                className={clsx("Panel-DisplayButton", {
-                  "Panel-DisplayButton__line": isClickedDisplayLine,
-                })}
-                typeIcon="DisplayLine"
-                onClick={onDisplayLine}
-              />
-              <IconButton
-                className={clsx("Panel-DisplayButton", {
-                  "Panel-DisplayButton__line": !isClickedDisplayLine,
-                })}
-                typeIcon="DisplayGrid"
-                onClick={onDisplayLine}
-              />
-            </div>
-          </div>
-        </div>
+        {/*  <div className="Panel-SelectGroup">Select2</div>*/}
+        <Sorting />
+        <CardsSwitcher isCardsLine={isCardsLine} onCardsSwitcher={onCardsSwitcher} />
       </div>
     </div>
   );

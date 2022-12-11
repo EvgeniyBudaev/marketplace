@@ -91,7 +91,8 @@
 .Checkbox-Wrapper .Checkbox:disabled + label::before {
   background-color: rgba(186, 185, 185, 0.5);
 }
-.Checkbox-Wrapper .Checkbox-Label, .Checkbox-Wrapper .Checkbox-Description {
+.Checkbox-Wrapper .Checkbox-Label,
+.Checkbox-Wrapper .Checkbox-Description {
   position: relative;
   cursor: pointer;
   transition: all 0.15s;
@@ -103,7 +104,8 @@
 .Checkbox-Wrapper:hover .Checkbox {
   border: 1px solid rgba(134, 134, 134, 0.5);
 }
-.Checkbox-Wrapper:hover .Checkbox-Label, .Checkbox-Wrapper:hover .Checkbox-Description {
+.Checkbox-Wrapper:hover .Checkbox-Label,
+.Checkbox-Wrapper:hover .Checkbox-Description {
   color: rgb(176, 151, 106);
 }
 

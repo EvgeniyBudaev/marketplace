@@ -1,0 +1,19 @@
+.Sorting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  &-Label {
+    display: inline-block;
+    margin-right: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Sorting {
+    &-Label {
+      margin-right: 8px;
+    }
+  }
+}

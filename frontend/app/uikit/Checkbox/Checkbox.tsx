@@ -15,7 +15,7 @@ type TProps = {
   nameGroup: string;
   checkedBox: TValue;
   children?: ReactNode;
-  onClick: (event: ChangeEvent<HTMLInputElement>, nameGroup: string) => void;
+  onClick: (event: ChangeEvent<HTMLInputElement>, id: string, nameGroup: string) => void;
 };
 
 export const CheckboxComponent: FC<TProps> = ({
@@ -28,7 +28,7 @@ export const CheckboxComponent: FC<TProps> = ({
   onClick,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onClick(event, nameGroup);
+    onClick(event, id, nameGroup);
   };
 
   return (
@@ -38,8 +38,8 @@ export const CheckboxComponent: FC<TProps> = ({
         id={id}
         type="checkbox"
         name={label}
-        value={label}
-        checked={checkedBox && checkedBox[nameGroup as keyof TValue].includes(label)}
+        value={id}
+        checked={checkedBox && checkedBox[nameGroup as keyof TValue].includes(id)}
         onChange={handleChange}
       />
       {label && (

@@ -1,30 +1,29 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import type { ChangeEvent, FC } from "react";
-import { useNavigate } from "@remix-run/react";
 import { TRANSITION } from "~/constants";
-import {TCatalogAttributeItem, TCatalogDetail} from "~/shared/api/catalogs";
+import { TCatalogAttributeItem, TCatalogDetail } from "~/shared/api/catalogs";
 import { TParams } from "~/types";
 import { Accordion, Button, Checkbox, Overlay } from "~/uikit";
-import { transformObjectToURLParams } from "~/utils";
 import styles from "./Filter.module.css";
 
 type TProps = {
   catalog: TCatalogDetail;
+  onLoad: (params: TParams) => void;
 };
 
-export const Filter: FC<TProps> = ({ catalog }) => {
-  // console.log("Filter catalog: ", catalog);
+export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
   const mapToInitialState = (attributes: TCatalogAttributeItem[]): { [key: string]: string[] } =>
     attributes.reduce((acc, item) => ({ ...acc, [item.alias]: [] }), {});
 
-  const attributes = catalog.selectAttribute;
+  const attributes = catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
   const initialState = mapToInitialState(attributes);
-  console.log("initialState: ", initialState);
   const [checked, setChecked] = useState(initialState);
-  const navigate = useNavigate();
-  console.log("checked: ", checked);
 
-  const onChangeCheckedBox = (event: ChangeEvent<HTMLInputElement>, nameGroup: string) => {
+  const onChangeCheckedBox = (
+    event: ChangeEvent<HTMLInputElement>,
+    id: string,
+    nameGroup: string,
+  ) => {
     const {
       target: { checked, value },
     } = event;
@@ -41,10 +40,6 @@ export const Filter: FC<TProps> = ({ catalog }) => {
     }
   };
 
-  const onLoad = useCallback((params?: TParams) => {
-    navigate(`/catalog/${catalog.alias}?${transformObjectToURLParams({ ...params })}`);
-  }, []);
-
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     onLoad(checked);
@@ -59,12 +54,12 @@ export const Filter: FC<TProps> = ({ catalog }) => {
             {item.values.map((valueItem, index) => (
               <Checkbox
                 className="Filter-CheckboxItem"
-                id={index.toString() + valueItem.id}
+                id={valueItem.id.toString()}
                 label={valueItem.value}
                 checkedBox={checked}
                 key={index}
                 nameGroup={item.alias}
-                onClick={(event, nameGroup) => onChangeCheckedBox(event, nameGroup)}
+                onClick={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
               />
             ))}
           </Accordion>
