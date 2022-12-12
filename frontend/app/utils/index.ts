@@ -3,6 +3,7 @@ export * from "./createApi";
 export * from "./form";
 export * from "./format";
 export * from "./gatewayTimeout";
+export * from "./generateUUID";
 export * from "./internalError";
 export * from "./processError";
 export * from "./processSuccessResponse";

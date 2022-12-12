@@ -12,7 +12,6 @@ export const Panel: FC<TProps> = ({ isCardsLine, onCardsSwitcher }) => {
   return (
     <div className="Panel">
       <div className="Panel-Inner">
-        {/*  <div className="Panel-SelectGroup">Select2</div>*/}
         <Sorting />
         <CardsSwitcher isCardsLine={isCardsLine} onCardsSwitcher={onCardsSwitcher} />
       </div>

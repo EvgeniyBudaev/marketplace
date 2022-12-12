@@ -1,9 +1,9 @@
 import { Contacts, contactsLinks } from "~/pages/Contacts";
 
 export default function ContactsPage() {
-    return <Contacts />;
+  return <Contacts />;
 }
 
 export function links() {
-    return [...contactsLinks()];
+  return [...contactsLinks()];
 }
