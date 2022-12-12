@@ -83,30 +83,30 @@ export const Catalog: FC<TProps> = (props) => {
   };
 
   return (
-      <section className="Catalog">
-        <div className="Catalog-Row">
-          <h1 className="Catalog-Title">{catalog?.name}</h1>
+    <section className="Catalog">
+      <div className="Catalog-Row">
+        <h1 className="Catalog-Title">{catalog?.name}</h1>
+      </div>
+      <div className="Catalog-Inner">
+        {catalog && <Filter catalog={catalog} onLoad={onFilter} />}
+        <div className="Catalog-Wrapper">
+          <Panel isCardsLine={isCardsLine} onCardsSwitcher={onCardsSwitcher} />
+          <InfiniteScroll
+            dataLength={productList.length}
+            next={getMoreProducts}
+            hasMore={true}
+            loader={isLoading ? <h4>Loading...</h4> : null}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            <ProductList products={productList} isCardsLine={isCardsLine} />
+          </InfiniteScroll>
         </div>
-        <div className="Catalog-Inner">
-          {catalog && <Filter catalog={catalog} onLoad={onFilter} />}
-          <div className="Catalog-Wrapper">
-            <Panel isCardsLine={isCardsLine} onCardsSwitcher={onCardsSwitcher} />
-            <InfiniteScroll
-                dataLength={productList.length}
-                next={getMoreProducts}
-                hasMore={true}
-                loader={isLoading ? <h4>Loading...</h4> : null}
-                endMessage={
-                  <p style={{ textAlign: "center" }}>
-                    <b>Yay! You have seen it all</b>
-                  </p>
-                }
-            >
-              <ProductList products={productList} isCardsLine={isCardsLine} />
-            </InfiniteScroll>
-          </div>
-        </div>
-      </section>
+      </div>
+    </section>
   );
 };
 

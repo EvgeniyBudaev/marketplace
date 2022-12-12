@@ -1,10 +1,7 @@
-import {FocusEventHandler, memo} from "react";
+import { FocusEventHandler, memo } from "react";
 import type { FC } from "react";
-import {
-  ActionMeta,
-  default as ReactSelect, GroupBase, StylesConfig,
-} from "react-select";
-import { useHydrated } from 'remix-utils';
+import { ActionMeta, default as ReactSelect, GroupBase, StylesConfig } from "react-select";
+import { useHydrated } from "remix-utils";
 import clsx from "clsx";
 import styles from "./Select.module.css";
 
@@ -22,17 +19,11 @@ type TProps = {
   value: ISelectOption;
   onBlur?: FocusEventHandler;
   onChange?:
-    | (((
-        value: ISelectOption | null,
-        actionMeta: ActionMeta<ISelectOption>
-      ) => void) &
-        ((
-          value: ISelectOption | null,
-          action: ActionMeta<ISelectOption>
-        ) => void))
+    | (((value: ISelectOption | null, actionMeta: ActionMeta<ISelectOption>) => void) &
+        ((value: ISelectOption | null, action: ActionMeta<ISelectOption>) => void))
     | undefined;
   onFocus?: FocusEventHandler;
-}
+};
 
 const SelectComponent: FC<TProps> = ({
   className,
