@@ -5,5 +5,5 @@ export enum EFormFields {
   PhoneNumber = "phoneNumber",
   Email = "email",
   Password = "password",
-  RePassword = "rePassword"
+  RePassword = "rePassword",
 }
