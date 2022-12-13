@@ -1,9 +1,10 @@
-import {useMemo} from "react";
-import type {FieldValues, Resolver, UseFormProps, UseFormReturn} from "react-hook-form";
-import {useForm} from "react-hook-form";
-import type {FetcherWithComponents} from "@remix-run/react";
-import {useFetcher} from "@remix-run/react";
-import {getFetcherOptions} from "~/shared/fetcher";
+import { useMemo } from "react";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
+import type { FieldValues, Resolver, UseFormProps, UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
+
+import { getFetcherOptions } from "~/shared/fetcher";
 
 type TUseInitForm<T extends FieldValues> = {
   resolver?: Resolver<T>;
@@ -45,11 +46,10 @@ export const useInitForm = <T extends FieldValues>({
   });
 
   return useMemo(
-      () => ({
-        methods,
-        // @ts-ignore
-        ...getFetcherOptions<T>(fetcher),
-      }),
-      [fetcher, methods],
+    () => ({
+      methods,
+      ...getFetcherOptions<T>(fetcher as any),
+    }),
+    [fetcher, methods],
   );
 };

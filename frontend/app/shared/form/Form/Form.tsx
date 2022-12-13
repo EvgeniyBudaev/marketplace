@@ -1,4 +1,4 @@
-import {memo, useCallback, useMemo} from "react";
+import { memo, useCallback, useMemo } from "react";
 import { FormProvider } from "react-hook-form";
 import type { FieldValues } from "react-hook-form";
 import { useHydrated, useAuthenticityToken } from "remix-utils";
@@ -45,7 +45,7 @@ const FormComponent = <T extends FieldValues>({
       }
     },
     // [authenticity, handleSubmit, csrf, form.fetcher],
-      [handleSubmit, form.fetcher],
+    [handleSubmit, form.fetcher],
   );
 
   return (

@@ -65,5 +65,18 @@
 .Login-Button {
   margin-bottom: 20px;
 }
+.Login-Signup {
+  text-align: center;
+}
+.Login-Signup span {
+  margin-right: 10px;
+}
+.Login-Signup a {
+  color: rgb(176, 151, 106);
+  transition: all 0.15s;
+}
+.Login-Signup a:hover {
+  color: rgb(153, 126, 77);
+}
 
 /*# sourceMappingURL=Login.module.css.map */

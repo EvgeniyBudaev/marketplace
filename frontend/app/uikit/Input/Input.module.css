@@ -29,16 +29,16 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.FormField {
+.InputField {
   position: relative;
   margin-bottom: 30px;
   height: 56px;
   width: 100%;
   border-radius: 4px;
   word-wrap: break-word;
+  /* -------------------- Fix autocomplete form -------------------- */
 }
-
-.FormField_Label {
+.InputField-Label {
   position: absolute;
   top: 20px;
   left: 12px;
@@ -47,14 +47,13 @@
   pointer-events: none;
   transition: all 0.2s;
 }
-.FormField_Label .Input__error {
+.InputField-Label .InputField-Inner__error {
   background-color: rgb(251, 228, 227);
 }
-.FormField_LabelRequired {
+.InputField-LabelRequired {
   color: rgb(227, 18, 53);
 }
-
-.FormField_Visibility {
+.InputField-Visibility {
   display: inline-block;
   position: absolute;
   top: 50%;
@@ -64,55 +63,52 @@
   width: 24px;
   cursor: pointer;
 }
-.FormField_Visibility svg {
+.InputField-Visibility svg {
   fill: rgba(0, 0, 0, 0.54);
   height: 24px;
   width: 24px;
 }
-
-.FormField__active {
+.InputField__active {
   width: 100%;
   background-color: rgb(255, 255, 255);
 }
-.FormField__active .FormField_Label {
+.InputField__active .InputField-Label {
   top: -7px;
   padding: 0 5px;
   color: rgb(51, 51, 51);
   background-color: rgb(255, 255, 255);
 }
-.FormField__active .Input__active {
+.InputField__active .InputField-Inner__active {
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.54);
   color: rgb(51, 51, 51);
   background-color: rgb(255, 255, 255);
 }
-.FormField__active .Input__active input:hover,
-.FormField__active .Input__active input {
+.InputField__active .InputField-Inner__active input:hover,
+.InputField__active .InputField-Inner__active input {
   background-color: rgb(255, 255, 255);
 }
-.FormField__active input:-webkit-autofill.Input__active,
-.FormField__active input:-webkit-autofill.Input__active:hover,
-.FormField__active input:-webkit-autofill.Input__active:focus,
-.FormField__active input:-webkit-autofill.Input__active:active {
+.InputField__active input:-webkit-autofill.Input__active,
+.InputField__active input:-webkit-autofill.Input__active:hover,
+.InputField__active input:-webkit-autofill.Input__active:focus,
+.InputField__active input:-webkit-autofill.Input__active:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-.FormField__active textarea, .FormField__active textarea:hover {
+.InputField__active textarea,
+.InputField__active textarea:hover {
   background-color: rgb(255, 255, 255);
 }
-.FormField__active .Input__active.Input__error {
+.InputField__active .InputField-Inner__active.InputField-Inner__error {
   border: 1px solid rgb(227, 18, 53);
   background-color: rgb(255, 255, 255);
 }
-
-/* -------------------- Fix autocomplete form -------------------- */
-.Input:-webkit-autofill {
+.InputField .InputField-Inner:-webkit-autofill {
   -webkit-background-clip: text;
 }
-
-.Input:-webkit-autofill {
+.InputField .InputField-Inner:-webkit-autofill {
   border: 1px solid rgba(0, 0, 0, 0.54);
 }
-.Input:-webkit-autofill ~ .FormField_Label {
+.InputField .InputField-Inner:-webkit-autofill ~ .InputField-Label {
   top: -7px;
   padding: 0 5px;
   color: rgb(51, 51, 51);
@@ -126,7 +122,7 @@
   transition: all 0.3s;
 }
 
-.InputComponent {
+.Input {
   display: flex;
   align-items: center;
   padding: 18px 40px 18px 12px;
@@ -137,13 +133,13 @@
   outline: transparent;
   transition: all 0.25s ease;
 }
-.InputComponent:hover {
+.Input:hover {
   background-color: rgb(223, 213, 195);
 }
-.InputComponent.InputComponent__error {
+.Input.Input__error {
   background-color: rgb(251, 228, 227);
 }
-.InputComponent.InputComponent__error:hover {
+.Input.Input__error:hover {
   background-color: rgb(250, 219, 218);
 }
 

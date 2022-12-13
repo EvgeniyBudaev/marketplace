@@ -1,60 +1,42 @@
-import * as React from 'react';
-import { useController, useFormContext } from 'react-hook-form';
-import {Input as InputUi} from '~/uikit';
-import type { IInputProps as TInputPropsUi } from '~/uikit';
+import { memo, useCallback } from "react";
+import type { ChangeEventHandler, FC } from "react";
+import { useController, useFormContext } from "react-hook-form";
+import { Input as InputUi } from "~/uikit";
+import type { IInputProps as TInputPropsUi } from "~/uikit";
 
 export type TInputProps = TInputPropsUi & {
-    name: string;
-    normalize?: (value: string) => string;
-    numeric?: boolean;
+  name: string;
 };
 
-const InputComponent: React.VFC<TInputProps> = ({
-                                                    defaultValue = '',
-                                                    name,
-                                                    normalize,
-                                                    numeric,
-                                                    ...props
-                                                }) => {
-    const { control } = useFormContext();
-    const {
-        field,
-        fieldState: { error },
-    } = useController({
-        name,
-        control,
-        defaultValue,
-    });
+const InputComponent: FC<TInputProps> = ({ className, defaultValue = "", name, ...props }) => {
+  const { control } = useFormContext();
+  const {
+    field,
+    fieldState: { error },
+  } = useController({
+    name,
+    control,
+    defaultValue,
+  });
 
-    const onChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-        (event) => {
-            console.log(event.target.value);
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      field.onChange(event.target.value);
+    },
+    [field],
+  );
 
-            // if (typeof normalize === 'function') {
-            //     event.target.value = normalize(event.target.value);
-            // }
-
-            // if (numeric) {
-            //     event.target.value = event.target.value.replace(',', '.');
-            // }
-
-            field.onChange(event.target.value);
-        },
-        [field],
-    );
-
-    return (
-        <InputUi
-            {...props}
-            ref={field.ref}
-            //fieldError={error?.message ? translateRawData(t, error.message) : undefined}
-            //hasError={!!error}
-            name={field.name}
-            onBlur={field.onBlur}
-            onChange={onChange}
-            value={field.value}
-        />
-    );
+  return (
+    <InputUi
+      {...props}
+      ref={field.ref}
+      //fieldError={error?.message ? translateRawData(t, error.message) : undefined}
+      //hasError={!!error}
+      name={field.name}
+      onChange={onChange}
+      value={field.value}
+    />
+  );
 };
 
-export const Input = React.memo(InputComponent);
+export const Input = memo(InputComponent);

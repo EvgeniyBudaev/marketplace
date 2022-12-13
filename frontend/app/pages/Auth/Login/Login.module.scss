@@ -42,4 +42,21 @@
   &-Button {
     margin-bottom: 20px;
   }
+
+  &-Signup {
+    text-align: center;
+
+    span {
+      margin-right: 10px;
+    }
+
+    a {
+      color: $color-beige;
+      transition: all 0.15s;
+
+      &:hover {
+        color: $color-beige-hover;
+      }
+    }
+  }
 }
