@@ -8,9 +8,6 @@ export const Home: FC = () => {
       <div>
         <LinkButton href="/catalog/mirrors">Каталог зеркал</LinkButton>
       </div>
-      <div>
-        <LinkButton href="/login">Login</LinkButton>
-      </div>
     </div>
   );
 };

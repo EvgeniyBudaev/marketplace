@@ -94,8 +94,7 @@
 .InputField__active input:-webkit-autofill.Input__active:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-.InputField__active textarea,
-.InputField__active textarea:hover {
+.InputField__active textarea, .InputField__active textarea:hover {
   background-color: rgb(255, 255, 255);
 }
 .InputField__active .InputField-Inner__active.InputField-Inner__error {
@@ -131,16 +130,17 @@
   border: 1px solid transparent;
   border-radius: 4px;
   outline: transparent;
-  transition: all 0.25s ease;
 }
 .Input:hover {
   background-color: rgb(223, 213, 195);
+  transition: background-color 0.25s ease;
 }
 .Input.Input__error {
   background-color: rgb(251, 228, 227);
 }
 .Input.Input__error:hover {
   background-color: rgb(250, 219, 218);
+  transition: background-color 0.25s ease;
 }
 
 /*# sourceMappingURL=Input.module.css.map */

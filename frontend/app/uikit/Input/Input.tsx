@@ -78,7 +78,8 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
         >
           <input
             className={clsx(className, "Input", {
-              InputComponent__error: error,
+              "Input__active": isFocused,
+              "Input__error": error,
             })}
             autoComplete={autoComplete}
             name={name}
