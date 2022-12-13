@@ -1,11 +1,11 @@
 @import "component";
 
-.Login {
+.Signup {
   display: flex;
   justify-content: center;
-  height: 50vh;
+  height: 100%;
 
-  &-Center {
+  &-Inner {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,20 +13,20 @@
     flex-direction: column;
     max-width: 470px;
     width: 100%;
+  }
 
-    &Content {
-      padding: 24px;
-      width: 100%;
-      height: auto;
-      border-radius: 16px;
-      box-shadow: $shadow-form;
-    }
+  &-Content {
+    padding: 24px;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: $shadow-form;
+  }
 
-    &ContentTitle {
-      //@include roboto-32-bold;
-      margin-bottom: 25px;
-      text-align: center;
-    }
+  &-Title {
+    //@include roboto-32-bold;
+    margin-bottom: 25px;
+    text-align: center;
   }
 
   &-FormFieldGroup {
@@ -43,8 +43,9 @@
     margin-bottom: 20px;
   }
 
-  &-Signup {
-    text-align: center;
+  &-Registration {
+    display: flex;
+    justify-content: center;
 
     span {
       margin-right: 10px;

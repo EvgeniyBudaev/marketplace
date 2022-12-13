@@ -1,106 +1,107 @@
 @import "component";
 
-.FormField {
+.InputField {
+  $this: &;
   position: relative;
   margin-bottom: 30px;
   height: 56px;
   width: 100%;
   border-radius: 4px;
   word-wrap: break-word;
-}
 
-.FormField_Label {
-  //@include roboto-14-regular;
-  position: absolute;
-  top: 20px;
-  left: 12px;
-  z-index: 1;
-  color: rgba(0, 0, 0, 0.54);
-  pointer-events: none;
-  transition: all 0.2s;
+  &-Label {
+    //@include roboto-14-regular;
+    position: absolute;
+    top: 20px;
+    left: 12px;
+    z-index: 1;
+    color: rgba(0, 0, 0, 0.54);
+    pointer-events: none;
+    transition: all 0.2s;
 
-  .Input__error {
-    background-color: $color-light-red;
-  }
+    #{$this}-Inner__error {
+      background-color: $color-light-red;
+    }
 
-  &Required {
-    color: $color-red;
-  }
-}
-
-.FormField_Visibility {
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 12px;
-  height: 24px;
-  width: 24px;
-  cursor: pointer;
-
-  svg {
-    fill: rgba(0, 0, 0, 0.54);
-    height: 24px;
-    width: 24px;
-  }
-}
-
-.FormField__active {
-  width: 100%;
-  background-color: $color-white;
-
-  .FormField_Label {
-    //@include roboto-12-regular;
-    top: -7px;
-    padding: 0 5px;
-    color: $color-text;
-    background-color: $color-white;
-  }
-
-  .Input__active {
-    width: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.54);
-    color: $color-text;
-    background-color: $color-white;
-
-    input:hover,
-    input {
-      background-color: $color-white;
+    &Required {
+      color: $color-red;
     }
   }
 
-  input:-webkit-autofill.Input__active,
-  input:-webkit-autofill.Input__active:hover,
-  input:-webkit-autofill.Input__active:focus,
-  input:-webkit-autofill.Input__active:active {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+  &-Visibility {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 12px;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+
+    svg {
+      fill: rgba(0, 0, 0, 0.54);
+      height: 24px;
+      width: 24px;
+    }
   }
 
-  & textarea,
-  & textarea:hover {
+  &__active {
+    width: 100%;
     background-color: $color-white;
-  }
 
-  .Input__active.Input__error {
-    border: 1px solid $color-red;
-    background-color: $color-white;
-  }
-}
-
-/* -------------------- Fix autocomplete form -------------------- */
-.Input:-webkit-autofill {
-  -webkit-background-clip: text;
-}
-
-.Input {
-  &:-webkit-autofill {
-    border: 1px solid rgba(0, 0, 0, 0.54);
-    & ~ .FormField_Label {
+    #{$this}-Label {
       //@include roboto-12-regular;
       top: -7px;
       padding: 0 5px;
       color: $color-text;
       background-color: $color-white;
+    }
+
+    #{$this}-Inner__active {
+      width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.54);
+      color: $color-text;
+      background-color: $color-white;
+
+      input:hover,
+      input {
+        background-color: $color-white;
+      }
+    }
+
+    input:-webkit-autofill.Input__active,
+    input:-webkit-autofill.Input__active:hover,
+    input:-webkit-autofill.Input__active:focus,
+    input:-webkit-autofill.Input__active:active {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+    }
+
+    & textarea,
+    & textarea:hover {
+      background-color: $color-white;
+    }
+
+    #{$this}-Inner__active#{$this}-Inner__error {
+      border: 1px solid $color-red;
+      background-color: $color-white;
+    }
+  }
+
+  /* -------------------- Fix autocomplete form -------------------- */
+  #{$this}-Inner:-webkit-autofill {
+    -webkit-background-clip: text;
+  }
+
+  #{$this}-Inner {
+    &:-webkit-autofill {
+      border: 1px solid rgba(0, 0, 0, 0.54);
+      & ~ #{$this}-Label {
+        //@include roboto-12-regular;
+        top: -7px;
+        padding: 0 5px;
+        color: $color-text;
+        background-color: $color-white;
+      }
     }
   }
 }
@@ -113,7 +114,8 @@
   transition: all 0.3s;
 }
 
-.InputComponent {
+.Input {
+  $this: &;
   display: flex;
   align-items: center;
   padding: 18px 40px 18px 12px;
@@ -122,17 +124,18 @@
   border: 1px solid transparent;
   border-radius: 4px;
   outline: transparent;
-  transition: all 0.25s ease;
 
   &:hover {
     background-color: $color-bg-input-hover;
+    transition: background-color 0.25s ease;
   }
 
-  &.InputComponent__error {
+  &#{$this}__error {
     background-color: $color-light-red;
 
     &:hover {
       background-color: $color-light-red-hover;
+      transition: background-color 0.25s ease;
     }
   }
 }

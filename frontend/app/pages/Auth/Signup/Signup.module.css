@@ -29,12 +29,12 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.Login {
+.Signup {
   display: flex;
   justify-content: center;
-  height: 50vh;
+  height: 100%;
 }
-.Login-Center {
+.Signup-Inner {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,40 +43,41 @@
   max-width: 470px;
   width: 100%;
 }
-.Login-CenterContent {
+.Signup-Content {
   padding: 24px;
   width: 100%;
   height: auto;
   border-radius: 16px;
   box-shadow: 0 1px 20px rgba(4, 6, 28, 0.1);
 }
-.Login-CenterContentTitle {
+.Signup-Title {
   margin-bottom: 25px;
   text-align: center;
 }
-.Login-FormFieldGroup {
+.Signup-FormFieldGroup {
   position: relative;
   margin-bottom: 50px;
 }
-.Login-Control {
+.Signup-Control {
   display: flex;
   justify-content: center;
 }
-.Login-Button {
+.Signup-Button {
   margin-bottom: 20px;
 }
-.Login-Signup {
-  text-align: center;
+.Signup-Registration {
+  display: flex;
+  justify-content: center;
 }
-.Login-Signup span {
+.Signup-Registration span {
   margin-right: 10px;
 }
-.Login-Signup a {
+.Signup-Registration a {
   color: rgb(176, 151, 106);
   transition: all 0.15s;
 }
-.Login-Signup a:hover {
+.Signup-Registration a:hover {
   color: rgb(153, 126, 77);
 }
 
-/*# sourceMappingURL=Login.module.css.map */
+/*# sourceMappingURL=Signup.module.css.map */

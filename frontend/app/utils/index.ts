@@ -1,5 +1,6 @@
 export * from "./apiDomainFunction";
 export * from "./createApi";
+export * from "./createPath";
 export * from "./form";
 export * from "./format";
 export * from "./gatewayTimeout";

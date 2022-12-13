@@ -10,6 +10,6 @@ export enum ROUTES {
   RECIPIENT = "/recipient",
   REVIEWS = "/reviews",
   SHIPPING = "/shipping",
-  REGISTRATION = "/registration",
+  SIGNUP = "/signup",
   THANKS = "/thanks",
 }
