@@ -1,33 +1,30 @@
 import type { FC } from "react";
-import {Link} from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {ROUTES} from "~/constants";
-import {ERoutes} from "~/enums";
+import { ROUTES } from "~/constants";
+import { ERoutes } from "~/enums";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
-import {EFormFields} from "~/pages/Auth/Login/enums";
+import { EFormFields } from "~/pages/Auth/Login/enums";
 import { formSchema } from "~/pages/Auth/Login/schemas";
-import {TForm, TOptionsSubmitForm} from "~/pages/Auth/Login/types";
+import { TForm, TOptionsSubmitForm } from "~/pages/Auth/Login/types";
 import { TParams } from "~/types";
 import { Button } from "~/uikit";
-import {createPath} from "~/utils";
+import { createPath } from "~/utils";
 import styles from "./Login.module.css";
-
 
 export const Login: FC = () => {
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
     fetcher.submit(params, {
       method: EFormMethods.Post,
-      action: createPath(
-          {
-            route: ERoutes.Login,
-            withIndex: true
-          },
-      ),
+      action: createPath({
+        route: ERoutes.Login,
+        withIndex: true,
+      }),
     });
   };
 
@@ -49,9 +46,7 @@ export const Login: FC = () => {
           </Form>
           <div className="Login-Signup">
             <span>Нет аккаунта?</span>
-            <Link to={ROUTES.SIGNUP}>
-              Зарегистрироваться
-            </Link>
+            <Link to={ROUTES.SIGNUP}>Зарегистрироваться</Link>
           </div>
         </div>
       </div>

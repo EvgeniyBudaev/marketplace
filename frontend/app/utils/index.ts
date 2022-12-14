@@ -1,4 +1,5 @@
 export * from "./apiDomainFunction";
+export * from "./boundaries";
 export * from "./createApi";
 export * from "./createPath";
 export * from "./form";

@@ -2,9 +2,10 @@ import invariant from "tiny-invariant";
 
 export type EnvironmentType = {
   API_URL: string;
+  IS_PRODUCTION: boolean;
 };
 
-const { API_URL } = process.env;
+const { API_URL, NODE_ENV } = process.env;
 
 invariant(API_URL, "API_URL must be set in env file");
 
@@ -13,4 +14,5 @@ invariant(API_URL, "API_URL must be set in env file");
  */
 export const Environment: EnvironmentType = {
   API_URL: API_URL,
+  IS_PRODUCTION: NODE_ENV === "production",
 };
