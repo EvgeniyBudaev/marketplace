@@ -41,6 +41,6 @@ const HamburgerComponent: FC<TProps> = ({
 
 export const Hamburger = memo(HamburgerComponent);
 
-export function links() {
+export function hamburgerLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

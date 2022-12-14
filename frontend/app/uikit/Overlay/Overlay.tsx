@@ -30,6 +30,6 @@ const OverlayComponent: FC<TProps> = ({ className, timeout = 300, isActive = fal
 
 export const Overlay = memo(OverlayComponent);
 
-export function links() {
+export function overlayLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

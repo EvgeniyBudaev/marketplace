@@ -126,6 +126,7 @@
 }
 .HeaderBottom-ButtonCatalog span {
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 .HeaderBottom-ButtonCatalogText {

@@ -27,6 +27,6 @@ const AlertComponent: FC<TProps> = ({ className, description, title }) => {
 
 export const Alert = memo(AlertComponent);
 
-export function links() {
+export function alertLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

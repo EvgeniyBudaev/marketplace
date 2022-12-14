@@ -7,23 +7,19 @@ import styles from "./ProductList.module.css";
 
 type TProps = {
   products: TProduct[];
-  isClickedDisplayLine: boolean;
+  isCardsLine: boolean;
 };
 
-export const ProductList: FC<TProps> = ({ products, isClickedDisplayLine }) => {
+export const ProductList: FC<TProps> = ({ products, isCardsLine }) => {
   return (
     <ul
       className={clsx("ProductList", {
-        ProductList__line: isClickedDisplayLine,
+        ProductList__line: isCardsLine,
       })}
     >
       {!isNil(products) &&
         products.map((product) => (
-          <ProductListItem
-            key={product.id}
-            product={product}
-            isClickedDisplayLine={isClickedDisplayLine}
-          />
+          <ProductListItem key={product.id} product={product} isCardsLine={isCardsLine} />
         ))}
     </ul>
   );

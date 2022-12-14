@@ -1,0 +1,21 @@
+.Delivery {
+  &-Title {
+    margin-bottom: 30px;
+  }
+
+  &-SubTitle {
+    margin-bottom: 16px;
+  }
+
+  &-Paragraph {
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Help {
+    &Title {
+      //@include roboto-22-bold;
+    }
+  }
+}

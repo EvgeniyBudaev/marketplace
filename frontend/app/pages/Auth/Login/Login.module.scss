@@ -1,0 +1,62 @@
+@import "component";
+
+.Login {
+  display: flex;
+  justify-content: center;
+  height: 50vh;
+
+  &-Center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    flex-direction: column;
+    max-width: 470px;
+    width: 100%;
+
+    &Content {
+      padding: 24px;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: $shadow-form;
+    }
+
+    &ContentTitle {
+      //@include roboto-32-bold;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+  }
+
+  &-FormFieldGroup {
+    position: relative;
+    margin-bottom: 50px;
+  }
+
+  &-Control {
+    display: flex;
+    justify-content: center;
+  }
+
+  &-Button {
+    margin-bottom: 20px;
+  }
+
+  &-Signup {
+    text-align: center;
+
+    span {
+      margin-right: 10px;
+    }
+
+    a {
+      color: $color-beige;
+      transition: all 0.15s;
+
+      &:hover {
+        color: $color-beige-hover;
+      }
+    }
+  }
+}

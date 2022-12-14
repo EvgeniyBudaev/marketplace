@@ -50,7 +50,7 @@ export const HeaderBottom: FC<TProps> = ({
                 <NavLink href={"/about"} activeClassName="HeaderBottom-Text__isActive">
                   <span className="HeaderBottom-Text">О компании</span>
                 </NavLink>
-                <NavLink href={"/help"} activeClassName="HeaderBottom-Text__isActive">
+                <NavLink href={"/delivery"} activeClassName="HeaderBottom-Text__isActive">
                   <span className="HeaderBottom-Text">Доставка и оплата</span>
                 </NavLink>
                 <NavLink href={"/contacts"} activeClassName="HeaderBottom-Text__isActive">
