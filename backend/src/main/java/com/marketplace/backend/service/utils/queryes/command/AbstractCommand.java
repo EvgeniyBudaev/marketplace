@@ -30,7 +30,10 @@ public abstract class AbstractCommand implements QueryCreateCommand {
                 sb.append(" ").append(entry.getValue().getQuery()).append(",");
             }
         }
-        sb.deleteCharAt(sb.length()-1);/*Удаляем последнюю запятую*/
+        if (sb.charAt(sb.length()-1)==','){
+            sb.deleteCharAt(sb.length()-1);/*Удаляем последнюю запятую*/
+
+        }
         return sb.toString();
     }
 
