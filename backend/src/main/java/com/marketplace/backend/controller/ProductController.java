@@ -6,8 +6,8 @@ import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
-import com.marketplace.backend.service.utils.queryes.ProductQueryResolver;
-import com.marketplace.backend.service.utils.queryes.ProductQueryResolverImpl;
+import com.marketplace.backend.service.utils.queryes.ProductUrlResolver;
+import com.marketplace.backend.service.utils.queryes.ProductUrlResolverImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +28,10 @@ public class ProductController {
 
     @GetMapping("/page/")
     public Paging<ResponseProductDto> findProductInCatalog(HttpServletRequest request){
-        ProductQueryResolver resolver = new ProductQueryResolverImpl();
-        resolver.resolveQuery(request.getQueryString());
-        return productDao.findProductsInCatalog(resolver);
+        ProductUrlResolver urlResolver = new ProductUrlResolverImpl();
+        return productDao
+                .findProductsInCatalog(urlResolver
+                        .resolveQuery(request.getQueryString()));
     }
 
     @GetMapping("/by_alias")

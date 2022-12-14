@@ -10,7 +10,9 @@ import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.repository.ProductRepository;
+import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
 import com.marketplace.backend.service.utils.queryes.ProductQueryResolver;
+import com.marketplace.backend.service.utils.queryes.ProductQueryResolverImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -60,15 +62,15 @@ public class ProductService implements ProductDao {
 
 
     @Override
-    public Paging<ResponseProductDto> findProductsInCatalog(ProductQueryResolver resolver) {
+    public Paging<ResponseProductDto> findProductsInCatalog(ProductQueryParam queryParam) {
 
         TypedQuery<Attribute> attributeQuery = entityManager.createQuery("SELECT a from Attribute as a where a.alias in (:list)",Attribute.class);
-        attributeQuery.setParameter("list",resolver.getAttributesAlias());
+        attributeQuery.setParameter("list",queryParam.getAttributesAlias());
         List<Attribute> res1 = attributeQuery.getResultList();
-        resolver.setAttributes(res1);
-
+        queryParam.setAttributes(res1);
+        ProductQueryResolver resolver = new ProductQueryResolverImpl(queryParam);
         /*Получаем количество выбираемых результатов*/
-
+        resolver.init();
         TypedQuery<Long> productQueryCount = entityManager
                 .createQuery(resolver.getCountWithFilters(),Long.class);
         TypedQuery<Product> productQueryResult = entityManager
@@ -80,12 +82,12 @@ public class ProductService implements ProductDao {
         Integer count  = Math.toIntExact(productQueryCount.getSingleResult());
         /*Выбираем результаты*/
         Paging<ResponseProductDto> result =
-                new Paging<>(count,resolver.getPageSize(), resolver.getCurrentPage());
+                new Paging<>(count,queryParam.getPageSize(), queryParam.getCurrentPage());
         productQueryResult.setFirstResult((result.getCurrentPage()-1)* result.getPageSize() );
-        productQueryResult.setMaxResults(resolver.getPageSize());
+        productQueryResult.setMaxResults(queryParam.getPageSize());
         result.setContent(productQueryResult
                 .getResultList().stream().map(x->productConverters
-                        .convertProductToResponseProductDto(x, resolver.getCatalogAlias())).collect(Collectors.toList()));
+                        .convertProductToResponseProductDto(x, queryParam.getCatalogAlias())).collect(Collectors.toList()));
        /* TypedQuery<Product> query = entityManager
                 .createQuery("SELECT p from Product as p left join p.doubleValues as dv where (dv.attribute.id=5 and dv.value between 40 and 70)", Product.class);*/
         return result;
