@@ -7,5 +7,6 @@ CREATE TABLE products (
     count INTEGER,
     price VARCHAR(20),
     rating DOUBLE default 0,
-    catalog_id BIGINT
+    catalog_id BIGINT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

@@ -6,8 +6,10 @@ import com.marketplace.backend.model.values.SelectableValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -40,6 +42,10 @@ public class Product {
 
     @Column(name = "rating", nullable = false)
     private double rating;
+
+    @Column(name = "created_at")
+    @CreatedDate
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "catalog_id",nullable = false)

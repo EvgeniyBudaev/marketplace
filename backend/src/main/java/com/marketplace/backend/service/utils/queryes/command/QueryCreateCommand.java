@@ -1,4 +1,4 @@
-package com.marketplace.backend.service.utils.queryes.strategy;
+package com.marketplace.backend.service.utils.queryes.command;
 
 import java.util.Map;
 
