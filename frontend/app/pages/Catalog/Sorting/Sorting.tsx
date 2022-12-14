@@ -15,13 +15,13 @@ export const Sorting: FC = () => {
   const PRICE_UP = "по возрастанию цены";
   const PRICE_DOWN = "по убыванию цены";
   const options = [
-    { value: "price", label: PRICE_UP },
-    { value: "-price", label: PRICE_DOWN },
+    { value: "price_asc", label: PRICE_UP },
+    { value: "price_desc", label: PRICE_DOWN },
   ];
 
   const [isSelectOpened, setIsSelectOpened] = useState(false);
   const [selectedOption, setSelectedOption] = useState<TSorting>({
-    value: "price",
+    value: "price_asc",
     label: PRICE_UP,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
