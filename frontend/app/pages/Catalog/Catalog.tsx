@@ -13,18 +13,18 @@ import { productListItemLinks } from "~/pages/Catalog/ProductListItem";
 import { sortingLinks } from "~/pages/Catalog/Sorting";
 import { TCatalogDetail } from "~/shared/api/catalogs";
 import { TProduct, TProducts } from "~/shared/api/products";
-import {TParams, TSorting} from "~/types";
+import { TParams, TSorting } from "~/types";
 import { transformObjectToURLParams } from "~/utils";
 import { Filter } from "./Filter";
 import { Panel } from "./Panel";
 import { ProductList } from "./ProductList";
 import styles from "./Catalog.module.css";
-import {DEFAULT_PAGE_SIZE} from "~/constants";
+import { DEFAULT_PAGE_SIZE } from "~/constants";
 
 type TProductRange = {
   startProduct: number;
   endProduct: number;
-}
+};
 
 type TProps = {
   catalog: TCatalogDetail;
@@ -45,7 +45,7 @@ export const Catalog: FC<TProps> = (props) => {
     startProduct: 0,
     endProduct: 0,
   });
-  const {countOfResult: totalItemsCount, currentPage} = products;
+  const { countOfResult: totalItemsCount, currentPage } = products;
   const pageItemsCount = productList.length;
 
   useEffect(() => {
@@ -122,7 +122,11 @@ export const Catalog: FC<TProps> = (props) => {
       <div className="Catalog-Inner">
         <Filter catalog={catalog} onLoad={handleFilter} />
         <div className="Catalog-Wrapper">
-          <Panel isCardsLine={isCardsLine} onCardsSwitcher={onCardsSwitcher} onSorting={handleSorting} />
+          <Panel
+            isCardsLine={isCardsLine}
+            onCardsSwitcher={onCardsSwitcher}
+            onSorting={handleSorting}
+          />
           <InfiniteScroll
             dataLength={productList.length}
             next={getMoreProducts}

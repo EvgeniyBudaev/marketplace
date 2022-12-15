@@ -4,8 +4,8 @@ import { Form } from "@remix-run/react";
 import clsx from "clsx";
 import isNull from "lodash/isNull";
 import { selectStyles } from "~/pages/Catalog/Sorting/selectStyles";
-import {EFormMethods} from "~/shared/form";
-import {TSorting} from "~/types";
+import { EFormMethods } from "~/shared/form";
+import { TSorting } from "~/types";
 import { Select } from "~/uikit";
 import styles from "./Sorting.module.css";
 
@@ -13,7 +13,7 @@ type TProps = {
   onSorting: (data?: TSorting) => void;
 };
 
-export const Sorting: FC<TProps> = ({onSorting}) => {
+export const Sorting: FC<TProps> = ({ onSorting }) => {
   const PRICE_UP = "по возрастанию цены";
   const PRICE_DOWN = "по убыванию цены";
   const options = [
@@ -55,22 +55,22 @@ export const Sorting: FC<TProps> = ({onSorting}) => {
   };
 
   return (
-      <div className="Sorting">
-        <span className="Sorting-Label">Сортировать</span>
-        <Select
-            className={clsx("Sorting-Select", {
-              "Sorting-Select__active": isSelectOpened,
-            })}
-            id="1"
-            instanceId="1"
-            options={options}
-            styles={selectStyles}
-            value={selectedOption}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            onFocus={handleFocus}
-        />
-      </div>
+    <div className="Sorting">
+      <span className="Sorting-Label">Сортировать</span>
+      <Select
+        className={clsx("Sorting-Select", {
+          "Sorting-Select__active": isSelectOpened,
+        })}
+        id="1"
+        instanceId="1"
+        options={options}
+        styles={selectStyles}
+        value={selectedOption}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        onFocus={handleFocus}
+      />
+    </div>
     // <Form className="Sorting" method={EFormMethods.Get} onSubmit={handleSubmit}>
     //   <span className="Sorting-Label">Сортировать</span>
     //   <Select

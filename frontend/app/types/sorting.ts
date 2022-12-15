@@ -1,4 +1,4 @@
 export type TSorting = {
-    value: string;
-    label: string;
+  value: string;
+  label: string;
 };

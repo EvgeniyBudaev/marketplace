@@ -3,7 +3,7 @@ import type { ChangeEvent, FC } from "react";
 import { Form, useSearchParams } from "@remix-run/react";
 import { TRANSITION } from "~/constants";
 import { TCatalogAttributeItem, TCatalogDetail } from "~/shared/api/catalogs";
-import {EFormMethods} from "~/shared/form";
+import { EFormMethods } from "~/shared/form";
 import { TParams } from "~/types";
 import { Accordion, Button, Checkbox, Overlay } from "~/uikit";
 import styles from "./Filter.module.css";

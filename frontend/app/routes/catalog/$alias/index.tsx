@@ -6,7 +6,7 @@ import { Catalog, catalogLinks } from "~/pages";
 import { getCatalogDetail } from "~/shared/api/catalogs";
 import { getProductsByCatalog } from "~/shared/api/products";
 import { internalError } from "~/utils";
-import {mapParamsToDto} from "~/shared/api/products/utils";
+import { mapParamsToDto } from "~/shared/api/products/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;

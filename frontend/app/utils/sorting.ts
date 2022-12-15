@@ -1,7 +1,7 @@
-import {TSorting} from "~/types";
+import { TSorting } from "~/types";
 
 export const mapSortingToDto = (params?: TSorting) => {
-    return {
-        sort: params?.value ?? ""
-    }
+  return {
+    sort: params?.value ?? "",
+  };
 };

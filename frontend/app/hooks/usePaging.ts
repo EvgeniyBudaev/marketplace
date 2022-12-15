@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import {TParams, TSorting} from "~/types";
-import {mapSortingToDto} from "~/utils";
+import { TParams, TSorting } from "~/types";
+import { mapSortingToDto } from "~/utils";
 
 type TUsePaging = (
   onLoad: (params: Record<string, any>) => void,
@@ -33,35 +33,36 @@ export const usePaging: TUsePaging = (onLoad, { pageSize, page }) => {
   );
 
   const handleFilter = useCallback(
-      (params?: TParams) => {
-          console.log("params: ", params);
-        let paramsToDto: TParams = {};
+    (params?: TParams) => {
+      console.log("params: ", params);
+      let paramsToDto: TParams = {};
 
-        params && Object.entries(params).forEach(([key, value]) => {
+      params &&
+        Object.entries(params).forEach(([key, value]) => {
           if (value.length > 0) {
             paramsToDto[key] = value.join();
           }
         });
-          console.log("paramsToDto: ", paramsToDto);
-        setFilter({ ...filter, ...paramsToDto });
-        onLoad({ page: 1, size: pageSize, ...filter, ...paramsToDto });
-      },
-      [onLoad, pageSize, filter],
+      console.log("paramsToDto: ", paramsToDto);
+      setFilter({ ...filter, ...paramsToDto });
+      onLoad({ page: 1, size: pageSize, ...filter, ...paramsToDto });
+    },
+    [onLoad, pageSize, filter],
   );
 
-    const handleReset = useCallback(() => {
-        setFilter(() => {});
-    }, []);
+  const handleReset = useCallback(() => {
+    setFilter(() => {});
+  }, []);
 
-    const handleSorting = useCallback(
-        (params?: TSorting) => {
-            console.log("usePaging params: ", params);
-            console.log("mapSortingToDto(params): ", mapSortingToDto(params));
-            setFilter((prev) => ({ ...prev, ...mapSortingToDto(params) }));
-            onLoad({ page, pageSize, ...filter, ...mapSortingToDto(params) });
-        },
-        [filter, onLoad, pageSize, page],
-    );
+  const handleSorting = useCallback(
+    (params?: TSorting) => {
+      console.log("usePaging params: ", params);
+      console.log("mapSortingToDto(params): ", mapSortingToDto(params));
+      setFilter((prev) => ({ ...prev, ...mapSortingToDto(params) }));
+      onLoad({ page, pageSize, ...filter, ...mapSortingToDto(params) });
+    },
+    [filter, onLoad, pageSize, page],
+  );
 
   return {
     onChangePage: handleChangePage,
