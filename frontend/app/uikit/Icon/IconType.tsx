@@ -70,11 +70,11 @@ export type IconType =
   | "VisibilityOff";
 
 export const iconTypes = new Map([
-  ["ArrowBackIcon", <ArrowBackIcon key={"ArrowBackIcon"} />],
+  ["ArrowBack", <ArrowBackIcon key={"ArrowBack"} />],
   ["ArrowDown", <ArrowDownIcon key={"ArrowDown"} />],
   ["ArrowLeft", <ArrowLeftIcon key={"ArrowLeft"} />],
   ["ArrowRight", <ArrowRightIcon key={"ArrowRight"} />],
-  ["AttentionIcon", <AttentionIcon key={"AttentionIcon"} />],
+  ["Attention", <AttentionIcon key={"Attention"} />],
   ["Card", <CardIcon key={"Card"} />],
   ["Cart", <CartIcon key={"Cart"} />],
   ["Cash", <CashIcon key={"Cash"} />],

@@ -1,6 +1,7 @@
 import { TProducts, TProductsByCatalogSearchParams } from "~/shared/api/products";
 import { fetchApi } from "~/shared/api/http.server";
 import { TApiFunction } from "~/shared/api/types";
+import { EFormMethods } from "~/shared/form";
 
 export const getProductsByCatalogApi: TApiFunction<TProductsByCatalogSearchParams, TProducts> = (
   request,
@@ -13,6 +14,6 @@ export const getProductsByCatalogApi: TApiFunction<TProductsByCatalogSearchParam
   console.log("[url] ", url);
 
   return fetchApi<TProducts>(request, url, {
-    method: "GET",
+    method: EFormMethods.Get,
   });
 };

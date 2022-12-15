@@ -4,12 +4,14 @@ import type { TIconProps } from "../types";
 
 type TProps = TIconProps & {
   className?: string;
-  onClick?: (e: MouseEvent<HTMLOrSVGElement>) => void;
+  onClick?: (event: MouseEvent<HTMLOrSVGElement>) => void;
 };
 
 const IconComponent: FC<TProps> = ({ className, onClick, ...props }) => (
   <svg
     className={className}
+    height="24px"
+    width="24px"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     onClick={onClick}

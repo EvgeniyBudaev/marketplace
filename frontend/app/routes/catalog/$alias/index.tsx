@@ -6,6 +6,7 @@ import { Catalog, catalogLinks } from "~/pages";
 import { getCatalogDetail } from "~/shared/api/catalogs";
 import { getProductsByCatalog } from "~/shared/api/products";
 import { internalError } from "~/utils";
+import {mapParamsToDto} from "~/shared/api/products/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
@@ -13,9 +14,10 @@ export const loader = async (args: LoaderArgs) => {
   const formValues = inputFromSearch(url.searchParams);
   console.log("[formValues] ", formValues);
   const { alias } = params as { alias: string };
+  const formattedParams = mapParamsToDto(formValues);
 
   const catalogResponse = await getCatalogDetail(request, { alias });
-  const productsResponse = await getProductsByCatalog(request, { alias, params: formValues });
+  const productsResponse = await getProductsByCatalog(request, { alias, params: formattedParams });
 
   if (!catalogResponse.success || !productsResponse.success) {
     throw internalError();

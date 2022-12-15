@@ -23,7 +23,7 @@ export const Footer: FC = () => {
               <span className="Footer-Link">&nbsp;Evgeniy Budaev</span>
             </Link>
           </div>
-          <div className="Footer-Text">Mirror Look ©&nbsp;2023</div>
+          <div className="Footer-Text">Marketplace ©&nbsp;2023</div>
         </div>
       </div>
     </footer>

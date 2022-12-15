@@ -1,7 +1,11 @@
 import { useState, useRef } from "react";
 import { FC } from "react";
+import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 //import useWindowScroll from "hooks/useWindowScroll";
+import { TRANSITION } from "~/constants";
+import { Overlay } from "~/uikit";
+import { CatalogDropDown, catalogDropDownLinks } from "./CatalogDropDown";
 import { HeaderBottom } from "./HeaderBottom";
 import { HeaderCenter } from "./HeaderCenter";
 import { headerBottomLinks } from "~/components/Layout/Header/HeaderBottom";
@@ -22,6 +26,14 @@ export const Header: FC<TProps> = ({ isHomePage }) => {
   //const isScroll = useWindowScroll({ timerLength: offset });
   const isScroll = false;
 
+  const onCatalogToggle = () => {
+    setIsCatalogOpen((prevState) => !prevState);
+  };
+
+  const onCatalogClose = () => {
+    setIsCatalogOpen(false);
+  };
+
   return (
     <>
       <div
@@ -36,10 +48,20 @@ export const Header: FC<TProps> = ({ isHomePage }) => {
           <HeaderBottom
             isCatalogOpen={isCatalogOpen}
             isHomePage={!isScroll && isHomePage}
-            onCatalogToggle={() => {}}
+            onCatalogToggle={onCatalogToggle}
           />
         </header>
       </div>
+      <CSSTransition
+        className="CatalogDropDownWindow"
+        in={isCatalogOpen}
+        nodeRef={nodeRef}
+        timeout={TRANSITION}
+        unmountOnExit
+      >
+        <CatalogDropDown ref={nodeRef} isOpen={isCatalogOpen} onClose={onCatalogClose} />
+      </CSSTransition>
+      <Overlay timeout={TRANSITION} onClick={onCatalogClose} isActive={isCatalogOpen} />
     </>
   );
 };
@@ -47,6 +69,7 @@ export const Header: FC<TProps> = ({ isHomePage }) => {
 export function headerLinks() {
   return [
     { rel: "stylesheet", href: styles },
+    ...catalogDropDownLinks(),
     ...headerBottomLinks(),
     ...headerCenterLinks(),
     ...headerIconListLinks(),

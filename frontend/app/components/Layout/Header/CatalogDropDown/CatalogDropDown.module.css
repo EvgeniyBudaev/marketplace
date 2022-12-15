@@ -1,0 +1,53 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.CatalogDropDown {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 16px 0;
+  width: 100%;
+  min-width: 100%;
+  height: max-content;
+  background-color: rgb(255, 255, 255);
+  z-index: 102;
+}
+.CatalogDropDown-Container {
+  max-width: 1440px;
+  width: 100%;
+  padding: 0 15px;
+  margin: 170px auto 0;
+}
+.CatalogDropDown__isScroll .CatalogDropDownContainer {
+  margin: 130px auto 0;
+}
+
+/*# sourceMappingURL=CatalogDropDown.module.css.map */

@@ -1,6 +1,8 @@
 import type { FC } from "react";
 import type { ThrownResponse } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
+import { Icon } from "~/uikit";
+import styles from "./Error.module.css";
 
 type TProps = {
   caught?: ThrownResponse<number, any>;
@@ -27,32 +29,35 @@ export const Error: FC<TProps> = ({ message, caught, error }) => {
   }
 
   return (
-    <div className="bg-grey-light flex-1">
-      <div className="bg-error-light bg-red rounded-md p-4">
-        <div className="flex">
-          <div className="flex-shrink-0">
-            {/*TODO: Добавить иконку*/}
-            Icon type Error
+    <section className="Error">
+      <div className="Error-Inner">
+        <div className="Error-Content">
+          <div className="Error-IconBox">
+            <Icon className="Error-Icon" type="Attention" />
           </div>
-          <div className="ml-3">
+          <div className="Error-Message">
             {isDev ? (
               <>
-                <h3 className="text-error-dark mb-2 text-sm font-medium">{errorMessage}</h3>
+                <h3 className="Error-Title">{errorMessage}</h3>
                 {caught && (
-                  <div className="text-error-dark mb-2 text-sm font-medium">
+                  <div className="Error-Caught">
                     <div>Status code: {caught.status || "-"}</div>
                     <div>Status text: {caught.statusText || "-"}</div>
-                    <pre className="whitespace-pre-wrap">Data: {formattedCaughtData ?? "-"}</pre>
+                    <pre className="Error-CaughtFormatted">Data: {formattedCaughtData ?? "-"}</pre>
                   </div>
                 )}
-                <div className="text-error-dark text-sm">{error?.stack}</div>
+                <div className="Error-Stack">{error?.stack}</div>
               </>
             ) : (
-              <h3 className="text-error-dark text-sm font-medium">{errorMessage}</h3>
+              <h3 className="Error-TitleProd">{errorMessage}</h3>
             )}
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
+
+export function errorLinks() {
+  return [{ rel: "stylesheet", href: styles }];
+}

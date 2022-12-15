@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import type { FC } from "react";
+import { Form } from "@remix-run/react";
 import clsx from "clsx";
 import isNull from "lodash/isNull";
-import { Select } from "~/uikit";
 import { selectStyles } from "~/pages/Catalog/Sorting/selectStyles";
+import {EFormMethods} from "~/shared/form";
+import {TSorting} from "~/types";
+import { Select } from "~/uikit";
 import styles from "./Sorting.module.css";
 
-type TSorting = {
-  value: string;
-  label: string;
+type TProps = {
+  onSorting: (data?: TSorting) => void;
 };
 
-export const Sorting: FC = () => {
+export const Sorting: FC<TProps> = ({onSorting}) => {
   const PRICE_UP = "по возрастанию цены";
   const PRICE_DOWN = "по убыванию цены";
   const options = [
@@ -26,13 +28,8 @@ export const Sorting: FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSorting = (selectedOption: TSorting) => {
-    //return { ...router.query, ordering: selectedOption.value, page: 1 };
-  };
-
   const handleChange = (selectedOption: TSorting | null) => {
     if (isNull(selectedOption)) return;
-    console.log("selectedOption: ", selectedOption);
     setSelectedOption(selectedOption);
     setIsSubmitting((prevState) => !prevState);
   };
@@ -48,36 +45,48 @@ export const Sorting: FC = () => {
   useEffect(() => {
     if (!isSubmitting) return;
 
-    // async function fetchSorting(request) {
-    //     await router.push({
-    //         href: path,
-    //         query: handleSorting(request),
-    //     });
-    //     onFirstPage();
-    // }
     setIsSubmitting((prevState) => !prevState);
-
-    //fetchSorting(selectedOption);
+    onSorting(selectedOption);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitting]);
 
+  const handleSubmit = (e: any) => {
+    console.log("handleSubmit: ", e);
+  };
+
   return (
-    <div className="Sorting">
-      <span className="Sorting-Label">Сортировать</span>
-      <Select
-        className={clsx("Sorting-Select", {
-          "Sorting-Select__active": isSelectOpened,
-        })}
-        id="1"
-        instanceId="1"
-        options={options}
-        styles={selectStyles}
-        value={selectedOption}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        onFocus={handleFocus}
-      />
-    </div>
+      <div className="Sorting">
+        <span className="Sorting-Label">Сортировать</span>
+        <Select
+            className={clsx("Sorting-Select", {
+              "Sorting-Select__active": isSelectOpened,
+            })}
+            id="1"
+            instanceId="1"
+            options={options}
+            styles={selectStyles}
+            value={selectedOption}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            onFocus={handleFocus}
+        />
+      </div>
+    // <Form className="Sorting" method={EFormMethods.Get} onSubmit={handleSubmit}>
+    //   <span className="Sorting-Label">Сортировать</span>
+    //   <Select
+    //     className={clsx("Sorting-Select", {
+    //       "Sorting-Select__active": isSelectOpened,
+    //     })}
+    //     id="1"
+    //     instanceId="1"
+    //     options={options}
+    //     styles={selectStyles}
+    //     value={selectedOption}
+    //     onBlur={handleBlur}
+    //     onChange={handleChange}
+    //     onFocus={handleFocus}
+    //   />
+    // </Form>
   );
 };
 
