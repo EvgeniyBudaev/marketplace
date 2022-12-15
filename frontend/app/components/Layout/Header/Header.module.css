@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -63,6 +64,25 @@
   background-color: white;
   z-index: 102;
 }
+/* ----- Открытие/закрытие по кнопке "Каталог" ----- */
+.CatalogDropDownWindow.enter {
+  opacity: 0;
+  transform: translateY(-500px);
+}
+.CatalogDropDownWindow.enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.CatalogDropDownWindow.exit {
+  opacity: 1;
+}
+.CatalogDropDownWindow.exit-active {
+  opacity: 0;
+  transform: translateY(-500px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
 @media (max-width: 500px) {
   .Header-Wrapper {
     height: 90px;

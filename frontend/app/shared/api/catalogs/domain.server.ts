@@ -1,8 +1,15 @@
-import { catalogDetailRequestSchema, catalogDetailSchema } from "~/shared/api/catalogs/schemas";
-import { getCatalogDetailApi } from "~/shared/api/catalogs/utils";
+import {
+  catalogDetailParamsSchema,
+  catalogDetailSchema,
+  catalogsParamsSchema,
+  catalogsSchema,
+} from "~/shared/api/catalogs/schemas";
+import { getCatalogDetailApi, getCatalogsApi } from "~/shared/api/catalogs/utils";
 import { apiDomainFunction } from "~/utils";
 
 export const getCatalogDetail = apiDomainFunction(
-  catalogDetailRequestSchema,
+  catalogDetailParamsSchema,
   catalogDetailSchema,
 )(getCatalogDetailApi);
+
+export const getCatalogs = apiDomainFunction(catalogsParamsSchema, catalogsSchema)(getCatalogsApi);

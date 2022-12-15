@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { paginationSchema } from "../commons";
+import { productsItemSchema } from "~/shared/api/products";
 
 const catalogAttributeValueItemSchema = z.object({
   id: z.number(),
@@ -21,6 +23,19 @@ export const catalogDetailSchema = z.object({
   selectAttribute: catalogAttributeItemSchema.array(),
 });
 
-export const catalogDetailRequestSchema = z.object({
+export const catalogDetailParamsSchema = z.object({
   alias: z.string(),
 });
+
+export const catalogsItemSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  alias: z.string(),
+  image: z.string().nullish(),
+});
+
+export const catalogsSchema = paginationSchema.extend({
+  content: catalogsItemSchema.array(),
+});
+
+export const catalogsParamsSchema = z.any();

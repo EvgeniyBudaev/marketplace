@@ -6,4 +6,5 @@ export const paginationSchema = z.object({
   hasNext: z.boolean(),
   hasPrevious: z.boolean(),
   countOfResult: z.number(),
+  countOfPage: z.number(),
 });

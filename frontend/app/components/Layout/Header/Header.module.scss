@@ -44,6 +44,33 @@
   }
 }
 
+/* ----- Открытие/закрытие по кнопке "Каталог" ----- */
+$transition: 0.3s;
+$positionCatalogWindow: -500px;
+
+.CatalogDropDownWindow {
+  &.enter {
+    opacity: 0;
+    transform: translateY($positionCatalogWindow);
+  }
+
+  &.enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity $transition, transform $transition;
+  }
+
+  &.exit {
+    opacity: 1;
+  }
+
+  &.exit-active {
+    opacity: 0;
+    transform: translateY($positionCatalogWindow);
+    transition: opacity $transition, transform $transition;
+  }
+}
+
 @media (max-width: 500px) {
   .Header-Wrapper {
     height: 90px;

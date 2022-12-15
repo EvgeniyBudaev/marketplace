@@ -1,0 +1,34 @@
+.Error {
+  background-color: rgb(249, 249, 252);
+  flex: 1;
+}
+.Error-Inner {
+  padding: 16px;
+  background-color: rgb(254, 242, 242);
+  border: 1px solid red;
+  border-radius: 6px;
+}
+.Error-Content {
+  display: flex;
+  color: rgb(153, 27, 27);
+}
+.Error-IconBox {
+  flex-shrink: 0;
+}
+.Error-Icon {
+  fill: rgb(153, 27, 27);
+}
+.Error-Message {
+  margin-left: 12px;
+}
+.Error-Title {
+  margin-bottom: 8px;
+}
+.Error-Caught {
+  margin-bottom: 8px;
+}
+.Error-CaughtFormatted {
+  white-space: pre-wrap;
+}
+
+/*# sourceMappingURL=Error.module.css.map */

@@ -3,6 +3,7 @@ import type { ChangeEvent, FC } from "react";
 import { Form, useSearchParams } from "@remix-run/react";
 import { TRANSITION } from "~/constants";
 import { TCatalogAttributeItem, TCatalogDetail } from "~/shared/api/catalogs";
+import { EFormMethods } from "~/shared/form";
 import { TParams } from "~/types";
 import { Accordion, Button, Checkbox, Overlay } from "~/uikit";
 import styles from "./Filter.module.css";
@@ -46,14 +47,14 @@ export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
     }
   };
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = () => {
     onLoad(checked);
   };
 
   return (
     <aside className="Filter">
       <Overlay timeout={TRANSITION} onClick={() => {}} isActive={false} />
-      <Form className="Filter-AsideFilterDesktop" method="get" onSubmit={handleSubmit}>
+      <Form className="Filter-AsideFilterDesktop" method={EFormMethods.Get} onSubmit={handleSubmit}>
         {attributes.map((item) => (
           <Accordion key={item.alias} title={item.name} isActive={true}>
             {item.values.map((valueItem, index) => (
