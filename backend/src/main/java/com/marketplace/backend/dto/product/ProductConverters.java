@@ -35,11 +35,12 @@ public class ProductConverters {
         responseDto.setEnabled(product.getEnabled());
         responseDto.setPrice(product.getPrice());
         responseDto.setCount(String.valueOf(product.getCount()));
+        responseDto.setCreatedAt(product.getCreatedAt());
+        responseDto.setDescription(product.getDescription());
+        responseDto.setRating(product.getRating());
         responseDto.getAttributes().addAll(convertDoubleValueToDto(product.getDoubleValues()));
         responseDto.getAttributes().addAll(convertIntegerValueToDto(product.getBooleanValues()));
         responseDto.getAttributes().addAll(convertSelectValueToDto(product.getSelectableValues()));
-        responseDto.setDescription(product.getDescription());
-        responseDto.setRating(product.getRating());
         return responseDto;
     }
 

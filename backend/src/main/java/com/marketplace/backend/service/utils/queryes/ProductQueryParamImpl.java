@@ -38,12 +38,12 @@ public class ProductQueryParamImpl implements ProductQueryParam{
             int currentPage = Integer.parseInt(pageList.get(0));
             this.pageParam.put("page", Math.max(currentPage, 1));
         }
-        List<String> pageSizeList = rawAttribute.remove("pagesize");
+        List<String> pageSizeList = rawAttribute.remove("pageSize");
         if(pageSizeList==null||pageSizeList.isEmpty()){
-            this.pageParam.put("pagesize",5);
+            this.pageParam.put("pageSize",5);
         }else {
             int pageSize = Integer.parseInt(pageSizeList.get(0));
-            this.pageParam.put("pagesize",Math.max(pageSize,5));
+            this.pageParam.put("pageSize",Math.max(pageSize,5));
         }
         List<String> catalogList = rawAttribute.remove("catalog");
         if(catalogList==null||catalogList.isEmpty()){
@@ -77,7 +77,7 @@ public class ProductQueryParamImpl implements ProductQueryParam{
 
     @Override
     public Integer getPageSize() {
-        return this.pageParam.get("pagesize");
+        return this.pageParam.get("pageSize");
     }
 
     @Override

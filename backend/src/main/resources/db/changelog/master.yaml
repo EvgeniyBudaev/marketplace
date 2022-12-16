@@ -49,5 +49,15 @@ databaseChangeLog:
       file: db/changelog/v1/complete/complete-products_selectable.sql
   - include:
       file: db/changelog/v1/complete/complete-products_double-values.sql
+  - include:
+      file: db/changelog/auth/create/create-users-table.sql
+  - include:
+      file: db/changelog/auth/create/create-roles-table.sql
+  - include:
+      file: db/changelog/auth/create/create-users-roles-table.sql
+  - include:
+      file: db/changelog/auth/create/add-foreign-key-roles.sql
+  - include:
+      file: db/changelog/auth/create/add-foreign-key-users.sql
 
 
