@@ -2,7 +2,7 @@ import type { ERoutes } from "~/enums";
 
 type TRoutes = ERoutes.Login | ERoutes.Signup;
 
-type TRoutesWithParams = "";
+type TRoutesWithParams = ERoutes.ProductDetail;
 
 type TCreatePathProps =
   | { route: TRoutes; withIndex?: boolean }

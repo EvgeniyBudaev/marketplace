@@ -1,0 +1,102 @@
+@import "component";
+
+.ProductDetail {
+  width: 100%;
+
+  &-Title {
+    //@include roboto-24-bold;
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+
+  &-Navigation {
+    margin-bottom: 20px;
+
+    &Text {
+      color: $color-beige;
+      transition: all 0.15s;
+
+      &:hover {
+        color: $color-beige-hover;
+      }
+    }
+  }
+
+  &-Info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-ColMedia {
+    max-width: 400px;
+    width: 100%;
+  }
+
+  &-ColSpecification {
+    padding: 0 25px;
+  }
+
+  &-Specification {
+    //@include roboto-14-regular;
+
+    &Title {
+      //@include roboto-14-bold;
+      margin-bottom: 16px;
+    }
+
+    &List {
+      margin-bottom: 8px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 12px;
+
+      &::before {
+        position: absolute;
+        top: 6px;
+        left: 0;
+        display: block;
+        width: 4px;
+        height: 4px;
+        content: " ";
+        border-radius: 4px;
+        background: #999;
+      }
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+  }
+
+  &-ColPrice {
+    padding: 20px;
+    max-width: 330px;
+    width: 100%;
+    height: max-content;
+    border-radius: 4px;
+    box-shadow: $shadow-perimeter;
+
+    &Title {
+      display: inline-block;
+    }
+  }
+
+  &-Price {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  &-Status {
+    display: inline-block;
+    color: $color-beige;
+  }
+
+  &-Pay {
+    //@include roboto-14-regular;
+    margin: 8px 0 16px;
+  }
+}

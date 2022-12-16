@@ -32,3 +32,21 @@ export const productsByCatalogSearchParamsSchema = z.object({
     })
     .optional(),
 });
+
+export const productDetailParamsSchema = z.object({
+  alias: z.string(),
+});
+
+export const productDetailSchema = z.object({
+  catalogAlias: z.string(),
+  id: z.number(),
+  name: z.string(),
+  alias: z.string(),
+  enabled: z.boolean(),
+  description: z.string().nullish(),
+  rating: z.number(),
+  price: z.string(),
+  count: z.string(),
+  createdAt: z.string(),
+  attributes: attributeItemSchema.array(),
+});

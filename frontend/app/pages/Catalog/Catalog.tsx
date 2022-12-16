@@ -45,11 +45,11 @@ export const Catalog: FC<TProps> = (props) => {
     startProduct: 0,
     endProduct: 0,
   });
-  const { countOfResult: totalItemsCount, currentPage } = products;
-  const pageItemsCount = productList.length;
+  const { countOfPage, countOfResult: totalItemsCount, currentPage } = products;
 
   useEffect(() => {
-    const lastPage = Math.max(Math.ceil(totalItemsCount / pageItemsCount), 1);
+    const pageItemsCount = productList.length;
+    const lastPage = Math.max(Math.ceil(totalItemsCount / countOfPage), 1);
 
     if (currentPage === lastPage) {
       setProductRange({
@@ -59,10 +59,10 @@ export const Catalog: FC<TProps> = (props) => {
     } else {
       setProductRange({
         startProduct: (currentPage - 1) * pageItemsCount + 1,
-        endProduct: currentPage * pageItemsCount,
+        endProduct: pageItemsCount,
       });
     }
-  }, [currentPage, pageItemsCount, totalItemsCount]);
+  }, [productList.length]);
 
   const onCardsSwitcher = () => {
     setIsCardsLine((prev) => !prev);

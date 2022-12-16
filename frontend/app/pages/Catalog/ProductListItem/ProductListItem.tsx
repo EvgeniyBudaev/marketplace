@@ -2,9 +2,10 @@ import { FC } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
+import { ERoutes } from "~/enums";
 import { TProduct } from "~/shared/api/products";
 import { Button } from "~/uikit";
-import { formatValueWithSpaces } from "~/utils";
+import { createPath, formatValueWithSpaces } from "~/utils";
 import { AttributeItem } from "../AttributeItem";
 import styles from "./ProductListItem.module.css";
 
@@ -42,7 +43,12 @@ export const ProductListItem: FC<TProps> = ({ product, isCardsLine }) => {
       <div className="ProductListItem-Wrapper">
         <div className="ProductListItem-Content">
           <div className="ProductListItem-ContentImg">
-            <Link to={`product/${product.alias}`}>
+            <Link
+              to={createPath({
+                route: ERoutes.ProductDetail,
+                params: { alias: product.alias },
+              })}
+            >
               <img
                 className="ProductListItem-ContentImage"
                 alt={product.name}
@@ -55,7 +61,13 @@ export const ProductListItem: FC<TProps> = ({ product, isCardsLine }) => {
             </Link>
           </div>
           <div className="ProductListItem-ContentDescription">
-            <Link className="ProductListItem-ContentTitle" to={`product/${product.alias}`}>
+            <Link
+              className="ProductListItem-ContentTitle"
+              to={createPath({
+                route: ERoutes.ProductDetail,
+                params: { alias: product.alias },
+              })}
+            >
               {product.name}
             </Link>
           </div>
@@ -64,7 +76,12 @@ export const ProductListItem: FC<TProps> = ({ product, isCardsLine }) => {
               {formatValueWithSpaces(parseInt(product.price))} ₽
             </li>
             <li className="ProductListItem-ContentTitleLine">
-              <Link to={`product/${product.alias}`}>
+              <Link
+                to={createPath({
+                  route: ERoutes.ProductDetail,
+                  params: { alias: product.alias },
+                })}
+              >
                 <span className="ProductListItem-ContentTitle">{product.description}</span>
               </Link>
             </li>
