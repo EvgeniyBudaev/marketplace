@@ -3,6 +3,7 @@ package com.marketplace.backend.dto.product.response;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class ResponseProductDto {
     private Double rating;
     private String price;
     private String count;
+    private LocalDateTime createdAt;
     private List<AttributeValueDto> attributes = new ArrayList<>();
 
     @Data
