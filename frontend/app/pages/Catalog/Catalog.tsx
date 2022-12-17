@@ -3,6 +3,7 @@ import type { FC } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useFetcher } from "@remix-run/react";
 import IsNull from "lodash/isNull";
+import { DEFAULT_PAGE_SIZE } from "~/constants";
 import { usePaging } from "~/hooks";
 import { attributeItemLinks } from "~/pages/Catalog/AttributeItem";
 import { cardsSwitcherLinks } from "~/pages/Catalog/CardsSwitcher";
@@ -19,7 +20,6 @@ import { Filter } from "./Filter";
 import { Panel } from "./Panel";
 import { ProductList } from "./ProductList";
 import styles from "./Catalog.module.css";
-import { DEFAULT_PAGE_SIZE } from "~/constants";
 
 type TProductRange = {
   startProduct: number;
