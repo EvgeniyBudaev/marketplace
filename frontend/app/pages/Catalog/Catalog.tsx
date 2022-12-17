@@ -3,6 +3,7 @@ import type { FC } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useFetcher } from "@remix-run/react";
 import IsNull from "lodash/isNull";
+import { DEFAULT_PAGE_SIZE } from "~/constants";
 import { usePaging } from "~/hooks";
 import { attributeItemLinks } from "~/pages/Catalog/AttributeItem";
 import { cardsSwitcherLinks } from "~/pages/Catalog/CardsSwitcher";
@@ -19,7 +20,6 @@ import { Filter } from "./Filter";
 import { Panel } from "./Panel";
 import { ProductList } from "./ProductList";
 import styles from "./Catalog.module.css";
-import { DEFAULT_PAGE_SIZE } from "~/constants";
 
 type TProductRange = {
   startProduct: number;
@@ -45,11 +45,11 @@ export const Catalog: FC<TProps> = (props) => {
     startProduct: 0,
     endProduct: 0,
   });
-  const { countOfResult: totalItemsCount, currentPage } = products;
-  const pageItemsCount = productList.length;
+  const { countOfPage, countOfResult: totalItemsCount, currentPage } = products;
 
   useEffect(() => {
-    const lastPage = Math.max(Math.ceil(totalItemsCount / pageItemsCount), 1);
+    const pageItemsCount = productList.length;
+    const lastPage = Math.max(Math.ceil(totalItemsCount / countOfPage), 1);
 
     if (currentPage === lastPage) {
       setProductRange({
@@ -59,10 +59,10 @@ export const Catalog: FC<TProps> = (props) => {
     } else {
       setProductRange({
         startProduct: (currentPage - 1) * pageItemsCount + 1,
-        endProduct: currentPage * pageItemsCount,
+        endProduct: pageItemsCount,
       });
     }
-  }, [currentPage, pageItemsCount, totalItemsCount]);
+  }, [productList.length]);
 
   const onCardsSwitcher = () => {
     setIsCardsLine((prev) => !prev);
