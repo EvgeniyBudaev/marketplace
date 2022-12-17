@@ -1,9 +1,12 @@
+import { useEffect, useMemo } from "react";
 import type { FC, PropsWithChildren } from "react";
-import { useLocation } from "@remix-run/react";
+import { useFetchers, useLocation, useTransition } from "@remix-run/react";
 import clsx from "clsx";
+import NProgress from "nprogress";
 import { ROUTES } from "~/constants";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import nProgressStyles from "nprogress/nprogress.css";
 import styles from "./Layout.module.css";
 
 type TProps = {
@@ -14,6 +17,22 @@ type TProps = {
 export const Layout: FC<TProps> = ({ className, children, is404 }) => {
   const isScroll = false;
   const { pathname } = useLocation();
+  const fetchers = useFetchers();
+  const transition = useTransition();
+
+  let state = useMemo<"idle" | "loading">(
+    function getGlobalState() {
+      let states = [transition.state, ...fetchers.map((fetcher) => fetcher.state)];
+      if (states.every((state) => state === "idle")) return "idle";
+      return "loading";
+    },
+    [transition.state, fetchers],
+  );
+
+  useEffect(() => {
+    if (state === "loading") NProgress.start();
+    if (state === "idle") NProgress.done();
+  }, [transition.state]);
 
   return (
     <div className={clsx("Layout", className)}>
@@ -45,5 +64,8 @@ export const Layout: FC<TProps> = ({ className, children, is404 }) => {
 };
 
 export function layoutLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [
+    { rel: "stylesheet", href: styles },
+    { rel: "stylesheet", href: nProgressStyles },
+  ];
 }
