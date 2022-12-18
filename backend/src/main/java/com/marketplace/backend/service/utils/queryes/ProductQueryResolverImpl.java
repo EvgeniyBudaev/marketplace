@@ -19,12 +19,12 @@ public class ProductQueryResolverImpl implements ProductQueryResolver {
 
     @Override
     public String getSelectWithFilters() {
-        return "SELECT p "+queryString;
+        return "SELECT distinct p "+queryString;
     }
 
     @Override
     public String getCountWithFilters() {
-        return "SELECT count (p) "+queryString;
+        return "SELECT count (distinct p) "+queryString;
     }
 
 
