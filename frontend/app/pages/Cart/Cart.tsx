@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import { Button, Icon } from "~/uikit";
 import { ERoutes } from "~/enums";
 import { formatValueWithSpaces } from "~/utils";
@@ -7,6 +7,11 @@ import styles from "./Cart.module.css";
 
 export const Cart: FC = () => {
   const isAuthenticated = true;
+  const navigate = useNavigate();
+
+  const handleProceedToCheckout = () => {
+    navigate(ERoutes.Shipping);
+  };
 
   return (
     <section className="Cart">
@@ -30,7 +35,11 @@ export const Cart: FC = () => {
                   </div>
                 </div>
               </div>
-              <Button className="Cart-ButtonGoToOrder" isDisabled={false} onClick={() => {}}>
+              <Button
+                className="Cart-ButtonGoToOrder"
+                isDisabled={false}
+                onClick={handleProceedToCheckout}
+              >
                 Перейти к оформлению
               </Button>
             </div>
