@@ -1,0 +1,162 @@
+@import "component";
+
+.Cart {
+  &-Title {
+    //@include roboto-32-bold;
+    margin-bottom: 30px;
+  }
+
+  &-Inner {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &-List {
+    margin-right: 50px;
+    max-width: 780px;
+    width: 100%;
+  }
+
+  &-Checkout {
+    position: relative;
+    max-width: 320px;
+    width: 100%;
+
+    &Inner {
+      position: fixed;
+      max-width: 320px;
+      width: 100%;
+    }
+  }
+
+  &-OrdersList {
+    margin-bottom: 12px;
+    padding: 20px;
+    background-color: $color-pearl-white;
+    border-radius: 4px;
+  }
+
+  &-CostLine {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    &Text {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    &Price {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &SubTotalPrice {
+      //@include roboto-12-regular;
+      color: $color-shade-gray;
+      text-align: end;
+      text-decoration: line-through;
+    }
+
+    &PriceWithDiscount {
+      //@include roboto-22-bold;
+      line-height: 1;
+    }
+  }
+
+  &-ButtonGoToOrder {
+    width: 100%;
+  }
+
+  &-IconLogoShort {
+    width: 20px;
+    height: 20px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: $color-beige;
+    }
+  }
+
+  &-IconEnter {
+    width: 20px;
+    height: 20px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: $color-green;
+    }
+  }
+
+  &-TextEnter {
+    margin-left: 16px;
+    color: $color-blue;
+    transition: all 0.15s;
+
+    &:hover {
+      color: $color-beige;
+    }
+  }
+
+  &-BackToShopping {
+    display: inline-block;
+    margin-left: 20px;
+    color: $color-blue;
+    border-bottom: 1px solid rgba(0, 141, 211, 0.3);
+    transition: all 0.15s;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-beige;
+      border-bottom: 1px solid rgba(176, 151, 106, 0.3);
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .Cart {
+    $this: &;
+
+    &-Inner {
+      flex-direction: column;
+    }
+
+    &-List {
+      margin-bottom: 24px;
+    }
+
+    &-CheckoutInner {
+      position: static;
+    }
+
+    &-OrdersList #{$this}-Inner {
+      flex-direction: row;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .Cart-Title {
+    //@include roboto-22-bold;
+  }
+
+  .Cart-CostLinePriceWithDiscount {
+    //@include roboto-22-bold;
+  }
+}
+
+@media (max-width: 500px) {
+  .Cart {
+    $this: &;
+    & #{$this}-Checkout {
+      max-width: 100%;
+    }
+
+    & #{$this}-CheckoutInner {
+      margin: 0 auto;
+    }
+  }
+}
