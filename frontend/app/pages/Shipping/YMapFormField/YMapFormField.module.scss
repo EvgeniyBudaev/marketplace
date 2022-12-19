@@ -1,0 +1,85 @@
+@import "component";
+
+.YMapFormField {
+  $this: &;
+  position: relative;
+  margin-bottom: 30px;
+  height: 56px;
+  width: 100%;
+  border-radius: 4px;
+  word-wrap: break-word;
+
+  &-Label {
+    //@include roboto-14-regular;
+    position: absolute;
+    top: 20px;
+    left: 12px;
+    z-index: 1;
+    color: rgba(0, 0, 0, 0.54);
+    pointer-events: none;
+    transition: all 0.2s;
+  }
+
+  &-Input__error {
+    background-color: $color-light-red;
+  }
+
+  &_Visibility {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 12px;
+
+    svg {
+      fill: rgba(0, 0, 0, 0.54);
+    }
+  }
+
+  &__active {
+    width: 100%;
+    background-color: $color-white;
+
+    #{$this}-Label {
+      //@include roboto-12-regular;
+      top: -7px;
+      padding: 0 5px;
+      color: $color-text;
+      background-color: $color-white;
+    }
+
+    #{$this}-Input__active {
+      width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.54);
+      border-radius: 4px;
+      color: $color-text;
+      background-color: $color-white;
+
+      input:hover,
+      input {
+        background-color: $color-white;
+      }
+    }
+
+    & textarea,
+    & textarea:hover {
+      background-color: $color-white;
+    }
+
+    #{$this}-Input__active#{$this}-Input__error {
+      border: 1px solid $color-red;
+      border-radius: 4px;
+      background-color: $color-white;
+    }
+  }
+
+  &-ErrorMessage {
+    //@include roboto-12-regular;
+    display: block;
+    position: relative;
+    padding-top: 5px;
+    color: $color-red;
+    z-index: 10;
+    transition: all 0.3s;
+  }
+}

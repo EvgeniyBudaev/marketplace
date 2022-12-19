@@ -1,23 +1,54 @@
-import type { FC } from "react";
+import { useEffect, useState } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ERoutes } from "~/enums";
 import { EFormFields } from "~/pages/Shipping/enums";
 import { TForm } from "~/pages/Shipping/types";
 import { formSchema } from "~/pages/Shipping/schemas";
+import { TGeoSearchSuggestion } from "~/pages/Shipping/YMap/GeoSearch";
+import { TPickMapState } from "~/pages/Shipping/YMap/PickMap";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { TParams } from "~/types";
 import { Button, Icon } from "~/uikit";
 import styles from "./Shipping.module.css";
-import { ERoutes } from "~/enums";
+import PickMap from "~/pages/Shipping/YMap/PickMap/PickMap";
+import { FullscreenControl, GeolocationControl, ZoomControl } from "@pbe/react-yandex-maps";
+import { Marker } from "~/pages/Shipping/YMap/Marker";
+import { yMapLinks } from "~/pages/Shipping/YMap/YMap";
+import { YMapFormField, yMapFormFieldLinks } from "~/pages/Shipping/YMapFormField";
 
-export const Shipping: FC = () => {
+type TProps = {
+  searchState: {
+    value: string;
+    suggestions: TGeoSearchSuggestion[];
+    showSuggestions: boolean;
+  };
+  setSearchState: Dispatch<
+    SetStateAction<{
+      value: string;
+      suggestions: TGeoSearchSuggestion[];
+      showSuggestions: boolean;
+    }>
+  >;
+  mapState?: TPickMapState;
+  setMapState: Dispatch<SetStateAction<TPickMapState>>;
+};
+
+export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, setMapState }) => {
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
 
-  const address = "Moscow";
+  const [address, setAddress] = useState(searchState?.value ?? "");
+  const [isDragging, setDragging] = useState(false);
+
+  useEffect(() => {
+    searchState && setAddress(searchState.value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchState?.value]);
 
   const handleSubmit = (params: TParams) => {
     console.log("Form params: ", params);
@@ -35,7 +66,18 @@ export const Shipping: FC = () => {
       >
         <div className="Shipping-FormContent">
           <div className="Shipping-FormFieldGroup">
-            <Input label="Адрес" name={EFormFields.Address} type="text" />
+            <YMapFormField
+              label="Адрес"
+              name={EFormFields.Address}
+              searchState={searchState}
+              type="text"
+              isFocused={true}
+              onBlur={() => {}}
+              onFocus={() => {}}
+              onStateChange={setSearchState}
+              onSearch={setMapState}
+            />
+            {/*<Input label="Адрес" name={EFormFields.Address} type="text" />*/}
           </div>
           <div className={clsx("Shipping-FormFieldGroup", "Shipping-FormFieldCouple")}>
             <Input
@@ -86,10 +128,40 @@ export const Shipping: FC = () => {
           </div>
         </div>
       </Form>
+      <div className="Shipping-Map">
+        <PickMap
+          defaultState={{
+            zoom: 9,
+            center: [55.725146, 37.64693],
+          }}
+          style={{
+            height: "85vh",
+            marginLeft: 20,
+            flexGrow: 1,
+          }}
+          state={mapState}
+          onStateChange={setMapState}
+          onPick={(value) => {
+            setSearchState({
+              value,
+              showSuggestions: false,
+              suggestions: [],
+            });
+          }}
+          onDragStart={() => setDragging(true)}
+          onDragEnd={() => setDragging(false)}
+          searchZoom={15}
+          marker={<Marker isDragging={isDragging} />}
+        >
+          <FullscreenControl options={{ float: "left" }} />
+          <GeolocationControl options={{ float: "left" }} />
+          {/*<ZoomControl options={{ float: "left" }} />*/}
+        </PickMap>
+      </div>
     </section>
   );
 };
 
 export function shippingLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{ rel: "stylesheet", href: styles }, ...yMapLinks(), ...yMapFormFieldLinks()];
 }

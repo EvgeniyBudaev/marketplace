@@ -87,4 +87,50 @@
       }
     }
   }
+
+  &-Map {
+    position: absolute;
+    left: 574px;
+    top: -30px;
+    padding-left: 46px;
+    width: 100%;
+    min-width: 340px;
+  }
+}
+
+@media (max-width: 1230px) {
+  .Shipping {
+    &-Map {
+      display: none;
+    }
+
+    &-FormContent {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .Shipping {
+    & input {
+      //@include roboto-14-regular;
+    }
+
+    &-Step {
+      margin-left: 0;
+    }
+
+    &-Title {
+      //@include roboto-22-bold;
+    }
+
+    &-ControlsLink {
+      //@include roboto-14-medium;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
 }
