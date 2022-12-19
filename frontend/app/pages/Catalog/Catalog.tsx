@@ -1,13 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useSearchParams, useSubmit } from "@remix-run/react";
+import { createBrowserHistory } from "history";
 import IsNull from "lodash/isNull";
 import { DEFAULT_PAGE_SIZE } from "~/constants";
 import { usePaging } from "~/hooks";
 import { attributeItemLinks } from "~/pages/Catalog/AttributeItem";
 import { cardsSwitcherLinks } from "~/pages/Catalog/CardsSwitcher";
-import { filterLinks } from "~/pages/Catalog/Filter";
+import { filterLinks, getDefaultFilter } from "~/pages/Catalog/Filter";
 import { panelLinks } from "~/pages/Catalog/Panel";
 import { productListLinks } from "~/pages/Catalog/ProductList";
 import { productListItemLinks } from "~/pages/Catalog/ProductListItem";
@@ -31,106 +32,171 @@ type TProps = {
   products: TProducts;
 };
 
+const PLACEHOLDER_PRODUCT: TProduct = {
+  id: 0,
+  name: "Placeholder",
+  price: "0",
+  attributes: [],
+  alias: "placeholder",
+  catalogAlias: "placeholder",
+  count: "0",
+  enabled: false,
+  rating: 0,
+};
+
+const history = typeof document !== "undefined" ? createBrowserHistory() : null;
+
 export const Catalog: FC<TProps> = (props) => {
+  const submit = useSubmit();
   const fetcher = useFetcher();
   const isLoading = fetcher.state !== "idle";
-  const fetcherResponse = fetcher.data;
-  const catalog: TCatalogDetail = fetcherResponse?.catalog ?? props.catalog;
-  const products: TProducts = fetcherResponse?.products ?? props.products;
-  const hasContent = !!products?.content.length;
+  const [searchParams] = useSearchParams();
+
+  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
+  const lastLoadedPage = useRef(page);
+  const scrollIntoPage = useRef(page === 1 ? undefined : page);
+
+  const [catalog, setCatalog] = useState(props.catalog);
+  const [products, setProducts] = useState(props.products);
+  const [pages, setPages] = useState(
+    new Array(page - 1).fill(undefined).concat([props.products.content]),
+  );
 
   const [isCardsLine, setIsCardsLine] = useState(false);
-  const [productList, setProductList] = useState<TProduct[]>(products.content);
   const [productRange, setProductRange] = useState<TProductRange>({
     startProduct: 0,
     endProduct: 0,
   });
-  const { countOfPage, countOfResult: totalItemsCount, currentPage } = products;
+
+  const [sorting, setSorting] = useState<TSorting["value"]>(
+    searchParams.get("sort") ?? "price_asc",
+  );
+  const [unappliedFilter, setUnappliedFilter] = useState<TParams>(
+    getDefaultFilter(catalog, searchParams),
+  );
+  const [filter, setFilter] = useState<TParams>(unappliedFilter);
+  const [isFiltersDirty, setIsFiltersDirty] = useState(false);
 
   useEffect(() => {
-    const pageItemsCount = productList.length;
-    const lastPage = Math.max(Math.ceil(totalItemsCount / countOfPage), 1);
+    setCatalog(props.catalog);
+    setProducts(props.products);
+    setPages((productList) => {
+      const copy = [...productList];
+      copy[props.products.currentPage - 1] = props.products.content;
+      return copy;
+    });
+  }, [props.products, props.catalog]);
 
-    if (currentPage === lastPage) {
-      setProductRange({
-        startProduct: (currentPage - 1) * pageItemsCount + 1,
-        endProduct: totalItemsCount,
-      });
-    } else {
-      setProductRange({
-        startProduct: (currentPage - 1) * pageItemsCount + 1,
-        endProduct: pageItemsCount,
-      });
+  const getFormData = useCallback(() => {
+    const formData = new FormData();
+
+    formData.append("sort", sorting);
+    formData.append("page", page.toString());
+
+    Object.entries(filter).forEach(([group, values]) => {
+      values.forEach((value: string) => formData.append(group, value));
+    });
+
+    return formData;
+  }, [sorting, filter, page]);
+
+  useEffect(() => {
+    if (lastLoadedPage.current !== page || isFiltersDirty) {
+      lastLoadedPage.current = page;
+
+      if (isFiltersDirty) {
+        setPages([]);
+        setIsFiltersDirty(false);
+      }
+
+      if (pages[page - 1] === undefined || isFiltersDirty) {
+        submit(getFormData());
+      } else {
+        history?.push("?" + new URLSearchParams(getFormData() as any).toString());
+      }
     }
-  }, [productList.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sorting, filter, page]);
+
+  const handleSortingChange = useCallback(
+    (sorting: TSorting["value"]) => {
+      setSorting(sorting);
+      setPage(1);
+      setIsFiltersDirty(true);
+    },
+    [setSorting, setIsFiltersDirty],
+  );
+
+  const handleFilterChange = useCallback(
+    (filter: TParams) => {
+      setUnappliedFilter(filter);
+    },
+    [setUnappliedFilter],
+  );
+
+  const handleFilterSubmit = useCallback(() => {
+    setFilter(unappliedFilter);
+    setPage(1);
+    setIsFiltersDirty(true);
+  }, [setFilter, unappliedFilter, setIsFiltersDirty]);
+
+  const handlePageChange = useCallback(
+    (page: number) => {
+      setPage(page);
+    },
+    [setPage],
+  );
+
+  const getMoreProducts = async () => {
+    if (products.content.length < products.countOfResult) {
+      setPage((page) => page + 1);
+    }
+  };
+
+  useEffect(() => {
+    const { countOfResult: totalItemsCount, currentPage } = products;
+    const pageItemsCount = products.content.length;
+
+    setProductRange({
+      startProduct: (currentPage - 1) * pageItemsCount + 1,
+      endProduct: Math.min(currentPage * pageItemsCount, totalItemsCount),
+    });
+  }, [products]);
 
   const onCardsSwitcher = () => {
     setIsCardsLine((prev) => !prev);
   };
 
-  const onLoadProducts = useCallback(
-    (params?: TParams) => {
-      if (catalog) {
-        fetcher.load(
-          `/catalog/${catalog.alias}?index&${transformObjectToURLParams({ ...params })}`,
-        );
-      }
-    },
-    [fetcher],
-  );
-
-  const initialPageSize = IsNull(products.pageSize) ? DEFAULT_PAGE_SIZE : products.pageSize;
-
-  const { onChangePage, onFilter, onReset, onSorting } = usePaging(onLoadProducts, {
-    page: products.currentPage,
-    pageSize: fetcher.data?.products.pageSize ?? initialPageSize,
-  });
-
-  useEffect(() => {
-    if (fetcher.data && fetcher.data.products.content.length > 0) {
-      setProductList((prevPhotos: TProduct[]) => [...prevPhotos, ...fetcher.data.products.content]);
-    }
-  }, [fetcher.data]);
-
-  const getMoreProducts = async () => {
-    if (productList.length >= products.countOfResult) return;
-    onChangePage(products.currentPage + 1);
-  };
-
-  const handleFilter = (params: TParams) => {
-    onFilter(params);
-    setProductList([]);
-    onReset();
-  };
-
-  const handleSorting = (params?: TSorting) => {
-    if (params) {
-      onSorting(params);
-      setProductList([]);
-      onReset();
-    }
-  };
+  const getRenderedProductsCount = useCallback(() => {
+    return pages.map((page) => page?.length ?? DEFAULT_PAGE_SIZE).reduce((a, b) => a + b, 0);
+  }, [pages]);
 
   return (
     <section className="Catalog">
       <div className="Catalog-Row">
         <h1 className="Catalog-Title">{catalog?.name}</h1>
         <span>
-          {productRange.endProduct} из {totalItemsCount} товаров
+          {productRange.endProduct} из {products.countOfResult} товаров
         </span>
       </div>
       <div className="Catalog-Inner">
-        <Filter catalog={catalog} onLoad={handleFilter} />
+        <Filter
+          catalog={catalog}
+          onFilterChange={handleFilterChange}
+          onFilterSubmit={handleFilterSubmit}
+          filter={unappliedFilter}
+        />
         <div className="Catalog-Wrapper">
           <Panel
             isCardsLine={isCardsLine}
             onCardsSwitcher={onCardsSwitcher}
-            onSorting={handleSorting}
+            onSortingChange={handleSortingChange}
+            sorting={sorting}
           />
           <InfiniteScroll
-            dataLength={productList.length}
+            dataLength={getRenderedProductsCount()}
             next={getMoreProducts}
-            hasMore={true}
+            hasMore={getRenderedProductsCount() < products.countOfResult}
             loader={isLoading ? <h4>Loading...</h4> : null}
             endMessage={
               <p style={{ textAlign: "center" }}>
@@ -138,7 +204,15 @@ export const Catalog: FC<TProps> = (props) => {
               </p>
             }
           >
-            <ProductList products={productList} isCardsLine={isCardsLine} />
+            <ProductList
+              pages={pages.map(
+                (page) =>
+                  page ?? Array(products.pageSize ?? DEFAULT_PAGE_SIZE).fill(PLACEHOLDER_PRODUCT),
+              )}
+              isCardsLine={isCardsLine}
+              onPageChange={handlePageChange}
+              scrollIntoPage={scrollIntoPage.current}
+            />
           </InfiniteScroll>
         </div>
       </div>
