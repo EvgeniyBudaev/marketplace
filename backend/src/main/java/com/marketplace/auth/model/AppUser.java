@@ -56,6 +56,7 @@ public class AppUser implements UserDetails {
     @Column(name = "updated_at")
     private LocalDateTime modifyDate;
 
+
     @ManyToMany
     @JoinTable(name = "users_roles"
             ,joinColumns = @JoinColumn(name = "user_id")
