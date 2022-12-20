@@ -10,12 +10,15 @@ import styles from "./Filter.module.css";
 
 type TProps = {
   catalog: TCatalogDetail;
-  onLoad: (params: TParams) => void;
+  onFilterChange?: (params: TParams) => void;
+  onFilterSubmit?: () => void;
+  filter: TParams;
 };
 
-export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
-  const [searchParams] = useSearchParams();
-
+export const getDefaultFilter = (
+  catalog: TCatalogDetail,
+  searchParams: URLSearchParams,
+): TParams => {
   const mapToInitialState = (attributes: TCatalogAttributeItem[]): { [key: string]: string[] } =>
     attributes.reduce((acc, item) => {
       const all = searchParams.getAll(item.alias);
@@ -24,7 +27,12 @@ export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
 
   const attributes = catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
   const initialState = mapToInitialState(attributes);
-  const [checked, setChecked] = useState(initialState);
+
+  return initialState;
+};
+
+export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, filter }) => {
+  const attributes = catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
 
   const onChangeCheckedBox = (
     event: ChangeEvent<HTMLInputElement>,
@@ -34,21 +42,22 @@ export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
     const {
       target: { checked, value },
     } = event;
+
     if (checked) {
-      setChecked((prevState) => ({
-        ...prevState,
-        [nameGroup]: [...prevState[nameGroup], value],
-      }));
+      onFilterChange?.({
+        ...filter,
+        [nameGroup]: [...filter[nameGroup], value],
+      });
     } else {
-      setChecked((prevState) => ({
-        ...prevState,
-        [nameGroup]: [...prevState[nameGroup].filter((x: string) => x !== value)],
-      }));
+      onFilterChange?.({
+        ...filter,
+        [nameGroup]: [...filter[nameGroup].filter((x: string) => x !== value)],
+      });
     }
   };
 
   const handleSubmit = () => {
-    onLoad(checked);
+    onFilterSubmit?.();
   };
 
   return (
@@ -62,7 +71,7 @@ export const Filter: FC<TProps> = ({ catalog, onLoad }) => {
                 className="Filter-CheckboxItem"
                 id={valueItem.id.toString()}
                 label={valueItem.value}
-                checkedBox={checked}
+                checkedBox={filter}
                 key={index}
                 name={item.alias}
                 nameGroup={item.alias}

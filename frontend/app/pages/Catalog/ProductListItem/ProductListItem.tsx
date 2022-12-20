@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, forwardRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
@@ -14,7 +14,10 @@ type TProps = {
   isCardsLine: boolean;
 };
 
-export const ProductListItem: FC<TProps> = ({ product, isCardsLine }) => {
+export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function ProductListItem(
+  { product, isCardsLine },
+  ref,
+) {
   const count = Number(product.count);
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
 
@@ -39,16 +42,12 @@ export const ProductListItem: FC<TProps> = ({ product, isCardsLine }) => {
       className={clsx("ProductListItem", {
         ProductListItem__line: isCardsLine,
       })}
+      ref={ref}
     >
       <div className="ProductListItem-Wrapper">
         <div className="ProductListItem-Content">
           <div className="ProductListItem-ContentImg">
-            <Link
-              to={createPath({
-                route: ERoutes.ProductDetail,
-                params: { alias: product.alias },
-              })}
-            >
+            <Link to={`product/${product.alias}`}>
               <img
                 className="ProductListItem-ContentImage"
                 alt={product.name}
@@ -61,13 +60,7 @@ export const ProductListItem: FC<TProps> = ({ product, isCardsLine }) => {
             </Link>
           </div>
           <div className="ProductListItem-ContentDescription">
-            <Link
-              className="ProductListItem-ContentTitle"
-              to={createPath({
-                route: ERoutes.ProductDetail,
-                params: { alias: product.alias },
-              })}
-            >
+            <Link className="ProductListItem-ContentTitle" to={`product/${product.alias}`}>
               {product.name}
             </Link>
           </div>
@@ -76,12 +69,7 @@ export const ProductListItem: FC<TProps> = ({ product, isCardsLine }) => {
               {formatValueWithSpaces(parseInt(product.price))} ₽
             </li>
             <li className="ProductListItem-ContentTitleLine">
-              <Link
-                to={createPath({
-                  route: ERoutes.ProductDetail,
-                  params: { alias: product.alias },
-                })}
-              >
+              <Link to={`product/${product.alias}`}>
                 <span className="ProductListItem-ContentTitle">{product.description}</span>
               </Link>
             </li>
@@ -116,7 +104,7 @@ export const ProductListItem: FC<TProps> = ({ product, isCardsLine }) => {
       </div>
     </li>
   );
-};
+});
 
 export function productListItemLinks() {
   return [{ rel: "stylesheet", href: styles }];

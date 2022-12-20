@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import type {FocusEvent, HTMLProps} from "react";
+import type { FocusEvent, HTMLProps } from "react";
 import { withYMaps } from "@pbe/react-yandex-maps";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
@@ -28,20 +28,16 @@ export function emptyMapSearchState(): TGeoSearchState {
 }
 
 type TProps = {
-    className?: string;
-    error?: string;
-    name?: string;
-    state: TGeoSearchState;
-    isFocused?: boolean;
-    onBlur?: (
-        event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>,
-    ) => void;
-    onFocus?: (
-        event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>,
-    ) => void;
-    onStateChange: (reducer: (state: TGeoSearchState) => TGeoSearchState) => void;
-    onSearch?: (query: string) => void;
-    suggestDebounce?: number;
+  className?: string;
+  error?: string;
+  name?: string;
+  state: TGeoSearchState;
+  isFocused?: boolean;
+  onBlur?: (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>) => void;
+  onFocus?: (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>) => void;
+  onStateChange: (reducer: (state: TGeoSearchState) => TGeoSearchState) => void;
+  onSearch?: (query: string) => void;
+  suggestDebounce?: number;
 } & Omit<HTMLProps<HTMLInputElement>, "onChange" | "value">;
 
 export default withYMaps(

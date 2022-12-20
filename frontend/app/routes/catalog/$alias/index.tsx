@@ -14,7 +14,10 @@ export const loader = async (args: LoaderArgs) => {
   const formValues = inputFromSearch(url.searchParams);
   console.log("[formValues] ", formValues);
   const { alias } = params as { alias: string };
-  const formattedParams = mapParamsToDto(formValues);
+  const formattedParams = mapParamsToDto({
+    ...formValues,
+    sort: formValues.sort ?? "price_asc",
+  });
 
   const catalogResponse = await getCatalogDetail(request, { alias });
   const productsResponse = await getProductsByCatalog(request, { alias, params: formattedParams });

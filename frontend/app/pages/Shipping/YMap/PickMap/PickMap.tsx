@@ -1,5 +1,5 @@
-import {ComponentProps, useEffect, useRef} from "react";
-import type {ReactNode} from "react";
+import { ComponentProps, useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 import { Map, withYMaps } from "@pbe/react-yandex-maps";
 import { useDebounce } from "use-debounce";
 
