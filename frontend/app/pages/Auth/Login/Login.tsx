@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Link } from "@remix-run/react";
+import {Link, useFetcher} from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ROUTES } from "~/constants";
 import { ERoutes } from "~/enums";
@@ -17,6 +17,9 @@ export const Login: FC = () => {
     resolver: zodResolver(formSchema),
   });
 
+  const fetcher = useFetcher();
+  console.log("fetcher.data: ", fetcher.data);
+
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
     fetcher.submit(params, {
@@ -28,11 +31,23 @@ export const Login: FC = () => {
     });
   };
 
+  const onSubmit = (params: TParams) => {
+    console.log("Form params: ", params);
+    fetcher.submit(params, {
+      method: EFormMethods.Post,
+      action: createPath({
+        route: ERoutes.Login,
+        withIndex: false,
+      }),
+    });
+  };
+
   return (
     <section className="Login">
       <div className="Login-Center">
         <div className="Login-CenterContent">
           <h1 className="Login-CenterContentTitle">Вход</h1>
+
           <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
             <div className="Login-FormFieldGroup">
               <Input label="Электронная почта" name={EFormFields.Email} type="text" />
@@ -44,6 +59,13 @@ export const Login: FC = () => {
               </Button>
             </div>
           </Form>
+
+          {/*<form method="post" action="/login">*/}
+          {/*  <label><input name={EFormFields.Email} type="text" /></label>*/}
+          {/*  <label><input name={EFormFields.Password} type="text" /></label>*/}
+          {/*  <button type="submit">Create</button>*/}
+          {/*</form>*/}
+
           <div className="Login-Signup">
             <span>Нет аккаунта?</span>
             <Link to={ROUTES.SIGNUP}>Зарегистрироваться</Link>
