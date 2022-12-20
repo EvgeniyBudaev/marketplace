@@ -17,8 +17,7 @@ export const Login: FC = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const fetcher = useFetcher();
-  console.log("fetcher.data: ", fetcher.data);
+  console.log("fetcher.data: ", form.fetcher.data);
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
@@ -27,17 +26,6 @@ export const Login: FC = () => {
       action: createPath({
         route: ERoutes.Login,
         withIndex: true,
-      }),
-    });
-  };
-
-  const onSubmit = (params: TParams) => {
-    console.log("Form params: ", params);
-    fetcher.submit(params, {
-      method: EFormMethods.Post,
-      action: createPath({
-        route: ERoutes.Login,
-        withIndex: false,
       }),
     });
   };
