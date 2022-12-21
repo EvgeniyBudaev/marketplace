@@ -5,6 +5,7 @@ import com.marketplace.auth.validators.PhoneNumber;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -22,6 +23,7 @@ public class RegisterUserRequestDto {
     @PhoneNumber
     private String phone;
     @Email
+    @NotBlank
     private String email;
     @NotNull
     @Size(min = 6,max = 50)
@@ -35,7 +37,6 @@ public class RegisterUserRequestDto {
         user.setLastName(this.lastName);
         user.setPhone(this.phone);
         user.setEmail(this.email);
-        /*user.setPassword(this.password);*/
         return user;
     }
 }

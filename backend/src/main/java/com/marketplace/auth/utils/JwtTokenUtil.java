@@ -1,11 +1,12 @@
 package com.marketplace.auth.utils;
 
+import com.marketplace.auth.dto.auth.response.AuthResponseDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -23,25 +24,30 @@ public class JwtTokenUtil {
     @Value("${jwt.lifetime}")
     private Integer jwtLifetime;
 
-    public String generateToken(UserDetails userDetails) {
+    public AuthResponseDto generateToken(Authentication authentication) {
         Map<String, Object> claims = new HashMap<>();
-        List<String> rolesList = userDetails.getAuthorities().stream()
+        List<String> rolesList = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
+
         claims.put("roles", rolesList);
 
         Date issuedDate = new Date();
         Date expiredDate = new Date(issuedDate.getTime() + jwtLifetime);
-        return Jwts.builder()
+        AuthResponseDto responseDto = new AuthResponseDto();
+        responseDto.setAccess_token(
+        Jwts.builder()
                 .setClaims(claims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(authentication.getName())
                 .setIssuedAt(issuedDate)
                 .setExpiration(expiredDate)
                 .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
+                .compact());
+        responseDto.setExpires_in(expiredDate);
+        return responseDto;
     }
 
-    public String getUsernameFromToken(String token) {
+    public String getEmailFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 

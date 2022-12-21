@@ -234,7 +234,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&page=1&pagesize=5",
+							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&pageSize=15",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -253,12 +253,18 @@
 									"value": "mirrors"
 								},
 								{
-									"key": "page",
-									"value": "1"
+									"key": "form",
+									"value": "5%2C6",
+									"disabled": true
 								},
 								{
-									"key": "pagesize",
-									"value": "5"
+									"key": "sort",
+									"value": "price_desc,created_asc",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "15"
 								}
 							]
 						}
@@ -311,7 +317,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&form=овальная,круглая&color=Бронза,Латунь&page=7&pagesize=5",
+							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&sort=price_desc,created_asc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -330,20 +336,8 @@
 									"value": "mirrors"
 								},
 								{
-									"key": "form",
-									"value": "овальная,круглая"
-								},
-								{
-									"key": "color",
-									"value": "Бронза,Латунь"
-								},
-								{
-									"key": "page",
-									"value": "7"
-								},
-								{
-									"key": "pagesize",
-									"value": "5"
+									"key": "sort",
+									"value": "price_desc,created_asc"
 								}
 							]
 						}
@@ -356,10 +350,98 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Authentication",
+					"name": "Authentication phone",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"+79219516997\",\n    \"password\":\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authentication email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"pum@mail.ru\",\n    \"password\":\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\":\"Максим\",\n    \"middleName\":\"Максимович\",\n    \"lastName\":\"Максимов\",\n    \"phone\":\"+79319672233\",\n    \"email\":\"maximov@mail.ru\",\n    \"password\":\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"register"
+							]
+						}
 					},
 					"response": []
 				}
