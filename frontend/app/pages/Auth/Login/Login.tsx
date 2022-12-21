@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Link } from "@remix-run/react";
+import {Link} from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ROUTES } from "~/constants";
 import { ERoutes } from "~/enums";
@@ -16,6 +16,8 @@ export const Login: FC = () => {
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
+
+  console.log("fetcher.data: ", form.fetcher.data);
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);

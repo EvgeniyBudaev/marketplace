@@ -1,49 +1,24 @@
 import { inputFromForm } from "remix-domains";
+import {json} from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
 import { Login, loginLinks } from "~/pages/Auth/Login";
-import { createBoundaries } from "~/utils";
-import { badRequest } from "remix-utils";
-import { getResponseError, TDomainErrors } from "~/shared/domain";
-
-interface ActionData {
-  formError?: string;
-  fieldErrors?: TDomainErrors<TParticipantUpdateFormFieldNames>;
-}
+import {login} from "~/shared/api/auth";
+import {createBoundaries, internalError} from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
-  console.log("[formValues] ", formValues);
 
-  try {
-    const participantUpdateResult = await login(request, formValues);
+ const loginResponse = await login(request, formValues);
 
-    if (!participantUpdateResult.success) {
-      const fieldErrors = getInputErrors<TParticipantUpdateFormFieldNames>(
-        participantUpdateResult,
-        PARTICIPANT_UPDATE_FORM_FIELDS,
-      );
-
-      return badRequest<ActionData>({ fieldErrors });
-    }
-
-    return redirect(
-      createPath({
-        route: ERoutes.ParticipantDetail,
-        params: { id: participantUpdateResult.data.id },
-      }),
-    );
-  } catch (error) {
-    const errorResponse = error as Response;
-
-    if (errorResponse.status === 400 || errorResponse.status === 500) {
-      const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-
-      return badRequest<ActionData>({ formError, fieldErrors });
-    }
-
-    throw error;
+  if (!loginResponse.success) {
+    throw internalError();
   }
+
+  return json({
+    login: loginResponse.data,
+  });
+
 };
 
 export default function LoginPage() {
