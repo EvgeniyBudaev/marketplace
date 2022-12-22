@@ -1,4 +1,4 @@
 INSERT INTO roles (name, description)
-VALUES ('admin', 'Роль администратора'),
-       ('manager', 'Роль менеджера магазина'),
-       ('customer', 'Роль покупателя')
+VALUES ('ADMINISTRATOR', 'Роль администратора'),
+       ('MANAGER', 'Роль менеджера магазина'),
+       ('CUSTOMER', 'Роль покупателя')

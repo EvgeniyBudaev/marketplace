@@ -17,7 +17,8 @@ public class AppRole implements GrantedAuthority {
     private Long id;
 
     @Column(name = "name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private ERole name;
 
     @Column(name = "description")
     private String description;
@@ -26,6 +27,6 @@ public class AppRole implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return this.name;
+        return this.name.name();
     }
 }
