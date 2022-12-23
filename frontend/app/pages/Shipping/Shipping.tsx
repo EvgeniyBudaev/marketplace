@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Dispatch, FC, SetStateAction } from "react";
+import { FullscreenControl, GeolocationControl, ZoomControl } from "@pbe/react-yandex-maps";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
@@ -10,15 +11,14 @@ import { TForm } from "~/pages/Shipping/types";
 import { formSchema } from "~/pages/Shipping/schemas";
 import { TGeoSearchSuggestion } from "~/pages/Shipping/YMap/GeoSearch";
 import { TPickMapState } from "~/pages/Shipping/YMap/PickMap";
+import PickMap from "~/pages/Shipping/YMap/PickMap/PickMap";
+import { YMapFormField, yMapFormFieldLinks } from "~/pages/Shipping/YMapFormField";
+import { Marker } from "~/pages/Shipping/YMap/Marker";
+import { yMapLinks } from "~/pages/Shipping/YMap/YMap";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { TParams } from "~/types";
 import { Button, Icon } from "~/uikit";
 import styles from "./Shipping.module.css";
-import PickMap from "~/pages/Shipping/YMap/PickMap/PickMap";
-import { FullscreenControl, GeolocationControl, ZoomControl } from "@pbe/react-yandex-maps";
-import { Marker } from "~/pages/Shipping/YMap/Marker";
-import { yMapLinks } from "~/pages/Shipping/YMap/YMap";
-import { YMapFormField, yMapFormFieldLinks } from "~/pages/Shipping/YMapFormField";
 
 type TProps = {
   searchState: {
@@ -53,6 +53,14 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
   const handleSubmit = (params: TParams) => {
     console.log("Form params: ", params);
   };
+
+  const handleDragStart = useCallback(() => {
+    setDragging(true);
+  }, [setDragging]);
+
+  const handleDragEnd = useCallback(() => {
+    setDragging(false);
+  }, [setDragging]);
 
   return (
     <section className="Shipping">
@@ -148,8 +156,8 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
               suggestions: [],
             });
           }}
-          onDragStart={() => setDragging(true)}
-          onDragEnd={() => setDragging(false)}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
           searchZoom={15}
           marker={<Marker isDragging={isDragging} />}
         >

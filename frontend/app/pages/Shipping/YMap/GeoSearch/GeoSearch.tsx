@@ -5,7 +5,7 @@ import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { useDebounce } from "use-debounce";
 import { v4 as uuidv4 } from "uuid";
-import { MapInput } from "../MapInput";
+import { MapInput } from "~/pages";
 import styles from "./GeoSearch.module.css";
 
 export type TGeoSearchState = {

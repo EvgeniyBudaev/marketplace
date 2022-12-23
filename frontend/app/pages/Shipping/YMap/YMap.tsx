@@ -4,8 +4,8 @@ import { YMaps } from "@pbe/react-yandex-maps";
 import { Shipping } from "~/pages";
 import { mapInputLinks } from "~/pages/Shipping/YMap/MapInput";
 import { markerLinks } from "~/pages/Shipping/YMap/Marker";
-import { emptyMapSearchState, geoSearchLinks } from "./GeoSearch";
-import { TPickMapState } from "./PickMap";
+import { emptyMapSearchState, geoSearchLinks } from "~/pages";
+import type { TPickMapState } from "~/pages";
 import styles from "./YMap.module.css";
 
 type TProps = {

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import type { FC, FocusEvent } from "react";
 import clsx from "clsx";
 import GeoSearch from "~/pages/Shipping/YMap/GeoSearch/GeoSearch";
