@@ -9,8 +9,8 @@ import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class ProductConverters {
@@ -45,8 +45,8 @@ public class ProductConverters {
     }
 
 
-    private List<ResponseProductDto.AttributeValueDto> convertDoubleValueToDto(List<DoubleValue> list){
-        List<ResponseProductDto.AttributeValueDto> result = new ArrayList<>();
+    private Set<ResponseProductDto.AttributeValueDto> convertDoubleValueToDto(Set<DoubleValue> list){
+        Set<ResponseProductDto.AttributeValueDto> result = new HashSet<>();
         if (list==null){
             return result;
         }
@@ -58,8 +58,8 @@ public class ProductConverters {
         }
         return result;
     }
-    private List<ResponseProductDto.AttributeValueDto> convertIntegerValueToDto(List<BooleanValue> list){
-        List<ResponseProductDto.AttributeValueDto> result = new ArrayList<>();
+    private Set<ResponseProductDto.AttributeValueDto> convertIntegerValueToDto(Set<BooleanValue> list){
+        Set<ResponseProductDto.AttributeValueDto> result = new HashSet<>();
         if (list==null){
             return result;
         }
@@ -71,8 +71,8 @@ public class ProductConverters {
         }
         return result;
     }
-    private List<ResponseProductDto.AttributeValueDto> convertSelectValueToDto(List<SelectableValue> list){
-        List<ResponseProductDto.AttributeValueDto> result = new ArrayList<>();
+    private Set<ResponseProductDto.AttributeValueDto> convertSelectValueToDto(Set<SelectableValue> list){
+        Set<ResponseProductDto.AttributeValueDto> result = new HashSet<>();
         if (list==null){
             return result;
         }

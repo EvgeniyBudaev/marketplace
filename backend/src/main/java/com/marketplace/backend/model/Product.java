@@ -10,13 +10,36 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
 @Getter
 @Setter
 @NoArgsConstructor
+@NamedEntityGraph(name = "product-with-all-fields",attributeNodes = {
+        @NamedAttributeNode("id"),
+        @NamedAttributeNode("name"),
+        @NamedAttributeNode("description"),
+        @NamedAttributeNode("alias"),
+        @NamedAttributeNode("enabled"),
+        @NamedAttributeNode("count"),
+        @NamedAttributeNode("price"),
+        @NamedAttributeNode("rating"),
+        @NamedAttributeNode(value = "catalog",subgraph = "catalog-subgraph"),
+        @NamedAttributeNode(value = "doubleValues",subgraph = "attribute-subgraph"),
+        @NamedAttributeNode(value = "booleanValues",subgraph = "attribute-subgraph"),
+        @NamedAttributeNode(value = "selectableValues",subgraph = "attribute-subgraph")
+},subgraphs = {
+        @NamedSubgraph(name = "catalog-subgraph",attributeNodes = {
+                @NamedAttributeNode("alias")
+        }),
+        @NamedSubgraph(name = "attribute-subgraph",attributeNodes = {
+                @NamedAttributeNode("id"),
+                @NamedAttributeNode("value"),
+                @NamedAttributeNode("attribute")
+        })
+})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,11 +75,11 @@ public class Product {
     private Catalog catalog;
 
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    private List<DoubleValue> doubleValues;
+    private Set<DoubleValue> doubleValues;
 
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    private List<BooleanValue> booleanValues;
+    private Set<BooleanValue> booleanValues;
 
     @ManyToMany(mappedBy = "products",fetch = FetchType.LAZY)
-    private List<SelectableValue> selectableValues;
+    private Set<SelectableValue> selectableValues;
 }

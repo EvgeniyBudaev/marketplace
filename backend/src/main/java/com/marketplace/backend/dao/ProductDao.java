@@ -9,7 +9,7 @@ import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
 
 public interface ProductDao extends GeneralDao<Product> {
 
-    Product findProductByAlias(String alias);
+    ResponseProductDto findProductByAlias(String alias);
 
     Product save(RequestSaveProductDto dto);
 

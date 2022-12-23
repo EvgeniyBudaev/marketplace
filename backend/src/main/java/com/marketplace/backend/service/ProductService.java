@@ -5,6 +5,7 @@ import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
+import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
@@ -16,6 +17,7 @@ import com.marketplace.backend.service.utils.queryes.ProductQueryResolverImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -63,7 +65,7 @@ public class ProductService implements ProductDao {
 
     @Override
     public Paging<ResponseProductDto> findProductsInCatalog(ProductQueryParam queryParam) {
-
+        EntityGraph<?> entityGraph = entityManager.getEntityGraph("product-with-all-fields");
         TypedQuery<Attribute> attributeQuery = entityManager.createQuery("SELECT a from Attribute as a where a.alias in (:list)",Attribute.class);
         attributeQuery.setParameter("list",queryParam.getAttributesAlias());
         List<Attribute> res1 = attributeQuery.getResultList();
@@ -85,17 +87,25 @@ public class ProductService implements ProductDao {
                 new Paging<>(count,queryParam.getPageSize(), queryParam.getCurrentPage());
         productQueryResult.setFirstResult((result.getCurrentPage()-1)* result.getPageSize() );
         productQueryResult.setMaxResults(queryParam.getPageSize());
+        productQueryResult.setHint("javax.persistence.fetchgraph", entityGraph);
         result.setContent(productQueryResult
                 .getResultList().stream().map(x->productConverters
                         .convertProductToResponseProductDto(x, queryParam.getCatalogAlias())).collect(Collectors.toList()));
-       /* TypedQuery<Product> query = entityManager
-                .createQuery("SELECT p from Product as p left join p.doubleValues as dv where (dv.attribute.id=5 and dv.value between 40 and 70)", Product.class);*/
         return result;
     }
 
     @Override
-    public Product findProductByAlias(String alias) {
-       return productRepository.findProductByAlias(alias).orElseThrow();
+    public ResponseProductDto findProductByAlias(String alias) {
+        EntityGraph<?> entityGraph = entityManager.getEntityGraph("product-with-all-fields");
+        TypedQuery<Product> query = entityManager
+                .createQuery("SELECT p from Product as p where p.alias=:alias and p.enabled=true", Product.class);
+        query.setParameter("alias",alias);
+        query.setHint("javax.persistence.fetchgraph", entityGraph);
+        Product product = query.getSingleResult();
+        if (product==null){
+            throw new ResourceNotFoundException("Не найден продукт с псевдонимом "+alias);
+        }
+        return productConverters.convertProductToResponseProductDto(product,product.getCatalog().getAlias());
     }
 
 
