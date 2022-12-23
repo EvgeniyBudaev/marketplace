@@ -9,5 +9,8 @@ public class AuthResponseDto {
     private String access_token;
     private String refresh_token;
     private Date expires_in;
-    private String token_type = "Bearer";
+    private Date refresh_expires_in;
+    private String token_type;
+
+    protected AuthResponseDto(){}
 }

@@ -56,6 +56,10 @@ databaseChangeLog:
   - include:
       file: db/changelog/auth/create/create-users-roles-table.sql
   - include:
+      file: db/changelog/auth/create/create-refresh-table.sql
+  - include:
+      file: db/changelog/auth/create/add-foreign-key-refresh.sql
+  - include:
       file: db/changelog/auth/create/add-foreign-key-roles.sql
   - include:
       file: db/changelog/auth/create/add-foreign-key-users.sql

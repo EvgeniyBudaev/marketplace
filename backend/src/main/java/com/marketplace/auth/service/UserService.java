@@ -18,6 +18,7 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AppRoleService roleService;
 
+
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AppRoleService roleService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -28,7 +29,7 @@ public class UserService {
         AppUser user = dto.convertToUser();
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         List<AppRole> defaultRole = new ArrayList<>(1);
-        defaultRole.add(roleService.getRoleBeName(ERole.CUSTOMER));
+        defaultRole.add(roleService.getRoleByName(ERole.CUSTOMER));
         user.setRoles(defaultRole);
         user.setIsEmailVerified(false);
         user.setIsPhoneVerified(false);

@@ -9,6 +9,7 @@ import com.marketplace.backend.dto.attributes.response.ResponseNonSelectableAttr
 import com.marketplace.backend.dto.attributes.response.ResponseSelectableAttributeAfterSave;
 import com.marketplace.backend.dto.attributes.response.ResponseSingleAttributeByAlias;
 import com.marketplace.backend.model.Paging;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class AttributeController {
         this.attributeDao = attributeDao;
     }
 
+    @PreAuthorize("hasAuthority('ADMINISTRATOR')")
     @GetMapping("/page")
     public Paging<ResponseAttributeForGetAll> showAllAttributes(@RequestParam(name = "page", defaultValue = "1") Integer page,
                                                                 @RequestParam(name = "size", defaultValue = "5") Integer pageSize) {
