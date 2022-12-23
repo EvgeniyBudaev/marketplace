@@ -1,15 +1,15 @@
 import { inputFromForm } from "remix-domains";
-import {json} from "@remix-run/node";
+import { json } from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
 import { Login, loginLinks } from "~/pages/Auth/Login";
-import {login} from "~/shared/api/auth";
-import {createBoundaries, internalError} from "~/utils";
+import { login } from "~/shared/api/auth";
+import { createBoundaries, internalError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
 
- const loginResponse = await login(request, formValues);
+  const loginResponse = await login(request, formValues);
 
   if (!loginResponse.success) {
     throw internalError();
@@ -18,7 +18,6 @@ export const action = async (args: ActionArgs) => {
   return json({
     login: loginResponse.data,
   });
-
 };
 
 export default function LoginPage() {

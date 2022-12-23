@@ -1,7 +1,8 @@
-import { Shipping, shippingLinks } from "~/pages/Shipping";
+import { shippingLinks } from "~/pages/Shipping";
+import { YMap } from "~/pages/Shipping/YMap";
 
 export default function ShippingPage() {
-  return <Shipping />;
+  return <YMap />;
 }
 
 export function links() {

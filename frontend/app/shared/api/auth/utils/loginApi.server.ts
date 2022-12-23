@@ -1,10 +1,10 @@
 import { fetchApi, TApiFunction } from "~/shared/api";
-import {TLogin, TLoginParams} from "~/shared/api/auth";
+import { TLogin, TLoginParams } from "~/shared/api/auth";
 import { EFormMethods } from "~/shared/form";
 
 export const loginApi: TApiFunction<TLoginParams, TLogin> = (request, params) => {
-    return fetchApi<TLogin>(request, `/api/v1/auth`, {
-        method: EFormMethods.Post,
-        body: params
-    });
+  return fetchApi<TLogin>(request, `/api/v1/auth`, {
+    method: EFormMethods.Post,
+    body: params,
+  });
 };
