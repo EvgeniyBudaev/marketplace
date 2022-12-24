@@ -68,7 +68,13 @@
 					"name": "get all attributes with auth",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MTgyNTgxNywiaWF0IjoxNjcxODIyMjE3fQ.VXk8071YzNdI3IBcmogSTvO8BI3F5qjPW4eGZJcS6aE",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:8080/api/v1/attributes/page?page=1&size=6",
 							"protocol": "http",
@@ -510,6 +516,41 @@
 								"v1",
 								"users",
 								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MTg4MTY0OSwiaWF0IjoxNjcxODc4MDQ5fQ.u0CXRouE7Zd2rVvLwTmlIlTMadBzKGEZS455SvzrARU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"me"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
