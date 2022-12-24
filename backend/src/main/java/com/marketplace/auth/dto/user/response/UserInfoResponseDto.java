@@ -13,6 +13,7 @@ public class UserInfoResponseDto {
     private String lastName;
     private String phone;
     private String email;
+    private String shippingAddress;
     private Boolean isEmailVerified;
     private Boolean isPhoneVerified;
     private LocalDateTime createdAt;
@@ -25,10 +26,10 @@ public class UserInfoResponseDto {
         this.lastName = user.getLastName();
         this.phone = user.getPhone();
         this.email = user.getEmail();
+        this.shippingAddress = user.getShippingAddress();
         this.isEmailVerified = user.getIsEmailVerified();
         this.isPhoneVerified = user.getIsPhoneVerified();
         this.createdAt = user.getCreatedAt();
         this.modifyDate = user.getModifyDate();
-
     }
 }
