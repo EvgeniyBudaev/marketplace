@@ -36,8 +36,8 @@ public class ProductController {
 
     @GetMapping("/by_alias")
     public ResponseProductDto getProductByAlias(@RequestParam(value = "alias") String alias) {
-        Product product = productDao.findProductByAlias(alias);
-        return productConverters.convertProductToResponseProductDto(product,product.getCatalog().getAlias());
+        return productDao.findProductByAlias(alias);
+
     }
 
     @PostMapping

@@ -16,6 +16,12 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
+@NamedEntityGraph(name = "user-with-roles",
+ attributeNodes = {
+         @NamedAttributeNode("roles"),
+         @NamedAttributeNode("email"),
+         @NamedAttributeNode("password")
+})
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +53,8 @@ public class AppUser implements UserDetails {
 
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "shipping_address")
+    private String shippingAddress;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -62,6 +70,7 @@ public class AppUser implements UserDetails {
             ,joinColumns = @JoinColumn(name = "user_id")
             ,inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<AppRole> roles;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

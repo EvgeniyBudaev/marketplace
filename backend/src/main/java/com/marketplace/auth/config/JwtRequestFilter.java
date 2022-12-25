@@ -2,6 +2,7 @@ package com.marketplace.auth.config;
 
 import com.marketplace.auth.utils.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,11 +35,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 email = jwtTokenUtil.getEmailFromToken(jwt);
             } catch (ExpiredJwtException e) {
-                log.debug("The token is expired");
+                log.error("The token is expired");
+            } catch (MalformedJwtException e) {
+                log.error("RefreshToken not valid");
             }
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            System.out.println(jwtTokenUtil.getRoles(jwt));
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, null,
                     jwtTokenUtil.getRoles(jwt).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
             SecurityContextHolder.getContext().setAuthentication(token);

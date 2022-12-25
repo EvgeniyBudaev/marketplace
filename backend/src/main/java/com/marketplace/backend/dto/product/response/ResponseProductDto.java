@@ -4,8 +4,8 @@ package com.marketplace.backend.dto.product.response;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class ResponseProductDto {
@@ -19,7 +19,7 @@ public class ResponseProductDto {
     private String price;
     private String count;
     private LocalDateTime createdAt;
-    private List<AttributeValueDto> attributes = new ArrayList<>();
+    private Set<AttributeValueDto> attributes = new HashSet<>();
 
     @Data
     public static class AttributeValueDto{
