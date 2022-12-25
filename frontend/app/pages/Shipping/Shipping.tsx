@@ -163,7 +163,7 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
         >
           <FullscreenControl options={{ float: "left" }} />
           <GeolocationControl options={{ float: "left" }} />
-          {/*<ZoomControl options={{ float: "left" }} />*/}
+          <ZoomControl />
         </PickMap>
       </div>
     </section>
