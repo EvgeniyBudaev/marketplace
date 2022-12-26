@@ -12,4 +12,3 @@ export const loginSchema = z.object({
   refresh_expires_in: z.string(),
   token_type: z.string(),
 });
-

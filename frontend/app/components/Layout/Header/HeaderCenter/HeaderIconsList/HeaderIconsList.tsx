@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import isNull from "lodash/isNull";
-import { ROUTES } from "~/constants";
+import { ERoutes } from "~/enums";
 import { Icon } from "~/uikit";
 import styles from "./HeaderIconsList.module.css";
 
@@ -41,7 +41,7 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
   };
 
   const handleLogout = () => {
-    navigate(ROUTES.HOME);
+    navigate(ERoutes.Root);
   };
 
   return (
@@ -56,7 +56,7 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
             <Link
               className="HeaderIconsList-IconLink"
               to={{
-                pathname: `${ROUTES.CART}${cartId}`,
+                pathname: `${ERoutes.Cart}${cartId}`,
               }}
             >
               <Icon className="HeaderIconsList-Icon" type="Cart" />
@@ -67,7 +67,7 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
         )}
       </div>
       <div className={clsx("HeaderIconsList-Item", "HeaderIconsList-ItemDesktop")}>
-        <Link className="HeaderIconsList-IconLink" to={ROUTES.LOGIN}>
+        <Link className="HeaderIconsList-IconLink" to={ERoutes.Login}>
           <Icon className="HeaderIconsList-Icon" type="User" />
           <div className="HeaderIconsList-IconDescription">Войти</div>
         </Link>
