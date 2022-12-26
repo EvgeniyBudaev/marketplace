@@ -27,10 +27,10 @@ public class Paging <T>{
         if(Objects.equals(this.currentPage, countOfPage)){
             hasNext = false;
         }
-        if(this.currentPage==1L){
+        if(this.currentPage==1){
             hasPrevious=false;
         }
-        if(this.countOfPage==0L){
+        if(this.countOfPage==0){
             hasPrevious=false;
             hasNext=false;
         }

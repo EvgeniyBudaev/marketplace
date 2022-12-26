@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -38,6 +39,20 @@ public class ProductController {
     public ResponseProductDto getProductByAlias(@RequestParam(value = "alias") String alias) {
         return productDao.findProductByAlias(alias);
 
+    }
+
+    @GetMapping("/find")
+    public Paging<ResponseProductDto> findAllByLikeName(
+            @RequestParam(defaultValue = "1",required = false) Integer page,
+            @RequestParam(defaultValue = "15",required = false) Integer pageSize,
+            @RequestParam @NotNull String param){
+        if(page<1){
+            page=1;
+        }
+        if(pageSize<5){
+            pageSize = 5;
+        }
+        return productDao.findProductLikeName(page,pageSize, param);
     }
 
     @PostMapping
