@@ -82,6 +82,9 @@ public class ProductService implements ProductDao {
             productQueryResult.setParameter(entry.getKey(), entry.getValue());
         }
         Integer count  = Math.toIntExact(productQueryCount.getSingleResult());
+        if(count.equals(0)){
+            throw new ResourceNotFoundException("С данными параметрами результаты не найдены");
+        }
         /*Выбираем результаты*/
         Paging<ResponseProductDto> result =
                 new Paging<>(count,queryParam.getPageSize(), queryParam.getCurrentPage());
@@ -108,6 +111,31 @@ public class ProductService implements ProductDao {
         return productConverters.convertProductToResponseProductDto(product,product.getCatalog().getAlias());
     }
 
+    @Override
+    public Paging<ResponseProductDto> findProductLikeName(Integer page, Integer pageSize, String find){
+        find = "%"+find+"%";
+        TypedQuery<Long> countQuery = entityManager
+                .createQuery("SELECT count (p) from Product as p where p.name like :find and p.enabled=true", Long.class);
+        countQuery.setParameter("find",find);
+        Integer count  = Math.toIntExact(countQuery.getSingleResult());
+        if(count.equals(0)){
+            throw new ResourceNotFoundException("С данными параметрами результаты не найдены");
+        }
+        Paging<ResponseProductDto> dtoPaging= new Paging<>(count,pageSize,page);
+        EntityGraph<?> entityGraph = entityManager.getEntityGraph("product-with-all-fields");
+        TypedQuery<Product> resultQuery = entityManager
+                .createQuery("SELECT p from Product as p where p.name like :find and p.enabled=true", Product.class);
+        resultQuery.setParameter("find",find);
+        resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
+        resultQuery.setFirstResult((dtoPaging.getCurrentPage()-1)* dtoPaging.getPageSize() );
+        resultQuery.setMaxResults(dtoPaging.getPageSize());
+        dtoPaging.setContent(resultQuery
+                .getResultList().stream()
+                .map(x->productConverters
+                        .convertProductToResponseProductDto(x,x.getCatalog().getAlias()))
+                .collect(Collectors.toList()));
+        return dtoPaging;
+    }
 
 
 

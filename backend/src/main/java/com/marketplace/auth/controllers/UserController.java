@@ -4,6 +4,7 @@ import com.marketplace.auth.dto.user.request.RegisterUserRequestDto;
 import com.marketplace.auth.dto.user.response.UserAfterUpdateResponseDto;
 import com.marketplace.auth.dto.user.response.UserInfoResponseDto;
 import com.marketplace.auth.service.UserService;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +26,9 @@ public class UserController {
 
     @GetMapping("/me")
     public UserInfoResponseDto userInfo(Principal principal){
+        if(principal==null){
+            throw new AccessDeniedException("Вы не авторизованы");
+        }
         return  userService.getUserInfo(principal.getName());
     }
 }
