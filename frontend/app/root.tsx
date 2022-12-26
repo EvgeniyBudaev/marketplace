@@ -16,7 +16,7 @@ import { cryptoRandomStringAsync } from "crypto-random-string";
 
 import { Layout, links as componentsLinks } from "~/components";
 import { Environment, EnvironmentType } from "~/environment.server";
-import { commitCsrfSession, getCsrfSession } from "~/shared/api/auth";
+import { commitCsrfSession, getCsrfSession, getUserSession } from "~/shared/api/auth";
 import { links as uikitLinks } from "~/uikit";
 import { createBoundaries } from "~/utils";
 
@@ -34,6 +34,7 @@ export const loader = async (args: LoaderArgs) => {
   const csrfSession = await getCsrfSession(request);
   const csrfToken = createAuthenticityToken(csrfSession);
   const cspScriptNonce = await cryptoRandomStringAsync({ length: 41 });
+  const userSession = await getUserSession(request); //Ryan Florence
 
   const data: RootLoaderData = {
     csrfToken,

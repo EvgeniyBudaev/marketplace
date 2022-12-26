@@ -3,7 +3,7 @@ import type { FC, PropsWithChildren } from "react";
 import { useFetchers, useLocation, useTransition } from "@remix-run/react";
 import clsx from "clsx";
 import NProgress from "nprogress";
-import { ROUTES } from "~/constants";
+import { ERoutes } from "~/enums";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import nProgressStyles from "nprogress/nprogress.css";
@@ -44,7 +44,7 @@ export const Layout: FC<TProps> = ({ className, children, is404 }) => {
               "Layout-Main__isScroll": isScroll,
             })}
           >
-            {pathname === ROUTES.HOME ? (
+            {pathname === ERoutes.Root ? (
               <div className="Layout-ContainerHomePage">{children}</div>
             ) : (
               <div
@@ -57,7 +57,7 @@ export const Layout: FC<TProps> = ({ className, children, is404 }) => {
             )}
           </main>
         </div>
-        {pathname !== ROUTES.SHIPPING && !is404 && <Footer />}
+        {pathname !== ERoutes.Shipping && !is404 && <Footer />}
       </div>
     </div>
   );

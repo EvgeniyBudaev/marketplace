@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { Link } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ROUTES } from "~/constants";
 import { ERoutes } from "~/enums";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { EFormFields } from "~/pages/Auth/Signup/enums";
@@ -51,7 +50,7 @@ export const Signup: FC = () => {
           </Form>
           <div className="Signup-Registration">
             <span>Есть аккаунт?</span>
-            <Link to={ROUTES.LOGIN}>Войти</Link>
+            <Link to={ERoutes.Login}>Войти</Link>
           </div>
         </div>
       </div>

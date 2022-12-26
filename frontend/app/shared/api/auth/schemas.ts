@@ -6,5 +6,9 @@ export const loginParamsSchema = z.object({
 });
 
 export const loginSchema = z.object({
-  token: z.string(),
+  access_token: z.string(),
+  refresh_token: z.string(),
+  expires_in: z.string(),
+  refresh_expires_in: z.string(),
+  token_type: z.string(),
 });
