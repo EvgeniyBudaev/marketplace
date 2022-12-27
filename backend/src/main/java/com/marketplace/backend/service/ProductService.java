@@ -122,13 +122,20 @@ public class ProductService implements ProductDao {
             throw new ResourceNotFoundException("С данными параметрами результаты не найдены");
         }
         Paging<ResponseProductDto> dtoPaging= new Paging<>(count,pageSize,page);
+        /*Ввиду того что при fetch запросе hibernate сначала выберает весь результат запроса в память а потом в памяти устанавливает границы setFirstResult() setMaxResult()
+        * сначала выбираем с ограничениями id продуктов а вторым запросом пожтягиваем зависимые сущности*/
+        TypedQuery<Long> productIdQuery = entityManager.createQuery("SELECT p.id from Product as p where p.name like :find and p.enabled=true", Long.class);
+        productIdQuery.setParameter("find",find);
+        productIdQuery.setFirstResult((dtoPaging.getCurrentPage()-1)* dtoPaging.getPageSize());
+        productIdQuery.setMaxResults(dtoPaging.getPageSize());
+        productIdQuery.setFirstResult((dtoPaging.getCurrentPage()-1)* dtoPaging.getPageSize() );
+        productIdQuery.setMaxResults(dtoPaging.getPageSize());
+        List<Long> productId = productIdQuery.getResultList();
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("product-with-all-fields");
         TypedQuery<Product> resultQuery = entityManager
-                .createQuery("SELECT p from Product as p where p.name like :find and p.enabled=true", Product.class);
-        resultQuery.setParameter("find",find);
+                .createQuery("SELECT p from Product as p where p.id IN (:idList)", Product.class);
+        resultQuery.setParameter("idList",productId);
         resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
-        resultQuery.setFirstResult((dtoPaging.getCurrentPage()-1)* dtoPaging.getPageSize() );
-        resultQuery.setMaxResults(dtoPaging.getPageSize());
         dtoPaging.setContent(resultQuery
                 .getResultList().stream()
                 .map(x->productConverters
