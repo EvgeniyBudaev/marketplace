@@ -66,7 +66,7 @@ public class Product {
     @Column(name = "rating", nullable = false)
     private double rating;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at",updatable = false)
     @CreatedDate
     private LocalDateTime createdAt;
 

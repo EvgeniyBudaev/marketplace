@@ -14,4 +14,6 @@ public interface ProductDao extends GeneralDao<Product> {
     Product save(RequestSaveProductDto dto);
 
     Paging<ResponseProductDto> findProductsInCatalog(ProductQueryParam queryParam);
+
+    Paging<ResponseProductDto> findProductLikeName(Integer page, Integer pageSize, String find);
 }
