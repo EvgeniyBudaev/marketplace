@@ -15,18 +15,23 @@ import { AuthenticityTokenProvider, createAuthenticityToken } from "remix-utils"
 import { cryptoRandomStringAsync } from "crypto-random-string";
 
 import { Layout, links as componentsLinks } from "~/components";
-import { Environment, EnvironmentType } from "~/environment.server";
+import { Environment } from "~/environment.server";
+import type { EnvironmentType } from "~/environment.server";
 import { commitCsrfSession, getCsrfSession, getUserSession } from "~/shared/api/auth";
+import type { TUser } from "~/shared/api/users/types";
+import { StoreContextProvider } from "~/shared/store";
 import { links as uikitLinks } from "~/uikit";
 import { createBoundaries } from "~/utils";
 
 import styles from "../styles/app.css";
+import { useChangeUser } from "~/hooks";
 
 interface RootLoaderData {
   csrfToken: string;
   cspScriptNonce: string;
   title: string;
   ENV: Pick<EnvironmentType, "IS_PRODUCTION">;
+  user: TUser | {};
 }
 
 export const loader = async (args: LoaderArgs) => {
@@ -35,6 +40,7 @@ export const loader = async (args: LoaderArgs) => {
   const csrfToken = createAuthenticityToken(csrfSession);
   const cspScriptNonce = await cryptoRandomStringAsync({ length: 41 });
   const userSession = await getUserSession(request); //Ryan Florence
+  const user = JSON.parse(userSession || "{}");
 
   const data: RootLoaderData = {
     csrfToken,
@@ -43,6 +49,7 @@ export const loader = async (args: LoaderArgs) => {
     ENV: {
       IS_PRODUCTION: Environment.IS_PRODUCTION,
     },
+    user,
   };
 
   return json(data, { headers: { "Set-Cookie": await commitCsrfSession(csrfSession) } });
@@ -87,8 +94,11 @@ const Document: FC<TDocumentProps> = ({ children, cspScriptNonce, env }) => {
 };
 
 export default function App() {
-  const { csrfToken, cspScriptNonce, ENV } = useLoaderData<typeof loader>();
+  const { csrfToken, cspScriptNonce, ENV, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
+  console.log("Root user: ", user);
+  const { onChangeUser } = useChangeUser();
+  onChangeUser(user);
 
   useEffect(() => {
     isMounted.current = true;
@@ -99,18 +109,20 @@ export default function App() {
   }, []);
 
   return (
-    <AuthenticityTokenProvider token={csrfToken}>
-      <Document cspScriptNonce={cspScriptNonce} env={ENV}>
-        <Outlet />
-        <script
-          nonce={cspScriptNonce}
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV=${JSON.stringify(ENV)}`,
-          }}
-        />
-      </Document>
-    </AuthenticityTokenProvider>
+    <StoreContextProvider>
+      <AuthenticityTokenProvider token={csrfToken}>
+        <Document cspScriptNonce={cspScriptNonce} env={ENV}>
+          <Outlet />
+          <script
+            nonce={cspScriptNonce}
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{
+              __html: `window.ENV=${JSON.stringify(ENV)}`,
+            }}
+          />
+        </Document>
+      </AuthenticityTokenProvider>
+    </StoreContextProvider>
   );
 }
 
