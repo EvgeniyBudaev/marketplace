@@ -1,9 +1,10 @@
 import { inputFromForm } from "remix-domains";
-import { json, LoaderArgs, redirect } from "@remix-run/node";
-import type { ActionArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Login, loginLinks } from "~/pages/Auth/Login";
 import { commitSession, createUserSession, getSession, login } from "~/shared/api/auth";
+import { getUser } from "~/shared/api/users/domain.server";
 import { createBoundaries, internalError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -39,8 +40,16 @@ export const action = async (args: ActionArgs) => {
     throw internalError();
   }
 
-  //return json(userSessionResponse.data);
-  return createUserSession(1, "/");
+  const userResponse = await getUser(request, {
+    access_token: `Bearer ${loginResponse.data.access_token}`,
+  });
+
+  if (!userResponse.success) {
+    throw internalError();
+  }
+  console.log("[userResponse.data] ", loginResponse.data);
+
+  return createUserSession(userResponse.data, "/");
 };
 
 //Ryan Florence

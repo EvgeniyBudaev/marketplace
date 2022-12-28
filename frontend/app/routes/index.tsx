@@ -1,5 +1,5 @@
 import { Home, homeLinks } from "~/pages/Home";
-import { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { inputFromForm, inputFromSearch } from "remix-domains";
 import { getSession } from "~/shared/api/auth";
 
@@ -23,6 +23,8 @@ export const loader = async (args: LoaderArgs) => {
   const email = session.get("email");
   console.log("[LOADER userId] ", userId);
   console.log("[LOADER email] ", email);
+  const user = JSON.parse(session.get("user") || "{}");
+  console.log("[LOADER user] ", user);
   return null;
 };
 
