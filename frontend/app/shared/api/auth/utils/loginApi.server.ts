@@ -1,5 +1,6 @@
-import { fetchApi, TApiFunction } from "~/shared/api";
-import { TLogin, TLoginParams } from "~/shared/api/auth";
+import { fetchApi } from "~/shared/api";
+import type { TApiFunction } from "~/shared/api";
+import type { TLogin, TLoginParams } from "~/shared/api/auth";
 import { EFormMethods } from "~/shared/form";
 
 export const loginApi: TApiFunction<TLoginParams, TLogin> = (request, params) => {
