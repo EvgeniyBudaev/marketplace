@@ -41,7 +41,7 @@ export const action = async (args: ActionArgs) => {
   }
 
   const userResponse = await getUser(request, {
-    access_token: `Bearer ${loginResponse.data.access_token}`,
+    access_token: loginResponse.data.access_token,
   });
 
   if (!userResponse.success) {

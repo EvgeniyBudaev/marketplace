@@ -130,6 +130,42 @@
       }
     }
   }
+
+  /* ----- Открытие/закрытие DropDown ----- */
+  $positionDropDown: -500px;
+
+  &-DropDownUser {
+    content: "";
+    position: absolute;
+    bottom: -64px;
+    right: 0;
+    height: max-content;
+    width: max-content;
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: $shadow-perimeter;
+    z-index: 103;
+
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: opacity $transition;
+    }
+
+    &.exit {
+      opacity: 1;
+      transition: opacity $transition;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: opacity $transition;
+    }
+  }
 }
 
 @media (max-width: 768px) {
