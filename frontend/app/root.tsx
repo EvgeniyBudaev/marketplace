@@ -19,12 +19,11 @@ import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
 import { commitCsrfSession, getCsrfSession, getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
-import { StoreContextProvider } from "~/shared/store";
+import { StoreContextProvider, useStore } from "~/shared/store";
 import { links as uikitLinks } from "~/uikit";
 import { createBoundaries } from "~/utils";
 
 import styles from "../styles/app.css";
-import { useChangeUser } from "~/hooks";
 
 interface RootLoaderData {
   csrfToken: string;
@@ -97,8 +96,13 @@ export default function App() {
   const { csrfToken, cspScriptNonce, ENV, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
   console.log("Root user: ", user);
-  const { onChangeUser } = useChangeUser();
-  onChangeUser(user);
+
+  const store = useStore();
+  const setUser = store.setUser;
+
+  useEffect(() => {
+    setUser(user);
+  }, [setUser, user]);
 
   useEffect(() => {
     isMounted.current = true;
@@ -109,7 +113,7 @@ export default function App() {
   }, []);
 
   return (
-    <StoreContextProvider>
+    <StoreContextProvider store={store}>
       <AuthenticityTokenProvider token={csrfToken}>
         <Document cspScriptNonce={cspScriptNonce} env={ENV}>
           <Outlet />

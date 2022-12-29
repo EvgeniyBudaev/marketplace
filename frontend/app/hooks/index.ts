@@ -1,2 +1,2 @@
-export * from "./useChangeUser";
+export * from "./useUser";
 export * from "./usePaging";

@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
+import isEmpty from "lodash/isEmpty";
 import isNull from "lodash/isNull";
 import { ERoutes } from "~/enums";
-import { Icon } from "~/uikit";
+import { useUser } from "~/hooks";
+import { Avatar, DropDown, Icon } from "~/uikit";
 import styles from "./HeaderIconsList.module.css";
 
 type TProps = {
@@ -13,6 +15,7 @@ type TProps = {
 };
 
 export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
+  const { user } = useUser();
   const [cartId, setCartId] = useState("");
   const [cartItemsCountTotal, setCartItemsCountTotal] = useState(0);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
@@ -67,10 +70,24 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
         )}
       </div>
       <div className={clsx("HeaderIconsList-Item", "HeaderIconsList-ItemDesktop")}>
-        <Link className="HeaderIconsList-IconLink" to={ERoutes.Login}>
-          <Icon className="HeaderIconsList-Icon" type="User" />
-          <div className="HeaderIconsList-IconDescription">Войти</div>
-        </Link>
+        {!isEmpty(user) ? (
+          <div className="HeaderIconsList-AvatarDropDown" ref={refToggleDropDown}>
+            <Avatar user={user.firstName} size={46} onClick={handleToggleDropDown} />
+            <DropDown className="HeaderIconsList-DropDownUser" isOpen={isDropDownOpen}>
+              <ul className="HeaderIconsList-AvatarDropDown_Menu">
+                <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleLogout}>
+                  <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="Exit" />
+                  <div className="HeaderIconsList-AvatarDropDown_MenuItemText">Выйти</div>
+                </li>
+              </ul>
+            </DropDown>
+          </div>
+        ) : (
+          <Link className="HeaderIconsList-IconLink" to={ERoutes.Login}>
+            <Icon className="HeaderIconsList-Icon" type="User" />
+            <div className="HeaderIconsList-IconDescription">Войти</div>
+          </Link>
+        )}
       </div>
     </div>
   );
