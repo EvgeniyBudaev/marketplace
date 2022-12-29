@@ -1,21 +1,21 @@
-package com.marketplace.backend.service.utils.queryes.command;
+package com.marketplace.backend.service.utils.queryes.processors;
 
 import com.marketplace.backend.exception.IllegalRequestParam;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
-import com.marketplace.backend.service.utils.queryes.command.command.OnlyBooleanCommand;
-import com.marketplace.backend.service.utils.queryes.command.command.OnlyDoubleCommand;
-import com.marketplace.backend.service.utils.queryes.command.command.OnlySelectedCommand;
-import com.marketplace.backend.service.utils.queryes.command.command.WithoutAttributesCommand;
+import com.marketplace.backend.service.utils.queryes.processors.command.OnlyBooleanCommand;
+import com.marketplace.backend.service.utils.queryes.processors.command.OnlyDoubleCommand;
+import com.marketplace.backend.service.utils.queryes.processors.command.OnlySelectedCommand;
+import com.marketplace.backend.service.utils.queryes.processors.command.WithoutAttributesCommand;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 @Slf4j
-public class QueryCreateExecutorImpl implements QueryCreateExecutor{
-    private final HashMap<String,Class<? extends QueryCreateCommand>> commandList;
+public class QueryCommandBuilderImpl implements QueryCommandBuilder {
+    private final HashMap<String,Class<? extends AbstractCommand>> commandList;
 
-    public QueryCreateExecutorImpl(){
+    public QueryCommandBuilderImpl(){
         commandList = new HashMap<>();
         commandList.put("EMPTY", WithoutAttributesCommand.class);
         commandList.put("_SEL", OnlySelectedCommand.class);
@@ -23,9 +23,9 @@ public class QueryCreateExecutorImpl implements QueryCreateExecutor{
         commandList.put("_BOOL", OnlyBooleanCommand.class);
     }
     @Override
-    public QueryCreateCommand createJpqlQueryCommand(ProductQueryParam queryParam) {
+    public AbstractCommand createJpqlQueryCommand(ProductQueryParam queryParam) {
 
-        Class<? extends QueryCreateCommand> clazz = commandList.get(createCommand(queryParam));
+        Class<? extends AbstractCommand> clazz = commandList.get(createCommand(queryParam));
         if (clazz==null){
             log.error(queryParam.toString(),this);
             throw new IllegalRequestParam("Такую ситуацию мы не поддерживаем пока... Но работаем над этим");

@@ -1,7 +1,7 @@
-package com.marketplace.backend.service.utils.queryes.command.command;
+package com.marketplace.backend.service.utils.queryes.processors.command;
 
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
-import com.marketplace.backend.service.utils.queryes.command.AbstractCommand;
+import com.marketplace.backend.service.utils.queryes.processors.AbstractCommand;
 
 public class WithoutAttributesCommand extends AbstractCommand{
     public WithoutAttributesCommand(ProductQueryParam queryParam) {
@@ -10,7 +10,7 @@ public class WithoutAttributesCommand extends AbstractCommand{
 
     @Override
     protected String createSubQueryString()  {
-        super.getQueryParameters().put("alias",getQueryParam().getCatalogAlias());
+        super.param().put("alias",getProductQueryParam().getCatalogAlias());
         return "from Product as p where p.catalog.alias=:alias and p.enabled=true";
     }
 }
