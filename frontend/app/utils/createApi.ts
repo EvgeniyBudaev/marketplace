@@ -1,4 +1,4 @@
-import { TApiConfig, TApiFunction, TErrorResponse } from "~/types";
+import type { TApiConfig, TApiFunction, TErrorResponse } from "~/types";
 import { setResponseTimeout } from "~/utils/setResponseTimeout";
 import { processSuccessResponse } from "~/utils/processSuccessResponse";
 import { EErrorTypes } from "~/enums";

@@ -1,4 +1,4 @@
-import { EErrorTypes } from "~/enums";
+import type { EErrorTypes } from "~/enums";
 
 export type TApiConfig = {
   basePath: string;

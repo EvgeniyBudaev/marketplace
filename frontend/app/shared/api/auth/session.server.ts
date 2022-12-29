@@ -1,5 +1,7 @@
-import { createCookieSessionStorage, Session, redirect } from "@remix-run/node";
+import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import type { Session } from "@remix-run/node";
 import { CsrfSession } from "~/shared/session";
+import type { TUser } from "~/shared/api/users/types";
 
 export const csrfSessionStorage = CsrfSession.storage;
 
@@ -29,9 +31,9 @@ const { getSession, commitSession, destroySession } = createCookieSessionStorage
 
 export { getSession, commitSession, destroySession };
 
-export const createUserSession = async (userId: number, redirectTo: string) => {
+export const createUserSession = async (user: TUser, redirectTo: string) => {
   const session = await getSession();
-  session.set("userId", userId);
+  session.set("user", JSON.stringify(user));
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await commitSession(session),
