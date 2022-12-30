@@ -1,13 +1,7 @@
-import {
-  DetailedHTMLProps,
-  ForwardedRef,
-  HTMLAttributes,
-  forwardRef,
-  memo,
-  useState,
-  FocusEvent,
-} from "react";
+import { forwardRef, memo, useState } from "react";
+import type { DetailedHTMLProps, ForwardedRef, HTMLAttributes, FocusEvent } from "react";
 import clsx from "clsx";
+import { FadeIn } from "~/uikit";
 import styles from "./Input.module.css";
 
 export interface IInputProps
@@ -90,8 +84,13 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
             onBlur={onBlurCallback}
             {...rest}
           />
-          {error && <div className="ErrorMessage">{error}</div>}
         </div>
+
+        {error && (
+          <div className="InputField-ErrorField">
+            <FadeIn>{error}</FadeIn>
+          </div>
+        )}
 
         <label className="InputField-Label" htmlFor={name}>
           {label}

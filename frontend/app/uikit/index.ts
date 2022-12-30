@@ -4,6 +4,7 @@ export * from "./Avatar";
 export * from "./Button";
 export * from "./Checkbox";
 export * from "./DropDown";
+export * from "./FadeIn";
 export * from "./Hamburger";
 export * from "./Icon";
 export * from "./Input";
@@ -16,6 +17,7 @@ import { accordionLinks } from "~/uikit/Accordion";
 import { alertLinks } from "~/uikit/Alert";
 import { avatarLinks } from "~/uikit/Avatar";
 import { buttonLinks } from "~/uikit/Button/Button";
+import { fadeInLinks } from "~/uikit/FadeIn";
 import { iconButtonLinks } from "~/uikit/Button/IconButton";
 import { linkButtonLinks } from "~/uikit/Button/LinkButton";
 import { checkboxLinks } from "~/uikit/Checkbox";
@@ -33,6 +35,7 @@ export const links = () => {
     ...alertLinks(),
     ...avatarLinks(),
     ...buttonLinks(),
+    ...fadeInLinks(),
     ...iconButtonLinks(),
     ...linkButtonLinks(),
     ...checkboxLinks(),

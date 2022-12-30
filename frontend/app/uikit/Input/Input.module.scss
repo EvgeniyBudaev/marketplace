@@ -45,6 +45,11 @@
     }
   }
 
+  &-Inner {
+    width: 100%;
+    border: 1px solid transparent;
+  }
+
   &__active {
     width: 100%;
     background-color: $color-white;
@@ -58,7 +63,6 @@
     }
 
     #{$this}-Inner__active {
-      width: 100%;
       border: 1px solid rgba(0, 0, 0, 0.54);
       color: $color-text;
       background-color: $color-white;
@@ -104,14 +108,14 @@
       }
     }
   }
-}
 
-.ErrorMessage {
-  //@include roboto-12-regular;
-  display: block;
-  padding-top: 5px;
-  color: $color-red;
-  transition: all 0.3s;
+  &-ErrorField {
+    //@include roboto-12-regular;
+    display: block;
+    padding-top: 5px;
+    color: $color-red;
+    transition: all 0.3s;
+  }
 }
 
 .Input {

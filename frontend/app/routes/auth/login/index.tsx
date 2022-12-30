@@ -47,7 +47,6 @@ export const action = async (args: ActionArgs) => {
   if (!userResponse.success) {
     throw internalError();
   }
-  console.log("[userResponse.data] ", loginResponse.data);
 
   return createUserSession(userResponse.data, "/");
 };
