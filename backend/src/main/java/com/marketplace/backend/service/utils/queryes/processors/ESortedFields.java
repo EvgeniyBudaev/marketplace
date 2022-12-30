@@ -1,4 +1,4 @@
-package com.marketplace.backend.service.utils.queryes.command;
+package com.marketplace.backend.service.utils.queryes.processors;
 
 import java.util.HashMap;
 

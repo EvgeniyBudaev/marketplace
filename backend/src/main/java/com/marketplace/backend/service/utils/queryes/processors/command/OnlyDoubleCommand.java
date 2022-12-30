@@ -1,7 +1,7 @@
-package com.marketplace.backend.service.utils.queryes.command.command;
+package com.marketplace.backend.service.utils.queryes.processors.command;
 
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
-import com.marketplace.backend.service.utils.queryes.command.AbstractCommand;
+import com.marketplace.backend.service.utils.queryes.processors.AbstractCommand;
 
 
 public class OnlyDoubleCommand extends AbstractCommand{
