@@ -11,6 +11,7 @@ public class UserAfterUpdateResponseDto {
     private String lastName;
     private String phone;
     private String email;
+    private String shippingAddress;
 
     public UserAfterUpdateResponseDto(AppUser user){
         this.id= user.getId();
@@ -19,5 +20,6 @@ public class UserAfterUpdateResponseDto {
         this.lastName = user.getLastName();
         this.phone = user.getPhone();
         this.email = user.getEmail();
+        this.shippingAddress = user.getShippingAddress();
     }
 }

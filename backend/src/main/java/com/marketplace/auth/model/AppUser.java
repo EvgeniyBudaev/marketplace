@@ -53,11 +53,12 @@ public class AppUser implements UserDetails {
 
     @Column(name = "password", nullable = false)
     private String password;
+
     @Column(name = "shipping_address")
     private String shippingAddress;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at",updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

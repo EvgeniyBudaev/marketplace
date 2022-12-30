@@ -3,9 +3,8 @@ package com.marketplace.backend.service.utils.queryes.processors;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class QueryChainProcessorImpl implements QueryChainProcessor{
     private AbstractCommand command ;
@@ -24,15 +23,13 @@ public class QueryChainProcessorImpl implements QueryChainProcessor{
     }
 
     @Override
-    public QueryProcessorParam productIdListQuery() {
+    public QueryProcessorParam productListQuery() {
         return new QueryProcessorParamImpl("SELECT distinct p "+this.command.query(),this.command.param());
     }
 
     @Override
     public QueryProcessorParam resultQuery(List<Product> param) {
-        String query ="SELECT p from Product as p where p in (:list)";
-        Map<String, Object> queryParam = new HashMap<>(1);
-        queryParam.put("list",param);
-        return new QueryProcessorParamImpl(query,queryParam);
+        QueryProcessor queryProcessor =new QueryProcessorFinal(param);
+        return queryProcessor.getQuery(command.getProductQueryParam());
     }
 }
