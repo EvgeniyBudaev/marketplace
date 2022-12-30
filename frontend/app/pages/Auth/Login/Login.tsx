@@ -5,8 +5,8 @@ import { ERoutes } from "~/enums";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { EFormFields } from "~/pages/Auth/Login/enums";
 import { formSchema } from "~/pages/Auth/Login/schemas";
-import { TForm, TOptionsSubmitForm } from "~/pages/Auth/Login/types";
-import { TParams } from "~/types";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Auth/Login/types";
+import type { TParams } from "~/types";
 import { Button } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./Login.module.css";
@@ -17,6 +17,8 @@ export const Login: FC = () => {
   });
 
   console.log("fetcher.data: ", form.fetcher.data);
+  const errors = form.methods.formState.errors;
+  console.log("errors: ", errors);
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
