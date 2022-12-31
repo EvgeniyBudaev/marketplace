@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import type { FC, FocusEvent } from "react";
 import clsx from "clsx";
 import GeoSearch from "~/pages/Shipping/YMap/GeoSearch/GeoSearch";
-import { TGeoSearchSuggestion } from "~/pages/Shipping/YMap/GeoSearch";
-import { TPickMapState } from "~/pages/Shipping/YMap/PickMap";
+import type { TGeoSearchSuggestion } from "~/pages/Shipping/YMap/GeoSearch";
+import type { TPickMapState } from "~/pages/Shipping/YMap/PickMap";
 import styles from "./YMapFormField.module.css";
 
 type FormFieldYMapType = "text";

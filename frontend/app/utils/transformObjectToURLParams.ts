@@ -1,4 +1,4 @@
-import { TParams } from "~/types";
+import type { TParams } from "~/types";
 import { omitEmptyFields } from "./form";
 
 export const transformObjectToURLParams = (params: TParams): string => {

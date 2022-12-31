@@ -1,5 +1,6 @@
-import { TCatalogDetail, TCatalogDetailParams } from "~/shared/api/catalogs";
-import { fetchApi, TApiFunction } from "~/shared/api";
+import { fetchApi } from "~/shared/api";
+import type { TApiFunction } from "~/shared/api";
+import type { TCatalogDetail, TCatalogDetailParams } from "~/shared/api/catalogs";
 import { EFormMethods } from "~/shared/form";
 
 export const getCatalogDetailApi: TApiFunction<TCatalogDetailParams, TCatalogDetail> = (

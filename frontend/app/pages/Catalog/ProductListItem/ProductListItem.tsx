@@ -1,9 +1,9 @@
-import { FC, forwardRef } from "react";
+import { forwardRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { ERoutes } from "~/enums";
-import { TProduct } from "~/shared/api/products";
+import type { TProduct } from "~/shared/api/products";
 import { Button } from "~/uikit";
 import { createPath, formatValueWithSpaces } from "~/utils";
 import { AttributeItem } from "../AttributeItem";
@@ -18,6 +18,10 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
   { product, isCardsLine },
   ref,
 ) {
+  const ROUTE_PRODUCT_DETAIL = createPath({
+    route: ERoutes.ProductDetail,
+    params: { alias: product.alias },
+  });
   const count = Number(product.count);
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
 
@@ -47,7 +51,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
       <div className="ProductListItem-Wrapper">
         <div className="ProductListItem-Content">
           <div className="ProductListItem-ContentImg">
-            <Link to={`product/${product.alias}`}>
+            <Link to={ROUTE_PRODUCT_DETAIL}>
               <img
                 className="ProductListItem-ContentImage"
                 alt={product.name}
@@ -60,7 +64,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
             </Link>
           </div>
           <div className="ProductListItem-ContentDescription">
-            <Link className="ProductListItem-ContentTitle" to={`product/${product.alias}`}>
+            <Link className="ProductListItem-ContentTitle" to={ROUTE_PRODUCT_DETAIL}>
               {product.name}
             </Link>
           </div>
@@ -69,7 +73,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
               {formatValueWithSpaces(parseInt(product.price))} ₽
             </li>
             <li className="ProductListItem-ContentTitleLine">
-              <Link to={`product/${product.alias}`}>
+              <Link to={ROUTE_PRODUCT_DETAIL}>
                 <span className="ProductListItem-ContentTitle">{product.description}</span>
               </Link>
             </li>

@@ -1,4 +1,5 @@
-import React, { memo, ReactNode } from "react";
+import { memo } from "react";
+import type { FC, ReactNode } from "react";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import styles from "./LinkButton.module.css";
@@ -9,7 +10,7 @@ type TProps = {
   href: string;
 };
 
-const LinkButtonComponent: React.FC<TProps> = ({ className, children, href }) => {
+const LinkButtonComponent: FC<TProps> = ({ className, children, href }) => {
   return (
     <Link className={clsx("LinkButton", className)} to={href}>
       <span>{children}</span>

@@ -1,5 +1,5 @@
 import { DEFAULT_PAGE_SIZE } from "~/constants";
-import { TParams } from "~/types";
+import type { TParams } from "~/types";
 
 export const mapParamsToDto = (params: TParams) => {
   return {

@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import type { ChangeEventHandler, FC, FocusEvent } from "react";
 import clsx from "clsx";
 import styles from "./MapInput.module.css";

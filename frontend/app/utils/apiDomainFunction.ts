@@ -1,7 +1,7 @@
-import { z } from "zod";
 import { InputError, makeDomainFunction } from "remix-domains";
 import type { DomainFunction } from "remix-domains";
 import { serverError } from "remix-utils";
+import { z } from "zod";
 import { INPUT_ERROR_PATH } from "~/constants";
 
 type ApiDomainFunction = <InputSchema extends z.ZodTypeAny, OutputSchema extends z.ZodTypeAny>(

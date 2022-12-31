@@ -1,7 +1,7 @@
 import { cloneElement } from "react";
 import type { FC } from "react";
 import { Link, useLocation } from "@remix-run/react";
-import { ReactElementLike } from "prop-types";
+import type { ReactElementLike } from "prop-types";
 
 type TProps = {
   activeClassName?: string;

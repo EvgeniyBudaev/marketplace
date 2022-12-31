@@ -1,5 +1,6 @@
-import { fetchApi, TApiFunction } from "~/shared/api";
-import { TProductDetail, TProductDetailParams } from "~/shared/api/products";
+import { fetchApi } from "~/shared/api";
+import type { TApiFunction } from "~/shared/api";
+import type { TProductDetail, TProductDetailParams } from "~/shared/api/products";
 import { EFormMethods } from "~/shared/form";
 
 export const getProductDetailApi: TApiFunction<TProductDetailParams, TProductDetail> = (

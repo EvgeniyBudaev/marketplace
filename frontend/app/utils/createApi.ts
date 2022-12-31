@@ -1,7 +1,7 @@
+import { EErrorTypes } from "~/enums";
 import type { TApiConfig, TApiFunction, TErrorResponse } from "~/types";
 import { setResponseTimeout } from "~/utils/setResponseTimeout";
 import { processSuccessResponse } from "~/utils/processSuccessResponse";
-import { EErrorTypes } from "~/enums";
 import { processError } from "~/utils/processError";
 import { gatewayTimeout } from "~/utils/gatewayTimeout";
 import { internalError } from "~/utils/internalError";

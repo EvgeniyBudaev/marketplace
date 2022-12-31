@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import isNil from "lodash/isNil";
-import { TCatalogs } from "~/shared/api/catalogs";
+import type { TCatalogs } from "~/shared/api/catalogs";
 import { CatalogListItem } from "~/components/Layout/Header/CatalogDropDown/CatalogListItem";
 import styles from "./CatalogList.module.css";
 

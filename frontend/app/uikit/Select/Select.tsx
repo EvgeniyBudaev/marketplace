@@ -1,6 +1,7 @@
-import { FocusEventHandler, memo } from "react";
-import type { FC } from "react";
-import { ActionMeta, default as ReactSelect, GroupBase, StylesConfig } from "react-select";
+import { memo } from "react";
+import type { FC, FocusEventHandler } from "react";
+import { default as ReactSelect } from "react-select";
+import type { ActionMeta, GroupBase, StylesConfig } from "react-select";
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
 import styles from "./Select.module.css";

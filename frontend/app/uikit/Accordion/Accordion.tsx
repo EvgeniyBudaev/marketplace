@@ -1,5 +1,5 @@
-import { memo, useEffect, useState, useRef, PropsWithChildren } from "react";
-import type { FC } from "react";
+import { memo, useEffect, useState, useRef } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 import { TRANSITION } from "~/constants";

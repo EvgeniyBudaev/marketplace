@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import clsx from "clsx";
 import { IconButton } from "~/uikit";
 import styles from "./CardsSwitcher.module.css";

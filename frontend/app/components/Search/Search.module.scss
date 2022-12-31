@@ -14,12 +14,12 @@ $height: 44px;
   background-color: transparent;
 
   &__isHomePage {
-    #{$this}InputWrapper {
+    #{$this}-InputWrapper {
       border-left: 1px solid rgba(255, 255, 255, 0.1);
       border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    #{$this}Input {
+    #{$this}-Input {
       color: white;
 
       &::placeholder {
@@ -27,7 +27,7 @@ $height: 44px;
       }
     }
 
-    #{$this}Icon {
+    #{$this}-Icon {
       svg {
         fill: rgba(255, 255, 255, 0.9);
       }
@@ -88,17 +88,12 @@ $height: 44px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
     z-index: 101;
 
-    #{$this}InputWrapper {
+    #{$this}-InputWrapper {
       border: 2px solid transparent;
     }
 
-    #{$this}Input {
+    #{$this}-Input {
       background-color: white;
-    }
-
-    #{$this}Button {
-      height: $height;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
     }
   }
 }
