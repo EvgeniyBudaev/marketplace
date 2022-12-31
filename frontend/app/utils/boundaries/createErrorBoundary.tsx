@@ -2,7 +2,7 @@ import type { ComponentType } from "react";
 import { Fragment } from "react";
 import type { ErrorBoundaryComponent } from "@remix-run/node";
 import { ErrorBoundary as DefaultErrorBoundary } from "~/components";
-import { TWithChildrenProps } from "~/utils/boundaries";
+import type { TWithChildrenProps } from "~/utils/boundaries";
 
 type TCreateErrorBoundaryParams = {
   ErrorBoundary?: ErrorBoundaryComponent;

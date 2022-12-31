@@ -5,7 +5,7 @@ import clsx from "clsx";
 import isNull from "lodash/isNull";
 import { selectStyles } from "~/pages/Catalog/Sorting/selectStyles";
 import { EFormMethods } from "~/shared/form";
-import { TSorting } from "~/types";
+import type { TSorting } from "~/types";
 import { Select } from "~/uikit";
 import styles from "./Sorting.module.css";
 
@@ -50,7 +50,7 @@ export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
   return (
     <div className="Sorting">
       <span className="Sorting-Label">Сортировать</span>
-      <Form method="get">
+      <Form method={EFormMethods.Get}>
         <Select
           className={clsx("Sorting-Select", {
             "Sorting-Select__active": isSelectOpened,

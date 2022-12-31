@@ -1,6 +1,6 @@
 import type { FC } from "react";
+import type { TCatalogsItem } from "~/shared/api/catalogs";
 import styles from "./CatalogListItem.module.css";
-import { TCatalogsItem } from "~/shared/api/catalogs";
 
 type TProps = {
   catalog: TCatalogsItem;

@@ -5,14 +5,13 @@ import { useLoaderData } from "@remix-run/react";
 import { Catalog, catalogLinks } from "~/pages";
 import { getCatalogDetail } from "~/shared/api/catalogs";
 import { getProductsByCatalog } from "~/shared/api/products";
-import { internalError } from "~/utils";
 import { mapParamsToDto } from "~/shared/api/products/utils";
+import { internalError } from "~/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
-  console.log("[formValues] ", formValues);
   const { alias } = params as { alias: string };
   const formattedParams = mapParamsToDto({
     ...formValues,
@@ -34,7 +33,6 @@ export const loader = async (args: LoaderArgs) => {
 
 export default function CatalogDetailRoute() {
   const data = useLoaderData<typeof loader>();
-  //console.log("data: ", data);
 
   return <Catalog catalog={data.catalog} products={data.products} />;
 }

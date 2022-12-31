@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Link, useNavigate } from "@remix-run/react";
-import { Button, Icon } from "~/uikit";
 import { ERoutes } from "~/enums";
+import { Button, Icon } from "~/uikit";
 import { formatValueWithSpaces } from "~/utils";
 import styles from "./Cart.module.css";
 

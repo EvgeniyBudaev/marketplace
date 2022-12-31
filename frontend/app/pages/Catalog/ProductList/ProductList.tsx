@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import { FC } from "react";
+import type { FC } from "react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
-import { TProduct } from "~/shared/api/products";
+import type { TProduct } from "~/shared/api/products";
 import { ProductListItem } from "../ProductListItem";
 import styles from "./ProductList.module.css";
 

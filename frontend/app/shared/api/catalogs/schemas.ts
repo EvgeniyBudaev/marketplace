@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { paginationSchema } from "../commons";
-import { productsItemSchema } from "~/shared/api/products";
 
 const catalogAttributeValueItemSchema = z.object({
   id: z.number(),

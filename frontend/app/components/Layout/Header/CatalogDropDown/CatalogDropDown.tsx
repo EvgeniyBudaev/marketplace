@@ -1,4 +1,5 @@
-import { ForwardedRef, forwardRef, useCallback, useEffect } from "react";
+import { forwardRef, useCallback, useEffect } from "react";
+import type { ForwardedRef } from "react";
 import { useFetcher, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 //import { ROUTES } from "~/constants";
@@ -6,8 +7,8 @@ import clsx from "clsx";
 import { ERoutes } from "~/enums";
 //import { useMounted } from "hooks/useMounted";
 //import { useSelector } from "hooks";
-import { TCatalogs } from "~/shared/api/catalogs";
-import { TParams } from "~/types";
+import type { TCatalogs } from "~/shared/api/catalogs";
+import type { TParams } from "~/types";
 import { CatalogList, catalogListLinks } from "./CatalogList";
 import { catalogListItemLinks } from "./CatalogListItem";
 import styles from "./CatalogDropDown.module.css";
@@ -24,8 +25,7 @@ export const CatalogDropDown = forwardRef(
     const navigate = useNavigate();
     const fetcher = useFetcher();
     const isLoading = fetcher.state !== "idle";
-    const fetcherResponse = fetcher.data;
-    const catalogs: TCatalogs = fetcherResponse ?? null;
+    const catalogs: TCatalogs = fetcher.data ?? null;
 
     //const { hasMounted } = useMounted();
     //const scroll = useSelector(scrollSelector);

@@ -1,5 +1,5 @@
-import { DOMAttributes, memo, useRef } from "react";
-import type { FC, MouseEvent } from "react";
+import { memo, useRef } from "react";
+import type { FC, MouseEvent, DOMAttributes } from "react";
 import clsx from "clsx";
 import styles from "./Button.module.css";
 

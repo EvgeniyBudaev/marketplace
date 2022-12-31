@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import isEmpty from "lodash/isEmpty";
-import styles from "./ProductDetail.module.css";
-import { TProductDetail } from "~/shared/api/products";
+import type { TProductDetail } from "~/shared/api/products";
 import { formatValueWithSpaces } from "~/utils";
+import styles from "./ProductDetail.module.css";
 
 type TProps = {
   product: TProductDetail;

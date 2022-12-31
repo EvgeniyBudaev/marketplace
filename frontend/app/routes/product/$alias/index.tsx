@@ -22,7 +22,6 @@ export const loader = async (args: LoaderArgs) => {
 
 export default function ProductDetailRoute() {
   const data = useLoaderData<typeof loader>();
-  console.log("data: ", data);
 
   return <ProductDetail product={data.product} />;
 }

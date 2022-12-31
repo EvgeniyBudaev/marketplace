@@ -1,8 +1,9 @@
-import { DOMAttributes, memo, useEffect, useRef } from "react";
-import type { FC } from "react";
+import { memo, useEffect, useRef } from "react";
+import type { FC, DOMAttributes } from "react";
 import clsx from "clsx";
 import { formatToStringWithPx } from "~/uikit/utils";
-import { IconType, iconTypes } from "./IconType";
+import type { IconType } from "./IconType";
+import { iconTypes } from "./IconType";
 import styles from "./Icon.module.css";
 
 const getIcon = (type: string) => iconTypes.get(type);

@@ -1,16 +1,17 @@
-import React from "react";
+import type { FC, MouseEvent } from "react";
 import clsx from "clsx";
-import { Button, IButtonProps, Icon, IconType } from "~/uikit";
+import type { IButtonProps, IconType } from "~/uikit";
+import { Button, Icon } from "~/uikit";
 import styles from "./IconButton.module.css";
 
 interface IProps extends IButtonProps {
   className?: string;
   typeIcon: IconType;
   isDisabled?: boolean;
-  onClick?: (e?: React.MouseEvent) => void;
+  onClick?: (e?: MouseEvent) => void;
 }
 
-export const IconButton: React.FC<IProps> = ({
+export const IconButton: FC<IProps> = ({
   className,
   typeIcon,
   isDisabled = false,

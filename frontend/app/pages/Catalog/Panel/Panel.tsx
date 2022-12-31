@@ -1,8 +1,8 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { CardsSwitcher } from "~/pages/Catalog/CardsSwitcher";
-import styles from "./Panel.module.css";
 import { Sorting } from "~/pages/Catalog/Sorting";
-import { TSorting } from "~/types";
+import type { TSorting } from "~/types";
+import styles from "./Panel.module.css";
 
 type TProps = {
   isCardsLine: boolean;

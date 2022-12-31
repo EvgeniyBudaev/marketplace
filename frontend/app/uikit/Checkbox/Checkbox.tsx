@@ -1,5 +1,5 @@
-import { memo, ReactNode } from "react";
-import type { ChangeEvent, FC } from "react";
+import { memo } from "react";
+import type { ChangeEvent, FC, ReactNode } from "react";
 import clsx from "clsx";
 import { Icon } from "~/uikit";
 import styles from "./Checkbox.module.css";
