@@ -40,6 +40,7 @@ import java.util.Set;
                 @NamedAttributeNode("attribute")
         })
 })
+
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

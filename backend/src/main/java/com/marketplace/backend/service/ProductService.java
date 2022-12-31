@@ -1,16 +1,12 @@
 package com.marketplace.backend.service;
 
-import com.marketplace.backend.dao.CatalogDao;
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.ProductConverters;
-import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.model.Attribute;
-import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
-import com.marketplace.backend.repository.ProductRepository;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
 import com.marketplace.backend.service.utils.queryes.processors.QueryChainProcessor;
 import com.marketplace.backend.service.utils.queryes.processors.QueryChainProcessorImpl;
@@ -20,8 +16,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,41 +27,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProductService implements ProductDao {
     private final ProductConverters productConverters;
-    private final ProductRepository productRepository;
+
     private final EntityManager entityManager;
-    private final CatalogDao catalogDao;
 
-    public ProductService(ProductConverters productConverters, ProductRepository productRepository, EntityManager entityManager, CatalogDao catalogDao) {
+    public ProductService(ProductConverters productConverters, EntityManager entityManager) {
         this.productConverters = productConverters;
-        this.productRepository = productRepository;
         this.entityManager = entityManager;
-        this.catalogDao = catalogDao;
-    }
-
-    @Override
-    public void save(Product product) {
-        productRepository.save(product);
-    }
-
-    @Override
-    public void delete(String alias) {
-        Query query = entityManager
-                .createQuery("UPDATE Product as p set p.enabled=false where p.alias=:alias");
-        query.setParameter("alias", alias);
-        query.executeUpdate();
-    }
-
-    @Override
-    public Product save(RequestSaveProductDto dto) {
-        Catalog catalog = catalogDao.findEntityByAlias(dto.getCatalogAlias());
-        Product product = productConverters.requestSaveProductDtoToProduct(dto, catalog);
-        productRepository.save(product);
-        return product;
     }
 
 
     @Override
-
+    @Transactional
     public Paging<ResponseProductDto> findProductsInCatalog(ProductQueryParam queryParam) {
         QueryChainProcessor chainProcessor = new QueryChainProcessorImpl();
         QueryProcessorParam param = chainProcessor.attributeQuery(queryParam);
@@ -87,10 +59,10 @@ public class ProductService implements ProductDao {
         if (count.equals(0)) {
             throw new ResourceNotFoundException("С данными параметрами результаты не найдены");
         }
-        QueryProcessorParam queryProcessorParamIdList = chainProcessor.productIdListQuery();
+        QueryProcessorParam queryProcessorParamList = chainProcessor.productListQuery();
         TypedQuery<Product> productQueryList = entityManager
-                .createQuery(queryProcessorParamIdList.query(), Product.class);
-        setParamInQuery(productQueryList,queryProcessorParamIdList.param());
+                .createQuery(queryProcessorParamList.query(), Product.class);
+        setParamInQuery(productQueryList,queryProcessorParamList.param());
                 /*Подготавливаем результат запроса*/
         Paging<ResponseProductDto> result =
                 new Paging<>(count, queryParam.getPageSize(), queryParam.getCurrentPage());
@@ -110,6 +82,7 @@ public class ProductService implements ProductDao {
     }
 
     @Override
+    @Transactional
     public ResponseProductDto findProductByAlias(String alias) {
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("product-with-all-fields");
         TypedQuery<Product> query = entityManager
@@ -124,6 +97,7 @@ public class ProductService implements ProductDao {
     }
 
     @Override
+    @Transactional
     public Paging<ResponseProductDto> findProductLikeName(Integer page, Integer pageSize, String find) {
         find = "%" + find + "%";
         TypedQuery<Long> countQuery = entityManager
@@ -159,7 +133,7 @@ public class ProductService implements ProductDao {
     private void setParamInQuery(TypedQuery<?> query,Map<String,Object> param){
         for (Map.Entry<String, Object> entry : param.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
-                   }
+        }
     }
 
 }

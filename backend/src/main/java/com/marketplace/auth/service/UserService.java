@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class UserService {
     public UserAfterUpdateResponseDto saveNewUser(RegisterUserRequestDto dto){
         AppUser user = dto.convertToUser();
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setCreatedAt(LocalDateTime.now());
         List<AppRole> defaultRole = new ArrayList<>(1);
         defaultRole.add(roleService.getRoleByName(ERole.CUSTOMER));
         user.setRoles(defaultRole);

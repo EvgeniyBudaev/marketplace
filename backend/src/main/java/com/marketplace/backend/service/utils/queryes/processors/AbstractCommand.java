@@ -12,16 +12,7 @@ public abstract class AbstractCommand implements QueryProcessorParam {
        this.productQueryParam = param;
        this.param = new HashMap<>();
     }
-    @Override
-    public String query() {
-        StringBuilder sb = new StringBuilder(createSubQueryString());
-        if(productQueryParam.getOnStock()!=null){
-            if(productQueryParam.getOnStock()){
-                sb.append(" AND p.count>0");
-            }else {
-                sb.append(" AND p.count=0");
-            }
-        }
+    public static void sortedQueryBuild(StringBuilder sb, ProductQueryParam productQueryParam) {
         if(!productQueryParam.getSortedParam().isEmpty()){
             sb.append(" ORDER BY");
             for(Map.Entry<ESortedFields, ESortDirection> entry: productQueryParam.getSortedParam().entrySet()){
@@ -32,10 +23,24 @@ public abstract class AbstractCommand implements QueryProcessorParam {
         if (sb.charAt(sb.length()-1)==','){
             sb.deleteCharAt(sb.length()-1);/*Удаляем последнюю запятую*/
         }
+    }
+    @Override
+    public String query() {
+        StringBuilder sb = new StringBuilder(createSubQueryString());
+        if(productQueryParam.getOnStock()!=null){
+            if(productQueryParam.getOnStock()){
+                sb.append(" AND p.count>0");
+            }else {
+                sb.append(" AND p.count=0");
+            }
+        }
+        sortedQueryBuild(sb, productQueryParam);
         return sb.toString();
     }
 
-     protected abstract String createSubQueryString();
+
+
+    protected abstract String createSubQueryString();
 
     public Map<String,Object> param(){
         return this.param;

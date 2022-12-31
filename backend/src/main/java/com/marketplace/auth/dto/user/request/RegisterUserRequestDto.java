@@ -28,6 +28,9 @@ public class RegisterUserRequestDto {
     @NotNull
     @Size(min = 6,max = 50)
     private String password;
+    @NotNull
+    @Size(min = 15,max = 250)
+    private String shippingAddress;
 
     public AppUser convertToUser(){
         AppUser user = new AppUser();
@@ -37,6 +40,7 @@ public class RegisterUserRequestDto {
         user.setLastName(this.lastName);
         user.setPhone(this.phone);
         user.setEmail(this.email);
+        user.setShippingAddress(shippingAddress);
         return user;
     }
 }
