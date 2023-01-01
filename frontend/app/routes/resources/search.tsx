@@ -21,3 +21,7 @@ export const loader = async (args: LoaderArgs) => {
     return parseResponseError(error);
   }
 };
+
+export default function SearchRoute() {
+  return null;
+}

@@ -1,5 +1,5 @@
-import { FieldValues } from "react-hook-form";
-import { FetcherWithComponents } from "@remix-run/react";
+import type { FieldValues } from "react-hook-form";
+import type { FetcherWithComponents } from "@remix-run/react";
 import type z from "zod";
 import type { formSchema } from "./schemas";
 

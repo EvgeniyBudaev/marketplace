@@ -18,3 +18,7 @@ export const loader = async (args: LoaderArgs) => {
     return parseResponseError(error);
   }
 };
+
+export default function CatalogsDropDownRoute() {
+  return null;
+}

@@ -5,7 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 import { Login, loginLinks } from "~/pages/Auth/Login";
 import { commitSession, createUserSession, getSession, login } from "~/shared/api/auth";
 import { getUser } from "~/shared/api/users/domain.server";
-import { createBoundaries, internalError } from "~/utils";
+import { createBoundaries, parseResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -34,21 +34,24 @@ export const action = async (args: ActionArgs) => {
     });
   }
 
-  const loginResponse = await login(request, formValues);
+  try {
+    const loginResponse = await login(request, formValues);
+    if (!loginResponse.success) {
+      return json(loginResponse);
+    }
 
-  if (!loginResponse.success) {
-    throw internalError();
+    const userResponse = await getUser(request, {
+      access_token: loginResponse.data.access_token,
+    });
+
+    if (userResponse.success) {
+      return createUserSession(userResponse.data, "/");
+    }
+
+    return json(userResponse);
+  } catch (error) {
+    return parseResponseError(error);
   }
-
-  const userResponse = await getUser(request, {
-    access_token: loginResponse.data.access_token,
-  });
-
-  if (!userResponse.success) {
-    throw internalError();
-  }
-
-  return createUserSession(userResponse.data, "/");
 };
 
 //Ryan Florence

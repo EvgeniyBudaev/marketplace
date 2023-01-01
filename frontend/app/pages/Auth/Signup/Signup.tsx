@@ -5,8 +5,8 @@ import { ERoutes } from "~/enums";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { EFormFields } from "~/pages/Auth/Signup/enums";
 import { formSchema } from "~/pages/Auth/Signup/schemas";
-import { TForm, TOptionsSubmitForm } from "~/pages/Auth/Signup/types";
-import { TParams } from "~/types";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Auth/Signup/types";
+import type { TParams } from "~/types";
 import { Button } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./Signup.module.css";
@@ -15,6 +15,8 @@ export const Signup: FC = () => {
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
+  const errors = form.methods.formState.errors;
+  console.log("errors: ", errors);
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
@@ -37,8 +39,9 @@ export const Signup: FC = () => {
               <Input label="Имя" name={EFormFields.FirstName} type="text" />
               <Input label="Фамилия" name={EFormFields.LastName} type="text" />
               <Input label="Отчество" name={EFormFields.MiddleName} type="text" />
-              <Input label="Мобильный телефон" name={EFormFields.PhoneNumber} type="text" />
+              <Input label="Мобильный телефон" name={EFormFields.Phone} type="text" />
               <Input label="Электронная почта" name={EFormFields.Email} type="text" />
+              <Input label="Адрес" name={EFormFields.ShippingAddress} type="text" />
               <Input label="Пароль" name={EFormFields.Password} type="text" />
               <Input label="Подтверждение пароля" name={EFormFields.RePassword} type="text" />
             </div>
