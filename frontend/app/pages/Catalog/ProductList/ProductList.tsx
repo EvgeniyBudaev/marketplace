@@ -5,6 +5,7 @@ import isNil from "lodash/isNil";
 import type { TProduct } from "~/shared/api/products";
 import { ProductListItem } from "../ProductListItem";
 import styles from "./ProductList.module.css";
+import {useCart} from "~/hooks";
 
 type TProps = {
   pages: TProduct[][];
@@ -16,6 +17,7 @@ type TProps = {
 const getRandomString = () => Math.random().toString(36).substring(7);
 
 export const ProductList: FC<TProps> = ({ pages, isCardsLine, onPageChange, scrollIntoPage }) => {
+  const { cart, onChangeCartItem } = useCart();
   const listItems = useRef<(HTMLLIElement | null)[][]>([]);
   const page = useRef<number | null>(null);
 
@@ -76,9 +78,11 @@ export const ProductList: FC<TProps> = ({ pages, isCardsLine, onPageChange, scro
             : page.map((product, j) => (
                 <ProductListItem
                   key={getRandomString() + product.id}
+                  cart={cart}
                   product={product}
-                  isCardsLine={isCardsLine}
                   ref={(el) => ((listItems.current[i] || (listItems.current[i] = []))[j] = el)}
+                  isCardsLine={isCardsLine}
+                  onChangeCartItem={onChangeCartItem}
                 />
               )),
         )}
