@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { TParams, TSorting } from "~/types";
+import type { TParams, TSorting } from "~/types";
 import { mapSortingToDto } from "~/utils";
 
 type TUsePaging = (

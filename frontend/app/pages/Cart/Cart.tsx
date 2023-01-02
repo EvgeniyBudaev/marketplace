@@ -1,12 +1,17 @@
 import type { FC } from "react";
 import { Link, useNavigate } from "@remix-run/react";
+import isEmpty from "lodash/isEmpty";
 import { ERoutes } from "~/enums";
+import { useCart } from "~/hooks";
 import { Button, Icon } from "~/uikit";
 import { formatValueWithSpaces } from "~/utils";
+import { CartItem, cartItemLinks } from "./CartItem";
 import styles from "./Cart.module.css";
 
 export const Cart: FC = () => {
   const isAuthenticated = true;
+  const { cart } = useCart();
+  console.log("Cart cart: ", cart);
   const navigate = useNavigate();
 
   const handleProceedToCheckout = () => {
@@ -17,7 +22,15 @@ export const Cart: FC = () => {
     <section className="Cart">
       <h1 className="Cart-Title">Моя корзина</h1>
       <div className="Cart-Inner">
-        <div className="Cart-List"></div>
+        <div className="Cart-List">
+          {!isEmpty(cart.products) ? (
+            cart.products.map((cartItem) => (
+              <CartItem key={cartItem.product.id} cartItem={cartItem} />
+            ))
+          ) : (
+            <div>В корзине нет товаров</div>
+          )}
+        </div>
         <div className="Cart-Checkout">
           <div className="Cart-CheckoutInner">
             <div className="Cart-OrdersList">
@@ -77,5 +90,5 @@ export const Cart: FC = () => {
 };
 
 export function cartLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{ rel: "stylesheet", href: styles }, ...cartItemLinks()];
 }

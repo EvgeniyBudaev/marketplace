@@ -1,7 +1,8 @@
 import { redirect } from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
 import { ERoutes } from "~/enums";
-import { destroySession, getSession, getUserSession } from "~/shared/api/auth";
+import { getUserSession } from "~/shared/api/auth";
+import { destroySession, getSession } from "~/shared/session";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;

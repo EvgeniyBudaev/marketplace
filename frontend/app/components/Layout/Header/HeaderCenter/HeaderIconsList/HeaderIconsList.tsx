@@ -5,7 +5,7 @@ import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import isNull from "lodash/isNull";
 import { ERoutes } from "~/enums";
-import { useUser } from "~/hooks";
+import { useCart, useUser } from "~/hooks";
 import { EFormMethods } from "~/shared/form";
 import { Avatar, DropDown, Icon } from "~/uikit";
 import styles from "./HeaderIconsList.module.css";
@@ -17,6 +17,8 @@ type TProps = {
 
 export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
   const { user } = useUser();
+  const { cart } = useCart();
+  //console.log("HeaderIconsList cart: ", cart);
   const [cartId, setCartId] = useState("");
   const [cartItemsCountTotal, setCartItemsCountTotal] = useState(0);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
@@ -30,6 +32,12 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
       window.removeEventListener("click", handleClickOutsideDropDown);
     };
   });
+
+  useEffect(() => {
+    if (!isEmpty(cart)) {
+      setCartItemsCountTotal(cart.products.length);
+    }
+  }, [cart]);
 
   const handleClickOutsideDropDown = (event: MouseEvent) => {
     if (isDropDownOpen) {
@@ -84,11 +92,9 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
             <Avatar user={user.firstName} size={46} onClick={handleToggleDropDown} />
             <DropDown className="HeaderIconsList-DropDownUser" isOpen={isDropDownOpen}>
               <ul className="HeaderIconsList-AvatarDropDown_Menu">
-                <li className="HeaderIconsList-AvatarDropDown_MenuItem">
-                  <div onClick={handleLogout}>
-                    <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="Exit" />
-                    <div className="HeaderIconsList-AvatarDropDown_MenuItemText">Выйти</div>
-                  </div>
+                <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleLogout}>
+                  <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="Exit" />
+                  <div className="HeaderIconsList-AvatarDropDown_MenuItemText">Выйти</div>
                 </li>
               </ul>
             </DropDown>

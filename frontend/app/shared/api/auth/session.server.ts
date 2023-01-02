@@ -1,35 +1,6 @@
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
-import type { Session } from "@remix-run/node";
-import { CsrfSession } from "~/shared/session";
+import { redirect } from "@remix-run/node";
 import type { TUser } from "~/shared/api/users/types";
-
-export const csrfSessionStorage = CsrfSession.storage;
-
-export const getCsrfSession = async (request: Request): Promise<Session> => {
-  return await csrfSessionStorage.getSession(request.headers.get("Cookie"));
-};
-
-export const { commitSession: commitCsrfSession } = csrfSessionStorage;
-
-//DEMO
-const { COOKIE_SECRET, SESSION_SECRET } = process.env;
-if (!SESSION_SECRET) throw new Error("You need to set a SESSION_SECRET environment variable");
-if (!COOKIE_SECRET) throw new Error("You need to set a COOKIE_SECRET environment variable");
-
-const { getSession, commitSession, destroySession } = createCookieSessionStorage({
-  cookie: {
-    name: "__session",
-    //domain: "remix.run",
-    httpOnly: true,
-    maxAge: 60,
-    path: "/",
-    sameSite: "lax",
-    secrets: [COOKIE_SECRET || "secret"],
-    secure: true,
-  },
-});
-
-export { getSession, commitSession, destroySession };
+import { commitSession, getSession } from "~/shared/session";
 
 export const createUserSession = async (user: TUser, redirectTo: string) => {
   const session = await getSession();

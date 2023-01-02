@@ -1,0 +1,214 @@
+@import "component";
+
+.CartItem {
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid $color-light-gray;
+  border-radius: 4px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &-Product {
+    display: flex;
+  }
+
+  &-ProductImage {
+    height: 100px;
+    width: 100px;
+  }
+
+  &-ProductContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 20px;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  &-ProductHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-ProductTitle {
+    margin-right: 16px;
+    max-width: 260px;
+    width: 100%;
+    color: $color-text;
+    transition: all 0.15s;
+  }
+
+  &-ProductActions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    top: 8px;
+    margin-right: 16px;
+  }
+
+  &-ProductCounter {
+    display: flex;
+    align-items: center;
+
+    &Minus,
+    &Plus {
+      //@include roboto-16-bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background-color: $color-white;
+      border: 3px solid $color-moon-gray;
+
+      &:hover {
+        background-color: $color-pearl-white;
+      }
+    }
+
+    &Minus {
+      border-radius: 6px 0 0 6px;
+      border-width: 3px 0 3px 3px;
+    }
+
+    &Plus {
+      border-radius: 0 6px 6px 0;
+      border-width: 3px 3px 3px 0;
+    }
+
+    &Count {
+      text-align: center;
+      width: 30px;
+      height: 30px;
+      background-color: $color-moon-gray;
+      border: 3px solid $color-moon-gray;
+      outline: transparent;
+      transition: all 0.15s;
+
+      &:hover {
+        background-color: $color-white;
+        border-color: $color-shade-gray;
+      }
+
+      &:active,
+      &:focus {
+        background-color: $color-white;
+        border-color: $color-shade-gray;
+      }
+    }
+
+    &__disabled {
+      color: $color-shade-gray;
+      background-color: $color-moon-gray;
+      cursor: default;
+
+      &:hover {
+        color: $color-shade-gray;
+        background-color: $color-moon-gray;
+      }
+    }
+  }
+
+  &-ProductItemPrice {
+    //@include roboto-14-bold;
+    position: relative;
+    top: 8px;
+    text-align: center;
+  }
+
+  &-ProductItemTotalPrice {
+    //@include roboto-16-bold;
+  }
+
+  &-ProductControls {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+  }
+
+  &-ProductDelete {
+    display: inline-flex;
+    align-items: flex-end;
+    color: $color-dark-gray;
+    border-bottom: 1px solid $color-dark-gray;
+    transition: all 0.15s;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-beige;
+    }
+  }
+
+  &-ProductDeleteMobile {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .CartItem {
+    margin-bottom: 0;
+    padding: 15px;
+    border-right: none;
+    border-left: none;
+    border-right: 0;
+
+    &-ProductHeader {
+      flex-direction: column;
+    }
+
+    &-ProductItemTotalPrice {
+      //@include roboto-16-bold;
+      order: 1;
+      margin-bottom: 16px;
+    }
+
+    &-ProductTitle {
+      order: 2;
+      margin-right: 0;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    &-ProductActions {
+      order: 3;
+      margin-right: 0;
+    }
+
+    &-ProductItemPrice {
+      //@include roboto-14-bold;
+    }
+
+    &-ProductDelete {
+      display: none;
+    }
+
+    &-ProductDeleteMobile {
+      display: block;
+
+      svg {
+        fill: $color-suit-gray;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .CartItem {
+    &-ProductHeader {
+      align-items: flex-start;
+    }
+
+    &-ProductTitle {
+      text-align: start;
+    }
+
+    &-ProductBottom {
+      justify-content: flex-start;
+    }
+  }
+}

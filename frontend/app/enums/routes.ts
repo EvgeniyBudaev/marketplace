@@ -8,6 +8,7 @@ export enum ERoutes {
   Shipping = "/shipping",
 
   ResourcesCatalogs = "/resources/catalogs",
+  ResourcesCart = "/resources/cart",
   ResourcesLogout = "/resources/logout",
   ResourcesSearch = "/resources/search",
 }

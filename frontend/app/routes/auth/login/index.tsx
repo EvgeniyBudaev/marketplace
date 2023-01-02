@@ -3,8 +3,9 @@ import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Login, loginLinks } from "~/pages/Auth/Login";
-import { commitSession, createUserSession, getSession, login } from "~/shared/api/auth";
+import { createUserSession, login } from "~/shared/api/auth";
 import { getUser } from "~/shared/api/users/domain.server";
+import { commitSession, getSession } from "~/shared/session";
 import { createBoundaries, parseResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {

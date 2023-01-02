@@ -1,8 +1,11 @@
-import { forwardRef } from "react";
+import {forwardRef} from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
+import isEmpty from "lodash/isEmpty";
 import { ERoutes } from "~/enums";
+
+import type {TActionCartItemChange, TCart} from "~/shared/api/cart";
 import type { TProduct } from "~/shared/api/products";
 import { Button } from "~/uikit";
 import { createPath, formatValueWithSpaces } from "~/utils";
@@ -10,17 +13,19 @@ import { AttributeItem } from "../AttributeItem";
 import styles from "./ProductListItem.module.css";
 
 type TProps = {
+  cart: TCart;
   product: TProduct;
   isCardsLine: boolean;
+  onChangeCartItem: (action: TActionCartItemChange) => Promise<void>;
 };
 
 export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function ProductListItem(
-  { product, isCardsLine },
+  { cart, product, isCardsLine, onChangeCartItem },
   ref,
 ) {
+
   const ROUTE_PRODUCT_DETAIL = createPath({
-    route: ERoutes.ProductDetail,
-    params: { alias: product.alias },
+    route: ERoutes.Cart,
   });
   const count = Number(product.count);
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
@@ -39,6 +44,35 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     } else {
       return 140;
     }
+  };
+
+  const renderButton = (product: TProduct) => {
+    const isProductAtCart =
+      !isEmpty(cart && cart.products) && cart.products.some((item) => item.product.id === product.id);
+
+    return isProductAtCart ? (
+      !isEmpty(cart && cart.products) && (
+        <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
+          В корзине
+        </Link>
+      )
+    ) : (
+      <Button
+        className="ProductListItem-ButtonAddToCart"
+        isDisabled={count <= 0}
+        onClick={() =>
+          onChangeCartItem({
+            payload: {
+              id: product.id,
+              product,
+              quantity: 1,
+            },
+          })
+        }
+      >
+        В корзину
+      </Button>
+    );
   };
 
   return (
@@ -96,13 +130,14 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
             {count > 0 ? "В наличии" : "Товар отсутствует"}
           </div>
           <div className="ProductListItem-FooterAddToCartGrid">
-            <Button
-              className="ProductListItem-ButtonAddToCart"
-              isDisabled={count <= 0}
-              onClick={() => {}}
-            >
-              В корзину
-            </Button>
+            {/*<Button*/}
+            {/*  className="ProductListItem-ButtonAddToCart"*/}
+            {/*  isDisabled={count <= 0}*/}
+            {/*  onClick={() => onAddToCart(product)}*/}
+            {/*>*/}
+            {/*  В корзину*/}
+            {/*</Button>*/}
+            {renderButton(product)}
           </div>
         </div>
       </div>
