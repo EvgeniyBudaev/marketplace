@@ -272,7 +272,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&pageSize=15",
+							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -299,10 +299,53 @@
 									"key": "sort",
 									"value": "price_desc,created_asc",
 									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "global search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/find/?pageSize=15&page=1&param=Бернард",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"find",
+								""
+							],
+							"query": [
+								{
+									"key": "form",
+									"value": "5%2C6",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "price_desc,created_asc",
+									"disabled": true
 								},
 								{
 									"key": "pageSize",
 									"value": "15"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "param",
+									"value": "Бернард"
 								}
 							]
 						}

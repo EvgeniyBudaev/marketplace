@@ -9,4 +9,4 @@ CREATE TABLE products (
     rating DOUBLE default 0,
     catalog_id BIGINT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+)ENGINE=InnoDB;
