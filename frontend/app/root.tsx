@@ -19,16 +19,13 @@ import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
-import {commitCartSession, getCartSession} from "~/shared/api/cart";
-import type {TCart} from "~/shared/api/cart";
-import {commitCsrfSession, commitSession, getCsrfSession, getSession} from "~/shared/session";
+import { commitCsrfSession, getCsrfSession, getSession } from "~/shared/session";
 import { StoreContextProvider, useStore } from "~/shared/store";
 import { links as uikitLinks } from "~/uikit";
 import { createBoundaries } from "~/utils";
 import styles from "../styles/app.css";
 
 interface RootLoaderData {
-  cart: TCart | {};
   csrfToken: string;
   cspScriptNonce: string;
   title: string;
@@ -44,14 +41,8 @@ export const loader = async (args: LoaderArgs) => {
   const session = await getSession(request.headers.get("Cookie"));
   const userSession = await getUserSession(request); //Ryan Florence
   const user = JSON.parse(userSession || "{}");
-  const cartSession = await getCartSession(request);
-  const cartBefore = cartSession.get("__cart");
-  const cart2 = JSON.parse(cartBefore || "{}");
-  console.log("[cart2] ", cart2);
-  const cart = {};
 
   const data: RootLoaderData = {
-    cart,
     csrfToken,
     cspScriptNonce,
     title: "root.title",
@@ -61,11 +52,11 @@ export const loader = async (args: LoaderArgs) => {
     user,
   };
 
-  return json(data, { headers: {
-    // "Set-Cookie": await commitCsrfSession(csrfSession)
-      "Set-Cookie": await commitCartSession(cartSession),
-      //"Set-Cookie": await commitSession(cartSession),
-  } });
+  return json(data, {
+    headers: {
+      "Set-Cookie": await commitCsrfSession(csrfSession),
+    },
+  });
 };
 
 export const meta: MetaFunction = () => ({
@@ -107,19 +98,15 @@ const Document: FC<TDocumentProps> = ({ children, cspScriptNonce, env }) => {
 };
 
 export default function App() {
-  const { cart, csrfToken, cspScriptNonce, ENV, user } = useLoaderData<typeof loader>();
+  const { csrfToken, cspScriptNonce, ENV, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
-  //console.log("Root user: ", user);
-  console.log("Root cart: ", cart);
 
   const store = useStore();
   const setUser = store.setUser;
-  const setCart = store.setCart;
 
   useEffect(() => {
     setUser(user);
-    setCart(cart);
-  }, [setCart, setUser, cart, user]);
+  }, [setUser, user]);
 
   useEffect(() => {
     isMounted.current = true;

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { FullscreenControl, GeolocationControl, ZoomControl } from "@pbe/react-yandex-maps";
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,6 +44,7 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
 
   const [address, setAddress] = useState(searchState?.value ?? "");
   const [isDragging, setDragging] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     searchState && setAddress(searchState.value);
@@ -52,6 +53,7 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
 
   const handleSubmit = (params: TParams) => {
     console.log("Form params: ", params);
+    navigate(ERoutes.Recipient);
   };
 
   const handleDragStart = useCallback(() => {

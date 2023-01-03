@@ -6,13 +6,16 @@ import styles from "./CatalogList.module.css";
 
 type TProps = {
   catalogs: TCatalogs;
+  onClose: () => void;
 };
 
-export const CatalogList: FC<TProps> = ({ catalogs }) => {
+export const CatalogList: FC<TProps> = ({ catalogs, onClose }) => {
   return (
     <ul className="CatalogList">
       {!isNil(catalogs) &&
-        catalogs.content.map((item) => <CatalogListItem key={item.id} catalog={item} />)}
+        catalogs.content.map((item) => (
+          <CatalogListItem key={item.id} catalog={item} onClose={onClose} />
+        ))}
     </ul>
   );
 };

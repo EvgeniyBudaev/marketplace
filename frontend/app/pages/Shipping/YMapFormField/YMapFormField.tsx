@@ -1,5 +1,6 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { FC, FocusEvent } from "react";
+import { useCallback, useEffect } from "react";
+import type { Dispatch, FC, FocusEvent, SetStateAction } from "react";
+import { useController, useFormContext } from "react-hook-form";
 import clsx from "clsx";
 import GeoSearch from "~/pages/Shipping/YMap/GeoSearch/GeoSearch";
 import type { TGeoSearchSuggestion } from "~/pages/Shipping/YMap/GeoSearch";
@@ -10,10 +11,10 @@ type FormFieldYMapType = "text";
 
 type TProps = {
   className?: string;
-  error?: string;
+  defaultValue?: string;
   label?: string;
   mapState?: TPickMapState;
-  name?: string;
+  name: string;
   searchState: {
     value: string;
     suggestions: TGeoSearchSuggestion[];
@@ -35,7 +36,7 @@ type TProps = {
 
 export const YMapFormField: FC<TProps> = ({
   className,
-  error,
+  defaultValue = "",
   label,
   name,
   searchState,
@@ -46,6 +47,28 @@ export const YMapFormField: FC<TProps> = ({
   onStateChange,
   onSearch,
 }) => {
+  const { control } = useFormContext();
+  const {
+    field,
+    fieldState: { error },
+  } = useController({
+    name,
+    control,
+    defaultValue,
+  });
+
+  useEffect(() => {
+    onChange(searchState.value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchState]);
+
+  const onChange = useCallback(
+    (value: string) => {
+      field.onChange(value);
+    },
+    [field],
+  );
+
   return (
     <div
       className={clsx("YMapFormField", className, {
@@ -62,8 +85,8 @@ export const YMapFormField: FC<TProps> = ({
               "YMapFormField-Input__active": isFocused,
               "YMapFormField-Input__error": error,
             })}
-            error={error}
-            name={name}
+            error={error?.message}
+            name={field.name}
             state={searchState}
             isFocused={isFocused}
             onBlur={onBlur}
@@ -71,7 +94,7 @@ export const YMapFormField: FC<TProps> = ({
             onStateChange={onStateChange}
             onSearch={onSearch}
           />
-          {error && <div className="YMapFormField-ErrorMessage">{error}</div>}
+          {error && <div className="YMapFormField-ErrorMessage">{error.message}</div>}
         </>
       )}
     </div>

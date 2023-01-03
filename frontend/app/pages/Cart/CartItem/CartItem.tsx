@@ -1,4 +1,4 @@
-import {useState} from  "react";
+import { useState } from "react";
 import type { ChangeEvent, FC, KeyboardEvent } from "react";
 import clsx from "clsx";
 import { useCart } from "~/hooks";
@@ -65,9 +65,7 @@ export const CartItem: FC<TProps> = ({ cartItem }) => {
     }).then((_) => true);
   };
 
-  const handleKeyPressQuantity = (
-      event: KeyboardEvent<HTMLInputElement>
-  ) => {
+  const handleKeyPressQuantity = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       onChangeCartItem({
         payload: {

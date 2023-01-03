@@ -1,6 +1,7 @@
 import { About, aboutLinks } from "~/pages/About";
+import ShippingRoute from "~/routes/shipping";
 
-export default function AboutPage() {
+export default function AboutRoute() {
   return <About />;
 }
 

@@ -5,6 +5,7 @@ import { Signup, signupLinks } from "~/pages/Auth/Signup";
 import { createUserSession, signup } from "~/shared/api/auth";
 import { mapSignupToDto } from "~/shared/api/auth/utils";
 import { parseResponseError } from "~/utils";
+import ShippingRoute from "~/routes/shipping";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -24,7 +25,7 @@ export const action = async (args: ActionArgs) => {
   }
 };
 
-export default function SignupPage() {
+export default function SignupRoute() {
   return <Signup />;
 }
 

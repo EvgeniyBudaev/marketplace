@@ -1,7 +1,7 @@
 import { inputFromSearch } from "remix-domains";
 import type { LoaderArgs } from "@remix-run/node";
 import { Home, homeLinks } from "~/pages/Home";
-import {createCartSession} from "~/shared/api/cart";
+import { createCartSession } from "~/shared/api/cart";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;

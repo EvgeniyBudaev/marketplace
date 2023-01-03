@@ -5,7 +5,7 @@ import isNil from "lodash/isNil";
 import type { TProduct } from "~/shared/api/products";
 import { ProductListItem } from "../ProductListItem";
 import styles from "./ProductList.module.css";
-import {useCart} from "~/hooks";
+import { useCart } from "~/hooks";
 
 type TProps = {
   pages: TProduct[][];

@@ -1,13 +1,13 @@
 import { useCallback } from "react";
-import {useFetcher} from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import type { TActionCartItemChange, TActionCartItemDelete } from "~/shared/api/cart";
 import { useStoreContext } from "~/shared/store";
-import {EFormMethods} from "~/shared/form";
-import {ERoutes} from "~/enums";
+import { EFormMethods } from "~/shared/form";
+import { ERoutes } from "~/enums";
 
 export const useCart = () => {
   const { cart, setCart } = useStoreContext();
-  const  fetcher =  useFetcher();
+  const fetcher = useFetcher();
 
   const onChangeCart = useCallback(
     async (value: any) => {
@@ -32,14 +32,14 @@ export const useCart = () => {
           products: cartItems,
         }));
       } else {
-          const newCart = {products: [action.payload]};
-          fetcher.submit(
-              { cart: JSON.stringify(newCart)},
-              {
-                  method: EFormMethods.Post,
-                  action: ERoutes.ResourcesCart,
-              },
-          );
+        const newCart = { products: [action.payload] };
+        fetcher.submit(
+          { cart: JSON.stringify(newCart) },
+          {
+            method: EFormMethods.Post,
+            action: ERoutes.ResourcesCart,
+          },
+        );
         await setCart((prevState) => ({
           ...prevState,
           products: [action.payload],
