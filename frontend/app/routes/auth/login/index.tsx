@@ -7,6 +7,7 @@ import { createUserSession, login } from "~/shared/api/auth";
 import { getUser } from "~/shared/api/users/domain.server";
 import { commitSession, getSession } from "~/shared/session";
 import { createBoundaries, parseResponseError } from "~/utils";
+import ShippingRoute from "~/routes/shipping";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -74,7 +75,7 @@ export const loader = async (args: LoaderArgs) => {
   );
 };
 
-export default function LoginPage() {
+export default function LoginRoute() {
   const errors = useLoaderData<typeof loader>(); // { session.emailError && <span>{session.emailError}</span>}
   console.log("Login errors: ", errors);
   return <Login />;

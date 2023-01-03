@@ -2,6 +2,7 @@ import { memo, useRef } from "react";
 import type { FC, MouseEvent } from "react";
 import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
+import { TRANSITION } from "~/constants";
 import styles from "./Overlay.css";
 
 type TProps = {
@@ -11,7 +12,12 @@ type TProps = {
   onClick?: (event: MouseEvent) => void;
 };
 
-const OverlayComponent: FC<TProps> = ({ className, timeout = 300, isActive = false, onClick }) => {
+const OverlayComponent: FC<TProps> = ({
+  className,
+  timeout = TRANSITION,
+  isActive = false,
+  onClick,
+}) => {
   const nodeRef = useRef(null);
 
   return (

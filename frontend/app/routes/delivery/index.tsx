@@ -1,6 +1,7 @@
 import { Delivery, deliveryLinks } from "~/pages/Delivery";
+import ShippingRoute from "~/routes/shipping";
 
-export default function DeliveryPage() {
+export default function DeliveryRoute() {
   return <Delivery />;
 }
 

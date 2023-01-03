@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { FC } from "react";
+import type { FC } from "react";
 import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 //import useWindowScroll from "hooks/useWindowScroll";

@@ -1,11 +1,11 @@
-import {forwardRef} from "react";
+import { forwardRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { ERoutes } from "~/enums";
 
-import type {TActionCartItemChange, TCart} from "~/shared/api/cart";
+import type { TActionCartItemChange, TCart } from "~/shared/api/cart";
 import type { TProduct } from "~/shared/api/products";
 import { Button } from "~/uikit";
 import { createPath, formatValueWithSpaces } from "~/utils";
@@ -23,7 +23,6 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
   { cart, product, isCardsLine, onChangeCartItem },
   ref,
 ) {
-
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.Cart,
   });
@@ -48,7 +47,8 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
 
   const renderButton = (product: TProduct) => {
     const isProductAtCart =
-      !isEmpty(cart && cart.products) && cart.products.some((item) => item.product.id === product.id);
+      !isEmpty(cart && cart.products) &&
+      cart.products.some((item) => item.product.id === product.id);
 
     return isProductAtCart ? (
       !isEmpty(cart && cart.products) && (
@@ -129,16 +129,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
           <div className="ProductListItem-FooterStatus">
             {count > 0 ? "В наличии" : "Товар отсутствует"}
           </div>
-          <div className="ProductListItem-FooterAddToCartGrid">
-            {/*<Button*/}
-            {/*  className="ProductListItem-ButtonAddToCart"*/}
-            {/*  isDisabled={count <= 0}*/}
-            {/*  onClick={() => onAddToCart(product)}*/}
-            {/*>*/}
-            {/*  В корзину*/}
-            {/*</Button>*/}
-            {renderButton(product)}
-          </div>
+          <div className="ProductListItem-FooterAddToCartGrid">{renderButton(product)}</div>
         </div>
       </div>
     </li>

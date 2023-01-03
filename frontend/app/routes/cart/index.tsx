@@ -1,6 +1,7 @@
 import { Cart, cartLinks } from "~/pages/Cart";
+import ShippingRoute from "~/routes/shipping";
 
-export default function CartPage() {
+export default function CartRoute() {
   return <Cart />;
 }
 
