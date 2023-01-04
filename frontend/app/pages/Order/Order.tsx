@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { ERoutes } from "~/enums";
 import { useCart, useUser } from "~/hooks";
 import { Button, Icon } from "~/uikit";
-import { formatValueWithSpaces } from "~/utils";
+import { formatCurrency } from "~/utils";
 import styles from "./Order.module.css";
 
 export const Order: FC = () => {
@@ -121,15 +121,15 @@ export const Order: FC = () => {
           <div className="Order-Total">
             <div className="Order-Inner">
               <h3 className="Order-SubTitle">Итого</h3>
-              <h3 className="Order-SubTitle">{formatValueWithSpaces(1000)} ₽</h3>
+              <h3 className="Order-SubTitle">{formatCurrency(1000)} ₽</h3>
             </div>
             <div className="Order-Inner">
               <div>Товары - 1 шт.</div>
-              <div>{formatValueWithSpaces(1200)} ₽</div>
+              <div>{formatCurrency(1200)} ₽</div>
             </div>
             <div className="Order-Inner">
               <div>Доставка</div>
-              <div>{formatValueWithSpaces(300)} ₽</div>
+              <div>{formatCurrency(300)} ₽</div>
             </div>
           </div>
           <div className="Order-Payment">

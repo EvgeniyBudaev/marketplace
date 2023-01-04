@@ -4,6 +4,7 @@ import { Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+import { getContentSecurityPolicy } from "~/utils";
 
 const ABORT_DELAY = 5000;
 
@@ -24,6 +25,11 @@ function handleBotRequest(
   responseHeaders: Headers,
   remixContext: EntryContext,
 ) {
+  const nonce: string | undefined =
+    remixContext.appState.catchBoundaryRouteId === "root" && remixContext.appState.error
+      ? undefined
+      : remixContext.routeData.root?.cspScriptNonce;
+
   return new Promise((resolve, reject) => {
     let didError = false;
 
@@ -34,6 +40,7 @@ function handleBotRequest(
           const body = new PassThrough();
 
           responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set("Content-Security-Policy", getContentSecurityPolicy(nonce));
 
           resolve(
             new Response(body, {
@@ -65,6 +72,11 @@ function handleBrowserRequest(
   responseHeaders: Headers,
   remixContext: EntryContext,
 ) {
+  const nonce: string | undefined =
+    remixContext.appState.catchBoundaryRouteId === "root" && remixContext.appState.error
+      ? undefined
+      : remixContext.routeData.root?.cspScriptNonce;
+
   return new Promise((resolve, reject) => {
     let didError = false;
 
@@ -75,6 +87,7 @@ function handleBrowserRequest(
           const body = new PassThrough();
 
           responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set("Content-Security-Policy", getContentSecurityPolicy(nonce));
 
           resolve(
             new Response(body, {

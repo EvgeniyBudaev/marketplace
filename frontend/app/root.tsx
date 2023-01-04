@@ -76,6 +76,10 @@ type TDocumentProps = {
 };
 
 const Document: FC<TDocumentProps> = ({ children, cspScriptNonce, env }) => {
+  if (typeof window !== "undefined") {
+    cspScriptNonce = "";
+  }
+
   return (
     <html lang={"en"}>
       <head>
