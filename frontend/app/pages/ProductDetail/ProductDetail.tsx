@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import isEmpty from "lodash/isEmpty";
 import type { TProductDetail } from "~/shared/api/products";
-import { formatValueWithSpaces } from "~/utils";
+import { formatCurrency } from "~/utils";
 import styles from "./ProductDetail.module.css";
 
 type TProps = {
@@ -31,9 +31,7 @@ export const ProductDetail: FC<TProps> = ({ product }) => {
           </div>
         </div>
         <div className="ProductDetail-ColPrice">
-          <div className="ProductDetail-Price">
-            {formatValueWithSpaces(parseInt(product.price))} ₽
-          </div>
+          <div className="ProductDetail-Price">{formatCurrency(parseInt(product.price))} ₽</div>
           <div>
             <div className="ProductDetail-ColPriceTitle">Товар:</div>&nbsp;
             <div className="ProductDetail-Status">

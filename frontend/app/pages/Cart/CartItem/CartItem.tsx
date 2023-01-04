@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { useCart } from "~/hooks";
 import type { TCartItem } from "~/shared/api/cart";
 import { IconButton } from "~/uikit";
-import { formatValueWithSpaces } from "~/utils";
+import { formatCurrency } from "~/utils";
 import styles from "./CartItem.module.css";
 
 type TProps = {
@@ -125,11 +125,11 @@ export const CartItem: FC<TProps> = ({ cartItem }) => {
                 </button>
               </div>
               <div className="CartItem-ProductItemPrice">
-                {formatValueWithSpaces(parseInt(cartItem.product.price))} ₽/шт
+                {formatCurrency(parseInt(cartItem.product.price))} ₽/шт
               </div>
             </div>
             <div className="CartItem-ProductItemTotalPrice">
-              {formatValueWithSpaces(cartItem.quantity * parseInt(cartItem.product.price))} ₽
+              {formatCurrency(cartItem.quantity * parseInt(cartItem.product.price))} ₽
             </div>
           </div>
           <div className="CartItem-ProductControls">

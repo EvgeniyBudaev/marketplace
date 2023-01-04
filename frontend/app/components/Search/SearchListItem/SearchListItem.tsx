@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { ERoutes } from "~/enums";
 import type { TProduct } from "~/shared/api/products";
-import { createPath, formatValueWithSpaces } from "~/utils";
+import { createPath, formatCurrency } from "~/utils";
 import styles from "./SearchListItem.module.css";
 
 type TProps = {
@@ -44,9 +44,7 @@ export const SearchListItem: FC<TProps> = ({ index, item, isActive, onMouseOver 
               />
             </div>
             <div className="SearchListItem-Title">{item.name}</div>
-            <div className="SearchListItem-Price">
-              {formatValueWithSpaces(parseInt(item.price))} ₽
-            </div>
+            <div className="SearchListItem-Price">{formatCurrency(parseInt(item.price))} ₽</div>
           </Link>
         </li>
       )}

@@ -8,7 +8,7 @@ import { ERoutes } from "~/enums";
 import type { TActionCartItemChange, TCart } from "~/shared/api/cart";
 import type { TProduct } from "~/shared/api/products";
 import { Button } from "~/uikit";
-import { createPath, formatValueWithSpaces } from "~/utils";
+import { createPath, formatProxy, formatCurrency } from "~/utils";
 import { AttributeItem } from "../AttributeItem";
 import styles from "./ProductListItem.module.css";
 
@@ -89,9 +89,9 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
               <img
                 className="ProductListItem-ContentImage"
                 alt={product.name}
-                src={
-                  "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png?itok=fovz__Gi"
-                }
+                src={formatProxy(
+                  "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
+                )}
                 width={imageResponsiveSizeWidth()}
                 height={imageResponsiveSizeHeight()}
               />
@@ -104,7 +104,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
           </div>
           <ul className="ProductListItem-ContentDescriptionLine">
             <li className="ProductListItem-ContentDescriptionLinePrice">
-              {formatValueWithSpaces(parseInt(product.price))} ₽
+              {formatCurrency(parseInt(product.price))} ₽
             </li>
             <li className="ProductListItem-ContentTitleLine">
               <Link to={ROUTE_PRODUCT_DETAIL}>
@@ -124,7 +124,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
         </div>
         <div className="ProductListItem-Footer">
           <div className="ProductListItem-FooterPrice">
-            {formatValueWithSpaces(parseInt(product.price))} ₽
+            {formatCurrency(parseInt(product.price))} ₽
           </div>
           <div className="ProductListItem-FooterStatus">
             {count > 0 ? "В наличии" : "Товар отсутствует"}

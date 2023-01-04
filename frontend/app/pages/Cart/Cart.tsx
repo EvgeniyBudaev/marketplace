@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import { ERoutes } from "~/enums";
 import { useCart } from "~/hooks";
 import { Button, Icon } from "~/uikit";
-import { formatValueWithSpaces } from "~/utils";
+import { formatCurrency } from "~/utils";
 import { CartItem, cartItemLinks } from "./CartItem";
 import styles from "./Cart.module.css";
 
@@ -41,10 +41,10 @@ export const Cart: FC = () => {
                 </div>
                 <div className="Cart-CostLinePrice">
                   <div className="Cart-CostLineSubTotalPrice">
-                    {formatValueWithSpaces(parseInt("1500"))}&nbsp;₽
+                    {formatCurrency(parseInt("1500"))}&nbsp;₽
                   </div>
                   <div className="Cart-CostLinePriceWithDiscount">
-                    {formatValueWithSpaces(parseInt("1000"))}&nbsp;₽
+                    {formatCurrency(parseInt("1000"))}&nbsp;₽
                   </div>
                 </div>
               </div>
@@ -62,7 +62,7 @@ export const Cart: FC = () => {
                   <Icon className="Cart-IconLogoShort" type="LogoShort" />
                   <div>
                     <span>
-                      - {formatValueWithSpaces(parseInt("500"))}
+                      - {formatCurrency(parseInt("500"))}
                       <> </>
                     </span>
                     <span>рублей за заказ</span>
