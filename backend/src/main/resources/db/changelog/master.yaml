@@ -50,23 +50,29 @@ databaseChangeLog:
   - include:
       file: db/changelog/v1/complete/complete-products_double-values.sql
   - include:
-      file: db/changelog/auth/create/create-users-table.sql
+      file: db/changelog/users/create/create-users-table.sql
   - include:
-      file: db/changelog/auth/create/create-roles-table.sql
+      file: db/changelog/users/create/create-roles-table.sql
   - include:
-      file: db/changelog/auth/create/create-users-roles-table.sql
+      file: db/changelog/users/create/create-users-roles-table.sql
   - include:
-      file: db/changelog/auth/create/create-refresh-table.sql
+      file: db/changelog/users/create/create-refresh-table.sql
   - include:
-      file: db/changelog/auth/create/add-foreign-key-refresh.sql
+      file: db/changelog/users/create/create-verification-token-table.sql
   - include:
-      file: db/changelog/auth/create/add-foreign-key-roles.sql
+      file: db/changelog/users/create/add-foreign-key-refresh.sql
   - include:
-      file: db/changelog/auth/create/add-foreign-key-users.sql
+      file: db/changelog/users/create/add-foreign-key-roles.sql
   - include:
-      file: db/changelog/auth/complete/complete-users-table.sql
+      file: db/changelog/users/create/add-foreign-key-verification.sql
   - include:
-      file: db/changelog/auth/complete/complete-roles-table.sql
+      file: db/changelog/users/create/add-foreign-key-users.sql
   - include:
-      file: db/changelog/auth/complete/complete-users-roles-table.sql
+      file: db/changelog/users/complete/complete-users-table.sql
+  - include:
+      file: db/changelog/users/complete/complete-roles-table.sql
+  - include:
+      file: db/changelog/users/complete/complete-users-roles-table.sql
+  - include:
+      file: db/changelog/properties/create/create-email-properties-table.sql
 

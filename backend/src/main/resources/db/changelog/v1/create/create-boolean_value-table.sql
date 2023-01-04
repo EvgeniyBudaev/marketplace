@@ -4,4 +4,4 @@ CREATE TABLE boolean_value
     attribute_id BIGINT not null,
     product_id   BIGINT not null,
     value        BOOLEAN not null
-)
+)ENGINE=InnoDB;

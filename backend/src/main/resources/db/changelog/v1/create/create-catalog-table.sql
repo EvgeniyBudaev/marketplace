@@ -4,4 +4,4 @@ CREATE TABLE catalogs(
         alias VARCHAR(250) unique not null,
         image VARCHAR(400),
         enabled BOOLEAN default true
-)
+)ENGINE=InnoDB;

@@ -6,4 +6,4 @@ CREATE TABLE attributes
     enabled BOOLEAN default true,
     filter BOOLEAN default true,
     type    VARCHAR(90) not null
-)
+)ENGINE=InnoDB;

@@ -4,4 +4,4 @@ CREATE TABLE double_value
     attribute_id BIGINT not null,
     product_id   BIGINT not null,
     value        DOUBLE not null
-)
+)ENGINE=InnoDB;
