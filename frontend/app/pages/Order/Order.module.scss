@@ -4,12 +4,10 @@
   $this: &;
 
   &-Title {
-    //@include roboto-32-medium;
     margin-bottom: 16px;
   }
 
   &-SubTitle {
-    //@include roboto-22-bold;
   }
 
   &-Inner {
@@ -30,7 +28,6 @@
   }
 
   &-Link {
-    //@include roboto-14-medium;
     display: flex;
     align-items: center;
     color: $color-beige;

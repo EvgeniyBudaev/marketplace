@@ -8,7 +8,6 @@
     align-items: baseline;
 
     #{$this}-Title {
-      //@include roboto-32-bold;
       margin-bottom: 30px;
     }
 
@@ -30,13 +29,6 @@
 
 @media (max-width: 768px) {
   .Catalog {
-    $this: &;
-    & #{$this}-Row {
-      & #{$this}-Title {
-        //@include roboto-22-bold;
-      }
-    }
-
     &-Inner {
       flex-direction: column;
     }

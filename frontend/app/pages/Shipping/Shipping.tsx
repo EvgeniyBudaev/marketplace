@@ -17,7 +17,7 @@ import { Marker } from "~/pages/Shipping/YMap/Marker";
 import { yMapLinks } from "~/pages/Shipping/YMap/YMap";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import type { TParams } from "~/types";
-import { Button, Icon } from "~/uikit";
+import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./Shipping.module.css";
 
 type TProps = {
@@ -66,8 +66,14 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
 
   return (
     <section className="Shipping">
-      <div className="Shipping-Step">Шаг 1 из 3</div>
-      <h2 className="Shipping-Title">Где Вы хотите получить заказ?</h2>
+      <div className="Shipping-Step">
+        <Typography variant={ETypographyVariant.TextB4Regular}>Шаг 1 из 3</Typography>
+      </div>
+      <h1 className="Shipping-Title">
+        <Typography variant={ETypographyVariant.TextH1Bold}>
+          Где Вы хотите получить заказ?
+        </Typography>
+      </h1>
       <Form<TForm>
         className="Shipping-Form"
         form={form}
@@ -130,10 +136,12 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
           <div className="Shipping-Controls">
             <Link className="Shipping-ControlsLink" to={ERoutes.Cart}>
               <Icon type="ArrowBack" />
-              <div className="Shipping-ControlsText">В корзину</div>
+              <div className="Shipping-ControlsText">
+                <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
+              </div>
             </Link>
             <Button className="Shipping-Button" type="submit" isDisabled={isEmpty(address)}>
-              Продолжить
+              <Typography variant={ETypographyVariant.TextB3Regular}>Продолжить</Typography>
             </Button>
           </div>
         </div>

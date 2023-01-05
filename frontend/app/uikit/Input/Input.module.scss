@@ -10,7 +10,6 @@
   word-wrap: break-word;
 
   &-Label {
-    //@include roboto-14-regular;
     position: absolute;
     top: 20px;
     left: 12px;
@@ -55,7 +54,6 @@
     background-color: $color-white;
 
     #{$this}-Label {
-      //@include roboto-12-regular;
       top: -7px;
       padding: 0 5px;
       color: $color-text;
@@ -100,7 +98,6 @@
     &:-webkit-autofill {
       border: 1px solid rgba(0, 0, 0, 0.54);
       & ~ #{$this}-Label {
-        //@include roboto-12-regular;
         top: -7px;
         padding: 0 5px;
         color: $color-text;
@@ -110,7 +107,6 @@
   }
 
   &-ErrorField {
-    //@include roboto-12-regular;
     display: block;
     padding-top: 5px;
     color: $color-red;

@@ -3,6 +3,7 @@ import type { FC, PropsWithChildren } from "react";
 import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 import { TRANSITION } from "~/constants";
+import { ETypographyVariant, Typography } from "~/uikit";
 import { Icon } from "../Icon";
 import styles from "./Accordion.css";
 
@@ -43,7 +44,9 @@ const AccordionComponent: FC<TProps> = ({
       })}
     >
       <div className="Accordion-Header" onClick={onToggleAccordion}>
-        <div className="Accordion-HeaderTitle">{title}</div>
+        <div className="Accordion-HeaderTitle">
+          <Typography variant={ETypographyVariant.TextB3Bold}>{title}</Typography>
+        </div>
         <Icon className="Accordion-HeaderIcon" type="ArrowDown" />
       </div>
 

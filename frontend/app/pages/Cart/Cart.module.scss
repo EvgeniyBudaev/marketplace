@@ -2,7 +2,6 @@
 
 .Cart {
   &-Title {
-    //@include roboto-32-bold;
     margin-bottom: 30px;
   }
 
@@ -53,14 +52,12 @@
     }
 
     &SubTotalPrice {
-      //@include roboto-12-regular;
       color: $color-shade-gray;
       text-align: end;
       text-decoration: line-through;
     }
 
     &PriceWithDiscount {
-      //@include roboto-22-bold;
       line-height: 1;
     }
   }
@@ -135,16 +132,6 @@
     &-OrdersList #{$this}-Inner {
       flex-direction: row;
     }
-  }
-}
-
-@media (max-width: 768px) {
-  .Cart-Title {
-    //@include roboto-22-bold;
-  }
-
-  .Cart-CostLinePriceWithDiscount {
-    //@include roboto-22-bold;
   }
 }
 

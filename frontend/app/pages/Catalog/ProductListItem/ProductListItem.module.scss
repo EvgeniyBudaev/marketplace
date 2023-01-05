@@ -56,7 +56,6 @@
     min-height: 50px;
 
     &Price {
-      //@include roboto-18-bold;
       margin: 16px 0;
     }
 
@@ -121,7 +120,6 @@
         width: 100%;
 
         &Price {
-          //@include roboto-18-bold;
           display: none;
         }
 
@@ -157,7 +155,6 @@
   }
 
   &-ButtonGoAtCart {
-    //@include roboto-16-regular;
     padding: 10px 30px;
     height: 42px;
     width: max-content;
@@ -226,7 +223,6 @@
 
     &-Footer {
       & #{$this}-FooterPrice {
-        //@include roboto-16-bold;
         margin: 8px 0;
       }
     }
@@ -242,10 +238,6 @@
 
       #{$this}-ContentDescriptionLine {
         max-width: 100%;
-
-        &Price {
-          //@include roboto-16-bold;
-        }
 
         #{$this}AddToCartLine {
           margin-bottom: 8px;
@@ -292,7 +284,6 @@
 
     &-ButtonAddToCart,
     &-ButtonGoAtCart {
-      //@include roboto-14-regular;
       padding: 10px 20px;
       height: 36px;
     }

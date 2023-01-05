@@ -7,7 +7,7 @@ import { EFormFields } from "~/pages/Auth/Signup/enums";
 import { formSchema } from "~/pages/Auth/Signup/schemas";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Auth/Signup/types";
 import type { TParams } from "~/types";
-import { Button } from "~/uikit";
+import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./Signup.module.css";
 
@@ -33,7 +33,9 @@ export const Signup: FC = () => {
     <section className="Signup">
       <div className="Signup-Inner">
         <div className="Signup-Content">
-          <h1 className="Signup-Title">Регистрация</h1>
+          <h1 className="Signup-Title">
+            <Typography variant={ETypographyVariant.TextH1Bold}>Регистрация</Typography>
+          </h1>
           <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
             <div className="Signup-FormFieldGroup">
               <Input label="Имя" name={EFormFields.FirstName} type="text" />
@@ -47,13 +49,17 @@ export const Signup: FC = () => {
             </div>
             <div className="Signup-Control">
               <Button className="Signup-Button" type="submit">
-                Зарегистрироваться
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  Зарегистрироваться
+                </Typography>
               </Button>
             </div>
           </Form>
           <div className="Signup-Registration">
-            <span>Есть аккаунт?</span>
-            <Link to={ERoutes.Login}>Войти</Link>
+            <Typography variant={ETypographyVariant.TextB3Regular}>Есть аккаунт?</Typography>
+            <Link to={ERoutes.Login}>
+              <Typography variant={ETypographyVariant.TextB3Regular}>Войти</Typography>
+            </Link>
           </div>
         </div>
       </div>

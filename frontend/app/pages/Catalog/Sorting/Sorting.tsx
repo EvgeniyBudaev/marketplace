@@ -6,7 +6,7 @@ import isNull from "lodash/isNull";
 import { selectStyles } from "~/pages/Catalog/Sorting/selectStyles";
 import { EFormMethods } from "~/shared/form";
 import type { TSorting } from "~/types";
-import { Select } from "~/uikit";
+import { ETypographyVariant, Select, Typography } from "~/uikit";
 import styles from "./Sorting.module.css";
 
 type TProps = {
@@ -49,7 +49,9 @@ export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
 
   return (
     <div className="Sorting">
-      <span className="Sorting-Label">Сортировать</span>
+      <span className="Sorting-Label">
+        <Typography variant={ETypographyVariant.TextB3Regular}>Сортировать</Typography>
+      </span>
       <Form method={EFormMethods.Get}>
         <Select
           className={clsx("Sorting-Select", {

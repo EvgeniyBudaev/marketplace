@@ -4,7 +4,7 @@ import { TRANSITION } from "~/constants";
 import type { TCatalogAttributeItem, TCatalogDetail } from "~/shared/api/catalogs";
 import { EFormMethods } from "~/shared/form";
 import type { TParams } from "~/types";
-import { Accordion, Button, Checkbox, Overlay } from "~/uikit";
+import { Accordion, Button, Checkbox, ETypographyVariant, Overlay, Typography } from "~/uikit";
 import styles from "./Filter.module.css";
 
 type TProps = {
@@ -79,7 +79,9 @@ export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, fi
             ))}
           </Accordion>
         ))}
-        <Button type="submit">Применить</Button>
+        <Button type="submit">
+          <Typography variant={ETypographyVariant.TextB3Regular}>Применить</Typography>
+        </Button>
       </Form>
     </aside>
   );

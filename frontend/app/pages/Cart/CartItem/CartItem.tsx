@@ -3,8 +3,8 @@ import type { ChangeEvent, FC, KeyboardEvent } from "react";
 import clsx from "clsx";
 import { useCart } from "~/hooks";
 import type { TCartItem } from "~/shared/api/cart";
-import { IconButton } from "~/uikit";
-import { formatCurrency } from "~/utils";
+import { ETypographyVariant, IconButton, Typography } from "~/uikit";
+import { formatCurrency, formatProxy } from "~/utils";
 import styles from "./CartItem.module.css";
 
 type TProps = {
@@ -90,12 +90,18 @@ export const CartItem: FC<TProps> = ({ cartItem }) => {
       <div className="CartItem-Product">
         <img
           className="CartItem-ProductImage"
-          src="https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png?itok=fovz__Gi"
+          src={formatProxy(
+            "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png?itok=fovz__Gi",
+          )}
           alt={cartItem.product.name}
         />
         <div className="CartItem-ProductContent">
           <div className="CartItem-ProductHeader">
-            <div className="CartItem-ProductTitle">{cartItem.product.name}</div>
+            <div className="CartItem-ProductTitle">
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {cartItem.product.name}
+              </Typography>
+            </div>
             <div className="CartItem-ProductActions">
               <div className="CartItem-ProductCounter">
                 <button
@@ -104,7 +110,7 @@ export const CartItem: FC<TProps> = ({ cartItem }) => {
                   })}
                   onClick={handleDecrement}
                 >
-                  -
+                  <Typography variant={ETypographyVariant.TextH5Bold}>-</Typography>
                 </button>
                 <input
                   className="CartItem-ProductCounterCount"
@@ -121,15 +127,19 @@ export const CartItem: FC<TProps> = ({ cartItem }) => {
                   })}
                   onClick={handleIncrement}
                 >
-                  +
+                  <Typography variant={ETypographyVariant.TextH5Bold}>+</Typography>
                 </button>
               </div>
               <div className="CartItem-ProductItemPrice">
-                {formatCurrency(parseInt(cartItem.product.price))} ₽/шт
+                <Typography variant={ETypographyVariant.TextB3Bold}>
+                  {formatCurrency(parseInt(cartItem.product.price))} ₽/шт
+                </Typography>
               </div>
             </div>
             <div className="CartItem-ProductItemTotalPrice">
-              {formatCurrency(cartItem.quantity * parseInt(cartItem.product.price))} ₽
+              <Typography variant={ETypographyVariant.TextB2Bold}>
+                {formatCurrency(cartItem.quantity * parseInt(cartItem.product.price))} ₽
+              </Typography>
             </div>
           </div>
           <div className="CartItem-ProductControls">
@@ -139,7 +149,7 @@ export const CartItem: FC<TProps> = ({ cartItem }) => {
               onClick={handleDelete}
             />
             <div className="CartItem-ProductDelete" onClick={handleDelete}>
-              Удалить
+              <Typography variant={ETypographyVariant.TextB3Regular}>Удалить</Typography>
             </div>
           </div>
         </div>

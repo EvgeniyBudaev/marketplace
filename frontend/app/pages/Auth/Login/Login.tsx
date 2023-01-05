@@ -7,7 +7,7 @@ import { EFormFields } from "~/pages/Auth/Login/enums";
 import { formSchema } from "~/pages/Auth/Login/schemas";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Auth/Login/types";
 import type { TParams } from "~/types";
-import { Button } from "~/uikit";
+import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./Login.module.css";
 
@@ -35,7 +35,9 @@ export const Login: FC = () => {
     <section className="Login">
       <div className="Login-Center">
         <div className="Login-CenterContent">
-          <h1 className="Login-CenterContentTitle">Вход</h1>
+          <h1 className="Login-CenterContentTitle">
+            <Typography variant={ETypographyVariant.TextH1Bold}>Вход</Typography>
+          </h1>
           <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
             <div className="Login-FormFieldGroup">
               <Input label="Электронная почта" name={EFormFields.Email} type="text" />
@@ -48,8 +50,10 @@ export const Login: FC = () => {
             </div>
           </Form>
           <div className="Login-Signup">
-            <span>Нет аккаунта?</span>
-            <Link to={ERoutes.Signup}>Зарегистрироваться</Link>
+            <Typography variant={ETypographyVariant.TextB3Regular}>Нет аккаунта?</Typography>
+            <Link to={ERoutes.Signup}>
+              <Typography variant={ETypographyVariant.TextB3Regular}>Зарегистрироваться</Typography>
+            </Link>
           </div>
         </div>
       </div>

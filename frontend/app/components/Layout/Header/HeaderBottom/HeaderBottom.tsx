@@ -2,7 +2,7 @@ import type { FC } from "react";
 import clsx from "clsx";
 import { NavLink, Search } from "~/components";
 import { TRANSITION } from "~/constants";
-import { Button, Hamburger, Spacer } from "~/uikit";
+import { Button, ETypographyVariant, Hamburger, Spacer, Typography } from "~/uikit";
 import styles from "./HeaderBottom.module.css";
 
 type TProps = {
@@ -36,7 +36,9 @@ export const HeaderBottom: FC<TProps> = ({
                     color="white"
                     isActive={isCatalogOpen}
                   />
-                  <div className="HeaderBottom-ButtonCatalogText">Каталог</div>
+                  <div className="HeaderBottom-ButtonCatalogText">
+                    <Typography variant={ETypographyVariant.TextB3Regular}>Каталог</Typography>
+                  </div>
                 </Button>
               </div>
               <Spacer />
@@ -48,13 +50,21 @@ export const HeaderBottom: FC<TProps> = ({
               <Spacer />
               <div className="HeaderBottom-InfoRight">
                 <NavLink href={"/about"} activeClassName="HeaderBottom-Text__isActive">
-                  <span className="HeaderBottom-Text">О компании</span>
+                  <span className="HeaderBottom-Text">
+                    <Typography variant={ETypographyVariant.TextB3Regular}>О компании</Typography>
+                  </span>
                 </NavLink>
                 <NavLink href={"/delivery"} activeClassName="HeaderBottom-Text__isActive">
-                  <span className="HeaderBottom-Text">Доставка и оплата</span>
+                  <span className="HeaderBottom-Text">
+                    <Typography variant={ETypographyVariant.TextB3Regular}>
+                      Доставка и оплата
+                    </Typography>
+                  </span>
                 </NavLink>
                 <NavLink href={"/contacts"} activeClassName="HeaderBottom-Text__isActive">
-                  <span className="HeaderBottom-Text">Контакты</span>
+                  <span className="HeaderBottom-Text">
+                    <Typography variant={ETypographyVariant.TextB3Regular}>Контакты</Typography>
+                  </span>
                 </NavLink>
               </div>
             </div>

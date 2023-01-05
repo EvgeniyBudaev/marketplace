@@ -14,6 +14,7 @@ import { sortingLinks } from "~/pages/Catalog/Sorting";
 import type { TCatalogDetail } from "~/shared/api/catalogs";
 import type { TProduct, TProducts } from "~/shared/api/products";
 import type { TParams, TSorting } from "~/types";
+import { ETypographyVariant, Typography } from "~/uikit";
 import { Filter } from "./Filter";
 import { Panel } from "./Panel";
 import { ProductList } from "./ProductList";
@@ -171,10 +172,12 @@ export const Catalog: FC<TProps> = (props) => {
   return (
     <section className="Catalog">
       <div className="Catalog-Row">
-        <h1 className="Catalog-Title">{catalog?.name}</h1>
-        <span>
+        <h1 className="Catalog-Title">
+          <Typography variant={ETypographyVariant.TextH1Bold}>{catalog?.name}</Typography>
+        </h1>
+        <Typography variant={ETypographyVariant.TextB3Regular}>
           {productRange.endProduct} из {products.countOfResult} товаров
-        </span>
+        </Typography>
       </div>
       <div className="Catalog-Inner">
         <Filter

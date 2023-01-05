@@ -15,17 +15,18 @@ export const getContentSecurityPolicy = (nonce?: string): string => {
 
   return (
     "default-src 'self'; " +
-    `script-src ${script_src}; ` +
+    `script-src https://api-maps.yandex.ru https://suggest-maps.yandex.ru http://*.maps.yandex.net https://yandex.ru https://yastatic.net ${script_src}; ` +
+    `script-src-elem https://api-maps.yandex.ru https://suggest-maps.yandex.ru http://*.maps.yandex.net https://yandex.ru https://yastatic.net ${script_src};` +
     `style-src 'self' https: 'unsafe-inline'; ` +
     "base-uri 'self'; " +
     "block-all-mixed-content; " +
-    "child-src 'self'; " +
-    `connect-src ${connect_src}; ` +
-    "img-src 'self' data:; " +
+    "child-src https://api-maps.yandex.ru 'self'; " +
+    `connect-src https://api-maps.yandex.ru https://suggest-maps.yandex.ru https://*.maps.yandex.net https://yandex.ru https://*.taxi.yandex.net ${connect_src}; ` +
+    "img-src 'self' data: https://*.maps.yandex.net https://api-maps.yandex.ru https://yandex.ru; " +
     "font-src 'self' https: data:; " +
     "form-action 'self'; " +
     "frame-ancestors 'self'; " +
-    "frame-src 'self'; " +
+    "frame-src https://api-maps.yandex.ru 'self'; " +
     "manifest-src 'self'; " +
     "media-src 'self'; " +
     "object-src 'none'; " +

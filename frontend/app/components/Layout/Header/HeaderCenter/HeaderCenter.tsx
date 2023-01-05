@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { Logo } from "~/components";
-import { Button, Hamburger, Sidebar, Spacer } from "~/uikit";
+import { Button, ETypographyVariant, Hamburger, Sidebar, Spacer, Typography } from "~/uikit";
 import { HeaderIconsList } from "./HeaderIconsList";
 import styles from "./HeaderCenter.module.css";
 
@@ -37,7 +37,9 @@ export const HeaderCenter: FC<TProps> = ({ className, isHomePage, isScroll }) =>
           <div className="HeaderCenter-InnerDesktop">
             <div>
               <Link className="HeaderCenter-Text" to={"tel:+79957776655"}>
-                +7 (995) 777-66-55
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  +7 (995) 777-66-55
+                </Typography>
               </Link>
             </div>
             <Spacer />

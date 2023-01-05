@@ -4,7 +4,7 @@ import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { ERoutes } from "~/enums";
 import { useCart, useUser } from "~/hooks";
-import { Button, Icon } from "~/uikit";
+import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import { formatCurrency } from "~/utils";
 import styles from "./Order.module.css";
 
@@ -23,14 +23,18 @@ export const Order: FC = () => {
 
   return (
     <section className="Order">
-      <h2 className="Order-Title">Оформление заказа</h2>
+      <h1 className="Order-Title">
+        <Typography variant={ETypographyVariant.TextH1Bold}>Оформление заказа</Typography>
+      </h1>
       <div className={clsx("Order-Inner", "Order-InnerMobile")}>
         <div className="Order-BlockLeft">
           <div className="Order-Shipping">
             <div className="Order-Inner">
-              <h3 className="Order-SubTitle">Доставка курьером</h3>
+              <h5 className="Order-SubTitle">
+                <Typography variant={ETypographyVariant.TextH5Bold}>Доставка курьером</Typography>
+              </h5>
               <Link className="Order-Link" to={ERoutes.Shipping}>
-                Изменить
+                <Typography variant={ETypographyVariant.TextB3Regular}>Изменить</Typography>
               </Link>
             </div>
             <div className="Order-Address">
@@ -70,13 +74,19 @@ export const Order: FC = () => {
           </div>
           <div className="Order-Products">
             <div className="Order-Inner">
-              <h3 className="Order-SubTitle">Товары</h3>
+              <h5 className="Order-SubTitle">
+                <Typography variant={ETypographyVariant.TextH5Bold}>Товары</Typography>
+              </h5>
               <Link className="Order-Link" to={ERoutes.Cart}>
-                Изменить
+                <Typography variant={ETypographyVariant.TextB3Regular}>Изменить</Typography>
               </Link>
             </div>
             {cart.products.length === 0 ? (
-              <p>Ваша корзина пуста.</p>
+              <p>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  Ваша корзина пуста.
+                </Typography>
+              </p>
             ) : (
               <div>
                 {/*{cart.products.map(item => (*/}
@@ -87,9 +97,11 @@ export const Order: FC = () => {
           </div>
           <div className="Order-Recipient">
             <div className="Order-Inner">
-              <h3 className="Order-SubTitle">Получатель</h3>
+              <h5 className="Order-SubTitle">
+                <Typography variant={ETypographyVariant.TextH5Bold}>Получатель</Typography>
+              </h5>
               <Link className="Order-Link" to={ERoutes.Recipient}>
-                Изменить
+                <Typography variant={ETypographyVariant.TextB3Regular}>Изменить</Typography>
               </Link>
             </div>
             <div className="Order-RecipientInfo">
@@ -120,16 +132,34 @@ export const Order: FC = () => {
         <div className="Order-BlockRight">
           <div className="Order-Total">
             <div className="Order-Inner">
-              <h3 className="Order-SubTitle">Итого</h3>
-              <h3 className="Order-SubTitle">{formatCurrency(1000)} ₽</h3>
+              <h5 className="Order-SubTitle">
+                <Typography variant={ETypographyVariant.TextH5Bold}>Итого</Typography>
+              </h5>
+              <h5 className="Order-SubTitle">
+                <Typography variant={ETypographyVariant.TextH5Bold}>
+                  {formatCurrency(1000)} ₽
+                </Typography>
+              </h5>
             </div>
             <div className="Order-Inner">
-              <div>Товары - 1 шт.</div>
-              <div>{formatCurrency(1200)} ₽</div>
+              <div>
+                <Typography variant={ETypographyVariant.TextB3Regular}>Товары - 1 шт.</Typography>
+              </div>
+              <div>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {formatCurrency(1200)} ₽
+                </Typography>
+              </div>
             </div>
             <div className="Order-Inner">
-              <div>Доставка</div>
-              <div>{formatCurrency(300)} ₽</div>
+              <div>
+                <Typography variant={ETypographyVariant.TextB3Regular}>Доставка</Typography>
+              </div>
+              <div>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {formatCurrency(300)} ₽
+                </Typography>
+              </div>
             </div>
           </div>
           <div className="Order-Payment">
@@ -138,21 +168,29 @@ export const Order: FC = () => {
                 {paymentMethod === CARD ? (
                   <>
                     <Icon className="Order-PaymentIcon" type="Card" />
-                    <div>{CARD_TEXT}</div>
+                    <div>
+                      <Typography variant={ETypographyVariant.TextB3Regular}>
+                        {CARD_TEXT}
+                      </Typography>
+                    </div>
                   </>
                 ) : (
                   <>
                     <Icon className="Order-PaymentIcon" type="Cash" />
-                    <div>{CASH_TEXT}</div>
+                    <div>
+                      <Typography variant={ETypographyVariant.TextB3Regular}>
+                        {CASH_TEXT}
+                      </Typography>
+                    </div>
                   </>
                 )}
               </div>
               <div className="Order-PaymentChange" onClick={handleOpenModal}>
-                Изменить
+                <Typography variant={ETypographyVariant.TextB3Regular}>Изменить</Typography>
               </div>
             </div>
             <Button className="Order-PaymentButton" onClick={handleSubmit}>
-              Оформить заказ
+              <Typography variant={ETypographyVariant.TextB3Regular}>Оформить заказ</Typography>
             </Button>
           </div>
         </div>
