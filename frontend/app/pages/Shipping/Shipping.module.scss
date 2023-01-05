@@ -6,13 +6,11 @@
   height: 100%;
 
   &-Step {
-    //@include roboto-12-regular;
     margin-left: 20px;
     color: $color-suit-gray;
   }
 
   &-Title {
-    //@include roboto-32-medium;
     margin-bottom: 16px;
   }
 
@@ -65,7 +63,6 @@
     align-items: center;
 
     &Link {
-      //@include roboto-18-medium;
       display: flex;
       align-items: center;
       color: $color-beige;
@@ -113,7 +110,6 @@
 @media (max-width: 768px) {
   .Shipping {
     & input {
-      //@include roboto-14-regular;
     }
 
     &-Step {
@@ -121,12 +117,9 @@
     }
 
     &-Title {
-      //@include roboto-22-bold;
     }
 
     &-ControlsLink {
-      //@include roboto-14-medium;
-
       svg {
         width: 16px;
         height: 16px;

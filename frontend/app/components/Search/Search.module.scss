@@ -57,7 +57,11 @@ $height: 44px;
   }
 
   &-Input {
-    //@include roboto-16-regular;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.25;
     margin: 0;
     padding: 0 50px 0 16px;
     width: 100%;
@@ -101,7 +105,6 @@ $height: 44px;
 @media (max-width: 768px) {
   .Search {
     &-Input {
-      //@include roboto-14-regular;
       height: $height;
     }
     &-InputWrapper {

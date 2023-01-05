@@ -7,7 +7,7 @@ import type { TParams } from "~/types";
 import { EFormFields } from "~/pages/Recipient/enums";
 import { formSchema } from "~/pages/Recipient/schemas";
 import type { TForm } from "~/pages/Recipient/types";
-import { Button, Icon } from "~/uikit";
+import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./Recipient.module.css";
 
 export const Recipient: FC = () => {
@@ -23,8 +23,12 @@ export const Recipient: FC = () => {
 
   return (
     <section className="Recipient">
-      <div className="Recipient-Step">Шаг 2 из 3</div>
-      <h2 className="Recipient-Title">Получатель</h2>
+      <div className="Recipient-Step">
+        <Typography variant={ETypographyVariant.TextB4Regular}>Шаг 2 из 3</Typography>
+      </div>
+      <h1 className="Recipient-Title">
+        <Typography variant={ETypographyVariant.TextH1Bold}>Получатель</Typography>
+      </h1>
       <div className="Recipient-Inner">
         <Form<TForm>
           className="Recipient-Form"
@@ -42,9 +46,13 @@ export const Recipient: FC = () => {
             <div className="Recipient-Controls">
               <Link className="Recipient-ControlsLink" to={ERoutes.Shipping}>
                 <Icon type="ArrowBack" />
-                <div className="Recipient-ControlsText">Назад</div>
+                <div className="Recipient-ControlsText">
+                  <Typography variant={ETypographyVariant.TextB3Regular}>Назад</Typography>
+                </div>
               </Link>
-              <Button type="submit">Продолжить</Button>
+              <Button type="submit">
+                <Typography variant={ETypographyVariant.TextB3Regular}>Продолжить</Typography>
+              </Button>
             </div>
           </div>
         </Form>
@@ -52,14 +60,18 @@ export const Recipient: FC = () => {
           <Icon className="Recipient-InfoIcon" type="Attention" />
           <div className="Recipient-InfoText">
             <div className="Recipient-InfoTitle">
-              Указывайте
+              <Typography variant={ETypographyVariant.TextB3Regular}>Указывайте</Typography>
               <br />
-              реальные данные
+              <Typography variant={ETypographyVariant.TextB3Regular}>реальные данные</Typography>
             </div>
             <div>
-              У вас могут попросить паспорт,
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                У вас могут попросить паспорт,
+              </Typography>
               <br />
-              прежде чем вручить оплаченный заказ
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                прежде чем вручить оплаченный заказ
+              </Typography>
             </div>
           </div>
         </div>

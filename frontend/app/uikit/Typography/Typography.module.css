@@ -1,0 +1,141 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Typography-text-h1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography-text-h1__bold {
+  font-weight: 700;
+}
+.Typography-text-h2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography-text-h2__medium {
+  font-weight: 500;
+}
+.Typography-text-h3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 26px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography-text-h3__medium {
+  font-weight: 500;
+}
+.Typography-text-h4 {
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography-text-h4__medium {
+  font-weight: 500;
+}
+.Typography-text-h5 {
+  font-family: "Roboto", sans-serif;
+  font-size: 22px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography-text-h5__medium {
+  font-weight: 500;
+}
+.Typography-text-h5__bold {
+  font-weight: 700;
+}
+.Typography-text-h6 {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography-text-h6__bold {
+  font-weight: 700;
+}
+.Typography-text-b2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography-text-b2__bold {
+  font-weight: 700;
+}
+.Typography-text-b3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography-text-b3__bold {
+  font-weight: 700;
+}
+.Typography-text-b3__regular {
+  font-weight: 400;
+}
+.Typography-text-b4 {
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography-text-b4__regular {
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .Typography-text-h1 {
+    font-size: 22px;
+  }
+  .Typography-text-h2 {
+    font-size: 20px;
+  }
+  .Typography-text-h3 {
+    font-size: 18px;
+  }
+  .Typography-text-h4 {
+    font-size: 18px;
+  }
+  .Typography-text-h5 {
+    font-size: 16px;
+  }
+  .Typography-text-h6 {
+    font-size: 16px;
+  }
+}
+
+/*# sourceMappingURL=Typography.module.css.map */

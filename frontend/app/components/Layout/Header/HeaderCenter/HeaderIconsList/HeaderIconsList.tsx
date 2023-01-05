@@ -7,7 +7,7 @@ import isNull from "lodash/isNull";
 import { ERoutes } from "~/enums";
 import { useCart, useUser } from "~/hooks";
 import { EFormMethods } from "~/shared/form";
-import { Avatar, DropDown, Icon } from "~/uikit";
+import { Avatar, DropDown, ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./HeaderIconsList.module.css";
 
 type TProps = {
@@ -80,8 +80,14 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
               }}
             >
               <Icon className="HeaderIconsList-Icon" type="Cart" />
-              <div className="HeaderIconsList-IconDescription">Корзина</div>
-              <div className="HeaderIconsList-CartItemsCount">{cartItemsCountTotal}</div>
+              <div className="HeaderIconsList-IconDescription">
+                <Typography variant={ETypographyVariant.TextB3Regular}>Корзина</Typography>
+              </div>
+              <div className="HeaderIconsList-CartItemsCount">
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {cartItemsCountTotal}
+                </Typography>
+              </div>
             </Link>
           </div>
         )}
@@ -94,7 +100,9 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
               <ul className="HeaderIconsList-AvatarDropDown_Menu">
                 <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleLogout}>
                   <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="Exit" />
-                  <div className="HeaderIconsList-AvatarDropDown_MenuItemText">Выйти</div>
+                  <div className="HeaderIconsList-AvatarDropDown_MenuItemText">
+                    <Typography variant={ETypographyVariant.TextB3Regular}>Выйти</Typography>
+                  </div>
                 </li>
               </ul>
             </DropDown>
@@ -102,7 +110,9 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
         ) : (
           <Link className="HeaderIconsList-IconLink" to={ERoutes.Login}>
             <Icon className="HeaderIconsList-Icon" type="User" />
-            <div className="HeaderIconsList-IconDescription">Войти</div>
+            <div className="HeaderIconsList-IconDescription">
+              <Typography variant={ETypographyVariant.TextB3Regular}>Войти</Typography>
+            </div>
           </Link>
         )}
       </div>

@@ -1,7 +1,7 @@
 import { memo } from "react";
 import type { ChangeEvent, FC, ReactNode } from "react";
 import clsx from "clsx";
-import { Icon } from "~/uikit";
+import { ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./Checkbox.module.css";
 
 type TValue = {
@@ -47,7 +47,7 @@ export const CheckboxComponent: FC<TProps> = ({
       {label && (
         <label className="Checkbox-Label" htmlFor={id}>
           <Icon className="Checkbox-Icon" type="Checkbox" />
-          {label}
+          <Typography variant={ETypographyVariant.TextB3Regular}>{label}</Typography>
         </label>
       )}
       {children && <span className="Checkbox-Description">{children}</span>}

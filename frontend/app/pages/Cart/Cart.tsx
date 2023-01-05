@@ -3,7 +3,7 @@ import { Link, useNavigate } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import { ERoutes } from "~/enums";
 import { useCart } from "~/hooks";
-import { Button, Icon } from "~/uikit";
+import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import { formatCurrency } from "~/utils";
 import { CartItem, cartItemLinks } from "./CartItem";
 import styles from "./Cart.module.css";
@@ -20,7 +20,9 @@ export const Cart: FC = () => {
 
   return (
     <section className="Cart">
-      <h1 className="Cart-Title">Моя корзина</h1>
+      <h1 className="Cart-Title">
+        <Typography variant={ETypographyVariant.TextH1Bold}>Моя корзина</Typography>
+      </h1>
       <div className="Cart-Inner">
         <div className="Cart-List">
           {!isEmpty(cart.products) ? (
@@ -28,7 +30,9 @@ export const Cart: FC = () => {
               <CartItem key={cartItem.product.id} cartItem={cartItem} />
             ))
           ) : (
-            <div>В корзине нет товаров</div>
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              В корзине нет товаров
+            </Typography>
           )}
         </div>
         <div className="Cart-Checkout">
@@ -36,15 +40,21 @@ export const Cart: FC = () => {
             <div className="Cart-OrdersList">
               <div className="Cart-CostLine">
                 <div className="Cart-CostLineText">
-                  В корзине 2<> </>
-                  товара
+                  <Typography variant={ETypographyVariant.TextB3Regular}>
+                    В корзине 2<> </>
+                    товара
+                  </Typography>
                 </div>
                 <div className="Cart-CostLinePrice">
                   <div className="Cart-CostLineSubTotalPrice">
-                    {formatCurrency(parseInt("1500"))}&nbsp;₽
+                    <Typography variant={ETypographyVariant.TextB3Regular}>
+                      {formatCurrency(parseInt("1500"))}&nbsp;₽
+                    </Typography>
                   </div>
                   <div className="Cart-CostLinePriceWithDiscount">
-                    {formatCurrency(parseInt("1000"))}&nbsp;₽
+                    <Typography variant={ETypographyVariant.TextH5Bold}>
+                      {formatCurrency(parseInt("1000"))}&nbsp;₽
+                    </Typography>
                   </div>
                 </div>
               </div>
@@ -53,7 +63,9 @@ export const Cart: FC = () => {
                 isDisabled={false}
                 onClick={handleProceedToCheckout}
               >
-                Перейти к оформлению
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  Перейти к оформлению
+                </Typography>
               </Button>
             </div>
             {isAuthenticated ? (
@@ -61,11 +73,10 @@ export const Cart: FC = () => {
                 <div className="Cart-Inner">
                   <Icon className="Cart-IconLogoShort" type="LogoShort" />
                   <div>
-                    <span>
+                    <Typography variant={ETypographyVariant.TextB3Regular}>
                       - {formatCurrency(parseInt("500"))}
-                      <> </>
-                    </span>
-                    <span>рублей за заказ</span>
+                      <> </>рублей за заказ
+                    </Typography>
                   </div>
                 </div>
               </div>
@@ -74,13 +85,17 @@ export const Cart: FC = () => {
                 <div className="Cart-Inner">
                   <Icon className="Cart-IconEnter" type="Enter" />
                   <Link className="Cart-TextEnter" to={ERoutes.Login}>
-                    Авторизуйтесь/зарегистрируйтесь, чтобы получить 3% от стоимости заказа
+                    <Typography variant={ETypographyVariant.TextB3Regular}>
+                      Авторизуйтесь/зарегистрируйтесь, чтобы получить 3% от стоимости заказа
+                    </Typography>
                   </Link>
                 </div>
               </div>
             )}
             <div className="Cart-BackToShopping" onClick={() => {}}>
-              Вернуться к покупкам
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                Вернуться к покупкам
+              </Typography>
             </div>
           </div>
         </div>

@@ -4,10 +4,9 @@ import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { ERoutes } from "~/enums";
-
 import type { TActionCartItemChange, TCart } from "~/shared/api/cart";
 import type { TProduct } from "~/shared/api/products";
-import { Button } from "~/uikit";
+import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath, formatProxy, formatCurrency } from "~/utils";
 import { AttributeItem } from "../AttributeItem";
 import styles from "./ProductListItem.module.css";
@@ -53,7 +52,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     return isProductAtCart ? (
       !isEmpty(cart && cart.products) && (
         <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
-          В корзине
+          <Typography variant={ETypographyVariant.TextB3Regular}>В корзине</Typography>
         </Link>
       )
     ) : (
@@ -70,7 +69,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
           })
         }
       >
-        В корзину
+        <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
       </Button>
     );
   };
@@ -99,35 +98,49 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
           </div>
           <div className="ProductListItem-ContentDescription">
             <Link className="ProductListItem-ContentTitle" to={ROUTE_PRODUCT_DETAIL}>
-              {product.name}
+              <Typography variant={ETypographyVariant.TextB3Regular}>{product.name}</Typography>
             </Link>
           </div>
           <ul className="ProductListItem-ContentDescriptionLine">
             <li className="ProductListItem-ContentDescriptionLinePrice">
-              {formatCurrency(parseInt(product.price))} ₽
+              <Typography variant={ETypographyVariant.TextH6Bold}>
+                {formatCurrency(parseInt(product.price))} ₽
+              </Typography>
             </li>
             <li className="ProductListItem-ContentTitleLine">
               <Link to={ROUTE_PRODUCT_DETAIL}>
-                <span className="ProductListItem-ContentTitle">{product.description}</span>
+                <span className="ProductListItem-ContentTitle">
+                  <Typography variant={ETypographyVariant.TextB3Regular}>
+                    {product.description}
+                  </Typography>
+                </span>
               </Link>
             </li>
             {product.attributes.map((item) => (
               <AttributeItem key={item.attributeName} attribute={item} />
             ))}
             <li className="ProductListItem-ContentDescriptionLineStatus">
-              {count > 0 ? "В наличии" : "Товар отсутствует"}
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {count > 0 ? "В наличии" : "Товар отсутствует"}
+              </Typography>
             </li>
             <li className="ProductListItem-ContentDescriptionLineAddToCartLine">
-              <button>Click</button>
+              <button>
+                <Typography variant={ETypographyVariant.TextB3Regular}>Click</Typography>
+              </button>
             </li>
           </ul>
         </div>
         <div className="ProductListItem-Footer">
           <div className="ProductListItem-FooterPrice">
-            {formatCurrency(parseInt(product.price))} ₽
+            <Typography variant={ETypographyVariant.TextH6Bold}>
+              {formatCurrency(parseInt(product.price))} ₽
+            </Typography>
           </div>
           <div className="ProductListItem-FooterStatus">
-            {count > 0 ? "В наличии" : "Товар отсутствует"}
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              {count > 0 ? "В наличии" : "Товар отсутствует"}
+            </Typography>
           </div>
           <div className="ProductListItem-FooterAddToCartGrid">{renderButton(product)}</div>
         </div>

@@ -53,6 +53,11 @@ body {
   padding: 0;
   overflow-x: hidden;
   min-width: 320px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.25;
 }
 
 #__next {

@@ -57,7 +57,6 @@
 
     &Minus,
     &Plus {
-      //@include roboto-16-bold;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -115,14 +114,12 @@
   }
 
   &-ProductItemPrice {
-    //@include roboto-14-bold;
     position: relative;
     top: 8px;
     text-align: center;
   }
 
   &-ProductItemTotalPrice {
-    //@include roboto-16-bold;
   }
 
   &-ProductControls {
@@ -162,7 +159,6 @@
     }
 
     &-ProductItemTotalPrice {
-      //@include roboto-16-bold;
       order: 1;
       margin-bottom: 16px;
     }
@@ -180,7 +176,6 @@
     }
 
     &-ProductItemPrice {
-      //@include roboto-14-bold;
     }
 
     &-ProductDelete {

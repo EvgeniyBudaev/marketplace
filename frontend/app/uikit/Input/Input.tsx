@@ -1,7 +1,7 @@
 import { forwardRef, memo, useState } from "react";
 import type { DetailedHTMLProps, ForwardedRef, HTMLAttributes, FocusEvent } from "react";
 import clsx from "clsx";
-import { FadeIn } from "~/uikit";
+import { ETypographyVariant, FadeIn, Typography } from "~/uikit";
 import styles from "./Input.module.css";
 
 export interface IInputProps
@@ -88,12 +88,14 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
 
         {error && (
           <div className="InputField-ErrorField">
-            <FadeIn>{error}</FadeIn>
+            <FadeIn>
+              <Typography variant={ETypographyVariant.TextB3Regular}>{error}</Typography>
+            </FadeIn>
           </div>
         )}
 
         <label className="InputField-Label" htmlFor={name}>
-          {label}
+          <Typography variant={ETypographyVariant.TextB3Regular}>{label}</Typography>
           {isRequired && <span className="InputField-LabelRequired"> *</span>}
         </label>
       </div>

@@ -9,11 +9,3 @@
     margin-bottom: 16px;
   }
 }
-
-@media (max-width: 768px) {
-  .About {
-    &-Title {
-      //@include roboto-22-bold;
-    }
-  }
-}

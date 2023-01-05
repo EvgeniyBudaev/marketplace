@@ -2,13 +2,11 @@
 
 .Recipient {
   &-Step {
-    //@include roboto-12-regular;
     margin-left: 20px;
     color: $color-suit-gray;
   }
 
   &-Title {
-    //@include roboto-32-medium;
     margin-bottom: 16px;
   }
 
@@ -40,7 +38,6 @@
     width: 100%;
 
     &Link {
-      //@include roboto-18-medium;
       display: flex;
       align-items: center;
       color: $color-beige;
@@ -81,7 +78,6 @@
     }
 
     &Title {
-      //@include roboto-18-bold;
       margin-bottom: 4px;
     }
   }
@@ -107,7 +103,6 @@
 @media (max-width: 768px) {
   .Recipient {
     & input {
-      //@include roboto-14-regular;
     }
 
     &-Step {
@@ -115,16 +110,12 @@
     }
 
     &-Title {
-      //@include roboto-22-bold;
     }
 
     &-InfoTitle {
-      //@include roboto-16-bold;
     }
 
     &-ControlsLink {
-      //@include roboto-14-medium;
-
       svg {
         width: 16px;
         height: 16px;

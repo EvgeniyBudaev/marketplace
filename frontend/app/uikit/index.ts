@@ -12,6 +12,7 @@ export * from "./Overlay";
 export * from "./Select";
 export * from "./Sidebar";
 export * from "./Spacer";
+export * from "./Typography";
 
 import { accordionLinks } from "~/uikit/Accordion";
 import { alertLinks } from "~/uikit/Alert";
@@ -28,6 +29,7 @@ import { inputLinks } from "~/uikit/Input";
 import { overlayLinks } from "~/uikit/Overlay";
 import { selectLinks } from "~/uikit/Select";
 import { spacerLinks } from "~/uikit/Spacer";
+import { typographyLinks } from "~/uikit/Typography/constants";
 
 export const links = () => {
   return [
@@ -46,6 +48,7 @@ export const links = () => {
     ...overlayLinks(),
     ...selectLinks(),
     ...spacerLinks(),
+    ...typographyLinks(),
   ];
 };
 
