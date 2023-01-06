@@ -11,4 +11,5 @@ public class AppProperties {
     private String secret;
     private Integer jwtLifetime;
     private Integer jwtRefreshLifetime;
+    private String secret2;
 }

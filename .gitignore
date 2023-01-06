@@ -230,7 +230,7 @@ captures/
 *.apk
 
 # Local configuration file (ex. SDK path)
-local.properties
+local.property
 
 # Google Services (ex. APIs and Firebase)
 google-services.json

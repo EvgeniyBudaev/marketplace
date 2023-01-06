@@ -24,4 +24,10 @@ public class AuthExceptionHandler {
         return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.name(),
                 "Не правильное имя пользователя или пароль"), HttpStatus.UNAUTHORIZED);
     }
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchVerificationTokenExpired(VerificationTokenExpiredException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new AppError(HttpStatus.NOT_ACCEPTABLE.name(),
+                "Токен верификации истек"), HttpStatus.UNAUTHORIZED);
+    }
 }

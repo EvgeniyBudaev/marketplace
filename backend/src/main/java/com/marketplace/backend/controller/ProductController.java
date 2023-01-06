@@ -61,7 +61,7 @@ public class ProductController {
     @PostMapping
     public ResponseProductDto saveOrNewProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
         Product product=manageProductDao.save(productDto);
-        return productConverters.convertProductToResponseProductDto(product,productDto.getCatalogAlias());
+        return new ResponseProductDto(product,productDto.getCatalogAlias());
     }
 
     @DeleteMapping("/{alias}")

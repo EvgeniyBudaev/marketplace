@@ -1,7 +1,6 @@
 package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.ProductDao;
-import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.model.Attribute;
@@ -26,12 +25,10 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class ProductService implements ProductDao {
-    private final ProductConverters productConverters;
 
     private final EntityManager entityManager;
 
-    public ProductService(ProductConverters productConverters, EntityManager entityManager) {
-        this.productConverters = productConverters;
+    public ProductService(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -76,8 +73,7 @@ public class ProductService implements ProductDao {
         productTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         List<Product> resultProductList = productTypedQuery.getResultList();
         result.setContent(resultProductList
-                .stream().map(x -> productConverters
-                        .convertProductToResponseProductDto(x, queryParam.getCatalogAlias())).collect(Collectors.toList()));
+                .stream().map(x -> new ResponseProductDto(x, queryParam.getCatalogAlias())).collect(Collectors.toList()));
         return result;
     }
 
@@ -93,7 +89,7 @@ public class ProductService implements ProductDao {
         if (product == null) {
             throw new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias);
         }
-        return productConverters.convertProductToResponseProductDto(product, product.getCatalog().getAlias());
+        return new ResponseProductDto(product, product.getCatalog().getAlias());
     }
 
     @Override
@@ -124,8 +120,7 @@ public class ProductService implements ProductDao {
         resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         dtoPaging.setContent(resultQuery
                 .getResultList().stream()
-                .map(x -> productConverters
-                        .convertProductToResponseProductDto(x, x.getCatalog().getAlias()))
+                .map(x -> new ResponseProductDto(x, x.getCatalog().getAlias()))
                 .collect(Collectors.toList()));
         return dtoPaging;
     }
