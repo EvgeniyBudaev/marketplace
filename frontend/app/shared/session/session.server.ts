@@ -19,7 +19,6 @@ export const sessionStorage = createCookieSessionStorage({
     name: "__session",
     //domain: "remix.run",
     httpOnly: true,
-    maxAge: 5,
     path: "/",
     sameSite: "lax",
     secrets: [COOKIE_SECRET || "secret"],

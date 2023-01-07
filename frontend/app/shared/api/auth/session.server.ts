@@ -1,13 +1,15 @@
 import { redirect } from "@remix-run/node";
 import type { TUser } from "~/shared/api/users/types";
-import { commitSession, destroySession, getSession } from "~/shared/session";
+import { commitSession, getSession } from "~/shared/session";
 import { TLogin } from "~/shared/api/auth/types";
+import { refreshToken } from "./domain.server";
 
 export const createUserSession = async (user: TUser, login: TLogin, redirectTo: string) => {
   const session = await getSession();
   session.set("accessToken", login.access_token);
   session.set("refreshToken", login.refresh_token);
   session.set("expirationDate", login.expires_in);
+  session.set("refreshExpirationDate", login.refresh_expires_in);
   session.set("user", JSON.stringify(user));
   return redirect(redirectTo, {
     headers: {
@@ -74,18 +76,38 @@ export const authenticate = async (request: Request) => {
     }
     return accessToken;
   } catch (error) {
-    if (error instanceof Error) {
-      console.log("Error is");
-      // let { accessToken, refreshToken, expirationDate } = await refreshToken(
-      //     session.get("refreshToken")
-      // );
-      //
-      // session.set("accessToken", accessToken);
-      // session.set("refreshToken", refreshToken);
-      // session.set("expirationDate", expirationDate);
-      // headers.append("Set-Cookie", await commitSession(session));
-      // if (request.method === "GET") throw redirect(request.url, { headers });
-      // return accessToken;
+    if (error instanceof Error && new Date(session.get("refreshExpirationDate")) > new Date()) {
+      const refresh = await refreshToken(request, {
+        refreshToken: session.get("refreshToken"),
+      });
+      
+      if(refresh.success) {
+        const {
+          access_token: accessToken,
+          refresh_token: refreshToken,
+          expires_in: expirationDate,
+          refresh_expires_in: refreshExpirationDate,
+        } = refresh.data;
+
+        const headers = new Headers();
+
+          // update the session with the new values
+        session.set("accessToken", accessToken);
+        session.set("refreshToken", refreshToken);
+        session.set("expirationDate", expirationDate);
+        session.set("refreshExpirationDate", refreshExpirationDate);
+
+        // commit the session and append the Set-Cookie header
+        headers.append("Set-Cookie", await commitSession(session));
+
+        // redirect to the same URL if the request was a GET (loader)
+        if (request.method === "GET") throw redirect(request.url, { headers });
+
+        // return the access token so you can use it in your action
+        return accessToken;
+      }
+
+      throw error;
     }
     throw error;
   }
