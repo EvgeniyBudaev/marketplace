@@ -14,12 +14,12 @@ const { COOKIE_SECRET, SESSION_SECRET } = process.env;
 if (!SESSION_SECRET) throw new Error("You need to set a SESSION_SECRET environment variable");
 if (!COOKIE_SECRET) throw new Error("You need to set a COOKIE_SECRET environment variable");
 
-const { getSession, commitSession, destroySession } = createCookieSessionStorage({
+export const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: "__session",
     //domain: "remix.run",
     httpOnly: true,
-    maxAge: 60,
+    maxAge: 5,
     path: "/",
     sameSite: "lax",
     secrets: [COOKIE_SECRET || "secret"],
@@ -27,4 +27,4 @@ const { getSession, commitSession, destroySession } = createCookieSessionStorage
   },
 });
 
-export { getSession, commitSession, destroySession };
+export const { getSession, commitSession, destroySession } = sessionStorage;

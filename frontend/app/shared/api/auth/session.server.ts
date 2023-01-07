@@ -1,9 +1,13 @@
 import { redirect } from "@remix-run/node";
 import type { TUser } from "~/shared/api/users/types";
-import { commitSession, getSession } from "~/shared/session";
+import { commitSession, destroySession, getSession } from "~/shared/session";
+import { TLogin } from "~/shared/api/auth/types";
 
-export const createUserSession = async (user: TUser, redirectTo: string) => {
+export const createUserSession = async (user: TUser, login: TLogin, redirectTo: string) => {
   const session = await getSession();
+  session.set("accessToken", login.access_token);
+  session.set("refreshToken", login.refresh_token);
+  session.set("expirationDate", login.expires_in);
   session.set("user", JSON.stringify(user));
   return redirect(redirectTo, {
     headers: {
@@ -12,18 +16,18 @@ export const createUserSession = async (user: TUser, redirectTo: string) => {
   });
 };
 
-export const requireUserId = async (
-  request: Request,
-  redirectTo: string = new URL(request.url).pathname,
-) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const userId = session.get("userId");
-  if (!userId) {
-    const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
-    return redirect(`/auth/login?${searchParams}`);
-  }
-  return userId;
-};
+// export const requireUserId = async (
+//   request: Request,
+//   redirectTo: string = new URL(request.url).pathname,
+// ) => {
+//   const session = await getSession(request.headers.get("Cookie"));
+//   const userId = session.get("userId");
+//   if (!userId) {
+//     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
+//     return redirect(`/auth/login?${searchParams}`);
+//   }
+//   return userId;
+// };
 
 //Ryan Florence
 export const getUserSession = async (request: Request) => {
@@ -31,11 +35,58 @@ export const getUserSession = async (request: Request) => {
   return session.get("user");
 };
 
-export const requireUserSession = async (request: Request, next: (session: string) => Response) => {
+// export const requireUserSession = async (request: Request, next: (session: string) => Response) => {
+//   const session = await getSession(request.headers.get("Cookie"));
+//   const userSession = session.get("user");
+//
+//   // refresh ?
+//
+//   if (!userSession) {
+//     return redirect("/auth/login", {
+//       headers: {
+//         "Set-Cookie": await destroySession(session),
+//       }
+//     });
+//   }
+//   return next(userSession);
+// };
+
+// https://sergiodxa.com/articles/working-with-refresh-tokens-in-remix
+export const authenticate = async (request: Request) => {
   const session = await getSession(request.headers.get("Cookie"));
-  const userSession = session.get("user");
-  if (!userSession) {
-    return redirect("/auth/login");
+  try {
+    let accessToken = session.get("accessToken");
+    console.log("accessToken: ", accessToken);
+
+    // if (!accessToken) {
+    //   return redirect("/auth/login", {
+    //     headers: {
+    //       "Set-Cookie": await destroySession(session),
+    //     }
+    //   });
+    // }
+
+    const expirationDate = session.get("expirationDate");
+    console.log("expirationDate: ", expirationDate);
+
+    if (new Date(session.get("expirationDate")) < new Date()) {
+      throw new Error("Expired");
+    }
+    return accessToken;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log("Error is");
+      // let { accessToken, refreshToken, expirationDate } = await refreshToken(
+      //     session.get("refreshToken")
+      // );
+      //
+      // session.set("accessToken", accessToken);
+      // session.set("refreshToken", refreshToken);
+      // session.set("expirationDate", expirationDate);
+      // headers.append("Set-Cookie", await commitSession(session));
+      // if (request.method === "GET") throw redirect(request.url, { headers });
+      // return accessToken;
+    }
+    throw error;
   }
-  return next(userSession);
 };

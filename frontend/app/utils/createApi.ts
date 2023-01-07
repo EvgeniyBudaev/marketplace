@@ -17,6 +17,7 @@ export function createApi(config: TApiConfig): { fetchApi: TApiFunction } {
   const { basePath } = config;
 
   const fetchApi: TApiFunction = async (request, path, options) => {
+    console.log("fetchApi");
     //const accessToken = await jwtService.getAccessToken(request);
     const url = basePath + path;
     let contentType: { "Content-Type"?: string } = { "Content-Type": "application/json" };
@@ -50,6 +51,7 @@ export function createApi(config: TApiConfig): { fetchApi: TApiFunction } {
       try {
         const response = await fetch(url, { ...requestOptions, signal });
         clearTimeout(timeoutId);
+
         if (response.ok) {
           return await processSuccessResponse(response);
         }

@@ -7,7 +7,6 @@ import { createUserSession, login } from "~/shared/api/auth";
 import { getUser } from "~/shared/api/users/domain.server";
 import { commitSession, getSession } from "~/shared/session";
 import { createBoundaries, parseResponseError } from "~/utils";
-import ShippingRoute from "~/routes/shipping";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -47,7 +46,7 @@ export const action = async (args: ActionArgs) => {
     });
 
     if (userResponse.success) {
-      return createUserSession(userResponse.data, "/");
+      return createUserSession(userResponse.data, loginResponse.data, "/");
     }
 
     return json(userResponse);
