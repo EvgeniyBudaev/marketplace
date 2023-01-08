@@ -16,9 +16,9 @@ export const Login: FC = () => {
     resolver: zodResolver(formSchema),
   });
 
-  console.log("fetcher.data: ", form.fetcher.data);
+  //console.log("fetcher.data: ", form.fetcher.data);
   const errors = form.methods.formState.errors;
-  console.log("errors: ", errors);
+  //console.log("errors: ", errors);
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);

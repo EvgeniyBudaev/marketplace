@@ -76,7 +76,7 @@ export const loader = async (args: LoaderArgs) => {
 
 export default function LoginRoute() {
   const errors = useLoaderData<typeof loader>(); // { session.emailError && <span>{session.emailError}</span>}
-  console.log("Login errors: ", errors);
+  //console.log("Login errors: ", errors);
   return <Login />;
 }
 

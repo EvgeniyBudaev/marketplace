@@ -3,13 +3,14 @@ import express from "express";
 import helmet from "helmet";
 import path from "path";
 import { createRequestHandler } from "@remix-run/express";
+import { registerAccessTokenRefresh } from "./app/shared/http";
+import { sessionStorage } from "./app/shared/session";
 
 const BUILD_DIR = path.join(process.cwd(), "build");
 const MODE = process.env.NODE_ENV;
 const isProduction = MODE === "production";
 
 const app = express();
-
 app.use(helmet.crossOriginEmbedderPolicy());
 app.use(helmet.crossOriginOpenerPolicy());
 app.use(helmet.crossOriginResourcePolicy());
@@ -62,6 +63,15 @@ app.use(express.static("public", { maxAge: "1h" }));
 
 function loadBuild() {
   let build = require(BUILD_DIR);
+  build = registerAccessTokenRefresh(
+    build,
+    {
+      sessionStorage: sessionStorage,
+      baseUrl: process.env.API_URL ?? "",
+    },
+    ["routes/", "routes/catalog/mirrors", "routes/auth/login"],
+  );
+
   return build;
 }
 

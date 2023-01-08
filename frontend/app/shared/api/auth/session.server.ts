@@ -1,11 +1,19 @@
 import { redirect } from "@remix-run/node";
+import isNil from "lodash/isNil";
 import type { TUser } from "~/shared/api/users/types";
-import { commitSession, getSession } from "~/shared/session";
+import { commitSession, destroySession, getSession } from "~/shared/session";
 import { TLogin } from "~/shared/api/auth/types";
 import { refreshToken } from "./domain.server";
 
 export const createUserSession = async (user: TUser, login: TLogin, redirectTo: string) => {
   const session = await getSession();
+  session.set("token", {
+    accessToken: login.access_token,
+    refreshToken: login.refresh_token,
+    expirationDate: login.expires_in,
+    refreshExpirationDate: login.refresh_expires_in,
+    tokenType: login.token_type,
+  });
   session.set("accessToken", login.access_token);
   session.set("refreshToken", login.refresh_token);
   session.set("expirationDate", login.expires_in);
@@ -58,30 +66,27 @@ export const authenticate = async (request: Request) => {
   const session = await getSession(request.headers.get("Cookie"));
   try {
     let accessToken = session.get("accessToken");
-    console.log("accessToken: ", accessToken);
-
-    // if (!accessToken) {
-    //   return redirect("/auth/login", {
-    //     headers: {
-    //       "Set-Cookie": await destroySession(session),
-    //     }
-    //   });
-    // }
+    //console.log("accessToken: ", accessToken);
 
     const expirationDate = session.get("expirationDate");
-    console.log("expirationDate: ", expirationDate);
+    //console.log("expirationDate: ", expirationDate);
+
+    if (isNil(accessToken) || isNil(expirationDate)) {
+      throw new Error("No access token");
+    }
 
     if (new Date(session.get("expirationDate")) < new Date()) {
       throw new Error("Expired");
     }
+
     return accessToken;
   } catch (error) {
     if (error instanceof Error && new Date(session.get("refreshExpirationDate")) > new Date()) {
       const refresh = await refreshToken(request, {
         refreshToken: session.get("refreshToken"),
       });
-      
-      if(refresh.success) {
+
+      if (refresh.success) {
         const {
           access_token: accessToken,
           refresh_token: refreshToken,
@@ -91,7 +96,7 @@ export const authenticate = async (request: Request) => {
 
         const headers = new Headers();
 
-          // update the session with the new values
+        // update the session with the new values
         session.set("accessToken", accessToken);
         session.set("refreshToken", refreshToken);
         session.set("expirationDate", expirationDate);
@@ -107,8 +112,14 @@ export const authenticate = async (request: Request) => {
         return accessToken;
       }
 
-      throw error;
+      //throw error;
+    } else {
+      destroySession(session);
+      // throw redirect("/auth/login", {
+      //   headers: {
+      //     "Set-Cookie": await destroySession(session),
+      //   }
+      // });
     }
-    throw error;
   }
 };
