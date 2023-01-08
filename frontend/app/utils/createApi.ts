@@ -50,6 +50,7 @@ export function createApi(config: TApiConfig): { fetchApi: TApiFunction } {
       try {
         const response = await fetch(url, { ...requestOptions, signal });
         clearTimeout(timeoutId);
+
         if (response.ok) {
           return await processSuccessResponse(response);
         }
