@@ -8,6 +8,21 @@ export type TJWTServiceParams = {
   baseUrl: string;
 };
 
+export type TTokenSessionData = {
+  accessToken?: string;
+  refreshToken?: string;
+  expirationDate?: string;
+  refreshExpirationDate?: string;
+  tokenType?: string;
+}
+
+export type TTokenData = {
+  sub: string;
+  roles: string[];
+  exp: number;
+  iat: number;
+}
+
 export class JWTService {
   private sessionStorage: SessionStorage;
   private readonly baseUrl: string;
@@ -22,6 +37,10 @@ export class JWTService {
     const session = await this.sessionStorage.getSession(request.headers.get("Cookie"));
 
     return session.get("token");
+  }
+
+  private getTokenData(sessionData: TTokenSessionData) {
+    return sessionData.accessToken && jwtDecode(sessionData.accessToken) as TTokenData;
   }
 
   private async getTokenSetHeaders(request: Request, accessToken: string): Promise<THeaders> {
@@ -73,9 +92,18 @@ export class JWTService {
 
       const session = await this.sessionStorage.getSession(request.headers.get("Cookie"));
       const headers = new Headers();
-      // session.set("token", refreshResponse);
-      // headers.append("Set-Cookie", await this.sessionStorage.commitSession(session));
-      //if (request.method === "GET") throw redirect(request.url, { headers });
+
+      const tokenSessionData: TTokenSessionData = {
+        accessToken: refreshResponse.access_token,
+        refreshToken: refreshResponse.refresh_token,
+        expirationDate: refreshResponse.expires_in,
+        refreshExpirationDate: refreshResponse.refresh_expires_in,
+        tokenType: refreshResponse.token_type,
+      }
+
+      session.set("token", tokenSessionData);
+      headers.append("Set-Cookie", await this.sessionStorage.commitSession(session));
+      if (request.method === "GET") throw redirect(request.url, { headers });
     } catch (error) {
       const msg = "Refresh access token response JSON is invalid";
       throw error;
@@ -95,13 +123,14 @@ export class JWTService {
     const TOKEN_EXPIRES_IN_TO_REFRESH_DIVISOR = 3;
     const sessionData = (await this.getSessionData(request)) ?? {};
     console.log("[sessionData] ", sessionData);
+    const tokenData = this.getTokenData(sessionData);
 
-    if (!sessionData?.accessToken || !sessionData?.expirationDate) {
+    if (!tokenData) {
       return false;
-      // return true;
     }
 
-    return new Date(sessionData?.expirationDate) < new Date();
+    // return new Date(sessionData?.expirationDate) < new Date();
+    return new Date(tokenData.exp * 1000) < new Date();
 
     // const decodedToken = jwtDecode(sessionData.accessToken) as { exp: number };
     // const remainedTime = decodedToken.exp - new Date().getTime() / 1000;
@@ -129,8 +158,8 @@ export class JWTService {
     console.log("[logout]");
     const headers = await this.getTokenRemoveHeaders(request);
 
-    // throw redirect("/", {
-    //     headers,
-    // });
+    throw redirect("/", {
+        headers,
+    });
   }
 }
