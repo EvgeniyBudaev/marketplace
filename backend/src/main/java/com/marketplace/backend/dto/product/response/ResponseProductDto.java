@@ -37,7 +37,7 @@ public class ResponseProductDto {
         this.setName(product.getName());
         this.setAlias(product.getAlias());
         this.setEnabled(product.getEnabled());
-        this.setPrice(product.getPrice());
+        this.setPrice(product.getPrice().toString());
         this.setCount(String.valueOf(product.getCount()));
         this.setCreatedAt(product.getCreatedAt());
         this.setDescription(product.getDescription());

@@ -1,6 +1,7 @@
 package com.marketplace.cart.dto.response;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.model.values.BooleanValue;
 import com.marketplace.backend.model.values.DoubleValue;
@@ -10,9 +11,12 @@ import com.marketplace.cart.model.CartItem;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -23,16 +27,25 @@ public class CartResponseDto {
     private Set<CartItemDto> items;
     private String cartAmount;
 
-    public CartResponseDto(){
-    }
     public CartResponseDto(Cart cart){
        this.uuid = cart.getUuid();
        this.createdAt = cart.getCreatedAt();
        this.modifyDate = cart.getModifyDate();
-
+       Set<CartItem> entityItems = cart.getItems();
+       if(entityItems==null||entityItems.isEmpty()){
+           this.cartAmount="0";
+           return;
+       }
+       this.items = entityItems.stream()
+               .map(CartItemDto::new).collect(Collectors.toUnmodifiableSet());
+       reCalculateAmount();
     }
-    public void reCalculateAmount(){
-
+    private void reCalculateAmount(){
+            BigDecimal totalPrice = BigDecimal.ZERO;
+            for (CartItemDto o : items) {
+                totalPrice = totalPrice.add(o.getAmountForCalculate());
+            }
+        this.cartAmount = totalPrice.toString();
     }
     @Getter
     @Setter
@@ -43,12 +56,18 @@ public class CartResponseDto {
         private String price;
         private String amount;
 
-        public CartItemDto(CartItem item, Product product){
-            this.id = item.getId();
-            this.product = new ProductDto(product,product.getCatalog().getAlias());
-            this.quantity = item.getQuantity();
-            this.price = product.getPrice();
+        @JsonIgnore
+        private BigDecimal amountForCalculate;
 
+        public CartItemDto(CartItem item){
+            this.id = item.getId();
+            Product entityProduct = item.getProduct();
+            this.product = new ProductDto(entityProduct);
+            this.quantity = item.getQuantity();
+            this.price = entityProduct.getPrice().toString();
+            this.amountForCalculate = entityProduct.getPrice().multiply(BigDecimal.valueOf(quantity));
+            this.amountForCalculate = this.amountForCalculate.setScale(2, RoundingMode.HALF_UP);
+            this.amount = this.amountForCalculate.toString();
         }
     }
 
@@ -73,13 +92,13 @@ public class CartResponseDto {
             private String attributeName;
             private String value;
         }
-        public ProductDto(Product product, String catalogAlias){
-            this.setCatalogAlias(catalogAlias);
+        public ProductDto(Product product){
+            this.setCatalogAlias(product.getCatalog().getAlias());
             this.setId(product.getId());
             this.setName(product.getName());
             this.setAlias(product.getAlias());
             this.setEnabled(product.getEnabled());
-            this.setPrice(product.getPrice());
+            this.setPrice(product.getPrice().toString());
             this.setCount(String.valueOf(product.getCount()));
             this.setCreatedAt(product.getCreatedAt());
             this.setDescription(product.getDescription());

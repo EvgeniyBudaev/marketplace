@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -62,7 +63,7 @@ public class Product {
     private int count;
 
     @Column(name = "price")
-    private String price;
+    private BigDecimal price;
 
     @Column(name = "rating", nullable = false)
     private double rating;

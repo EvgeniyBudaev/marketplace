@@ -53,11 +53,10 @@ public class UserService {
         return  saveUser(user);
     }
 
-    public UserInfoResponseDto getUserInfo(String email){
-        AppUser user = userRepository
+    public AppUser getUserByEmail(String email){
+        return userRepository
                 .findByEmailAndEnabledTrue(email)
                 .orElseThrow(()->new UsernameNotFoundException("Не найден пользователь с email "+email));
-        return  new UserInfoResponseDto(user);
     }
 
     public void activateUserByEmail(String token){

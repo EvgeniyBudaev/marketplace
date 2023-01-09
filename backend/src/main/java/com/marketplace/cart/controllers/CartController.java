@@ -1,16 +1,19 @@
 package com.marketplace.cart.controllers;
 
-import com.marketplace.cart.dto.request.CartClearRequestDto;
+
 import com.marketplace.cart.dto.request.CartManageRequestDto;
 import com.marketplace.cart.dto.request.CartRequestDto;
 import com.marketplace.cart.dto.response.CartResponseDto;
+import com.marketplace.cart.model.Cart;
 import com.marketplace.cart.service.CartService;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+
 
 
 @RestController
@@ -22,35 +25,55 @@ public class CartController {
         this.cartService = cartService;
     }
 
+
     @PostMapping
     public CartResponseDto getCart(Principal principal, @RequestBody CartRequestDto dto) {
+        Cart cart;
         if(principal!=null){
-            return cartService.getCurrentCartByUUIDForAuthUser(principal.getName());
+            cart = cartService.getCurrentCartForAuthUser(principal.getName());
+        }else {
+            cart = cartService.getCurrentCartByUUIDForNonAuthUser(dto.getUuid());
+            /*Доступ неавторизованного пользователя к корзине авторизованного*/
+            if (cart.getUser()!=null){
+                throw new AccessDeniedException("Доступ невозможен");
+            }
         }
-        return cartService.getCurrentCartByUUIDForNonAuthUser(dto.getUuid());
+        return new CartResponseDto(cart);
     }
 
 
     @PostMapping("/add")
     public CartResponseDto add(Principal principal, @RequestBody CartManageRequestDto dto) {
-        return cartService.addToCart(getCurrentCartUuid(principal,dto.getUuid()), dto.getProductAlias());
+        Cart cart;
+        if(principal!=null){
+            cart = cartService.getCurrentCartForAuthUser(principal.getName());
+        }else {
+            cart = cartService.getCurrentCartByUUIDForNonAuthUser(dto.getUuid());
+            /*Доступ неавторизованного пользователя к корзине авторизованного*/
+            if (cart.getUser()!=null){
+                throw new AccessDeniedException("Доступ невозможен");
+            }
+        }
+        return new CartResponseDto(cartService.incrementQuantity(cart, dto.getProductAlias()));
     }
 
-    @PostMapping("/decrement")
+ /*   @PostMapping("/decrement")
     public CartResponseDto decrement(Principal principal, @RequestBody CartManageRequestDto dto) {
-       return cartService.decrementItem(getCurrentCartUuid(principal,dto.getUuid()), dto.getProductAlias());
+        Cart cart = cartService.decrementItem(getCurrentCartUuid(principal,dto.getUuid()), dto.getProductAlias());
+        return new CartResponseDto(cart);
     }
 
     @PostMapping("/remove")
     public CartResponseDto remove(Principal principal, @RequestBody CartManageRequestDto dto) {
-        return cartService.removeItemFromCart(getCurrentCartUuid(principal,dto.getUuid()), dto.getProductAlias());
+        Cart cart = cartService.removeItemFromCart(getCurrentCartUuid(principal,dto.getUuid()), dto.getProductAlias());
+        return new CartResponseDto(cart);
     }
 
     @PostMapping("/clear")
     public CartResponseDto clear(Principal principal, @RequestBody CartClearRequestDto dto) {
-        return cartService.clearCart(getCurrentCartUuid(principal,dto.getUuid()));
-    }
-
+        Cart cart = cartService.clearCart(getCurrentCartUuid(principal,dto.getUuid()));
+        return new CartResponseDto(cart);
+    }*/
     /*@PostMapping("/merge")
     public CartResponseDto merge() {
         cartService.merge(
@@ -59,11 +82,6 @@ public class CartController {
         );
     }*/
 
-    private String getCurrentCartUuid(Principal principal, String uuid) {
-        if (principal != null) {
-            return principal.getName();
-        }
-        return uuid;
-    }
+
 
 }

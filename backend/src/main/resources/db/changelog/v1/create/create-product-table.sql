@@ -5,7 +5,7 @@ CREATE TABLE products (
     alias VARCHAR(250) unique,
     enabled BOOLEAN default true,
     count INTEGER,
-    price VARCHAR(20),
+    price DECIMAL(19,2),
     rating DOUBLE default 0,
     catalog_id BIGINT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

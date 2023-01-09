@@ -79,7 +79,7 @@ public class ProductService implements ProductDao {
 
     @Override
     @Transactional
-    public ResponseProductDto findProductByAlias(String alias) {
+    public Product findProductByAlias(String alias) {
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("product-with-all-fields");
         TypedQuery<Product> query = entityManager
                 .createQuery("SELECT p from Product as p where p.alias=:alias and p.enabled=true", Product.class);
@@ -89,7 +89,7 @@ public class ProductService implements ProductDao {
         if (product == null) {
             throw new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias);
         }
-        return new ResponseProductDto(product, product.getCatalog().getAlias());
+        return product;
     }
 
     @Override

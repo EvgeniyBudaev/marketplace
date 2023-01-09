@@ -2,6 +2,7 @@ package com.marketplace.users.controllers;
 
 import com.marketplace.users.dto.user.request.RegisterUserRequestDto;
 import com.marketplace.users.dto.user.response.UserInfoResponseDto;
+import com.marketplace.users.model.AppUser;
 import com.marketplace.users.service.UserService;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,8 @@ public class UserController {
         if(principal==null){
             throw new AccessDeniedException("Вы не авторизованы");
         }
-        return  userService.getUserInfo(principal.getName());
+        AppUser user  = userService.getUserByEmail(principal.getName());
+        return  new UserInfoResponseDto(user);
     }
 
     @GetMapping("/activate/mail/{token}")
