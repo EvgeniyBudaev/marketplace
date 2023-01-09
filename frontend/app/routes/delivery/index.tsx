@@ -1,5 +1,9 @@
+import { LoaderArgs } from "@remix-run/node";
 import { Delivery, deliveryLinks } from "~/pages/Delivery";
-import ShippingRoute from "~/routes/shipping";
+
+export const loader = async (args: LoaderArgs) => {
+  return null;
+};
 
 export default function DeliveryRoute() {
   return <Delivery />;

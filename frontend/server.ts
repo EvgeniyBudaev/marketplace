@@ -69,7 +69,7 @@ function loadBuild() {
       sessionStorage: sessionStorage,
       baseUrl: process.env.API_URL ?? "",
     },
-    ["routes/", "routes/catalog/mirrors", "routes/auth/login"],
+    ["routes/"],
   );
 
   return build;
