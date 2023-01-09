@@ -34,27 +34,35 @@ public class CartService {
         this.cartItemService = cartItemService;
     }
 
-    public Cart clearCart(String currentCartUuid) {
-        return null;
+    public Cart clearCart(Cart cart) {
+        cart.getItems().clear();
+        cartRepository.save(cart);
+        return cart;
     }
 
     public Cart merge(String currentCartUuid, String currentCartUuid1) {
         return null;
     }
 
-    public Cart removeItemFromCart(String currentCartUuid, String productAlias) {
-        return null;
+    public Cart removeItemFromCart(Cart cart, String productAlias) {
+        Set<CartItem> cartItems = cart.getItems();
+        if (cartItems == null || cartItems.isEmpty()) {
+            throw new ProductCountException("Невозможно удалить в пустой корзине");
+        }
+        CartItem cartItem = cartItemService.deleteByProductAlias(cartItems, productAlias);
+        cartItems.remove(cartItem);
+        return cart;
     }
 
     public Cart decrementQuantity(Cart cart, String productAlias) {
         Set<CartItem> cartItems = cart.getItems();
-        if(cartItems==null||cartItems.isEmpty()){
+        if (cartItems == null || cartItems.isEmpty()) {
             throw new ProductCountException();
         }
-        CartItem cartItem = cartItemService.decrementQuantity(cart,productAlias);
-        if(cartItem.getQuantity().equals(0)){
-           cartItems.remove(cartItem);
-        }else {
+        CartItem cartItem = cartItemService.decrementQuantity(cartItems, productAlias);
+        if (cartItem.getQuantity().equals(0)) {
+            cartItems.remove(cartItem);
+        } else {
             cartItems.add(cartItem);
         }
         return cart;
@@ -62,23 +70,33 @@ public class CartService {
 
     public Cart incrementQuantity(Cart cart, String productAlias) {
         Set<CartItem> cartItems = cart.getItems();
-        if(cartItems==null){
+        if (cartItems == null) {
             cartItems = new HashSet<>();
             cart.setItems(cartItems);
         }
-        CartItem cartItem = cartItemService.addQuantity(cart,productAlias);
+        CartItem cartItem = cartItemService.incrementQuantity(cart, productAlias);
         cartItems.add(cartItem);
         return cart;
     }
 
+    public Cart setQuantity(Cart cart, String productAlias, Integer newQuantity) {
+        Set<CartItem> cartItems = cart.getItems();
+        if (cartItems == null) {
+            cartItems = new HashSet<>();
+            cart.setItems(cartItems);
+        }
+        CartItem cartItem = cartItemService.setQuantity(cart, productAlias,newQuantity);
+        cartItems.add(cartItem);
+        return cart;
+    }
     public Cart getCurrentCartForAuthUser(String email) {
         TypedQuery<Cart> cartTypedQuery =
                 entityManager.createQuery("SELECT c FROM Cart as c where c.user.email=:email", Cart.class);
-        cartTypedQuery.setParameter("email",email);
+        cartTypedQuery.setParameter("email", email);
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("cart-with-items-and-full-product");
         cartTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         Optional<Cart> optionalCart = cartTypedQuery.getResultStream().findFirst();
-        if (optionalCart.isPresent()){
+        if (optionalCart.isPresent()) {
             return optionalCart.get();
         }
         Cart cart = emptyCart();
@@ -87,35 +105,36 @@ public class CartService {
         return save(cart);
     }
 
-    public Cart getCurrentCartByUUIDForNonAuthUser(String uuid){
+    public Cart getCurrentCartByUUIDForNonAuthUser(String uuid) {
         Cart cart;
-        if(uuid==null){
+        if (uuid == null) {
             cart = emptyCart();
             return save(cart);
         }
         TypedQuery<Cart> cartTypedQuery =
                 entityManager.createQuery("SELECT c FROM Cart as c where c.uuid=:uuid", Cart.class);
-        cartTypedQuery.setParameter("uuid",uuid);
+        cartTypedQuery.setParameter("uuid", uuid);
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("cart-with-items-and-full-product");
         cartTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         Optional<Cart> optionalCart = cartTypedQuery.getResultStream().findFirst();
-        if (optionalCart.isPresent()){
+        if (optionalCart.isPresent()) {
             return optionalCart.get();
         }
         cart = emptyCart();
         return save(cart);
     }
 
-    public String generateUUID(){
+    public String generateUUID() {
         return UUID.randomUUID().toString();
     }
 
-    private Cart emptyCart(){
+    private Cart emptyCart() {
         Cart cart = new Cart();
         cart.setUuid(generateUUID());
         return cart;
     }
-    private Cart save(Cart cart){
+
+    private Cart save(Cart cart) {
         return cartRepository.save(cart);
     }
 
