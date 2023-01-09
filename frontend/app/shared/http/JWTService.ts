@@ -8,6 +8,21 @@ export type TJWTServiceParams = {
   baseUrl: string;
 };
 
+export type TTokenSessionData = {
+  accessToken?: string;
+  refreshToken?: string;
+  expirationDate?: string;
+  refreshExpirationDate?: string;
+  tokenType?: string;
+};
+
+export type TTokenData = {
+  sub: string;
+  roles: string[];
+  exp: number;
+  iat: number;
+};
+
 export class JWTService {
   private sessionStorage: SessionStorage;
   private readonly baseUrl: string;
@@ -18,24 +33,15 @@ export class JWTService {
   }
 
   private async getSessionData(request: Request) {
-    console.log("[getSessionData]");
     const session = await this.sessionStorage.getSession(request.headers.get("Cookie"));
-
     return session.get("token");
   }
 
-  private async getTokenSetHeaders(request: Request, accessToken: string): Promise<THeaders> {
-    console.log("[getTokenSetHeaders]");
-    const session = await this.sessionStorage.getSession(request.headers.get("Cookie"));
-    session.set("accessToken", { accessToken: accessToken });
-
-    return {
-      "Set-Cookie": await this.sessionStorage.commitSession(session),
-    };
+  private getTokenData(sessionData: TTokenSessionData) {
+    return sessionData.accessToken && (jwtDecode(sessionData.accessToken) as TTokenData);
   }
 
-  async refreshAccessToken(request: Request): Promise<any> {
-    console.log("[refreshAccessToken]");
+  async refreshAccessToken(request: Request): Promise<TRefreshAccessTokenReturn> {
     const sessionData = (await this.getSessionData(request)) ?? {};
 
     if (!sessionData?.refreshToken) {
@@ -68,16 +74,23 @@ export class JWTService {
 
     try {
       const refreshResponse = await response.json();
-      console.log("[refreshResponse] ", refreshResponse);
       accessToken = refreshResponse.access_token;
 
       const session = await this.sessionStorage.getSession(request.headers.get("Cookie"));
       const headers = new Headers();
-      // session.set("token", refreshResponse);
-      // headers.append("Set-Cookie", await this.sessionStorage.commitSession(session));
-      //if (request.method === "GET") throw redirect(request.url, { headers });
+
+      const tokenSessionData: TTokenSessionData = {
+        accessToken: refreshResponse.access_token,
+        refreshToken: refreshResponse.refresh_token,
+        expirationDate: refreshResponse.expires_in,
+        refreshExpirationDate: refreshResponse.refresh_expires_in,
+        tokenType: refreshResponse.token_type,
+      };
+
+      session.set("token", tokenSessionData);
+      headers.append("Set-Cookie", await this.sessionStorage.commitSession(session));
+      if (request.method === "GET") throw redirect(request.url, { headers });
     } catch (error) {
-      const msg = "Refresh access token response JSON is invalid";
       throw error;
     }
 
@@ -85,39 +98,21 @@ export class JWTService {
       await this.logout(request);
     }
 
-    // const headers = await this.getTokenSetHeaders(request, accessToken);
-    // return { accessToken, headers };
     return { accessToken };
   }
 
   async checkIfNeedToRefreshToken(request: Request): Promise<boolean> {
-    console.log("[checkIfNeedToRefreshToken]");
-    const TOKEN_EXPIRES_IN_TO_REFRESH_DIVISOR = 3;
     const sessionData = (await this.getSessionData(request)) ?? {};
-    console.log("[sessionData] ", sessionData);
+    const tokenData = this.getTokenData(sessionData);
 
-    if (!sessionData?.accessToken || !sessionData?.expirationDate) {
+    if (!tokenData) {
       return false;
-      // return true;
     }
 
-    return new Date(sessionData?.expirationDate) < new Date();
-
-    // const decodedToken = jwtDecode(sessionData.accessToken) as { exp: number };
-    // const remainedTime = decodedToken.exp - new Date().getTime() / 1000;
-    // const timeToRefresh = sessionData.expirationDate / TOKEN_EXPIRES_IN_TO_REFRESH_DIVISOR;
-    // console.log("[TIME Check] ", remainedTime < timeToRefresh);
-    // return remainedTime < timeToRefresh;
-  }
-
-  public setAccessToken(request: Request, accessToken: string): void {
-    console.log("[setAccessToken]");
-    // const ACCESS_TOKEN_HEADER_NAME = 'X-Access-Token'
-    // request.headers.set(ACCESS_TOKEN_HEADER_NAME, accessToken);
+    return new Date(tokenData.exp * 1000) < new Date();
   }
 
   private async getTokenRemoveHeaders(request: Request): Promise<THeaders> {
-    console.log("[getTokenRemoveHeaders]");
     const session = await this.sessionStorage.getSession(request.headers.get("Cookie"));
 
     return {
@@ -126,11 +121,10 @@ export class JWTService {
   }
 
   async logout(request: Request) {
-    console.log("[logout]");
     const headers = await this.getTokenRemoveHeaders(request);
 
-    // throw redirect("/", {
-    //     headers,
-    // });
+    throw redirect("/", {
+      headers,
+    });
   }
 }

@@ -1,5 +1,9 @@
+import { LoaderArgs } from "@remix-run/node";
 import { Cart, cartLinks } from "~/pages/Cart";
-import ShippingRoute from "~/routes/shipping";
+
+export const loader = async (args: LoaderArgs) => {
+  return null;
+};
 
 export default function CartRoute() {
   return <Cart />;

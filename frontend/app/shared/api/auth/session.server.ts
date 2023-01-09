@@ -61,15 +61,12 @@ export const getUserSession = async (request: Request) => {
 //   return next(userSession);
 // };
 
-// https://sergiodxa.com/articles/working-with-refresh-tokens-in-remix
 export const authenticate = async (request: Request) => {
   const session = await getSession(request.headers.get("Cookie"));
   try {
     let accessToken = session.get("accessToken");
-    //console.log("accessToken: ", accessToken);
 
     const expirationDate = session.get("expirationDate");
-    //console.log("expirationDate: ", expirationDate);
 
     if (isNil(accessToken) || isNil(expirationDate)) {
       throw new Error("No access token");

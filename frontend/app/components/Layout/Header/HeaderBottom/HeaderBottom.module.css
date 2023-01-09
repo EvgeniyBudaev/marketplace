@@ -36,8 +36,7 @@
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-.HeaderBottom::before,
-.HeaderBottom:after {
+.HeaderBottom::before, .HeaderBottom:after {
   height: 44px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -61,8 +60,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
-.HeaderBottom__isHomePage::before,
-.HeaderBottom__isHomePage:after {
+.HeaderBottom__isHomePage::before, .HeaderBottom__isHomePage:after {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -91,8 +89,7 @@
   align-items: center;
   width: 100%;
 }
-.HeaderBottom-InfoLeft,
-.HeaderBottom-InfoRight {
+.HeaderBottom-InfoLeft, .HeaderBottom-InfoRight {
   display: flex;
 }
 .HeaderBottom-InfoLeft .HeaderBottom-Text {

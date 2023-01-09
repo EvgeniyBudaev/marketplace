@@ -1,5 +1,9 @@
+import { LoaderArgs } from "@remix-run/node";
 import { Contacts, contactsLinks } from "~/pages/Contacts";
-import ShippingRoute from "~/routes/shipping";
+
+export const loader = async (args: LoaderArgs) => {
+  return null;
+};
 
 export default function ContactsRoute() {
   return <Contacts />;
