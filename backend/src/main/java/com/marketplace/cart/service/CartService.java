@@ -1,5 +1,7 @@
 package com.marketplace.cart.service;
 
+
+import com.marketplace.cart.exception.ProductCountException;
 import com.marketplace.cart.model.Cart;
 import com.marketplace.cart.model.CartItem;
 import com.marketplace.cart.repository.CartRepository;
@@ -12,6 +14,7 @@ import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -43,8 +46,18 @@ public class CartService {
         return null;
     }
 
-    public Cart decrementQuantity(String currentCartUuid, String productAlias) {
-        return null;
+    public Cart decrementQuantity(Cart cart, String productAlias) {
+        Set<CartItem> cartItems = cart.getItems();
+        if(cartItems==null||cartItems.isEmpty()){
+            throw new ProductCountException();
+        }
+        CartItem cartItem = cartItemService.decrementQuantity(cart,productAlias);
+        if(cartItem.getQuantity().equals(0)){
+           cartItems.remove(cartItem);
+        }else {
+            cartItems.add(cartItem);
+        }
+        return cart;
     }
 
     public Cart incrementQuantity(Cart cart, String productAlias) {
@@ -64,43 +77,48 @@ public class CartService {
         cartTypedQuery.setParameter("email",email);
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("cart-with-items-and-full-product");
         cartTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
-        Cart cart = cartTypedQuery.getSingleResult();
-        if (cart!=null){
-            return cart;
+        Optional<Cart> optionalCart = cartTypedQuery.getResultStream().findFirst();
+        if (optionalCart.isPresent()){
+            return optionalCart.get();
         }
-        cart = new Cart();
+        Cart cart = emptyCart();
         AppUser user = userService.getUserByEmail(email);
         cart.setUser(user);
-        cart.setUuid(generateUUID());
-        cartRepository.save(cart);
-        return cart;
+        return save(cart);
     }
 
     public Cart getCurrentCartByUUIDForNonAuthUser(String uuid){
         Cart cart;
         if(uuid==null){
-            return emptyCart();
+            cart = emptyCart();
+            return save(cart);
         }
         TypedQuery<Cart> cartTypedQuery =
                 entityManager.createQuery("SELECT c FROM Cart as c where c.uuid=:uuid", Cart.class);
         cartTypedQuery.setParameter("uuid",uuid);
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("cart-with-items-and-full-product");
         cartTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
-        cart = cartTypedQuery.getSingleResult();
-        if (cart!=null){
-            return cart;
+        Optional<Cart> optionalCart = cartTypedQuery.getResultStream().findFirst();
+        if (optionalCart.isPresent()){
+            return optionalCart.get();
         }
-        return emptyCart();
+        cart = emptyCart();
+        return save(cart);
     }
 
     public String generateUUID(){
         return UUID.randomUUID().toString();
     }
+
     private Cart emptyCart(){
         Cart cart = new Cart();
         cart.setUuid(generateUUID());
-        cartRepository.save(cart);
         return cart;
     }
+    private Cart save(Cart cart){
+        return cartRepository.save(cart);
+    }
+
+
 
 }
