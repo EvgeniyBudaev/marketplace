@@ -1,6 +1,8 @@
 package com.marketplace.users.dto.auth.response;
 
-import com.marketplace.AppProperties;
+import com.marketplace.properties.AppProperties;
+import com.marketplace.properties.model.EPropertiesType;
+import com.marketplace.properties.model.properties.JwtProperties;
 import com.marketplace.users.utils.JwtTokenUtil;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -15,11 +17,12 @@ public class AuthResponseBuilderImpl implements AuthResponseBuilder{
 
 
     public AuthResponseBuilderImpl(JwtTokenUtil util, AppProperties properties) {
+        JwtProperties prop = (JwtProperties) properties.getProperty(EPropertiesType.JWT);
         this.util = util;
         this.dto = new AuthResponseDto();
         this.issuedDate = new Date();
-        dto.setExpires_in(new Date(issuedDate.getTime() + properties.getJwtLifetime()));
-        dto.setRefresh_expires_in(new Date(issuedDate.getTime() + properties.getJwtRefreshLifetime()));
+        dto.setExpires_in(new Date(issuedDate.getTime() + prop.getJwtLifetime()));
+        dto.setRefresh_expires_in(new Date(issuedDate.getTime() + prop.getJwtRefreshLifetime()));
     }
 
     @Override

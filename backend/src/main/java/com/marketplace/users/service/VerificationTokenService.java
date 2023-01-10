@@ -30,7 +30,7 @@ public class VerificationTokenService {
         token.setToken(UUID.randomUUID().toString());
         token.setTokenType(ETokenType.EMAIL_TOKEN);
         token.setUser(user);
-        token.setExpired(LocalDateTime.now().plusNanos(property.getVerificationTokenProperty().getPeriod()));
+        token.setExpired(LocalDateTime.now().plusNanos(property.getCredentialVerifyTokenProperty().getPeriod()));
         verificationTokenRepository.save(token);
         return token.getToken();
     }

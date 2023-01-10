@@ -8,30 +8,25 @@ import lombok.extern.slf4j.Slf4j;
 public class PropertiesConverter {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    public String convertToDatabaseColumn(EmailProperty property) {
-        String emailPropertyString = null;
+    public String convertToDatabaseColumn(Object property) {
+        String propertyString = null;
         try {
-            emailPropertyString = objectMapper.writeValueAsString(property);
+            propertyString = objectMapper.writeValueAsString(property);
         }catch (final JsonProcessingException e){
             log.error(e.getMessage()+":::"+property.toString());
         }
-        System.out.println(emailPropertyString);
-        return emailPropertyString;
+        return propertyString;
     }
 
 
-    public EmailProperty convertToEntityAttribute(String s) {
-        EmailProperty emailProperty =null;
+    public Object convertToEntityAttribute(String s, Class<?> tClass) {
+        Object property =null;
         try {
-             emailProperty = objectMapper.readValue(s, EmailProperty.class);
-
+             property = objectMapper.readValue(s, tClass);
         } catch (JsonProcessingException e) {
             log.error(e.getMessage()+":::"+s);
         }
-        //TODO убрать при использовании Vault
-        assert emailProperty != null;
-        emailProperty.setPassword("zhalbbzrnepupqrt");
-        return emailProperty;
+       return property;
     }
 
 

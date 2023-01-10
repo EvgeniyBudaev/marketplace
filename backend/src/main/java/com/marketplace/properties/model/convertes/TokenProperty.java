@@ -7,17 +7,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TokenProperty {
-    private VerificationTokenProperty verificationTokenProperty;
+    private CredentialVerifyTokenProperty credentialVerifyTokenProperty;
     private JwtTokenProperty jwtTokenProperty;
 
     public TokenProperty() {
-        this.verificationTokenProperty = new VerificationTokenProperty();
+        this.credentialVerifyTokenProperty = new CredentialVerifyTokenProperty();
         this.jwtTokenProperty = new JwtTokenProperty();
     }
 
     @Getter
     @Setter
-    public static class VerificationTokenProperty{
+    public static class CredentialVerifyTokenProperty {
         private long period =24*60*60*1000L;/*Жизнь токена в наносекундах*/
     }
     @Getter

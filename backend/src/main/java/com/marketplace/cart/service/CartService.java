@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -134,7 +135,8 @@ public class CartService {
         return cart;
     }
 
-    private Cart save(Cart cart) {
+    @Transactional
+    public Cart save(Cart cart) {
         return cartRepository.save(cart);
     }
 
