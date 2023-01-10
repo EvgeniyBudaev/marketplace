@@ -42,37 +42,39 @@ public class EmailProperty {
 
     @Getter
     @Setter
-    private static class OutgoingSmtpServer{
-        private String smtpServer;
+    public static class OutgoingSmtpServer{
+        private String host;
         private Boolean enabledSSL;
         private Boolean enabledTLS;
         private Boolean requireAuth;
         private Integer portSSL;
         private Integer portTLS;
+        private String transportProtocol;
 
         @Override
         public String toString() {
             return "OutgoingSmtpServer{" +
-                    "smtpServer='" + smtpServer + '\'' +
+                    "host='" + host + '\'' +
                     ", enabledSSL=" + enabledSSL +
                     ", enabledTLS=" + enabledTLS +
                     ", requireAuth=" + requireAuth +
                     ", portSSL=" + portSSL +
                     ", portTLS=" + portTLS +
+                    ", transportProtocol='" + transportProtocol + '\'' +
                     '}';
         }
     }
 
     @Getter
     @Setter
-    private static class IncomingServer{
+    public static class IncomingServer{
         private IncomingServerType serverType;
         private String imapServer;
         private Boolean enabledSSL;
         private Integer portSSL;
     }
 
-    private enum IncomingServerType{
+    public enum IncomingServerType{
         IMAP,POP3
     }
 

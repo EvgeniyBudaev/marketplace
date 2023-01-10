@@ -4,26 +4,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
 @Slf4j
-@Converter
-public class EmailPropertiesConverter implements AttributeConverter<EmailProperty,String> {
+public class PropertiesConverter {
+
     private final ObjectMapper objectMapper = new ObjectMapper();
-    @Override
-    public String convertToDatabaseColumn(EmailProperty emailProperty) {
+    public String convertToDatabaseColumn(EmailProperty property) {
         String emailPropertyString = null;
         try {
-            emailPropertyString = objectMapper.writeValueAsString(emailProperty);
+            emailPropertyString = objectMapper.writeValueAsString(property);
         }catch (final JsonProcessingException e){
-            log.error(e.getMessage()+":::"+emailProperty.toString());
+            log.error(e.getMessage()+":::"+property.toString());
         }
         System.out.println(emailPropertyString);
         return emailPropertyString;
     }
 
-    @Override
+
     public EmailProperty convertToEntityAttribute(String s) {
         EmailProperty emailProperty =null;
         try {
@@ -32,6 +28,11 @@ public class EmailPropertiesConverter implements AttributeConverter<EmailPropert
         } catch (JsonProcessingException e) {
             log.error(e.getMessage()+":::"+s);
         }
+        //TODO убрать при использовании Vault
+        assert emailProperty != null;
+        emailProperty.setPassword("zhalbbzrnepupqrt");
         return emailProperty;
     }
+
+
 }

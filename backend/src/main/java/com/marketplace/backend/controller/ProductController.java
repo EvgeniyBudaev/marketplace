@@ -2,7 +2,6 @@ package com.marketplace.backend.controller;
 
 import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dao.ProductDao;
-import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.model.Paging;
@@ -22,13 +21,12 @@ import javax.validation.constraints.NotNull;
 public class ProductController {
     private final ProductDao productDao;
     private final ManageProductDao manageProductDao;
-    private final ProductConverters productConverters;
 
-    public ProductController(ProductDao productDao, ManageProductDao manageProductDao, ProductConverters productConverters) {
+    public ProductController(ProductDao productDao, ManageProductDao manageProductDao) {
         this.productDao = productDao;
         this.manageProductDao = manageProductDao;
-        this.productConverters = productConverters;
     }
+
 
     @GetMapping("/page/")
     public Paging<ResponseProductDto> findProductInCatalog(HttpServletRequest request){
@@ -40,7 +38,7 @@ public class ProductController {
 
     @GetMapping("/by_alias")
     public ResponseProductDto getProductByAlias(@RequestParam(value = "alias") String alias) {
-        return productDao.findProductByAlias(alias);
+        return new ResponseProductDto(productDao.findProductByAlias(alias),alias);
 
     }
 
@@ -61,7 +59,7 @@ public class ProductController {
     @PostMapping
     public ResponseProductDto saveOrNewProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
         Product product=manageProductDao.save(productDto);
-        return productConverters.convertProductToResponseProductDto(product,productDto.getCatalogAlias());
+        return new ResponseProductDto(product,productDto.getCatalogAlias());
     }
 
     @DeleteMapping("/{alias}")

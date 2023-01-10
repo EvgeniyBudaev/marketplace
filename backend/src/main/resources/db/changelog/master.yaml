@@ -74,5 +74,11 @@ databaseChangeLog:
   - include:
       file: db/changelog/users/complete/complete-users-roles-table.sql
   - include:
-      file: db/changelog/properties/create/create-email-properties-table.sql
+      file: db/changelog/properties/create/create-properties-table.sql
+  - include:
+      file: db/changelog/properties/complete/complete-properties-table.sql
+  - include:
+      file: db/changelog/cart/create/create-carts-table.sql
+  - include:
+      file: db/changelog/cart/create/create-cart_items-table.sql
 

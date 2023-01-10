@@ -20,7 +20,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(getApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.marketplace.backend"))
+                .apis(RequestHandlerSelectors.basePackage("com.marketplace"))
                 .paths(PathSelectors.any())
                 .build();
     }

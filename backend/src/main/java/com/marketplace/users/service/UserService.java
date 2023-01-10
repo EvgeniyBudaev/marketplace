@@ -1,7 +1,6 @@
 package com.marketplace.users.service;
 
 import com.marketplace.users.dto.user.request.RegisterUserRequestDto;
-import com.marketplace.users.dto.user.response.UserAfterUpdateResponseDto;
 import com.marketplace.users.dto.user.response.UserInfoResponseDto;
 import com.marketplace.users.events.RegistrationUserCompleteEvent;
 import com.marketplace.users.model.AppRole;
@@ -24,21 +23,24 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AppRoleService roleService;
     private final ApplicationEventMulticaster eventPublisher;
+    private final VerificationTokenService tokenService;
 
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AppRoleService roleService, ApplicationEventMulticaster eventPublisher) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AppRoleService roleService, ApplicationEventMulticaster eventPublisher, VerificationTokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
         this.eventPublisher = eventPublisher;
+        this.tokenService = tokenService;
     }
 
-    public UserAfterUpdateResponseDto registerNewUser(RegisterUserRequestDto dto){
+    public UserInfoResponseDto registerNewUser(RegisterUserRequestDto dto){
         AppUser user = saveNewUser(dto);
-        this.eventPublisher.multicastEvent(new RegistrationUserCompleteEvent(user));
-        return new UserAfterUpdateResponseDto(user);
+        String reference ="http://localhost:3000/auth/activate/"+tokenService.generateToken(user);
+        this.eventPublisher.multicastEvent(new RegistrationUserCompleteEvent(user, reference));
+        return new UserInfoResponseDto(user);
     }
-    @Transactional
+
     public AppUser saveNewUser(RegisterUserRequestDto dto){
         AppUser user = dto.convertToUser();
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -48,14 +50,23 @@ public class UserService {
         user.setRoles(defaultRole);
         user.setIsEmailVerified(false);
         user.setIsPhoneVerified(false);
-        userRepository.save(user);
-        return  user;
+        return  saveUser(user);
     }
 
-    public UserInfoResponseDto getUserInfo(String email){
-        AppUser user = userRepository
+    public AppUser getUserByEmail(String email){
+        return userRepository
                 .findByEmailAndEnabledTrue(email)
                 .orElseThrow(()->new UsernameNotFoundException("Не найден пользователь с email "+email));
-        return  new UserInfoResponseDto(user);
+    }
+
+    public void activateUserByEmail(String token){
+        AppUser user = tokenService.checkEmailToken(token);
+        user.setIsEmailVerified(true);
+        saveUser(user);
+    }
+    @Transactional
+    public AppUser saveUser(AppUser user){
+        userRepository.save(user);
+        return user;
     }
 }

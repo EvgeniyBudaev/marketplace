@@ -8,8 +8,10 @@ import org.springframework.context.ApplicationEvent;
 @Setter
 public class RegistrationUserCompleteEvent extends ApplicationEvent {
     private final AppUser user;
-    public RegistrationUserCompleteEvent(AppUser user) {
+    private final String reference;
+    public RegistrationUserCompleteEvent(AppUser user, String reference) {
         super(user);
         this.user = user;
+        this.reference = reference;
     }
 }
