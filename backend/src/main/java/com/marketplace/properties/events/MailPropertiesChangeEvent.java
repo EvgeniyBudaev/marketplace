@@ -1,6 +1,6 @@
 package com.marketplace.properties.events;
 
-import com.marketplace.properties.model.convertes.EmailProperty;
+import com.marketplace.properties.model.properties.EmailProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;

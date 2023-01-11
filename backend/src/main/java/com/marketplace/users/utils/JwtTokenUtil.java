@@ -1,9 +1,13 @@
 package com.marketplace.users.utils;
 
-import com.marketplace.AppProperties;
+import com.marketplace.properties.AppProperties;
+import com.marketplace.properties.model.EPropertiesType;
+import com.marketplace.properties.model.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +16,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class JwtTokenUtil {
-    private final AppProperties properties;
 
-    public JwtTokenUtil(AppProperties properties) {
-        this.properties = properties;
+public class JwtTokenUtil implements InitializingBean {
+    private final AppProperties appProperties;
+    private JwtProperties properties;
+
+    @Autowired
+    public JwtTokenUtil(AppProperties appProperties) {
+        this.appProperties = appProperties;
     }
 
     public String generateToken(
@@ -61,5 +68,10 @@ public class JwtTokenUtil {
                 .setSigningKey(properties.getSecret())
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        properties = (JwtProperties) appProperties.getProperty(EPropertiesType.JWT);
     }
 }

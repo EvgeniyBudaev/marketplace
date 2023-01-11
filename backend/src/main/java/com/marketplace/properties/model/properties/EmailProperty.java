@@ -1,5 +1,6 @@
-package com.marketplace.properties.model.convertes;
+package com.marketplace.properties.model.properties;
 
+import com.marketplace.properties.model.EPropertiesType;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -7,7 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Getter
 @Setter
-public class EmailProperty {
+public class EmailProperty implements PropertiesType{
 
     private String email;
     private String password;
@@ -37,6 +38,11 @@ public class EmailProperty {
                 ", smtpServer=" + smtpServer.toString() +
                 ", incomingServer=" + incomingServer.toString() +
                 '}';
+    }
+
+    @Override
+    public EPropertiesType getPropertiesType() {
+        return EPropertiesType.EMAIL;
     }
 
 

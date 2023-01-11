@@ -1,7 +1,7 @@
 package com.marketplace.users.service;
 
-import com.marketplace.AppProperties;
 import com.marketplace.backend.exception.AppError;
+import com.marketplace.properties.AppProperties;
 import com.marketplace.users.dto.auth.request.AuthRequestDto;
 import com.marketplace.users.dto.auth.response.AuthResponseBuilder;
 import com.marketplace.users.dto.auth.response.AuthResponseBuilderImpl;
