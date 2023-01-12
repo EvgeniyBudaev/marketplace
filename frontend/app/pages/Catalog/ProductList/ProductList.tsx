@@ -17,7 +17,7 @@ type TProps = {
 const getRandomString = () => Math.random().toString(36).substring(7);
 
 export const ProductList: FC<TProps> = ({ pages, isCardsLine, onPageChange, scrollIntoPage }) => {
-  const { cart, onChangeCartItem } = useCart();
+  const { cart, onCartItemIncrement } = useCart();
   const listItems = useRef<(HTMLLIElement | null)[][]>([]);
   const page = useRef<number | null>(null);
 
@@ -82,7 +82,7 @@ export const ProductList: FC<TProps> = ({ pages, isCardsLine, onPageChange, scro
                   product={product}
                   ref={(el) => ((listItems.current[i] || (listItems.current[i] = []))[j] = el)}
                   isCardsLine={isCardsLine}
-                  onChangeCartItem={onChangeCartItem}
+                  onCartItemIncrement={onCartItemIncrement}
                 />
               )),
         )}

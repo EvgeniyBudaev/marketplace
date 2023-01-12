@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { ChangeEvent, FC, KeyboardEvent } from "react";
 import clsx from "clsx";
 import { useCart } from "~/hooks";
-import type { TCartItem } from "~/shared/api/cart";
+import { TCartItem } from "~/shared/api/cart";
 import { ETypographyVariant, IconButton, Typography } from "~/uikit";
 import { formatCurrency, formatProxy } from "~/utils";
 import styles from "./CartItem.module.css";
