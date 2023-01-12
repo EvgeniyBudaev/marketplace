@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { Link, useFetcher, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
 import { ERoutes } from "~/enums";
 import { useCart, useUser } from "~/hooks";
@@ -34,8 +35,8 @@ export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
   });
 
   useEffect(() => {
-    if (!isEmpty(cart)) {
-      setCartItemsCountTotal(cart.products.length);
+    if (!isNil(cart)) {
+      setCartItemsCountTotal(cart.cartAmount);
     }
   }, [cart]);
 

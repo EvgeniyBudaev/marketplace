@@ -97,7 +97,8 @@
 .InputField__active input:-webkit-autofill.Input__active:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-.InputField__active textarea, .InputField__active textarea:hover {
+.InputField__active textarea,
+.InputField__active textarea:hover {
   background-color: rgb(255, 255, 255);
 }
 .InputField__active .InputField-Inner__active.InputField-Inner__error {

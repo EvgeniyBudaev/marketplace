@@ -1,21 +1,18 @@
-import type { TProduct } from "~/shared/api/products";
-import type { TUser } from "~/shared/api/users/types";
+import { z } from "zod";
+import {
+  cartIncrementParamsSchema,
+  cartItemSchema,
+  cartParamsSchema,
+  cartSchema,
+} from "~/shared/api/cart/schemas";
 
-export type TCartItem = {
-  id: number;
-  product: TProduct;
-  quantity: number;
-  //createdAt: string;
-  //modifyDate: string;
-};
+export type TCartItem = z.infer<typeof cartItemSchema>;
 
-export type TCart = {
-  id: string;
-  user: TUser | null;
-  products: TCartItem[];
-  createdAt: string;
-  modifyDate: string;
-};
+export type TCart = z.infer<typeof cartSchema>;
+
+export type TCartParams = z.infer<typeof cartParamsSchema>;
+
+export type TCartItemIncrementParams = z.infer<typeof cartIncrementParamsSchema>;
 
 export type TActionCartItemChange = {
   payload: TCartItem;

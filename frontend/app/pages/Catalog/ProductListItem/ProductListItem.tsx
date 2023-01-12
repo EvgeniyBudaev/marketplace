@@ -2,9 +2,9 @@ import { forwardRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
-import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
-import type { TActionCartItemChange, TCart } from "~/shared/api/cart";
+import type { TCartItemIncrementParams, TCart } from "~/shared/api/cart";
 import type { TProduct } from "~/shared/api/products";
 import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath, formatProxy, formatCurrency } from "~/utils";
@@ -15,11 +15,11 @@ type TProps = {
   cart: TCart;
   product: TProduct;
   isCardsLine: boolean;
-  onChangeCartItem: (action: TActionCartItemChange) => Promise<void>;
+  onCartItemIncrement: (params: TCartItemIncrementParams) => Promise<void>;
 };
 
 export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function ProductListItem(
-  { cart, product, isCardsLine, onChangeCartItem },
+  { cart, product, isCardsLine, onCartItemIncrement },
   ref,
 ) {
   const ROUTE_PRODUCT_DETAIL = createPath({
@@ -45,33 +45,32 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
   };
 
   const renderButton = (product: TProduct) => {
-    const isProductAtCart =
-      !isEmpty(cart && cart.products) &&
-      cart.products.some((item) => item.product.id === product.id);
+    // const isProductAtCart =
+    //     cart && !isNil(cart.items) &&
+    //   cart.items.some((item) => item.product.id === product.id);
+    //
+    // return isProductAtCart ? (
+    //     cart && !isNil(cart.items) && (
+    //     <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
+    //       <Typography variant={ETypographyVariant.TextB3Regular}>В корзине</Typography>
+    //     </Link>
+    //   )
+    // ) : (
+    //   <Button
+    //     className="ProductListItem-ButtonAddToCart"
+    //     isDisabled={count <= 0}
+    //     onClick={() =>
+    //         onCartItemIncrement({
+    //           productAlias: product.alias,
+    //           uuid: cart.uuid,
+    //       })
+    //     }
+    //   >
+    //     <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
+    //   </Button>
+    // );
 
-    return isProductAtCart ? (
-      !isEmpty(cart && cart.products) && (
-        <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
-          <Typography variant={ETypographyVariant.TextB3Regular}>В корзине</Typography>
-        </Link>
-      )
-    ) : (
-      <Button
-        className="ProductListItem-ButtonAddToCart"
-        isDisabled={count <= 0}
-        onClick={() =>
-          onChangeCartItem({
-            payload: {
-              id: product.id,
-              product,
-              quantity: 1,
-            },
-          })
-        }
-      >
-        <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
-      </Button>
-    );
+    return null;
   };
 
   return (

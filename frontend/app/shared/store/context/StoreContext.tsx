@@ -17,11 +17,11 @@ const defaultStore: TStore = {
   },
   setUser: (): void => {},
   cart: {
-    id: "1",
-    user: null,
-    products: [],
+    uuid: "",
     createdAt: "",
     modifyDate: "",
+    items: null,
+    cartAmount: 0,
   },
   setCart: (): void => {},
 };

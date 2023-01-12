@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import { Link, useNavigate } from "@remix-run/react";
-import isEmpty from "lodash/isEmpty";
+import { Link, useFetcher, useNavigate } from "@remix-run/react";
+import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
 import { useCart } from "~/hooks";
 import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
@@ -13,6 +13,8 @@ export const Cart: FC = () => {
   const { cart } = useCart();
   console.log("Cart cart: ", cart);
   const navigate = useNavigate();
+  const fetcher = useFetcher();
+  console.log("Cart fetcher data: ", fetcher.data);
 
   const handleProceedToCheckout = () => {
     navigate(ERoutes.Shipping);
@@ -25,10 +27,8 @@ export const Cart: FC = () => {
       </h1>
       <div className="Cart-Inner">
         <div className="Cart-List">
-          {!isEmpty(cart.products) ? (
-            cart.products.map((cartItem) => (
-              <CartItem key={cartItem.product.id} cartItem={cartItem} />
-            ))
+          {cart && !isNil(cart.items) ? (
+            cart.items.map((cartItem) => <CartItem key={cartItem.id} cartItem={cartItem} />)
           ) : (
             <Typography variant={ETypographyVariant.TextB3Regular}>
               В корзине нет товаров
