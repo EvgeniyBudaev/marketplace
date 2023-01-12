@@ -15,10 +15,12 @@ import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.repository.CatalogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
@@ -30,8 +32,10 @@ public class CatalogService implements CatalogDao {
 
     private final CatalogRepository catalogRepository;
     private final CatalogConverters catalogConverters;
+    @PersistenceContext
     private final EntityManager entityManager;
 
+    @Autowired
     public CatalogService(CatalogRepository catalogRepository, CatalogConverters catalogConverters, EntityManager entityManager) {
         this.catalogRepository = catalogRepository;
         this.catalogConverters = catalogConverters;

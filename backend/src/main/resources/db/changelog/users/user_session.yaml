@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/users/session/create/create-session-table.sql
+  - include:
+      file: db/changelog/users/session/create/add-foreign-key-session-user.sql

@@ -5,7 +5,7 @@ import com.marketplace.users.dto.user.response.UserInfoResponseDto;
 import com.marketplace.users.events.RegistrationUserCompleteEvent;
 import com.marketplace.users.model.AppRole;
 import com.marketplace.users.model.AppUser;
-import com.marketplace.users.model.ERole;
+import com.marketplace.users.model.enums.ERole;
 import com.marketplace.users.repository.UserRepository;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

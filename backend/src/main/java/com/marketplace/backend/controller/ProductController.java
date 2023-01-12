@@ -9,6 +9,7 @@ import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.ProductUrlResolver;
 import com.marketplace.backend.service.utils.queryes.ProductUrlResolverImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ public class ProductController {
     private final ProductDao productDao;
     private final ManageProductDao manageProductDao;
 
+    @Autowired
     public ProductController(ProductDao productDao, ManageProductDao manageProductDao) {
         this.productDao = productDao;
         this.manageProductDao = manageProductDao;
@@ -67,4 +69,5 @@ public class ProductController {
         manageProductDao.delete(alias);
         return "Product with alias = " + alias + " was deleted";
     }
+
 }

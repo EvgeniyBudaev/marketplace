@@ -27,6 +27,7 @@ public class SelectableValue {
     inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
 
+
     @Column(name = "value")
     private String value;
 }

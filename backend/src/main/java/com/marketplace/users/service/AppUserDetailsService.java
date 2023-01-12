@@ -77,7 +77,7 @@ public class AppUserDetailsService implements UserDetailsService {
         }
         if (phoneNumberValidator.isValid(emailOrPhone,null)){
             user = findUserWithRolesByPhone(emailOrPhone);
-            return new User(user.getEmail(), user.getPassword(), user.getAuthorities());
+            return user;
         }
         throw new UsernameNotFoundException("Не поддерживаемый тип данных "+emailOrPhone);
     }

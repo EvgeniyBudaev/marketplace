@@ -50,6 +50,7 @@ public class Product {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+
     @Column(name = "description")
     private String description;
 
@@ -75,6 +76,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "catalog_id",nullable = false)
     private Catalog catalog;
+
 
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     private Set<DoubleValue> doubleValues;

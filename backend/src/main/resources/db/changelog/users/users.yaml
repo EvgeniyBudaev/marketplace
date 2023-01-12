@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/users/user/create/create-users-table.sql
+  - include:
+      file: db/changelog/users/user/create/create-roles-table.sql
+  - include:
+      file: db/changelog/users/user/create/create-users-roles-table.sql
+  - include:
+      file: db/changelog/users/user/create/create-refresh-table.sql
+  - include:
+      file: db/changelog/users/user/create/create-verification-token-table.sql
+  - include:
+      file: db/changelog/users/user/create/add-foreign-key-refresh.sql
+  - include:
+      file: db/changelog/users/user/create/add-foreign-key-roles.sql
+  - include:
+      file: db/changelog/users/user/create/add-foreign-key-verification.sql
+  - include:
+      file: db/changelog/users/user/create/add-foreign-key-users.sql
+  - include:
+      file: db/changelog/users/user/complete/complete-users-table.sql
+  - include:
+      file: db/changelog/users/user/complete/complete-roles-table.sql
+  - include:
+      file: db/changelog/users/user/complete/complete-users-roles-table.sql

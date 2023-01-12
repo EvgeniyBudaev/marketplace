@@ -1,15 +1,14 @@
 package com.marketplace.cart.model;
 
-import com.marketplace.users.model.AppUser;
+import com.marketplace.users.model.SessionId;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,7 +17,7 @@ import java.util.Set;
 @Setter
 @NamedEntityGraph(name = "cart-with-items-and-full-product", attributeNodes = {
         @NamedAttributeNode("id"),
-        @NamedAttributeNode("uuid"),
+        @NamedAttributeNode(value = "sessionId",subgraph = "session"),
         @NamedAttributeNode("createdAt"),
         @NamedAttributeNode("modifyDate"),
         @NamedAttributeNode(value = "items",subgraph = "items-subgraph"),
@@ -50,18 +49,17 @@ import java.util.Set;
                 @NamedAttributeNode("id"),
                 @NamedAttributeNode("value"),
                 @NamedAttributeNode("attribute")
+        }),
+        @NamedSubgraph(name = "session",attributeNodes = {
+                @NamedAttributeNode("uuid")
         })
 })
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private AppUser user;
-
-    @Column(name = "uuid",unique = true)
-    private String uuid;
+    @OneToOne(mappedBy = "cart")
+    private SessionId sessionId;
 
     @CreationTimestamp
     @Column(name = "created_at",updatable = false)
@@ -74,19 +72,16 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private Set<CartItem> items;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Cart cart = (Cart) o;
-
-        return new EqualsBuilder().append(uuid, cart.uuid).isEquals();
+        if (!(o instanceof Cart cart)) return false;
+        return id.equals(cart.id);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(uuid).toHashCode();
+        return Objects.hash(id);
     }
 }

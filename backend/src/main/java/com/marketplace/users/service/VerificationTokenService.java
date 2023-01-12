@@ -4,8 +4,8 @@ import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.properties.model.convertes.TokenProperty;
 import com.marketplace.users.exception.VerificationTokenExpiredException;
 import com.marketplace.users.model.AppUser;
-import com.marketplace.users.model.ETokenType;
-import com.marketplace.users.model.VerificationToken;
+import com.marketplace.users.model.EmailVerifyToken;
+import com.marketplace.users.model.enums.ETokenType;
 import com.marketplace.users.repository.VerificationTokenRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class VerificationTokenService {
     }
 
     public String generateToken(AppUser user){
-        VerificationToken token = new VerificationToken();
+        EmailVerifyToken token = new EmailVerifyToken();
         token.setToken(UUID.randomUUID().toString());
         token.setTokenType(ETokenType.EMAIL_TOKEN);
         token.setUser(user);
@@ -36,18 +36,18 @@ public class VerificationTokenService {
     }
 
     public AppUser checkEmailToken(String token){
-        TypedQuery<VerificationToken> query =
+        TypedQuery<EmailVerifyToken> query =
                 entityManager.createQuery("SELECT t from " +
-                        "VerificationToken as t where t.token=:token and t.tokenType=:tokenType", VerificationToken.class);
+                        "EmailVerifyToken as t where t.token=:token and t.tokenType=:tokenType", EmailVerifyToken.class);
         query.setParameter("tokenType",ETokenType.EMAIL_TOKEN);
         query.setParameter("token",token);
-        VerificationToken verificationToken = query.getSingleResult();
-        if(verificationToken==null){
+        EmailVerifyToken emailVerifyToken = query.getSingleResult();
+        if(emailVerifyToken ==null){
             throw new ResourceNotFoundException("Токен не найден");
         }
-        if (LocalDateTime.now().isAfter(verificationToken.getExpired())){
+        if (LocalDateTime.now().isAfter(emailVerifyToken.getExpired())){
             throw new VerificationTokenExpiredException("");
         }
-        return verificationToken.getUser();
+        return emailVerifyToken.getUser();
     }
 }
