@@ -23,10 +23,10 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AppRoleService roleService;
     private final ApplicationEventMulticaster eventPublisher;
-    private final VerificationTokenService tokenService;
+    private final UserVerificationTokenService tokenService;
 
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AppRoleService roleService, ApplicationEventMulticaster eventPublisher, VerificationTokenService tokenService) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AppRoleService roleService, ApplicationEventMulticaster eventPublisher, UserVerificationTokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;

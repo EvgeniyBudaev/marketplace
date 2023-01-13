@@ -107,17 +107,12 @@ public class CartService {
         }
         Cart cart = emptyCart();
         AppUser user = userService.getUserByEmail(email);
-        sessionIdService.setNewSession(user,cart,null);
+        sessionIdService.updateCartId(user,cart);
         return cart;
     }
 
     public Cart getCurrentCartByUUIDForNonAuthUser(String uuid) {
         Cart cart;
-        if (uuid == null) {
-            cart = emptyCart();
-            cart.setSessionId(sessionIdService.setNewSession(null,cart,null));
-            return cart;
-        }
         TypedQuery<Cart> cartTypedQuery =
                 entityManager.createQuery("SELECT c FROM Cart as c where c.sessionId.uuid=:uuid", Cart.class);
         cartTypedQuery.setParameter("uuid", uuid);
@@ -133,8 +128,9 @@ public class CartService {
             }
             return optionalCart.get();
         }
+        /*Если корзины нет заводим новую*/
         cart = emptyCart();
-        cart.setSessionId(sessionIdService.setNewSession(null,cart,null));
+        sessionIdService.updateCartId(uuid,cart);
         return cart;
     }
 

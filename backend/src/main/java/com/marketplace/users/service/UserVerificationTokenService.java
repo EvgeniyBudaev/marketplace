@@ -14,12 +14,12 @@ import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.util.UUID;
 @Service
-public class VerificationTokenService {
+public class UserVerificationTokenService {
     private final VerificationTokenRepository verificationTokenRepository;
     private final EntityManager entityManager;
     private final TokenProperty property;
 
-    public VerificationTokenService(VerificationTokenRepository verificationTokenRepository, EntityManager entityManager) {
+    public UserVerificationTokenService(VerificationTokenRepository verificationTokenRepository, EntityManager entityManager) {
         this.verificationTokenRepository = verificationTokenRepository;
         this.entityManager = entityManager;
         property = new TokenProperty();

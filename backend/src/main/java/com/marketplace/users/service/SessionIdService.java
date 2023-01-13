@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,15 +30,31 @@ public class SessionIdService {
         return UUID.randomUUID().toString();
     }
 
-    public SessionId setNewSession(AppUser user, Cart cart, UserSettings settings){
+    public SessionId setNewSession(){
         SessionId session = new SessionId();
         session.setUuid(this.generateUuid());
-        session.setCart(cart);
-        session.setUserSettings(settings);
-        session.setUser(user);
         session.setUpdated(LocalDateTime.now());
         sessionRepository.save(session);
         return session;
+    }
+
+    public SessionId getSession(String uuid) {
+        if(uuid==null){
+            return setNewSession();
+        }
+        Optional<SessionId> sessionId = sessionRepository.getSessionIdByUuid(uuid);
+        if()
+    }
+
+    public void updateCartId(String uuid, Cart cart){
+
+    }
+
+    public void updateCartId(AppUser user,Cart cart){
+
+    }
+    public void updateUserSettingsId(String uuid, UserSettings settings){
+
     }
 
 }

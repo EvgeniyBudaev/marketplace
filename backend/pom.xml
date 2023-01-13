@@ -15,8 +15,6 @@
     <description>backend</description>
     <properties>
         <java.version>19</java.version>
-        <hibernate.version>5.6.11.Final</hibernate.version>
-        <elasticsearch.version>7.16.3</elasticsearch.version>
     </properties>
     <dependencies>
         <dependency>
@@ -103,4 +101,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
