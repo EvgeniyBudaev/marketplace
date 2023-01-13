@@ -44,7 +44,7 @@ export const loader = async (args: LoaderArgs) => {
   const userSession = await getUserSession(request); //Ryan Florence
   const user = JSON.parse(userSession || "{}");
 
-  const cart = await getCart(request, { uuid: "2089d8db-f9d0-4e64-98a4-09bc9cdb6a50" });
+  const cart = await getCart(request, { uuid: "054c3bdf-610e-4c2f-ba84-f80173ef5a17" });
   if (!cart.success) {
     throw internalError();
   }

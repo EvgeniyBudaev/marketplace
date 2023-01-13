@@ -6,7 +6,7 @@ import { useLoaderData } from "@remix-run/react";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const params = { uuid: "2089d8db-f9d0-4e64-98a4-09bc9cdb6a50" };
+  const params = { uuid: "054c3bdf-610e-4c2f-ba84-f80173ef5a17" };
 
   const cart = await getCart(request, params);
 
@@ -22,7 +22,7 @@ export const loader = async (args: LoaderArgs) => {
 export default function CartRoute() {
   const { cart } = useLoaderData<typeof loader>();
   console.log("page cart: ", cart);
-  return <Cart />;
+  return <Cart cart={cart} />;
 }
 
 export function links() {

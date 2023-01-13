@@ -77,8 +77,7 @@
   display: flex;
   align-items: center;
 }
-.CartItem-ProductCounterMinus,
-.CartItem-ProductCounterPlus {
+.CartItem-ProductCounterMinus, .CartItem-ProductCounterPlus {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,8 +86,7 @@
   background-color: rgb(255, 255, 255);
   border: 3px solid rgb(235, 235, 235);
 }
-.CartItem-ProductCounterMinus:hover,
-.CartItem-ProductCounterPlus:hover {
+.CartItem-ProductCounterMinus:hover, .CartItem-ProductCounterPlus:hover {
   background-color: #f5f5f5;
 }
 .CartItem-ProductCounterMinus {
@@ -112,8 +110,7 @@
   background-color: rgb(255, 255, 255);
   border-color: rgb(153, 153, 153);
 }
-.CartItem-ProductCounterCount:active,
-.CartItem-ProductCounterCount:focus {
+.CartItem-ProductCounterCount:active, .CartItem-ProductCounterCount:focus {
   background-color: rgb(255, 255, 255);
   border-color: rgb(153, 153, 153);
 }
