@@ -13,14 +13,15 @@ import {
 } from "@remix-run/react";
 import { AuthenticityTokenProvider, createAuthenticityToken } from "remix-utils";
 import { cryptoRandomStringAsync } from "crypto-random-string";
+import isEmpty from "lodash/isEmpty";
 
 import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
-import { getCart, TCart } from "~/shared/api/cart";
-import { commitCsrfSession, getCsrfSession, getSession } from "~/shared/session";
+import { createCartSession, getCart, getCartSession, TCart } from "~/shared/api/cart";
+import { commitCsrfSession, getCsrfSession } from "~/shared/session";
 import { StoreContextProvider, useStore } from "~/shared/store";
 import { links as uikitLinks } from "~/uikit";
 import { createBoundaries, internalError } from "~/utils";
@@ -40,17 +41,29 @@ export const loader = async (args: LoaderArgs) => {
   const csrfSession = await getCsrfSession(request);
   const csrfToken = createAuthenticityToken(csrfSession);
   const cspScriptNonce = await cryptoRandomStringAsync({ length: 41 });
-  const session = await getSession(request.headers.get("Cookie"));
+
   const userSession = await getUserSession(request); //Ryan Florence
   const user = JSON.parse(userSession || "{}");
 
-  const cart = await getCart(request, { uuid: "054c3bdf-610e-4c2f-ba84-f80173ef5a17" });
-  if (!cart.success) {
-    throw internalError();
+  const cartSession = await getCartSession(request);
+  const cart = JSON.parse(cartSession || "{}");
+  console.log("[cart] ", cart);
+  let cartResponse;
+  if (isEmpty(cart)) {
+    cartResponse = await getCart(request, { uuid: null });
+    // cartResponse = await getCart(request, { uuid: "f92065aa-9cd7-4aaf-8291-19fd1ae1fa35" });
+  } else {
+    cartResponse = await getCart(request, { uuid: cart.uuid });
   }
 
+  if (!cartResponse.success) {
+    throw internalError();
+  }
+  console.log("[cartResponse.data] ", cartResponse.data);
+  const updatedCartSession = await createCartSession(cartResponse.data);
+
   const data: RootLoaderData = {
-    cart: cart.data,
+    cart: cartResponse.data,
     csrfToken,
     cspScriptNonce,
     title: "root.title",
@@ -60,10 +73,14 @@ export const loader = async (args: LoaderArgs) => {
     user,
   };
 
+  const headers = new Headers();
+  headers.append("Set-Cookie", await commitCsrfSession(csrfSession));
+  Object.entries(updatedCartSession.headers).forEach(([header, value]) => {
+    headers.append(header, value);
+  });
+
   return json(data, {
-    headers: {
-      "Set-Cookie": await commitCsrfSession(csrfSession),
-    },
+    headers,
   });
 };
 
@@ -78,12 +95,13 @@ export const links: LinksFunction = () => {
 };
 
 type TDocumentProps = {
+  cart?: TCart;
   children?: ReactNode;
   cspScriptNonce?: string;
   env?: RootLoaderData["ENV"];
 };
 
-const Document: FC<TDocumentProps> = ({ children, cspScriptNonce, env }) => {
+const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env }) => {
   if (typeof window !== "undefined") {
     cspScriptNonce = "";
   }
@@ -100,7 +118,7 @@ const Document: FC<TDocumentProps> = ({ children, cspScriptNonce, env }) => {
         <Links />
       </head>
       <body>
-        <Layout>{children}</Layout>
+        <Layout cart={cart}>{children}</Layout>
         <ScrollRestoration nonce={cspScriptNonce} />
         <Scripts nonce={cspScriptNonce} />
         {env?.IS_PRODUCTION === false && <LiveReload nonce={cspScriptNonce} />}
@@ -115,15 +133,10 @@ export default function App() {
 
   const store = useStore();
   const setUser = store.setUser;
-  const setCart = store.setCart;
 
   useEffect(() => {
     setUser(user);
   }, [setUser, user]);
-
-  useEffect(() => {
-    setCart(cart);
-  }, [setCart, cart]);
 
   useEffect(() => {
     isMounted.current = true;
@@ -136,7 +149,7 @@ export default function App() {
   return (
     <StoreContextProvider store={store}>
       <AuthenticityTokenProvider token={csrfToken}>
-        <Document cspScriptNonce={cspScriptNonce} env={ENV}>
+        <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV}>
           <Outlet />
           <script
             nonce={cspScriptNonce}

@@ -7,18 +7,19 @@ import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
 import { ERoutes } from "~/enums";
 import { useCart, useUser } from "~/hooks";
+import { TCart } from "~/shared/api/cart";
 import { EFormMethods } from "~/shared/form";
 import { Avatar, DropDown, ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./HeaderIconsList.module.css";
 
 type TProps = {
+  cart?: TCart;
   className?: string;
   isHomePage?: boolean;
 };
 
-export const HeaderIconsList: FC<TProps> = ({ className, isHomePage }) => {
+export const HeaderIconsList: FC<TProps> = ({ cart, className, isHomePage }) => {
   const { user } = useUser();
-  const { cart } = useCart();
   //console.log("HeaderIconsList cart: ", cart);
   const [cartId, setCartId] = useState("");
   const [cartItemsCountTotal, setCartItemsCountTotal] = useState(0);

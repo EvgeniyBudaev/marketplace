@@ -3,17 +3,19 @@ import type { FC } from "react";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { Logo } from "~/components";
+import { TCart } from "~/shared/api/cart";
 import { Button, ETypographyVariant, Hamburger, Sidebar, Spacer, Typography } from "~/uikit";
 import { HeaderIconsList } from "./HeaderIconsList";
 import styles from "./HeaderCenter.module.css";
 
 type TProps = {
+  cart?: TCart;
   className?: string;
   isHomePage?: boolean;
   isScroll?: boolean;
 };
 
-export const HeaderCenter: FC<TProps> = ({ className, isHomePage, isScroll }) => {
+export const HeaderCenter: FC<TProps> = ({ cart, className, isHomePage, isScroll }) => {
   const [isSidebar, setIsSidebar] = useState(false);
   const nodeRef = useRef(null);
 
@@ -65,6 +67,7 @@ export const HeaderCenter: FC<TProps> = ({ className, isHomePage, isScroll }) =>
             <Logo className="HeaderCenter-LogoMobile" isHomePage={isHomePage} />
 
             <HeaderIconsList
+              cart={cart}
               className="HeaderCenter-HeaderIconsListMobile"
               isHomePage={isHomePage}
             />

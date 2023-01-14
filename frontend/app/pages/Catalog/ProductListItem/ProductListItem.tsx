@@ -1,11 +1,14 @@
 import { forwardRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "@remix-run/react";
+import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
-import type { TCartItemIncrementParams, TCart } from "~/shared/api/cart";
+import type { TCart } from "~/shared/api/cart";
+import { TCatalogDetail } from "~/shared/api/catalogs";
 import type { TProduct } from "~/shared/api/products";
+import { EFormMethods } from "~/shared/form";
 import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath, formatProxy, formatCurrency } from "~/utils";
 import { AttributeItem } from "../AttributeItem";
@@ -13,13 +16,14 @@ import styles from "./ProductListItem.module.css";
 
 type TProps = {
   cart: TCart;
+  catalog: TCatalogDetail;
   product: TProduct;
   isCardsLine: boolean;
-  onCartItemIncrement: (params: TCartItemIncrementParams) => Promise<void>;
+  fetcher: FetcherWithComponents<any>;
 };
 
 export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function ProductListItem(
-  { cart, product, isCardsLine, onCartItemIncrement },
+  { cart, catalog, product, isCardsLine, fetcher },
   ref,
 ) {
   const ROUTE_PRODUCT_DETAIL = createPath({
@@ -44,33 +48,39 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     }
   };
 
-  const renderButton = (product: TProduct) => {
-    // const isProductAtCart =
-    //     cart && !isNil(cart.items) &&
-    //   cart.items.some((item) => item.product.id === product.id);
-    //
-    // return isProductAtCart ? (
-    //     cart && !isNil(cart.items) && (
-    //     <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
-    //       <Typography variant={ETypographyVariant.TextB3Regular}>В корзине</Typography>
-    //     </Link>
-    //   )
-    // ) : (
-    //   <Button
-    //     className="ProductListItem-ButtonAddToCart"
-    //     isDisabled={count <= 0}
-    //     onClick={() =>
-    //         onCartItemIncrement({
-    //           productAlias: product.alias,
-    //           uuid: cart.uuid,
-    //       })
-    //     }
-    //   >
-    //     <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
-    //   </Button>
-    // );
+  const handleAddToCart = () => {
+    fetcher.submit(
+      { productAlias: product.alias, uuid: cart.uuid },
+      {
+        method: EFormMethods.Post,
+        action: createPath({
+          route: ERoutes.CatalogDetail,
+          params: { alias: catalog.alias },
+          withIndex: true,
+        }),
+      },
+    );
+  };
 
-    return null;
+  const renderButton = (product: TProduct) => {
+    const isProductAtCart =
+      cart && !isNil(cart.items) && cart.items.some((item) => item.product.id === product.id);
+
+    return isProductAtCart ? (
+      cart && !isNil(cart.items) && (
+        <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
+          <Typography variant={ETypographyVariant.TextB3Regular}>В корзине</Typography>
+        </Link>
+      )
+    ) : (
+      <Button
+        className="ProductListItem-ButtonAddToCart"
+        isDisabled={count <= 0}
+        onClick={handleAddToCart}
+      >
+        <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
+      </Button>
+    );
   };
 
   return (

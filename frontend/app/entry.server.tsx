@@ -25,11 +25,6 @@ function handleBotRequest(
   responseHeaders: Headers,
   remixContext: EntryContext,
 ) {
-  const nonce: string | undefined =
-    remixContext.appState.catchBoundaryRouteId === "root" && remixContext.appState.error
-      ? undefined
-      : remixContext.routeData.root?.cspScriptNonce;
-
   return new Promise((resolve, reject) => {
     let didError = false;
 
@@ -40,7 +35,6 @@ function handleBotRequest(
           const body = new PassThrough();
 
           responseHeaders.set("Content-Type", "text/html");
-          responseHeaders.set("Content-Security-Policy", getContentSecurityPolicy(nonce));
 
           resolve(
             new Response(body, {
@@ -73,9 +67,7 @@ function handleBrowserRequest(
   remixContext: EntryContext,
 ) {
   const nonce: string | undefined =
-    remixContext.appState.catchBoundaryRouteId === "root" && remixContext.appState.error
-      ? undefined
-      : remixContext.routeData.root?.cspScriptNonce;
+    remixContext.staticHandlerContext.loaderData["root"]?.cspScriptNonce;
 
   return new Promise((resolve, reject) => {
     let didError = false;

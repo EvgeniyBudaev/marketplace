@@ -16,14 +16,6 @@ const defaultStore: TStore = {
     modifyDate: "",
   },
   setUser: (): void => {},
-  cart: {
-    uuid: "",
-    createdAt: "",
-    modifyDate: "",
-    items: null,
-    cartAmount: 0,
-  },
-  setCart: (): void => {},
 };
 
 export const StoreContext = createContext<TStore>(defaultStore);

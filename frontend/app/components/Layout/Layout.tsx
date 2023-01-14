@@ -4,17 +4,19 @@ import { useFetchers, useLocation, useTransition } from "@remix-run/react";
 import clsx from "clsx";
 import NProgress from "nprogress";
 import { ERoutes } from "~/enums";
+import { TCart } from "~/shared/api/cart";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import nProgressStyles from "nprogress/nprogress.css";
 import styles from "./Layout.module.css";
 
 type TProps = {
+  cart?: TCart;
   className?: string;
   is404?: boolean;
 } & PropsWithChildren;
 
-export const Layout: FC<TProps> = ({ className, children, is404 }) => {
+export const Layout: FC<TProps> = ({ cart, className, children, is404 }) => {
   const isScroll = false;
   const { pathname } = useLocation();
   const fetchers = useFetchers();
@@ -38,7 +40,7 @@ export const Layout: FC<TProps> = ({ className, children, is404 }) => {
     <div className={clsx("Layout", className)}>
       <div className="Layout-Wrapper">
         <div className="Layout-Content">
-          <Header />
+          <Header cart={cart} />
           <main
             className={clsx("Layout-Main", {
               "Layout-Main__isScroll": isScroll,

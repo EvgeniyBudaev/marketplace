@@ -1,5 +1,3 @@
-import { Recipient } from "~/pages";
-
 export enum ERoutes {
   Root = "/",
   Login = "/auth/login",

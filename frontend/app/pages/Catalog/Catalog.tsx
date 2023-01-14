@@ -11,6 +11,7 @@ import { panelLinks } from "~/pages/Catalog/Panel";
 import { productListLinks } from "~/pages/Catalog/ProductList";
 import { productListItemLinks } from "~/pages/Catalog/ProductListItem";
 import { sortingLinks } from "~/pages/Catalog/Sorting";
+import { TCart } from "~/shared/api/cart";
 import type { TCatalogDetail } from "~/shared/api/catalogs";
 import type { TProduct, TProducts } from "~/shared/api/products";
 import type { TParams, TSorting } from "~/types";
@@ -26,6 +27,7 @@ type TProductRange = {
 };
 
 type TProps = {
+  cart: TCart;
   catalog: TCatalogDetail;
   products: TProducts;
 };
@@ -205,6 +207,8 @@ export const Catalog: FC<TProps> = (props) => {
             }
           >
             <ProductList
+              cart={props.cart}
+              catalog={catalog}
               pages={pages.map(
                 (page) =>
                   page ?? Array(products.pageSize ?? DEFAULT_PAGE_SIZE).fill(PLACEHOLDER_PRODUCT),

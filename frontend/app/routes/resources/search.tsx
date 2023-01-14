@@ -10,13 +10,15 @@ export const loader = async (args: LoaderArgs) => {
   const formValues = inputFromSearch(url.searchParams);
 
   try {
-    const response = await searchProducts(request, { search: formValues.search.trim() });
+    if (typeof formValues.search === "string") {
+      const response = await searchProducts(request, { search: formValues.search.trim() });
 
-    if (response.success) {
-      return json(response.data);
+      if (response.success) {
+        return json(response.data);
+      }
+
+      return json(response);
     }
-
-    return json(response);
   } catch (error) {
     return parseResponseError(error);
   }
