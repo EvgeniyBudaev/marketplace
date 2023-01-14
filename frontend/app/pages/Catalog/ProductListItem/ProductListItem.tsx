@@ -1,15 +1,20 @@
 import { forwardRef } from "react";
 import { useMediaQuery } from "react-responsive";
-import { Link } from "@remix-run/react";
+import {Link, useFetcher} from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
 import type { TCartItemIncrementParams, TCart } from "~/shared/api/cart";
 import type { TProduct } from "~/shared/api/products";
+import {EFormMethods, Form, useInitForm} from "~/shared/form";
 import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath, formatProxy, formatCurrency } from "~/utils";
 import { AttributeItem } from "../AttributeItem";
 import styles from "./ProductListItem.module.css";
+import {TParams} from "~/types";
+import {TOptionsSubmitForm} from "~/pages/Auth/Login/types";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {z} from "zod";
 
 type TProps = {
   cart: TCart;
@@ -22,6 +27,11 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
   { cart, product, isCardsLine, onCartItemIncrement },
   ref,
 ) {
+  const fetcher = useFetcher();
+  const formSchema = z.any();
+  const form = useInitForm<any>({
+    resolver: zodResolver(formSchema),
+  });
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.Cart,
   });
@@ -44,33 +54,43 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     }
   };
 
-  const renderButton = (product: TProduct) => {
-    // const isProductAtCart =
-    //     cart && !isNil(cart.items) &&
-    //   cart.items.some((item) => item.product.id === product.id);
-    //
-    // return isProductAtCart ? (
-    //     cart && !isNil(cart.items) && (
-    //     <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
-    //       <Typography variant={ETypographyVariant.TextB3Regular}>В корзине</Typography>
-    //     </Link>
-    //   )
-    // ) : (
-    //   <Button
-    //     className="ProductListItem-ButtonAddToCart"
-    //     isDisabled={count <= 0}
-    //     onClick={() =>
-    //         onCartItemIncrement({
-    //           productAlias: product.alias,
-    //           uuid: cart.uuid,
-    //       })
-    //     }
-    //   >
-    //     <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
-    //   </Button>
-    // );
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
+    console.log("Submit");
+      fetcher.submit(
+          {productAlias: product.alias, uuid: cart.uuid}, {
+          method: EFormMethods.Post,
+          action: createPath(
+              {
+                  route: ERoutes.ResourcesCartItemIncrement,
+                  withIndex: true,
+              },
+          ),
+      });
+  };
 
-    return null;
+  const renderButton = (product: TProduct) => {
+    const isProductAtCart =
+        cart && !isNil(cart.items) &&
+      cart.items.some((item) => item.product.id === product.id);
+
+    return isProductAtCart ? (
+        cart && !isNil(cart.items) && (
+        <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
+          <Typography variant={ETypographyVariant.TextB3Regular}>В корзине</Typography>
+        </Link>
+      )
+    ) : (
+        <Form<any> form={form} method={EFormMethods.Post} handleSubmit={handleSubmit}>
+          <input type={"text"} />
+          <Button
+              className="ProductListItem-ButtonAddToCart"
+              isDisabled={count <= 0}
+              type="submit"
+          >
+            <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
+          </Button>
+        </Form>
+    );
   };
 
   return (
@@ -141,7 +161,9 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
               {count > 0 ? "В наличии" : "Товар отсутствует"}
             </Typography>
           </div>
-          <div className="ProductListItem-FooterAddToCartGrid">{renderButton(product)}</div>
+          <div className="ProductListItem-FooterAddToCartGrid">
+            {renderButton(product)}
+          </div>
         </div>
       </div>
     </li>
