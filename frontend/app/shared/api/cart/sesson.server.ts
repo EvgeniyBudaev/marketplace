@@ -32,12 +32,12 @@ export const createCartSession = async (cart: TCart) => {
   session.set("cart", JSON.stringify(cart));
   return {
     headers: {
-      "Set-Cookie": await commitSession(session),
+      "Set-Cookie": await CartSession.storage.commitSession(session),
     },
   };
 };
 
 export const getCartSession = async (request: Request) => {
-  const session = await getSession(request.headers.get("Cookie"));
+  const session = await CartSession.storage.getSession(request.headers.get("Cookie"));
   return session.get("cart");
 };

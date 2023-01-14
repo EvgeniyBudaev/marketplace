@@ -60,7 +60,7 @@ export const loader = async (args: LoaderArgs) => {
     throw internalError();
   }
   console.log("[cartResponse.data] ", cartResponse.data);
-  await createCartSession(cartResponse.data);
+  const updatedCartSession = await createCartSession(cartResponse.data);
 
   const data: RootLoaderData = {
     cart: cartResponse.data,
@@ -73,10 +73,14 @@ export const loader = async (args: LoaderArgs) => {
     user,
   };
 
+  const headers = new Headers();
+  headers.append("Set-Cookie", await commitCsrfSession(csrfSession));
+  Object.entries(updatedCartSession.headers).forEach(([header, value]) => {
+    headers.append(header, value);
+  });
+
   return json(data, {
-    headers: {
-      "Set-Cookie": await commitCsrfSession(csrfSession),
-    },
+    headers,
   });
 };
 
