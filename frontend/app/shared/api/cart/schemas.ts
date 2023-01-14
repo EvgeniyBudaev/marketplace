@@ -21,7 +21,23 @@ export const cartSchema = z.object({
   cartAmount: z.number(),
 });
 
-export const cartIncrementParamsSchema = z.object({
+export const cartItemIncrementParamsSchema = z.object({
   uuid: z.string(),
   productAlias: z.string(),
+});
+
+export const cartItemDecrementParamsSchema = z.object({
+  uuid: z.string(),
+  productAlias: z.string(),
+});
+
+export const cartItemRemoveParamsSchema = z.object({
+  uuid: z.string(),
+  productAlias: z.string(),
+});
+
+export const cartItemSetQuantityParamsSchema = z.object({
+  uuid: z.string(),
+  productAlias: z.string(),
+  newQuantity: z.number(),
 });

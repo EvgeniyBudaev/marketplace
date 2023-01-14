@@ -11,9 +11,11 @@ const MODE = process.env.NODE_ENV;
 const isProduction = MODE === "production";
 
 const app = express();
-app.use(helmet.crossOriginEmbedderPolicy({
-  policy: "credentialless",
-}));
+app.use(
+  helmet.crossOriginEmbedderPolicy({
+    policy: "credentialless",
+  }),
+);
 app.use(helmet.crossOriginOpenerPolicy());
 app.use(helmet.crossOriginResourcePolicy());
 app.use(helmet.dnsPrefetchControl());

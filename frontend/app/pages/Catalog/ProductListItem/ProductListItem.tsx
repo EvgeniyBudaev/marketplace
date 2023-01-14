@@ -1,37 +1,31 @@
 import { forwardRef } from "react";
 import { useMediaQuery } from "react-responsive";
-import {Link, useFetcher} from "@remix-run/react";
+import { Link } from "@remix-run/react";
+import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
-import type { TCartItemIncrementParams, TCart } from "~/shared/api/cart";
+import type { TCart } from "~/shared/api/cart";
+import { TCatalogDetail } from "~/shared/api/catalogs";
 import type { TProduct } from "~/shared/api/products";
-import {EFormMethods, Form, useInitForm} from "~/shared/form";
+import { EFormMethods } from "~/shared/form";
 import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath, formatProxy, formatCurrency } from "~/utils";
 import { AttributeItem } from "../AttributeItem";
 import styles from "./ProductListItem.module.css";
-import {TParams} from "~/types";
-import {TOptionsSubmitForm} from "~/pages/Auth/Login/types";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {z} from "zod";
 
 type TProps = {
   cart: TCart;
+  catalog: TCatalogDetail;
   product: TProduct;
   isCardsLine: boolean;
-  onCartItemIncrement: (params: TCartItemIncrementParams) => Promise<void>;
+  fetcher: FetcherWithComponents<any>;
 };
 
 export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function ProductListItem(
-  { cart, product, isCardsLine, onCartItemIncrement },
+  { cart, catalog, product, isCardsLine, fetcher },
   ref,
 ) {
-  const fetcher = useFetcher();
-  const formSchema = z.any();
-  const form = useInitForm<any>({
-    resolver: zodResolver(formSchema),
-  });
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.Cart,
   });
@@ -54,42 +48,38 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     }
   };
 
-  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
-    console.log("Submit");
-      fetcher.submit(
-          {productAlias: product.alias, uuid: cart.uuid}, {
-          method: EFormMethods.Post,
-          action: createPath(
-              {
-                  route: ERoutes.ResourcesCartItemIncrement,
-                  withIndex: true,
-              },
-          ),
-      });
+  const handleAddToCart = () => {
+    fetcher.submit(
+      { productAlias: product.alias, uuid: cart.uuid },
+      {
+        method: EFormMethods.Post,
+        action: createPath({
+          route: ERoutes.CatalogDetail,
+          params: { alias: catalog.alias },
+          withIndex: true,
+        }),
+      },
+    );
   };
 
   const renderButton = (product: TProduct) => {
     const isProductAtCart =
-        cart && !isNil(cart.items) &&
-      cart.items.some((item) => item.product.id === product.id);
+      cart && !isNil(cart.items) && cart.items.some((item) => item.product.id === product.id);
 
     return isProductAtCart ? (
-        cart && !isNil(cart.items) && (
+      cart && !isNil(cart.items) && (
         <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
           <Typography variant={ETypographyVariant.TextB3Regular}>В корзине</Typography>
         </Link>
       )
     ) : (
-        <Form<any> form={form} method={EFormMethods.Post} handleSubmit={handleSubmit}>
-          <input type={"text"} />
-          <Button
-              className="ProductListItem-ButtonAddToCart"
-              isDisabled={count <= 0}
-              type="submit"
-          >
-            <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
-          </Button>
-        </Form>
+      <Button
+        className="ProductListItem-ButtonAddToCart"
+        isDisabled={count <= 0}
+        onClick={handleAddToCart}
+      >
+        <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
+      </Button>
     );
   };
 
@@ -161,9 +151,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
               {count > 0 ? "В наличии" : "Товар отсутствует"}
             </Typography>
           </div>
-          <div className="ProductListItem-FooterAddToCartGrid">
-            {renderButton(product)}
-          </div>
+          <div className="ProductListItem-FooterAddToCartGrid">{renderButton(product)}</div>
         </div>
       </div>
     </li>

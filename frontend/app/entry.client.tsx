@@ -5,10 +5,10 @@ import { hydrateRoot } from "react-dom/client";
 function hydrate() {
   startTransition(() => {
     hydrateRoot(
-        document,
-        <StrictMode>
-          <RemixBrowser />
-        </StrictMode>
+      document,
+      <StrictMode>
+        <RemixBrowser />
+      </StrictMode>,
     );
   });
 }

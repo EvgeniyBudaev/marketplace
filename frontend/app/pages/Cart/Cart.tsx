@@ -6,18 +6,17 @@ import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import { formatCurrency } from "~/utils";
 import { CartItem, cartItemLinks } from "./CartItem";
 import styles from "./Cart.module.css";
-import {TCart} from "~/shared/api/cart";
+import { TCart } from "~/shared/api/cart";
 
 type TProps = {
   cart: TCart;
-}
+};
 
-export const Cart: FC<TProps> = ({cart}) => {
+export const Cart: FC<TProps> = (props) => {
   const isAuthenticated = true;
-  console.log("Cart cart: ", cart);
   const navigate = useNavigate();
   const fetcher = useFetcher();
-  console.log("Cart fetcher data: ", fetcher.data);
+  const cart: TCart = fetcher.data ?? props.cart;
 
   const handleProceedToCheckout = () => {
     navigate(ERoutes.Shipping);
@@ -31,7 +30,14 @@ export const Cart: FC<TProps> = ({cart}) => {
       <div className="Cart-Inner">
         <div className="Cart-List">
           {cart && !isNil(cart.items) ? (
-            cart.items.map((cartItem) => <CartItem key={cartItem.id} cartItem={cartItem} />)
+            cart.items.map((cartItem) => (
+              <CartItem
+                key={cartItem.id}
+                cartItem={cartItem}
+                cartUuid={cart.uuid}
+                fetcher={fetcher}
+              />
+            ))
           ) : (
             <Typography variant={ETypographyVariant.TextB3Regular}>
               В корзине нет товаров

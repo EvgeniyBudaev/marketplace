@@ -1,88 +1,107 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ChangeEvent, FC, KeyboardEvent } from "react";
+import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
-import { useCart } from "~/hooks";
+import { ERoutes } from "~/enums";
 import { TCartItem } from "~/shared/api/cart";
 import { ETypographyVariant, IconButton, Typography } from "~/uikit";
-import { formatCurrency, formatProxy } from "~/utils";
+import { createPath, formatCurrency, formatProxy } from "~/utils";
 import styles from "./CartItem.module.css";
+import { EFormMethods } from "~/shared/form";
 
 type TProps = {
   cartItem: TCartItem;
+  cartUuid: string;
+  fetcher: FetcherWithComponents<any>;
 };
 
-export const CartItem: FC<TProps> = ({ cartItem }) => {
-  const { onChangeCartItem, onDeleteCartItem } = useCart();
+export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
   const [quantity, setQuantity] = useState(cartItem.quantity);
 
+  useEffect(() => {
+    setQuantity(cartItem.quantity);
+  }, [cartItem.quantity]);
+
   const handleDecrement = () => {
-    if (cartItem.quantity <= 1) return;
-    onChangeCartItem({
-      payload: {
-        ...cartItem,
-        id: cartItem.product.id,
-        quantity: cartItem.quantity - 1,
+    fetcher.submit(
+      { productAlias: cartItem.product.alias, type: "decrement", uuid: cartUuid },
+      {
+        method: EFormMethods.Post,
+        action: createPath({
+          route: ERoutes.Cart,
+        }),
       },
-    }).then((_) => true);
+    );
   };
 
   const handleIncrement = () => {
-    if (cartItem.quantity > Number(cartItem.product.count)) return;
-    onChangeCartItem({
-      payload: {
-        ...cartItem,
-        id: cartItem.product.id,
-        quantity: cartItem.quantity + 1,
+    fetcher.submit(
+      { productAlias: cartItem.product.alias, type: "increment", uuid: cartUuid },
+      {
+        method: EFormMethods.Post,
+        action: createPath({
+          route: ERoutes.Cart,
+        }),
       },
-    }).then((_) => true);
+    );
   };
 
   const validate = (value: string) => {
-    const PATTERN = /\D/g;
+    const PATTERN = /[^\d.]/g;
     return value.replace(PATTERN, "");
   };
 
   const handleChangeQuantity = (event: ChangeEvent<HTMLInputElement>) => {
-    const quantity = Number(validate(event.target.value));
-    setQuantity(Number(event.target.value));
-    onChangeCartItem({
-      payload: {
-        ...cartItem,
-        id: cartItem.product.id,
-        quantity,
-      },
-    }).then((_) => true);
+    const quantity = validate(event.target.value);
+    setQuantity(Number(quantity));
   };
 
   const handleBlurQuantity = (event: ChangeEvent<HTMLInputElement>) => {
-    const quantity = Number(validate(event.target.value));
-    onChangeCartItem({
-      payload: {
-        ...cartItem,
-        id: cartItem.product.id,
-        quantity,
+    fetcher.submit(
+      {
+        newQuantity: quantity.toString(),
+        productAlias: cartItem.product.alias,
+        type: "setQuantity",
+        uuid: cartUuid,
       },
-    }).then((_) => true);
+      {
+        method: EFormMethods.Post,
+        action: createPath({
+          route: ERoutes.Cart,
+        }),
+      },
+    );
   };
 
-  const handleKeyPressQuantity = (event: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDownQuantity = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      onChangeCartItem({
-        payload: {
-          ...cartItem,
-          id: cartItem.product.id,
-          quantity,
+      fetcher.submit(
+        {
+          newQuantity: quantity.toString(),
+          productAlias: cartItem.product.alias,
+          type: "setQuantity",
+          uuid: cartUuid,
         },
-      }).then((_) => true);
+        {
+          method: EFormMethods.Post,
+          action: createPath({
+            route: ERoutes.Cart,
+          }),
+        },
+      );
     }
   };
 
   const handleDelete = () => {
-    onDeleteCartItem({
-      payload: {
-        id: cartItem.product.id,
+    fetcher.submit(
+      { productAlias: cartItem.product.alias, type: "remove", uuid: cartUuid },
+      {
+        method: EFormMethods.Post,
+        action: createPath({
+          route: ERoutes.Cart,
+        }),
       },
-    }).then((_) => true);
+    );
   };
 
   return (
@@ -115,10 +134,10 @@ export const CartItem: FC<TProps> = ({ cartItem }) => {
                 <input
                   className="CartItem-ProductCounterCount"
                   type="text"
-                  value={cartItem.quantity}
+                  value={quantity}
                   onBlur={handleBlurQuantity}
                   onChange={handleChangeQuantity}
-                  onKeyPress={handleKeyPressQuantity}
+                  onKeyDown={handleKeyDownQuantity}
                 />
                 <button
                   className={clsx("CartItem-ProductCounterPlus", {

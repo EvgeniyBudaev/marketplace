@@ -4,6 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 //import useWindowScroll from "hooks/useWindowScroll";
 import { TRANSITION } from "~/constants";
+import { TCart } from "~/shared/api/cart";
 import { Overlay } from "~/uikit";
 import { CatalogDropDown, catalogDropDownLinks } from "./CatalogDropDown";
 import { HeaderBottom } from "./HeaderBottom";
@@ -14,11 +15,12 @@ import { headerIconListLinks } from "~/components/Layout/Header/HeaderCenter/Hea
 import styles from "./Header.module.css";
 
 type TProps = {
+  cart?: TCart;
   className?: string;
   isHomePage?: boolean;
 };
 
-export const Header: FC<TProps> = ({ isHomePage }) => {
+export const Header: FC<TProps> = ({ cart, isHomePage }) => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const nodeRef = useRef(null);
   const headerRef = useRef(null);
@@ -44,7 +46,7 @@ export const Header: FC<TProps> = ({ isHomePage }) => {
         })}
       >
         <header className="Header" ref={headerRef}>
-          <HeaderCenter isHomePage={!isScroll && isHomePage} isScroll={isScroll} />
+          <HeaderCenter cart={cart} isHomePage={!isScroll && isHomePage} isScroll={isScroll} />
           <HeaderBottom
             isCatalogOpen={isCatalogOpen}
             isHomePage={!isScroll && isHomePage}

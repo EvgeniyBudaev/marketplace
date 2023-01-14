@@ -1,23 +1,34 @@
 import { useEffect, useRef } from "react";
 import type { FC } from "react";
+import { useFetcher } from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
+import { TCart } from "~/shared/api/cart";
+import { TCatalogDetail } from "~/shared/api/catalogs";
 import type { TProduct } from "~/shared/api/products";
 import { ProductListItem } from "../ProductListItem";
 import styles from "./ProductList.module.css";
-import { useCart } from "~/hooks";
 
 type TProps = {
-  pages: TProduct[][];
+  cart: TCart;
+  catalog: TCatalogDetail;
   isCardsLine: boolean;
   onPageChange?: (page: number) => void;
+  pages: TProduct[][];
   scrollIntoPage?: number;
 };
 
 const getRandomString = () => Math.random().toString(36).substring(7);
 
-export const ProductList: FC<TProps> = ({ pages, isCardsLine, onPageChange, scrollIntoPage }) => {
-  const { cart, onCartItemIncrement } = useCart();
+export const ProductList: FC<TProps> = ({
+  cart,
+  catalog,
+  pages,
+  isCardsLine,
+  onPageChange,
+  scrollIntoPage,
+}) => {
+  const fetcher = useFetcher();
   const listItems = useRef<(HTMLLIElement | null)[][]>([]);
   const page = useRef<number | null>(null);
 
@@ -79,10 +90,11 @@ export const ProductList: FC<TProps> = ({ pages, isCardsLine, onPageChange, scro
                 <ProductListItem
                   key={getRandomString() + product.id}
                   cart={cart}
+                  catalog={catalog}
                   product={product}
                   ref={(el) => ((listItems.current[i] || (listItems.current[i] = []))[j] = el)}
                   isCardsLine={isCardsLine}
-                  onCartItemIncrement={onCartItemIncrement}
+                  fetcher={fetcher}
                 />
               )),
         )}
