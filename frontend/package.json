@@ -3,13 +3,14 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev": "remix build && run-p dev:*",
-    "dev:sass": "sass --watch app/:app/ styles/:styles/ -I styles",
+    "dev": "npm-run-all --parallel build:* --parallel dev:*",
+    "dev:sass": "sass --update --watch app/:app/ styles/:styles/ -I styles",
     "dev:node": "cross-env NODE_ENV=development nodemon ./server.ts --watch ./server.ts --watch ./app/shared/http/**",
     "dev:remix": "remix watch",
+    "build:remix": "remix build",
+    "build:sass": "sass app/:app/ styles/:styles/ -I styles",
     "start": "remix-serve build",
-    "typecheck": "tsc -b",
-    "sass": "sass --watch app/:app/ styles/:styles/ -I styles"
+    "typecheck": "tsc -b"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
