@@ -46,7 +46,7 @@ public class UserVerificationTokenService {
             throw new ResourceNotFoundException("Токен не найден");
         }
         if (LocalDateTime.now().isAfter(emailVerifyToken.getExpired())){
-            throw new VerificationTokenExpiredException("");
+            throw new VerificationTokenExpiredException("Срок действия токена истек");
         }
         return emailVerifyToken.getUser();
     }

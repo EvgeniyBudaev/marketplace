@@ -22,7 +22,8 @@ import java.util.List;
  attributeNodes = {
          @NamedAttributeNode("roles"),
          @NamedAttributeNode("email"),
-         @NamedAttributeNode("password")
+         @NamedAttributeNode("password"),
+         @NamedAttributeNode("sessionId")
 })
 public class AppUser implements UserDetails {
     @Id

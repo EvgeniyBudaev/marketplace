@@ -8,6 +8,7 @@ import com.marketplace.cart.dto.request.CartSetQuantityRequestDto;
 import com.marketplace.cart.dto.response.CartResponseDto;
 import com.marketplace.cart.model.Cart;
 import com.marketplace.cart.service.CartService;
+import com.marketplace.users.model.AppUser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,20 +66,15 @@ public class CartController {
        return new CartResponseDto(cartService.clearCart(cart));
    }
 
-    /*@PostMapping("/merge")
-    public CartResponseDto merge() {
-        cartService.merge(
-                getCurrentCartUuid(username, null),
-                getCurrentCartUuid(null, uuid)
-        );
-    }*/
+
 
     private Cart findCartByAuthority(Principal principal,CartRequestDto dto){
         Cart cart;
         if(principal!=null){
-            cart = cartService.getCurrentCartForAuthUser(principal.getName());
+            AppUser user = cartService.getUserByEmail(principal);
+            cart = cartService.getFullCartForAuthUser(user);
         }else {
-            cart = cartService.getCurrentCartByUUIDForNonAuthUser(dto.getUuid());
+            cart = cartService.getFullCartByUUIDForNonAuthUser(dto.getUuid());
         }
         return cart;
     }

@@ -1,0 +1,1 @@
+INSERT INTO session (uuid, user_id) VALUES ('327716b1-f8ad-41a1-8fac-31186cf41855',1);

@@ -3,6 +3,7 @@ package com.marketplace.users.dto.auth.response;
 import com.marketplace.properties.AppProperties;
 import com.marketplace.properties.model.EPropertiesType;
 import com.marketplace.properties.model.properties.JwtProperties;
+import com.marketplace.users.model.SessionId;
 import com.marketplace.users.utils.JwtTokenUtil;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -54,6 +55,12 @@ public class AuthResponseBuilderImpl implements AuthResponseBuilder{
     @Override
     public AuthResponseBuilder setTokenType(ETokenType type) {
         dto.setToken_type(type.getType());
+        return this;
+    }
+
+    @Override
+    public AuthResponseBuilder setSession(SessionId sessionId) {
+        dto.setUuid(sessionId.getUuid());
         return this;
     }
 

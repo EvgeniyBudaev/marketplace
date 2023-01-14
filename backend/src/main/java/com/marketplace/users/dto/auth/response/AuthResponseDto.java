@@ -11,6 +11,7 @@ public class AuthResponseDto {
     private Date expires_in;
     private Date refresh_expires_in;
     private String token_type;
+    private String uuid;
 
     protected AuthResponseDto(){}
 }
