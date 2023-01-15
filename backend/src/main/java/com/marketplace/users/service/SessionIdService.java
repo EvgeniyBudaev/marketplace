@@ -26,12 +26,14 @@ public class SessionIdService {
     @PersistenceContext
     private final EntityManager entityManager;
     private final TransactionTemplate transactionTemplate;
+    private final AppUserDetailsService userDetailsService;
 
     @Autowired
-    public SessionIdService(SessionRepository sessionRepository, EntityManager entityManager, TransactionTemplate transactionTemplate) {
+    public SessionIdService(SessionRepository sessionRepository, EntityManager entityManager, TransactionTemplate transactionTemplate, AppUserDetailsService userDetailsService) {
         this.sessionRepository = sessionRepository;
         this.entityManager = entityManager;
         this.transactionTemplate = transactionTemplate;
+        this.userDetailsService = userDetailsService;
     }
 
     private String generateUuid(){
@@ -108,8 +110,14 @@ public class SessionIdService {
             log.error("Обновили "+countUpdate+" записей. Пользователь: "+user.toString()+ " Корзина: "+cart.toString());
         }
     }
+    @Transactional
     public void updateUserSettingsId(SessionId sessionId, UserSettings settings){
-
+        sessionId.setUserSettings(settings);
+        sessionRepository.save(sessionId);
+    }
+    public SessionId getSessionIdByUserEmail(String email){
+        AppUser user = userDetailsService.findUserWithRolesByEmail(email);
+        return getSession(user);
     }
 
 }
