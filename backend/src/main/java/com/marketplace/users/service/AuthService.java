@@ -29,6 +29,7 @@ public class AuthService {
     private final RefreshTokenService refreshTokenService;
     private final AppProperties properties;
 
+
     public AuthService(JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager, AppUserDetailsService userDetailsService, RefreshTokenService refreshTokenService, AppProperties properties) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.authenticationManager = authenticationManager;
@@ -49,9 +50,11 @@ public class AuthService {
         }
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(emailOrPhone, dto.getPassword()));
         AuthResponseBuilder builder = new AuthResponseBuilderImpl(jwtTokenUtil,properties);
+        AppUser user = userDetailsService.findUserWithRolesByEmail(authentication.getName());
         builder.generateAccessToken(authentication.getName(),authentication.getAuthorities())
                .setRefreshToken(authentication.getName())
-               .setTokenType(ETokenType.BEARER);
+               .setTokenType(ETokenType.BEARER)
+                .setSession(user.getSessionId());
         AuthResponseDto responseDto = builder.build();
         refreshTokenService.updateToken(authentication.getName(),responseDto.getRefresh_token());
         return new ResponseEntity<>(responseDto, HttpStatus.OK);

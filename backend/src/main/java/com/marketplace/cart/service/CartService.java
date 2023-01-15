@@ -6,33 +6,39 @@ import com.marketplace.cart.model.Cart;
 import com.marketplace.cart.model.CartItem;
 import com.marketplace.cart.repository.CartRepository;
 import com.marketplace.users.model.AppUser;
-import com.marketplace.users.service.UserService;
+import com.marketplace.users.service.AppUserDetailsService;
+import com.marketplace.users.service.SessionIdService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 public class CartService {
     private final CartRepository cartRepository;
+    @PersistenceContext
     private final EntityManager entityManager;
-
-    private final UserService userService;
+    private final AppUserDetailsService userDetailsService;
     private final CartItemService cartItemService;
+    private final SessionIdService sessionIdService;
 
     @Autowired
-    public CartService(CartRepository cartRepository, EntityManager entityManager, UserService userService, CartItemService cartItemService) {
+    public CartService(CartRepository cartRepository, EntityManager entityManager, AppUserDetailsService userDetailsService, CartItemService cartItemService, SessionIdService sessionIdService) {
         this.cartRepository = cartRepository;
         this.entityManager = entityManager;
-        this.userService = userService;
+        this.userDetailsService = userDetailsService;
         this.cartItemService = cartItemService;
+        this.sessionIdService = sessionIdService;
     }
 
     public Cart clearCart(Cart cart) {
@@ -41,9 +47,6 @@ public class CartService {
         return cart;
     }
 
-    public Cart merge(String currentCartUuid, String currentCartUuid1) {
-        return null;
-    }
 
     public Cart removeItemFromCart(Cart cart, String productAlias) {
         Set<CartItem> cartItems = cart.getItems();
@@ -90,10 +93,11 @@ public class CartService {
         cartItems.add(cartItem);
         return cart;
     }
-    public Cart getCurrentCartForAuthUser(String email) {
+    public Cart getFullCartForAuthUser(AppUser user) {
         TypedQuery<Cart> cartTypedQuery =
-                entityManager.createQuery("SELECT c FROM Cart as c where c.user.email=:email", Cart.class);
-        cartTypedQuery.setParameter("email", email);
+                entityManager.createQuery("SELECT c FROM Cart as c " +
+                        "where c.sessionId.user=:user", Cart.class);
+        cartTypedQuery.setParameter("user", user);
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("cart-with-items-and-full-product");
         cartTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         Optional<Cart> optionalCart = cartTypedQuery.getResultStream().findFirst();
@@ -101,43 +105,50 @@ public class CartService {
             return optionalCart.get();
         }
         Cart cart = emptyCart();
-        AppUser user = userService.getUserByEmail(email);
-        cart.setUser(user);
-        return save(cart);
+        sessionIdService.updateCartAndUser(user,cart);
+        return cart;
     }
 
-    public Cart getCurrentCartByUUIDForNonAuthUser(String uuid) {
+    public Cart getFullCartByUUIDForNonAuthUser(String uuid) {
         Cart cart;
-        if (uuid == null) {
-            cart = emptyCart();
-            return save(cart);
-        }
         TypedQuery<Cart> cartTypedQuery =
-                entityManager.createQuery("SELECT c FROM Cart as c where c.uuid=:uuid", Cart.class);
+                entityManager.createQuery("SELECT c FROM Cart as c where c.sessionId.uuid=:uuid", Cart.class);
         cartTypedQuery.setParameter("uuid", uuid);
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("cart-with-items-and-full-product");
         cartTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         Optional<Cart> optionalCart = cartTypedQuery.getResultStream().findFirst();
         if (optionalCart.isPresent()) {
+            Cart result = optionalCart.get();
+            /*У не авторизованного пользователя сессия и корзина должна быть без User иначе
+            * корзина принадлежит авторизованному пользователю*/
+            if (result.getSessionId().getUser()!=null){
+                throw new AccessDeniedException("Доступ запрещен");
+            }
             return optionalCart.get();
         }
+        /*Если корзины нет заводим новую*/
         cart = emptyCart();
-        return save(cart);
+        sessionIdService.updateCartInSession(uuid,cart);
+        return cart;
     }
 
-    public String generateUUID() {
-        return UUID.randomUUID().toString();
-    }
+
 
     private Cart emptyCart() {
         Cart cart = new Cart();
-        cart.setUuid(generateUUID());
+        cart.setCreatedAt(LocalDateTime.now());
+        save(cart);
         return cart;
     }
 
     @Transactional
     public Cart save(Cart cart) {
+        cart.setModifyDate(LocalDateTime.now());
         return cartRepository.save(cart);
+    }
+
+    public AppUser getUserByEmail(Principal principal){
+        return userDetailsService.findUserWithRolesByEmail(principal.getName());
     }
 
 

@@ -22,7 +22,8 @@ import java.util.List;
  attributeNodes = {
          @NamedAttributeNode("roles"),
          @NamedAttributeNode("email"),
-         @NamedAttributeNode("password")
+         @NamedAttributeNode("password"),
+         @NamedAttributeNode("sessionId")
 })
 public class AppUser implements UserDetails {
     @Id
@@ -68,7 +69,7 @@ public class AppUser implements UserDetails {
     private LocalDateTime modifyDate;
 
     @OneToMany(mappedBy = "user")
-    List<VerificationToken> verificationTokens;
+    List<EmailVerifyToken> emailVerifyTokens;
 
     @ManyToMany
     @JoinTable(name = "users_roles"
@@ -76,7 +77,8 @@ public class AppUser implements UserDetails {
             ,inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<AppRole> roles;
 
-
+    @OneToOne(mappedBy = "user")
+    private SessionId sessionId;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;
@@ -94,17 +96,17 @@ public class AppUser implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
@@ -144,7 +146,7 @@ public class AppUser implements UserDetails {
                 ", shippingAddress='" + shippingAddress + '\'' +
                 ", createdAt=" + createdAt +
                 ", modifyDate=" + modifyDate +
-                ", verificationTokens=" + verificationTokens +
+                ", verificationTokens=" + emailVerifyTokens +
                 '}';
     }
 }

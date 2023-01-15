@@ -1,7 +1,7 @@
 package com.marketplace.users.repository;
 
 
-import com.marketplace.users.model.VerificationToken;
+import com.marketplace.users.model.EmailVerifyToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VerificationTokenRepository
-        extends JpaRepository<VerificationToken,Long> {
+        extends JpaRepository<EmailVerifyToken,Long> {
 
 }

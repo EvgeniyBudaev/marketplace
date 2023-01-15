@@ -4,7 +4,6 @@ import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.users.model.AppUser;
 import com.marketplace.users.validators.PhoneNumberValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -73,11 +72,11 @@ public class AppUserDetailsService implements UserDetailsService {
         PhoneNumberValidator phoneNumberValidator = new PhoneNumberValidator();
         if(validator.isValid(emailOrPhone,null)){
             user = findUserWithRolesByEmail(emailOrPhone);
-            return new User(user.getEmail(), user.getPassword(), user.getAuthorities());
+            return user;
         }
         if (phoneNumberValidator.isValid(emailOrPhone,null)){
             user = findUserWithRolesByPhone(emailOrPhone);
-            return new User(user.getEmail(), user.getPassword(), user.getAuthorities());
+            return user;
         }
         throw new UsernameNotFoundException("Не поддерживаемый тип данных "+emailOrPhone);
     }

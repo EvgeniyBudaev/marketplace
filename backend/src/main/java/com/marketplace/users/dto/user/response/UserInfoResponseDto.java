@@ -1,6 +1,7 @@
 package com.marketplace.users.dto.user.response;
 
 import com.marketplace.users.model.AppUser;
+import com.marketplace.users.model.SessionId;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,8 +19,9 @@ public class UserInfoResponseDto {
     private Boolean isPhoneVerified;
     private LocalDateTime createdAt;
     private LocalDateTime modifyDate;
+    private String uuid;
 
-    public UserInfoResponseDto(AppUser user) {
+    public UserInfoResponseDto(AppUser user, SessionId sessionId) {
         this.id = user.getId();
         this.firstName = user.getFirstName();
         this.middleName = user.getMiddleName();
@@ -31,5 +33,6 @@ public class UserInfoResponseDto {
         this.isPhoneVerified = user.getIsPhoneVerified();
         this.createdAt = user.getCreatedAt();
         this.modifyDate = user.getModifyDate();
+        this.uuid = sessionId.getUuid();
     }
 }

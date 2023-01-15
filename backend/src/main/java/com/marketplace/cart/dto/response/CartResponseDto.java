@@ -28,7 +28,7 @@ public class CartResponseDto {
     private String cartAmount;
 
     public CartResponseDto(Cart cart){
-       this.uuid = cart.getUuid();
+       this.uuid = cart.getSessionId().getUuid();
        this.createdAt = cart.getCreatedAt();
        this.modifyDate = cart.getModifyDate();
        Set<CartItem> entityItems = cart.getItems();

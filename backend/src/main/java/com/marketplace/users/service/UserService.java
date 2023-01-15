@@ -5,7 +5,8 @@ import com.marketplace.users.dto.user.response.UserInfoResponseDto;
 import com.marketplace.users.events.RegistrationUserCompleteEvent;
 import com.marketplace.users.model.AppRole;
 import com.marketplace.users.model.AppUser;
-import com.marketplace.users.model.ERole;
+import com.marketplace.users.model.SessionId;
+import com.marketplace.users.model.enums.ERole;
 import com.marketplace.users.repository.UserRepository;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,22 +24,24 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AppRoleService roleService;
     private final ApplicationEventMulticaster eventPublisher;
-    private final VerificationTokenService tokenService;
+    private final UserVerificationTokenService tokenService;
+    private final SessionIdService sessionIdService;
 
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AppRoleService roleService, ApplicationEventMulticaster eventPublisher, VerificationTokenService tokenService) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AppRoleService roleService, ApplicationEventMulticaster eventPublisher, UserVerificationTokenService tokenService, SessionIdService sessionIdService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
         this.eventPublisher = eventPublisher;
         this.tokenService = tokenService;
+        this.sessionIdService = sessionIdService;
     }
 
     public UserInfoResponseDto registerNewUser(RegisterUserRequestDto dto){
         AppUser user = saveNewUser(dto);
         String reference ="http://localhost:3000/auth/activate/"+tokenService.generateToken(user);
         this.eventPublisher.multicastEvent(new RegistrationUserCompleteEvent(user, reference));
-        return new UserInfoResponseDto(user);
+        return new UserInfoResponseDto(user,user.getSessionId());
     }
 
     public AppUser saveNewUser(RegisterUserRequestDto dto){
@@ -67,6 +70,14 @@ public class UserService {
     @Transactional
     public AppUser saveUser(AppUser user){
         userRepository.save(user);
+        setNewSessionByNewUser(user);
         return user;
+    }
+
+    public SessionId getSessionByUser(AppUser user){
+        return sessionIdService.getSession(user);
+    }
+    public SessionId setNewSessionByNewUser(AppUser user){
+        return sessionIdService.setNewSessionForNewUser(user);
     }
 }

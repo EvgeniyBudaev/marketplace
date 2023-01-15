@@ -294,11 +294,6 @@
 									"key": "form",
 									"value": "5%2C6",
 									"disabled": true
-								},
-								{
-									"key": "sort",
-									"value": "price_desc,created_asc",
-									"disabled": true
 								}
 							]
 						}
@@ -311,7 +306,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/find/?pageSize=15&page=1&param=Бернард",
+							"raw": "http://localhost:8080/api/v1/products/find/?pageSize=15&page=1&search=Бернард",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -344,7 +339,7 @@
 									"value": "1"
 								},
 								{
-									"key": "param",
+									"key": "search",
 									"value": "Бернард"
 								}
 							]
@@ -398,7 +393,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&sort=price_desc,created_asc",
+							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&sort=price_asc,created_asc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -418,7 +413,7 @@
 								},
 								{
 									"key": "sort",
-									"value": "price_desc,created_asc"
+									"value": "price_asc,created_asc"
 								}
 							]
 						}
@@ -463,6 +458,9 @@
 				{
 					"name": "Authentication email",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -540,7 +538,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\":\"Максим\",\n    \"middleName\":\"Максимович\",\n    \"lastName\":\"Максимов\",\n    \"phone\":\"+79319672233\",\n    \"email\":\"maximov@mail.ru\",\n    \"password\":\"123456\"\n}",
+							"raw": "{\n    \"firstName\":\"Максим\",\n    \"middleName\":\"Максимович\",\n    \"lastName\":\"Максимов\",\n    \"phone\":\"+79319672234\",\n    \"email\":\"winterom@gmail.com\",\n    \"password\":\"123456\",\n    \"shippingAddress\": \"Санкт-Петербург Смольный пр-т 15\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -571,7 +569,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MTg4MTY0OSwiaWF0IjoxNjcxODc4MDQ5fQ.u0CXRouE7Zd2rVvLwTmlIlTMadBzKGEZS455SvzrARU",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MzczNzUyNywiaWF0IjoxNjczNzMzOTI3fQ.8pIcj_1RtEquqXkimGUgJTTf1eGPQBLehzE4i1x9yKk",
 								"type": "text"
 							}
 						],
@@ -594,6 +592,249 @@
 									"value": null,
 									"disabled": true
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "get Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MzczNzUyNywiaWF0IjoxNjczNzMzOTI3fQ.8pIcj_1RtEquqXkimGUgJTTf1eGPQBLehzE4i1x9yKk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Increment Items quantity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MzczNzUyNywiaWF0IjoxNjczNzMzOTI3fQ.8pIcj_1RtEquqXkimGUgJTTf1eGPQBLehzE4i1x9yKk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\",\n    \"productAlias\":\"venetian-mirror-colombo\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cart/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Decrement Items quantity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\",\n    \"productAlias\":\"venetian-mirror-colombo\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cart/decrement",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								"decrement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Items quantity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\",\n    \"productAlias\":\"venetian-mirror-colombo\",\n    \"newQuantity\":89\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cart/set_quantity",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								"set_quantity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Item from Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uuid\":\"38b62d47-ab41-4969-8dc5-7cc0c7246c69\",\n    \"productAlias\":\"venetian-mirror-colombo\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/cart/remove",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								"remove"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Settings",
+			"item": [
+				{
+					"name": "Get settings",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3Mzc4NTI3NSwiaWF0IjoxNjczNzgxNjc1fQ.GG6O7xKLp0MyE4jvriatmCmjq2pkStourN4kcXaqyQ4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/settings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update settings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"theme\":\"DARK\",\n    \"currency\":\"USD\",\n    \"language\":\"RU\",\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/settings/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"settings",
+								"update"
 							]
 						}
 					},
