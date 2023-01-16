@@ -38,3 +38,12 @@ export const catalogsSchema = paginationSchema.extend({
 });
 
 export const catalogsParamsSchema = z.any();
+
+export const catalogAddParamsSchema = z.object({
+  alias: z.string(),
+  enabled: z.boolean(),
+  image: z.string(),
+  name: z.string(),
+});
+
+export const catalogAddSchema = z.any();

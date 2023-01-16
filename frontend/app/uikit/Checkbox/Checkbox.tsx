@@ -4,44 +4,43 @@ import clsx from "clsx";
 import { ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./Checkbox.module.css";
 
-type TValue = {
-  [key: string]: string[];
-};
-
-type TProps = {
+export type TCheckboxProps = {
+  checked?: boolean;
+  children?: ReactNode;
   className?: string;
+  defaultChecked?: boolean;
   id: string;
   label: string;
   name: string;
   nameGroup: string;
-  checkedBox: TValue;
-  children?: ReactNode;
-  onClick: (event: ChangeEvent<HTMLInputElement>, id: string, nameGroup: string) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>, id: string, nameGroup: string) => void;
 };
 
-export const CheckboxComponent: FC<TProps> = ({
+export const CheckboxComponent: FC<TCheckboxProps> = ({
+  checked,
+  children,
   className,
+  defaultChecked,
   id,
   label,
   name,
   nameGroup,
-  checkedBox,
-  children,
-  onClick,
+  onChange,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onClick(event, id, nameGroup);
+    onChange?.(event, id, nameGroup);
   };
 
   return (
     <div className={clsx("Checkbox-Wrapper", className)}>
       <input
         className="Checkbox"
+        defaultChecked={defaultChecked}
         id={id}
         type="checkbox"
         name={name}
         value={id}
-        checked={checkedBox && checkedBox[nameGroup as keyof TValue].includes(id)}
+        checked={checked}
         onChange={handleChange}
       />
       {label && (

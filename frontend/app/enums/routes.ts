@@ -4,6 +4,7 @@ export enum ERoutes {
   Signup = "/auth/signup",
 
   Cart = "/cart",
+  CatalogAdd = "/admin/catalogs/add",
   CatalogDetail = "/catalog/:alias",
   Order = "/order",
   ProductDetail = "/product/:alias",
