@@ -27,7 +27,6 @@ export const action = async (args: ActionArgs) => {
 };
 
 export const loader = async (args: LoaderArgs) => {
-  console.log("catalog loader");
   const { params, request } = args;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);

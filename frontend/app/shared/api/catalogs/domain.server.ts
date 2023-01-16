@@ -1,10 +1,12 @@
 import {
+  catalogAddParamsSchema,
+  catalogAddSchema,
   catalogDetailParamsSchema,
   catalogDetailSchema,
   catalogsParamsSchema,
   catalogsSchema,
 } from "~/shared/api/catalogs/schemas";
-import { getCatalogDetailApi, getCatalogsApi } from "~/shared/api/catalogs/utils";
+import { addCatalogApi, getCatalogDetailApi, getCatalogsApi } from "~/shared/api/catalogs/utils";
 import { apiDomainFunction } from "~/utils";
 
 export const getCatalogDetail = apiDomainFunction(
@@ -13,3 +15,8 @@ export const getCatalogDetail = apiDomainFunction(
 )(getCatalogDetailApi);
 
 export const getCatalogs = apiDomainFunction(catalogsParamsSchema, catalogsSchema)(getCatalogsApi);
+
+export const addCatalog = apiDomainFunction(
+  catalogAddParamsSchema,
+  catalogAddSchema,
+)(addCatalogApi);

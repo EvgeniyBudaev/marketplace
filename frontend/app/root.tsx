@@ -47,11 +47,10 @@ export const loader = async (args: LoaderArgs) => {
 
   const cartSession = await getCartSession(request);
   const cart = JSON.parse(cartSession || "{}");
-  console.log("[cart] ", cart);
   let cartResponse;
+
   if (isEmpty(cart)) {
     cartResponse = await getCart(request, { uuid: null });
-    // cartResponse = await getCart(request, { uuid: "f92065aa-9cd7-4aaf-8291-19fd1ae1fa35" });
   } else {
     cartResponse = await getCart(request, { uuid: cart.uuid });
   }
@@ -59,7 +58,7 @@ export const loader = async (args: LoaderArgs) => {
   if (!cartResponse.success) {
     throw internalError();
   }
-  console.log("[cartResponse.data] ", cartResponse.data);
+
   const updatedCartSession = await createCartSession(cartResponse.data);
 
   const data: RootLoaderData = {

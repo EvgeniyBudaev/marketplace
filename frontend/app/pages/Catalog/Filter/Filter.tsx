@@ -7,6 +7,10 @@ import type { TParams } from "~/types";
 import { Accordion, Button, Checkbox, ETypographyVariant, Overlay, Typography } from "~/uikit";
 import styles from "./Filter.module.css";
 
+type TValue = {
+  [key: string]: string[];
+};
+
 type TProps = {
   catalog: TCatalogDetail;
   onFilterChange?: (params: TParams) => void;
@@ -67,14 +71,16 @@ export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, fi
           <Accordion key={item.alias} title={item.name} isActive={true}>
             {item.values.map((valueItem, index) => (
               <Checkbox
+                checked={
+                  filter && filter[item.alias as keyof TValue].includes(valueItem.id.toString())
+                }
                 className="Filter-CheckboxItem"
                 id={valueItem.id.toString()}
                 label={valueItem.value}
-                checkedBox={filter}
                 key={index}
                 name={item.alias}
                 nameGroup={item.alias}
-                onClick={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
+                onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
               />
             ))}
           </Accordion>
