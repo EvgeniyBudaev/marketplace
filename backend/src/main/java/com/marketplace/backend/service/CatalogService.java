@@ -6,29 +6,28 @@ import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
 import com.marketplace.backend.dto.catalog.response.single.NumberAttributeDto;
 import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalogDto;
-import com.marketplace.backend.dto.catalog.response.single.SelectAttributeDto;
-import com.marketplace.backend.dto.catalog.response.single.SelectValueDto;
 import com.marketplace.backend.exception.ResourceNotFoundException;
+import com.marketplace.backend.mappers.catalog.EntityToCatalogDtoMapper;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.repository.CatalogRepository;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import java.util.ArrayList;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class CatalogService implements CatalogDao {
+    private final EntityToCatalogDtoMapper mapper;
 
     private final CatalogRepository catalogRepository;
     private final CatalogConverters catalogConverters;
@@ -40,6 +39,7 @@ public class CatalogService implements CatalogDao {
         this.catalogRepository = catalogRepository;
         this.catalogConverters = catalogConverters;
         this.entityManager = entityManager;
+        mapper = Mappers.getMapper(EntityToCatalogDtoMapper.class);
     }
 
     @Override
@@ -55,36 +55,19 @@ public class CatalogService implements CatalogDao {
     }
 
 
+
+
     @Override
-    public ResponseSingleCatalogDto findCatalogByAlias(String alias) {
+    public ResponseSingleCatalogDto findCatalogByAlias(String alias){
         TypedQuery<Catalog> catalogQuery =
                 entityManager.
-                        createQuery("SELECT c from Catalog as c join fetch  c.attributes where c.alias=:alias",Catalog.class);
+                        createQuery("SELECT c from Catalog as c where c.alias=:alias",Catalog.class);
         catalogQuery.setParameter("alias",alias);
-        Catalog catalog = catalogQuery.getSingleResult();
-        TypedQuery<SelectableValue> selectableValueQuery = entityManager
-                .createQuery("select distinct sv from Product as p left join p.selectableValues as sv where p.catalog.id=:catalogId", SelectableValue.class);
-        selectableValueQuery.setParameter("catalogId",catalog.getId());
-        List<SelectableValue> selectableValues = selectableValueQuery.getResultList();
-        List<Attribute> attributeList = catalog.getAttributes()
-                .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
-        List<SelectAttributeDto> selectAttributeDtos = new ArrayList<>();
-        for(Attribute attribute: attributeList){
-            SelectAttributeDto dto = new SelectAttributeDto();
-            dto.setId(attribute.getId());
-            dto.setName(attribute.getName());
-            dto.setAlias(attribute.getAlias());
-            List<SelectableValue> selValueForAttributes
-                    = selectableValues.stream().filter(value -> {
-                        if(value==null){
-                            return false;
-                        }
-                        return value.getAttribute().equals(attribute);
-                    }).toList();
-            dto.setValues(selValueForAttributes
-                    .stream().map(x->new SelectValueDto(x.getId(), x.getValue())).collect(Collectors.toSet()));
-            selectAttributeDtos.add(dto);
-        }
+        EntityGraph<?> entityGraph = entityManager.getEntityGraph("catalog-with-full-attributes");
+        catalogQuery.setHint("javax.persistence.fetchgraph", entityGraph);
+        Catalog catalog = catalogQuery.getResultStream()
+                .findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден каталог с псевдонимом "+alias));
+        ResponseSingleCatalogDto catalogDto= mapper.entityToSingleCatalogDto(catalog);
         TypedQuery<NumberAttributeDto> doubleValueQuery = entityManager
                 .createQuery("SELECT distinct new com.marketplace.backend." +
                         "dto.catalog.response.single" +
@@ -92,10 +75,34 @@ public class CatalogService implements CatalogDao {
                         "from Product as p left join p.doubleValues as dv " +
                         "left join dv.attribute as at where p.catalog.id =: catalogId group by at", NumberAttributeDto.class);
         doubleValueQuery.setParameter("catalogId",catalog.getId());
-        List<NumberAttributeDto> listDoubleDto = doubleValueQuery.getResultList();
-        listDoubleDto.removeIf(x->(x.getId()==null));
-        return new ResponseSingleCatalogDto(catalog,selectAttributeDtos,listDoubleDto);
+        Set<NumberAttributeDto> listDoubleDto = doubleValueQuery.getResultStream().filter(x->x.getId()!=null).collect(Collectors.toSet());
+        TypedQuery<SelectableValue> selectableValueQuery = entityManager
+                .createQuery("select distinct sv from Product as p  join p.selectableValues as sv where p.catalog.id=:catalogId", SelectableValue.class);
+        selectableValueQuery.setParameter("catalogId",catalog.getId());
+        Set<SelectableValue> selectableValues = selectableValueQuery.getResultStream().collect(Collectors.toSet());
+
+        catalogDto.setNumberAttribute(listDoubleDto);
+        Set<ResponseSingleCatalogDto.SelectAttributeDto> selectAttributeDtos = new HashSet<>();
+        if(catalog.getAttributes()==null){
+            return mapper.entityToSingleCatalogDto(catalog);
+        }
+        List<Attribute> attributeList = catalog.getAttributes()
+                .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
+        for(Attribute attribute: attributeList){
+            List<SelectableValue> selValueForAttributes
+                    = selectableValues.stream().filter(value -> {
+                if(value==null){
+                    return false;
+                }
+                return value.getAttribute().equals(attribute);
+            }).toList();
+            selectAttributeDtos.add(mapper.entitySelectableValuesToDto(selValueForAttributes,attribute));
+        }
+        catalogDto.setSelectAttribute(selectAttributeDtos);
+        return catalogDto;
     }
+
+
     @Override
     public Catalog findEntityByAlias(String alias) {
         return catalogRepository.findCatalogByAlias(alias).
