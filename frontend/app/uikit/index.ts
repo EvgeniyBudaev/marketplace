@@ -9,6 +9,7 @@ export * from "./Hamburger";
 export * from "./Icon";
 export * from "./Input";
 export * from "./Overlay";
+export * from "./Pagination";
 export * from "./Select";
 export * from "./Sidebar";
 export * from "./Spacer";
@@ -27,6 +28,7 @@ import { hamburgerLinks } from "~/uikit/Hamburger";
 import { iconLinks } from "~/uikit/Icon";
 import { inputLinks } from "~/uikit/Input";
 import { overlayLinks } from "~/uikit/Overlay";
+import { paginationLinks } from "~/uikit/Pagination";
 import { selectLinks } from "~/uikit/Select";
 import { spacerLinks } from "~/uikit/Spacer";
 import { typographyLinks } from "~/uikit/Typography/constants";
@@ -46,6 +48,7 @@ export const links = () => {
     ...iconLinks(),
     ...inputLinks(),
     ...overlayLinks(),
+    ...paginationLinks(),
     ...selectLinks(),
     ...spacerLinks(),
     ...typographyLinks(),

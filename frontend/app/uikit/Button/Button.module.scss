@@ -1,7 +1,6 @@
 @import "component";
 
 .Button {
-  //@include roboto-16-regular;
   position: relative;
   padding: 10px 30px;
   height: max-content;
@@ -89,11 +88,5 @@
       height: 500px;
       opacity: 0;
     }
-  }
-}
-
-@media (max-width: 500px) {
-  .Button {
-    //@include roboto-14-regular;
   }
 }

@@ -38,6 +38,7 @@
     "react-i18next": "^12.1.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-intersection-observer": "^9.4.1",
+    "react-paginate": "^8.1.4",
     "react-responsive": "^9.0.2",
     "react-select": "^5.7.0",
     "react-toastify": "^9.1.1",
