@@ -1,28 +1,28 @@
 import { json, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Catalogs, catalogsLinks } from "~/pages/Admin/Catalogs";
-import { getCatalogs } from "~/shared/api/catalogs";
+import { Products, productsLinks } from "~/pages/Admin/Products";
+import { getProducts } from "~/shared/api/products";
 import { internalError } from "~/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const response = await getCatalogs(request);
+  const response = await getProducts(request);
 
   if (!response.success) {
     throw internalError();
   }
 
   return json({
-    catalogs: response.data,
+    products: response.data,
   });
 };
 
-export default function CatalogsRoute() {
+export default function ProductsRoute() {
   const data = useLoaderData<typeof loader>();
 
-  return <Catalogs catalogs={data.catalogs} />;
+  return <Products products={data.products} />;
 }
 
 export function links() {
-  return [...catalogsLinks()];
+  return [...productsLinks()];
 }
