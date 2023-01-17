@@ -16,12 +16,15 @@ export const productsItemSchema = z.object({
   rating: z.number(),
   price: z.string(),
   count: z.string(),
+  createdAt: z.string(),
   attributes: attributeItemSchema.array(),
 });
 
 export const productsSchema = paginationSchema.extend({
   content: productsItemSchema.array(),
 });
+
+export const productsParamsSchema = z.any();
 
 export const productsByCatalogSearchParamsSchema = z.object({
   alias: z.string(),
@@ -50,3 +53,13 @@ export const productDetailSchema = z.object({
   createdAt: z.string(),
   attributes: attributeItemSchema.array(),
 });
+
+export const productAddParamsSchema = z.object({
+  alias: z.string(),
+  catalogAlias: z.string(),
+  description: z.string(),
+  enabled: z.boolean(),
+  name: z.string(),
+});
+
+export const productAddSchema = z.any();

@@ -7,6 +7,7 @@ const tokenSchema = z.object({
   expires_in: z.string(),
   refresh_expires_in: z.string(),
   token_type: z.string(),
+  uuid: z.string(),
 });
 
 export const loginParamsSchema = z.object({
