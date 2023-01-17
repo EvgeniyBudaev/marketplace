@@ -2,8 +2,9 @@ import { inputFromForm, inputFromSearch } from "remix-domains";
 import { ActionArgs, json } from "@remix-run/node";
 import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import isEmpty from "lodash/isEmpty";
 import { Catalog, catalogLinks } from "~/pages";
-import { getCart, incrementCartItem } from "~/shared/api/cart";
+import { createCartSession, getCart, getCartSession, incrementCartItem } from "~/shared/api/cart";
 import { getCatalogDetail } from "~/shared/api/catalogs";
 import { getProductsByCatalog } from "~/shared/api/products";
 import { mapParamsToDto } from "~/shared/api/products/utils";
@@ -19,7 +20,6 @@ export const action = async (args: ActionArgs) => {
     if (response.success) {
       return json(response.data);
     }
-
     return json(response);
   } catch (error) {
     return parseResponseError(error);
@@ -36,8 +36,22 @@ export const loader = async (args: LoaderArgs) => {
     sort: formValues.sort ?? "price_asc",
   });
 
-  const paramsCart = { uuid: "054c3bdf-610e-4c2f-ba84-f80173ef5a17" };
-  const cartResponse = await getCart(request, paramsCart);
+  const cartSession = await getCartSession(request);
+  const cart = JSON.parse(cartSession || "{}");
+  let cartResponse;
+
+  if (isEmpty(cart)) {
+    cartResponse = await getCart(request, { uuid: null });
+  } else {
+    cartResponse = await getCart(request, { uuid: cart.uuid });
+  }
+
+  if (!cartResponse.success) {
+    throw internalError();
+  }
+
+  const updatedCartSession = await createCartSession(cartResponse.data);
+
   const catalogResponse = await getCatalogDetail(request, { alias });
   const productsResponse = await getProductsByCatalog(request, { alias, params: formattedParams });
 
@@ -45,10 +59,16 @@ export const loader = async (args: LoaderArgs) => {
     throw internalError();
   }
 
+  const headers = new Headers();
+  Object.entries(updatedCartSession.headers).forEach(([header, value]) => {
+    headers.append(header, value);
+  });
+
   return json({
     cart: cartResponse.data,
     catalog: catalogResponse.data,
     products: productsResponse.data,
+    headers,
   });
 };
 

@@ -58,7 +58,8 @@ export const loader = async (args: LoaderArgs) => {
   if (!cartResponse.success) {
     throw internalError();
   }
-
+  // console.log("[cart] ", cart);
+  // console.log("[cartResponse.data] ", cartResponse.data);
   const updatedCartSession = await createCartSession(cartResponse.data);
 
   const data: RootLoaderData = {

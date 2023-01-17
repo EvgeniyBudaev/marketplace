@@ -12,6 +12,9 @@ export const Admin: FC = () => {
       <div>
         <LinkButton href="/admin/catalogs">Каталоги</LinkButton>
       </div>
+      <div>
+        <LinkButton href="/admin/products">Продукты</LinkButton>
+      </div>
     </section>
   );
 };
