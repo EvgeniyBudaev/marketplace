@@ -13,6 +13,7 @@ export * from "./Pagination";
 export * from "./Select";
 export * from "./Sidebar";
 export * from "./Spacer";
+export * from "./Table";
 export * from "./Typography";
 
 import { accordionLinks } from "~/uikit/Accordion";
@@ -31,6 +32,7 @@ import { overlayLinks } from "~/uikit/Overlay";
 import { paginationLinks } from "~/uikit/Pagination";
 import { selectLinks } from "~/uikit/Select";
 import { spacerLinks } from "~/uikit/Spacer";
+import { tableLinks } from "~/uikit/Table";
 import { typographyLinks } from "~/uikit/Typography/constants";
 
 export const links = () => {
@@ -51,6 +53,7 @@ export const links = () => {
     ...paginationLinks(),
     ...selectLinks(),
     ...spacerLinks(),
+    ...tableLinks(),
     ...typographyLinks(),
   ];
 };

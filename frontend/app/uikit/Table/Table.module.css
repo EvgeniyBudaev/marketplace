@@ -1,0 +1,68 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Table {
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.Table-TH {
+  padding: 20px 23px;
+  text-align: start;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+.Table-THInner {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.Table-THText {
+  display: inline-block;
+}
+.Table-TD {
+  padding: 16px 23px;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+.Table-TBody .Table-TR {
+  background-color: transparent;
+  transition: background-color 0.15s;
+}
+.Table-TBody .Table-TR:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.Table-SortingIcon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/*# sourceMappingURL=Table.module.css.map */

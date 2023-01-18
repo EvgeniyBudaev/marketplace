@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
+import {CatalogsTable} from "~/pages/Admin/Catalogs/CatalogsTable";
 import { TCatalogs } from "~/shared/api/catalogs";
-import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
+import {ETypographyVariant, LinkButton, Typography} from "~/uikit";
 import styles from "./Catalogs.module.css";
 
 type TProps = {
@@ -22,6 +23,7 @@ export const Catalogs: FC<TProps> = ({ catalogs }) => {
           <li key={catalog.id}>{catalog.name}</li>
         ))}
       </ul>
+        <CatalogsTable catalogs={catalogs} />
     </section>
   );
 };
