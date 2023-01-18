@@ -1,21 +1,23 @@
+import { inputFromForm } from "remix-domains";
 import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import isEmpty from "lodash/isEmpty";
 import { Cart, cartLinks } from "~/pages/Cart";
 import {
+  createCartSession,
   decrementCartItem,
   getCart,
+  getCartSession,
   incrementCartItem,
   removeCartItem,
   setQuantityCartItem,
 } from "~/shared/api/cart";
 import { mapCartActionToDto, mapCartSetQuantityToDto } from "~/shared/api/cart/utils";
 import { internalError, parseResponseError } from "~/utils";
-import { useLoaderData } from "@remix-run/react";
-import { inputFromForm } from "remix-domains";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
-  console.log("cart formValues: ", formValues);
 
   try {
     let response;
@@ -48,16 +50,30 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const params = { uuid: "054c3bdf-610e-4c2f-ba84-f80173ef5a17" };
+  const cartSession = await getCartSession(request);
+  const cart = JSON.parse(cartSession || "{}");
+  let cartResponse;
 
-  const cart = await getCart(request, params);
+  if (isEmpty(cart)) {
+    cartResponse = await getCart(request, { uuid: null });
+  } else {
+    cartResponse = await getCart(request, { uuid: cart.uuid });
+  }
 
-  if (!cart.success) {
+  if (!cartResponse.success) {
     throw internalError();
   }
 
+  const updatedCartSession = await createCartSession(cartResponse.data);
+
+  const headers = new Headers();
+  Object.entries(updatedCartSession.headers).forEach(([header, value]) => {
+    headers.append(header, value);
+  });
+
   return json({
-    cart: cart.data,
+    cart: cartResponse.data,
+    headers,
   });
 };
 

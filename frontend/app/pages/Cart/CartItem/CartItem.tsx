@@ -4,10 +4,10 @@ import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
 import { ERoutes } from "~/enums";
 import { TCartItem } from "~/shared/api/cart";
+import { EFormMethods } from "~/shared/form";
 import { ETypographyVariant, IconButton, Typography } from "~/uikit";
 import { createPath, formatCurrency, formatProxy } from "~/utils";
 import styles from "./CartItem.module.css";
-import { EFormMethods } from "~/shared/form";
 
 type TProps = {
   cartItem: TCartItem;
