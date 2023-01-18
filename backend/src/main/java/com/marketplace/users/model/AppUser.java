@@ -68,7 +68,7 @@ public class AppUser implements UserDetails {
     @Column(name = "updated_at")
     private LocalDateTime modifyDate;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     List<EmailVerifyToken> emailVerifyTokens;
 
     @ManyToMany
@@ -77,7 +77,7 @@ public class AppUser implements UserDetails {
             ,inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<AppRole> roles;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
     private SessionId sessionId;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
