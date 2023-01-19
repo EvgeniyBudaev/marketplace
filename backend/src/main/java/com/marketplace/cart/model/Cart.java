@@ -69,7 +69,7 @@ public class Cart {
     @Column(name = "updated_at")
     private LocalDateTime modifyDate;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
     private Set<CartItem> items;
 
 

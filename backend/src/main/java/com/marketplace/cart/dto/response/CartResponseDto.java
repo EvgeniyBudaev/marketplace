@@ -26,27 +26,34 @@ public class CartResponseDto {
     private LocalDateTime modifyDate;
     private Set<CartItemDto> items;
     private String cartAmount;
+    private String countProducts;
 
-    public CartResponseDto(Cart cart){
-       this.uuid = cart.getSessionId().getUuid();
-       this.createdAt = cart.getCreatedAt();
-       this.modifyDate = cart.getModifyDate();
-       Set<CartItem> entityItems = cart.getItems();
-       if(entityItems==null||entityItems.isEmpty()){
-           this.cartAmount="0";
-           return;
-       }
-       this.items = entityItems.stream()
-               .map(CartItemDto::new).collect(Collectors.toUnmodifiableSet());
-       reCalculateAmount();
+    public CartResponseDto(Cart cart) {
+        this.uuid = cart.getSessionId().getUuid();
+        this.createdAt = cart.getCreatedAt();
+        this.modifyDate = cart.getModifyDate();
+        Set<CartItem> entityItems = cart.getItems();
+        if (entityItems == null || entityItems.isEmpty()) {
+            this.cartAmount = "0";
+            this.countProducts = "0";
+            return;
+        }
+        this.items = entityItems.stream()
+                .map(CartItemDto::new).collect(Collectors.toUnmodifiableSet());
+        reCalculateAmount();
     }
-    private void reCalculateAmount(){
-            BigDecimal totalPrice = BigDecimal.ZERO;
-            for (CartItemDto o : items) {
-                totalPrice = totalPrice.add(o.getAmountForCalculate());
-            }
+
+    private void reCalculateAmount() {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        int countOfProductTemp = 0;
+        for (CartItemDto o : items) {
+            totalPrice = totalPrice.add(o.getAmountForCalculate());
+            countOfProductTemp = countOfProductTemp + o.quantity;
+        }
         this.cartAmount = totalPrice.toString();
+        this.countProducts = String.valueOf(countOfProductTemp);
     }
+
     @Getter
     @Setter
     private static class CartItemDto {
@@ -59,7 +66,7 @@ public class CartResponseDto {
         @JsonIgnore
         private BigDecimal amountForCalculate;
 
-        public CartItemDto(CartItem item){
+        public CartItemDto(CartItem item) {
             this.id = item.getId();
             Product entityProduct = item.getProduct();
             this.product = new ProductDto(entityProduct);
@@ -92,7 +99,8 @@ public class CartResponseDto {
             private String attributeName;
             private String value;
         }
-        public ProductDto(Product product){
+
+        public ProductDto(Product product) {
             this.setCatalogAlias(product.getCatalog().getAlias());
             this.setId(product.getId());
             this.setName(product.getName());
@@ -109,12 +117,12 @@ public class CartResponseDto {
         }
 
 
-        private Set<AttributeValueDto> convertDoubleValueToDto(Set<DoubleValue> list){
+        private Set<AttributeValueDto> convertDoubleValueToDto(Set<DoubleValue> list) {
             Set<AttributeValueDto> result = new HashSet<>();
-            if (list==null){
+            if (list == null) {
                 return result;
             }
-            for(DoubleValue doubleValue:list){
+            for (DoubleValue doubleValue : list) {
                 AttributeValueDto valueDto = new AttributeValueDto();
                 valueDto.setValue(doubleValue.getValue().toString());
                 valueDto.setAttributeName(doubleValue.getAttribute().getName());
@@ -122,12 +130,13 @@ public class CartResponseDto {
             }
             return result;
         }
-        private Set<AttributeValueDto> convertIntegerValueToDto(Set<BooleanValue> list){
+
+        private Set<AttributeValueDto> convertIntegerValueToDto(Set<BooleanValue> list) {
             Set<AttributeValueDto> result = new HashSet<>();
-            if (list==null){
+            if (list == null) {
                 return result;
             }
-            for(BooleanValue booleanValue :list){
+            for (BooleanValue booleanValue : list) {
                 AttributeValueDto valueDto = new AttributeValueDto();
                 valueDto.setValue(booleanValue.getValue().toString());
                 valueDto.setAttributeName(booleanValue.getAttribute().getName());
@@ -135,12 +144,13 @@ public class CartResponseDto {
             }
             return result;
         }
-        private Set<AttributeValueDto> convertSelectValueToDto(Set<SelectableValue> list){
+
+        private Set<AttributeValueDto> convertSelectValueToDto(Set<SelectableValue> list) {
             Set<AttributeValueDto> result = new HashSet<>();
-            if (list==null){
+            if (list == null) {
                 return result;
             }
-            for(SelectableValue selectableValue :list){
+            for (SelectableValue selectableValue : list) {
                 AttributeValueDto valueDto = new AttributeValueDto();
                 valueDto.setValue(selectableValue.getValue());
                 valueDto.setAttributeName(selectableValue.getAttribute().getName());

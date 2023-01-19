@@ -12,6 +12,23 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@NamedEntityGraph(name = "catalog-with-full-attributes",attributeNodes = {
+        @NamedAttributeNode("id"),
+        @NamedAttributeNode("name"),
+        @NamedAttributeNode("alias"),
+        @NamedAttributeNode("image"),
+        @NamedAttributeNode("enabled"),
+        @NamedAttributeNode(value = "attributes",subgraph = "attribute-with-value")
+},subgraphs =
+        {@NamedSubgraph(name = "attribute-with-value",attributeNodes = {
+                @NamedAttributeNode("name"),
+                @NamedAttributeNode("alias"),
+                @NamedAttributeNode("enabled"),
+                @NamedAttributeNode("filter"),
+                @NamedAttributeNode("type"),
+                @NamedAttributeNode("name"),
+        }),
+})
 public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

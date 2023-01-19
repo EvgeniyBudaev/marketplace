@@ -1,6 +1,5 @@
 package com.marketplace.backend.service;
 
-import com.marketplace.backend.dao.CatalogDao;
 import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
@@ -20,14 +19,14 @@ public class ManageProductService implements ManageProductDao {
     private final ProductRepository productRepository;
     @PersistenceContext
     private final EntityManager entityManager;
-    private final CatalogDao catalogDao;
+    private final CatalogService catalogService;
     private final ProductConverters productConverters;
 
     @Autowired
-    public ManageProductService(ProductRepository productRepository, EntityManager entityManager, CatalogDao catalogDao, ProductConverters productConverters) {
+    public ManageProductService(ProductRepository productRepository, EntityManager entityManager, CatalogService catalogService, ProductConverters productConverters) {
         this.productRepository = productRepository;
         this.entityManager = entityManager;
-        this.catalogDao = catalogDao;
+        this.catalogService = catalogService;
         this.productConverters = productConverters;
     }
 
@@ -47,7 +46,7 @@ public class ManageProductService implements ManageProductDao {
     @Override
     @Transactional
     public Product save(RequestSaveProductDto dto) {
-        Catalog catalog = catalogDao.findEntityByAlias(dto.getCatalogAlias());
+        Catalog catalog = catalogService.findEntityByAlias(dto.getCatalogAlias());
         Product product = productConverters.requestSaveProductDtoToProduct(dto, catalog);
         productRepository.save(product);
         return product;
