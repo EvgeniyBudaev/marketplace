@@ -3,8 +3,12 @@ package com.marketplace.backend.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -43,7 +47,7 @@ public class Catalog {
     @Column(name = "image", nullable = false)
     private String image;
 
-    @Column(name = "enabled")
+    @Column(name = "enabled",nullable = false)
     private boolean enabled;
 
     @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -51,4 +55,12 @@ public class Catalog {
 
    @ManyToMany(mappedBy = "catalog",fetch = FetchType.LAZY)
     private List<Attribute> attributes;
+
+    @CreationTimestamp
+    @Column(name = "created_at",updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime modifyDate;
 }

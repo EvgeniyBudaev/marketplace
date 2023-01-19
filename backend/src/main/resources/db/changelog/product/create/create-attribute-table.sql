@@ -5,5 +5,7 @@ CREATE TABLE attributes
     alias   VARCHAR(250) unique not null,
     enabled BOOLEAN default true,
     filter BOOLEAN default true,
-    type    VARCHAR(90) not null
+    type    VARCHAR(90) not null,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB;

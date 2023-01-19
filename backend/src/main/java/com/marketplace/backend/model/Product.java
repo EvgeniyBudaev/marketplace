@@ -6,7 +6,9 @@ import com.marketplace.backend.model.values.SelectableValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -60,19 +62,22 @@ public class Product {
     @Column(name = "enabled")
     private Boolean enabled;
 
-    @Column(name = "count", nullable = false)
+    @Column(name = "count", nullable = false,columnDefinition = "INTEGER, default '0'")
     private int count;
 
-    @Column(name = "price")
+    @Column(name = "price",columnDefinition = "DECIMAL(19,2), default '0.00'")
     private BigDecimal price;
 
     @Column(name = "rating", nullable = false)
     private double rating;
 
+    @CreationTimestamp
     @Column(name = "created_at",updatable = false)
-    @CreatedDate
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime modifyDate;
     @ManyToOne
     @JoinColumn(name = "catalog_id",nullable = false)
     private Catalog catalog;

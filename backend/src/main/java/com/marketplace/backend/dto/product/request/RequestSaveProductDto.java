@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 @Data
 public class RequestSaveProductDto {
@@ -18,8 +19,9 @@ public class RequestSaveProductDto {
     @NotNull
     @Size(min = 5,max = 250)
     private String alias;
-    @NotNull
     private Boolean enabled;
     @NotNull
     private String catalogAlias;
+    private Integer count;
+    private BigDecimal price;
 }
