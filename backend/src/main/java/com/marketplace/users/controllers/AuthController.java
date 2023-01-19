@@ -23,10 +23,12 @@ import java.util.Date;
 public class AuthController {
     private final AuthService authService;
     private final AppProperties properties;
+    private final JwtTokenUtil jwtUtil;
 
-    public AuthController(AuthService authService, AppProperties properties) {
+    public AuthController(AuthService authService, AppProperties properties, JwtTokenUtil jwtUtil) {
         this.authService = authService;
         this.properties = properties;
+        this.jwtUtil = jwtUtil;
     }
 
 
@@ -44,7 +46,6 @@ public class AuthController {
 
     public AuthResponseDto getAuthResponseDto(AppUser user) {
         JwtProperties prop = (JwtProperties) properties.getProperty(EPropertiesType.JWT);
-        JwtTokenUtil jwtUtil= new JwtTokenUtil(prop.getSecret());
         Date issuedDate = new Date();
         Date accessExpires = new Date(issuedDate.getTime() + prop.getJwtLifetime());
         Date refreshExpire = new Date(issuedDate.getTime()+prop.getJwtRefreshLifetime());

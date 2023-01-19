@@ -1,21 +1,28 @@
 package com.marketplace.users.utils;
 
 
+import com.marketplace.properties.AppProperties;
+import com.marketplace.properties.model.EPropertiesType;
+import com.marketplace.properties.model.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
+@Component
+public class JwtTokenUtil implements InitializingBean {
+    private final AppProperties properties;
+    private JwtProperties jwtProperties;
 
-public class JwtTokenUtil {
-    private final String secret;
-
-    public JwtTokenUtil(String secret) {
-        this.secret = secret;
+    public JwtTokenUtil(AppProperties properties) {
+        this.properties = properties;
     }
 
     public String generateToken(
@@ -31,7 +38,7 @@ public class JwtTokenUtil {
                 .setSubject(email)
                 .setIssuedAt(issuedDate)
                 .setExpiration(expiredDate)
-                .signWith(SignatureAlgorithm.HS256, this.secret)
+                .signWith(SignatureAlgorithm.HS256, this.jwtProperties.getSecret())
                 .compact();
     }
 
@@ -46,7 +53,7 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(issuedDate)
-                .setExpiration(expires).signWith(SignatureAlgorithm.HS256, this.secret)
+                .setExpiration(expires).signWith(SignatureAlgorithm.HS256, this.jwtProperties.getSecret())
                 .compact();
     }
 
@@ -57,10 +64,14 @@ public class JwtTokenUtil {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(this.secret)
+                .setSigningKey(this.jwtProperties.getSecret())
                 .parseClaimsJws(token)
                 .getBody();
     }
 
 
+    @Override
+    public void afterPropertiesSet()  {
+        this.jwtProperties = (JwtProperties) this.properties.getProperty(EPropertiesType.JWT);
+    }
 }
