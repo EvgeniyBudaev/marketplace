@@ -1,20 +1,14 @@
 import { useMemo } from "react";
 import { ColumnDef, ColumnHelper } from "@tanstack/react-table";
-import { ETableColumns } from "~/pages/Admin/Catalogs/CatalogsTable/enums";
-import { TCatalog } from "~/shared/api/catalogs";
+import { ETableColumns } from "~/pages/Admin/Products/ProductsTable/enums";
+import { TProduct } from "~/shared/api/products";
 
-type TUseGetColumns = (columnHelper: ColumnHelper<TCatalog>) => ColumnDef<TCatalog>[];
+type TUseGetColumns = (columnHelper: ColumnHelper<TProduct>) => ColumnDef<TProduct>[];
 
 export const useGetColumns: TUseGetColumns = (columnHelper) => {
   const columns = useMemo(
     () =>
       [
-        columnHelper.accessor(ETableColumns.Image, {
-          id: ETableColumns.Image,
-          header: () => "Изображение",
-          size: 192,
-        }),
-
         columnHelper.accessor(ETableColumns.Name, {
           id: ETableColumns.Name,
           header: () => "Название",
@@ -26,7 +20,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => "Alias",
           size: 192,
         }),
-      ].filter(Boolean) as ColumnDef<TCatalog>[],
+      ].filter(Boolean) as ColumnDef<TProduct>[],
     [columnHelper],
   );
 

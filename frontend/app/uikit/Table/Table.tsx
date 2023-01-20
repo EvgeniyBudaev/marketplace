@@ -1,4 +1,4 @@
-import {ForwardedRef, forwardRef, memo, PropsWithChildren, ReactElement, useMemo} from "react";
+import { ForwardedRef, forwardRef, memo, PropsWithChildren, ReactElement, useMemo } from "react";
 import { Column, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import clsx from "clsx";
 import { Pagination } from "~/uikit";
@@ -21,13 +21,14 @@ const TableComponent = <TColumn extends Record<string, any>>(
     pagesCount,
     searchedKeyword,
     sorting,
-    isPagination,
     isSearch,
     onPageChange,
     onRowSelectionChange,
     onSearchChange,
     onSort,
     rowSelection,
+    totalItems,
+    totalItemsTitle,
   } = props;
 
   const table = useReactTable({
@@ -73,10 +74,13 @@ const TableComponent = <TColumn extends Record<string, any>>(
       {/*        onSearchChange={onSearchChange}*/}
       {/*    />*/}
       {/*)}*/}
+      <div className="Table-Header">
+        {totalItemsTitle}&nbsp;<span className="Table-HeaderCount">{totalItems}</span>
+      </div>
       <table className={clsx("Table", className)}>
         <thead className="Table-THead">
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr className="Table-TR">
+            <tr className="Table-TR" key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   className="Table-TH"
@@ -115,7 +119,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
         <tbody className="Table-TBody">
           {table.getRowModel().rows.map((row) => {
             return (
-              <tr className="Table-TR">
+              <tr className="Table-TR" key={row.id}>
                 {row.getVisibleCells().map((cell) => {
                   return (
                     <td
@@ -132,13 +136,9 @@ const TableComponent = <TColumn extends Record<string, any>>(
           })}
         </tbody>
       </table>
-      {/*{isPagination && pagesCount && (*/}
-      {/*    <Pagination*/}
-      {/*        initialPage={currentPage - 1}*/}
-      {/*        pagesCount={pagesCount}*/}
-      {/*        onChange={onPageChange}*/}
-      {/*    />*/}
-      {/*)}*/}
+      {currentPage && pagesCount && onPageChange && (
+        <Pagination initialPage={currentPage - 1} pagesCount={pagesCount} onChange={onPageChange} />
+      )}
     </div>
   );
 };

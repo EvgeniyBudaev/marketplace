@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
-import {CatalogsTable} from "~/pages/Admin/Catalogs/CatalogsTable";
+import { CatalogsTable } from "~/pages/Admin/Catalogs/CatalogsTable";
 import { TCatalogs } from "~/shared/api/catalogs";
-import {ETypographyVariant, LinkButton, Typography} from "~/uikit";
+import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
 import styles from "./Catalogs.module.css";
 
 type TProps = {
@@ -11,19 +11,18 @@ type TProps = {
 
 export const Catalogs: FC<TProps> = ({ catalogs }) => {
   return (
-    <section>
-      <h1 className="Catalogs-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Каталоги</Typography>
-      </h1>
-      <div>
-        <LinkButton href="/admin/catalogs/add">Добавить</LinkButton>
+    <section className="Catalogs">
+      <div className="Catalogs-Header">
+        <div>
+          <h1 className="Catalogs-Title">
+            <Typography variant={ETypographyVariant.TextH1Bold}>Каталоги</Typography>
+          </h1>
+        </div>
+        <div>
+          <LinkButton href="/admin/catalogs/add">Добавить</LinkButton>
+        </div>
       </div>
-      <ul>
-        {catalogs.content.map((catalog) => (
-          <li key={catalog.id}>{catalog.name}</li>
-        ))}
-      </ul>
-        <CatalogsTable catalogs={catalogs} />
+      <CatalogsTable catalogs={catalogs} />
     </section>
   );
 };

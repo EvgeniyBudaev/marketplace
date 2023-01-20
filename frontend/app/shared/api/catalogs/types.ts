@@ -11,7 +11,7 @@ import type {
 } from "./schemas";
 
 export type TCatalogDetail = z.infer<typeof catalogDetailSchema>;
-export type TCatalogsItem = z.infer<typeof catalogsItemSchema>;
+export type TCatalog = z.infer<typeof catalogsItemSchema>;
 export type TCatalogs = z.infer<typeof catalogsSchema>;
 
 export type TCatalogAttributeItem = z.infer<typeof catalogAttributeItemSchema>;
