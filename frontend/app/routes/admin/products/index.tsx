@@ -6,7 +6,7 @@ import { internalError } from "~/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const response = await getProducts(request);
+  const response = await getProducts(request, { alias: "mirrors" });
 
   if (!response.success) {
     throw internalError();

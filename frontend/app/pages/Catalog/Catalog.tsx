@@ -37,6 +37,7 @@ const PLACEHOLDER_PRODUCT: TProduct = {
   name: "Placeholder",
   price: "0",
   attributes: [],
+  createdAt: "",
   alias: "placeholder",
   catalogAlias: "placeholder",
   count: "0",

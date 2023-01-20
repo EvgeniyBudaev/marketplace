@@ -32,12 +32,32 @@
 .Table {
   height: 100%;
   width: 100%;
-  border: none;
+  border-left: 1px solid rgb(226, 232, 240);
+  border-right: 1px solid rgb(226, 232, 240);
+  border-top: 1px solid rgb(226, 232, 240);
+  border-radius: 0 0 2px 2px;
   border-collapse: separate;
   border-spacing: 0;
+  margin-bottom: 30px;
+}
+.Table-Header {
+  padding: 20px;
+  border: 1px solid rgb(226, 232, 240);
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+.Table-HeaderCount {
+  color: rgb(148, 163, 183);
+}
+.Table-THead {
+  background-color: rgb(248, 250, 252);
 }
 .Table-TH {
-  padding: 20px 23px;
+  padding: 20px;
   text-align: start;
   border-bottom: 1px solid rgb(224, 224, 224);
 }
@@ -48,9 +68,12 @@
 }
 .Table-THText {
   display: inline-block;
+  color: rgb(100, 116, 139);
+  text-transform: uppercase;
+  font-weight: 500;
 }
 .Table-TD {
-  padding: 16px 23px;
+  padding: 20px;
   border-bottom: 1px solid rgb(224, 224, 224);
 }
 .Table-TBody .Table-TR {

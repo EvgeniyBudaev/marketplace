@@ -13,11 +13,12 @@ export type TTableProps<TColumn extends Record<string, any>> = {
   searchedKeyword?: string;
   // sorting?: TableSortingType;
   sorting?: any;
-  isPagination?: boolean;
   isSearch?: boolean;
   onPageChange?: ({ selected }: { selected: number }) => void;
   onRowSelectionChange?: OnChangeFn<RowSelectionState>;
   onSearchChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   // onSort?: (sorting: TableSortingType) => void;
   onSort?: any;
+  totalItems?: number;
+  totalItemsTitle?: string;
 };

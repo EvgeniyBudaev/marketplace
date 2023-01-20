@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
+import { ProductsTable } from "~/pages/Admin/Products/ProductsTable";
 import { TProducts } from "~/shared/api/products";
 import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
 import styles from "./Products.module.css";
@@ -11,17 +12,17 @@ type TProps = {
 export const Products: FC<TProps> = ({ products }) => {
   return (
     <section>
-      <h1 className="Products-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Продукты</Typography>
-      </h1>
-      <div>
-        <LinkButton href="/admin/products/add">Добавить</LinkButton>
+      <div className="Products-Header">
+        <div>
+          <h1 className="Products-Title">
+            <Typography variant={ETypographyVariant.TextH1Bold}>Продукты</Typography>
+          </h1>
+        </div>
+        <div>
+          <LinkButton href="/admin/products/add">Добавить</LinkButton>
+        </div>
       </div>
-      <ul>
-        {products.content.map((product) => (
-          <li key={product.id}>{product.name}</li>
-        ))}
-      </ul>
+      <ProductsTable products={products} />
     </section>
   );
 };
