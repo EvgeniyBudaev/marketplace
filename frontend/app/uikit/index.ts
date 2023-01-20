@@ -13,6 +13,7 @@ export * from "./Pagination";
 export * from "./Select";
 export * from "./Sidebar";
 export * from "./Spacer";
+export * from "./Switcher";
 export * from "./Table";
 export * from "./Typography";
 
@@ -32,6 +33,7 @@ import { overlayLinks } from "~/uikit/Overlay";
 import { paginationLinks } from "~/uikit/Pagination";
 import { selectLinks } from "~/uikit/Select";
 import { spacerLinks } from "~/uikit/Spacer";
+import { switcherLinks } from "~/uikit/Switcher";
 import { tableLinks } from "~/uikit/Table";
 import { typographyLinks } from "~/uikit/Typography/constants";
 
@@ -53,6 +55,7 @@ export const links = () => {
     ...paginationLinks(),
     ...selectLinks(),
     ...spacerLinks(),
+    ...switcherLinks(),
     ...tableLinks(),
     ...typographyLinks(),
   ];

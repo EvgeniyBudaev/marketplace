@@ -41,5 +41,24 @@
   align-items: center;
   width: 100%;
 }
+.Panel-Switcher-DisplayButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 38px;
+  width: 40px;
+}
+.Panel-Switcher-DisplayButton span {
+  display: flex;
+  align-items: center;
+}
+.Panel-Switcher-DisplayButton svg {
+  height: 20px;
+  width: 20px;
+  fill: rgb(185, 181, 181);
+}
+.Panel-Switcher-DisplayButton__checked svg {
+  fill: rgb(0, 0, 0);
+}
 
 /*# sourceMappingURL=Panel.module.css.map */
