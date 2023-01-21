@@ -1,11 +1,9 @@
 import type { FC } from "react";
 import clsx from "clsx";
-import { CardsSwitcher } from "~/pages/Catalog/CardsSwitcher";
 import { Sorting } from "~/pages/Catalog/Sorting";
 import type { TSorting } from "~/types";
 import { IconButton, Switcher } from "~/uikit";
 import styles from "./Panel.module.css";
-import { useState } from "react";
 
 type TProps = {
   isCardsLine: boolean;

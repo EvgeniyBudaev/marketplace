@@ -16,4 +16,5 @@ export const userSchema = z.object({
   isPhoneVerified: z.boolean(),
   createdAt: z.string(),
   modifyDate: z.string(),
+  uuid: z.string(),
 });

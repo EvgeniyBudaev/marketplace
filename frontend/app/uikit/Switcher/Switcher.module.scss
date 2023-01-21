@@ -2,7 +2,8 @@
 
 .Switcher {
   outline: none;
-  width: 104px;
+  max-width: 94px;
+  width: 100%;
   height: 40px;
 
   &-Inner {

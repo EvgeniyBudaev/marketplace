@@ -12,15 +12,24 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { AuthenticityTokenProvider, createAuthenticityToken } from "remix-utils";
+import clsx from "clsx";
 import { cryptoRandomStringAsync } from "crypto-random-string";
 import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
 
 import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
+import { ETheme } from "~/enums";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
 import { createCartSession, getCart, getCartSession, TCart } from "~/shared/api/cart";
+import {
+  createSettingsSession,
+  getSettings,
+  getSettingsSession,
+  TSettings,
+} from "~/shared/api/settings";
 import { commitCsrfSession, getCsrfSession } from "~/shared/session";
 import { StoreContextProvider, useStore } from "~/shared/store";
 import { links as uikitLinks } from "~/uikit";
@@ -33,6 +42,7 @@ interface RootLoaderData {
   cspScriptNonce: string;
   title: string;
   ENV: Pick<EnvironmentType, "IS_PRODUCTION">;
+  settings: TSettings;
   user: TUser | {};
 }
 
@@ -42,25 +52,37 @@ export const loader = async (args: LoaderArgs) => {
   const csrfToken = createAuthenticityToken(csrfSession);
   const cspScriptNonce = await cryptoRandomStringAsync({ length: 41 });
 
+  // Get user
   const userSession = await getUserSession(request); //Ryan Florence
   const user = JSON.parse(userSession || "{}");
 
+  // Get cart
   const cartSession = await getCartSession(request);
   const cart = JSON.parse(cartSession || "{}");
   let cartResponse;
-
   if (isEmpty(cart)) {
     cartResponse = await getCart(request, { uuid: null });
   } else {
     cartResponse = await getCart(request, { uuid: cart.uuid });
   }
-
   if (!cartResponse.success) {
     throw internalError();
   }
-  // console.log("[cart] ", cart);
-  // console.log("[cartResponse.data] ", cartResponse.data);
   const updatedCartSession = await createCartSession(cartResponse.data);
+
+  // Get settings
+  const settingsSession = await getSettingsSession(request);
+  const settings = JSON.parse(settingsSession || "{}");
+  let settingsResponse;
+  if (isEmpty(settings)) {
+    settingsResponse = await getSettings(request, { uuid: cartResponse.data.uuid });
+  } else {
+    settingsResponse = settings;
+  }
+  if (!settingsResponse.success) {
+    throw internalError();
+  }
+  const updatedSettingsSession = await createSettingsSession(settingsResponse.data);
 
   const data: RootLoaderData = {
     cart: cartResponse.data,
@@ -70,6 +92,7 @@ export const loader = async (args: LoaderArgs) => {
     ENV: {
       IS_PRODUCTION: Environment.IS_PRODUCTION,
     },
+    settings: settingsResponse.data,
     user,
   };
 
@@ -78,6 +101,10 @@ export const loader = async (args: LoaderArgs) => {
   Object.entries(updatedCartSession.headers).forEach(([header, value]) => {
     headers.append(header, value);
   });
+  // TODO: сделать чтобы добавлялось в куки
+  // Object.entries(updatedSettingsSession.headers).forEach(([header, value]) => {
+  //   headers.append(header, value);
+  // });
 
   return json(data, {
     headers,
@@ -99,12 +126,14 @@ type TDocumentProps = {
   children?: ReactNode;
   cspScriptNonce?: string;
   env?: RootLoaderData["ENV"];
+  settings?: TSettings;
 };
 
-const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env }) => {
+const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, settings }) => {
   if (typeof window !== "undefined") {
     cspScriptNonce = "";
   }
+  const theme = !isNil(settings) ? settings.theme : ETheme.Light;
 
   return (
     <html lang={"en"}>
@@ -117,7 +146,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env }) =
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className={clsx({ "theme-dark": theme === ETheme.Dark })}>
         <Layout cart={cart}>{children}</Layout>
         <ScrollRestoration nonce={cspScriptNonce} />
         <Scripts nonce={cspScriptNonce} />
@@ -128,7 +157,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env }) =
 };
 
 export default function App() {
-  const { cart, csrfToken, cspScriptNonce, ENV, user } = useLoaderData<typeof loader>();
+  const { cart, csrfToken, cspScriptNonce, ENV, settings, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
 
   const store = useStore();
@@ -149,7 +178,7 @@ export default function App() {
   return (
     <StoreContextProvider store={store}>
       <AuthenticityTokenProvider token={csrfToken}>
-        <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV}>
+        <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
           <Outlet />
           <script
             nonce={cspScriptNonce}

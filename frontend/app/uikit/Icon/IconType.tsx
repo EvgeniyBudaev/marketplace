@@ -12,6 +12,7 @@ import {
   CheckboxIcon,
   CloseIcon,
   ConsoleIcon,
+  DarkModeIcon,
   DefenceIcon,
   DisplayGridIcon,
   DisplayLineIcon,
@@ -21,6 +22,7 @@ import {
   FilterIcon,
   HomeIcon,
   HouseIcon,
+  LightModeIcon,
   LogoShortIcon,
   MirrorIcon,
   SearchIcon,
@@ -47,6 +49,7 @@ export type IconType =
   | "Checkbox"
   | "Close"
   | "Console"
+  | "DarkMode"
   | "Defence"
   | "DisplayGrid"
   | "DisplayLine"
@@ -56,6 +59,7 @@ export type IconType =
   | "Filter"
   | "Home"
   | "House"
+  | "LightMode"
   | "LogoShort"
   | "Mirror"
   | "Search"
@@ -81,6 +85,7 @@ export const iconTypes = new Map([
   ["Checkbox", <CheckboxIcon key={"Checkbox"} />],
   ["Close", <CloseIcon key={"Close"} />],
   ["Console", <ConsoleIcon key={"Console"} />],
+  ["DarkMode", <DarkModeIcon key={"DarkMode"} />],
   ["Defence", <DefenceIcon key={"Defence"} />],
   ["DisplayGrid", <DisplayGridIcon key={"DisplayGrid"} />],
   ["DisplayLine", <DisplayLineIcon key={"DisplayLine"} />],
@@ -90,6 +95,7 @@ export const iconTypes = new Map([
   ["Filter", <FilterIcon key={"Filter"} />],
   ["Home", <HomeIcon key={"Home"} />],
   ["HouseIcon", <HouseIcon key={"Home"} />],
+  ["LightMode", <LightModeIcon key={"LightMode"} />],
   ["LogoShort", <LogoShortIcon key={"LogoShort"} />],
   ["Mirror", <MirrorIcon key={"Mirror"} />],
   ["Search", <SearchIcon key={"Search"} />],
