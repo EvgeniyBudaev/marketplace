@@ -1,19 +1,6 @@
 @import "component";
 
-.Panel {
-  margin-bottom: 30px;
-
-  &-Inner {
-    position: relative;
-  }
-
-  &-Inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-
+.ThemeSwitcher {
   &-Switcher {
     &-DisplayButton {
       display: flex;

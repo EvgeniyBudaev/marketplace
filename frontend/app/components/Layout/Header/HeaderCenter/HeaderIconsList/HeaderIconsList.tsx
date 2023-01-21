@@ -5,6 +5,7 @@ import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
+import { ThemeSwitcher } from "~/components";
 import { ERoutes } from "~/enums";
 import { useCart, useUser } from "~/hooks";
 import { TCart } from "~/shared/api/cart";
@@ -72,6 +73,9 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className, isHomePage }) => 
         HeaderIconsList__isHomePage: isHomePage,
       })}
     >
+      <div className="HeaderIconsList-Item">
+        <ThemeSwitcher />
+      </div>
       <div className="HeaderIconsList-Item">
         {!isNull(cartId) && (
           <div>

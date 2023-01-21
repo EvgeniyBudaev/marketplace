@@ -5,7 +5,6 @@ import { useFetcher, useSearchParams, useSubmit } from "@remix-run/react";
 import { createBrowserHistory } from "history";
 import { DEFAULT_PAGE_SIZE } from "~/constants";
 import { attributeItemLinks } from "~/pages/Catalog/AttributeItem";
-import { cardsSwitcherLinks } from "~/pages/Catalog/CardsSwitcher";
 import { filterLinks, getDefaultFilter } from "~/pages/Catalog/Filter";
 import { panelLinks } from "~/pages/Catalog/Panel";
 import { productListLinks } from "~/pages/Catalog/ProductList";
@@ -229,7 +228,6 @@ export function catalogLinks() {
   return [
     { rel: "stylesheet", href: styles },
     ...attributeItemLinks(),
-    ...cardsSwitcherLinks(),
     ...filterLinks(),
     ...panelLinks(),
     ...productListLinks(),

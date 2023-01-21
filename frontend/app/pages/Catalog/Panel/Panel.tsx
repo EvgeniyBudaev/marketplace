@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { CardsSwitcher } from "~/pages/Catalog/CardsSwitcher";
+import clsx from "clsx";
 import { Sorting } from "~/pages/Catalog/Sorting";
 import type { TSorting } from "~/types";
+import { IconButton, Switcher } from "~/uikit";
 import styles from "./Panel.module.css";
 
 type TProps = {
@@ -16,7 +17,22 @@ export const Panel: FC<TProps> = ({ isCardsLine, onCardsSwitcher, onSortingChang
     <div className="Panel">
       <div className="Panel-Inner">
         <Sorting onSortingChange={onSortingChange} sorting={sorting} />
-        <CardsSwitcher isCardsLine={isCardsLine} onCardsSwitcher={onCardsSwitcher} />
+        <Switcher isChecked={isCardsLine}>
+          <IconButton
+            className={clsx("Panel-Switcher-DisplayButton", {
+              "Panel-Switcher-DisplayButton__checked": isCardsLine,
+            })}
+            typeIcon="DisplayLine"
+            onClick={onCardsSwitcher}
+          />
+          <IconButton
+            className={clsx("Panel-Switcher-DisplayButton", {
+              "Panel-Switcher-DisplayButton__checked": !isCardsLine,
+            })}
+            typeIcon="DisplayGrid"
+            onClick={onCardsSwitcher}
+          />
+        </Switcher>
       </div>
     </div>
   );
