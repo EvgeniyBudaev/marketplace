@@ -14,6 +14,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+        search:
+          backend:
+            analysis:
+              configurer: com.marketplace.backend.config.SearchAnalysisConfigurer
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -25,3 +29,4 @@ logging:
   level:
     org.hibernate.sql: DEBUG
     org.hibernate.type: TRACE
+

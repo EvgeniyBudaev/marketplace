@@ -2,7 +2,7 @@ package com.marketplace.users.service;
 
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.users.model.AppRole;
-import com.marketplace.users.model.ERole;
+import com.marketplace.users.model.enums.ERole;
 import com.marketplace.users.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 

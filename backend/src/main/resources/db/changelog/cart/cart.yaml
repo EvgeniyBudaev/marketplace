@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/cart/create/create-carts-table.sql
+  - include:
+      file: db/changelog/cart/create/create-cart_items-table.sql

@@ -1,5 +1,6 @@
 package com.marketplace.users.model;
 
+import com.marketplace.users.model.enums.ETokenType;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "verification_tokens")
 @Getter
 @Setter
-public class VerificationToken {
+public class EmailVerifyToken {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +35,9 @@ public class VerificationToken {
     @JoinColumn(name = "user_id",nullable = false)
     private AppUser user;
 
-    public VerificationToken (){}
+    public EmailVerifyToken(){}
 
-    public VerificationToken(AppUser user, ETokenType tokenType, Duration duration, String token){
+    public EmailVerifyToken(AppUser user, ETokenType tokenType, Duration duration, String token){
         this.user = user;
         this.expired = LocalDateTime.now().plus(duration);
         this.tokenType = tokenType;
@@ -49,7 +50,7 @@ public class VerificationToken {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        VerificationToken that = (VerificationToken) o;
+        EmailVerifyToken that = (EmailVerifyToken) o;
 
         return new EqualsBuilder().append(id, that.id).isEquals();
     }

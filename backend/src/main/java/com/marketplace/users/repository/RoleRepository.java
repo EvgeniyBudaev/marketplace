@@ -1,7 +1,7 @@
 package com.marketplace.users.repository;
 
 import com.marketplace.users.model.AppRole;
-import com.marketplace.users.model.ERole;
+import com.marketplace.users.model.enums.ERole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

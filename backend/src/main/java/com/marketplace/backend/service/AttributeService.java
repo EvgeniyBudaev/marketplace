@@ -11,10 +11,12 @@ import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.repository.AttributeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +26,11 @@ import java.util.stream.Collectors;
 @Service
 public class AttributeService implements AttributeDao {
     private final AttributeRepository attributeRepository;
+    @PersistenceContext
     private final EntityManager entityManager;
     private final AttributeConverter attributeConverter;
 
+    @Autowired
     public AttributeService(AttributeRepository attributeRepository,
                             EntityManager entityManager) {
         this.attributeRepository = attributeRepository;

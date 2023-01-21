@@ -1,34 +1,68 @@
 package com.marketplace.backend.dto.catalog.response.single;
 
-import com.marketplace.backend.model.Catalog;
-import lombok.Data;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import java.util.Objects;
+import java.util.Set;
 
 
 @Data
+@NoArgsConstructor
 public class ResponseSingleCatalogDto {
     private Long id;
     private String name;
     private String alias;
     private String image;
     private boolean enabled;
-    private List<SelectAttributeDto> selectAttribute;
-    private List<NumberAttributeDto> numberAttribute;
+    private Set<SelectAttributeDto> selectAttribute;
+    private Set<NumberAttributeDto> numberAttribute;
 
-
-
-    public ResponseSingleCatalogDto(Catalog catalog,
-                                    List<SelectAttributeDto> selectableValues,
-                                    List<NumberAttributeDto> doubleValues){
-        this.setId(catalog.getId());
-        this.setName(catalog.getName());
-        this.setEnabled(catalog.isEnabled());
-        this.setAlias(catalog.getAlias());
-        this.setImage(catalog.getImage());
-        this.setSelectAttribute(selectableValues);
-        this.setNumberAttribute(doubleValues);
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResponseSingleCatalogDto that = (ResponseSingleCatalogDto) o;
+        return id.equals(that.id);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SelectAttributeDto {
+        private Long id;
+        private String name;
+        private String alias;
+        private Set<SelectValueDto> values;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class SelectValueDto {
+        private Long id;
+        private String value;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            SelectValueDto that = (SelectValueDto) o;
+            return new EqualsBuilder().append(id, that.id).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(id).toHashCode();
+        }
+
+    }
 }

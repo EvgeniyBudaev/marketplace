@@ -95,9 +95,9 @@ public class ProductService implements ProductDao {
     @Override
     @Transactional
     public Paging<ResponseProductDto> findProductLikeName(Integer page, Integer pageSize, String find) {
-        find = "%" + find + "%";
+        find = "%" + find.toLowerCase() + "%";
         TypedQuery<Long> countQuery = entityManager
-                .createQuery("SELECT count (p) from Product as p where p.name like :find and p.enabled=true", Long.class);
+                .createQuery("SELECT count (p) from Product as p where p.name like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
         countQuery.setParameter("find", find);
         Integer count = Math.toIntExact(countQuery.getSingleResult());
         if (count.equals(0)) {

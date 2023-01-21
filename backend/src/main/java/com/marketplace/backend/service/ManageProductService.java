@@ -1,29 +1,32 @@
 package com.marketplace.backend.service;
 
-import com.marketplace.backend.dao.CatalogDao;
 import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 @Service
 public class ManageProductService implements ManageProductDao {
     private final ProductRepository productRepository;
+    @PersistenceContext
     private final EntityManager entityManager;
-    private final CatalogDao catalogDao;
+    private final CatalogService catalogService;
     private final ProductConverters productConverters;
 
-    public ManageProductService(ProductRepository productRepository, EntityManager entityManager, CatalogDao catalogDao, ProductConverters productConverters) {
+    @Autowired
+    public ManageProductService(ProductRepository productRepository, EntityManager entityManager, CatalogService catalogService, ProductConverters productConverters) {
         this.productRepository = productRepository;
         this.entityManager = entityManager;
-        this.catalogDao = catalogDao;
+        this.catalogService = catalogService;
         this.productConverters = productConverters;
     }
 
@@ -43,7 +46,7 @@ public class ManageProductService implements ManageProductDao {
     @Override
     @Transactional
     public Product save(RequestSaveProductDto dto) {
-        Catalog catalog = catalogDao.findEntityByAlias(dto.getCatalogAlias());
+        Catalog catalog = catalogService.findEntityByAlias(dto.getCatalogAlias());
         Product product = productConverters.requestSaveProductDtoToProduct(dto, catalog);
         productRepository.save(product);
         return product;

@@ -18,6 +18,6 @@ public class CartSetQuantityRequestDto implements CartRequestDto{
 
     @Override
     public String getUuid() {
-        return null;
+        return this.uuid;
     }
 }

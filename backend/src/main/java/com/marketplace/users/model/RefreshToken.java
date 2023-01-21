@@ -28,13 +28,13 @@ public class RefreshToken {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RefreshToken that = (RefreshToken) o;
-        return new EqualsBuilder().append(user, that.user).isEquals();
+        return new EqualsBuilder().append(id, that.id).isEquals();
     }
 
     @Override
     public int hashCode() {
         return new
-                HashCodeBuilder(17, 37).append(user).toHashCode();
+                HashCodeBuilder(17, 37).append(id).toHashCode();
     }
 
     @Override

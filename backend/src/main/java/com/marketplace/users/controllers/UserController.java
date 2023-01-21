@@ -30,7 +30,7 @@ public class UserController {
             throw new AccessDeniedException("Вы не авторизованы");
         }
         AppUser user  = userService.getUserByEmail(principal.getName());
-        return  new UserInfoResponseDto(user);
+        return  new UserInfoResponseDto(user, user.getSessionId());
     }
 
     @GetMapping("/activate/mail/{token}")
