@@ -4,10 +4,9 @@ import { Link, useFetcher, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
-import isNull from "lodash/isNull";
 import { ThemeSwitcher } from "~/components";
 import { ERoutes } from "~/enums";
-import { useCart, useUser } from "~/hooks";
+import { useUser } from "~/hooks";
 import { TCart } from "~/shared/api/cart";
 import { EFormMethods } from "~/shared/form";
 import { Avatar, DropDown, ETypographyVariant, Icon, Typography } from "~/uikit";
@@ -21,13 +20,19 @@ type TProps = {
 
 export const HeaderIconsList: FC<TProps> = ({ cart, className, isHomePage }) => {
   const { user } = useUser();
-  //console.log("HeaderIconsList cart: ", cart);
   const [cartId, setCartId] = useState("");
-  const [cartItemsCountTotal, setCartItemsCountTotal] = useState(0);
+  const [cartItemsCountTotal, setCartItemsCountTotal] = useState("");
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const refToggleDropDown = useRef<any>(null);
   const fetcher = useFetcher();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isNil(cart)) {
+      setCartItemsCountTotal(cart.countProducts);
+      setCartId(cart.uuid);
+    }
+  }, [cart]);
 
   useEffect(() => {
     window.addEventListener("click", handleClickOutsideDropDown);
@@ -35,12 +40,6 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className, isHomePage }) => 
       window.removeEventListener("click", handleClickOutsideDropDown);
     };
   });
-
-  useEffect(() => {
-    if (!isNil(cart)) {
-      setCartItemsCountTotal(cart.cartAmount);
-    }
-  }, [cart]);
 
   const handleClickOutsideDropDown = (event: MouseEvent) => {
     if (isDropDownOpen) {
@@ -77,26 +76,24 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className, isHomePage }) => 
         <ThemeSwitcher />
       </div>
       <div className="HeaderIconsList-Item">
-        {!isNull(cartId) && (
-          <div>
-            <Link
-              className="HeaderIconsList-IconLink"
-              to={{
-                pathname: `${ERoutes.Cart}${cartId}`,
-              }}
-            >
-              <Icon className="HeaderIconsList-Icon" type="Cart" />
-              <div className="HeaderIconsList-IconDescription">
-                <Typography variant={ETypographyVariant.TextB3Regular}>Корзина</Typography>
-              </div>
-              <div className="HeaderIconsList-CartItemsCount">
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {cartItemsCountTotal}
-                </Typography>
-              </div>
-            </Link>
-          </div>
-        )}
+        <div>
+          <Link
+            className="HeaderIconsList-IconLink"
+            to={{
+              pathname: `${ERoutes.Cart}${cartId}`,
+            }}
+          >
+            <Icon className="HeaderIconsList-Icon" type="Cart" />
+            <div className="HeaderIconsList-IconDescription">
+              <Typography variant={ETypographyVariant.TextB3Regular}>Корзина</Typography>
+            </div>
+            <div className="HeaderIconsList-CartItemsCount">
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {cartItemsCountTotal}
+              </Typography>
+            </div>
+          </Link>
+        </div>
       </div>
       <div className={clsx("HeaderIconsList-Item", "HeaderIconsList-ItemDesktop")}>
         {!isEmpty(user) ? (
