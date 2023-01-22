@@ -68,6 +68,7 @@ export const loader = async (args: LoaderArgs) => {
   if (!cartResponse.success) {
     throw internalError();
   }
+  console.log("cartResponse.data: ", cartResponse.data);
   const updatedCartSession = await createCartSession(cartResponse.data);
 
   // Get settings

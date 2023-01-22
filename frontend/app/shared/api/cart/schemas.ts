@@ -18,7 +18,8 @@ export const cartSchema = z.object({
   createdAt: z.string(),
   modifyDate: z.string(),
   items: cartItemSchema.array().nullable(),
-  cartAmount: z.number(),
+  cartAmount: z.string(),
+  countProducts: z.string(),
 });
 
 export const cartItemIncrementParamsSchema = z.object({
