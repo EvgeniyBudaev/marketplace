@@ -69,11 +69,19 @@ public class AttributeService implements AttributeDao {
                 orElseThrow(()->new ResourceNotFoundException("Атрибут с псевдонимом "+alias+" не найден"));
     }
 
+    /*Сохранение или апдейт ориентируемся на поле id если id null то это новый
+    * */
     @Override
     @Transactional
     public Attribute saveOrUpdateAttribute(RequestSaveOrUpdateAttribute dto) {
-        System.out.println(dto);
+
         Attribute attribute = attributeMapper.dtoToEntity(dto);
+        if(attribute.getFilter()==null){
+            attribute.setFilter(true);
+        }
+        if(attribute.getEnabled()==null){
+            attribute.setEnabled(true);
+        }
         if(dto.getSelectable()!=null){
             List<SelectableValue> values =
                     selectableValueMapper.dtoListToEntityList(dto.getSelectable());
@@ -82,31 +90,26 @@ public class AttributeService implements AttributeDao {
         }
         if(attribute.getId()==null){
             return saveNewEntity(attribute);
-        }else {
-
         }
-        return attribute;
+        return updateEntity(attribute);
     }
     @Transactional
     public Attribute saveNewEntity(Attribute attribute){
-        if(attribute.getFilter()==null){
-            attribute.setFilter(true);
-        }
-        if(!attribute.getType().equals(EAttributeType.SELECTABLE)) {
-            entityManager.persist(attribute);
-            return attribute;
-        }
         entityManager.persist(attribute);
-        System.out.println(attribute);
         return attribute;
+    }
+
+    @Transactional
+    public Attribute updateEntity(Attribute attribute){
+      Attribute newAttribute = entityManager.merge(attribute);
+
+      return newAttribute;
     }
 
     @Override
     public void save(Attribute obj) {
         attributeRepository.save(obj);
     }
-
-
 
     @Override
     public void delete(String alias) {
