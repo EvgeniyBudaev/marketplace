@@ -7,7 +7,8 @@ import org.mapstruct.Mapping;
 
 
 @Mapper
-public interface ProductMappers {
+public interface ProductMapper {
     @Mapping(target = "price",source = "price",defaultValue ="0" )
     Product dtoToEntity(RequestSaveProductDto dto);
+
 }

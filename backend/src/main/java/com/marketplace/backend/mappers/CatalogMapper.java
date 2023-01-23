@@ -7,8 +7,6 @@ import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.values.SelectableValue;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-
 
 import java.util.List;
 import java.util.Set;

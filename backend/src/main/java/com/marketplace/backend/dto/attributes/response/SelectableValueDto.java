@@ -1,8 +1,10 @@
 package com.marketplace.backend.dto.attributes.response;
 
-import com.marketplace.backend.model.values.SelectableValue;
+
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Getter
 @Setter
@@ -11,11 +13,29 @@ public class SelectableValueDto {
     private Long attributeId;
     private String value;
 
-    public SelectableValueDto(){}
-    public SelectableValueDto(SelectableValue selectableValue){
-        this.id = selectableValue.getId();
-        this.attributeId = selectableValue.getId();
-        this.value = selectableValue.getValue();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SelectableValueDto that = (SelectableValueDto) o;
+
+        return new EqualsBuilder().append(id, that.id).append(attributeId, that.attributeId).append(value, that.value).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).append(attributeId).append(value).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "SelectableValueDto{" +
+                "id=" + id +
+                ", attributeId=" + attributeId +
+                ", value='" + value + '\'' +
+                '}';
     }
 }
 

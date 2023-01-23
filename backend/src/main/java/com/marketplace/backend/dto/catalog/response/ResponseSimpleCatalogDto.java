@@ -2,9 +2,7 @@ package com.marketplace.backend.dto.catalog.response;
 
 
 import lombok.Data;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Data

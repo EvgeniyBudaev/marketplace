@@ -2,12 +2,15 @@ package com.marketplace.users.utils;
 
 
 import com.marketplace.properties.AppProperties;
+import com.marketplace.properties.events.JwtPropertiesChangeEvent;
 import com.marketplace.properties.model.EPropertiesType;
 import com.marketplace.properties.model.properties.JwtProperties;
+import com.marketplace.users.events.RegistrationUserCompleteEvent;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +20,10 @@ import java.util.stream.Collectors;
 
 
 @Component
-public class JwtTokenUtil implements InitializingBean {
+public class JwtTokenUtil implements InitializingBean, ApplicationListener<JwtPropertiesChangeEvent> {
     private final AppProperties properties;
     private JwtProperties jwtProperties;
+
 
     public JwtTokenUtil(AppProperties properties) {
         this.properties = properties;
@@ -38,7 +42,7 @@ public class JwtTokenUtil implements InitializingBean {
                 .setSubject(email)
                 .setIssuedAt(issuedDate)
                 .setExpiration(expiredDate)
-                .signWith(SignatureAlgorithm.HS256, this.jwtProperties.getSecret())
+                .signWith(SignatureAlgorithm.HS256, getSecret())
                 .compact();
     }
 
@@ -53,7 +57,7 @@ public class JwtTokenUtil implements InitializingBean {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(issuedDate)
-                .setExpiration(expires).signWith(SignatureAlgorithm.HS256, this.jwtProperties.getSecret())
+                .setExpiration(expires).signWith(SignatureAlgorithm.HS256, getSecret())
                 .compact();
     }
 
@@ -64,7 +68,7 @@ public class JwtTokenUtil implements InitializingBean {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(this.jwtProperties.getSecret())
+                .setSigningKey(getSecret())
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -72,6 +76,15 @@ public class JwtTokenUtil implements InitializingBean {
 
     @Override
     public void afterPropertiesSet()  {
+        this.jwtProperties = (JwtProperties) this.properties.getProperty(EPropertiesType.JWT);
+    }
+
+    private String getSecret(){
+       return this.jwtProperties.getSecret();
+    }
+
+    @Override
+    public void onApplicationEvent(JwtPropertiesChangeEvent event) {
         this.jwtProperties = (JwtProperties) this.properties.getProperty(EPropertiesType.JWT);
     }
 }

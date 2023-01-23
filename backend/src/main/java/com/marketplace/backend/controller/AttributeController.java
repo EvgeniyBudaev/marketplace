@@ -2,13 +2,13 @@ package com.marketplace.backend.controller;
 
 
 import com.marketplace.backend.dao.AttributeDao;
-import com.marketplace.backend.dto.attributes.request.RequestSaveNonSelectableAttribute;
-import com.marketplace.backend.dto.attributes.request.RequestSaveSelectableAttribute;
+import com.marketplace.backend.dto.attributes.request.RequestSaveOrUpdateAttribute;
 import com.marketplace.backend.dto.attributes.response.ResponseAttributeForGetAll;
-import com.marketplace.backend.dto.attributes.response.ResponseNonSelectableAttributeAfterSave;
-import com.marketplace.backend.dto.attributes.response.ResponseSelectableAttributeAfterSave;
-import com.marketplace.backend.dto.attributes.response.ResponseSingleAttributeByAlias;
+import com.marketplace.backend.dto.attributes.response.ResponseSingleAttribute;
+import com.marketplace.backend.mappers.AttributeMapper;
+import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
+import org.mapstruct.factory.Mappers;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/attributes")
 public class AttributeController {
     private final AttributeDao attributeDao;
+    private final AttributeMapper attributeMapper;
 
     public AttributeController(AttributeDao attributeDao) {
         this.attributeDao = attributeDao;
+        this.attributeMapper = Mappers.getMapper(AttributeMapper.class);
     }
 
     @PreAuthorize("hasAuthority('ADMINISTRATOR')")
@@ -35,18 +37,15 @@ public class AttributeController {
     }
 
     @GetMapping("by_alias/{alias}")
-    public ResponseSingleAttributeByAlias getAttributeByAlias(@PathVariable String alias) {
-        return attributeDao.attributeByAlias(alias);
+    public ResponseSingleAttribute getAttributeByAlias(@PathVariable String alias) {
+        Attribute attribute = attributeDao.attributeByAlias(alias);
+        return attributeMapper.entityToSingleAttributeDto(attribute);
     }
 
-    @PostMapping("/add_selectable")
-    public ResponseSelectableAttributeAfterSave addNewSelectableAttribute(@RequestBody RequestSaveSelectableAttribute attribute) {
-        return attributeDao.saveSelectable(attribute);
-
-    }
     @PostMapping("/add")
-    public ResponseNonSelectableAttributeAfterSave addNewAttribute(@RequestBody RequestSaveNonSelectableAttribute attribute) {
-        return attributeDao.saveNonSelectable(attribute);
+    public ResponseSingleAttribute addNewAttribute(@RequestBody RequestSaveOrUpdateAttribute dto) {
+       Attribute attribute =  attributeDao.saveOrUpdateAttribute(dto);
+       return attributeMapper.entityToSingleAttributeDto(attribute);
     }
 
 

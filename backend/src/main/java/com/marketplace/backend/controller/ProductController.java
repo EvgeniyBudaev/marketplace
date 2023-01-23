@@ -4,6 +4,7 @@ import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
+import com.marketplace.backend.dto.product.response.ResponseProductSimpleDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.ProductUrlResolver;
@@ -58,6 +59,19 @@ public class ProductController {
         return productDao.findProductLikeName(page,pageSize, search);
     }
 
+    @GetMapping("/get_all")
+    public Paging<ResponseProductSimpleDto> findAll(
+            @RequestParam(defaultValue = "1",required = false) Integer page,
+            @RequestParam(defaultValue = "15",required = false) Integer pageSize){
+        if(page<1){
+            page=1;
+        }
+        if(pageSize<5){
+            pageSize = 5;
+        }
+        return productDao.getAllProduct(page,pageSize);
+
+    }
     @PostMapping
     public ResponseProductDto saveOrNewProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
         Product product=manageProductDao.save(productDto);
