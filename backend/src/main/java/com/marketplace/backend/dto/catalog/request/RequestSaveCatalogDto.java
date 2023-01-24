@@ -17,7 +17,6 @@ public class RequestSaveCatalogDto {
     @NotNull
     @Size(min = 5,max = 250)
     private String image;
-    @NotNull
     private boolean enabled;
 
 }

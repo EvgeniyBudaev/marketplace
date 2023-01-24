@@ -1,19 +1,15 @@
 package com.marketplace.backend.dao;
 
-import com.marketplace.backend.dto.attributes.request.RequestSaveNonSelectableAttribute;
-import com.marketplace.backend.dto.attributes.request.RequestSaveSelectableAttribute;
+import com.marketplace.backend.dto.attributes.request.RequestSaveOrUpdateAttribute;
 import com.marketplace.backend.dto.attributes.response.ResponseAttributeForGetAll;
-import com.marketplace.backend.dto.attributes.response.ResponseNonSelectableAttributeAfterSave;
-import com.marketplace.backend.dto.attributes.response.ResponseSelectableAttributeAfterSave;
-import com.marketplace.backend.dto.attributes.response.ResponseSingleAttributeByAlias;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
 
-public interface AttributeDao extends GeneralDao<Attribute> {
+public interface AttributeDao {
     Paging<ResponseAttributeForGetAll> showAllAttribute(Integer page, Integer pageSize);
-    ResponseSingleAttributeByAlias attributeByAlias(String alias);
+    Attribute getAttributeByAlias(String alias);
 
-    ResponseSelectableAttributeAfterSave saveSelectable(RequestSaveSelectableAttribute attribute);
+    Attribute saveOrUpdateAttribute(RequestSaveOrUpdateAttribute attribute);
 
-    ResponseNonSelectableAttributeAfterSave saveNonSelectable(RequestSaveNonSelectableAttribute attribute);
+
 }

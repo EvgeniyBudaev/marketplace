@@ -14,10 +14,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
-        search:
-          backend:
-            analysis:
-              configurer: com.marketplace.backend.config.SearchAnalysisConfigurer
+        jdbc:
+          batch_size: 10
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

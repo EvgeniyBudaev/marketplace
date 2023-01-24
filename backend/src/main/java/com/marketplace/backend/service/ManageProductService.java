@@ -1,11 +1,12 @@
 package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.ManageProductDao;
-import com.marketplace.backend.dto.product.ProductConverters;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.repository.ProductRepository;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +21,14 @@ public class ManageProductService implements ManageProductDao {
     @PersistenceContext
     private final EntityManager entityManager;
     private final CatalogService catalogService;
-    private final ProductConverters productConverters;
+    private final ProductMapper productMapper;
 
     @Autowired
-    public ManageProductService(ProductRepository productRepository, EntityManager entityManager, CatalogService catalogService, ProductConverters productConverters) {
+    public ManageProductService(ProductRepository productRepository, EntityManager entityManager, CatalogService catalogService) {
         this.productRepository = productRepository;
         this.entityManager = entityManager;
         this.catalogService = catalogService;
-        this.productConverters = productConverters;
+        this.productMapper = Mappers.getMapper(ProductMapper.class);
     }
 
     @Override
@@ -47,7 +48,8 @@ public class ManageProductService implements ManageProductDao {
     @Transactional
     public Product save(RequestSaveProductDto dto) {
         Catalog catalog = catalogService.findEntityByAlias(dto.getCatalogAlias());
-        Product product = productConverters.requestSaveProductDtoToProduct(dto, catalog);
+        Product product = productMapper.dtoToEntity(dto);
+        product.setCatalog(catalog);
         productRepository.save(product);
         return product;
     }

@@ -1,24 +1,29 @@
 package com.marketplace.backend.controller;
 
 
-import com.marketplace.backend.dao.AttributeDao;
-import com.marketplace.backend.dto.attributes.request.RequestSaveNonSelectableAttribute;
-import com.marketplace.backend.dto.attributes.request.RequestSaveSelectableAttribute;
+import com.marketplace.backend.dto.attributes.request.RequestSaveOrUpdateAttribute;
 import com.marketplace.backend.dto.attributes.response.ResponseAttributeForGetAll;
-import com.marketplace.backend.dto.attributes.response.ResponseNonSelectableAttributeAfterSave;
-import com.marketplace.backend.dto.attributes.response.ResponseSelectableAttributeAfterSave;
-import com.marketplace.backend.dto.attributes.response.ResponseSingleAttributeByAlias;
+import com.marketplace.backend.dto.attributes.response.ResponseSingleAttribute;
+import com.marketplace.backend.mappers.AttributeMapper;
+import com.marketplace.backend.mappers.SelectableValueMapper;
+import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
+import com.marketplace.backend.service.AttributeService;
+import org.mapstruct.factory.Mappers;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/attributes")
 public class AttributeController {
-    private final AttributeDao attributeDao;
+    private final AttributeService attributeDao;
+    private final AttributeMapper attributeMapper;
+    private final SelectableValueMapper selectableValueMapper;
 
-    public AttributeController(AttributeDao attributeDao) {
+    public AttributeController(AttributeService attributeDao) {
         this.attributeDao = attributeDao;
+        this.attributeMapper = Mappers.getMapper(AttributeMapper.class);
+        this.selectableValueMapper = Mappers.getMapper(SelectableValueMapper.class);
     }
 
     @PreAuthorize("hasAuthority('ADMINISTRATOR')")
@@ -35,23 +40,32 @@ public class AttributeController {
     }
 
     @GetMapping("by_alias/{alias}")
-    public ResponseSingleAttributeByAlias getAttributeByAlias(@PathVariable String alias) {
-        return attributeDao.attributeByAlias(alias);
+    public ResponseSingleAttribute getAttributeByAlias(@PathVariable String alias) {
+        Attribute attribute = attributeDao.getAttributeByAlias(alias);
+        ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
+        if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
+            resultDto.setSelectable(selectableValueMapper.entityListToDtoList(attribute.getSingleSelectableValue()));
+        }
+        return resultDto;
     }
 
-    @PostMapping("/add_selectable")
-    public ResponseSelectableAttributeAfterSave addNewSelectableAttribute(@RequestBody RequestSaveSelectableAttribute attribute) {
-        return attributeDao.saveSelectable(attribute);
-
+    @PostMapping("/save")
+    public ResponseSingleAttribute addNewAttribute(@RequestBody RequestSaveOrUpdateAttribute dto) {
+       Attribute attribute =  attributeDao.saveOrUpdateAttribute(dto);
+       ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
+       if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
+           resultDto.setSelectable(selectableValueMapper.entityListToDtoList(attribute.getSingleSelectableValue()));
+       }
+       return resultDto;
     }
-    @PostMapping("/add")
-    public ResponseNonSelectableAttributeAfterSave addNewAttribute(@RequestBody RequestSaveNonSelectableAttribute attribute) {
-        return attributeDao.saveNonSelectable(attribute);
-    }
 
 
-    @DeleteMapping("{id}")
-    public String deleteAttribute(@PathVariable long id) {
-        return null;
+    @DeleteMapping("{alias}")
+    public String deleteAttribute(@PathVariable String alias) {
+        if(alias==null||alias.isEmpty()){
+            return "Недопустимый псевдоним";
+        }
+        Integer count = attributeDao.delete(alias);
+        return "Удалено "+count+" атрибутов";
     }
 }

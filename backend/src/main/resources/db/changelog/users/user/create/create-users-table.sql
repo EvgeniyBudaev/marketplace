@@ -10,6 +10,6 @@ CREATE TABLE users(
     shipping_address VARCHAR(250),
     is_email_verified BOOLEAN not null,
     is_phone_verified BOOLEAN not null,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB;

@@ -1,26 +1,25 @@
 package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.AttributeDao;
-import com.marketplace.backend.dto.attributes.AttributeConverter;
-import com.marketplace.backend.dto.attributes.request.RequestSaveNonSelectableAttribute;
-import com.marketplace.backend.dto.attributes.request.RequestSaveSelectableAttribute;
-import com.marketplace.backend.dto.attributes.response.*;
+import com.marketplace.backend.dto.attributes.request.RequestSaveOrUpdateAttribute;
+import com.marketplace.backend.dto.attributes.response.ResponseAttributeForGetAll;
 import com.marketplace.backend.exception.ResourceNotFoundException;
+import com.marketplace.backend.mappers.AttributeMapper;
+import com.marketplace.backend.mappers.SelectableValueMapper;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.repository.AttributeRepository;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 
 @Service
@@ -28,14 +27,21 @@ public class AttributeService implements AttributeDao {
     private final AttributeRepository attributeRepository;
     @PersistenceContext
     private final EntityManager entityManager;
-    private final AttributeConverter attributeConverter;
+
+    private final AttributeMapper attributeMapper;
+    private final SelectableValueMapper selectableValueMapper;
+
+    private final AttributeValueService attributeValueService;
+
 
     @Autowired
     public AttributeService(AttributeRepository attributeRepository,
-                            EntityManager entityManager) {
+                            EntityManager entityManager, AttributeValueService attributeValueService) {
         this.attributeRepository = attributeRepository;
         this.entityManager = entityManager;
-        this.attributeConverter = new AttributeConverter();
+        this.attributeValueService = attributeValueService;
+        this.attributeMapper = Mappers.getMapper(AttributeMapper.class);
+        this.selectableValueMapper = Mappers.getMapper(SelectableValueMapper.class);
     }
 
 
@@ -48,59 +54,119 @@ public class AttributeService implements AttributeDao {
         TypedQuery<Attribute> resultQuery = entityManager.createQuery("SELECT a from Attribute a where a.enabled=true", Attribute.class);
         resultQuery.setFirstResult((page-1)*pageSize );
         resultQuery.setMaxResults(pageSize);
-        result.setContent(resultQuery.getResultList().stream().map(ResponseAttributeForGetAll::new).collect(Collectors.toList()));
+        List<ResponseAttributeForGetAll> dtoList = attributeMapper.entitiesToListDto(resultQuery.getResultList());
+        result.setContent(dtoList);
         return result;
     }
 
     /*Выдаем аттрибут только если enabled=true*/
     @Override
     @Transactional
-    public ResponseSingleAttributeByAlias attributeByAlias(String alias){
-        Attribute attribute = attributeRepository.
+    public Attribute getAttributeByAlias(String alias){
+        return attributeRepository.
                 findAttributeByAliasAndEnabledIsTrue(alias).
                 orElseThrow(()->new ResourceNotFoundException("Атрибут с псевдонимом "+alias+" не найден"));
-        if(attribute.getType().equals(EAttributeType.SELECTABLE)){
-            return  new ResponseSingleAttributeByAlias(attribute,attribute.getSingleSelectableValue());
-        }
-        return new ResponseSingleAttributeByAlias(attribute);
     }
 
+    /*Сохранение или апдейт ориентируемся на поле id если id null то это новый
+    * При изменении типа атрибута все сохраненненые значения для старого типа удаляются
+    * то есть если был числовой тип а потом стал selectable  все числовые значения заведенные для
+    * продуктов будут удалены*/
     @Override
     @Transactional
-    public ResponseSelectableAttributeAfterSave saveSelectable(RequestSaveSelectableAttribute dto) {
-        Attribute attribute = this.attributeConverter.baseAttributeToEntity(dto);
-        List<SelectableValue> selectableValues = new ArrayList<>();
-        for(RequestSaveSelectableAttribute.SelectableValueDto valueDto: dto.getSelectable()){
-            SelectableValue selectableValue = new SelectableValue();
-            selectableValue.setId(valueDto.getId());
-            selectableValue.setAttribute(attribute);
-            selectableValue.setValue(valueDto.getValue());
-            selectableValues.add(selectableValue);
+    public Attribute saveOrUpdateAttribute(RequestSaveOrUpdateAttribute dto) {
+        Attribute attribute = attributeMapper.dtoToEntity(dto);
+        if(attribute.getFilter()==null){
+            attribute.setFilter(true);
         }
-        attribute.setSingleSelectableValue(selectableValues);
-        this.save(attribute);
-        ResponseSelectableAttributeAfterSave result = new ResponseSelectableAttributeAfterSave(attribute);
-        result.setSelectable(selectableValues.stream()
-                .map(SelectableValueDto::new).collect(Collectors.toList()));
-        return result;
+        if(attribute.getEnabled()==null){
+            attribute.setEnabled(true);
+        }
+        if(dto.getSelectable()!=null){
+            List<SelectableValue> values =
+                    selectableValueMapper.dtoListToEntityList(dto.getSelectable());
+            values.forEach(x->x.setAttribute(attribute));
+            attribute.setSingleSelectableValue(values);
+        }
+        if(attribute.getId()==null){
+            return saveNewEntity(attribute);
+        }
+        return updateEntity(attribute);
+    }
+    @Transactional
+    public Attribute saveNewEntity(Attribute attribute){
+        entityManager.persist(attribute);
+        return attribute;
     }
 
-    @Override
-    public ResponseNonSelectableAttributeAfterSave saveNonSelectable(RequestSaveNonSelectableAttribute dto) {
-       Attribute attribute = this.attributeConverter.baseAttributeToEntity(dto);
-       this.save(attribute);
-       return new ResponseNonSelectableAttributeAfterSave(attribute);
+    @Transactional(rollbackFor = {ResourceNotFoundException.class})
+    public Attribute updateEntity(Attribute newAttribute){
+        Attribute oldAttribute = getAttributeByAlisWitSelectableValues(newAttribute.getAlias());
+        entityManager.detach(oldAttribute);
+        /*если поменяли тип атрибута то удаляем значения которые были у старого атрибута*/
+        if(!oldAttribute.getType().equals(newAttribute.getType())){
+            clearValueWhereChangeAttributeType(oldAttribute);
+        }
+        /*У Selectable должно быть заполнено List<SingleSelectableValue> которые так же надо сохранить*/
+        if(newAttribute.getType().equals(EAttributeType.SELECTABLE)){
+            return updateSelectable(newAttribute,oldAttribute);
+        }
+        return updateAttribute(newAttribute);
+    }
+    private void clearValueWhereChangeAttributeType(Attribute oldAttribute){
+        String queryString = String.format("DELETE FROM %s as v where v.attribute =:attribute",oldAttribute.getType().getTableName());
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("attribute",oldAttribute);
+        query.executeUpdate();
     }
 
-    @Override
-    public void save(Attribute obj) {
-        attributeRepository.save(obj);
+    private Attribute updateSelectable(Attribute newAttribute,Attribute oldAttribute){
+        List<SelectableValue> oldValueList = oldAttribute.getSingleSelectableValue();
+        List<SelectableValue> newValueList = newAttribute.getSingleSelectableValue();
+        newValueList.forEach(attributeValueService::saveSelectableValue);
+        List<Long> valueIdListForDelete = new ArrayList<>();
+        oldValueList.forEach((x)->{
+            if(!newValueList.contains(x)){
+                valueIdListForDelete.add(x.getId());
+            }
+        });
+        attributeValueService.deleteSelectableValueInListId(valueIdListForDelete);
+        updateAttribute(newAttribute);
+        newAttribute.setSingleSelectableValue(newValueList);
+        return newAttribute;
+    }
+    private Attribute updateAttribute(Attribute newAttribute){
+        Query updateQuery = entityManager.createQuery("UPDATE Attribute as a set a.alias =:alias," +
+                " a.name =:name, a.enabled =:enabled, a.filter = :filter, a.type = :aType where a.id = :id");
+        updateQuery.setParameter("alias",newAttribute.getAlias());
+        updateQuery.setParameter("name",newAttribute.getName());
+        updateQuery.setParameter("enabled",newAttribute.getEnabled());
+        updateQuery.setParameter("filter",newAttribute.getFilter());
+        updateQuery.setParameter("aType",newAttribute.getType());
+        updateQuery.setParameter("id",newAttribute.getId());
+        updateQuery.executeUpdate();
+        return newAttribute;
+    }
+
+    public Attribute getAttributeByAlisWitSelectableValues(String alias){
+        EntityGraph<?> entityGraph = entityManager.getEntityGraph("attribute-with-selectable-values");
+        TypedQuery<Attribute> resultQuery = entityManager.
+                createQuery("SELECT a from Attribute a where a.enabled=true and a.alias =:alias", Attribute.class);
+        resultQuery.setParameter("alias",alias);
+        resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
+        Optional<Attribute> resultOptional = resultQuery.getResultStream().findFirst();
+        if(resultOptional.isPresent()){
+            return resultOptional.get();
+        }
+        throw new ResourceNotFoundException("Не найден атрибут с псевдонимом "+alias);
     }
 
 
-
-    @Override
-    public void delete(String alias) {
-       return;
+    public Integer delete(String alias) {
+       Attribute attribute = getAttributeByAlias(alias);
+       attributeValueService.deleteValuesByAttributeAlias(alias,attribute.getType().getTableName());
+       Query queryAttribute = entityManager.createQuery("DELETE FROM Attribute as a where a.alias=:alias");
+       queryAttribute.setParameter("alias",alias);
+       return queryAttribute.executeUpdate();
     }
 }

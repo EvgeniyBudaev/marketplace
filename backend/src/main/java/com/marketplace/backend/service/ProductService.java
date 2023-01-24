@@ -2,6 +2,7 @@ package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
+import com.marketplace.backend.dto.product.response.ResponseProductSimpleDto;
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
@@ -125,10 +126,28 @@ public class ProductService implements ProductDao {
         return dtoPaging;
     }
 
+    public Paging<ResponseProductSimpleDto> getAllProduct(Integer page, Integer pageSize){
+        TypedQuery<Long> countQuery =entityManager.createQuery("SELECT COUNT (p) FROM Product as p", Long.class);
+        Integer count = Math.toIntExact(countQuery.getSingleResult());
+        if(count.equals(0)){
+            throw new ResourceNotFoundException("Продукты в базе данных отсутствую");
+        }
+        TypedQuery<ResponseProductSimpleDto> query = entityManager.
+                createQuery("SELECT NEW com.marketplace.backend" +
+                        ".dto.product.response.ResponseProductSimpleDto(p.name,p.alias) from Product as p", ResponseProductSimpleDto.class);
+        query.setFirstResult((page - 1) * pageSize);
+        query.setMaxResults(pageSize);
+        Paging<ResponseProductSimpleDto> paging = new Paging<>(count,pageSize,page);
+        paging.setContent(query.getResultList());
+        return paging;
+    }
+
     private void setParamInQuery(TypedQuery<?> query,Map<String,Object> param){
         for (Map.Entry<String, Object> entry : param.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
         }
     }
+
+
 
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,6 +20,8 @@ public class ResponseSingleCatalogDto {
     private String alias;
     private String image;
     private boolean enabled;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifyDate;
     private Set<SelectAttributeDto> selectAttribute;
     private Set<NumberAttributeDto> numberAttribute;
 

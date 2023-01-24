@@ -34,7 +34,7 @@ public class CatalogService {
         this.attributeValueService = attributeValueService;
         this.catalogRepository = catalogRepository;
         this.entityManager = entityManager;
-        mapper = Mappers.getMapper(CatalogMapper.class);
+        this.mapper = Mappers.getMapper(CatalogMapper.class);
     }
 
     @Transactional

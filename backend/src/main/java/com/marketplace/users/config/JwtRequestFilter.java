@@ -1,6 +1,5 @@
 package com.marketplace.users.config;
 
-import com.marketplace.users.exception.AuthExceptionHandler;
 import com.marketplace.users.utils.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -23,11 +22,13 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-    @Autowired
-    private AuthExceptionHandler authExceptionHandler;
 
+    private final JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    public JwtRequestFilter(JwtTokenUtil jwtTokenUtil) {
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
 
     @Override

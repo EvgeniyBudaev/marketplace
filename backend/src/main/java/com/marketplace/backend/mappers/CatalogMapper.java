@@ -8,13 +8,13 @@ import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.values.SelectableValue;
 import org.mapstruct.Mapper;
 
-
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper
 public interface CatalogMapper {
+
     ResponseSingleCatalogDto entityToSingleCatalogDto(Catalog catalog);
 
     Catalog dtoToEntity(RequestSaveCatalogDto dto);
