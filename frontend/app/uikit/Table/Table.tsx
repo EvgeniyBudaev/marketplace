@@ -77,65 +77,67 @@ const TableComponent = <TColumn extends Record<string, any>>(
       <div className="Table-Header">
         {totalItemsTitle}&nbsp;<span className="Table-HeaderCount">{totalItems}</span>
       </div>
-      <table className={clsx("Table", className)}>
-        <thead className="Table-THead">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr className="Table-TR" key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  className="Table-TH"
-                  key={header.id}
-                  style={{
-                    position: "relative",
-                    width: header.getSize(),
-                    maxWidth: header.getSize(),
-                  }}
-                >
-                  <div
-                    className="Table-THInner"
-                    // onClick={() => handleSortClick(header)}
+      <div className="Table-Scroll">
+        <table className={clsx("Table", className)}>
+          <thead className="Table-THead">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr className="Table-TR" key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    className="Table-TH"
+                    key={header.id}
+                    style={{
+                      position: "relative",
+                      width: header.getSize(),
+                      maxWidth: header.getSize(),
+                    }}
                   >
-                    <div className="Table-THText">
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
-                    </div>
-                    {/*<>*/}
-                    {/*    {column.canSort && (*/}
-                    {/*        <div className="Table-SortingIcon">*/}
-                    {/*            <SortingIcon*/}
-                    {/*                sort={sorting?.[column.id]}*/}
-                    {/*                sortVariant={column.id}*/}
-                    {/*            />*/}
-                    {/*        </div>*/}
-                    {/*    )}*/}
-                    {/*</>*/}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody className="Table-TBody">
-          {table.getRowModel().rows.map((row) => {
-            return (
-              <tr className="Table-TR" key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td
-                      className="Table-TD"
-                      key={cell.id}
-                      style={{ width: cell.column.getSize(), maxWidth: cell.column.getSize() }}
+                    <div
+                      className="Table-THInner"
+                      // onClick={() => handleSortClick(header)}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
-                  );
-                })}
+                      <div className="Table-THText">
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
+                      </div>
+                      {/*<>*/}
+                      {/*    {column.canSort && (*/}
+                      {/*        <div className="Table-SortingIcon">*/}
+                      {/*            <SortingIcon*/}
+                      {/*                sort={sorting?.[column.id]}*/}
+                      {/*                sortVariant={column.id}*/}
+                      {/*            />*/}
+                      {/*        </div>*/}
+                      {/*    )}*/}
+                      {/*</>*/}
+                    </div>
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody className="Table-TBody">
+            {table.getRowModel().rows.map((row) => {
+              return (
+                <tr className="Table-TR" key={row.id}>
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <td
+                        className="Table-TD"
+                        key={cell.id}
+                        style={{ width: cell.column.getSize(), maxWidth: cell.column.getSize() }}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       {currentPage && pagesCount && onPageChange && (
         <Pagination initialPage={currentPage - 1} pagesCount={pagesCount} onChange={onPageChange} />
       )}
