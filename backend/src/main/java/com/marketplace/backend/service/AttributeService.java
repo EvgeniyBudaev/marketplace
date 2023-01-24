@@ -161,6 +161,12 @@ public class AttributeService implements AttributeDao {
         throw new ResourceNotFoundException("Не найден атрибут с псевдонимом "+alias);
     }
 
+    public List<Attribute> getListAttributeByAliases(List<String> aliases){
+        TypedQuery<Attribute> query = entityManager.
+                createQuery("SELECT a FROM Attribute as a where a.alias in (:aliases) and a.enabled=true ",Attribute.class);
+        query.setParameter("aliases",aliases);
+        return query.getResultList();
+    }
 
     public Integer delete(String alias) {
        Attribute attribute = getAttributeByAlias(alias);
@@ -169,4 +175,6 @@ public class AttributeService implements AttributeDao {
        queryAttribute.setParameter("alias",alias);
        return queryAttribute.executeUpdate();
     }
+
+
 }

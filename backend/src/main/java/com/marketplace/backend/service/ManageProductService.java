@@ -2,6 +2,7 @@ package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Product;
@@ -45,7 +46,7 @@ public class ManageProductService implements ManageProductDao {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = {ResourceNotFoundException.class})
     public Product save(RequestSaveProductDto dto) {
         Catalog catalog = catalogService.findEntityByAlias(dto.getCatalogAlias());
         Product product = productMapper.dtoToEntity(dto);

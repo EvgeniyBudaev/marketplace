@@ -53,7 +53,7 @@ public class Catalog {
     @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Product> products;
 
-   @ManyToMany(mappedBy = "catalog",fetch = FetchType.LAZY)
+   @ManyToMany(mappedBy = "catalog",cascade = {CascadeType.PERSIST,CascadeType.DETACH},fetch = FetchType.LAZY)
     private List<Attribute> attributes;
 
     @CreationTimestamp

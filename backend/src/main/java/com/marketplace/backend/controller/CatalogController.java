@@ -79,7 +79,7 @@ public class CatalogController {
 
     @PostMapping
     public ResponseSingleCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
-        Catalog catalog = catalogService.save(dto);
+        Catalog catalog = catalogService.saveOrUpdate(dto);
         return getCatalogByAlias(catalog.getAlias());
     }
 

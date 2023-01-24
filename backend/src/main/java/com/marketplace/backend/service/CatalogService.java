@@ -7,16 +7,18 @@ import com.marketplace.backend.dto.catalog.response.single.NumberAttributeDto;
 import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.mappers.CatalogMapper;
+import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
-import com.marketplace.backend.repository.CatalogRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,31 +26,42 @@ import java.util.stream.Collectors;
 public class CatalogService {
     private final CatalogMapper mapper;
     private final AttributeValueService attributeValueService;
-    private final CatalogRepository catalogRepository;
+    private final AttributeService attributeService;
 
     @PersistenceContext
     private final EntityManager entityManager;
 
     @Autowired
-    public CatalogService(AttributeValueService attributeValueService, CatalogRepository catalogRepository,  EntityManager entityManager) {
+    public CatalogService(AttributeValueService attributeValueService, AttributeService attributeService, EntityManager entityManager) {
         this.attributeValueService = attributeValueService;
-        this.catalogRepository = catalogRepository;
+        this.attributeService = attributeService;
         this.entityManager = entityManager;
         this.mapper = Mappers.getMapper(CatalogMapper.class);
     }
 
+
     @Transactional
-    public void save(Catalog catalog) {
-        catalogRepository.save(catalog);
+    public Catalog saveOrUpdate(RequestSaveCatalogDto dto) {
+        if(dto.getId()==null){
+            return saveNewEntity(dto);
+        }
+        return updateEntity(dto);
     }
 
-
-    public Catalog save(RequestSaveCatalogDto dto) {
+    @Transactional
+    public Catalog saveNewEntity(RequestSaveCatalogDto dto){
         Catalog catalog = mapper.dtoToEntity(dto);
-        save(catalog);
+        List<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
+        catalog.setAttributes(attributeList);
+        entityManager.persist(catalog);
+        entityManager.flush();
         return catalog;
     }
-
+    @Transactional
+    public Catalog updateEntity(RequestSaveCatalogDto dto){
+        List<Attribute> newAttributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
+        return null;
+    }
     public Catalog findCatalogByAliasWithFullAttributes(String alias){
         TypedQuery<Catalog> catalogQuery =
                 entityManager.
@@ -94,6 +107,12 @@ public class CatalogService {
 
 
     public Catalog findEntityByAlias(String catalogAlias) {
-        return catalogRepository.findCatalogByAlias(catalogAlias).orElseThrow(()->new ResourceNotFoundException("Не найден каталог с псевдонимом: "+catalogAlias));
+        TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c where c.enabled=true and c.alias=:alias", Catalog.class);
+        resultQuery.setParameter("alias",catalogAlias);
+        Optional<Catalog> optionalCatalog = resultQuery.getResultStream().findFirst();
+        if(optionalCatalog.isPresent()){
+            return optionalCatalog.get();
+        }
+        throw new ResourceNotFoundException("Не найден каталог с псевдонимом: "+catalogAlias);
     }
 }
