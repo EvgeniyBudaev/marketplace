@@ -5,7 +5,6 @@ import com.marketplace.properties.AppProperties;
 import com.marketplace.properties.events.JwtPropertiesChangeEvent;
 import com.marketplace.properties.model.EPropertiesType;
 import com.marketplace.properties.model.properties.JwtProperties;
-import com.marketplace.users.events.RegistrationUserCompleteEvent;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

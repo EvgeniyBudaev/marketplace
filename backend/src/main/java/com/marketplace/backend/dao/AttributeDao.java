@@ -5,9 +5,9 @@ import com.marketplace.backend.dto.attributes.response.ResponseAttributeForGetAl
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
 
-public interface AttributeDao extends GeneralDao<Attribute> {
+public interface AttributeDao {
     Paging<ResponseAttributeForGetAll> showAllAttribute(Integer page, Integer pageSize);
-    Attribute attributeByAlias(String alias);
+    Attribute getAttributeByAlias(String alias);
 
     Attribute saveOrUpdateAttribute(RequestSaveOrUpdateAttribute attribute);
 

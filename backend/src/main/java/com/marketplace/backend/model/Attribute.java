@@ -55,14 +55,14 @@ public class Attribute {
     @Enumerated(EnumType.STRING)
     private EAttributeType type;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "attributes_catalogs",
     joinColumns = @JoinColumn(name = "attribute_id"),
     inverseJoinColumns = @JoinColumn(name = "catalog_id"))
     private List<Catalog> catalog;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "attribute",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REMOVE},orphanRemoval = true)
+    @OneToMany(mappedBy = "attribute",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.DETACH},orphanRemoval = true)
     private List<SelectableValue> singleSelectableValue;
 
     @JsonIgnore
@@ -96,21 +96,35 @@ public class Attribute {
         return new HashCodeBuilder(17, 37).append(id).toHashCode();
     }
 
-    @Override
-    public String toString() {
-        return "Attribute{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", alias='" + alias + '\'' +
-                ", enabled=" + enabled +
-                ", filter=" + filter +
-                ", type=" + type +
-                ", catalog=" + catalog +
-                ", singleSelectableValue=" + singleSelectableValue +
-                ", booleanValue=" + booleanValue +
-                ", doubleValues=" + doubleValues +
-                ", createdAt=" + createdAt +
-                ", modifyDate=" + modifyDate +
-                '}';
+       public List<Catalog> getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(List<Catalog> catalog) {
+        this.catalog = catalog;
+    }
+
+    public List<SelectableValue> getSingleSelectableValue() {
+        return singleSelectableValue;
+    }
+
+    public void setSingleSelectableValue(List<SelectableValue> singleSelectableValue) {
+        this.singleSelectableValue = singleSelectableValue;
+    }
+
+    public List<BooleanValue> getBooleanValue() {
+        return booleanValue;
+    }
+
+    public void setBooleanValue(List<BooleanValue> booleanValue) {
+        this.booleanValue = booleanValue;
+    }
+
+    public List<DoubleValue> getDoubleValues() {
+        return doubleValues;
+    }
+
+    public void setDoubleValues(List<DoubleValue> doubleValues) {
+        this.doubleValues = doubleValues;
     }
 }

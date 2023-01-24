@@ -2,12 +2,15 @@ package com.marketplace.backend.service;
 
 import com.marketplace.backend.dto.catalog.response.single.NumberAttributeDto;
 import com.marketplace.backend.model.values.SelectableValue;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -38,5 +41,26 @@ public class AttributeValueService {
         selectableValueQuery.setParameter("catalogId",catalogId);
         Stream<SelectableValue> stream = selectableValueQuery.getResultStream();
         return stream.collect(Collectors.toUnmodifiableSet());
+    }
+
+    public void saveSelectableValue(SelectableValue value){
+        Session session = (Session) entityManager;
+        session.saveOrUpdate(value);
+    }
+
+    public void deleteSelectableValueInListId(List<Long> valueIds){
+        if (valueIds.isEmpty()){
+            return;
+        }
+        Query query = entityManager.createQuery("DELETE FROM SelectableValue as s where s.id in (:listIds)");
+        query.setParameter("listIds",valueIds);
+        query.executeUpdate();
+    }
+
+    public void deleteValuesByAttributeAlias(String alias,String tableName){
+        String queryString = String.format( "DELETE FROM %s as v where v.attribute.alias=:alias",tableName);
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("alias",alias);
+        query.executeUpdate();
     }
 }

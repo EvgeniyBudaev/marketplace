@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "catalogs")
@@ -62,4 +63,17 @@ public class Catalog {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime modifyDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Catalog catalog = (Catalog) o;
+        return Objects.equals(id, catalog.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
