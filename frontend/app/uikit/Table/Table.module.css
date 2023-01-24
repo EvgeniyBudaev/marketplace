@@ -40,6 +40,11 @@
   border-spacing: 0;
   margin-bottom: 30px;
 }
+.Table-Scroll {
+  position: relative;
+  overflow-x: auto;
+  max-width: 100%;
+}
 .Table-Header {
   padding: 20px;
   border: 1px solid rgb(226, 232, 240);

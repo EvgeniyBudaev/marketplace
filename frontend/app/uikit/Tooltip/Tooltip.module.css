@@ -1,0 +1,71 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Tooltip-Main {
+  display: inline-block;
+  background: white;
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 16px 24px;
+  z-index: 10;
+}
+.Tooltip-Arrow,
+.Tooltip-Arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+.Tooltip-Arrow {
+  visibility: hidden;
+}
+.Tooltip-Arrow::before {
+  visibility: visible;
+  content: "";
+  transform: rotate(45deg);
+}
+.Tooltip-Tooltip[data-popper-placement^="top"] > .Tooltip-Arrow {
+  bottom: -4px;
+}
+.Tooltip-Tooltip[data-popper-placement^="bottom"] > .Tooltip-Arrow {
+  top: -4px;
+}
+.Tooltip-Tooltip[data-popper-placement^="left"] > .Tooltip-Arrow {
+  right: -4px;
+}
+.Tooltip-Tooltip[data-popper-placement^="right"] > .Tooltip-Arrow {
+  left: -4px;
+}
+
+/*# sourceMappingURL=Tooltip.module.css.map */
