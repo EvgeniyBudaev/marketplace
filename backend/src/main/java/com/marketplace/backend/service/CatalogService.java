@@ -53,6 +53,7 @@ public class CatalogService {
         Catalog catalog = mapper.dtoToEntity(dto);
         List<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         catalog.setAttributes(attributeList);
+        attributeList.forEach(x->x.getCatalog().add(catalog));
         entityManager.persist(catalog);
         entityManager.flush();
         return catalog;
