@@ -4,5 +4,13 @@
   align-items: center;
   margin-bottom: 30px;
 }
+.Catalogs-Column {
+  width: 50px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #000;
+  padding: 8px;
+}
 
 /*# sourceMappingURL=Catalogs.module.css.map */

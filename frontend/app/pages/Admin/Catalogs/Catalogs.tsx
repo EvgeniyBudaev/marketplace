@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
 import { CatalogsTable } from "~/pages/Admin/Catalogs/CatalogsTable";
 import { TCatalogs } from "~/shared/api/catalogs";
-import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
+import {ETypographyVariant, Icon, LinkButton, Tooltip, Typography} from "~/uikit";
 import styles from "./Catalogs.module.css";
 
 type TProps = {
@@ -21,6 +21,11 @@ export const Catalogs: FC<TProps> = ({ catalogs }) => {
         <div>
           <LinkButton href="/admin/catalogs/add">Добавить</LinkButton>
         </div>
+      </div>
+      <div className="Catalogs-Column">
+          <Tooltip message={"Test"} placement={"right"}>
+              <Icon type={"Star"} />
+          </Tooltip>
       </div>
       <CatalogsTable catalogs={catalogs} />
     </section>
