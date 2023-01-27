@@ -73,10 +73,11 @@ public class ProductController {
 
     }
     @PostMapping
-    public ResponseProductDto saveOrNewProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
+    public ResponseProductDto saveOrUpdateProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
         Product product=manageProductDao.save(productDto);
         return new ResponseProductDto(product,productDto.getCatalogAlias());
     }
+
 
     @DeleteMapping("/{alias}")
     public String deleteProduct(@PathVariable String alias) {

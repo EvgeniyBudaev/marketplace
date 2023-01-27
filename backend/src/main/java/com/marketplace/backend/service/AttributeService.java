@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.*;
-
+import java.util.stream.Collectors;
 
 
 @Service
@@ -175,6 +175,12 @@ public class AttributeService implements AttributeDao {
        Query queryAttribute = entityManager.createQuery("DELETE FROM Attribute as a where a.alias=:alias");
        queryAttribute.setParameter("alias",alias);
        return queryAttribute.executeUpdate();
+    }
+
+    public Set<Attribute> attributesAliasBySelValueIds(List<Long> selValueIds){
+        TypedQuery<Attribute> query = entityManager.createQuery("SELECT distinct a FROM SelectableValue as sv  join fetch sv.attribute as a where sv.id in (:ids)", Attribute.class);
+        query.setParameter("ids",selValueIds);
+        return query.getResultStream().collect(Collectors.toSet());
     }
 
 }

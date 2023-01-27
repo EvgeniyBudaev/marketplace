@@ -4,14 +4,12 @@ package com.marketplace.backend.controller;
 import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSingleAfterSaveCatalogDto;
-import com.marketplace.backend.dto.catalog.response.single.NumberAttributeDto;
 import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalogDto;
 import com.marketplace.backend.mappers.CatalogMapper;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
-import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.CatalogService;
 import org.mapstruct.factory.Mappers;
@@ -59,7 +57,7 @@ public class CatalogController {
         List<Attribute> numAttributeList = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
         if(!numAttributeList.isEmpty()){
-            dto.setNumberAttribute(catalogService.findNumberAttributesInCatalog(catalog));
+            dto.setNumberAttribute(catalogService.findUseNumericAttributesInCatalog(catalog));
         }
         if(selAttributeList.isEmpty()){
             return dto;

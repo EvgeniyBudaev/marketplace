@@ -90,8 +90,8 @@ public class CatalogService {
                 .findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден каталог с псевдонимом "+alias));
     }
 
-    public Set<NumberAttributeDto> findNumberAttributesInCatalog (Catalog catalog){
-        return attributeValueService.findNumberAttributesInCatalog(catalog.getId());
+    public Set<NumberAttributeDto> findUseNumericAttributesInCatalog(Catalog catalog){
+        return attributeValueService.findNumberAttributesUseInCatalog(catalog.getId());
     }
 
     public Set<SelectableValue> findSelectableAttributesInCatalog(Catalog catalog){
@@ -132,4 +132,15 @@ public class CatalogService {
         }
         throw new ResourceNotFoundException("Не найден каталог с псевдонимом: "+catalogAlias);
     }
+
+    public Set<Attribute> attributesInCatalogByAlias(String alias){
+        TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c left join c.attributes where c.enabled=true and c.alias=:alias", Catalog.class);
+        resultQuery.setParameter("alias",alias);
+        Optional<Catalog> optionalCatalog = resultQuery.getResultStream().findFirst();
+        if(optionalCatalog.isPresent()){
+            return optionalCatalog.get().getAttributes();
+        }
+        throw new ResourceNotFoundException("Не найден каталог с псевдонимом: "+alias);
+    }
+
 }
