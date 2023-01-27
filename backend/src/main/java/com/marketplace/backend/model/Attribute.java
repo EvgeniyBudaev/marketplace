@@ -15,6 +15,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "attributes")
@@ -59,7 +60,7 @@ public class Attribute {
     @JoinTable(name = "attributes_catalogs",
     joinColumns = @JoinColumn(name = "attribute_id"),
     inverseJoinColumns = @JoinColumn(name = "catalog_id"))
-    private List<Catalog> catalog;
+    private Set<Catalog> catalog;
 
     @JsonIgnore
     @OneToMany(mappedBy = "attribute",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.DETACH},orphanRemoval = true)
@@ -96,11 +97,11 @@ public class Attribute {
         return new HashCodeBuilder(17, 37).append(id).toHashCode();
     }
 
-       public List<Catalog> getCatalog() {
+    public Set<Catalog> getCatalog() {
         return catalog;
     }
 
-    public void setCatalog(List<Catalog> catalog) {
+    public void setCatalog(Set<Catalog> catalog) {
         this.catalog = catalog;
     }
 
@@ -112,19 +113,4 @@ public class Attribute {
         this.singleSelectableValue = singleSelectableValue;
     }
 
-    public List<BooleanValue> getBooleanValue() {
-        return booleanValue;
-    }
-
-    public void setBooleanValue(List<BooleanValue> booleanValue) {
-        this.booleanValue = booleanValue;
-    }
-
-    public List<DoubleValue> getDoubleValues() {
-        return doubleValues;
-    }
-
-    public void setDoubleValues(List<DoubleValue> doubleValues) {
-        this.doubleValues = doubleValues;
-    }
 }

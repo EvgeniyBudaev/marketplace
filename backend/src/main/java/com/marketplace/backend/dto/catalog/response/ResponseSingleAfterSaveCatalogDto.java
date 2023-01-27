@@ -36,6 +36,7 @@ public class ResponseSingleAfterSaveCatalogDto {
     }
 
     @Data
+    @AllArgsConstructor
     public static class NumberAttributeDto {
         private Long id;
         private String name;

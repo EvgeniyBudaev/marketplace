@@ -9,7 +9,6 @@ import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.values.SelectableValue;
 import org.mapstruct.Mapper;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +56,10 @@ public interface CatalogMapper {
            selectAttributeDtos.add(selDto);
         });
         dto.setSelectAttribute(selectAttributeDtos);
-        dto.setNumberAttribute();
+        Set<ResponseSingleAfterSaveCatalogDto.NumberAttributeDto> numberAttributeDtos =
+                numAttributeList.stream().map(x->new ResponseSingleAfterSaveCatalogDto.
+                        NumberAttributeDto(x.getId(),x.getName(),x.getAlias())).collect(Collectors.toUnmodifiableSet());
+        dto.setNumberAttribute(numberAttributeDtos);
         return dto;
     }
 }

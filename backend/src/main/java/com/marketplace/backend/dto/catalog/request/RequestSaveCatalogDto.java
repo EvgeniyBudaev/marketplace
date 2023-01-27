@@ -23,7 +23,6 @@ public class RequestSaveCatalogDto {
     @NotNull
     @Size(min = 5,max = 250)
     private String image;
-    private boolean enabled;
     @NotEmpty
     private List<String> attributeAlias;
 }

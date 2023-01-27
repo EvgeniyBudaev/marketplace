@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,7 +50,7 @@ public class CatalogService {
     @Transactional
     public Catalog saveNewEntity(RequestSaveCatalogDto dto){
         Catalog catalog = mapper.dtoToEntity(dto);
-        List<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
+        Set<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         catalog.setAttributes(attributeList);
         attributeList.forEach(x->x.getCatalog().add(catalog));
         entityManager.persist(catalog);
@@ -60,8 +59,25 @@ public class CatalogService {
     }
     @Transactional
     public Catalog updateEntity(RequestSaveCatalogDto dto){
-        List<Attribute> newAttributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
-        return null;
+        Set<Attribute> newAttributes = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
+        Query updateQuery = entityManager
+                .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true ,c.image = :image where c.id=:id");
+        updateQuery.setParameter("alias",dto.getAlias());
+        updateQuery.setParameter("name",dto.getName());
+        updateQuery.setParameter("image",dto.getImage());
+        updateQuery.setParameter("id",dto.getId());
+        updateQuery.executeUpdate();
+        Catalog catalog = entityManager.find(Catalog.class,dto.getId());
+        Set<Attribute> oldAttributes = catalog.getAttributes();
+        Set<Attribute> attributesForDelete = oldAttributes.stream().filter(x->!newAttributes.contains(x)).collect(Collectors.toSet());
+        Set<Attribute> attributesForAdd = newAttributes.stream().filter(x->!oldAttributes.contains(x)).collect(Collectors.toSet());
+        for(Attribute attribute: attributesForDelete){
+            catalog.removeAttribute(attribute);
+        }
+        for(Attribute attribute: attributesForAdd){
+            catalog.addAttribute(attribute);
+        }
+        return catalog;
     }
     public Catalog findCatalogByAliasWithFullAttributes(String alias){
         TypedQuery<Catalog> catalogQuery =

@@ -26,7 +26,7 @@ public class AttributeController {
         this.selectableValueMapper = Mappers.getMapper(SelectableValueMapper.class);
     }
 
-    @PreAuthorize("hasAuthority('ADMINISTRATOR')")
+   /* @PreAuthorize("hasAuthority('ADMINISTRATOR')")*/
     @GetMapping("/page")
     public Paging<ResponseAttributeForGetAll> showAllAttributes(@RequestParam(name = "page", defaultValue = "1") Integer page,
                                                                 @RequestParam(name = "size", defaultValue = "5") Integer pageSize) {
