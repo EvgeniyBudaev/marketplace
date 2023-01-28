@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { ETableColumns } from "~/pages/Admin/Catalogs/CatalogsTable/enums";
 import { TCatalog } from "~/shared/api/catalogs";
+import { Tooltip } from "~/uikit";
 
 type TUseGetColumns = (columnHelper: ColumnHelper<TCatalog>) => ColumnDef<TCatalog>[];
 
@@ -24,6 +25,84 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
         columnHelper.accessor(ETableColumns.Alias, {
           id: ETableColumns.Alias,
           header: () => "Alias",
+          cell: ({ getValue }) => {
+            const value = getValue();
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
+          },
+          size: 192,
+        }),
+
+        columnHelper.accessor(ETableColumns.Alias, {
+          id: ETableColumns.Alias,
+          header: () => "Alias",
+          cell: ({ getValue }) => {
+            const value = getValue();
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
+          },
+          size: 192,
+        }),
+
+        columnHelper.accessor(ETableColumns.Alias, {
+          id: ETableColumns.Alias,
+          header: () => "Alias",
+          cell: ({ getValue }) => {
+            const value = getValue();
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
+          },
+          size: 192,
+        }),
+
+        columnHelper.accessor(ETableColumns.Alias, {
+          id: ETableColumns.Alias,
+          header: () => "Alias",
+          cell: ({ getValue }) => {
+            const value = getValue();
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
+          },
+          size: 192,
+        }),
+
+        columnHelper.accessor(ETableColumns.Alias, {
+          id: ETableColumns.Alias,
+          header: () => "Alias",
+          cell: ({ getValue }) => {
+            const value = getValue();
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
+          },
+          size: 192,
+        }),
+
+        columnHelper.accessor(ETableColumns.Alias, {
+          id: ETableColumns.Alias,
+          header: () => "Alias",
+          cell: ({ getValue }) => {
+            const value = getValue();
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
+          },
           size: 192,
         }),
       ].filter(Boolean) as ColumnDef<TCatalog>[],

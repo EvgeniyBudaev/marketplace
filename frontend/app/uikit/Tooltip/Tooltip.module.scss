@@ -1,9 +1,10 @@
 @import "component";
 
 .Tooltip {
-  &-Main {
+  &-Element {
     display: inline-block;
-    background: white;
+    background-color: #000;
+    color: #fff;
     border-radius: 4px;
     font-style: normal;
     font-weight: normal;
@@ -11,6 +12,7 @@
     line-height: 20px;
     padding: 16px 24px;
     z-index: 10;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   &-Arrow,
@@ -26,24 +28,24 @@
   }
 
   &-Arrow::before {
-    visibility: visible;
     content: "";
+    visibility: visible;
     transform: rotate(45deg);
   }
 
-  &-Tooltip[data-popper-placement^="top"] > &-Arrow {
+  &-Element[data-popper-placement^="top"] > &-Arrow {
     bottom: -4px;
   }
 
-  &-Tooltip[data-popper-placement^="bottom"] > &-Arrow {
+  &-Element[data-popper-placement^="bottom"] > &-Arrow {
     top: -4px;
   }
 
-  &-Tooltip[data-popper-placement^="left"] > &-Arrow {
+  &-Element[data-popper-placement^="left"] > &-Arrow {
     right: -4px;
   }
 
-  &-Tooltip[data-popper-placement^="right"] > &-Arrow {
+  &-Element[data-popper-placement^="right"] > &-Arrow {
     left: -4px;
   }
 }
