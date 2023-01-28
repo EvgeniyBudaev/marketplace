@@ -27,7 +27,11 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => "Alias",
           cell: ({ getValue }) => {
             const value = getValue();
-            return <Tooltip message={"Test"} placement={"right"}>{value}</Tooltip>;
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
           },
           size: 192,
         }),
@@ -37,7 +41,11 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => "Alias",
           cell: ({ getValue }) => {
             const value = getValue();
-            return <Tooltip message={"Test"} placement={"right"}>{value}</Tooltip>;
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
           },
           size: 192,
         }),
@@ -47,7 +55,11 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => "Alias",
           cell: ({ getValue }) => {
             const value = getValue();
-            return <Tooltip message={"Test"} placement={"right"}>{value}</Tooltip>;
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
           },
           size: 192,
         }),
@@ -57,7 +69,11 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => "Alias",
           cell: ({ getValue }) => {
             const value = getValue();
-            return <Tooltip message={"Test"} placement={"right"}>{value}</Tooltip>;
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
           },
           size: 192,
         }),
@@ -67,7 +83,11 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => "Alias",
           cell: ({ getValue }) => {
             const value = getValue();
-            return <Tooltip message={"Test"} placement={"right"}>{value}</Tooltip>;
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
           },
           size: 192,
         }),
@@ -77,7 +97,11 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => "Alias",
           cell: ({ getValue }) => {
             const value = getValue();
-            return <Tooltip message={"Test"} placement={"right"}>{value}</Tooltip>;
+            return (
+              <Tooltip message={"Test"} placement={"right"}>
+                {value}
+              </Tooltip>
+            );
           },
           size: 192,
         }),
