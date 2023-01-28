@@ -4,7 +4,6 @@ import ReactDOM from "react-dom";
 import { usePopper } from "react-popper";
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
-import isNil from 'lodash/isNil';
 import { getVirtualReference } from "~/uikit/Tooltip/utils";
 import type { TModifiers, TPlacement } from "./types";
 import styles from "./Tooltip.module.css";
@@ -36,7 +35,6 @@ export const Tooltip: FC<TProps> = ({
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
   const isManualVisibility = typeof isOpen !== "undefined";
-  const [place, setPlace] = useState<TPlacement>(placement);
 
   const getOffset = () => {
     if (placement === "bottom" || placement === "top") {
@@ -81,7 +79,7 @@ export const Tooltip: FC<TProps> = ({
     popperModifiers = popperModifiers.concat(modifiers);
   }
 
-  const { styles, attributes, state } = usePopper(virtualReference, popperElement, {
+  const { styles, attributes } = usePopper(virtualReference, popperElement, {
     modifiers: popperModifiers,
     placement,
   });
@@ -91,12 +89,6 @@ export const Tooltip: FC<TProps> = ({
       setVisible(visible);
     }
   };
-
-  useEffect(() => {
-    if (!isNil(state)) {
-      setPlace(state.placement);
-    }
-  }, [state?.placement]);
 
   useEffect(() => {
     if (visible) {
@@ -126,33 +118,25 @@ export const Tooltip: FC<TProps> = ({
         {children}
       </div>
 
-      {isHydrated && visible && virtualReference && message && (
-        //   ReactDOM.createPortal(
-        //     <div
-        //       className="Tooltip-Main"
-        //       ref={setPopperElement}
-        //       style={styles.popper}
-        //       {...attributes.popper}
-        //     >
-        //       {message}
-        //       <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow} />
-        //     </div>,
-        //     document.body,
-        //   )
-
-        <div
-          className="Tooltip-Element"
-          ref={setPopperElement}
-          style={{
-            ...styles.popper,
-            pointerEvents: "none",
-          }}
-          {...attributes.popper}
-        >
-          {message}
-          <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow} />
-        </div>
-      )}
+      {isHydrated &&
+        visible &&
+        virtualReference &&
+        message &&
+        ReactDOM.createPortal(
+          <div
+            className="Tooltip-Element"
+            ref={setPopperElement}
+            style={{
+              ...styles.popper,
+              pointerEvents: "none",
+            }}
+            {...attributes.popper}
+          >
+            {message}
+            <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow} />
+          </div>,
+          document.body,
+        )}
     </div>
   );
 };
