@@ -31,6 +31,8 @@ export const catalogsItemSchema = z.object({
   name: z.string(),
   alias: z.string(),
   image: z.string().nullish(),
+  createdAt: z.string(),
+  modifyDate: z.string(),
 });
 
 export const catalogsSchema = paginationSchema.extend({
@@ -46,4 +48,14 @@ export const catalogAddParamsSchema = z.object({
   name: z.string(),
 });
 
-export const catalogAddSchema = z.any();
+export const catalogAddSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  alias: z.string(),
+  image: z.string().nullish(),
+  enabled: z.boolean(),
+  createdAt: z.string(),
+  modifyDate: z.string(),
+  selectAttribute: catalogAttributeItemSchema.array().nullish(),
+  numberAttribute: catalogAttributeItemSchema.array().nullish(),
+});

@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from "react";
 import type { KeyboardEvent, FC, FormEvent } from "react";
-import { ToastContainer as AlertContainer } from "react-toastify";
 import { CSSTransition } from "react-transition-group";
 import { Form, useFetcher, useSearchParams } from "@remix-run/react";
 import clsx from "clsx";
@@ -80,7 +79,6 @@ export const Search: FC<TProps> = ({ className, transition = TRANSITION, isHomeP
           Search__isHomePage: isHomePage,
         })}
       >
-        <AlertContainer />
         <div className="Search-Form">
           <div className="Search-InputWrapper">
             <Form method={EFormMethods.Get} onChange={handleSubmit}>

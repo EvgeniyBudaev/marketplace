@@ -1,3 +1,4 @@
+import { ChangeEvent, useEffect, useState } from "react";
 import type { FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
@@ -5,19 +6,36 @@ import { EFormFields } from "~/pages/Admin/Catalogs/CatalogAdd/enums";
 import { formSchema } from "~/pages/Admin/Catalogs/CatalogAdd/schemas";
 import { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogAdd/types";
 import { Checkbox, EFormMethods, Form, Input, useInitForm } from "~/shared/form";
-import { Button, ETypographyVariant, Typography } from "~/uikit";
-import styles from "./CatalogAdd.module.css";
 import { TParams } from "~/types";
+import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
-import { ChangeEvent, useState } from "react";
+import styles from "./CatalogAdd.module.css";
 
 export const CatalogAdd: FC = () => {
   const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({ enabled: [] });
-  console.log("filter: ", filter);
+
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
+  const isDoneType = form.isDoneType;
+  const fetcher = form.fetcher;
+  console.log("form.fetcher: ", form.fetcher);
+
+  useEffect(() => {
+    if (isDoneType && fetcher.data?.success) {
+      notify.success({
+        title: "Каталог добавлен",
+      });
+    }
+
+    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
+      notify.error({
+        title: "Не удалось добавить каталог",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetcher.data, fetcher.data?.success, isDoneType]);
 
   const onChangeCheckedBox = (
     event: ChangeEvent<HTMLInputElement>,
@@ -43,6 +61,7 @@ export const CatalogAdd: FC = () => {
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
+    notify.success({ title: "Title", description: "Description" });
     fetcher.submit(params, {
       method: EFormMethods.Post,
       action: createPath({

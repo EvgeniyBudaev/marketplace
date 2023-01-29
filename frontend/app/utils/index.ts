@@ -4,6 +4,8 @@ export * from "./createApi";
 export * from "./createPath";
 export * from "./form";
 export * from "./format";
+export * from "./formatDomainErrors";
+export * from "./formatErrorMessages";
 export * from "./gatewayTimeout";
 export * from "./generateUUID";
 export * from "./internalError";
