@@ -4,13 +4,14 @@ import type { FieldValues } from "react-hook-form";
 import { useHydrated, useAuthenticityToken } from "remix-utils";
 import isFunction from "lodash/isFunction";
 
+import { scrollToFirstErrorField } from "~/shared/form/Form/utils";
 import { generateUUID, omitEmptyFields } from "~/utils";
 
 import { EFormMethods } from "./enums";
-import { useScrollToFirstErrorField } from "./hooks";
+import { useSetFieldErrors } from "./hooks";
 import type { TFormComponentProps } from "./types";
 
-const FormComponent = <T extends FieldValues>({
+const Component = <T extends FieldValues>({
   //authenticity = true,
   id,
   children,
@@ -20,10 +21,13 @@ const FormComponent = <T extends FieldValues>({
   noValidate,
   form,
   className,
+  action,
 }: TFormComponentProps<T>) => {
   const isHydrated = useHydrated();
   //const csrf = useAuthenticityToken();
-  useScrollToFirstErrorField(form);
+  useSetFieldErrors(form);
+
+  const { fetcher } = form;
 
   const resultFormId = useMemo(
     () => (!isHydrated ? undefined : id || generateUUID()),
@@ -41,11 +45,11 @@ const FormComponent = <T extends FieldValues>({
       // }
 
       if (handleSubmit) {
-        handleSubmit(preparedData, { fetcher: form.fetcher });
+        handleSubmit(preparedData, { fetcher });
       }
     },
     // [authenticity, handleSubmit, csrf, form.fetcher],
-    [handleSubmit, form.fetcher],
+    [handleSubmit, fetcher],
   );
 
   return (
@@ -56,7 +60,8 @@ const FormComponent = <T extends FieldValues>({
         method={method}
         noValidate={noValidate ?? isHydrated}
         onChange={onChange}
-        onSubmit={form.methods.handleSubmit(onSubmit)}
+        onSubmit={form.methods.handleSubmit(onSubmit, scrollToFirstErrorField)}
+        action={action}
       >
         {isFunction(children) ? children(form.methods) : children}
       </form>
@@ -64,4 +69,4 @@ const FormComponent = <T extends FieldValues>({
   );
 };
 
-export const Form = memo(FormComponent) as typeof FormComponent;
+export const Form = memo(Component) as typeof Component;

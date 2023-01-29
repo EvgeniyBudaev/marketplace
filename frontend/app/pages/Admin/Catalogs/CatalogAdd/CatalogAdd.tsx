@@ -61,7 +61,6 @@ export const CatalogAdd: FC = () => {
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
-    notify.success({ title: "Title", description: "Description" });
     fetcher.submit(params, {
       method: EFormMethods.Post,
       action: createPath({

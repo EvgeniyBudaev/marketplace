@@ -16,6 +16,7 @@ export type TUseInitFormReturn<T extends FieldValues> = {
   isIdle: boolean;
   isInitType: boolean;
   isDoneType: boolean;
+  isSuccessData: boolean;
   methods: UseFormReturn<T, any>;
 };
 
