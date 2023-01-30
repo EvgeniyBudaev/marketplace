@@ -1,5 +1,6 @@
 package com.marketplace.backend.model;
 
+import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.model.values.BooleanValue;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
@@ -104,4 +105,15 @@ public class Product {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public void addSelValue(SelectableValue value){
+        this.selectableValues.add(value);
+        value.getProducts().add(this);
+    }
+
+    public void removeSelValue(SelectableValue value){
+        this.selectableValues.remove(value);
+        value.getProducts().remove(this);
+    }
+
 }

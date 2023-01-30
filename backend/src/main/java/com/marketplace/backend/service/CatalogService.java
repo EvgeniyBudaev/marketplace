@@ -143,4 +143,13 @@ public class CatalogService {
         throw new ResourceNotFoundException("Не найден каталог с псевдонимом: "+alias);
     }
 
+    public Catalog simpleCatalogByAlias(String alias){
+        TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c  where c.enabled=true and c.alias=:alias", Catalog.class);
+        resultQuery.setParameter("alias",alias);
+        Optional<Catalog> optionalCatalog = resultQuery.getResultStream().findFirst();
+        if(optionalCatalog.isPresent()){
+            return optionalCatalog.get();
+        }
+        throw new ResourceNotFoundException("Не найден каталог с псевдонимом: "+alias);
+    }
 }

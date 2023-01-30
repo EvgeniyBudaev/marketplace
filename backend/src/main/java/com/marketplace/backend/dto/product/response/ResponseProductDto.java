@@ -23,6 +23,7 @@ public class ResponseProductDto {
     private String price;
     private String count;
     private LocalDateTime createdAt;
+    private LocalDateTime modifyDate;
     private Set<AttributeValueDto> attributes = new HashSet<>();
 
     @Data
