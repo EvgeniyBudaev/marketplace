@@ -15,10 +15,9 @@ import styles from "./HeaderIconsList.module.css";
 type TProps = {
   cart?: TCart;
   className?: string;
-  isHomePage?: boolean;
 };
 
-export const HeaderIconsList: FC<TProps> = ({ cart, className, isHomePage }) => {
+export const HeaderIconsList: FC<TProps> = ({ cart, className }) => {
   const { user } = useUser();
   const [cartId, setCartId] = useState("");
   const [cartItemsCountTotal, setCartItemsCountTotal] = useState("");
@@ -67,11 +66,7 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className, isHomePage }) => 
   };
 
   return (
-    <div
-      className={clsx("HeaderIconsList", className, {
-        HeaderIconsList__isHomePage: isHomePage,
-      })}
-    >
+    <div className="HeaderIconsList">
       <div className="HeaderIconsList-Item">
         <ThemeSwitcher />
       </div>

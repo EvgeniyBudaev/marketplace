@@ -13,8 +13,6 @@ $transition: 0.3s;
     align-items: center;
     height: 32px;
     padding: 7px 15px 7px 0;
-    color: $color-text;
-    background-color: white;
     border-bottom: 1px solid $color-suit-gray;
     transition: all $transition ease;
 
@@ -65,7 +63,6 @@ $transition: 0.3s;
   &-Content {
     padding: 15px 0;
     overflow: hidden;
-    color: $color-text;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
     border-top: 1px solid transparent;

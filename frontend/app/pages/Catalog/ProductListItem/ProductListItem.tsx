@@ -151,7 +151,9 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
               {count > 0 ? "В наличии" : "Товар отсутствует"}
             </Typography>
           </div>
-          <div className="ProductListItem-FooterAddToCartGrid">{renderButton(product)}</div>
+          {count > 0 && (
+            <div className="ProductListItem-FooterAddToCartGrid">{renderButton(product)}</div>
+          )}
         </div>
       </div>
     </li>

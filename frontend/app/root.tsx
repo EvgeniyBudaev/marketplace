@@ -32,8 +32,9 @@ import {
 } from "~/shared/api/settings";
 import { commitCsrfSession, getCsrfSession } from "~/shared/session";
 import { StoreContextProvider, useStore } from "~/shared/store";
-import { links as uikitLinks } from "~/uikit";
+import { links as uikitLinks, ToastContainer } from "~/uikit";
 import { createBoundaries, internalError } from "~/utils";
+import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
 import styles from "../styles/app.css";
 
 interface RootLoaderData {
@@ -119,7 +120,12 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: styles }, ...uikitLinks(), ...componentsLinks()];
+  return [
+    { rel: "stylesheet", href: styles },
+    { rel: "stylesheet", href: reactToastifyStyles },
+    ...uikitLinks(),
+    ...componentsLinks(),
+  ];
 };
 
 type TDocumentProps = {
@@ -134,7 +140,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
   if (typeof window !== "undefined") {
     cspScriptNonce = "";
   }
-  const theme = !isNil(settings) ? settings.theme : ETheme.Light;
+  const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Dark;
 
   return (
     <html lang={"en"}>
@@ -147,8 +153,11 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
         <Meta />
         <Links />
       </head>
-      <body className={clsx({ "theme-dark": theme === ETheme.Dark })}>
-        <Layout cart={cart}>{children}</Layout>
+      <body className={clsx({ "theme-dark": theme === ETheme.Light })}>
+        <Layout cart={cart} theme={theme}>
+          {children}
+        </Layout>
+        <ToastContainer />
         <ScrollRestoration nonce={cspScriptNonce} />
         <Scripts nonce={cspScriptNonce} />
         {env?.IS_PRODUCTION === false && <LiveReload nonce={cspScriptNonce} />}
@@ -163,10 +172,15 @@ export default function App() {
 
   const store = useStore();
   const setUser = store.setUser;
+  const setSettings = store.setSettings;
 
   useEffect(() => {
     setUser(user);
   }, [setUser, user]);
+
+  useEffect(() => {
+    setSettings(settings);
+  }, [setSettings, settings]);
 
   useEffect(() => {
     isMounted.current = true;

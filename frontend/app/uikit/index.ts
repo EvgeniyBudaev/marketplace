@@ -1,8 +1,8 @@
 export * from "./Accordion";
-export * from "./Alert";
 export * from "./Avatar";
 export * from "./Button";
 export * from "./Checkbox";
+export * from "./Colors";
 export * from "./DropDown";
 export * from "./FadeIn";
 export * from "./Hamburger";
@@ -15,11 +15,11 @@ export * from "./Sidebar";
 export * from "./Spacer";
 export * from "./Switcher";
 export * from "./Table";
+export * from "./Toast";
 export * from "./Tooltip";
 export * from "./Typography";
 
 import { accordionLinks } from "~/uikit/Accordion";
-import { alertLinks } from "~/uikit/Alert";
 import { avatarLinks } from "~/uikit/Avatar";
 import { buttonLinks } from "~/uikit/Button/Button";
 import { fadeInLinks } from "~/uikit/FadeIn";
@@ -42,7 +42,6 @@ import { typographyLinks } from "~/uikit/Typography/constants";
 export const links = () => {
   return [
     ...accordionLinks(),
-    ...alertLinks(),
     ...avatarLinks(),
     ...buttonLinks(),
     ...fadeInLinks(),

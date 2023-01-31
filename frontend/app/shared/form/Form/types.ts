@@ -18,6 +18,7 @@ export type TFormComponentProps<T extends FieldValues> = {
   ) => void;
   id?: string;
   method?: FormMethod;
+  action?: string;
   noValidate?: boolean;
   onChange?: FormEventHandler<HTMLFormElement>;
 } & UseFormProps<T>;

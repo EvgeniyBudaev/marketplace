@@ -9,12 +9,13 @@ type TGetFetcherOptionsReturn<T> = {
   isLoading: boolean;
   isInitType: boolean;
   isDoneType: boolean;
+  isSuccessData: boolean;
 };
 
 export const getFetcherOptions = <T = FieldValues>(
-  fetcher: FetcherWithComponents<T>,
+  fetcher: FetcherWithComponents<any>,
 ): TGetFetcherOptionsReturn<T> => {
-  const { state, type } = fetcher;
+  const { data = {}, state, type } = fetcher;
 
   return {
     fetcher,
@@ -22,5 +23,6 @@ export const getFetcherOptions = <T = FieldValues>(
     isLoading: state === EFetcherStates.Loading || state === EFetcherStates.Submitting,
     isInitType: type === EFetcherTypes.Init,
     isDoneType: type === EFetcherTypes.Done,
+    isSuccessData: data?.success === true,
   };
 };

@@ -6,30 +6,6 @@
   max-width: 282px;
   width: 100%;
 
-  &__isHomePage {
-    .IconLink {
-      svg,
-      path {
-        fill: white;
-      }
-
-      &:hover {
-        svg,
-        path {
-          fill: $color-beige;
-        }
-      }
-    }
-
-    #{$this}-IconDescription {
-      color: white;
-    }
-
-    #{$this}-CartItemsCount {
-      color: white;
-    }
-  }
-
   &-Item {
     display: flex;
     flex-direction: column;
@@ -41,7 +17,6 @@
     width: 100%;
 
     a {
-      color: $color-text;
       text-decoration: none;
       transition: all 0.15s;
 
@@ -68,9 +43,12 @@
     }
   }
 
-  &-IconDescription {
-    color: $color-text;
+  &-IconDescription span {
     transition: all 0.15s;
+
+    &:hover {
+      color: $color-beige;
+    }
   }
 
   &-IconLink {

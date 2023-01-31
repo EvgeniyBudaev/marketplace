@@ -8,6 +8,9 @@
 /* #b3b3b3 */
 /* #fff */
 /* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
 /* #B0976A */
 /* #997E4D */
 /* #dfd3c3 */
@@ -37,22 +40,6 @@
   width: 100%;
   background-color: transparent;
 }
-.Search__isHomePage .Search-InputWrapper {
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
-.Search__isHomePage .Search-Input {
-  color: white;
-}
-.Search__isHomePage .Search-Input::placeholder {
-  color: white;
-}
-.Search__isHomePage .Search-Icon svg {
-  fill: rgba(255, 255, 255, 0.9);
-}
-.Search__isHomePage.Search__active .SearchInput {
-  background-color: transparent;
-}
 .Search-Form {
   display: flex;
   align-items: center;
@@ -62,10 +49,11 @@
 .Search-InputWrapper {
   padding: 0;
   width: 100%;
-  height: 44px;
+  height: 43px;
   background-color: transparent;
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgb(228, 228, 228);
+  border-left: 1px solid rgb(228, 228, 228);
+  border-right: 1px solid rgb(228, 228, 228);
 }
 .Search-Input {
   font-family: "Roboto", sans-serif;
@@ -76,13 +64,13 @@
   margin: 0;
   padding: 0 50px 0 16px;
   width: 100%;
-  height: 44px;
-  color: rgb(51, 51, 51);
-  background-color: transparent;
+  height: 42px;
   border: none;
+  background-color: rgb(255, 255, 255);
   outline: transparent;
 }
 .Search-Input::placeholder {
+  background-color: transparent;
   color: rgb(51, 51, 51);
 }
 .Search-Icon {
@@ -91,24 +79,26 @@
   width: 24px;
   height: 24px;
 }
-.Search-Icon svg {
-  fill: rgb(51, 51, 51);
-}
 .Search__active {
   width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
   z-index: 101;
 }
-.Search__active .Search-InputWrapper {
-  border: 2px solid transparent;
-}
 .Search__active .Search-Input {
-  background-color: white;
+  background-color: transparent;
+}
+
+.theme-dark .Search-Input {
+  background-color: rgb(24, 24, 31);
+  color: rgb(255, 255, 255);
+}
+.theme-dark .Search-Input::placeholder {
+  color: rgb(255, 255, 255);
 }
 
 @media (max-width: 768px) {
   .Search-Input {
-    height: 44px;
+    height: 43px;
   }
   .Search-InputWrapper {
     border: none;

@@ -10,15 +10,9 @@ $heightIsScroll: 60px;
   transition: all 0.15s;
   z-index: 102;
 
-  &__isHomePage {
-    .Text {
-      color: white;
-    }
-  }
-
   &__isScroll {
     height: $heightIsScroll;
-    background-color: white;
+    background-color: transparent;
     z-index: 102;
 
     #{$this}-Inner {
@@ -55,8 +49,7 @@ $heightIsScroll: 60px;
     width: 100%;
   }
 
-  &-Text {
-    color: $color-text;
+  &-Text span {
     transition: all 0.15s;
 
     &:hover {

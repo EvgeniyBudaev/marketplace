@@ -5,18 +5,19 @@ import { createColumnHelper, Table as UiTable } from "~/uikit";
 
 type TProps = {
   catalogs: TCatalogs;
+  onChangePage: ({ selected }: { selected: number }) => void;
 };
 
-const TableComponent = forwardRef<HTMLDivElement, TProps>(({ catalogs }, ref) => {
+const TableComponent = forwardRef<HTMLDivElement, TProps>(({ catalogs, onChangePage }, ref) => {
   const columnHelper = createColumnHelper<TCatalog>();
   const columns = useGetColumns(columnHelper);
 
   const { content, countOfPage, countOfResult, currentPage, hasPrevious, hasNext } = catalogs;
 
-  const handlePageChange = ({ selected }: { selected: number }) => {
-    console.log("selected: ", selected);
-    //setCurrentPage(selected + 1);
-  };
+  // const handlePageChange = ({ selected }: { selected: number }) => {
+  //   console.log("selected: ", selected);
+  //   //setCurrentPage(selected + 1);
+  // };
 
   return (
     <div ref={ref}>
@@ -25,7 +26,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(({ catalogs }, ref) =>
         currentPage={currentPage}
         data={content}
         getId={(row) => row.id}
-        onPageChange={handlePageChange}
+        onPageChange={onChangePage}
         pagesCount={countOfPage}
         totalItems={countOfResult}
         totalItemsTitle={"Всего каталогов"}

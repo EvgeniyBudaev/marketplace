@@ -9,6 +9,9 @@
 /* #b3b3b3 */
 /* #fff */
 /* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
 /* #B0976A */
 /* #997E4D */
 /* #dfd3c3 */
@@ -39,7 +42,7 @@
   width: 100%;
   height: max-content;
   background-color: rgb(255, 255, 255);
-  border: 1px solid transparent;
+  border: 1px solid rgb(228, 228, 228);
   border-radius: 4px;
   z-index: 101;
 }
@@ -57,6 +60,10 @@
 .SearchDropDownWindow.exit-active {
   opacity: 0;
   transition: opacity 0.3s;
+}
+
+.theme-dark .SearchDropDownWindow {
+  background-color: rgb(24, 24, 31);
 }
 
 /*# sourceMappingURL=Common.css.map */

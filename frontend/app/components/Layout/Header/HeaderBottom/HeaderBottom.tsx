@@ -8,21 +8,14 @@ import styles from "./HeaderBottom.module.css";
 type TProps = {
   className?: string;
   isCatalogOpen?: boolean;
-  isHomePage?: boolean;
   onCatalogToggle?: () => void;
 };
 
-export const HeaderBottom: FC<TProps> = ({
-  className,
-  isCatalogOpen,
-  isHomePage,
-  onCatalogToggle,
-}) => {
+export const HeaderBottom: FC<TProps> = ({ className, isCatalogOpen, onCatalogToggle }) => {
   return (
     <div
       className={clsx("HeaderBottom", className, {
         HeaderBottom__catalogOpen: isCatalogOpen,
-        HeaderBottom__isHomePage: isHomePage,
       })}
     >
       <div className="HeaderBottom-Container">
@@ -42,11 +35,7 @@ export const HeaderBottom: FC<TProps> = ({
                 </Button>
               </div>
               <Spacer />
-              <Search
-                className="HeaderBottom-SearchControlsDesktop"
-                transition={TRANSITION}
-                isHomePage={isHomePage}
-              />
+              <Search className="HeaderBottom-SearchControlsDesktop" transition={TRANSITION} />
               <Spacer />
               <div className="HeaderBottom-InfoRight">
                 <NavLink href={"/about"} activeClassName="HeaderBottom-Text__isActive">
@@ -70,11 +59,7 @@ export const HeaderBottom: FC<TProps> = ({
             </div>
           </div>
         </div>
-        <Search
-          className="HeaderBottom-SearchControlsMobile"
-          transition={TRANSITION}
-          isHomePage={isHomePage}
-        />
+        <Search className="HeaderBottom-SearchControlsMobile" transition={TRANSITION} />
       </div>
     </div>
   );

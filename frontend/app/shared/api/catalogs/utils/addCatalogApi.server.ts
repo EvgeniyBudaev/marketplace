@@ -3,8 +3,10 @@ import type { TApiFunction } from "~/shared/api";
 import type { TCatalogAdd, TCatalogAddParams } from "~/shared/api/catalogs";
 import { EFormMethods } from "~/shared/form";
 
-export const addCatalogApi: TApiFunction<TCatalogAddParams, TCatalogAdd> = (request) => {
-  return fetchApi<TCatalogAdd>(request, `/api/v1/catalogs`, {
+export const addCatalogApi: TApiFunction<TCatalogAddParams, TCatalogAdd> = (request, params) => {
+  const url = `/api/v1/catalogs`;
+  return fetchApi<TCatalogAdd>(request, url, {
     method: EFormMethods.Post,
+    body: params,
   });
 };
