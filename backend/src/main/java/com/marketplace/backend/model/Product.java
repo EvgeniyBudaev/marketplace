@@ -1,6 +1,6 @@
 package com.marketplace.backend.model;
 
-import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+
 import com.marketplace.backend.model.values.BooleanValue;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
@@ -13,6 +13,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,6 +31,8 @@ import java.util.Set;
         @NamedAttributeNode("count"),
         @NamedAttributeNode("price"),
         @NamedAttributeNode("rating"),
+        @NamedAttributeNode("createdAt"),
+        @NamedAttributeNode("modifyDate"),
         @NamedAttributeNode(value = "catalog",subgraph = "catalog-subgraph"),
         @NamedAttributeNode(value = "doubleValues",subgraph = "attribute-subgraph"),
         @NamedAttributeNode(value = "booleanValues",subgraph = "attribute-subgraph"),
@@ -60,7 +63,7 @@ public class Product {
     @Column(name = "alias", nullable = false, unique = true)
     private String alias;
 
-    @Column(name = "enabled")
+    @Column(name = "enabled",updatable = false,nullable = false)
     private Boolean enabled;
 
     @Column(name = "count", nullable = false,columnDefinition = "INTEGER, default '0'")
@@ -69,7 +72,7 @@ public class Product {
     @Column(name = "price",columnDefinition = "DECIMAL(19,2), default '0.00'")
     private BigDecimal price;
 
-    @Column(name = "rating", nullable = false)
+    @Column(name = "rating", nullable = false,updatable = false)
     private double rating;
 
     @CreationTimestamp
@@ -85,13 +88,13 @@ public class Product {
 
 
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    private Set<DoubleValue> doubleValues;
+    private Set<DoubleValue> doubleValues = new HashSet<>();
 
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    private Set<BooleanValue> booleanValues;
+    private Set<BooleanValue> booleanValues= new HashSet<>();
 
     @ManyToMany(mappedBy = "products",fetch = FetchType.LAZY)
-    private Set<SelectableValue> selectableValues;
+    private Set<SelectableValue> selectableValues= new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -111,9 +114,5 @@ public class Product {
         value.getProducts().add(this);
     }
 
-    public void removeSelValue(SelectableValue value){
-        this.selectableValues.remove(value);
-        value.getProducts().remove(this);
-    }
 
 }

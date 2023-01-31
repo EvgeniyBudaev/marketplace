@@ -86,11 +86,7 @@ public class ProductService implements ProductDao {
                 .createQuery("SELECT p from Product as p where p.alias=:alias and p.enabled=true", Product.class);
         query.setParameter("alias", alias);
         query.setHint("javax.persistence.fetchgraph", entityGraph);
-        Product product = query.getSingleResult();
-        if (product == null) {
-            throw new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias);
-        }
-        return product;
+        return query.getResultStream().findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
     }
 
     @Override

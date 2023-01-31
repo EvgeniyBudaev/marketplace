@@ -29,6 +29,7 @@ public class ResponseProductDto {
     @Data
     public static class AttributeValueDto{
        private String attributeName;
+       private String attributeAlias;
        private String value;
     }
 
@@ -41,6 +42,7 @@ public class ResponseProductDto {
         this.setPrice(product.getPrice().toString());
         this.setCount(String.valueOf(product.getCount()));
         this.setCreatedAt(product.getCreatedAt());
+        this.setModifyDate(product.getModifyDate());
         this.setDescription(product.getDescription());
         this.setRating(product.getRating());
         this.getAttributes().addAll(convertDoubleValueToDto(product.getDoubleValues()));
@@ -58,6 +60,7 @@ public class ResponseProductDto {
             AttributeValueDto valueDto = new AttributeValueDto();
             valueDto.setValue(doubleValue.getValue().toString());
             valueDto.setAttributeName(doubleValue.getAttribute().getName());
+            valueDto.setAttributeAlias(doubleValue.getAttribute().getAlias());
             result.add(valueDto);
         }
         return result;
@@ -71,6 +74,7 @@ public class ResponseProductDto {
             AttributeValueDto valueDto = new AttributeValueDto();
             valueDto.setValue(booleanValue.getValue().toString());
             valueDto.setAttributeName(booleanValue.getAttribute().getName());
+            valueDto.setAttributeAlias(booleanValue.getAttribute().getAlias());
             result.add(valueDto);
         }
         return result;
@@ -84,6 +88,7 @@ public class ResponseProductDto {
             AttributeValueDto valueDto = new AttributeValueDto();
             valueDto.setValue(selectableValue.getValue());
             valueDto.setAttributeName(selectableValue.getAttribute().getName());
+            valueDto.setAttributeAlias(selectableValue.getAttribute().getAlias());
             result.add(valueDto);
         }
         return result;

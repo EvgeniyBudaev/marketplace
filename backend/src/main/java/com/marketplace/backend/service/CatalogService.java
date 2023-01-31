@@ -42,13 +42,13 @@ public class CatalogService {
     @Transactional
     public Catalog saveOrUpdate(RequestSaveCatalogDto dto) {
         if(dto.getId()==null){
-            return saveNewEntity(dto);
+            return saveNewCatalog(dto);
         }
-        return updateEntity(dto);
+        return updateCatalog(dto);
     }
 
     @Transactional
-    public Catalog saveNewEntity(RequestSaveCatalogDto dto){
+    public Catalog saveNewCatalog(RequestSaveCatalogDto dto){
         Catalog catalog = mapper.dtoToEntity(dto);
         Set<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         catalog.setAttributes(attributeList);
@@ -58,7 +58,7 @@ public class CatalogService {
         return catalog;
     }
     @Transactional
-    public Catalog updateEntity(RequestSaveCatalogDto dto){
+    public Catalog updateCatalog(RequestSaveCatalogDto dto){
         Set<Attribute> newAttributes = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         Query updateQuery = entityManager
                 .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true ,c.image = :image where c.id=:id");
@@ -122,16 +122,6 @@ public class CatalogService {
         queryDelete.executeUpdate();
     }
 
-
-    public Catalog findEntityByAlias(String catalogAlias) {
-        TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c where c.enabled=true and c.alias=:alias", Catalog.class);
-        resultQuery.setParameter("alias",catalogAlias);
-        Optional<Catalog> optionalCatalog = resultQuery.getResultStream().findFirst();
-        if(optionalCatalog.isPresent()){
-            return optionalCatalog.get();
-        }
-        throw new ResourceNotFoundException("Не найден каталог с псевдонимом: "+catalogAlias);
-    }
 
     public Set<Attribute> attributesInCatalogByAlias(String alias){
         TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c left join c.attributes where c.enabled=true and c.alias=:alias", Catalog.class);

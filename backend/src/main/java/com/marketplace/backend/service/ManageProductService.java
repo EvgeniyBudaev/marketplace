@@ -14,10 +14,9 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,16 +27,16 @@ public class ManageProductService implements ManageProductDao {
     private final EntityManager entityManager;
     private final CatalogService catalogService;
     private final AttributeService attributeService;
-    private final AttributeValueService attributeValueService;
+    private final ProductService productService;
     private final ProductMapper productMapper;
 
     @Autowired
-    public ManageProductService(ProductRepository productRepository, EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, AttributeValueService attributeValueService) {
+    public ManageProductService(ProductRepository productRepository, EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, ProductService productService) {
         this.productRepository = productRepository;
         this.entityManager = entityManager;
         this.catalogService = catalogService;
         this.attributeService = attributeService;
-        this.attributeValueService = attributeValueService;
+        this.productService = productService;
         this.productMapper = Mappers.getMapper(ProductMapper.class);
     }
 
@@ -57,7 +56,6 @@ public class ManageProductService implements ManageProductDao {
     @Override
     @Transactional(rollbackOn = {ResourceNotFoundException.class,OperationNotAllowedException.class})
     public Product save(RequestSaveProductDto dto) {
-
         /*атрибуты которые должны быть заполнены*/
         Set<Attribute> neededAttributes = catalogService.attributesInCatalogByAlias(dto.getCatalogAlias());
         Set<Attribute> attributeInDto = new HashSet<>();
@@ -112,20 +110,37 @@ public class ManageProductService implements ManageProductDao {
                     .equals(value.getAttributeAlias())).findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден атрибут с псевдонимом: "+value.getAttributeAlias())));
             entityManager.persist(doubleValue);
         }
-        return newProduct;
+        return productService.findProductByAlias(newProduct.getAlias());
     }
     public Product updateProduct(RequestSaveProductDto dto){
-        Query query = entityManager
-                .createQuery("UPDATE Product as p set p.alias =:alias, p.name=:name, p.description=:desc, p.alias = :alias, p.enabled=true," +
-                        "p.count=:count, p.price=:price where p.id=:id");
-        query.setParameter("name", dto.getName());
-        query.setParameter("desc", dto.getDescription());
-        query.setParameter("alias", dto.getAlias());
-        query.setParameter("count", dto.getCount());
-        query.setParameter("alias", dto.getAlias());
-        query.setParameter("id",dto.getId());
-        query.executeUpdate();
-        Product product = entityManager.find(Product.class,dto.getId());
-        return product;
+        Product product = productMapper.dtoToEntity(dto);
+        product.setEnabled(true);
+        product.setCatalog(catalogService.simpleCatalogByAlias(dto.getCatalogAlias()));
+        product.setModifyDate(LocalDateTime.now());
+        Query queryDelNumericValue = entityManager.createNativeQuery("DELETE FROM double_value where product_id =:id");
+        queryDelNumericValue.setParameter("id",dto.getId());
+        queryDelNumericValue.executeUpdate();
+        Query queryDelSelValue = entityManager.createNativeQuery("DELETE FROM products_selectable where product_id=:id");
+        queryDelSelValue.setParameter("id",dto.getId());
+        queryDelSelValue.executeUpdate();
+        Set<Long> selValueIds = dto.getSelectableValues();
+        for(Long id:selValueIds){
+            SelectableValue selectableValue = entityManager.getReference(SelectableValue.class,id);
+            product.addSelValue(selectableValue);
+        }
+        List<String> numericValueAlias = dto.getNumericValues().stream().map(RequestSaveProductDto.NumericValue::getAttributeAlias).toList();
+        Set<Attribute> attributes = attributeService.getListAttributeByAliases(numericValueAlias);
+        dto.getNumericValues().forEach(x->{
+           Attribute attribute = attributes.stream().filter(y->y.getAlias().equals(x.getAttributeAlias())).
+                   findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден атрибут с псевдонимом "+x.getAttributeAlias()));
+           DoubleValue doubleValue = new DoubleValue();
+           doubleValue.setProduct(product);
+           doubleValue.setAttribute(attribute);
+           doubleValue.setValue(x.getValue());
+           product.getDoubleValues().add(doubleValue);
+           entityManager.persist(doubleValue);
+        });
+        entityManager.merge(product);
+        return productService.findProductByAlias(product.getAlias());
     }
 }
