@@ -100,7 +100,7 @@ public class AttributeService implements AttributeDao {
 
     @Transactional(rollbackFor = {ResourceNotFoundException.class})
     public Attribute updateEntity(Attribute newAttribute){
-        Attribute oldAttribute = getAttributeByAlisWitSelectableValues(newAttribute.getAlias());
+        Attribute oldAttribute = getAttributeByIdWitSelectableValues(newAttribute.getId());
         entityManager.detach(oldAttribute);
         /*если поменяли тип атрибута то удаляем значения которые были у старого атрибута*/
         if(!oldAttribute.getType().equals(newAttribute.getType())){
@@ -147,17 +147,17 @@ public class AttributeService implements AttributeDao {
         return newAttribute;
     }
 
-    public Attribute getAttributeByAlisWitSelectableValues(String alias){
+    public Attribute getAttributeByIdWitSelectableValues(Long id){
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("attribute-with-selectable-values");
         TypedQuery<Attribute> resultQuery = entityManager.
-                createQuery("SELECT a from Attribute a where a.enabled=true and a.alias =:alias", Attribute.class);
-        resultQuery.setParameter("alias",alias);
+                createQuery("SELECT a from Attribute a where a.enabled=true and a.id =:id", Attribute.class);
+        resultQuery.setParameter("id",id);
         resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         Optional<Attribute> resultOptional = resultQuery.getResultStream().findFirst();
         if(resultOptional.isPresent()){
             return resultOptional.get();
         }
-        throw new ResourceNotFoundException("Не найден атрибут с псевдонимом "+alias);
+        throw new ResourceNotFoundException("Не найден атрибут с id "+id);
     }
 
     public Set<Attribute> getListAttributeByAliases(List<String> aliases){
