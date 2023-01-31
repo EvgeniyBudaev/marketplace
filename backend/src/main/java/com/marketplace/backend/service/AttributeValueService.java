@@ -24,7 +24,7 @@ public class AttributeValueService {
         this.entityManager = entityManager;
     }
 
-    public Set<NumberAttributeDto> findNumberAttributesInCatalog (Long catalogId){
+    public Set<NumberAttributeDto> findNumberAttributesUseInCatalog(Long catalogId){
         TypedQuery<NumberAttributeDto> doubleValueQuery = entityManager
                 .createQuery("SELECT distinct new com.marketplace.backend." +
                         "dto.catalog.response.single" +
@@ -63,4 +63,6 @@ public class AttributeValueService {
         query.setParameter("alias",alias);
         query.executeUpdate();
     }
+
+
 }

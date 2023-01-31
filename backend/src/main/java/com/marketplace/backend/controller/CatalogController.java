@@ -3,6 +3,7 @@ package com.marketplace.backend.controller;
 
 import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
+import com.marketplace.backend.dto.catalog.response.ResponseSingleAfterSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalogDto;
 import com.marketplace.backend.mappers.CatalogMapper;
 import com.marketplace.backend.model.Attribute;
@@ -56,7 +57,7 @@ public class CatalogController {
         List<Attribute> numAttributeList = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
         if(!numAttributeList.isEmpty()){
-            dto.setNumberAttribute(catalogService.findNumberAttributesInCatalog(catalog));
+            dto.setNumberAttribute(catalogService.findUseNumericAttributesInCatalog(catalog));
         }
         if(selAttributeList.isEmpty()){
             return dto;
@@ -78,9 +79,13 @@ public class CatalogController {
     }
 
     @PostMapping
-    public ResponseSingleCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
-        Catalog catalog = catalogService.save(dto);
-        return getCatalogByAlias(catalog.getAlias());
+    public ResponseSingleAfterSaveCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
+        Catalog catalog = catalogService.saveOrUpdate(dto);
+        List<Attribute> selAttributeList = catalog.getAttributes()
+                .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
+        List<Attribute> numAttributeList = catalog.getAttributes()
+                .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
+        return mapper.entityToAfterSaveDto(catalog,selAttributeList,numAttributeList);
     }
 
 

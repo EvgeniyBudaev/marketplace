@@ -17,9 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -101,7 +100,7 @@ public class AttributeService implements AttributeDao {
 
     @Transactional(rollbackFor = {ResourceNotFoundException.class})
     public Attribute updateEntity(Attribute newAttribute){
-        Attribute oldAttribute = getAttributeByAlisWitSelectableValues(newAttribute.getAlias());
+        Attribute oldAttribute = getAttributeByIdWitSelectableValues(newAttribute.getId());
         entityManager.detach(oldAttribute);
         /*если поменяли тип атрибута то удаляем значения которые были у старого атрибута*/
         if(!oldAttribute.getType().equals(newAttribute.getType())){
@@ -148,19 +147,27 @@ public class AttributeService implements AttributeDao {
         return newAttribute;
     }
 
-    public Attribute getAttributeByAlisWitSelectableValues(String alias){
+    public Attribute getAttributeByIdWitSelectableValues(Long id){
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("attribute-with-selectable-values");
         TypedQuery<Attribute> resultQuery = entityManager.
-                createQuery("SELECT a from Attribute a where a.enabled=true and a.alias =:alias", Attribute.class);
-        resultQuery.setParameter("alias",alias);
+                createQuery("SELECT a from Attribute a where a.enabled=true and a.id =:id", Attribute.class);
+        resultQuery.setParameter("id",id);
         resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         Optional<Attribute> resultOptional = resultQuery.getResultStream().findFirst();
         if(resultOptional.isPresent()){
             return resultOptional.get();
         }
-        throw new ResourceNotFoundException("Не найден атрибут с псевдонимом "+alias);
+        throw new ResourceNotFoundException("Не найден атрибут с id "+id);
     }
 
+    public Set<Attribute> getListAttributeByAliases(List<String> aliases){
+        TypedQuery<Attribute> query = entityManager.
+                createQuery("SELECT a FROM Attribute as a where a.alias in (:aliases) and a.enabled=true ",Attribute.class);
+        query.setParameter("aliases",aliases);
+        Set<Attribute> attributeSet = new HashSet<>();
+        query.getResultStream().forEach(attributeSet::add);
+        return attributeSet;
+    }
 
     public Integer delete(String alias) {
        Attribute attribute = getAttributeByAlias(alias);
@@ -169,4 +176,11 @@ public class AttributeService implements AttributeDao {
        queryAttribute.setParameter("alias",alias);
        return queryAttribute.executeUpdate();
     }
+
+    public Set<Attribute> attributesAliasBySelValueIds(List<Long> selValueIds){
+        TypedQuery<Attribute> query = entityManager.createQuery("SELECT distinct a FROM SelectableValue as sv  join sv.attribute as a where sv.id in (:ids)", Attribute.class);
+        query.setParameter("ids",selValueIds);
+        return query.getResultStream().collect(Collectors.toSet());
+    }
+
 }

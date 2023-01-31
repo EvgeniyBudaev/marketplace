@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "catalogs")
@@ -51,10 +52,10 @@ public class Catalog {
     private boolean enabled;
 
     @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Product> products;
+    private Set<Product> products;
 
-   @ManyToMany(mappedBy = "catalog",fetch = FetchType.LAZY)
-    private List<Attribute> attributes;
+   @ManyToMany(mappedBy = "catalog",cascade = {CascadeType.PERSIST,CascadeType.DETACH},fetch = FetchType.LAZY)
+    private Set<Attribute> attributes;
 
     @CreationTimestamp
     @Column(name = "created_at",updatable = false)
@@ -76,4 +77,15 @@ public class Catalog {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public void addAttribute(Attribute attribute){
+        this.attributes.add(attribute);
+        attribute.getCatalog().add(this);
+    }
+
+    public void removeAttribute(Attribute attribute){
+        this.attributes.remove(attribute);
+        attribute.getCatalog().remove(this);
+    }
+
 }
