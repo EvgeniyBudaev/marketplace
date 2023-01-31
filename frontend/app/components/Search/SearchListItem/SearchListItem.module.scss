@@ -12,6 +12,7 @@
 
     &__active {
       background-color: $color-light-beige;
+      color: $color-text;
     }
   }
 
@@ -35,5 +36,19 @@
 
   &-ByCatalog {
     border-bottom: 1px solid $color-light-gray;
+  }
+}
+
+.theme-dark {
+  & .SearchListItem {
+    $this: &;
+
+    &-Link {
+      &__active {
+        span.text-dark {
+          color: $color-text;
+        }
+      }
+    }
   }
 }

@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
 import type { FC } from "react";
+import { useRef, useState } from "react";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { Logo } from "~/components";
+import { ETheme } from "~/enums";
 import { TCart } from "~/shared/api/cart";
 import { Button, ETypographyVariant, Hamburger, Sidebar, Spacer, Typography } from "~/uikit";
 import { HeaderIconsList } from "./HeaderIconsList";
@@ -11,11 +12,11 @@ import styles from "./HeaderCenter.module.css";
 type TProps = {
   cart?: TCart;
   className?: string;
-  isHomePage?: boolean;
   isScroll?: boolean;
+  theme: ETheme;
 };
 
-export const HeaderCenter: FC<TProps> = ({ cart, className, isHomePage, isScroll }) => {
+export const HeaderCenter: FC<TProps> = ({ cart, className, isScroll, theme }) => {
   const [isSidebar, setIsSidebar] = useState(false);
   const nodeRef = useRef(null);
 
@@ -30,7 +31,6 @@ export const HeaderCenter: FC<TProps> = ({ cart, className, isHomePage, isScroll
   return (
     <div
       className={clsx("HeaderCenter", className, {
-        HeaderCenter__isHomePage: isHomePage,
         HeaderCenter__isScroll: isScroll,
       })}
     >
@@ -45,32 +45,22 @@ export const HeaderCenter: FC<TProps> = ({ cart, className, isHomePage, isScroll
               </Link>
             </div>
             <Spacer />
-            <Logo isHomePage={isHomePage} />
+            <Logo />
             <Spacer />
 
-            <HeaderIconsList className="HeaderCenter-Desktop" isHomePage={isHomePage} />
+            <HeaderIconsList className="HeaderCenter-Desktop" />
           </div>
           <div className="HeaderCenter-Mobile">
-            <Button
-              className={clsx("HeaderCenter-ButtonSidebar", {
-                "HeaderCenter-ButtonSidebar__isHomePage": isHomePage,
-              })}
-              onClick={handleSidebarOpen}
-            >
+            <Button className="HeaderCenter-ButtonSidebar" onClick={handleSidebarOpen}>
               <Hamburger
                 className="HeaderCenter-HamburgerSidebar"
-                color={isHomePage ? "white" : "black"}
+                color={false ? "white" : "black"}
                 isActive={isSidebar}
-                isHomePage={isHomePage}
               />
             </Button>
-            <Logo className="HeaderCenter-LogoMobile" isHomePage={isHomePage} />
+            <Logo className="HeaderCenter-LogoMobile" />
 
-            <HeaderIconsList
-              cart={cart}
-              className="HeaderCenter-HeaderIconsListMobile"
-              isHomePage={isHomePage}
-            />
+            <HeaderIconsList cart={cart} />
 
             <Sidebar ref={nodeRef} isActive={isSidebar} onClose={handleSidebarClose}>
               {/* <SidebarMobile onClose={handleSidebarClose} /> */}

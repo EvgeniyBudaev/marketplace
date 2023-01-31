@@ -7,14 +7,14 @@ $height: 44px;
   display: flex;
   position: relative;
   height: $height;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid $color-light-gray;
+  border-bottom: 1px solid $color-light-gray;
 
   &::before,
   &:after {
     height: $height;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid $color-light-gray;
+    border-bottom: 1px solid $color-light-gray;
   }
 
   &::before {
@@ -33,21 +33,6 @@ $height: 44px;
 
     #{$this}-Link {
       display: none;
-    }
-  }
-
-  &__isHomePage {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-    &::before,
-    &:after {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    #{$this}-Text {
-      color: white;
     }
   }
 
@@ -100,8 +85,15 @@ $height: 44px;
     align-items: center;
     white-space: nowrap;
     margin-left: 25px;
-    color: $color-text;
     transition: all 0.15s;
+
+    & span {
+      transition: all 0.15s;
+
+      &:hover {
+        color: $color-beige;
+      }
+    }
 
     &__isActive {
       color: $color-beige;

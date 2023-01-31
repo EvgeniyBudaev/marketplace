@@ -20,10 +20,9 @@ import styles from "./Search.module.css";
 type TProps = {
   className?: string;
   transition?: number;
-  isHomePage?: boolean;
 };
 
-export const Search: FC<TProps> = ({ className, transition = TRANSITION, isHomePage }) => {
+export const Search: FC<TProps> = ({ className, transition = TRANSITION }) => {
   const DEBOUNCE_TIMEOUT = 300;
   const [isActive, setIsActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -76,7 +75,6 @@ export const Search: FC<TProps> = ({ className, transition = TRANSITION, isHomeP
       <div
         className={clsx("Search", className, {
           Search__active: isActive,
-          Search__isHomePage: isHomePage,
         })}
       >
         <div className="Search-Form">

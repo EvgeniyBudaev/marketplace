@@ -3,4 +3,5 @@ export * from "./useFetcherData";
 export * from "./useGetFormErrors";
 export * from "./useKey";
 export * from "./usePaging";
+export * from "./useSettings";
 export * from "./useUser";

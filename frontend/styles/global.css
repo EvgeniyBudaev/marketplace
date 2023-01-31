@@ -66,3 +66,17 @@ button {
   cursor: pointer;
   outline: transparent;
 }
+
+.theme-dark {
+  background-color: rgba(24, 24, 31, 1);
+  color: #fff;
+}
+
+.theme-dark .text-dark {
+  color: #fff;
+}
+
+.theme-dark .icon-dark {
+  color: #fff;
+  fill: #fff;
+}

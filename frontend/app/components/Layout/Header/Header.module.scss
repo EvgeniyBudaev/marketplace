@@ -12,7 +12,6 @@
     max-width: 100%;
     width: 100%;
     height: max-content;
-    background-color: white;
     box-shadow: 0 1rem 1.7rem rgba(0, 0, 0, 0.05);
     z-index: 102;
 
@@ -20,20 +19,12 @@
       box-shadow: none;
     }
 
-    &__isHomePage {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background-color: transparent;
-    }
-
     &__isScroll {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background-color: white;
+      background-color: transparent;
       z-index: 102;
     }
   }

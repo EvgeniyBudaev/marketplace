@@ -12,7 +12,7 @@ $maxWidth: 620px;
   width: 100%;
   height: max-content;
   background-color: $color-white;
-  border: 1px solid transparent;
+  border: 1px solid $color-light-gray;
   border-radius: 4px;
   z-index: 101;
 
@@ -33,5 +33,11 @@ $maxWidth: 620px;
   &.exit-active {
     opacity: 0;
     transition: opacity $transition;
+  }
+}
+
+.theme-dark {
+  .SearchDropDownWindow {
+    background-color: $color-night;
   }
 }

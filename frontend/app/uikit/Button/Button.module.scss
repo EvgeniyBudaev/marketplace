@@ -90,3 +90,11 @@
     }
   }
 }
+
+.theme-dark {
+  .Button {
+    &.Button__disabled span {
+      color: $color-text;
+    }
+  }
+}
