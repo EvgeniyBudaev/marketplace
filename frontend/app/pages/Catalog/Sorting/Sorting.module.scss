@@ -26,6 +26,16 @@
   }
 }
 
+.theme-dark {
+  .Sorting {
+    &-Select {
+      svg {
+        fill: #fff;
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .Sorting {
     &-Label {
