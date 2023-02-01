@@ -12,10 +12,13 @@ import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.CatalogService;
+import com.marketplace.backend.service.utils.queryes.CatalogUrlResolver;
+import com.marketplace.backend.service.utils.queryes.CatalogUrlResolverImpl;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
@@ -36,8 +39,9 @@ public class CatalogController {
     @GetMapping("/page")
     public Paging<ResponseSimpleCatalogDto> showAllCatalogs(@RequestParam(name = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(name = "pageSize", defaultValue = "5") Integer pageSize,
-                                                            @RequestParam(name = "sort")String sort) {
-
+                                                            @RequestParam(name = "sort")String sort, HttpServletRequest request) {
+        CatalogUrlResolver resolver = new CatalogUrlResolverImpl();
+        resolver.resolveQueryString(request.getQueryString());
         if (page < 1) {
             page = 1;
         }
