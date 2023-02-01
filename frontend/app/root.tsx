@@ -140,7 +140,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
   if (typeof window !== "undefined") {
     cspScriptNonce = "";
   }
-  const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Dark;
+  const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
 
   return (
     <html lang={"en"}>
@@ -153,7 +153,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
         <Meta />
         <Links />
       </head>
-      <body className={clsx({ "theme-dark": theme === ETheme.Light })}>
+      <body className={clsx({ "theme-dark": theme === ETheme.Dark })}>
         <Layout cart={cart} theme={theme}>
           {children}
         </Layout>

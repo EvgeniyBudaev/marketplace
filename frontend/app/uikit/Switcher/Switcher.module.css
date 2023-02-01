@@ -70,6 +70,14 @@
   width: 100%;
 }
 
+.theme-dark .Switcher-Inner {
+  background-color: rgb(31, 32, 41);
+}
+.theme-dark .Switcher-Pointer {
+  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 40%),
+    linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 40%);
+}
+
 @media (max-width: 1100px) {
   .Switcher-Pointer {
     width: 44px;

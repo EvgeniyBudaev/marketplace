@@ -1,30 +1,33 @@
 import { GroupBase, StylesConfig } from "react-select";
+import { TSelectVariants } from "~/pages/Catalog/Sorting/types";
+import { VARIANTS } from "~/pages/Catalog/Sorting/selectVariants";
 import { ISelectOption } from "~/uikit";
 
-export const selectStyles:
-  | StylesConfig<ISelectOption, false, GroupBase<ISelectOption>>
-  | undefined = {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  control: (base) => ({
-    ...base,
-    border: "1px solid #B0976A",
-    borderRadius: "0",
-    // "&:hover": { borderColor: "#e5e5e5" },
-    cursor: "pointer",
-  }),
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  option: (base, { isFocused, isSelected }: { isFocused: boolean; isSelected: boolean }) => ({
-    ...base,
-    backgroundColor: isSelected ? "#dfd3c3" : "",
-    color: isFocused || isSelected ? "black" : "",
-    borderRadius: "0",
-    cursor: "pointer",
-    ":active": {
-      backgroundColor: "#dfd3c3",
-    },
-    ":hover": {
-      backgroundColor: "#e4e4e4",
-      transition: "all 0.15s",
-    },
-  }),
+export const selectStyles = (
+  variant: TSelectVariants = "primary",
+): StylesConfig<ISelectOption, false, GroupBase<ISelectOption>> | undefined => {
+  const style = VARIANTS[variant];
+
+  return {
+    control: (provided, state) => ({
+      ...provided,
+      background: style.control.background,
+      border: style.control.border,
+      borderRadius: style.control.borderRadius,
+      cursor: style.control.cursor,
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: style.singleValue.color,
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: style.option.backgroundColor,
+      borderRadius: style.option.borderRadius,
+      color: state.isFocused || state.isSelected ? style.option.color : "",
+      cursor: style.option.cursor,
+      ":active": style.option[":active"],
+      ":hover": style.option[":hover"],
+    }),
+  };
 };
