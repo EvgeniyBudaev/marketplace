@@ -35,7 +35,9 @@ public class CatalogController {
 
     @GetMapping("/page")
     public Paging<ResponseSimpleCatalogDto> showAllCatalogs(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                            @RequestParam(name = "size", defaultValue = "5") Integer pageSize) {
+                                                            @RequestParam(name = "pageSize", defaultValue = "5") Integer pageSize,
+                                                            @RequestParam(name = "sort")String sort) {
+
         if (page < 1) {
             page = 1;
         }
