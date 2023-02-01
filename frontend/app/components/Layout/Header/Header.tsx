@@ -4,6 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 //import useWindowScroll from "hooks/useWindowScroll";
 import { TRANSITION } from "~/constants";
+import { ETheme } from "~/enums";
 import { TCart } from "~/shared/api/cart";
 import { Overlay } from "~/uikit";
 import { CatalogDropDown, catalogDropDownLinks } from "./CatalogDropDown";
@@ -17,10 +18,10 @@ import styles from "./Header.module.css";
 type TProps = {
   cart?: TCart;
   className?: string;
-  isHomePage?: boolean;
+  theme: ETheme;
 };
 
-export const Header: FC<TProps> = ({ cart, isHomePage }) => {
+export const Header: FC<TProps> = ({ cart, theme }) => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const nodeRef = useRef(null);
   const headerRef = useRef(null);
@@ -41,17 +42,12 @@ export const Header: FC<TProps> = ({ cart, isHomePage }) => {
       <div
         className={clsx("Header-Wrapper", {
           "Header-Wrapper__isCatalogOpen": isCatalogOpen,
-          "Header-Wrapper__isHomePage": isHomePage,
           "Header-Wrapper__isScroll": isScroll,
         })}
       >
         <header className="Header" ref={headerRef}>
-          <HeaderCenter cart={cart} isHomePage={!isScroll && isHomePage} isScroll={isScroll} />
-          <HeaderBottom
-            isCatalogOpen={isCatalogOpen}
-            isHomePage={!isScroll && isHomePage}
-            onCatalogToggle={onCatalogToggle}
-          />
+          <HeaderCenter cart={cart} isScroll={isScroll} theme={theme} />
+          <HeaderBottom isCatalogOpen={isCatalogOpen} onCatalogToggle={onCatalogToggle} />
         </header>
       </div>
       <CSSTransition

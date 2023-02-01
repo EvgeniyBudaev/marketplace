@@ -8,6 +8,9 @@
 /* #b3b3b3 */
 /* #fff */
 /* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
 /* #B0976A */
 /* #997E4D */
 /* #dfd3c3 */
@@ -29,7 +32,12 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
+.SearchProductList {
+  background-color: transparent;
+}
+
 .SearchCatalogList {
+  background-color: transparent;
   border-bottom: 1px solid rgb(228, 228, 228);
 }
 

@@ -9,6 +9,9 @@
 /* #b3b3b3 */
 /* #fff */
 /* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
 /* #B0976A */
 /* #997E4D */
 /* #dfd3c3 */
@@ -42,26 +45,18 @@
   max-width: 100%;
   width: 100%;
   height: max-content;
-  background-color: white;
   box-shadow: 0 1rem 1.7rem rgba(0, 0, 0, 0.05);
   z-index: 102;
 }
 .Header-Wrapper__isCatalogOpen {
   box-shadow: none;
 }
-.Header-Wrapper__isHomePage {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: transparent;
-}
 .Header-Wrapper__isScroll {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: white;
+  background-color: transparent;
   z-index: 102;
 }
 /* ----- Открытие/закрытие по кнопке "Каталог" ----- */

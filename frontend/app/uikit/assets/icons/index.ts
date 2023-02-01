@@ -20,6 +20,7 @@ export * from "./FilterIcon";
 export * from "./HomeIcon";
 export * from "./HouseIcon";
 export * from "./LightModeIcon";
+export * from "./LogoIcon";
 export * from "./LogoShortIcon";
 export * from "./MirrorIcon";
 export * from "./SearchIcon";

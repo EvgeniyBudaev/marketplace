@@ -1,6 +1,7 @@
 import { memo, useEffect, useRef } from "react";
 import type { FC, DOMAttributes } from "react";
 import clsx from "clsx";
+import { EColorType, ETextColor, TColor } from "~/uikit";
 import { formatToStringWithPx } from "~/uikit/utils";
 import type { IconType } from "./IconType";
 import { iconTypes } from "./IconType";
@@ -10,14 +11,24 @@ const getIcon = (type: string) => iconTypes.get(type);
 
 interface IProps extends DOMAttributes<HTMLSpanElement> {
   className?: string;
+  color?: TColor;
   height?: number;
   size?: number;
   type: IconType;
   width?: number;
 }
 
-const IconComponent: FC<IProps> = ({ className, height, width, size, type, ...rest }) => {
+const IconComponent: FC<IProps> = ({
+  className,
+  color = ETextColor.Dark,
+  height,
+  width,
+  size,
+  type,
+  ...rest
+}) => {
   const iconRef = useRef<HTMLDivElement>(null);
+  const mainStyles = clsx(`${EColorType.Icon}-${color}`);
 
   useEffect(() => {
     if (iconRef.current) {
@@ -32,7 +43,7 @@ const IconComponent: FC<IProps> = ({ className, height, width, size, type, ...re
   }, [height, size, width]);
 
   return (
-    <div className={clsx("Icon", className)} ref={iconRef} {...rest}>
+    <div className={clsx("Icon", className, mainStyles)} ref={iconRef} {...rest}>
       {getIcon(type)}
     </div>
   );

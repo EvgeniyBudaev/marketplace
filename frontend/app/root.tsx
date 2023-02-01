@@ -140,7 +140,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
   if (typeof window !== "undefined") {
     cspScriptNonce = "";
   }
-  const theme = !isNil(settings) ? settings.theme : ETheme.Light;
+  const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Dark;
 
   return (
     <html lang={"en"}>
@@ -153,8 +153,10 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
         <Meta />
         <Links />
       </head>
-      <body className={clsx({ "theme-dark": theme === ETheme.Dark })}>
-        <Layout cart={cart}>{children}</Layout>
+      <body className={clsx({ "theme-dark": theme === ETheme.Light })}>
+        <Layout cart={cart} theme={theme}>
+          {children}
+        </Layout>
         <ToastContainer />
         <ScrollRestoration nonce={cspScriptNonce} />
         <Scripts nonce={cspScriptNonce} />
@@ -170,10 +172,15 @@ export default function App() {
 
   const store = useStore();
   const setUser = store.setUser;
+  const setSettings = store.setSettings;
 
   useEffect(() => {
     setUser(user);
   }, [setUser, user]);
+
+  useEffect(() => {
+    setSettings(settings);
+  }, [setSettings, settings]);
 
   useEffect(() => {
     isMounted.current = true;

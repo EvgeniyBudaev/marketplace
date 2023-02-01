@@ -96,6 +96,20 @@ button {
   outline: transparent;
 }
 
+.theme-dark {
+  background-color: rgba(24, 24, 31, 1);
+  color: #fff;
+}
+
+.theme-dark .text-dark {
+  color: #fff;
+}
+
+.theme-dark .icon-dark {
+  color: #fff;
+  fill: #fff;
+}
+
 /* Roboto/12/Regular */
 /* Roboto/12/Bold */
 /* Roboto/14/Regular */

@@ -9,6 +9,9 @@
 /* #b3b3b3 */
 /* #fff */
 /* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
 /* #B0976A */
 /* #997E4D */
 /* #dfd3c3 */
@@ -36,20 +39,6 @@
   width: 100%;
   /* ----- Открытие/закрытие DropDown ----- */
 }
-.HeaderIconsList__isHomePage .IconLink svg,
-.HeaderIconsList__isHomePage .IconLink path {
-  fill: white;
-}
-.HeaderIconsList__isHomePage .IconLink:hover svg,
-.HeaderIconsList__isHomePage .IconLink:hover path {
-  fill: rgb(176, 151, 106);
-}
-.HeaderIconsList__isHomePage .HeaderIconsList-IconDescription {
-  color: white;
-}
-.HeaderIconsList__isHomePage .HeaderIconsList-CartItemsCount {
-  color: white;
-}
 .HeaderIconsList-Item {
   display: flex;
   flex-direction: column;
@@ -61,7 +50,6 @@
   width: 100%;
 }
 .HeaderIconsList-Item a {
-  color: rgb(51, 51, 51);
   text-decoration: none;
   transition: all 0.15s;
 }
@@ -80,9 +68,11 @@
 .HeaderIconsList-Item a:hover path {
   fill: rgb(176, 151, 106);
 }
-.HeaderIconsList-IconDescription {
-  color: rgb(51, 51, 51);
+.HeaderIconsList-IconDescription span {
   transition: all 0.15s;
+}
+.HeaderIconsList-IconDescription span:hover {
+  color: rgb(176, 151, 106);
 }
 .HeaderIconsList-IconLink {
   position: relative;
