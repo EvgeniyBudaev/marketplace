@@ -1,6 +1,6 @@
 package com.marketplace.backend.service.utils.queryes;
 
-import com.marketplace.backend.exception.OperationNotAllowedException;
+
 
 import java.util.Arrays;
 

@@ -38,8 +38,8 @@ public class CatalogController {
 
     @GetMapping("/page")
     public Paging<ResponseSimpleCatalogDto> showAllCatalogs(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                            @RequestParam(name = "pageSize", defaultValue = "5") Integer pageSize,
-                                                            @RequestParam(name = "sort")String sort, HttpServletRequest request) {
+                                                            @RequestParam(name = "size", defaultValue = "5") Integer pageSize,
+                                                            HttpServletRequest request) {
         CatalogUrlResolver resolver = new CatalogUrlResolverImpl();
         resolver.resolveQueryString(request.getQueryString());
         if (page < 1) {
