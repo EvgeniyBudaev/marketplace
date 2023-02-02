@@ -1,10 +1,10 @@
-package com.marketplace.backend.service.utils.queryes.processors.command;
+package com.marketplace.backend.service.utils.queryes.product.processor.command;
 
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
-import com.marketplace.backend.service.utils.queryes.processors.AbstractCommand;
+import com.marketplace.backend.service.utils.queryes.product.processor.AbstractProductCommand;
 
-public class WithoutAttributesCommand extends AbstractCommand{
-    public WithoutAttributesCommand(ProductQueryParam queryParam) {
+public class WithoutAttributesProductCommand extends AbstractProductCommand {
+    public WithoutAttributesProductCommand(ProductQueryParam queryParam) {
         super(queryParam);
     }
 

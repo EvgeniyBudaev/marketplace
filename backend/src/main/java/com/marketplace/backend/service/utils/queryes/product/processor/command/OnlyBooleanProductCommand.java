@@ -1,15 +1,15 @@
-package com.marketplace.backend.service.utils.queryes.processors.command;
+package com.marketplace.backend.service.utils.queryes.product.processor.command;
 
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
-import com.marketplace.backend.service.utils.queryes.processors.AbstractCommand;
+import com.marketplace.backend.service.utils.queryes.product.processor.AbstractProductCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class OnlyBooleanCommand extends AbstractCommand {
-    public OnlyBooleanCommand(ProductQueryParam queryParam) {
+public class OnlyBooleanProductCommand extends AbstractProductCommand {
+    public OnlyBooleanProductCommand(ProductQueryParam queryParam) {
         super(queryParam);
     }
 

@@ -36,7 +36,7 @@ public class CatalogController {
         mapper = Mappers.getMapper(CatalogMapper.class);
     }
 
-    @GetMapping("/page")
+    @GetMapping("/get_all")
     public Paging<ResponseSimpleCatalogDto> showAllCatalogs(@RequestParam(name = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(name = "size", defaultValue = "5") Integer pageSize,
                                                             HttpServletRequest request) {

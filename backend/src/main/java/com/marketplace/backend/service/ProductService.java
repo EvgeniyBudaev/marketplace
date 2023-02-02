@@ -8,9 +8,9 @@ import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
-import com.marketplace.backend.service.utils.queryes.processors.QueryChainProcessor;
-import com.marketplace.backend.service.utils.queryes.processors.QueryChainProcessorImpl;
-import com.marketplace.backend.service.utils.queryes.processors.QueryProcessorParam;
+import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessor;
+import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessorImpl;
+import com.marketplace.backend.service.utils.queryes.product.processor.QueryProcessorParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

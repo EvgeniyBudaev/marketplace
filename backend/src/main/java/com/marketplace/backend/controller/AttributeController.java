@@ -27,8 +27,8 @@ public class AttributeController {
 
    /* @PreAuthorize("hasAuthority('ADMINISTRATOR')")*/
     @GetMapping("/get_all")
-    public Paging<ResponseAttributeForGetAll> showAllAttributes(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                                @RequestParam(name = "size", defaultValue = "5") Integer size) {
+    public Paging<ResponseAttributeForGetAll> findAll(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                                                      @RequestParam(name = "size", defaultValue = "5") Integer size) {
         if (page < 1) {
             page = 1;
         }
@@ -49,7 +49,7 @@ public class AttributeController {
     }
 
     @PostMapping("/save")
-    public ResponseSingleAttribute addNewAttribute(@RequestBody RequestSaveOrUpdateAttribute dto) {
+    public ResponseSingleAttribute saveOrUpdateAttribute(@RequestBody RequestSaveOrUpdateAttribute dto) {
        Attribute attribute =  attributeDao.saveOrUpdateAttribute(dto);
        ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
        if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){

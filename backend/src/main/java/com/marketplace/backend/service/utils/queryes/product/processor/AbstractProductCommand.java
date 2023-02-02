@@ -1,14 +1,14 @@
-package com.marketplace.backend.service.utils.queryes.processors;
+package com.marketplace.backend.service.utils.queryes.product.processor;
 
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractCommand implements QueryProcessorParam {
+public abstract class AbstractProductCommand implements QueryProcessorParam {
     private final Map<String,Object> param;
     private final ProductQueryParam productQueryParam;
-    public AbstractCommand(ProductQueryParam param){
+    public AbstractProductCommand(ProductQueryParam param){
        this.productQueryParam = param;
        this.param = new HashMap<>();
     }

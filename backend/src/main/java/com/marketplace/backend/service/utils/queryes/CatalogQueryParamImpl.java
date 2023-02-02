@@ -1,7 +1,7 @@
 package com.marketplace.backend.service.utils.queryes;
 
-import com.marketplace.backend.service.utils.queryes.processors.ESortDirection;
-import com.marketplace.backend.service.utils.queryes.processors.ESortedFields;
+import com.marketplace.backend.service.utils.queryes.product.processor.ESortDirection;
+import com.marketplace.backend.service.utils.queryes.product.processor.ESortedFields;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

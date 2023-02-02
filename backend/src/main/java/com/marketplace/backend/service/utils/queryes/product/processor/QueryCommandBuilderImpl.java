@@ -1,31 +1,31 @@
-package com.marketplace.backend.service.utils.queryes.processors;
+package com.marketplace.backend.service.utils.queryes.product.processor;
 
 import com.marketplace.backend.exception.IllegalRequestParam;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
-import com.marketplace.backend.service.utils.queryes.processors.command.OnlyBooleanCommand;
-import com.marketplace.backend.service.utils.queryes.processors.command.OnlyDoubleCommand;
-import com.marketplace.backend.service.utils.queryes.processors.command.OnlySelectedCommand;
-import com.marketplace.backend.service.utils.queryes.processors.command.WithoutAttributesCommand;
+import com.marketplace.backend.service.utils.queryes.product.processor.command.OnlyBooleanProductCommand;
+import com.marketplace.backend.service.utils.queryes.product.processor.command.OnlyDoubleProductCommand;
+import com.marketplace.backend.service.utils.queryes.product.processor.command.OnlySelectedProductCommand;
+import com.marketplace.backend.service.utils.queryes.product.processor.command.WithoutAttributesProductCommand;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 @Slf4j
 public class QueryCommandBuilderImpl implements QueryCommandBuilder {
-    private final HashMap<String,Class<? extends AbstractCommand>> commandList;
+    private final HashMap<String,Class<? extends AbstractProductCommand>> commandList;
 
     public QueryCommandBuilderImpl(){
         commandList = new HashMap<>();
-        commandList.put("EMPTY", WithoutAttributesCommand.class);
-        commandList.put("_SEL", OnlySelectedCommand.class);
-        commandList.put("_DOUBLE", OnlyDoubleCommand.class);
-        commandList.put("_BOOL", OnlyBooleanCommand.class);
+        commandList.put("EMPTY", WithoutAttributesProductCommand.class);
+        commandList.put("_SEL", OnlySelectedProductCommand.class);
+        commandList.put("_DOUBLE", OnlyDoubleProductCommand.class);
+        commandList.put("_BOOL", OnlyBooleanProductCommand.class);
     }
     @Override
-    public AbstractCommand createJpqlQueryCommand(ProductQueryParam queryParam) {
+    public AbstractProductCommand createJpqlQueryCommand(ProductQueryParam queryParam) {
 
-        Class<? extends AbstractCommand> clazz = commandList.get(createCommand(queryParam));
+        Class<? extends AbstractProductCommand> clazz = commandList.get(createCommand(queryParam));
         if (clazz==null){
             log.error(queryParam.toString(),this);
             throw new IllegalRequestParam("Такую ситуацию мы не поддерживаем пока... Но работаем над этим");

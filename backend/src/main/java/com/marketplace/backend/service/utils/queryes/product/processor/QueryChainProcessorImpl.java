@@ -1,4 +1,4 @@
-package com.marketplace.backend.service.utils.queryes.processors;
+package com.marketplace.backend.service.utils.queryes.product.processor;
 
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public class QueryChainProcessorImpl implements QueryChainProcessor{
-    private AbstractCommand command ;
+    private AbstractProductCommand command ;
 
     @Override
     public QueryProcessorParam attributeQuery(ProductQueryParam param) {

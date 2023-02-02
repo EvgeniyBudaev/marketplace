@@ -1,4 +1,4 @@
-package com.marketplace.backend.service.utils.queryes.processors;
+package com.marketplace.backend.service.utils.queryes.product.processor;
 
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
@@ -17,7 +17,7 @@ public class QueryProcessorFinal implements QueryProcessor{
     @Override
     public QueryProcessorParam getQuery(ProductQueryParam queryParam) {
         StringBuilder sb = new StringBuilder("SELECT p from Product as p where p in (:list)");
-        AbstractCommand.sortedQueryBuild(sb, queryParam);
+        AbstractProductCommand.sortedQueryBuild(sb, queryParam);
         Map<String, Object> param = new HashMap<>(1);
         param.put("list",productList);
         return new QueryProcessorParamImpl(sb.toString(),param);
