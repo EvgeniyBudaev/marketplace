@@ -11,13 +11,15 @@ export interface ISelectOption {
   label: string;
 }
 
-type TProps = {
+export type TSelectProps = {
   className?: string;
+  defaultValue?: ISelectOption;
   id?: string;
   instanceId?: string;
+  name?: string;
   options: ISelectOption[];
   styles?: StylesConfig<ISelectOption, false, GroupBase<ISelectOption>> | undefined;
-  value: ISelectOption;
+  value?: ISelectOption;
   onBlur?: FocusEventHandler;
   onChange?:
     | (((value: ISelectOption | null, actionMeta: ActionMeta<ISelectOption>) => void) &
@@ -26,10 +28,12 @@ type TProps = {
   onFocus?: FocusEventHandler;
 };
 
-const SelectComponent: FC<TProps> = ({
+const SelectComponent: FC<TSelectProps> = ({
   className,
+  defaultValue,
   id,
   instanceId,
+  name,
   options,
   styles,
   value,
@@ -41,8 +45,10 @@ const SelectComponent: FC<TProps> = ({
   return isHydrated ? (
     <ReactSelect
       className={clsx("Select", className)}
+      defaultValue={defaultValue}
       id={id}
       instanceId={instanceId}
+      name={name}
       options={options}
       styles={styles}
       value={value}

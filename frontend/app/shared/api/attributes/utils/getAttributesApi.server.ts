@@ -1,15 +1,17 @@
 import { fetchApi } from "~/shared/api";
 import type { TApiFunction } from "~/shared/api";
-import type { TCatalogs, TCatalogsParams } from "~/shared/api/catalogs";
+import type { TAttributes, TAttributesParams } from "~/shared/api/attributes";
 import { EFormMethods } from "~/shared/form";
 
-export const getCatalogsApi: TApiFunction<TCatalogsParams, TCatalogs> = (request, params) => {
+export const getAttributesApi: TApiFunction<TAttributesParams, TAttributes> = (
+  request,
+  { params },
+) => {
   const encodeAndJoinPair = (pair: any) => pair.map(encodeURIComponent).join("=");
   const searchParams = params && Object.entries(params).map(encodeAndJoinPair).join("&");
-  const url = `/api/v1/catalogs/page?${searchParams ? `&${searchParams}` : ""}`;
-  console.log("url: ", url);
+  const url = `/api/v1/attributes/get_all?${searchParams ? `&${searchParams}` : ""}`;
 
-  return fetchApi<TCatalogs>(request, url, {
+  return fetchApi<TAttributes>(request, url, {
     method: EFormMethods.Get,
   });
 };

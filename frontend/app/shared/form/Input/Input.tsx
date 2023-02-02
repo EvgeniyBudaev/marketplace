@@ -19,7 +19,7 @@ const InputComponent: FC<TInputProps> = ({ className, defaultValue = "", name, .
     defaultValue,
   });
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+  const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (event) => {
       field.onChange(event.target.value);
     },
@@ -35,7 +35,7 @@ const InputComponent: FC<TInputProps> = ({ className, defaultValue = "", name, .
       //fieldError={error?.message ? translateRawData(t, error.message) : undefined}
       //hasError={!!error}
       name={field.name}
-      onChange={onChange}
+      onChange={handleChange}
       value={field.value}
     />
   );

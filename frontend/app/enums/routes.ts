@@ -3,6 +3,8 @@ export enum ERoutes {
   Login = "/auth/login",
   Signup = "/auth/signup",
 
+  AttributeAdd = "/admin/attributes/add",
+
   Cart = "/cart",
   CatalogAdd = "/admin/catalogs/add",
   CatalogDetail = "/catalog/:alias",
