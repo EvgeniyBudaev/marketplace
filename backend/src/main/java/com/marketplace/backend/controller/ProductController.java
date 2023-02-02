@@ -62,14 +62,14 @@ public class ProductController {
     @GetMapping("/get_all")
     public Paging<ResponseProductSimpleDto> findAll(
             @RequestParam(defaultValue = "1",required = false) Integer page,
-            @RequestParam(defaultValue = "15",required = false) Integer pageSize){
+            @RequestParam(defaultValue = "15",required = false) Integer size){
         if(page<1){
             page=1;
         }
-        if(pageSize<5){
-            pageSize = 5;
+        if(size<5){
+            size = 5;
         }
-        return productDao.getAllProduct(page,pageSize);
+        return productDao.getAllProduct(page,size);
 
     }
     @PostMapping

@@ -107,8 +107,6 @@ public class ProductService implements ProductDao {
         productIdQuery.setParameter("find", find);
         productIdQuery.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());
         productIdQuery.setMaxResults(dtoPaging.getPageSize());
-        productIdQuery.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());
-        productIdQuery.setMaxResults(dtoPaging.getPageSize());
         List<Long> productId = productIdQuery.getResultList();
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("product-with-all-fields");
         TypedQuery<Product> resultQuery = entityManager
@@ -131,11 +129,11 @@ public class ProductService implements ProductDao {
         TypedQuery<ResponseProductSimpleDto> query = entityManager.
                 createQuery("SELECT NEW com.marketplace.backend" +
                         ".dto.product.response.ResponseProductSimpleDto(p.name,p.alias) from Product as p", ResponseProductSimpleDto.class);
-        query.setFirstResult((page - 1) * pageSize);
-        query.setMaxResults(pageSize);
-        Paging<ResponseProductSimpleDto> paging = new Paging<>(count,pageSize,page);
-        paging.setContent(query.getResultList());
-        return paging;
+        Paging<ResponseProductSimpleDto> dtoPaging = new Paging<>(count,pageSize,page);
+        query.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());
+        query.setMaxResults(dtoPaging.getPageSize());
+        dtoPaging.setContent(query.getResultList());
+        return dtoPaging;
     }
 
     private void setParamInQuery(TypedQuery<?> query,Map<String,Object> param){
