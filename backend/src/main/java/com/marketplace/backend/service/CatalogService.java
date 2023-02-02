@@ -105,8 +105,8 @@ public class CatalogService {
        Integer count = Math.toIntExact(countQuery.getSingleResult());
        TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c where c.enabled=true", Catalog.class);
        Paging<ResponseSimpleCatalogDto> result = new Paging<>(count,pageSize,page);
-       resultQuery.setFirstResult((page - 1) * pageSize);
-       resultQuery.setMaxResults(pageSize);
+       resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
+       resultQuery.setMaxResults(result.getPageSize());
        result.setContent(resultQuery.getResultStream()
                .map(mapper::entityToSimpleCatalogDto).collect(Collectors.toList()));
        return result;
