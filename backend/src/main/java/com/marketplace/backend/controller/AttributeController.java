@@ -10,7 +10,6 @@ import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.service.AttributeService;
 import org.mapstruct.factory.Mappers;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,16 +26,16 @@ public class AttributeController {
     }
 
    /* @PreAuthorize("hasAuthority('ADMINISTRATOR')")*/
-    @GetMapping("/page")
+    @GetMapping("/get_all")
     public Paging<ResponseAttributeForGetAll> showAllAttributes(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                                @RequestParam(name = "size", defaultValue = "5") Integer pageSize) {
+                                                                @RequestParam(name = "size", defaultValue = "5") Integer size) {
         if (page < 1) {
             page = 1;
         }
-        if (pageSize <1){
-            pageSize = 5;
+        if (size <1){
+            size = 5;
         }
-        return attributeDao.showAllAttribute(page,pageSize);
+        return attributeDao.showAllAttribute(page, size);
     }
 
     @GetMapping("by_alias/{alias}")
