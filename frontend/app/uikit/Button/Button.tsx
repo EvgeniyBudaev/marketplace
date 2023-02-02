@@ -9,7 +9,7 @@ export interface IButtonProps extends DOMAttributes<HTMLButtonElement> {
   className?: string;
   type?: ButtonType;
   isDisabled?: boolean;
-  onClick?: (event?: MouseEvent) => void;
+  onClick?: (event?: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const ButtonComponent: FC<IButtonProps> = ({

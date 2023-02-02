@@ -15,6 +15,9 @@ export const Admin: FC = () => {
       <div>
         <LinkButton href="/admin/products">Продукты</LinkButton>
       </div>
+      <div>
+        <LinkButton href="/admin/attributes">Атрибуты</LinkButton>
+      </div>
     </section>
   );
 };
