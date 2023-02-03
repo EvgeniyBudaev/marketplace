@@ -17,7 +17,7 @@ public abstract class AbstractProductCommand implements QueryProcessorParam {
             sb.append(" ORDER BY");
             for(Map.Entry<ESortedFields, ESortDirection> entry: productQueryParam.getSortedParam().entrySet()){
                 sb.append(" p.").append(entry.getKey().getFiled());
-                sb.append(" ").append(entry.getValue().getQuery()).append(",");
+                sb.append(" ").append(entry.getValue().getDirection()).append(",");
             }
         }
         if (sb.charAt(sb.length()-1)==','){

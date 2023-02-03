@@ -11,6 +11,9 @@ import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
+import com.marketplace.backend.service.utils.queryes.CatalogQueryParam;
+import com.marketplace.backend.service.utils.queryes.catalog.processor.CatalogQueryProcessor;
+import com.marketplace.backend.service.utils.queryes.catalog.processor.CatalogQueryProcessorImpl;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,11 +103,12 @@ public class CatalogService {
     }
 
     @Transactional
-    public Paging<ResponseSimpleCatalogDto> getAll(Integer page, Integer pageSize) {
-       TypedQuery<Long> countQuery = entityManager.createQuery("select count (c) from Catalog as c where c.enabled=true", Long.class);
+    public Paging<ResponseSimpleCatalogDto> getAll(CatalogQueryParam param) {
+        CatalogQueryProcessor processor = new CatalogQueryProcessorImpl(param);
+       TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
        Integer count = Math.toIntExact(countQuery.getSingleResult());
-       TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c where c.enabled=true", Catalog.class);
-       Paging<ResponseSimpleCatalogDto> result = new Paging<>(count,pageSize,page);
+       TypedQuery<Catalog> resultQuery = entityManager.createQuery(processor.getMainQuery(), Catalog.class);
+       Paging<ResponseSimpleCatalogDto> result = new Paging<>(count, param.getPageSize(),param.getPage());
        resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
        resultQuery.setMaxResults(result.getPageSize());
        result.setContent(resultQuery.getResultStream()

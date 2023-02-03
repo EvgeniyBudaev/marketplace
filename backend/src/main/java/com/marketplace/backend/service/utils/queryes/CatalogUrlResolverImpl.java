@@ -12,12 +12,11 @@ public class CatalogUrlResolverImpl implements CatalogUrlResolver{
     @Override
     public CatalogQueryParam resolveQueryString(String httpQuery) {
         CatalogQueryParamImpl param = new CatalogQueryParamImpl();
+        if(httpQuery==null||httpQuery.isEmpty()){
+            return loadDefault(param);
+        }
         if(httpQuery.length()>450){
             throw new OperationNotAllowedException("Слишком длинный запрос");
-        }
-
-        if(httpQuery.isEmpty()){
-            return loadDefault(param);
         }
         httpQuery=httpQuery.replaceAll("%2C",",");
         String[] paramArray = httpQuery.split("&");

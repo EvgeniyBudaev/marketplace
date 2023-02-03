@@ -8,14 +8,14 @@ public enum ESortDirection {
 
     private final String  alias;
 
-    public String getQuery() {
-        return query;
+    public String getDirection() {
+        return direction;
     }
 
-    private final String query;
-    ESortDirection(String alias, String query){
+    private final String direction;
+    ESortDirection(String alias, String direction){
         this.alias = alias;
-        this.query = query;
+        this.direction = direction;
     }
     private static final HashMap<String,ESortDirection> LOOKUP_MAP = new HashMap<>();
     static {

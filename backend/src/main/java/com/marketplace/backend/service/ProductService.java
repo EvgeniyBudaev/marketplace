@@ -44,7 +44,6 @@ public class ProductService implements ProductDao {
         attributeQuery.setParameter("list", param.param().get("list"));
         List<Attribute> res1 = attributeQuery.getResultList();
         queryParam.setAttributes(res1);
-
         /*Получаем количество выбираемых результатов*/
         QueryProcessorParam queryProcessorParamCount = chainProcessor.productCountQuery(queryParam);
 
@@ -92,6 +91,9 @@ public class ProductService implements ProductDao {
     @Override
     @Transactional
     public Paging<ResponseProductDto> findProductLikeName(Integer page, Integer pageSize, String find) {
+        if(find==null){
+           find = "%";
+        }
         find = "%" + find.toLowerCase() + "%";
         TypedQuery<Long> countQuery = entityManager
                 .createQuery("SELECT count (p) from Product as p where p.name like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
@@ -103,7 +105,7 @@ public class ProductService implements ProductDao {
         Paging<ResponseProductDto> dtoPaging = new Paging<>(count, pageSize, page);
         /*Ввиду того что при fetch запросе hibernate сначала выберает весь результат запроса в память а потом в памяти устанавливает границы setFirstResult() setMaxResult()
          * сначала выбираем с ограничениями id продуктов а вторым запросом пожтягиваем зависимые сущности*/
-        TypedQuery<Long> productIdQuery = entityManager.createQuery("SELECT p.id from Product as p where p.name like :find and p.enabled=true", Long.class);
+        TypedQuery<Long> productIdQuery = entityManager.createQuery("SELECT p.id from Product as p where p.name like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
         productIdQuery.setParameter("find", find);
         productIdQuery.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());
         productIdQuery.setMaxResults(dtoPaging.getPageSize());

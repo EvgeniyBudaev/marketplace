@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -49,7 +49,7 @@ public class ProductController {
     public Paging<ResponseProductDto> findAllByLikeName(
             @RequestParam(defaultValue = "1",required = false) Integer page,
             @RequestParam(defaultValue = "15",required = false) Integer pageSize,
-            @RequestParam @NotNull String search){
+            @RequestParam(required = false) String search){
         if(page<1){
             page=1;
         }

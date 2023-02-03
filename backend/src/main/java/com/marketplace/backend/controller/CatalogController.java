@@ -12,6 +12,7 @@ import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.CatalogService;
+import com.marketplace.backend.service.utils.queryes.CatalogQueryParam;
 import com.marketplace.backend.service.utils.queryes.CatalogUrlResolver;
 import com.marketplace.backend.service.utils.queryes.CatalogUrlResolverImpl;
 import org.mapstruct.factory.Mappers;
@@ -37,18 +38,10 @@ public class CatalogController {
     }
 
     @GetMapping("/get_all")
-    public Paging<ResponseSimpleCatalogDto> showAllCatalogs(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                            @RequestParam(name = "size", defaultValue = "5") Integer pageSize,
-                                                            HttpServletRequest request) {
+    public Paging<ResponseSimpleCatalogDto> showAllCatalogs(HttpServletRequest request) {
         CatalogUrlResolver resolver = new CatalogUrlResolverImpl();
-        resolver.resolveQueryString(request.getQueryString());
-        if (page < 1) {
-            page = 1;
-        }
-        if (pageSize <1){
-            pageSize = 5;
-        }
-        return catalogService.getAll(page, pageSize);
+        CatalogQueryParam param = resolver.resolveQueryString(request.getQueryString());
+        return catalogService.getAll(param);
     }
 
     @GetMapping("/by_alias/{alias}")
