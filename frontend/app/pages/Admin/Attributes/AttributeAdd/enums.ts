@@ -1,6 +1,6 @@
 export enum EFormFields {
   Alias = "alias",
   Name = "name",
-  Selectable = "selectable",
+  // Selectable = "selectable",
   Type = "type",
 }
