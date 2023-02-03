@@ -8,6 +8,7 @@ export const addAttributeApi: TApiFunction<TAttributeAddParams, TAttributeAdd> =
   params,
 ) => {
   const url = `/api/v1/attributes/save`;
+  console.log("[utils params] ", params);
   return fetchApi<TAttributeAdd>(request, url, {
     method: EFormMethods.Post,
     body: params,

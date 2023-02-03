@@ -26,6 +26,7 @@ export const AttributeAdd: FC = () => {
   ];
 
   const [currentSelectableValue, setCurrentSelectableValue] = useState("");
+  const [value, setValue] = useState("");
   const [selectable, setSelectable] = useState<TSelectableItem[]>([]);
 
   const form = useInitForm<TForm>({
@@ -60,20 +61,31 @@ export const AttributeAdd: FC = () => {
       value: currentSelectableValue,
     };
     setSelectable((prevState) => [...prevState, newItem]);
+    setCurrentSelectableValue("");
   };
+
+  useEffect(() => {
+    setValue(selectable.toString());
+  }, [selectable]);
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
-    const formattedParams = mapFormDataToDto({ ...params, selectable });
+    const formattedParams: any = mapFormDataToDto({ ...params, selectable });
     console.log("formattedParams: ", formattedParams);
 
-    // fetcher.submit(params, {
-    //     method: EFormMethods.Post,
-    //     action: createPath({
-    //         route: ERoutes.AttributeAdd,
-    //         withIndex: true,
-    //     }),
-    // });
+    const formData = new FormData();
+    formData.append("alias", formattedParams.alias);
+    formData.append("name", formattedParams.name);
+    formData.append("type", formattedParams.type);
+    formData.append("selectable", JSON.stringify(formattedParams.selectable));
+
+    fetcher.submit(formattedParams, {
+      method: EFormMethods.Post,
+      action: createPath({
+        route: ERoutes.AttributeAdd,
+        withIndex: true,
+      }),
+    });
   };
 
   return (
@@ -96,8 +108,9 @@ export const AttributeAdd: FC = () => {
         </div>
         <InputUI
           label="Значение атрибута"
-          name={EFormFields.Selectable}
+          name="Selectable"
           type="text"
+          value={currentSelectableValue}
           onChange={handleChangeSelectableValue}
         />
         <Button className="AttributeAdd-Button" type="button" onClick={handleSelectableValueAdd}>

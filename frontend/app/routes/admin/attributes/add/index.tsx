@@ -13,9 +13,18 @@ import { getInputErrors, getResponseError } from "~/shared/domain";
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
+  console.log("formValues: ", formValues);
+  const formData = {
+    ...formValues,
+    selectable:
+      formValues.selectable && typeof formValues.selectable === "string"
+        ? JSON.parse(formValues.selectable.trim())
+        : formValues.selectable,
+  };
+  console.log("formData: ", formData);
 
   try {
-    const response = await addAttribute(request, formValues);
+    const response = await addAttribute(request, formData);
     console.log("[response.success]", response.success);
 
     if (response.success) {
