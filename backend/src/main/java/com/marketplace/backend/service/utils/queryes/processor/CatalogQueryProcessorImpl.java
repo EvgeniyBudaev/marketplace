@@ -1,4 +1,4 @@
-package com.marketplace.backend.service.utils.queryes.catalog.processor;
+package com.marketplace.backend.service.utils.queryes.processor;
 
 import com.marketplace.backend.service.utils.queryes.CatalogQueryParam;
 import com.marketplace.backend.service.utils.queryes.ESortDirection;
@@ -6,7 +6,7 @@ import com.marketplace.backend.service.utils.queryes.ESortedFields;
 
 import java.util.Map;
 
-public class CatalogQueryProcessorImpl implements CatalogQueryProcessor{
+public class CatalogQueryProcessorImpl implements QueryProcessor {
     private final CatalogQueryParam param;
     public CatalogQueryProcessorImpl(CatalogQueryParam param) {
         this.param = param;

@@ -12,8 +12,8 @@ import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.utils.queryes.CatalogQueryParam;
-import com.marketplace.backend.service.utils.queryes.catalog.processor.CatalogQueryProcessor;
-import com.marketplace.backend.service.utils.queryes.catalog.processor.CatalogQueryProcessorImpl;
+import com.marketplace.backend.service.utils.queryes.processor.QueryProcessor;
+import com.marketplace.backend.service.utils.queryes.processor.CatalogQueryProcessorImpl;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,7 +104,7 @@ public class CatalogService {
 
     @Transactional
     public Paging<ResponseSimpleCatalogDto> findAll(CatalogQueryParam param) {
-        CatalogQueryProcessor processor = new CatalogQueryProcessorImpl(param);
+        QueryProcessor processor = new CatalogQueryProcessorImpl(param);
        TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
        TypedQuery<Catalog> resultQuery = entityManager.createQuery(processor.getMainQuery(), Catalog.class);
        if(param.getSearchString()!=null){
