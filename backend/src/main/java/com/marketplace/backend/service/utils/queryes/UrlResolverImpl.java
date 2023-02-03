@@ -5,11 +5,11 @@ package com.marketplace.backend.service.utils.queryes;
 
 import com.marketplace.backend.exception.OperationNotAllowedException;
 
-public class CatalogUrlResolverImpl implements CatalogUrlResolver{
+public class UrlResolverImpl implements UrlResolver {
 
     @Override
-    public CatalogQueryParam resolveQueryString(String httpQuery) {
-        CatalogQueryParamImpl param = new CatalogQueryParamImpl();
+    public QueryParam resolveQueryString(String httpQuery) {
+        QueryParamImpl param = new QueryParamImpl();
         if(httpQuery==null||httpQuery.isEmpty()){
             return loadDefault(param);
         }
@@ -35,14 +35,14 @@ public class CatalogUrlResolverImpl implements CatalogUrlResolver{
         return param;
     }
 
-    private  CatalogQueryParam loadDefault( CatalogQueryParamImpl param){
+    private QueryParam loadDefault(QueryParamImpl param){
         param.setPageSize(5);
         param.setPage(1);
         param.getSortedParam().put(ESortedFields.NAME, ESortDirection.ASC);
         return param;
     }
 
-    private void resolveSortedParam(CatalogQueryParamImpl param, String[] row1){
+    private void resolveSortedParam(QueryParamImpl param, String[] row1){
         String[] val1 = row1[1].split(",");
         for(String val2: val1){
             String[] sortField = val2.split("_");

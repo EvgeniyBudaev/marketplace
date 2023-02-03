@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.HashMap;
 
 
-public class CatalogQueryParamImpl implements CatalogQueryParam{
+public class QueryParamImpl implements QueryParam {
     private Integer page = 1;
     private Integer pageSize = 5;
     private String searchString;

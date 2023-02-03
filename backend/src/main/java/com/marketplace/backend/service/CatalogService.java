@@ -11,7 +11,7 @@ import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
-import com.marketplace.backend.service.utils.queryes.CatalogQueryParam;
+import com.marketplace.backend.service.utils.queryes.QueryParam;
 import com.marketplace.backend.service.utils.queryes.processor.QueryProcessor;
 import com.marketplace.backend.service.utils.queryes.processor.CatalogQueryProcessorImpl;
 import org.mapstruct.factory.Mappers;
@@ -103,7 +103,7 @@ public class CatalogService {
     }
 
     @Transactional
-    public Paging<ResponseSimpleCatalogDto> findAll(CatalogQueryParam param) {
+    public Paging<ResponseSimpleCatalogDto> findAll(QueryParam param) {
         QueryProcessor processor = new CatalogQueryProcessorImpl(param);
        TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
        TypedQuery<Catalog> resultQuery = entityManager.createQuery(processor.getMainQuery(), Catalog.class);

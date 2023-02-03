@@ -12,9 +12,9 @@ import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.CatalogService;
-import com.marketplace.backend.service.utils.queryes.CatalogQueryParam;
-import com.marketplace.backend.service.utils.queryes.CatalogUrlResolver;
-import com.marketplace.backend.service.utils.queryes.CatalogUrlResolverImpl;
+import com.marketplace.backend.service.utils.queryes.QueryParam;
+import com.marketplace.backend.service.utils.queryes.UrlResolver;
+import com.marketplace.backend.service.utils.queryes.UrlResolverImpl;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +44,8 @@ public class CatalogController {
     @GetMapping("/get_all")
     public Paging<ResponseSimpleCatalogDto> findAll(HttpServletRequest request) {
         String queryString = URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8);
-        CatalogUrlResolver resolver = new CatalogUrlResolverImpl();
-        CatalogQueryParam param = resolver.resolveQueryString(queryString);
+        UrlResolver resolver = new UrlResolverImpl();
+        QueryParam param = resolver.resolveQueryString(queryString);
         return catalogService.findAll(param);
     }
 

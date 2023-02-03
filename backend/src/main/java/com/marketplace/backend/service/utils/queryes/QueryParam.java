@@ -2,7 +2,7 @@ package com.marketplace.backend.service.utils.queryes;
 
 import java.util.HashMap;
 
-public interface CatalogQueryParam {
+public interface QueryParam {
     Integer getPage();
     Integer getPageSize();
     HashMap<ESortedFields, ESortDirection> getSortedParam();
