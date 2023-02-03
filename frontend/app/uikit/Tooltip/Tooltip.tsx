@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { usePopper } from "react-popper";
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
-import { getVirtualReference } from "~/uikit/Tooltip/utils";
+import { getTooltipOffset, getVirtualReference } from "~/uikit/Tooltip/utils";
 import type { TModifiers, TPlacement } from "./types";
 import styles from "./Tooltip.module.css";
 
@@ -36,14 +36,6 @@ export const Tooltip: FC<TProps> = ({
   const [visible, setVisible] = useState(false);
   const isManualVisibility = typeof isOpen !== "undefined";
 
-  const getOffset = () => {
-    if (placement === "bottom" || placement === "top") {
-      return [0, popperElement ? popperElement.offsetHeight / 2 : 0];
-    } else {
-      return [0, popperElement ? popperElement.offsetWidth / 2 : 0];
-    }
-  };
-
   let popperModifiers: TModifiers = [
     {
       name: "arrow",
@@ -64,7 +56,7 @@ export const Tooltip: FC<TProps> = ({
     {
       name: "offset",
       options: {
-        offset: getOffset(),
+        offset: getTooltipOffset({ placement, referenceElement }),
       },
     },
     {

@@ -1,6 +1,11 @@
 import type { ERoutes } from "~/enums";
 
-type TRoutes = ERoutes.Login | ERoutes.Signup | ERoutes.Cart | ERoutes.CatalogAdd;
+type TRoutes =
+  | ERoutes.AttributeAdd
+  | ERoutes.Cart
+  | ERoutes.CatalogAdd
+  | ERoutes.Login
+  | ERoutes.Signup;
 
 type TRoutesWithParams = ERoutes.CatalogDetail | ERoutes.ProductDetail;
 

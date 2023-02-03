@@ -1,20 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import type { FC } from "react";
-import { useSearchParams } from "@remix-run/react";
+import { useSearchParams, useSubmit } from "@remix-run/react";
 import { createBrowserHistory } from "history";
-import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
-import { CatalogsTable } from "~/pages/Admin/Catalogs/CatalogsTable";
-import { TCatalogs } from "~/shared/api/catalogs";
-import { ETypographyVariant, Icon, LinkButton, Tooltip, Typography } from "~/uikit";
-import styles from "./Catalogs.module.css";
+import { attributeAddLinks } from "~/pages/Admin/Attributes/AttributeAdd";
+import { AttributesTable } from "~/pages/Admin/Attributes/AttributesTable/AttributesTable";
+import { TAttributes } from "~/shared/api/attributes";
 import { TParams } from "~/types";
-import { getDefaultFilter } from "~/pages/Catalog/Filter";
+import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
+import styles from "./Attributes.module.css";
 
 type TProps = {
-  catalogs: TCatalogs;
+  attributes: TAttributes;
 };
 
-export const Catalogs: FC<TProps> = ({ catalogs }) => {
+export const Attributes: FC<TProps> = ({ attributes }) => {
+  const submit = useSubmit();
   const history = typeof document !== "undefined" ? createBrowserHistory() : null;
   const [searchParams] = useSearchParams();
   const [filter, setFilter] = useState<TParams>({});
@@ -35,32 +35,33 @@ export const Catalogs: FC<TProps> = ({ catalogs }) => {
 
   useEffect(() => {
     history?.push("?" + new URLSearchParams(getFormData() as any).toString());
+    submit(getFormData());
   }, [page]);
 
   const handleChangePage = useCallback(
     ({ selected }: { selected: number }) => {
-      setPage(selected);
+      setPage(selected + 1);
     },
     [setPage],
   );
 
   return (
-    <section className="Catalogs">
-      <div className="Catalogs-Header">
+    <section className="Attributes">
+      <div className="Attributes-Header">
         <div>
-          <h1 className="Catalogs-Title">
-            <Typography variant={ETypographyVariant.TextH1Bold}>Каталоги</Typography>
+          <h1 className="Attributes-Title">
+            <Typography variant={ETypographyVariant.TextH1Bold}>Атрибуты</Typography>
           </h1>
         </div>
         <div>
-          <LinkButton href="/admin/catalogs/add">Добавить</LinkButton>
+          <LinkButton href="/admin/attributes/add">Добавить</LinkButton>
         </div>
       </div>
-      <CatalogsTable catalogs={catalogs} onChangePage={handleChangePage} />
+      <AttributesTable attributes={attributes} onChangePage={handleChangePage} />
     </section>
   );
 };
 
-export function catalogsLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...catalogAddLinks()];
+export function attributesLinks() {
+  return [{ rel: "stylesheet", href: styles }, ...attributeAddLinks()];
 }
