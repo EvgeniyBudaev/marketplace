@@ -10,35 +10,12 @@
 			"name": "Attributes",
 			"item": [
 				{
-					"name": "by alias",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/attributes/by_alias/weight",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"attributes",
-								"by_alias",
-								"weight"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "get all attributes",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/attributes/page?page=1&size=5",
+							"raw": "http://localhost:8080/api/v1/attributes/get_all",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -48,16 +25,18 @@
 								"api",
 								"v1",
 								"attributes",
-								"page"
+								"get_all"
 							],
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "2",
+									"disabled": true
 								},
 								{
 									"key": "size",
-									"value": "5"
+									"value": "5",
+									"disabled": true
 								}
 							]
 						}
@@ -163,6 +142,29 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "by alias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/attributes/by_alias/weight",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"attributes",
+								"by_alias",
+								"weight"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -176,7 +178,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"alias\": \"Zerkal345\",\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\",\n    \"attributeAlias\":[\n        \"category\",\n        \"form\",\n        \"width\",\n        \"height\"\n    ]\n}",
+							"raw": "{\n    \"alias\": \"Zerka2l6677\",\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\",\n    \"attributeAlias\":[\n        \"category\",\n        \"form\",\n        \"width\",\n        \"height\"\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -205,7 +207,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/page?page=5",
+							"raw": "http://localhost:8080/api/v1/catalogs/get_all?page=2&size=10&sort=name_desc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -215,12 +217,20 @@
 								"api",
 								"v1",
 								"catalogs",
-								"page"
+								"get_all"
 							],
 							"query": [
 								{
 									"key": "page",
-									"value": "5"
+									"value": "2"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "name_desc"
 								}
 							]
 						}
@@ -363,7 +373,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&sort=price_asc",
+							"raw": "http://localhost:8080/api/v1/products/page/?catalog=notebook&sort=price_asc&page=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -379,7 +389,7 @@
 							"query": [
 								{
 									"key": "catalog",
-									"value": "mirrors"
+									"value": "notebook"
 								},
 								{
 									"key": "sort",
@@ -389,6 +399,15 @@
 									"key": "form",
 									"value": "5%2C6",
 									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "10"
 								}
 							]
 						}
@@ -401,7 +420,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/find/?pageSize=15&page=1&search=Бернард",
+							"raw": "http://localhost:8080/api/v1/products/find/?page=1&size=15&search=зерк",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -426,16 +445,16 @@
 									"disabled": true
 								},
 								{
-									"key": "pageSize",
-									"value": "15"
-								},
-								{
 									"key": "page",
 									"value": "1"
 								},
 								{
+									"key": "size",
+									"value": "15"
+								},
+								{
 									"key": "search",
-									"value": "Бернард"
+									"value": "зерк"
 								}
 							]
 						}
@@ -483,12 +502,46 @@
 					"response": []
 				},
 				{
+					"name": "get all product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alias\": \"venetian-mirror\",\n    \"enabled\": true,\n    \"catalogId\":1,\n    \"name\": \"Внецианское зеркало\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/get_all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"get_all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "filter and sorting",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&sort=price_asc,created_asc",
+							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&sort=price_asc,created_asc&page=3&size=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -509,6 +562,14 @@
 								{
 									"key": "sort",
 									"value": "price_asc,created_asc"
+								},
+								{
+									"key": "page",
+									"value": "3"
+								},
+								{
+									"key": "size",
+									"value": "10"
 								}
 							]
 						}
