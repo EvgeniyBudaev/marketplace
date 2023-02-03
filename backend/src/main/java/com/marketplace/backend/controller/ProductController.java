@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 
 @RestController
@@ -34,9 +36,10 @@ public class ProductController {
     @GetMapping("/page/")
     public Paging<ResponseProductDto> findProductInCatalog(HttpServletRequest request){
         ProductUrlResolver urlResolver = new ProductUrlResolverImpl();
+        String queryString = URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8);
         return productDao
                 .findProductsInCatalog(urlResolver
-                        .resolveQuery(request.getQueryString()));
+                        .resolveQuery(queryString));
     }
 
     @GetMapping("/by_alias")
@@ -62,14 +65,15 @@ public class ProductController {
     @GetMapping("/get_all")
     public Paging<ResponseProductSimpleDto> findAll(
             @RequestParam(defaultValue = "1",required = false) Integer page,
-            @RequestParam(defaultValue = "15",required = false) Integer size){
+            @RequestParam(defaultValue = "15",required = false) Integer size,
+            @RequestParam(name = "search",required = false)String find){
         if(page<1){
             page=1;
         }
         if(size<5){
             size = 5;
         }
-        return productDao.getAllProduct(page,size);
+        return productDao.findAll(page,size);
 
     }
     @PostMapping

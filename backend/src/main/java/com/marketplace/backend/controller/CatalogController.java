@@ -21,6 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.net.URLDecoder;
+
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,10 +42,11 @@ public class CatalogController {
     }
 
     @GetMapping("/get_all")
-    public Paging<ResponseSimpleCatalogDto> showAllCatalogs(HttpServletRequest request) {
+    public Paging<ResponseSimpleCatalogDto> findAll(HttpServletRequest request) {
+        String queryString = URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8);
         CatalogUrlResolver resolver = new CatalogUrlResolverImpl();
-        CatalogQueryParam param = resolver.resolveQueryString(request.getQueryString());
-        return catalogService.getAll(param);
+        CatalogQueryParam param = resolver.resolveQueryString(queryString);
+        return catalogService.findAll(param);
     }
 
     @GetMapping("/by_alias/{alias}")

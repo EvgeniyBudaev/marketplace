@@ -1,5 +1,7 @@
 package com.marketplace.backend.service.utils.queryes.product.processor;
 
+import com.marketplace.backend.service.utils.queryes.ESortDirection;
+import com.marketplace.backend.service.utils.queryes.ESortedFields;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
 
 import java.util.HashMap;

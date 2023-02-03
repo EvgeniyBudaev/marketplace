@@ -15,5 +15,5 @@ public interface ProductDao {
     Paging<ResponseProductDto> findProductsInCatalog(ProductQueryParam queryParam);
 
     Paging<ResponseProductDto> findProductLikeName(Integer page, Integer pageSize, String find);
-    Paging<ResponseProductSimpleDto> getAllProduct(Integer page, Integer pageSize);
+    Paging<ResponseProductSimpleDto> findAll(Integer page, Integer pageSize);
 }

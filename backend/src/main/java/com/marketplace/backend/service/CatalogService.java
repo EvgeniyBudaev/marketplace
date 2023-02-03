@@ -103,12 +103,19 @@ public class CatalogService {
     }
 
     @Transactional
-    public Paging<ResponseSimpleCatalogDto> getAll(CatalogQueryParam param) {
+    public Paging<ResponseSimpleCatalogDto> findAll(CatalogQueryParam param) {
         CatalogQueryProcessor processor = new CatalogQueryProcessorImpl(param);
        TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
-       Integer count = Math.toIntExact(countQuery.getSingleResult());
        TypedQuery<Catalog> resultQuery = entityManager.createQuery(processor.getMainQuery(), Catalog.class);
-       Paging<ResponseSimpleCatalogDto> result = new Paging<>(count, param.getPageSize(),param.getPage());
+       if(param.getSearchString()!=null){
+           resultQuery.setParameter("param",param.getSearchString());
+           countQuery.setParameter("param",param.getSearchString());
+       }
+        int count = Math.toIntExact(countQuery.getSingleResult());
+        Paging<ResponseSimpleCatalogDto> result = new Paging<>(count, param.getPageSize(),param.getPage());
+       if(count==0){
+           return result;
+       }
        resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
        resultQuery.setMaxResults(result.getPageSize());
        result.setContent(resultQuery.getResultStream()
@@ -118,7 +125,7 @@ public class CatalogService {
 
     @Transactional
     public void delete(String alias) {
-        TypedQuery<Long> query = entityManager.createQuery("Select count (p.products) from Catalog as p where p.alias=:alias", Long.class);
+        TypedQuery<Long> query = entityManager.createQuery("Select count (p.products) from Catalog as p where p.alias=:alias ", Long.class);
         query.setParameter("alias",alias);
         int count = Math.toIntExact(query.getSingleResult());
         if(count>0){

@@ -4,8 +4,6 @@ package com.marketplace.backend.service.utils.queryes;
 
 
 import com.marketplace.backend.exception.OperationNotAllowedException;
-import com.marketplace.backend.service.utils.queryes.product.processor.ESortDirection;
-import com.marketplace.backend.service.utils.queryes.product.processor.ESortedFields;
 
 public class CatalogUrlResolverImpl implements CatalogUrlResolver{
 
@@ -29,6 +27,7 @@ public class CatalogUrlResolverImpl implements CatalogUrlResolver{
                 case "page" -> param.setPage(Integer.valueOf(row1[1]));
                 case "size" -> param.setPageSize(Integer.valueOf(row1[1]));
                 case "sort" -> resolveSortedParam(param, row1);
+                case "search" -> param.setSearchString(row1[1]);
                 default -> throw new OperationNotAllowedException("Не поддерживаемый запрос");
             }
         }

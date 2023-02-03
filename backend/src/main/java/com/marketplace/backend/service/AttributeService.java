@@ -46,7 +46,7 @@ public class AttributeService implements AttributeDao {
 
     @Override
     @Transactional
-    public Paging<ResponseAttributeForGetAll> showAllAttribute(Integer page,Integer pageSize){
+    public Paging<ResponseAttributeForGetAll> findAll(Integer page, Integer pageSize){
         TypedQuery<Long> query = entityManager.createQuery("SELECT count (a) from Attribute a where a.enabled=true",Long.class);
         Integer count =  Math.toIntExact(query.getSingleResult());
         Paging<ResponseAttributeForGetAll> result = new Paging<>(count,pageSize,page);

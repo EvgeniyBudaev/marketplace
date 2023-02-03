@@ -96,7 +96,7 @@ public class ProductService implements ProductDao {
         }
         find = "%" + find.toLowerCase() + "%";
         TypedQuery<Long> countQuery = entityManager
-                .createQuery("SELECT count (p) from Product as p where p.name like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
+                .createQuery("SELECT count (p) from Product as p where lower(p.name) like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
         countQuery.setParameter("find", find);
         Integer count = Math.toIntExact(countQuery.getSingleResult());
         if (count.equals(0)) {
@@ -105,7 +105,7 @@ public class ProductService implements ProductDao {
         Paging<ResponseProductDto> dtoPaging = new Paging<>(count, pageSize, page);
         /*Ввиду того что при fetch запросе hibernate сначала выберает весь результат запроса в память а потом в памяти устанавливает границы setFirstResult() setMaxResult()
          * сначала выбираем с ограничениями id продуктов а вторым запросом пожтягиваем зависимые сущности*/
-        TypedQuery<Long> productIdQuery = entityManager.createQuery("SELECT p.id from Product as p where p.name like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
+        TypedQuery<Long> productIdQuery = entityManager.createQuery("SELECT p.id from Product as p where lower(p.name) like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
         productIdQuery.setParameter("find", find);
         productIdQuery.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());
         productIdQuery.setMaxResults(dtoPaging.getPageSize());
@@ -122,7 +122,7 @@ public class ProductService implements ProductDao {
         return dtoPaging;
     }
 
-    public Paging<ResponseProductSimpleDto> getAllProduct(Integer page, Integer pageSize){
+    public Paging<ResponseProductSimpleDto> findAll(Integer page, Integer pageSize){
         TypedQuery<Long> countQuery =entityManager.createQuery("SELECT COUNT (p) FROM Product as p", Long.class);
         Integer count = Math.toIntExact(countQuery.getSingleResult());
         if(count.equals(0)){

@@ -1,7 +1,5 @@
 package com.marketplace.backend.service.utils.queryes;
 
-import com.marketplace.backend.service.utils.queryes.product.processor.ESortDirection;
-import com.marketplace.backend.service.utils.queryes.product.processor.ESortedFields;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.HashMap;
@@ -10,6 +8,7 @@ import java.util.HashMap;
 public class CatalogQueryParamImpl implements CatalogQueryParam{
     private Integer page = 1;
     private Integer pageSize = 5;
+    private String searchString;
     private final HashMap<ESortedFields, ESortDirection> sortedParam = new HashMap<>(3);
 
     @Override
@@ -18,6 +17,7 @@ public class CatalogQueryParamImpl implements CatalogQueryParam{
                 .append("page", page)
                 .append("pageSize", pageSize)
                 .append("sortedParam", sortedParam.toString())
+                .append("search", searchString)
                 .toString();
     }
 
@@ -53,4 +53,12 @@ public class CatalogQueryParamImpl implements CatalogQueryParam{
         return sortedParam;
     }
 
+    @Override
+    public String getSearchString() {
+        return this.searchString;
+    }
+
+    public void setSearchString(String searchString) {
+        this.searchString = "%"+searchString.toLowerCase()+"%";
+    }
 }

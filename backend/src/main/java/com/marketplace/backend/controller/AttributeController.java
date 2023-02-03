@@ -28,14 +28,15 @@ public class AttributeController {
    /* @PreAuthorize("hasAuthority('ADMINISTRATOR')")*/
     @GetMapping("/get_all")
     public Paging<ResponseAttributeForGetAll> findAll(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                      @RequestParam(name = "size", defaultValue = "5") Integer size) {
+                                                      @RequestParam(name = "size", defaultValue = "5") Integer size
+                                                      ) {
         if (page < 1) {
             page = 1;
         }
         if (size <1){
             size = 5;
         }
-        return attributeDao.showAllAttribute(page, size);
+        return attributeDao.findAll(page, size);
     }
 
     @GetMapping("by_alias/{alias}")

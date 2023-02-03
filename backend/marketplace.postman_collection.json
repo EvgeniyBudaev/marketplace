@@ -207,7 +207,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/get_all?page=2&size=10&sort=name_desc",
+							"raw": "http://localhost:8080/api/v1/catalogs/get_all?page=1&size=10&sort=name_desc&search=ноут",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -222,7 +222,7 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "2"
+									"value": "1"
 								},
 								{
 									"key": "size",
@@ -231,6 +231,10 @@
 								{
 									"key": "sort",
 									"value": "name_desc"
+								},
+								{
+									"key": "search",
+									"value": "ноут"
 								}
 							]
 						}
@@ -255,7 +259,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/by_alias/Zerkal2",
+							"raw": "http://localhost:8080/api/v1/catalogs/by_alias/Zerkala",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -266,7 +270,7 @@
 								"v1",
 								"catalogs",
 								"by_alias",
-								"Zerkal2"
+								"Zerkala"
 							]
 						}
 					},
