@@ -4,6 +4,9 @@ import { default as ReactSelect } from "react-select";
 import type { ActionMeta, GroupBase, StylesConfig } from "react-select";
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
+import { selectStyles } from "~/uikit";
+import { TSelectVariants } from "~/uikit/Select";
+import { generateUUID } from "~/utils";
 import styles from "./Select.module.css";
 
 export interface ISelectOption {
@@ -19,6 +22,7 @@ export type TSelectProps = {
   name?: string;
   options: ISelectOption[];
   styles?: StylesConfig<ISelectOption, false, GroupBase<ISelectOption>> | undefined;
+  theme?: TSelectVariants;
   value?: ISelectOption;
   onBlur?: FocusEventHandler;
   onChange?:
@@ -36,21 +40,24 @@ const SelectComponent: FC<TSelectProps> = ({
   name,
   options,
   styles,
+  theme,
   value,
   onBlur,
   onChange,
   onFocus,
 }) => {
+  const uuid = generateUUID();
+
   const isHydrated = useHydrated();
   return isHydrated ? (
     <ReactSelect
       className={clsx("Select", className)}
       defaultValue={defaultValue}
-      id={id}
-      instanceId={instanceId}
+      id={id ? id : uuid}
+      instanceId={instanceId ? instanceId : uuid}
       name={name}
       options={options}
-      styles={styles}
+      styles={!styles && theme ? selectStyles(theme) : styles}
       value={value}
       onBlur={onBlur}
       onChange={onChange}

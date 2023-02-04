@@ -3,13 +3,12 @@ import type { FC } from "react";
 import { Form } from "@remix-run/react";
 import clsx from "clsx";
 import isNull from "lodash/isNull";
-import { selectStyles } from "~/pages/Catalog/Sorting/selectStyles";
+import { ETheme } from "~/enums";
+import { useSettings } from "~/hooks";
 import { EFormMethods } from "~/shared/form";
 import type { TSorting } from "~/types";
 import { ETypographyVariant, Select, Typography } from "~/uikit";
 import styles from "./Sorting.module.css";
-import { useSettings } from "~/hooks";
-import { ETheme } from "~/enums";
 
 type TProps = {
   onSortingChange?: (data: TSorting["value"]) => void;
@@ -63,10 +62,8 @@ export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
           className={clsx("Sorting-Select", {
             "Sorting-Select__active": isSelectOpened,
           })}
-          id="1"
-          instanceId="1"
           options={options}
-          styles={selectStyles(theme === ETheme.Light ? "primary" : "secondary")}
+          theme={theme === ETheme.Light ? "primary" : "secondary"}
           value={options.find((option) => option.value === sorting)!}
           onBlur={handleBlur}
           onChange={handleChange}

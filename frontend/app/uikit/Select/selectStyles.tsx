@@ -1,7 +1,6 @@
 import { GroupBase, StylesConfig } from "react-select";
-import { TSelectVariants } from "~/pages/Catalog/Sorting/types";
-import { VARIANTS } from "~/pages/Catalog/Sorting/selectVariants";
-import { ISelectOption } from "~/uikit";
+import { VARIANTS } from "~/uikit";
+import type { ISelectOption, TSelectVariants } from "~/uikit";
 
 export const selectStyles = (
   variant: TSelectVariants = "primary",

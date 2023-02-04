@@ -35,11 +35,9 @@
 .ProductListItem {
   min-height: max-content;
   width: 100%;
-  border: 1px solid transparent;
+  border: 1px solid rgb(228, 228, 228);
   border-radius: 8px;
   padding: 10px;
-  background: linear-gradient(40deg, rgba(116, 129, 168, 0.16), rgba(232, 232, 232, 0.1) 16%),
-    linear-gradient(210deg, rgba(116, 129, 168, 0.5), rgba(232, 232, 232, 0.1) 20%);
   transition: box-shadow 0.15s;
 }
 .ProductListItem:hover {
