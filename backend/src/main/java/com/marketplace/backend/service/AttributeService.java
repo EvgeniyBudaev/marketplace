@@ -169,9 +169,10 @@ public class AttributeService implements AttributeDao {
         return attributeSet;
     }
 
+    @Transactional
     public Integer delete(String alias) {
        Attribute attribute = getAttributeByAlias(alias);
-       attributeValueService.deleteValuesByAttributeAlias(alias,attribute.getType().getTableName());
+       attributeValueService.deleteValuesByAttributeAlias(attribute,attribute.getType().getTableName());
        Query queryAttribute = entityManager.createQuery("DELETE FROM Attribute as a where a.alias=:alias");
        queryAttribute.setParameter("alias",alias);
        return queryAttribute.executeUpdate();

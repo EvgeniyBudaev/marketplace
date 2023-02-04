@@ -67,7 +67,7 @@ public class Product {
     private Boolean enabled;
 
     @Column(name = "count", nullable = false,columnDefinition = "INTEGER, default '0'")
-    private int count;
+    private Integer count;
 
     @Column(name = "price",columnDefinition = "DECIMAL(19,2), default '0.00'")
     private BigDecimal price;

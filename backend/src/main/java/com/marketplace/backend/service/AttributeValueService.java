@@ -1,6 +1,7 @@
 package com.marketplace.backend.service;
 
 import com.marketplace.backend.dto.catalog.response.single.NumberAttributeDto;
+import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.values.SelectableValue;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +58,10 @@ public class AttributeValueService {
         query.executeUpdate();
     }
 
-    public void deleteValuesByAttributeAlias(String alias,String tableName){
-        String queryString = String.format( "DELETE FROM %s as v where v.attribute.alias=:alias",tableName);
+    public void deleteValuesByAttributeAlias(Attribute attribute, String tableName){
+        String queryString = String.format( "DELETE FROM %s as v where v.attribute=:attribute",tableName);
         Query query = entityManager.createQuery(queryString);
-        query.setParameter("alias",alias);
+        query.setParameter("attribute",attribute);
         query.executeUpdate();
     }
 
