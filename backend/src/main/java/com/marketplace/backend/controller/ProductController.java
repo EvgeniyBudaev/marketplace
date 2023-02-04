@@ -4,6 +4,7 @@ import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
+import com.marketplace.backend.dto.product.response.ResponseProductSimpleDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.ProductUrlResolver;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -33,9 +36,10 @@ public class ProductController {
     @GetMapping("/page/")
     public Paging<ResponseProductDto> findProductInCatalog(HttpServletRequest request){
         ProductUrlResolver urlResolver = new ProductUrlResolverImpl();
+        String queryString = URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8);
         return productDao
                 .findProductsInCatalog(urlResolver
-                        .resolveQuery(request.getQueryString()));
+                        .resolveQuery(queryString));
     }
 
     @GetMapping("/by_alias")
@@ -48,7 +52,7 @@ public class ProductController {
     public Paging<ResponseProductDto> findAllByLikeName(
             @RequestParam(defaultValue = "1",required = false) Integer page,
             @RequestParam(defaultValue = "15",required = false) Integer pageSize,
-            @RequestParam @NotNull String search){
+            @RequestParam(required = false) String search){
         if(page<1){
             page=1;
         }
@@ -58,11 +62,26 @@ public class ProductController {
         return productDao.findProductLikeName(page,pageSize, search);
     }
 
+    @GetMapping("/get_all")
+    public Paging<ResponseProductSimpleDto> findAll(
+            @RequestParam(defaultValue = "1",required = false) Integer page,
+            @RequestParam(defaultValue = "15",required = false) Integer size,
+            @RequestParam(name = "search",required = false)String find){
+        if(page<1){
+            page=1;
+        }
+        if(size<5){
+            size = 5;
+        }
+        return productDao.findAll(page,size);
+
+    }
     @PostMapping
-    public ResponseProductDto saveOrNewProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
+    public ResponseProductDto saveOrUpdateProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
         Product product=manageProductDao.save(productDto);
         return new ResponseProductDto(product,productDto.getCatalogAlias());
     }
+
 
     @DeleteMapping("/{alias}")
     public String deleteProduct(@PathVariable String alias) {

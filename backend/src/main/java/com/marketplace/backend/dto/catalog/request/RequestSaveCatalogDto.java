@@ -1,9 +1,15 @@
 package com.marketplace.backend.dto.catalog.request;
 
+
+
+
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
+
 
 @Data
 public class RequestSaveCatalogDto {
@@ -17,7 +23,6 @@ public class RequestSaveCatalogDto {
     @NotNull
     @Size(min = 5,max = 250)
     private String image;
-    @NotNull
-    private boolean enabled;
-
+    @NotEmpty
+    private List<String> attributeAlias;
 }

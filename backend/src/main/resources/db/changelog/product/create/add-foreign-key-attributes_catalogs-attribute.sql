@@ -1,4 +1,4 @@
 ALTER TABLE attributes_catalogs
     ADD CONSTRAINT fk_attributes
         FOREIGN KEY (attribute_id)
-            REFERENCES attributes (id);
+            REFERENCES attributes (id) ON DELETE CASCADE;

@@ -2,14 +2,15 @@ package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
+import com.marketplace.backend.dto.product.response.ResponseProductSimpleDto;
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
-import com.marketplace.backend.service.utils.queryes.processors.QueryChainProcessor;
-import com.marketplace.backend.service.utils.queryes.processors.QueryChainProcessorImpl;
-import com.marketplace.backend.service.utils.queryes.processors.QueryProcessorParam;
+import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessor;
+import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessorImpl;
+import com.marketplace.backend.service.utils.queryes.product.processor.QueryProcessorParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,6 @@ public class ProductService implements ProductDao {
         attributeQuery.setParameter("list", param.param().get("list"));
         List<Attribute> res1 = attributeQuery.getResultList();
         queryParam.setAttributes(res1);
-
         /*Получаем количество выбираемых результатов*/
         QueryProcessorParam queryProcessorParamCount = chainProcessor.productCountQuery(queryParam);
 
@@ -85,19 +85,18 @@ public class ProductService implements ProductDao {
                 .createQuery("SELECT p from Product as p where p.alias=:alias and p.enabled=true", Product.class);
         query.setParameter("alias", alias);
         query.setHint("javax.persistence.fetchgraph", entityGraph);
-        Product product = query.getSingleResult();
-        if (product == null) {
-            throw new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias);
-        }
-        return product;
+        return query.getResultStream().findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
     }
 
     @Override
     @Transactional
     public Paging<ResponseProductDto> findProductLikeName(Integer page, Integer pageSize, String find) {
+        if(find==null){
+           find = "%";
+        }
         find = "%" + find.toLowerCase() + "%";
         TypedQuery<Long> countQuery = entityManager
-                .createQuery("SELECT count (p) from Product as p where p.name like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
+                .createQuery("SELECT count (p) from Product as p where lower(p.name) like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
         countQuery.setParameter("find", find);
         Integer count = Math.toIntExact(countQuery.getSingleResult());
         if (count.equals(0)) {
@@ -106,10 +105,8 @@ public class ProductService implements ProductDao {
         Paging<ResponseProductDto> dtoPaging = new Paging<>(count, pageSize, page);
         /*Ввиду того что при fetch запросе hibernate сначала выберает весь результат запроса в память а потом в памяти устанавливает границы setFirstResult() setMaxResult()
          * сначала выбираем с ограничениями id продуктов а вторым запросом пожтягиваем зависимые сущности*/
-        TypedQuery<Long> productIdQuery = entityManager.createQuery("SELECT p.id from Product as p where p.name like :find and p.enabled=true", Long.class);
+        TypedQuery<Long> productIdQuery = entityManager.createQuery("SELECT p.id from Product as p where lower(p.name) like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
         productIdQuery.setParameter("find", find);
-        productIdQuery.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());
-        productIdQuery.setMaxResults(dtoPaging.getPageSize());
         productIdQuery.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());
         productIdQuery.setMaxResults(dtoPaging.getPageSize());
         List<Long> productId = productIdQuery.getResultList();
@@ -125,10 +122,28 @@ public class ProductService implements ProductDao {
         return dtoPaging;
     }
 
+    public Paging<ResponseProductSimpleDto> findAll(Integer page, Integer pageSize){
+        TypedQuery<Long> countQuery =entityManager.createQuery("SELECT COUNT (p) FROM Product as p", Long.class);
+        Integer count = Math.toIntExact(countQuery.getSingleResult());
+        if(count.equals(0)){
+            throw new ResourceNotFoundException("Продукты в базе данных отсутствую");
+        }
+        TypedQuery<ResponseProductSimpleDto> query = entityManager.
+                createQuery("SELECT NEW com.marketplace.backend" +
+                        ".dto.product.response.ResponseProductSimpleDto(p.name,p.alias) from Product as p", ResponseProductSimpleDto.class);
+        Paging<ResponseProductSimpleDto> dtoPaging = new Paging<>(count,pageSize,page);
+        query.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());
+        query.setMaxResults(dtoPaging.getPageSize());
+        dtoPaging.setContent(query.getResultList());
+        return dtoPaging;
+    }
+
     private void setParamInQuery(TypedQuery<?> query,Map<String,Object> param){
         for (Map.Entry<String, Object> entry : param.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
         }
     }
+
+
 
 }

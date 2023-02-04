@@ -3,6 +3,7 @@ package com.marketplace.backend.controller;
 
 import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
+import com.marketplace.backend.dto.catalog.response.ResponseSingleAfterSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalogDto;
 import com.marketplace.backend.mappers.CatalogMapper;
 import com.marketplace.backend.model.Attribute;
@@ -11,10 +12,19 @@ import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.CatalogService;
+import com.marketplace.backend.service.utils.queryes.QueryParam;
+import com.marketplace.backend.service.utils.queryes.UrlResolver;
+import com.marketplace.backend.service.utils.queryes.UrlResolverImpl;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.net.URLDecoder;
+
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,16 +41,12 @@ public class CatalogController {
         mapper = Mappers.getMapper(CatalogMapper.class);
     }
 
-    @GetMapping("/page")
-    public Paging<ResponseSimpleCatalogDto> showAllCatalogs(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                            @RequestParam(name = "size", defaultValue = "5") Integer pageSize) {
-        if (page < 1) {
-            page = 1;
-        }
-        if (pageSize <1){
-            pageSize = 5;
-        }
-        return catalogService.getAll(page, pageSize);
+    @GetMapping("/get_all")
+    public Paging<ResponseSimpleCatalogDto> findAll(HttpServletRequest request) {
+        String queryString = URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8);
+        UrlResolver resolver = new UrlResolverImpl();
+        QueryParam param = resolver.resolveQueryString(queryString);
+        return catalogService.findAll(param);
     }
 
     @GetMapping("/by_alias/{alias}")
@@ -55,7 +61,7 @@ public class CatalogController {
         List<Attribute> numAttributeList = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
         if(!numAttributeList.isEmpty()){
-            dto.setNumberAttribute(catalogService.findNumberAttributesInCatalog(catalog));
+            dto.setNumberAttribute(catalogService.findUseNumericAttributesInCatalog(catalog));
         }
         if(selAttributeList.isEmpty()){
             return dto;
@@ -77,9 +83,13 @@ public class CatalogController {
     }
 
     @PostMapping
-    public ResponseSingleCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
-        Catalog catalog = catalogService.save(dto);
-        return getCatalogByAlias(catalog.getAlias());
+    public ResponseSingleAfterSaveCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
+        Catalog catalog = catalogService.saveOrUpdate(dto);
+        List<Attribute> selAttributeList = catalog.getAttributes()
+                .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
+        List<Attribute> numAttributeList = catalog.getAttributes()
+                .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
+        return mapper.entityToAfterSaveDto(catalog,selAttributeList,numAttributeList);
     }
 
 

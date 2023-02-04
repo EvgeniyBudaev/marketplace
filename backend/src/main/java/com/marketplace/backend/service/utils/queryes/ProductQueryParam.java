@@ -2,8 +2,6 @@ package com.marketplace.backend.service.utils.queryes;
 
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.EAttributeType;
-import com.marketplace.backend.service.utils.queryes.processors.ESortDirection;
-import com.marketplace.backend.service.utils.queryes.processors.ESortedFields;
 import org.springframework.util.MultiValueMap;
 
 import java.util.List;

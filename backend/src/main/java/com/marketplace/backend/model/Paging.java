@@ -20,9 +20,13 @@ public class Paging <T>{
         this.countOfResult = countOfResult;
         this.countOfPage = countOfResult/pageSize;
         this.currentPage= currentPage;
+
         /*Если существует остаток то страниц на одну больше*/
         if (countOfResult%pageSize>0){
             this.countOfPage= countOfPage+1;
+        }
+        if(this.currentPage>countOfPage){
+            this.currentPage = countOfPage;
         }
         if(Objects.equals(this.currentPage, countOfPage)){
             hasNext = false;
@@ -33,9 +37,6 @@ public class Paging <T>{
         if(this.countOfPage==0){
             hasPrevious=false;
             hasNext=false;
-        }
-        if(this.currentPage>this.countOfPage){
-            this.currentPage=this.countOfPage;
         }
     }
 }

@@ -1,10 +1,17 @@
 package com.marketplace.backend.dto.attributes.response;
 
-import com.marketplace.backend.dto.attributes.BaseAttributeDto;
-import com.marketplace.backend.model.Attribute;
+import com.marketplace.backend.model.EAttributeType;
+import lombok.Getter;
+import lombok.Setter;
 
-public class ResponseAttributeForGetAll extends BaseAttributeDto {
-    public ResponseAttributeForGetAll(Attribute attribute){
-        super(attribute);
-    }
+
+
+@Getter
+@Setter
+public class ResponseAttributeForGetAll {
+    private Long id;
+    private String name;
+    private String alias;
+    private EAttributeType type;
+    private Boolean filter;
 }
