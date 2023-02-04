@@ -130,6 +130,10 @@ export const links: LinksFunction = () => {
   ];
 };
 
+export let handle = {
+  i18n: "index",
+};
+
 type TDocumentProps = {
   cart?: TCart;
   children?: ReactNode;

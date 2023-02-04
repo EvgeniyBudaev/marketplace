@@ -9,8 +9,8 @@ import ICU from "i18next-icu";
 import Backend from "i18next-http-backend";
 import i18nextOptions from "../i18next-options";
 
-if (!i18next.isInitialized) {
-  i18next
+async function hydrate() {
+  await i18next
     .use(ICU)
     .use(initReactI18next)
     .use(LanguageDetector)
@@ -28,11 +28,8 @@ if (!i18next.isInitialized) {
         order: ["htmlTag"],
         caches: [],
       },
-    })
-    .then(() => hydrate());
-}
+    });
 
-function hydrate() {
   startTransition(() => {
     hydrateRoot(
       document,
