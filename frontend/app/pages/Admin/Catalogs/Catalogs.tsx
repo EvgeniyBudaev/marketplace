@@ -5,10 +5,9 @@ import { createBrowserHistory } from "history";
 import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
 import { CatalogsTable } from "~/pages/Admin/Catalogs/CatalogsTable";
 import { TCatalogs } from "~/shared/api/catalogs";
-import { ETypographyVariant, Icon, LinkButton, Tooltip, Typography } from "~/uikit";
-import styles from "./Catalogs.module.css";
 import { TParams } from "~/types";
-import { getDefaultFilter } from "~/pages/Catalog/Filter";
+import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
+import styles from "./Catalogs.module.css";
 
 type TProps = {
   catalogs: TCatalogs;

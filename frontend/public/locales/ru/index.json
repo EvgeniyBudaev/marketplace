@@ -1,0 +1,10 @@
+{
+  "errorBoundary": {
+    "common": {
+      "unexpectedError": "Добавь сюда перевод!!!"
+    }
+  },
+  "home": {
+    "title": "Заголовок"
+  }
+}

@@ -7,6 +7,15 @@ const attributeItemSchema = z.object({
 });
 
 export const productsItemSchema = z.object({
+  name: z.string(),
+  alias: z.string(),
+});
+
+export const productsSchema = paginationSchema.extend({
+  content: productsItemSchema.array(),
+});
+
+export const productsByCatalogItemSchema = z.object({
   catalogAlias: z.string(),
   id: z.number(),
   name: z.string(),
@@ -20,10 +29,6 @@ export const productsItemSchema = z.object({
   attributes: attributeItemSchema.array(),
 });
 
-export const productsSchema = paginationSchema.extend({
-  content: productsItemSchema.array(),
-});
-
 export const productsParamsSchema = z.any();
 
 export const productsByCatalogSearchParamsSchema = z.object({
@@ -34,6 +39,9 @@ export const productsByCatalogSearchParamsSchema = z.object({
       pageSize: z.union([z.string(), z.number()]).nullish(),
     })
     .optional(),
+});
+export const productsByCatalogSchema = paginationSchema.extend({
+  content: productsByCatalogItemSchema.array(),
 });
 
 export const productDetailParamsSchema = z.object({

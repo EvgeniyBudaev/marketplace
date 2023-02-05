@@ -12,7 +12,6 @@ export const loader = async (args: LoaderArgs) => {
   const formValues = inputFromSearch(url.searchParams);
   const formattedParams = mapParamsToDto({
     ...formValues,
-    // sort: formValues.sort ?? "name_asc",
   });
 
   const response = await getAttributes(request, { params: formattedParams });

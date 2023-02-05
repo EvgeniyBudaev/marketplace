@@ -14,11 +14,6 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(({ catalogs, onChangeP
 
   const { content, countOfPage, countOfResult, currentPage, hasPrevious, hasNext } = catalogs;
 
-  // const handlePageChange = ({ selected }: { selected: number }) => {
-  //   console.log("selected: ", selected);
-  //   //setCurrentPage(selected + 1);
-  // };
-
   return (
     <div ref={ref}>
       <UiTable<TCatalog>

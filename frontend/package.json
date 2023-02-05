@@ -10,7 +10,8 @@
     "build:remix": "remix build",
     "build:sass": "sass app/:app/ styles/:styles/ -I styles",
     "start": "remix-serve build",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "generate:translations": "i18next"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",

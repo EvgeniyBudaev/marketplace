@@ -7,7 +7,7 @@ import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
 import type { TCart } from "~/shared/api/cart";
 import { TCatalogDetail } from "~/shared/api/catalogs";
-import type { TProduct } from "~/shared/api/products";
+import type { TProductByCatalog } from "~/shared/api/products";
 import { EFormMethods } from "~/shared/form";
 import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath, formatProxy, formatCurrency } from "~/utils";
@@ -17,7 +17,7 @@ import styles from "./ProductListItem.module.css";
 type TProps = {
   cart: TCart;
   catalog: TCatalogDetail;
-  product: TProduct;
+  product: TProductByCatalog;
   isCardsLine: boolean;
   fetcher: FetcherWithComponents<any>;
 };
@@ -62,7 +62,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     );
   };
 
-  const renderButton = (product: TProduct) => {
+  const renderButton = (product: TProductByCatalog) => {
     const isProductAtCart =
       cart && !isNil(cart.items) && cart.items.some((item) => item.product.id === product.id);
 

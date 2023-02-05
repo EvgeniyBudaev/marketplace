@@ -4,6 +4,6 @@ import type { TParams } from "~/types";
 export const mapParamsToDto = (params: TParams) => {
   return {
     ...params,
-    pageSize: params?.pageSize ? Number(params.pageSize) : DEFAULT_PAGE_SIZE,
+    size: params?.size ? Number(params.size) : DEFAULT_PAGE_SIZE,
   };
 };

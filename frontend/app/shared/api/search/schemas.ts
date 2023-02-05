@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { productsSchema } from "~/shared/api/products";
+import { productsByCatalogSchema } from "~/shared/api/products";
 
-export const searchProductsSchema = productsSchema;
+export const searchProductsSchema = productsByCatalogSchema;
 
 export const searchProductsParamsSchema = z.object({
   search: z.string(),

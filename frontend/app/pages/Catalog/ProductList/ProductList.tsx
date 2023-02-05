@@ -5,7 +5,7 @@ import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { TCart } from "~/shared/api/cart";
 import { TCatalogDetail } from "~/shared/api/catalogs";
-import type { TProduct } from "~/shared/api/products";
+import type { TProductByCatalog } from "~/shared/api/products";
 import { ProductListItem } from "../ProductListItem";
 import styles from "./ProductList.module.css";
 
@@ -14,7 +14,7 @@ type TProps = {
   catalog: TCatalogDetail;
   isCardsLine: boolean;
   onPageChange?: (page: number) => void;
-  pages: TProduct[][];
+  pages: TProductByCatalog[][];
   scrollIntoPage?: number;
 };
 
@@ -86,17 +86,20 @@ export const ProductList: FC<TProps> = ({
         pages.flatMap((page, i) =>
           page === undefined
             ? []
-            : page.map((product, j) => (
-                <ProductListItem
-                  key={getRandomString() + product.id}
-                  cart={cart}
-                  catalog={catalog}
-                  product={product}
-                  ref={(el) => ((listItems.current[i] || (listItems.current[i] = []))[j] = el)}
-                  isCardsLine={isCardsLine}
-                  fetcher={fetcher}
-                />
-              )),
+            : page.map((product, j) => {
+                // console.log("product: ", product);
+                return (
+                  <ProductListItem
+                    key={getRandomString() + product.id}
+                    cart={cart}
+                    catalog={catalog}
+                    product={product}
+                    ref={(el) => ((listItems.current[i] || (listItems.current[i] = []))[j] = el)}
+                    isCardsLine={isCardsLine}
+                    fetcher={fetcher}
+                  />
+                );
+              }),
         )}
     </ul>
   );

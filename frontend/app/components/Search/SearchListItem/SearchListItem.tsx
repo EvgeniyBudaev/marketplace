@@ -2,14 +2,14 @@ import type { FC, MouseEvent } from "react";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { ERoutes } from "~/enums";
-import type { TProduct } from "~/shared/api/products";
+import type { TProductByCatalog } from "~/shared/api/products";
 import { ETypographyVariant, Typography } from "~/uikit";
 import { createPath, formatCurrency, formatProxy } from "~/utils";
 import styles from "./SearchListItem.module.css";
 
 type TProps = {
   index: number;
-  item: TProduct;
+  item: TProductByCatalog;
   isActive: boolean;
   onMouseOver: (event: MouseEvent<HTMLLIElement>, index: number) => void;
 };
