@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { productsItemSchema } from "~/shared/api/products";
+import { productsByCatalogItemSchema } from "~/shared/api/products";
 
 export const cartItemSchema = z.object({
   amount: z.string(),
   id: z.number(),
   price: z.string(),
-  product: productsItemSchema,
+  product: productsByCatalogItemSchema,
   quantity: z.number(),
 });
 

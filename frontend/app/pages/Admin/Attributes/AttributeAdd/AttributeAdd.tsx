@@ -1,7 +1,8 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import type { FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes } from "~/enums";
+import { ERoutes, ETheme } from "~/enums";
+import { useSettings } from "~/hooks";
 import {
   EFormFields,
   formSchema,
@@ -11,7 +12,7 @@ import {
 } from "~/pages/Admin/Attributes/AttributeAdd";
 import { EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
 import { TParams } from "~/types";
-import { Button, ETypographyVariant, Input as InputUI, notify, Typography } from "~/uikit";
+import { Button, ETypographyVariant, Input as InputUI, notify, Tag, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./AttributeAdd.module.css";
 
@@ -20,6 +21,9 @@ type TSelectableItem = {
 };
 
 export const AttributeAdd: FC = () => {
+  const settings = useSettings();
+  const theme = settings.settings.theme;
+
   const selectTypeOptions = [
     { value: "SELECTABLE", label: "SELECTABLE" },
     { value: "DOUBLE", label: "DOUBLE" },
@@ -52,7 +56,6 @@ export const AttributeAdd: FC = () => {
   }, [fetcher.data, fetcher.data?.success, isDoneType]);
 
   const handleChangeSelectableValue = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("event.target.value: ", event.target.value);
     setCurrentSelectableValue(event.target.value);
   };
 
@@ -60,7 +63,19 @@ export const AttributeAdd: FC = () => {
     const newItem = {
       value: currentSelectableValue,
     };
-    setSelectable((prevState) => [...prevState, newItem]);
+    setSelectable((prevState) => {
+      let uniqueObjectsList: TSelectableItem[] = [];
+      const uniqueObjectSet = new Set();
+      const listNew = [...prevState, newItem];
+      for (const object of listNew) {
+        const objectJSON = JSON.stringify(object);
+        if (!uniqueObjectSet.has(objectJSON)) {
+          uniqueObjectsList = [...uniqueObjectsList, object];
+        }
+        uniqueObjectSet.add(objectJSON);
+      }
+      return uniqueObjectsList;
+    });
     setCurrentSelectableValue("");
   };
 
@@ -80,11 +95,11 @@ export const AttributeAdd: FC = () => {
     formData.append("selectable", JSON.stringify(formattedParams.selectable));
 
     fetcher.submit(formattedParams, {
-        method: EFormMethods.Post,
-        action: createPath({
-            route: ERoutes.AttributeAdd,
-            withIndex: true,
-        }),
+      method: EFormMethods.Post,
+      action: createPath({
+        route: ERoutes.AttributeAdd,
+        withIndex: true,
+      }),
     });
   };
 
@@ -93,18 +108,32 @@ export const AttributeAdd: FC = () => {
       <h1 className="AttributeAdd-Title">
         <Typography variant={ETypographyVariant.TextH1Bold}>Добавление атрибута</Typography>
       </h1>
-      <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
+      <Form<TForm>
+        className="AttributeAdd-Form"
+        form={form}
+        handleSubmit={handleSubmit}
+        method={EFormMethods.Post}
+      >
         <Input label="Название атрибута" name={EFormFields.Name} type="text" />
         <Input label="Alias" name={EFormFields.Alias} type="text" />
-        <Select
-          defaultValue={selectTypeOptions[0]}
-          id="2"
-          instanceId="2"
-          name={EFormFields.Type}
-          options={selectTypeOptions}
-        />
-        <div>
-          <pre>{JSON.stringify(selectable, null, 2)}</pre>
+        <div className="AttributeAdd-FormFieldGroup">
+          <Select
+            defaultValue={selectTypeOptions[0]}
+            name={EFormFields.Type}
+            options={selectTypeOptions}
+            theme={theme === ETheme.Light ? "primary" : "secondary"}
+          />
+        </div>
+        <div className="AttributeAdd-FormFieldGroup">
+          <div className="AttributeAdd-TagList">
+            {selectable.map((tag, index) => (
+              <Tag
+                className="AttributeAdd-TagListItem"
+                key={`${tag.value}${index}`}
+                title={tag.value}
+              />
+            ))}
+          </div>
         </div>
         <InputUI
           label="Значение атрибута"
@@ -116,7 +145,7 @@ export const AttributeAdd: FC = () => {
         <Button className="AttributeAdd-Button" type="button" onClick={handleSelectableValueAdd}>
           Добавить значение в список
         </Button>
-        <div className="AttributeAdd-Control">
+        <div className="AttributeAdd-FormControl">
           <Button className="AttributeAdd-Button" type="submit">
             Создать
           </Button>

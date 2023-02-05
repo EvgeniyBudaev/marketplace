@@ -1,4 +1,4 @@
-import {inputFromForm} from "remix-domains";
+import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
 import { ActionArgs, json } from "@remix-run/node";
 import {
@@ -16,8 +16,11 @@ export const action = async (args: ActionArgs) => {
   console.log("formValues: ", formValues);
   const formData = {
     ...formValues,
-    selectable: formValues.selectable && typeof formValues.selectable === 'string' ? JSON.parse(formValues.selectable.trim()) : formValues.selectable,
-  }
+    selectable:
+      formValues.selectable && typeof formValues.selectable === "string"
+        ? JSON.parse(formValues.selectable.trim())
+        : formValues.selectable,
+  };
   console.log("formData: ", formData);
 
   try {

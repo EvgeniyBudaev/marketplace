@@ -3,6 +3,7 @@ import {
   productAddSchema,
   productDetailParamsSchema,
   productDetailSchema,
+  productsByCatalogSchema,
   productsByCatalogSearchParamsSchema,
   productsParamsSchema,
   productsSchema,
@@ -11,17 +12,15 @@ import {
   getProductsByCatalogApi,
   getProductDetailApi,
   addProductApi,
+  getProductsApi,
 } from "~/shared/api/products/utils";
 import { apiDomainFunction } from "~/utils";
 
-export const getProducts = apiDomainFunction(
-  productsParamsSchema,
-  productsSchema,
-)(getProductsByCatalogApi);
+export const getProducts = apiDomainFunction(productsParamsSchema, productsSchema)(getProductsApi);
 
 export const getProductsByCatalog = apiDomainFunction(
   productsByCatalogSearchParamsSchema,
-  productsSchema,
+  productsByCatalogSchema,
 )(getProductsByCatalogApi);
 
 export const getProductDetail = apiDomainFunction(

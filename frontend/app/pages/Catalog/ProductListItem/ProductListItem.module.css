@@ -35,10 +35,9 @@
 .ProductListItem {
   min-height: max-content;
   width: 100%;
-  border: 1px solid transparent;
+  border: 1px solid rgb(228, 228, 228);
   border-radius: 8px;
   padding: 10px;
-  background: linear-gradient(40deg, rgba(116, 129, 168, 0.16), rgba(232, 232, 232, 0.1) 16%), linear-gradient(210deg, rgba(116, 129, 168, 0.5), rgba(232, 232, 232, 0.1) 20%);
   transition: box-shadow 0.15s;
 }
 .ProductListItem:hover {
@@ -178,7 +177,8 @@
 }
 
 .theme-dark .ProductListItem {
-  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%), linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
+    linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
 }
 .theme-dark .ProductListItem:hover {
   box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px, rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
@@ -188,7 +188,9 @@
   .ProductListItem.ProductListItem__line {
     max-height: max-content;
   }
-  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLinePrice, .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLineStatus, .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLineAddToCartLine {
+  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLinePrice,
+  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLineStatus,
+  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLineAddToCartLine {
     display: block;
   }
   .ProductListItem.ProductListItem__line .ProductListItem-Footer {
@@ -221,7 +223,9 @@
   .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLine {
     max-width: 100%;
   }
-  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLine .ProductListItemAddToCartLine {
+  .ProductListItem.ProductListItem__line
+    .ProductListItem-ContentDescriptionLine
+    .ProductListItemAddToCartLine {
     margin-bottom: 8px;
   }
 }
@@ -234,7 +238,9 @@
     margin-left: 0;
     max-width: 290px;
   }
-  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLine .ProductListItemAddToCartLine {
+  .ProductListItem.ProductListItem__line
+    .ProductListItem-ContentDescriptionLine
+    .ProductListItemAddToCartLine {
     display: flex;
     justify-content: center;
   }
@@ -247,7 +253,8 @@
   .ProductListItem-Content .ProductListItem-ContentImg {
     height: 140px;
   }
-  .ProductListItem-ButtonAddToCart, .ProductListItem-ButtonGoAtCart {
+  .ProductListItem-ButtonAddToCart,
+  .ProductListItem-ButtonGoAtCart {
     padding: 10px 20px;
     height: 36px;
   }

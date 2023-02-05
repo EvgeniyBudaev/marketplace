@@ -3,13 +3,11 @@ import type { TProducts, TProductsParams } from "~/shared/api/products";
 import type { TApiFunction } from "~/shared/api/types";
 import { EFormMethods } from "~/shared/form";
 
-export const getProductsApi: TApiFunction<TProductsParams, TProducts> = (
-  request,
-  { alias, params },
-) => {
+export const getProductsApi: TApiFunction<TProductsParams, TProducts> = (request, { params }) => {
   const encodeAndJoinPair = (pair: any) => pair.map(encodeURIComponent).join("=");
   const searchParams = params && Object.entries(params).map(encodeAndJoinPair).join("&");
-  const url = `/api/v1/products/page/?catalog=${alias}${searchParams ? `&${searchParams}` : ""}`;
+  const url = `/api/v1/products/get_all?${searchParams ? `&${searchParams}` : ""}`;
+  console.log("[url] ", url);
 
   return fetchApi<TProducts>(request, url, {
     method: EFormMethods.Get,

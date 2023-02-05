@@ -12,7 +12,7 @@ import { productListItemLinks } from "~/pages/Catalog/ProductListItem";
 import { sortingLinks } from "~/pages/Catalog/Sorting";
 import { TCart } from "~/shared/api/cart";
 import type { TCatalogDetail } from "~/shared/api/catalogs";
-import type { TProduct, TProducts } from "~/shared/api/products";
+import type { TProductByCatalog, TProductsByCatalog } from "~/shared/api/products";
 import type { TParams, TSorting } from "~/types";
 import { ETypographyVariant, Typography } from "~/uikit";
 import { Filter } from "./Filter";
@@ -28,10 +28,10 @@ type TProductRange = {
 type TProps = {
   cart: TCart;
   catalog: TCatalogDetail;
-  products: TProducts;
+  products: TProductsByCatalog;
 };
 
-const PLACEHOLDER_PRODUCT: TProduct = {
+const PLACEHOLDER_PRODUCT: TProductByCatalog = {
   id: 0,
   name: "Placeholder",
   price: "0",

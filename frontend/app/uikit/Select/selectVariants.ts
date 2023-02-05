@@ -1,4 +1,4 @@
-import { TSelectVariants, TSelectVariantStyle } from "~/pages/Catalog/Sorting/types";
+import type { TSelectVariants, TSelectVariantStyle } from "~/uikit";
 
 export const VARIANTS: { [key in TSelectVariants]: TSelectVariantStyle } = {
   // My primary variant is for the dark-mode.

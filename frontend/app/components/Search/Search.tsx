@@ -8,7 +8,7 @@ import isNull from "lodash/isNull";
 
 import { TRANSITION } from "~/constants";
 import { ERoutes } from "~/enums";
-import type { TProducts } from "~/shared/api/products";
+import type { TProductsByCatalog } from "~/shared/api/products";
 import { EFormMethods } from "~/shared/form";
 import { Icon, Overlay } from "~/uikit";
 
@@ -31,7 +31,7 @@ export const Search: FC<TProps> = ({ className, transition = TRANSITION }) => {
   const search = searchParams.get("search");
   const defaultSearch: string = !isNull(search) ? search : "";
   const fetcher = useFetcher();
-  const productList: TProducts = fetcher.data ?? null;
+  const productList: TProductsByCatalog = fetcher.data ?? null;
 
   const handleBlur = () => {
     setIsActive(false);

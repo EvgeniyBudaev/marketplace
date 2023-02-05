@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { FC, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { json } from "@remix-run/node";
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import {
@@ -21,6 +22,7 @@ import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
 import { ETheme } from "~/enums";
+import { useInitLanguage } from "~/hooks";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
 import { createCartSession, getCart, getCartSession, TCart } from "~/shared/api/cart";
@@ -128,6 +130,10 @@ export const links: LinksFunction = () => {
   ];
 };
 
+export let handle = {
+  i18n: "index",
+};
+
 type TDocumentProps = {
   cart?: TCart;
   children?: ReactNode;
@@ -140,10 +146,12 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
   if (typeof window !== "undefined") {
     cspScriptNonce = "";
   }
+  const { i18n } = useTranslation();
+  useInitLanguage();
   const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
 
   return (
-    <html lang={"en"}>
+    <html lang={i18n.language} dir={i18n.dir()}>
       <head>
         <meta charSet="utf-8" />
         <meta

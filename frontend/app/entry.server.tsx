@@ -4,7 +4,14 @@ import { Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+import { I18nextProvider, initReactI18next } from "react-i18next";
+import { createInstance } from "i18next";
+import Backend from "i18next-fs-backend";
+import ICU from "i18next-icu";
+import { resolve } from "node:path";
+import { remixI18next } from "~/services";
 import { getContentSecurityPolicy } from "~/utils";
+import i18nextOptions from "../i18next-options";
 
 const ABORT_DELAY = 5000;
 
@@ -60,7 +67,7 @@ function handleBotRequest(
   });
 }
 
-function handleBrowserRequest(
+async function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
@@ -69,11 +76,30 @@ function handleBrowserRequest(
   const nonce: string | undefined =
     remixContext.staticHandlerContext.loaderData["root"]?.cspScriptNonce;
 
+  const instance = createInstance();
+  const lng = "ru";
+  const ns = remixI18next.getRouteNamespaces(remixContext);
+
+  await instance
+    .use(ICU)
+    .use(initReactI18next)
+    .use(Backend)
+    .init({
+      ...i18nextOptions,
+      lng,
+      ns,
+      backend: {
+        loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json"),
+      },
+    });
+
   return new Promise((resolve, reject) => {
     let didError = false;
 
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer context={remixContext} url={request.url} />,
+      <I18nextProvider i18n={instance}>
+        <RemixServer context={remixContext} url={request.url} />
+      </I18nextProvider>,
       {
         onShellReady() {
           const body = new PassThrough();

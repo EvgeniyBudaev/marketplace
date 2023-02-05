@@ -6,11 +6,11 @@ import isNil from "lodash/isNil";
 import { SearchListItem } from "~/components/Search/SearchListItem";
 import type { TFocusDirection, TFocusedOption } from "~/components/Search/types";
 import { useKey } from "~/hooks";
-import type { TProduct, TProducts } from "~/shared/api/products";
+import type { TProductByCatalog, TProductsByCatalog } from "~/shared/api/products";
 import styles from "./SearchList.module.css";
 
 type TProps = {
-  productList: TProducts | null;
+  productList: TProductsByCatalog | null;
   onBlur: () => void;
 };
 
@@ -18,7 +18,7 @@ export const SearchList: FC<TProps> = ({ productList, onBlur }) => {
   const [focusedOption, setFocusedOption] = useState<TFocusedOption>({
     focusedOption: null,
   });
-  const [list, setList] = useState<TProduct[]>([]);
+  const [list, setList] = useState<TProductByCatalog[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
 

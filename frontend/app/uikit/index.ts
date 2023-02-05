@@ -15,6 +15,7 @@ export * from "./Sidebar";
 export * from "./Spacer";
 export * from "./Switcher";
 export * from "./Table";
+export * from "./Tag";
 export * from "./Toast";
 export * from "./Tooltip";
 export * from "./Typography";
@@ -36,6 +37,7 @@ import { selectLinks } from "~/uikit/Select";
 import { spacerLinks } from "~/uikit/Spacer";
 import { switcherLinks } from "~/uikit/Switcher";
 import { tableLinks } from "~/uikit/Table";
+import { tagLinks } from "~/uikit/Tag";
 import { tooltipLinks } from "~/uikit/Tooltip";
 import { typographyLinks } from "~/uikit/Typography/constants";
 
@@ -58,6 +60,7 @@ export const links = () => {
     ...spacerLinks(),
     ...switcherLinks(),
     ...tableLinks(),
+    ...tagLinks(),
     ...tooltipLinks(),
     ...typographyLinks(),
   ];

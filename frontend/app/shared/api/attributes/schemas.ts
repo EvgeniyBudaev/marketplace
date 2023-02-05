@@ -20,9 +20,11 @@ export const attributeAddParamsSchema = z.object({
   alias: z.string(),
   name: z.string(),
   type: z.string(),
-  selectable: z.object({
-    value: z.string(),
-  }).array(),
+  selectable: z
+    .object({
+      value: z.string(),
+    })
+    .array(),
 });
 
 export const attributeAddSelectableItemSchema = z.object({
