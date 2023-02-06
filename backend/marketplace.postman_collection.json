@@ -119,7 +119,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\n {\n    \"id\": 7,\n    \"name\": \"Новый аттрибут3\",\n    \"alias\": \"new attribute92\",\n    \"type\": \"DOUBLE\",\n    \"filter\": true\n}",
+							"raw": "{\n    \"id\": 7,\n    \"name\": \"Новый аттрибут20\",\n    \"alias\": \"new attribute3311\",\n    \"type\": \"SELECTABLE\",\n    \"filter\": true,\n    \"selectable\": [\n        {\n            \"id\": 11,\n            \"attributeId\": 7,\n            \"value\": \"лучше всех я и только я\"\n        },\n       {\n            \"id\": 16,\n            \"attributeId\": 7,\n            \"value\": \"лучше меня 33\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -149,7 +149,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/attributes/by_alias/weight",
+							"raw": "http://localhost:8080/api/v1/attributes/by_alias/new attribute3311",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -160,7 +160,29 @@
 								"v1",
 								"attributes",
 								"by_alias",
-								"weight"
+								"new attribute3311"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete attribute",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/attributes/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"attributes",
+								""
 							]
 						}
 					},
@@ -178,7 +200,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"alias\": \"Zerka2l6677\",\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\",\n    \"attributeAlias\":[\n        \"category\",\n        \"form\",\n        \"width\",\n        \"height\"\n    ]\n}",
+							"raw": "{\n    \"alias\": \"Zerkala567\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -318,7 +340,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"alias\": \"venetian-mirror234\",\n    \"description\": \"Это очень новое зеркало\",\n    \"catalogAlias\": \"Zerkal2\",\n    \"name\": \"Внецианское зеркало\",\n    \"count\": 7,\n    \"price\":156.89,\n    \"selectableValues\":[],\n    \"numericValues\":[\n        {\n            \"attributeAlias\": \"height\",\n            \"value\": 137\n        },\n        {\n            \"attributeAlias\": \"width\",\n             \"value\": 137\n        }\n    ]\n}",
+							"raw": "{\n    \"alias\": \"venetian-mirror2222\",\n    \"description\": \"Это очень новое зеркало\",\n    \"enabled\": true,\n    \"catalogAlias\": \"mirrors\",\n    \"name\": \"Внецианское зеркало\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -424,7 +446,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/find/?page=1&size=15&search=зерк",
+							"raw": "http://localhost:8080/api/v1/products/get_all/?pageSize=15&page=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -434,7 +456,7 @@
 								"api",
 								"v1",
 								"products",
-								"find",
+								"get_all",
 								""
 							],
 							"query": [
@@ -449,16 +471,12 @@
 									"disabled": true
 								},
 								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "size",
+									"key": "pageSize",
 									"value": "15"
 								},
 								{
-									"key": "search",
-									"value": "зерк"
+									"key": "page",
+									"value": "2"
 								}
 							]
 						}
@@ -805,10 +823,17 @@
 					"name": "Increment Items quantity",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MzczNzUyNywiaWF0IjoxNjczNzMzOTI3fQ.8pIcj_1RtEquqXkimGUgJTTf1eGPQBLehzE4i1x9yKk",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"uuid\":\"f2213b34-c0fe-407d-b1c1-d9d3c8620010\",\n    \"productAlias\":\"venetian-mirror-colombo\"\n}",
+							"raw": "{\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\",\n    \"productAlias\":\"venetian-mirror-colombo\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -973,7 +998,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"theme\":\"DARK\",\n    \"currency\":\"USD\",\n    \"language\":\"RU\",\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\"\n}",
+							"raw": "{\n    \"theme\":\"DARK\",\n    \"currency\":\"RUB\",\n    \"language\":\"RU\",\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
