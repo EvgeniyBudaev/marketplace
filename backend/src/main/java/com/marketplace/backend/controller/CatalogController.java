@@ -43,7 +43,11 @@ public class CatalogController {
 
     @GetMapping("/get_all")
     public Paging<ResponseSimpleCatalogDto> findAll(HttpServletRequest request) {
-        String queryString = URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8);
+        String rawQueryString = request.getQueryString();
+        String queryString = null;
+        if (rawQueryString!=null){
+            queryString = URLDecoder.decode(rawQueryString, StandardCharsets.UTF_8);
+        }
         UrlResolver resolver = new UrlResolverImpl();
         QueryParam param = resolver.resolveQueryString(queryString);
         return catalogService.findAll(param);

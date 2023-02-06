@@ -25,7 +25,7 @@ public class CatalogQueryProcessorImpl implements QueryProcessor {
     public String getMainQuery() {
         StringBuilder queryString = new StringBuilder("select c from Catalog  as c where c.enabled=true ");
         Map<ESortedFields, ESortDirection> paramMap = param.getSortedParam();
-        if (param.getSortedParam()!=null){
+        if (param.getSearchString()!=null){
             queryString.append("and lower (c.name) like lower (:param) ");
         }
         queryString.append("order by ");

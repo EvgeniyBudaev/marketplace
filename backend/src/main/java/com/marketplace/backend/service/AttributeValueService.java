@@ -58,7 +58,7 @@ public class AttributeValueService {
         query.executeUpdate();
     }
 
-    public void deleteValuesByAttributeAlias(Attribute attribute, String tableName){
+    public void deleteValuesByAttribute(Attribute attribute, String tableName){
         String queryString = String.format( "DELETE FROM %s as v where v.attribute=:attribute",tableName);
         Query query = entityManager.createQuery(queryString);
         query.setParameter("attribute",attribute);
