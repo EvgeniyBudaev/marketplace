@@ -1,8 +1,9 @@
-import * as React from 'react';
-import type { Column } from '@tanstack/react-table';
-import { flexRender } from '@tanstack/react-table';
-import clsx from 'clsx';
-import xor from 'lodash/xor';
+import * as React from "react";
+import type { Column, HeaderContext } from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
+import clsx from "clsx";
+import xor from "lodash/xor";
+import { TParams } from "~/types";
 
 export type TOptionsProps<T extends object> = {
   columns: Column<T, unknown>[];
@@ -65,13 +66,13 @@ const OptionsComponent = <T extends object>({
       )}
 
       <div
-        // closeModal={closeModal}
-        // isOpen={isOpen}
-        // header={
-        //   <div className="border-grey text-dark border-b py-6 text-2xl font-semibold">
-        //     {optionsModalHeader}
-        //   </div>
-        // }
+      // closeModal={closeModal}
+      // isOpen={isOpen}
+      // header={
+      //   <div className="border-grey text-dark border-b py-6 text-2xl font-semibold">
+      //     {optionsModalHeader}
+      //   </div>
+      // }
       >
         <div className="py-6">
           {optionsFieldHeader && (
@@ -85,18 +86,18 @@ const OptionsComponent = <T extends object>({
               return (
                 <button
                   key={column.id}
-                  className={clsx('rounded-[100px] py-2 px-4 text-base font-semibold', {
-                    'cursor-pointer border': canHide,
-                    'bg-grey text-grey-dark cursor-not-allowed': !canHide,
-                    'border-primary bg-primary/[.08]':
+                  className={clsx("rounded-[100px] py-2 px-4 text-base font-semibold", {
+                    "cursor-pointer border": canHide,
+                    "bg-grey text-grey-dark cursor-not-allowed": !canHide,
+                    "border-primary bg-primary/[.08]":
                       canHide && !localHiddenColls.includes(column.id),
-                    'border-grey bg-light': canHide && localHiddenColls.includes(column.id),
+                    "border-grey bg-light": canHide && localHiddenColls.includes(column.id),
                   })}
                   disabled={!canHide}
                   onClick={onChangeColumn(column.id)}
                   type="button"
                 >
-                  {flexRender(column.columnDef.header, {})}
+                  {flexRender(column.columnDef.header, {} as HeaderContext<T, unknown>)}
                 </button>
               );
             })}

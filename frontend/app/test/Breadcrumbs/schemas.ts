@@ -1,9 +1,9 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const BreadcrumbPrefetchSchema = z.union([
-  z.literal('intent'),
-  z.literal('render'),
-  z.literal('none'),
+  z.literal("intent"),
+  z.literal("render"),
+  z.literal("none"),
 ]);
 
 export const BreadcrumbParamsSchema = z.record(z.string().optional());

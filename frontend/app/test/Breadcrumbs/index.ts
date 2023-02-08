@@ -1,2 +1,2 @@
-export * from './Breadcrumbs';
-export type { TBreadcrumb, TBreadcrumbHandle } from './types';
+export * from "./Breadcrumbs";
+export type { TBreadcrumb, TBreadcrumbHandle } from "./types";

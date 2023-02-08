@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { NavLink, useMatches } from '@remix-run/react';
-import clsx from 'clsx';
-import { useTranslation } from 'react-i18next';
-import type { TExtendedBreadcrumb, TBreadcrumbParams } from './types';
-import { BreadcrumbHandleSchema } from './schemas';
+import * as React from "react";
+import { NavLink, useMatches } from "@remix-run/react";
+import clsx from "clsx";
+import { useTranslation } from "react-i18next";
+import type { TExtendedBreadcrumb, TBreadcrumbParams } from "./types";
+import { BreadcrumbHandleSchema } from "./schemas";
 
 export type TBreadcrumbsProps = {
   params?: TBreadcrumbParams;
@@ -24,7 +24,7 @@ export const Breadcrumbs: React.FC<TBreadcrumbsProps> = ({ params = {}, dataTest
       const breadcrumbTitle = result.data.breadcrumb.title;
 
       const title =
-        typeof breadcrumbTitle === 'function' ? breadcrumbTitle(t, params) : breadcrumbTitle;
+        typeof breadcrumbTitle === "function" ? breadcrumbTitle(t, params) : breadcrumbTitle;
 
       return {
         ...result.data.breadcrumb,
@@ -43,13 +43,13 @@ export const Breadcrumbs: React.FC<TBreadcrumbsProps> = ({ params = {}, dataTest
               to={breadcrumb.to}
               prefetch={breadcrumb.prefetch}
               className={({ isActive }) =>
-                clsx('font-semibold', isActive && 'text-primary pointer-events-none')
+                clsx("font-semibold", isActive && "text-primary pointer-events-none")
               }
               end
             >
-              {breadcrumb.title}
+              {typeof breadcrumb.title === "string" ? breadcrumb.title : breadcrumb.title(t, {})}
             </NavLink>
-            {index < breadcrumbs.length - 1 && <span>{'/'}</span>}
+            {index < breadcrumbs.length - 1 && <span>{"/"}</span>}
           </>
         </li>
       ))}

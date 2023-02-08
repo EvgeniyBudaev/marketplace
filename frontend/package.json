@@ -14,6 +14,8 @@
     "generate:translations": "i18next"
   },
   "dependencies": {
+    "@ant-design/plots": "^1.2.5",
+    "@antv/g2": "^4.2.9",
     "@hookform/resolvers": "^2.9.10",
     "@pbe/react-yandex-maps": "^1.2.2",
     "@remix-run/express": "^1.12.0",
@@ -74,7 +76,7 @@
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
-    "eslint": "^8.31.0",
+    "eslint": "^8.33.0",
     "i18next-parser": "^7.6.0",
     "npm-run-all": "^4.1.5",
     "prettier": "2.8.1",

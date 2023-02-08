@@ -1,31 +1,28 @@
-import * as React from 'react';
-import { Form as RemixForm } from 'remix-forms';
-import type { FormProps as RemixFormProps } from 'remix-forms';
-import type z from 'zod';
+import * as React from "react";
+import type { FormProps as RemixFormProps, FormSchema } from "remix-forms";
+import { Label } from "~/test";
+import { FormRenderField } from "./FormRenderField";
+import { Input, Select } from "~/uikit";
+import { createForm } from "remix-forms";
+import {
+  Form as FrameworkForm,
+  useActionData,
+  useSubmit,
+  useTransition as useNavigation,
+} from "@remix-run/react";
 
-import { Label } from '~/test';
+const RemixForm = createForm({ component: FrameworkForm, useNavigation, useSubmit, useActionData });
 
-import { FormRenderField } from './FormRenderField';
-import type { TChildren } from './types';
-import {Input, Select} from "~/uikit";
-
-export type TFormProps<Schema extends z.SomeZodObject> = Omit<
-  RemixFormProps<Schema>,
-  'children'
-> & {
-  children?: TChildren<Schema>;
-};
-
-const FormComponent = <Schema extends z.SomeZodObject>(props: TFormProps<Schema>) => {
+function FormComponent<Schema extends FormSchema>(props: RemixFormProps<Schema>) {
   return (
     <RemixForm<Schema>
       inputComponent={Input as any}
       labelComponent={Label}
       renderField={FormRenderField}
-      selectComponent={Select as RemixFormProps<Schema>['selectComponent']}
       {...props}
+      selectComponent={Select as RemixFormProps<Schema>["selectComponent"]}
     />
   );
-};
+}
 
 export const Form = React.memo(FormComponent) as typeof FormComponent;
