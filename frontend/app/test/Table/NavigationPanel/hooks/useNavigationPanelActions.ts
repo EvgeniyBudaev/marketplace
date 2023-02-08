@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 type TUseNavigationPanelActionsProps = {
   onChangeParams?: (params: Record<string, any>) => void;
@@ -38,7 +38,7 @@ export const useNavigationPanelActions = ({
 
   const gotoPage = React.useCallback(
     (updater: ((pageIndex: number) => number) | number) => {
-      const setPage = typeof updater === 'function' ? updater(page) : updater;
+      const setPage = typeof updater === "function" ? updater(page) : updater;
       const newPage = setPage + 1;
 
       onChangePage?.(newPage);

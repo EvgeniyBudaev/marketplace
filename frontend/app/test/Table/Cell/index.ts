@@ -1,1 +1,1 @@
-export * from './Hash';
+export * from "./Hash";

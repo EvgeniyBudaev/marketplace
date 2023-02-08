@@ -1,6 +1,6 @@
-import type { HeaderGroup } from '@tanstack/react-table';
-import type { TTableClasses, TTableSortingProps, TTheme } from '../types';
-import type { TTableSortingColumnState } from '../types';
+import type { HeaderGroup } from "@tanstack/react-table";
+import type { TTableClasses, TTableSortingProps, TTheme } from "../types";
+import type { TTableSortingColumnState } from "../types";
 
 export type THeaderTableProps<TColumn extends object> = {
   classes?: TTableClasses;

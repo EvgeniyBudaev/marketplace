@@ -1,5 +1,5 @@
-import type { ColumnDef, OnChangeFn, RowSelectionState } from '@tanstack/react-table';
-import type { TFooterProps } from './Footer';
+import type { ColumnDef, OnChangeFn, RowSelectionState } from "@tanstack/react-table";
+import type { TFooterProps } from "./Footer";
 
 export type TTheme = {
   root: string;
@@ -12,7 +12,7 @@ export type TTheme = {
 
 export type TTableClasses = Partial<TTheme>;
 
-export type TTableThemeVariant = 'default' | 'admin' | 'new';
+export type TTableThemeVariant = "default" | "admin" | "new";
 
 export type TTableThemes = Record<TTableThemeVariant, TTheme>;
 
@@ -20,7 +20,7 @@ export type TTableMessages = {
   pageSize?: string;
 };
 
-export type TTableSortDirection = 'ASC' | 'DESC';
+export type TTableSortDirection = "ASC" | "DESC";
 
 export type TTablePaginationProps = {
   hasNext: boolean;
@@ -49,7 +49,7 @@ export type TTableSortingProps = {
   multiple?: boolean;
 };
 
-export type TTableFooterProps<TColumn extends object> = Omit<TFooterProps<TColumn>, 'columns'>;
+export type TTableFooterProps<TColumn extends object> = Omit<TFooterProps<TColumn>, "columns">;
 
 export type TTableProps<TColumn extends Record<string, any>> = {
   data: Array<TColumn>;

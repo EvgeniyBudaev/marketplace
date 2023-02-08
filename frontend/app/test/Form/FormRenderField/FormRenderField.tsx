@@ -1,10 +1,10 @@
-import * as React from 'react';
-import type { RenderFieldProps } from 'remix-forms';
-import type z from 'zod';
-import type { TExtendRenderFieldProps } from './types';
+import * as React from "react";
+import type { RenderFieldProps } from "remix-forms";
+import type z from "zod";
+import type { TExtendRenderFieldProps } from "./types";
 
 export type TFormRenderFieldProps<Schema extends z.SomeZodObject> = TExtendRenderFieldProps &
-  Omit<RenderFieldProps<Schema>, 'defaultValue' | 'options' | 'value'>;
+  Omit<RenderFieldProps<Schema>, "defaultValue" | "options" | "value">;
 
 export function FormRenderField<Schema extends z.SomeZodObject>({
   Field,

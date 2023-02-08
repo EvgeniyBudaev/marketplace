@@ -1,8 +1,8 @@
-import * as React from 'react';
-import clsx from 'clsx';
-import { ETableSortDirection } from '~/components/Table/constants';
-import { ArrowDownIcon, ChevronDownIcon } from '~/icons';
-import type { TSortingColumnStateWithReset } from '~/components/Table/Header/types';
+import * as React from "react";
+import clsx from "clsx";
+import { ETableSortDirection } from "~/components/Table/constants";
+import { ArrowDownIcon, ChevronDownIcon } from "~/icons";
+import type { TSortingColumnStateWithReset } from "~/components/Table/Header/types";
 
 type TProps = {
   state: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null;
@@ -62,8 +62,8 @@ export const SortingIndicator: React.FC<TProps> = ({ state, onChange, multiple, 
       {isAlreadySorted ? (
         <button
           type="button"
-          className={clsx('flex justify-center', {
-            'rotate-180': sortingState.sortDirection === ETableSortDirection.Asc,
+          className={clsx("flex justify-center", {
+            "rotate-180": sortingState.sortDirection === ETableSortDirection.Asc,
           })}
           onClick={() =>
             handleChange(

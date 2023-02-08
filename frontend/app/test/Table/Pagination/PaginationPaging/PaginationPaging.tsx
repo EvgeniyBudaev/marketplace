@@ -1,8 +1,8 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { ButtonPagination } from '~/components';
+import { ButtonPagination } from "~/components";
 
-import { getPaginationList } from './utils';
+import { getPaginationList } from "./utils";
 
 export type TPaginationPagingProps = {
   amountPages: number;
@@ -30,12 +30,12 @@ const PaginationPagingComponent: React.FC<TPaginationPagingProps> = ({
 
         return (
           <React.Fragment key={page}>
-            {isMin && index === amountPages && '...'}
+            {isMin && index === amountPages && "..."}
             <ButtonPagination
               // для zeroBasedPageNumber применяем -1, потому что отображение пагинации будет всегда с 1, а для запроса нужен zeroBased подход
               onClick={() => onChangePage(zeroBasedPageNumber ? page - 1 : page)}
               disabled={disabled}
-              theme={pageIndex === page ? 'contained' : 'outlined'}
+              theme={pageIndex === page ? "contained" : "outlined"}
             >
               {page}
             </ButtonPagination>

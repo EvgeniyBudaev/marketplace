@@ -1,10 +1,10 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { PageSize } from '~/components';
-import type { TDropdownPosition } from '~/components';
-import { DEFAULT_PAGE_SIZE_OPTIONS } from './constants';
+import { PageSize } from "~/components";
+import type { TDropdownPosition } from "~/components";
+import { DEFAULT_PAGE_SIZE_OPTIONS } from "./constants";
 
-import { Pagination } from '../Pagination';
+import { Pagination } from "../Pagination";
 
 export type TNavigationPanelProps = {
   amountPages?: number;

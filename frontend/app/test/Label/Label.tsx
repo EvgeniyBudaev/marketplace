@@ -1,9 +1,9 @@
-import * as React from 'react';
-import clsx from 'clsx';
-import type { TLabelType } from './types';
+import * as React from "react";
+import clsx from "clsx";
+import type { TLabelType } from "./types";
 
-export type TLabelProps = JSX.IntrinsicElements['label'] & {
-  as?: 'div' | 'label' | 'span';
+export type TLabelProps = JSX.IntrinsicElements["label"] & {
+  as?: "div" | "label" | "span";
   children?: React.ReactNode;
   className?: string;
   label?: TLabelType;
@@ -11,7 +11,7 @@ export type TLabelProps = JSX.IntrinsicElements['label'] & {
 };
 
 const LabelComponent: React.FC<TLabelProps> = ({
-  as = 'label',
+  as = "label",
   className,
   dataTestId,
   children,
@@ -20,10 +20,10 @@ const LabelComponent: React.FC<TLabelProps> = ({
   return React.createElement(
     as,
     {
-      className: clsx('form-label', className, {
-        'text-grey-dark text-xs font-medium': !className,
+      className: clsx("form-label", className, {
+        "text-grey-dark text-xs font-medium": !className,
       }),
-      'data-testid': dataTestId,
+      "data-testid": dataTestId,
       ...props,
     },
     children,

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import type { TTableCellHashProps } from './types';
+import * as React from "react";
+import type { TTableCellHashProps } from "./types";
 
 const TableCellHashComponent: React.FC<TTableCellHashProps> = ({ value }) => {
   return (

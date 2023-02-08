@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { flexRender } from '@tanstack/react-table';
-import clsx from 'clsx';
+import * as React from "react";
+import { flexRender } from "@tanstack/react-table";
+import clsx from "clsx";
 
-import { THEME } from '../constants';
-import type { TTableBodyProps, TTableRowOriginal } from './types';
+import { THEME } from "../constants";
+import type { TTableBodyProps, TTableRowOriginal } from "./types";
 
 export const TableBody = <TColumn extends object>({
   rows,
@@ -18,7 +18,7 @@ export const TableBody = <TColumn extends object>({
         return (
           <tr
             key={row.id}
-            className={clsx(isNew ? THEME['new'].bodyRow : theme.bodyRow, classes?.bodyRow)}
+            className={clsx(isNew ? THEME["new"].bodyRow : theme.bodyRow, classes?.bodyRow)}
           >
             {row.getVisibleCells().map((cell) => {
               return (

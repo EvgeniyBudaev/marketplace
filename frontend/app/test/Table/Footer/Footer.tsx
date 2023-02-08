@@ -1,11 +1,11 @@
-import * as React from 'react';
+import * as React from "react";
 
-import type { TOptionsProps } from '../Options';
-import { Options } from '../Options';
+import type { TOptionsProps } from "../Options";
+import { Options } from "../Options";
 
 export type TFooterProps<T extends object> = {
-  options?: Omit<TOptionsProps<T>, 'columns'>;
-  columns: TOptionsProps<T>['columns'];
+  options?: Omit<TOptionsProps<T>, "columns">;
+  columns: TOptionsProps<T>["columns"];
 };
 
 const FooterComponent = <T extends object>({

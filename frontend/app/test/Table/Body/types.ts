@@ -1,5 +1,5 @@
-import type { Row } from '@tanstack/react-table';
-import type { TTableClasses, TTheme } from '../types';
+import type { Row } from "@tanstack/react-table";
+import type { TTableClasses, TTheme } from "../types";
 
 export type TTableBodyProps<TColumn extends object> = {
   rows: Row<TColumn>[];

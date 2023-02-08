@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { flexRender } from '@tanstack/react-table';
-import clsx from 'clsx';
+import * as React from "react";
+import { flexRender } from "@tanstack/react-table";
+import clsx from "clsx";
 
-import type { THeaderTableProps, TSortingColumnStateWithReset } from './types';
-import { getInitialSortingColumnState } from '~/components/Table/Header/utils';
-import { SortingIndicator } from '~/components/Table/Header/SortingIndicator';
+import type { THeaderTableProps, TSortingColumnStateWithReset } from "./types";
+import { getInitialSortingColumnState } from "~/components/Table/Header/utils";
+import { SortingIndicator } from "~/components/Table/Header/SortingIndicator";
 
 export const TableHeader = <T extends object>({
   headerGroups,
@@ -57,7 +57,7 @@ export const TableHeader = <T extends object>({
                   key={header.id}
                   className={clsx(theme.headerCell, classes?.headerCell)}
                   style={{
-                    position: 'relative',
+                    position: "relative",
                     width: header.getSize(),
                     maxWidth: header.getSize(),
                   }}

@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
+import * as React from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 
-import { ButtonPagination } from '~/components';
+import { ButtonPagination } from "~/components";
 
-import { PaginationPaging } from './PaginationPaging';
+import { PaginationPaging } from "./PaginationPaging";
 
 export type TPaginationProps = {
   amountPages?: number;

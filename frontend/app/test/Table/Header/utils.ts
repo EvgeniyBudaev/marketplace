@@ -1,4 +1,4 @@
-import type { TTableSortingProps } from '~/components';
+import type { TTableSortingProps } from "~/components";
 
 export function getInitialSortingColumnState(params?: TTableSortingProps) {
   if (params?.defaultSorting)
