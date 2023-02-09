@@ -6,7 +6,7 @@ import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalog
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 
-public interface CatalogDao extends GeneralDao<Catalog> {
+public interface CatalogDao {
 
     ResponseSingleCatalogDto save(RequestSaveCatalogDto dto);
     ResponseSingleCatalogDto findCatalogByAlias(String alias);

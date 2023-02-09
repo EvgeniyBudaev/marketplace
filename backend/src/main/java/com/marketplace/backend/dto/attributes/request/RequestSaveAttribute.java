@@ -5,16 +5,15 @@ import com.marketplace.backend.dto.attributes.response.SelectableValueDto;
 import com.marketplace.backend.model.EAttributeType;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
 @Getter
 @Setter
-public class RequestSaveOrUpdateAttribute {
-    private Long id;
+public class RequestSaveAttribute {
     @NotNull
     @Size(min = 3,max = 50)
     private String name;
@@ -24,36 +23,32 @@ public class RequestSaveOrUpdateAttribute {
     @NotNull
     private EAttributeType type;
     private Boolean filter;
-    private List<SelectableValueDto> selectable;
+    private Set<SelectableValueDto> selectable;
 
-    public void setSelectable(List<SelectableValueDto> selectable) {
+    public void setSelectable(Set<SelectableValueDto> selectable) {
         this.selectable = selectable;
     }
 
-    public List<SelectableValueDto> getSelectable() {
+    public Set<SelectableValueDto> getSelectable() {
         return selectable;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
         if (o == null || getClass() != o.getClass()) return false;
-
-        RequestSaveOrUpdateAttribute that = (RequestSaveOrUpdateAttribute) o;
-
-        return new EqualsBuilder().append(id, that.id).append(name, that.name).append(alias, that.alias).append(type, that.type).append(filter, that.filter).append(selectable, that.selectable).isEquals();
+        RequestSaveAttribute that = (RequestSaveAttribute) o;
+        return Objects.equals(name, that.name) && Objects.equals(alias, that.alias) && type == that.type && Objects.equals(filter, that.filter) && Objects.equals(selectable, that.selectable);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(id).append(name).append(alias).append(type).append(filter).append(selectable).toHashCode();
+        return Objects.hash(name, alias, type, filter, selectable);
     }
 
     @Override
     public String toString() {
         return "RequestSaveOrUpdateAttribute{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", alias='" + alias + '\'' +
                 ", type=" + type +

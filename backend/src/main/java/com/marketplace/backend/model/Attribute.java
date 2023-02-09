@@ -14,6 +14,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -64,15 +66,15 @@ public class Attribute {
 
     @JsonIgnore
     @OneToMany(mappedBy = "attribute",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.DETACH},orphanRemoval = true)
-    private List<SelectableValue> singleSelectableValue;
+    private Set<SelectableValue> singleSelectableValue = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "attribute",fetch = FetchType.LAZY)
-    private List<BooleanValue> booleanValue;
+    private List<BooleanValue> booleanValue = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "attribute",fetch = FetchType.LAZY)
-    private List<DoubleValue> doubleValues;
+    private List<DoubleValue> doubleValues = new ArrayList<>();
     @CreationTimestamp
     @Column(name = "created_at",updatable = false)
     private LocalDateTime createdAt;
@@ -105,12 +107,15 @@ public class Attribute {
         this.catalog = catalog;
     }
 
-    public List<SelectableValue> getSingleSelectableValue() {
-        return singleSelectableValue;
+
+    public void addSelValue(SelectableValue value){
+        this.singleSelectableValue.add(value);
+        value.setAttribute(this);
+    }
+    public void removeSelValue(SelectableValue value){
+        this.singleSelectableValue.remove(value);
+        value.setAttribute(null);
     }
 
-    public void setSingleSelectableValue(List<SelectableValue> singleSelectableValue) {
-        this.singleSelectableValue = singleSelectableValue;
-    }
 
 }
