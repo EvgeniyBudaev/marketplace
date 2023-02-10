@@ -9,7 +9,6 @@ import com.marketplace.backend.mappers.SelectableValueMapper;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.values.SelectableValue;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,9 +27,9 @@ public class AttributeValueService {
     private final EntityManager entityManager;
     private final SelectableValueMapper selectableValueMapper;
     @Autowired
-    public AttributeValueService(EntityManager entityManager) {
+    public AttributeValueService(EntityManager entityManager, SelectableValueMapper selectableValueMapper) {
         this.entityManager = entityManager;
-        selectableValueMapper = Mappers.getMapper(SelectableValueMapper.class);
+        this.selectableValueMapper = selectableValueMapper;
     }
 
     public Set<NumberAttributeDto> findNumberAttributesUseInCatalog(Long catalogId){
@@ -54,7 +52,7 @@ public class AttributeValueService {
     }
 
     @Transactional
-    public void saveSelectableValue(RequestSaveSelValueDto dto){
+    public Set<SelectableValue> saveSelectableValue(RequestSaveSelValueDto dto){
         TypedQuery<Attribute> query = entityManager.
                 createQuery("SELECT a FROM Attribute as a where a.alias=:alias", Attribute.class);
         query.setParameter("alias",dto.getAttributeAlias());
@@ -69,6 +67,10 @@ public class AttributeValueService {
         SelectableValue value = selectableValueMapper.saveDtoToEntity(dto);
         value.setAttribute(attribute);
         entityManager.persist(value);
+        TypedQuery<SelectableValue> valueTypedQuery = entityManager
+                .createQuery("SELECT sv FROM SelectableValue as sv where sv.attribute=:attribute", SelectableValue.class);
+        valueTypedQuery.setParameter("attribute",attribute);
+        return valueTypedQuery.getResultStream().collect(Collectors.toSet());
     }
 
 
@@ -82,19 +84,31 @@ public class AttributeValueService {
     }
 
     @Transactional
-    public void deleteById(Long id){
+    public List<Object[]> deleteById(Long id){
+        Query selListQuery = entityManager.
+                createNativeQuery("select sv2.id, sv2.value, a.alias as attributeAlias from selectable_values as sv2 right join attributes a on a.id = sv2.attribute_id\n" +
+                        "                                            right join selectable_values as sv on sv.attribute_id=a.id where sv.id =:id");
+        selListQuery.setParameter("id",id);
+        List<Object[]> result = selListQuery.getResultList();
         Query query = entityManager.createQuery("DELETE FROM SelectableValue where id=:id");
         query.setParameter("id",id);
         query.executeUpdate();
+        return result;
     }
 
     @Transactional
-    public void updateSelectableValue(RequestUpdateSelValueDto dto){
+    public List<Object[]> updateSelectableValue(RequestUpdateSelValueDto dto){
         Query query = entityManager
                 .createQuery("UPDATE SelectableValue as sv set sv.value = :value where sv.id = :id");
         query.setParameter("value",dto.getValue());
         query.setParameter("id",dto.getId());
         query.executeUpdate();
+        Query selListQuery = entityManager.
+                createNativeQuery("select sv2.id, sv2.value, a.alias as attributeAlias from selectable_values as sv2 right join attributes a on a.id = sv2.attribute_id\n" +
+                        "                                            right join selectable_values as sv on sv.attribute_id=a.id where sv.id =:id");
+        selListQuery.setParameter("id",dto.getId());
+        return (List<Object[]>) selListQuery.getResultList();
+
     }
 
 

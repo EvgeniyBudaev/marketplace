@@ -22,10 +22,10 @@ public class AttributeController {
     private final AttributeMapper attributeMapper;
     private final SelectableValueMapper selectableValueMapper;
 
-    public AttributeController(AttributeService attributeDao) {
+    public AttributeController(AttributeService attributeDao, SelectableValueMapper selectableValueMapper) {
         this.attributeDao = attributeDao;
+        this.selectableValueMapper = selectableValueMapper;
         this.attributeMapper = Mappers.getMapper(AttributeMapper.class);
-        this.selectableValueMapper = Mappers.getMapper(SelectableValueMapper.class);
     }
 
    /* @PreAuthorize("hasAuthority('ADMINISTRATOR')")*/

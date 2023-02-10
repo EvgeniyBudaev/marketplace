@@ -1,8 +1,8 @@
 package com.marketplace.backend.service.utils.queryes.processor;
 
-import com.marketplace.backend.service.utils.queryes.QueryParam;
 import com.marketplace.backend.service.utils.queryes.ESortDirection;
 import com.marketplace.backend.service.utils.queryes.ESortedFields;
+import com.marketplace.backend.service.utils.queryes.QueryParam;
 
 import java.util.Map;
 

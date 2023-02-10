@@ -10,6 +10,316 @@
 			"name": "Attributes",
 			"item": [
 				{
+					"name": "crud attribute",
+					"item": [
+						{
+							"name": "delete attribute",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch attribute type",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":7,\r\n    \"type\":\"SELECTABLE\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/patch",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"patch"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch attribute filter",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":7,\r\n    \"filter\":false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/patch",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"patch"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch attribute alias",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":7,\r\n    \"alias\":\"new_alias\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/patch",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"patch"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch attribute name",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":6,\r\n    \"name\":\"длина\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/patch",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"patch"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "by alias",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/by_alias/form",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"by_alias",
+										"form"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add new attribute selectable",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"new_attribute25\",\n    \"name\": \"Материал\",\n    \"filter\":true,\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n            \"value\":\"Алюминий\"\n        },\n        {\n            \"value\":\"Сталь\"\n        },\n        {\n            \"value\":\"Силикон\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"save"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "crud sel values",
+					"item": [
+						{
+							"name": "selectable value save new",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"attributeAlias\":\"category\",\r\n    \"value\": \"зеркало уникальное 345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/values/selectable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"values",
+										"selectable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "selectable value update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"5\",\r\n    \"value\": \"зеркало уникальное новое 1348\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/values/selectable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"values",
+										"selectable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "selectable value delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/values/selectable/18",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"values",
+										"selectable",
+										"18"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "get all attributes",
 					"request": {
 						"method": "GET",
@@ -51,11 +361,12 @@
 							{
 								"key": "Authorization",
 								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MTgyNTgxNywiaWF0IjoxNjcxODIyMjE3fQ.VXk8071YzNdI3IBcmogSTvO8BI3F5qjPW4eGZJcS6aE",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/attributes/page?page=1&size=6",
+							"raw": "http://localhost:8080/api/v1/attributes/get_all?page=1&size=6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -65,7 +376,7 @@
 								"api",
 								"v1",
 								"attributes",
-								"page"
+								"get_all"
 							],
 							"query": [
 								{
@@ -76,113 +387,6 @@
 									"key": "size",
 									"value": "6"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "add new attribute selectable",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"alias\": \"new_attribute92\",\n    \"name\": \"Новый аттрибут3\",\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n            \"value\":\"выбери меня\"\n        },\n        {\n            \"value\":\"Нет лучше меня\"\n        }\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/attributes/save",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"attributes",
-								"save"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update attribute selectable Copy",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 7,\n    \"name\": \"Новый аттрибут20\",\n    \"alias\": \"new attribute3311\",\n    \"type\": \"SELECTABLE\",\n    \"filter\": true,\n    \"selectable\": [\n        {\n            \"id\": 11,\n            \"attributeId\": 7,\n            \"value\": \"лучше всех я и только я\"\n        },\n       {\n            \"id\": 16,\n            \"attributeId\": 7,\n            \"value\": \"лучше меня 33\"\n        }\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/attributes/save",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"attributes",
-								"save"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "by alias",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/attributes/by_alias/new attribute3311",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"attributes",
-								"by_alias",
-								"new attribute3311"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete attribute",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/attributes/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"attributes",
-								""
 							]
 						}
 					},
@@ -229,7 +433,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/get_all?page=1&size=10&sort=name_desc&search=ноут",
+							"raw": "http://localhost:8080/api/v1/catalogs/get_all?page=1&size=10&sort=name_desc&search=ерк",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -256,7 +460,7 @@
 								},
 								{
 									"key": "search",
-									"value": "ноут"
+									"value": "ерк"
 								}
 							]
 						}
