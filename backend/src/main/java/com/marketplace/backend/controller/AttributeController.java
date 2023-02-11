@@ -1,7 +1,8 @@
 package com.marketplace.backend.controller;
 
 
-import com.marketplace.backend.dto.attributes.request.RequestSaveOrUpdateAttribute;
+import com.marketplace.backend.dto.attributes.request.RequestPatchAttribute;
+import com.marketplace.backend.dto.attributes.request.RequestSaveAttribute;
 import com.marketplace.backend.dto.attributes.response.ResponseAttributeForGetAll;
 import com.marketplace.backend.dto.attributes.response.ResponseSingleAttribute;
 import com.marketplace.backend.mappers.AttributeMapper;
@@ -12,6 +13,8 @@ import com.marketplace.backend.service.AttributeService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/attributes")
 public class AttributeController {
@@ -19,10 +22,10 @@ public class AttributeController {
     private final AttributeMapper attributeMapper;
     private final SelectableValueMapper selectableValueMapper;
 
-    public AttributeController(AttributeService attributeDao) {
+    public AttributeController(AttributeService attributeDao, SelectableValueMapper selectableValueMapper) {
         this.attributeDao = attributeDao;
+        this.selectableValueMapper = selectableValueMapper;
         this.attributeMapper = Mappers.getMapper(AttributeMapper.class);
-        this.selectableValueMapper = Mappers.getMapper(SelectableValueMapper.class);
     }
 
    /* @PreAuthorize("hasAuthority('ADMINISTRATOR')")*/
@@ -41,24 +44,33 @@ public class AttributeController {
 
     @GetMapping("by_alias/{alias}")
     public ResponseSingleAttribute getAttributeByAlias(@PathVariable String alias) {
-        Attribute attribute = attributeDao.getAttributeByAlias(alias);
+        Attribute attribute = attributeDao.getAttributeByIdWitSelectableValues(alias);
         ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
         if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
-            resultDto.setSelectable(selectableValueMapper.entityListToDtoList(attribute.getSingleSelectableValue()));
+            resultDto.setSelectable(selectableValueMapper.entitySetToDtoSet(attribute.getSingleSelectableValue()));
         }
         return resultDto;
     }
 
     @PostMapping("/save")
-    public ResponseSingleAttribute saveOrUpdateAttribute(@RequestBody RequestSaveOrUpdateAttribute dto) {
-       Attribute attribute =  attributeDao.saveOrUpdateAttribute(dto);
+    public ResponseSingleAttribute saveAttribute(@RequestBody @Valid RequestSaveAttribute dto) {
+       Attribute attribute =  attributeDao.saveAttribute(dto);
        ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
        if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
-           resultDto.setSelectable(selectableValueMapper.entityListToDtoList(attribute.getSingleSelectableValue()));
+           resultDto.setSelectable(selectableValueMapper.entitySetToDtoSet(attribute.getSingleSelectableValue()));
        }
        return resultDto;
     }
 
+    @PatchMapping("/patch")
+    public ResponseSingleAttribute patchAttribute(@RequestBody @Valid RequestPatchAttribute dto){
+        Attribute attribute =  attributeDao.updateAttribute(dto);
+        ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
+        if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
+            resultDto.setSelectable(selectableValueMapper.entitySetToDtoSet(attribute.getSingleSelectableValue()));
+        }
+        return resultDto;
+    }
 
     @DeleteMapping("{alias}")
     public String deleteAttribute(@PathVariable String alias) {
