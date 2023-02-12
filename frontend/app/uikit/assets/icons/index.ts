@@ -13,6 +13,7 @@ export * from "./DarkModeIcon";
 export * from "./DefenceIcon";
 export * from "./DisplayGridIcon";
 export * from "./DisplayLineIcon";
+export * from "./EditIcon";
 export * from "./EnterIcon";
 export * from "./ExitIcon";
 export * from "./FactoryIcon";

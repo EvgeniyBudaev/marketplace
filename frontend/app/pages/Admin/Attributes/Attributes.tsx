@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { useSearchParams, useSubmit } from "@remix-run/react";
 import { createBrowserHistory } from "history";
 import { attributeAddLinks } from "~/pages/Admin/Attributes/AttributeAdd";
+import { attributeEditLinks } from "~/pages/Admin/Attributes/AttributeEdit";
 import { AttributesTable } from "~/pages/Admin/Attributes/AttributesTable/AttributesTable";
 import { TAttributes } from "~/shared/api/attributes";
 import { TParams } from "~/types";
@@ -63,5 +64,5 @@ export const Attributes: FC<TProps> = ({ attributes }) => {
 };
 
 export function attributesLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...attributeAddLinks()];
+  return [{ rel: "stylesheet", href: styles }, ...attributeAddLinks(), ...attributeEditLinks()];
 }

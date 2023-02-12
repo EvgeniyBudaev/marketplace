@@ -30,6 +30,7 @@ const InputComponent: FC<TInputProps> = ({ className, defaultValue = "", name, .
     <InputUi
       {...props}
       className={className}
+      isFocused={!!defaultValue}
       error={error?.message}
       ref={field.ref}
       //fieldError={error?.message ? translateRawData(t, error.message) : undefined}
