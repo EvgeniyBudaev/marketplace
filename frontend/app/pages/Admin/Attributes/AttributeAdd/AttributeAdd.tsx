@@ -10,7 +10,7 @@ import {
   TForm,
   TOptionsSubmitForm,
 } from "~/pages/Admin/Attributes/AttributeAdd";
-import { EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
+import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
 import { TParams } from "~/types";
 import { Button, ETypographyVariant, Input as InputUI, notify, Tag, Typography } from "~/uikit";
 import { createPath } from "~/utils";
@@ -23,6 +23,9 @@ type TSelectableItem = {
 export const AttributeAdd: FC = () => {
   const settings = useSettings();
   const theme = settings.settings.theme;
+
+  const idCheckbox = "checkbox";
+  const [filter, setFilter] = useState<TParams>({ filter: [idCheckbox] });
 
   const selectTypeOptions = [
     { value: "SELECTABLE", label: "SELECTABLE" },
@@ -83,6 +86,28 @@ export const AttributeAdd: FC = () => {
     setValue(selectable.toString());
   }, [selectable]);
 
+  const handleChangeEnabled = (
+    event: ChangeEvent<HTMLInputElement>,
+    id: string,
+    nameGroup: string,
+  ) => {
+    const {
+      target: { checked, value },
+    } = event;
+
+    if (checked) {
+      setFilter({
+        ...filter,
+        [nameGroup]: [...filter[nameGroup], value],
+      });
+    } else {
+      setFilter({
+        ...filter,
+        [nameGroup]: [...filter[nameGroup].filter((x: string) => x !== value)],
+      });
+    }
+  };
+
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
     const formattedParams: any = mapFormDataToDto({ ...params, selectable });
@@ -122,6 +147,16 @@ export const AttributeAdd: FC = () => {
             name={EFormFields.Type}
             options={selectTypeOptions}
             theme={theme === ETheme.Light ? "primary" : "secondary"}
+          />
+        </div>
+        <div className="AttributeAdd-FormFieldGroup">
+          <Checkbox
+            checked={filter && filter[EFormFields.Filter].includes(idCheckbox)}
+            id={idCheckbox}
+            label={"filter"}
+            name={EFormFields.Filter}
+            nameGroup={"filter"}
+            onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
         <div className="AttributeAdd-FormFieldGroup">

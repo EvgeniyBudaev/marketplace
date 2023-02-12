@@ -13,13 +13,13 @@ import { ChangeEvent, useState } from "react";
 
 export const ProductAdd: FC = () => {
   const idCheckbox = "checkbox";
-  const [filter, setFilter] = useState<TParams>({ enabled: [] });
+  const [filter, setFilter] = useState<TParams>({ enabled: [idCheckbox] });
   console.log("filter: ", filter);
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
 
-  const onChangeCheckedBox = (
+  const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
     id: string,
     nameGroup: string,
@@ -61,14 +61,14 @@ export const ProductAdd: FC = () => {
         <Input label="Alias" name={EFormFields.Alias} type="text" />
         <Input label="CatalogAlias" name={EFormFields.CatalogAlias} type="text" />
         <Input label="Description" name={EFormFields.Description} type="text" />
-        <div className="ProductAddd-FormFieldGroup">
+        <div className="ProductAdd-FormFieldGroup">
           <Checkbox
             checked={filter && filter[EFormFields.Enabled].includes(idCheckbox)}
             id={idCheckbox}
             label={"enabled"}
             name={EFormFields.Enabled}
             nameGroup={"enabled"}
-            onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
+            onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
         <Input label="Name" name={EFormFields.Name} type="text" />

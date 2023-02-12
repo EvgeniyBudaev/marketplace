@@ -37,6 +37,7 @@ import { StoreContextProvider, useStore } from "~/shared/store";
 import { links as uikitLinks, ToastContainer } from "~/uikit";
 import { createBoundaries, internalError } from "~/utils";
 import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
+import modalStyles from "react-responsive-modal/styles.css";
 import styles from "../styles/app.css";
 
 interface RootLoaderData {
@@ -125,6 +126,7 @@ export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: styles },
     { rel: "stylesheet", href: reactToastifyStyles },
+    { rel: "stylesheet", href: modalStyles },
     ...uikitLinks(),
     ...componentsLinks(),
   ];

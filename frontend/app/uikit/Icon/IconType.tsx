@@ -16,6 +16,7 @@ import {
   DefenceIcon,
   DisplayGridIcon,
   DisplayLineIcon,
+  EditIcon,
   EnterIcon,
   ExitIcon,
   FactoryIcon,
@@ -54,6 +55,7 @@ export type IconType =
   | "Defence"
   | "DisplayGrid"
   | "DisplayLine"
+  | "Edit"
   | "Enter"
   | "Exit"
   | "Factory"
@@ -91,6 +93,7 @@ export const iconTypes = new Map([
   ["Defence", <DefenceIcon key={"Defence"} />],
   ["DisplayGrid", <DisplayGridIcon key={"DisplayGrid"} />],
   ["DisplayLine", <DisplayLineIcon key={"DisplayLine"} />],
+  ["Edit", <EditIcon key={"Edit"} />],
   ["Enter", <EnterIcon key={"Enter"} />],
   ["Exit", <ExitIcon key={"Exit"} />],
   ["Factory", <FactoryIcon key={"Factory"} />],

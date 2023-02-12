@@ -6,27 +6,28 @@ import styles from "./Input.module.css";
 
 export interface IInputProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-  className?: string;
   autoComplete?: string;
+  className?: string;
+  error?: string;
+  isFocused?: boolean;
+  isRequired?: boolean;
   label?: string;
   name?: string;
   type?: string;
-  error?: string;
   value?: string;
-  isFocused?: boolean;
-  isRequired?: boolean;
 }
 
 const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
   (
     {
-      className,
       autoComplete,
+      className,
+      error,
+      isFocused: isInputFocused,
+      isRequired,
       label,
       name,
       type,
-      error,
-      isRequired,
       onBlur,
       onChange,
       onFocus,
@@ -34,7 +35,7 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
     }: IInputProps,
     ref: ForwardedRef<HTMLInputElement>,
   ): JSX.Element => {
-    const [isFocused, setIsFocused] = useState<boolean | undefined>();
+    const [isFocused, setIsFocused] = useState<boolean | undefined>(isInputFocused);
 
     const onBlurCallback = (event: FocusEvent<HTMLInputElement>) => {
       if (event.target.value !== "") {

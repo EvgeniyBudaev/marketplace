@@ -8,6 +8,7 @@ export * from "./FadeIn";
 export * from "./Hamburger";
 export * from "./Icon";
 export * from "./Input";
+export * from "./Modal";
 export * from "./Overlay";
 export * from "./Pagination";
 export * from "./Select";
@@ -31,6 +32,7 @@ import { dropDownLinks } from "~/uikit/DropDown";
 import { hamburgerLinks } from "~/uikit/Hamburger";
 import { iconLinks } from "~/uikit/Icon";
 import { inputLinks } from "~/uikit/Input";
+import { modalLinks } from "~/uikit/Modal";
 import { overlayLinks } from "~/uikit/Overlay";
 import { paginationLinks } from "~/uikit/Pagination";
 import { selectLinks } from "~/uikit/Select";
@@ -54,6 +56,7 @@ export const links = () => {
     ...hamburgerLinks(),
     ...iconLinks(),
     ...inputLinks(),
+    ...modalLinks(),
     ...overlayLinks(),
     ...paginationLinks(),
     ...selectLinks(),
