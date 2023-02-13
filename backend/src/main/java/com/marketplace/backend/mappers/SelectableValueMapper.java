@@ -1,5 +1,6 @@
 package com.marketplace.backend.mappers;
 
+import com.marketplace.backend.dto.attributes.request.RequestPutAttributeDto;
 import com.marketplace.backend.dto.attributes.response.SelectableValueDto;
 import com.marketplace.backend.dto.values.request.RequestSaveSelValueDto;
 import com.marketplace.backend.dto.values.response.ResponseSaveUpdateSelValueDto;
@@ -23,4 +24,7 @@ public interface SelectableValueMapper {
     Set<ResponseSaveUpdateSelValueDto> entityValuesSetToDtoSet(Set<SelectableValue> values);
     @Mapping(target = "attributeAlias", source = "attribute.alias")
     ResponseSaveUpdateSelValueDto selectableValueToResponseSaveUpdateSelValueDto(SelectableValue selectableValue);
+
+    List<SelectableValue> dtoListToEntitySet(List<RequestPutAttributeDto.SelectableValueDto> dtoList);
+
 }

@@ -1,8 +1,9 @@
 package com.marketplace.backend.controller;
 
 
-import com.marketplace.backend.dto.attributes.request.RequestPatchAttribute;
-import com.marketplace.backend.dto.attributes.request.RequestSaveAttribute;
+import com.marketplace.backend.dto.attributes.request.RequestPatchAttributeDto;
+import com.marketplace.backend.dto.attributes.request.RequestPutAttributeDto;
+import com.marketplace.backend.dto.attributes.request.RequestSaveAttributeDto;
 import com.marketplace.backend.dto.attributes.response.ResponseAttributeForGetAll;
 import com.marketplace.backend.dto.attributes.response.ResponseSingleAttribute;
 import com.marketplace.backend.mappers.AttributeMapper;
@@ -53,7 +54,7 @@ public class AttributeController {
     }
 
     @PostMapping("/save")
-    public ResponseSingleAttribute saveAttribute(@RequestBody @Valid RequestSaveAttribute dto) {
+    public ResponseSingleAttribute saveAttribute(@RequestBody @Valid RequestSaveAttributeDto dto) {
        Attribute attribute =  attributeDao.saveAttribute(dto);
        ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
        if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
@@ -63,7 +64,7 @@ public class AttributeController {
     }
 
     @PatchMapping("/patch")
-    public ResponseSingleAttribute patchAttribute(@RequestBody @Valid RequestPatchAttribute dto){
+    public ResponseSingleAttribute patchAttribute(@RequestBody @Valid RequestPatchAttributeDto dto){
         Attribute attribute =  attributeDao.updateAttribute(dto);
         ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
         if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
@@ -71,6 +72,17 @@ public class AttributeController {
         }
         return resultDto;
     }
+
+    @PutMapping("/put")
+    public ResponseSingleAttribute putAttribute(@RequestBody @Valid RequestPutAttributeDto dto){
+        Attribute attribute = attributeDao.putAttribute(dto);
+        ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
+        if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
+            resultDto.setSelectable(selectableValueMapper.entitySetToDtoSet(attribute.getSingleSelectableValue()));
+        }
+        return resultDto;
+    }
+
 
     @DeleteMapping("{alias}")
     public String deleteAttribute(@PathVariable String alias) {

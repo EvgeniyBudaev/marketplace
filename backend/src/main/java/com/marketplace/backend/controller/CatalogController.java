@@ -1,7 +1,9 @@
 package com.marketplace.backend.controller;
 
 
+import com.marketplace.backend.dto.catalog.request.RequestPutCatalogDto;
 import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
+import com.marketplace.backend.dto.catalog.request.RequestUpdateCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSingleAfterSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalogDto;
@@ -15,7 +17,6 @@ import com.marketplace.backend.service.CatalogService;
 import com.marketplace.backend.service.utils.queryes.QueryParam;
 import com.marketplace.backend.service.utils.queryes.UrlResolver;
 import com.marketplace.backend.service.utils.queryes.UrlResolverImpl;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +35,9 @@ public class CatalogController {
     private final CatalogService catalogService;
     private final CatalogMapper mapper;
     @Autowired
-    public CatalogController(CatalogService catalogService) {
+    public CatalogController(CatalogService catalogService, CatalogMapper mapper) {
         this.catalogService = catalogService;
-        mapper = Mappers.getMapper(CatalogMapper.class);
+        this.mapper = mapper;
     }
 
     @GetMapping("/get_all")
@@ -85,18 +86,36 @@ public class CatalogController {
     }
 
     @PostMapping
-    public ResponseSingleAfterSaveCatalogDto saveOrUpdateCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
-        Catalog catalog = catalogService.saveOrUpdate(dto);
-        List<Attribute> selAttributeList = catalog.getAttributes()
-                .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
-        List<Attribute> numAttributeList = catalog.getAttributes()
-                .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
-        return mapper.entityToAfterSaveDto(catalog,selAttributeList,numAttributeList);
+    public ResponseSingleAfterSaveCatalogDto saveCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
+        Catalog catalog = catalogService.saveNewCatalog(dto);
+        return getResponseSingleAfterSaveCatalogDto(catalog);
     }
 
 
     @DeleteMapping("{alias}")
     public void deleteCatalog(@PathVariable String alias) {
         catalogService.delete(alias);
+    }
+
+    @PatchMapping
+    public ResponseSingleAfterSaveCatalogDto updateCatalog (@RequestBody @Valid RequestUpdateCatalogDto dto){
+        Catalog catalog = catalogService.updateCatalog(dto);
+        return getResponseSingleAfterSaveCatalogDto(catalog);
+    }
+    @PutMapping
+    public ResponseSingleAfterSaveCatalogDto putCatalog(@RequestBody @Valid RequestPutCatalogDto dto){
+        Catalog catalog = catalogService.putCatalog(dto);
+        return getResponseSingleAfterSaveCatalogDto(catalog);
+    }
+
+    public ResponseSingleAfterSaveCatalogDto getResponseSingleAfterSaveCatalogDto(Catalog catalog) {
+        if(catalog.getAttributes()==null){
+            return mapper.entityToAfterSaveDto(catalog,null,null);
+        }
+        List<Attribute> selAttributeList = catalog.getAttributes()
+                .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
+        List<Attribute> numAttributeList = catalog.getAttributes()
+                .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
+        return mapper.entityToAfterSaveDto(catalog,selAttributeList,numAttributeList);
     }
 }

@@ -1,7 +1,9 @@
 package com.marketplace.backend.service;
 
 
+import com.marketplace.backend.dto.catalog.request.RequestPutCatalogDto;
 import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
+import com.marketplace.backend.dto.catalog.request.RequestUpdateCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
 import com.marketplace.backend.dto.catalog.response.single.NumberAttributeDto;
 import com.marketplace.backend.exception.OperationNotAllowedException;
@@ -14,7 +16,6 @@ import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.utils.queryes.QueryParam;
 import com.marketplace.backend.service.utils.queryes.processor.CatalogQueryProcessorImpl;
 import com.marketplace.backend.service.utils.queryes.processor.QueryProcessor;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CatalogService {
-    private final CatalogMapper mapper;
+    private final CatalogMapper catalogMapper;
     private final AttributeValueService attributeValueService;
     private final AttributeService attributeService;
 
@@ -34,25 +35,17 @@ public class CatalogService {
     private final EntityManager entityManager;
 
     @Autowired
-    public CatalogService(AttributeValueService attributeValueService, AttributeService attributeService, EntityManager entityManager) {
+    public CatalogService(CatalogMapper catalogMapper, AttributeValueService attributeValueService, AttributeService attributeService, EntityManager entityManager) {
+        this.catalogMapper = catalogMapper;
         this.attributeValueService = attributeValueService;
         this.attributeService = attributeService;
         this.entityManager = entityManager;
-        this.mapper = Mappers.getMapper(CatalogMapper.class);
     }
 
-
-    @Transactional
-    public Catalog saveOrUpdate(RequestSaveCatalogDto dto) {
-        if(dto.getId()==null){
-            return saveNewCatalog(dto);
-        }
-        return updateCatalog(dto);
-    }
 
     @Transactional
     public Catalog saveNewCatalog(RequestSaveCatalogDto dto){
-        Catalog catalog = mapper.dtoToEntity(dto);
+        Catalog catalog = catalogMapper.dtoToEntity(dto);
         Set<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         catalog.setAttributes(attributeList);
         attributeList.forEach(x->x.getCatalog().add(catalog));
@@ -62,7 +55,7 @@ public class CatalogService {
         return catalog;
     }
     @Transactional
-    public Catalog updateCatalog(RequestSaveCatalogDto dto){
+    public Catalog putCatalog(RequestPutCatalogDto dto){
         Set<Attribute> newAttributes = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         Query updateQuery = entityManager
                 .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true ,c.image = :image where c.id=:id");
@@ -71,7 +64,7 @@ public class CatalogService {
         updateQuery.setParameter("image",dto.getImage());
         updateQuery.setParameter("id",dto.getId());
         updateQuery.executeUpdate();
-        Catalog catalog = entityManager.find(Catalog.class,dto.getId());
+        Catalog catalog = findCatalogByAliasWithFullAttributes(dto.getAlias());
         Set<Attribute> oldAttributes = catalog.getAttributes();
         Set<Attribute> attributesForDelete = oldAttributes.stream().filter(x->!newAttributes.contains(x)).collect(Collectors.toSet());
         Set<Attribute> attributesForAdd = newAttributes.stream().filter(x->!oldAttributes.contains(x)).collect(Collectors.toSet());
@@ -82,6 +75,12 @@ public class CatalogService {
             catalog.addAttribute(attribute);
         }
         return catalog;
+    }
+    @Transactional
+    public Catalog updateCatalog(RequestUpdateCatalogDto dto){
+       Catalog catalog =  catalogMapper.dtoToEntity(dto);
+       entityManager.merge(catalog);
+       return catalog;
     }
     public Catalog findCatalogByAliasWithFullAttributes(String alias){
         TypedQuery<Catalog> catalogQuery =
@@ -119,7 +118,7 @@ public class CatalogService {
        resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
        resultQuery.setMaxResults(result.getPageSize());
        result.setContent(resultQuery.getResultStream()
-               .map(mapper::entityToSimpleCatalogDto).collect(Collectors.toList()));
+               .map(catalogMapper::entityToSimpleCatalogDto).collect(Collectors.toList()));
        return result;
     }
 
