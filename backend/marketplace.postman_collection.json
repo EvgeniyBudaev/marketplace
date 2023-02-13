@@ -41,7 +41,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":7,\r\n    \"type\":\"SELECTABLE\"\r\n}",
+									"raw": "{\r\n    \"id\":10,\r\n    \"type\":\"DOUBLE\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -72,7 +72,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":7,\r\n    \"filter\":false\r\n}",
+									"raw": "{\r\n    \"id\":10,\r\n    \"filter\":false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -176,7 +176,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/v1/attributes/by_alias/form",
+									"raw": "http://localhost:8080/api/v1/attributes/by_alias/new_attr",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -187,7 +187,7 @@
 										"v1",
 										"attributes",
 										"by_alias",
-										"form"
+										"new_attr"
 									]
 								}
 							},
@@ -200,7 +200,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"alias\": \"new_attribute25\",\n    \"name\": \"Материал\",\n    \"filter\":true,\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n            \"value\":\"Алюминий\"\n        },\n        {\n            \"value\":\"Сталь\"\n        },\n        {\n            \"value\":\"Силикон\"\n        }\n    ]\n}",
+									"raw": "{\n    \"alias\": \"new_attribute28667\",\n    \"name\": \"Материал\",\n    \"filter\":true,\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n            \"value\":\"Алюминий\"\n        },\n        {\n            \"value\":\"Сталь\"\n        },\n        {\n            \"value\":\"Силикон\"\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -219,6 +219,37 @@
 										"v1",
 										"attributes",
 										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add new attribute selectable Copy",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\":\"12\",\n    \"alias\": \"new_attr\",\n    \"name\": \"Материалы\",\n    \"filter\":true,\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n             \"id\": 34,\n            \"value\":\"Алюминий\"\n        },\n        {\n             \"id\": 35,\n            \"value\":\"Сталь\"\n        },\n        {\n             \"id\": 36,\n            \"value\":\"Силикон23\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/put",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"put"
 									]
 								}
 							},
@@ -268,7 +299,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":\"5\",\r\n    \"value\": \"зеркало уникальное новое 1348\"\r\n}",
+									"raw": "{\r\n    \"id\":\"5\",\r\n    \"value\": \"зеркало уникальное новое\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -299,7 +330,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/v1/attributes/values/selectable/18",
+									"raw": "http://localhost:8080/api/v1/attributes/values/selectable/20",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -311,7 +342,7 @@
 										"attributes",
 										"values",
 										"selectable",
-										"18"
+										"20"
 									]
 								}
 							},
@@ -505,11 +536,41 @@
 				{
 					"name": "edit catalog",
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 3,\r\n    \"name\": \"зеркала\",\r\n    \"alias\": \"Zerkal2\",\r\n    \"image\": \"default.jpg\",\r\n        \"attributeAlias\":[\r\n        \"width\",\r\n        \"height\"\r\n    ]\r\n}",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"name\": \"зеркала\",\r\n    \"alias\": \"Zerkal2567\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/catalogs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"catalogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put catalog Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"зеркала\",\r\n    \"alias\": \"Zerkala567\",\r\n    \"image\": \"default.jpg\",\r\n        \"attributeAlias\":[\r\n        \"width\",\r\n        \"height\",\r\n        \"form\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
