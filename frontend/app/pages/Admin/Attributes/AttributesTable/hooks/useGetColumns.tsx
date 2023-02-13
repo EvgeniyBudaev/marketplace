@@ -4,12 +4,15 @@ import { Link } from "@remix-run/react";
 import { ERoutes } from "~/enums";
 import { ETableColumns } from "~/pages/Admin/Attributes/AttributesTable/enums";
 import { TAttribute } from "~/shared/api/attributes";
-import { Icon } from "~/uikit";
+import { Icon, IconButton } from "~/uikit";
 import { createPath } from "~/utils";
 
-type TUseGetColumns = (columnHelper: ColumnHelper<TAttribute>) => ColumnDef<TAttribute>[];
+type TUseGetColumns = (
+  columnHelper: ColumnHelper<TAttribute>,
+  onDelete: (alias: string) => void,
+) => ColumnDef<TAttribute>[];
 
-export const useGetColumns: TUseGetColumns = (columnHelper) => {
+export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
   const columns = useMemo(
     () =>
       [
@@ -23,8 +26,8 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => "Alias",
         }),
 
-        columnHelper.accessor(ETableColumns.Id, {
-          id: ETableColumns.Id,
+        columnHelper.display({
+          id: "edit",
           header: () => "Редактирование",
           cell: ({ row }) => (
             <Link
@@ -33,8 +36,15 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
                 params: { alias: row.original.alias },
               })}
             >
-              <Icon type={"Edit"} onClick={() => {}} />
+              <Icon type={"Edit"} />
             </Link>
+          ),
+        }),
+
+        columnHelper.display({
+          id: "delete",
+          cell: ({ row }) => (
+            <IconButton typeIcon={"Trash"} onClick={() => onDelete(row.original.alias)} />
           ),
         }),
       ].filter(Boolean) as ColumnDef<TAttribute>[],
