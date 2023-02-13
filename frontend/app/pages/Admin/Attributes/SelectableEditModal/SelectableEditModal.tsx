@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import type { ChangeEvent, FC } from "react";
 import { EFormFields } from "~/pages/Admin/Attributes/SelectableTable";
-import { Input, Modal } from "~/uikit";
+import { Button, Input, Modal } from "~/uikit";
 
 type TProps = {
   defaultValue: string;
@@ -46,7 +46,11 @@ export const SelectableEditModal: FC<TProps> = ({
           />
         </div>
       </Modal.Content>
-      <Modal.Footer buttonSubmitText="Сохранить" typeButton={"submit"} onSubmit={handleSubmit} />
+      <Modal.Footer>
+        <Button onClick={handleSubmit} type={"submit"}>
+          Сохранить
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

@@ -1,10 +1,22 @@
-import { inputFromSearch } from "remix-domains";
-import { json, LoaderArgs } from "@remix-run/node";
+import { inputFromForm, inputFromSearch } from "remix-domains";
+import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Attributes, attributesLinks } from "~/pages/Admin/Attributes";
-import { getAttributes } from "~/shared/api/attributes";
+import { deleteAttribute, EAttributeAction, getAttributes } from "~/shared/api/attributes";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { internalError } from "~/utils";
+
+export const action = async (args: ActionArgs) => {
+  const { request } = args;
+  const { _method, alias } = await inputFromForm(request);
+  if (_method === EAttributeAction.DeleteAttribute) {
+    const response = await deleteAttribute(request, { alias });
+    if (!response.success) {
+      throw internalError();
+    }
+  }
+  return null;
+};
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;

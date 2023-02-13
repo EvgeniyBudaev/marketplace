@@ -49,7 +49,6 @@ export const AttributeAdd: FC = () => {
         title: "Атрибут добавлен",
       });
     }
-
     if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
       notify.error({
         title: "Не удалось добавить атрибут",
@@ -110,14 +109,8 @@ export const AttributeAdd: FC = () => {
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
-    const formattedParams: any = mapFormDataToDto({ ...params, selectable });
+    const formattedParams = mapFormDataToDto({ ...params, selectable });
     console.log("formattedParams: ", formattedParams);
-
-    const formData = new FormData();
-    formData.append("alias", formattedParams.alias);
-    formData.append("name", formattedParams.name);
-    formData.append("type", formattedParams.type);
-    formData.append("selectable", JSON.stringify(formattedParams.selectable));
 
     fetcher.submit(formattedParams, {
       method: EFormMethods.Post,
