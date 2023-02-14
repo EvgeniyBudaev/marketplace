@@ -81,3 +81,29 @@ export const attributeDetailSchema = z.object({
   modifyDate: z.string(),
   selectable: selectableItemSchema.array().nullish(),
 });
+
+export const selectableValueEditParamsSchema = z.object({
+  id: z.number(),
+  value: z.string(),
+});
+
+export const selectableValueEditSchema = z.any();
+
+export const selectableValueDeleteParamsSchema = z.object({
+  id: z.number(),
+});
+
+export const selectableValueDeleteSchema = z.any();
+
+export const selectableValueAddParamsSchema = z.object({
+  attributeAlias: z.string(),
+  value: z.string(),
+});
+
+export const selectableValueAddSchema = z
+  .object({
+    id: z.number(),
+    attributeAlias: z.string(),
+    value: z.string(),
+  })
+  .array();

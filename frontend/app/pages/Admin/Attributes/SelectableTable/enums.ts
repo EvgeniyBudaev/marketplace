@@ -3,7 +3,6 @@ export enum EFormFields {
 }
 
 export enum ETableColumns {
-  Action = "action",
   Id = "id",
   Value = "value",
 }

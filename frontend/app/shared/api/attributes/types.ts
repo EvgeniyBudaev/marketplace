@@ -12,6 +12,12 @@ import {
   attributesParamsSchema,
   attributesSchema,
   selectableItemSchema,
+  selectableValueAddParamsSchema,
+  selectableValueAddSchema,
+  selectableValueDeleteParamsSchema,
+  selectableValueDeleteSchema,
+  selectableValueEditParamsSchema,
+  selectableValueEditSchema,
 } from "~/shared/api/attributes/schemas";
 
 export type TAttribute = z.infer<typeof attributesItemSchema>;
@@ -31,3 +37,12 @@ export type TAttributeDetailParams = z.infer<typeof attributeDetailParamsSchema>
 export type TAttributeDetail = z.infer<typeof attributeDetailSchema>;
 
 export type TSelectableItem = z.infer<typeof selectableItemSchema>;
+
+export type TSelectableValueEditParams = z.infer<typeof selectableValueEditParamsSchema>;
+export type TSelectableValueEdit = z.infer<typeof selectableValueEditSchema>;
+
+export type TSelectableValueDeleteParams = z.infer<typeof selectableValueDeleteParamsSchema>;
+export type TSelectableValueDelete = z.infer<typeof selectableValueDeleteSchema>;
+
+export type TSelectableValueAddParams = z.infer<typeof selectableValueAddParamsSchema>;
+export type TSelectableValueAdd = z.infer<typeof selectableValueAddSchema>;
