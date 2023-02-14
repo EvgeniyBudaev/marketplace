@@ -8,17 +8,24 @@ import {
   EFormFields,
   formSchema,
   mapFormDataToDto,
+  TAddModalState,
   TForm,
   TOptionsSubmitForm,
   useGetTypeOptions,
 } from "~/pages/Admin/Attributes/AttributeEdit";
 import { SelectableTable } from "~/pages/Admin/Attributes/SelectableTable";
-import { TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
+import {
+  EAttributeAction,
+  ESelectableValueAction,
+  TAttributeDetail,
+  TSelectableItem,
+} from "~/shared/api/attributes";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
 import { TParams } from "~/types";
 import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./AttributeEdit.module.css";
+import { SelectableAddModal } from "~/pages/Admin/Attributes/SelectableAddModal";
 
 type TProps = {
   attribute: TAttributeDetail;
@@ -33,6 +40,8 @@ export const AttributeEdit: FC<TProps> = (props) => {
 
   const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({ filter: [idCheckbox] });
+
+  const [addModal, setAddModal] = useState<TAddModalState>({ isOpen: false });
 
   // console.log("attribute: ", attribute);
 
@@ -84,17 +93,58 @@ export const AttributeEdit: FC<TProps> = (props) => {
   };
 
   const handleChangeSelectableValue = ({ id, value }: { id: number; value: string }) => {
-    setSelectable((prevState) => {
-      const idx = prevState.findIndex((item) => item.id === id);
-      const oldItem = prevState[idx];
-      const newItem = { ...oldItem, value };
-      return [...prevState.slice(0, idx), newItem, ...prevState.slice(idx + 1)];
+    const form = new FormData();
+    form.append("id", `${id}`);
+    form.append("value", `${value}`);
+    form.append("_method", ESelectableValueAction.EditSelectableValue);
+    fetcher.submit(form, {
+      method: EFormMethods.Patch,
+      action: createPath({
+        route: ERoutes.AttributeEdit,
+        params: { alias: attribute.alias },
+        withIndex: true,
+      }),
     });
+  };
+
+  const handleCloseAddModal = () => {
+    setAddModal((prev) => ({ ...prev, isOpen: false }));
+  };
+
+  const handleOpenAddModal = () => {
+    setAddModal((prev) => ({ ...prev, isOpen: true }));
+  };
+
+  const handleAdd = (value: string) => {
+    const form = new FormData();
+    form.append("attributeAlias", `${attribute.alias}`);
+    form.append("value", `${value}`);
+    form.append("_method", ESelectableValueAction.AddSelectableValue);
+    fetcher.submit(form, {
+      method: EFormMethods.Post,
+      action: createPath({
+        route: ERoutes.AttributeEdit,
+        params: { alias: attribute.alias },
+        withIndex: true,
+      }),
+    });
+  };
+
+  const handleSubmitAddModal = ({ value }: { value: string }) => {
+    if (value) {
+      handleAdd(value);
+      handleCloseAddModal();
+    }
   };
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     // console.log("Form params: ", params);
-    const formattedParams = mapFormDataToDto({ ...params, id: attribute.id, selectable });
+    const formattedParams = mapFormDataToDto({
+      ...params,
+      id: attribute.id,
+      selectable,
+      _method: EAttributeAction.EditAttribute,
+    });
     // console.log("formattedParams: ", formattedParams);
 
     fetcher.submit(formattedParams, {
@@ -143,7 +193,12 @@ export const AttributeEdit: FC<TProps> = (props) => {
             onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
+        <div>
+          <Button onClick={handleOpenAddModal}>Добавить новое значение</Button>
+        </div>
         <SelectableTable
+          attribute={attribute}
+          fetcher={fetcherRemix}
           items={attribute.selectable ?? []}
           onChangeSelectableValue={handleChangeSelectableValue}
         />
@@ -153,6 +208,11 @@ export const AttributeEdit: FC<TProps> = (props) => {
           </Button>
         </div>
       </Form>
+      <SelectableAddModal
+        isOpen={addModal.isOpen}
+        onClose={handleCloseAddModal}
+        onSubmit={handleSubmitAddModal}
+      />
     </section>
   );
 };

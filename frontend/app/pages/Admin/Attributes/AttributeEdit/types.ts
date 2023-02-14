@@ -8,3 +8,7 @@ export type TForm = z.infer<typeof formSchema>;
 export type TOptionsSubmitForm = {
   fetcher: FetcherWithComponents<FieldValues>;
 };
+
+export type TAddModalState = {
+  isOpen: boolean;
+};

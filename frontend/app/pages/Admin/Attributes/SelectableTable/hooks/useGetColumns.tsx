@@ -1,17 +1,17 @@
 import { useMemo, useState } from "react";
 import { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { ETableColumns } from "~/pages/Admin/Attributes/SelectableTable";
-import type { TAction } from "~/pages/Admin/Attributes/SelectableTable";
 import type { TSelectableItem } from "~/shared/api/attributes";
-import { Icon } from "~/uikit";
+import { Icon, IconButton } from "~/uikit";
 import { SelectableEditModal } from "~/pages/Admin/Attributes/SelectableEditModal";
 
 type TUseGetColumns = (
-  columnHelper: ColumnHelper<TSelectableItem & TAction>,
+  columnHelper: ColumnHelper<TSelectableItem>,
   onChangeSelectableValue: ({ id, value }: { id: number; value: string }) => void,
+  onDelete: (id: number) => void,
 ) => ColumnDef<TSelectableItem>[];
 
-export const useGetColumns: TUseGetColumns = (columnHelper, onChangeSelectableValue) => {
+export const useGetColumns: TUseGetColumns = (columnHelper, onChangeSelectableValue, onDelete) => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
 
   const handleModalEditOpen = () => {
@@ -35,9 +35,9 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onChangeSelectableVa
           header: () => "Value",
         }),
 
-        columnHelper.accessor(ETableColumns.Action, {
-          id: ETableColumns.Action,
-          header: () => "Action",
+        columnHelper.display({
+          id: "edit",
+          header: () => "Редактирование",
           cell: ({ row }) => {
             const defaultValue = row.original.value;
             const id = row.original.id;
@@ -54,6 +54,14 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onChangeSelectableVa
               </>
             );
           },
+        }),
+
+        columnHelper.display({
+          id: "delete",
+          header: () => "Удаление",
+          cell: ({ row }) => (
+            <IconButton typeIcon={"Trash"} onClick={() => onDelete(row.original.id)} />
+          ),
         }),
       ].filter(Boolean) as ColumnDef<TSelectableItem>[],
     [columnHelper],

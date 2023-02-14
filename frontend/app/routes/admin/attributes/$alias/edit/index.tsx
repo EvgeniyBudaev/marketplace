@@ -8,41 +8,86 @@ import {
   EFormFields,
 } from "~/pages/Admin/Attributes/AttributeEdit";
 import type { TForm } from "~/pages/Admin/Attributes/AttributeEdit";
-import { editAttribute, getAttributeDetail } from "~/shared/api/attributes";
+import {
+  addSelectableValue,
+  deleteSelectableValue,
+  EAttributeAction,
+  editAttribute,
+  editSelectableValue,
+  ESelectableValueAction,
+  getAttributeDetail,
+} from "~/shared/api/attributes";
 import { getInputErrors, getResponseError } from "~/shared/domain";
+import {
+  mapParamsAddSelectableValueToDto,
+  mapParamsDeleteSelectableValueToDto,
+  mapParamsEditAttributeToDto,
+  mapParamsEditSelectableValueToDto,
+} from "~/shared/api/attributes/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
   console.log("formValues: ", formValues);
-  const formData = {
-    ...formValues,
-    id: Number(formValues.id),
-    filter: Boolean(formValues.filter),
-    selectable:
-      formValues.selectable && typeof formValues.selectable === "string"
-        ? JSON.parse(formValues.selectable.trim())
-        : formValues.selectable,
-  };
-  console.log("formData: ", formData);
+  const _method = formValues?._method ?? "";
 
   try {
-    const response = await editAttribute(request, formData);
-    console.log("[response.success]", response.success);
-
-    if (response.success) {
-      console.log("[OK]");
-      return json({
-        attribute: response.data,
-        success: true,
-      });
+    if (_method === ESelectableValueAction.AddSelectableValue) {
+      const { _method, ...data } = formValues;
+      const formData = mapParamsAddSelectableValueToDto(data);
+      const response = await addSelectableValue(request, formData);
+      if (response.success) {
+        console.log("value add response.data: ", response.data);
+        return { success: true };
+      }
+      return badRequest({ success: false });
     }
 
-    const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
-    console.log("[BAD]");
-    console.log("[fieldErrors] ", fieldErrors);
+    if (_method === ESelectableValueAction.DeleteSelectableValue) {
+      const { _method, ...data } = formValues;
+      const formData = mapParamsDeleteSelectableValueToDto(data);
+      const response = await deleteSelectableValue(request, formData);
+      if (response.success) {
+        console.log("value delete response.data: ", response.data);
+        return { success: true };
+      }
+      return badRequest({ success: false });
+    }
 
-    return badRequest({ fieldErrors, success: false });
+    if (_method === ESelectableValueAction.EditSelectableValue) {
+      const { _method, ...data } = formValues;
+      const formData = mapParamsEditSelectableValueToDto(data);
+      console.log("value formData: ", formData);
+      const response = await editSelectableValue(request, formData);
+      console.log("[value response.success]", response.success);
+      if (response.success) {
+        console.log("value response.data: ", response.data);
+        return { success: true };
+      }
+      return badRequest({ success: false });
+    }
+
+    if (_method === EAttributeAction.EditAttribute) {
+      const { _method, ...data } = formValues;
+      const formData = mapParamsEditAttributeToDto(data);
+      console.log("formData: ", formData);
+      const response = await editAttribute(request, formData);
+      console.log("[response.success]", response.success);
+
+      if (response.success) {
+        console.log("[OK]");
+        return json({
+          attribute: response.data,
+          success: true,
+        });
+      }
+
+      const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
+      console.log("[BAD]");
+      console.log("[fieldErrors] ", fieldErrors);
+
+      return badRequest({ fieldErrors, success: false });
+    }
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};

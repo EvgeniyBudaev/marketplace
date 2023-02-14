@@ -43,6 +43,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
 
         columnHelper.display({
           id: "delete",
+          header: () => "Удаление",
           cell: ({ row }) => (
             <IconButton typeIcon={"Trash"} onClick={() => onDelete(row.original.alias)} />
           ),
