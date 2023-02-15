@@ -1,6 +1,6 @@
 @import "component";
 
-.SearchListItem {
+.SearchGlobalListItem {
   margin: 3px;
   border-radius: 4px;
   min-height: 44px;
@@ -40,7 +40,7 @@
 }
 
 .theme-dark {
-  & .SearchListItem {
+  & .SearchGlobalListItem {
     $this: &;
 
     &-Link {

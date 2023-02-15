@@ -5,29 +5,24 @@ import type { ActionMeta, GroupBase, StylesConfig } from "react-select";
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
 import { selectStyles } from "~/uikit";
-import { TSelectVariants } from "~/uikit/Select";
+import type { TSelectOption, TSelectVariants } from "~/uikit";
 import { generateUUID } from "~/utils";
 import styles from "./Select.module.css";
 
-export interface ISelectOption {
-  value: string;
-  label: string;
-}
-
 export type TSelectProps = {
   className?: string;
-  defaultValue?: ISelectOption;
+  defaultValue?: TSelectOption;
   id?: string;
   instanceId?: string;
   name?: string;
-  options: ISelectOption[];
-  styles?: StylesConfig<ISelectOption, false, GroupBase<ISelectOption>> | undefined;
+  options: TSelectOption[];
+  styles?: StylesConfig<TSelectOption, false, GroupBase<TSelectOption>> | undefined;
   theme?: TSelectVariants;
-  value?: ISelectOption;
+  value?: TSelectOption;
   onBlur?: FocusEventHandler;
   onChange?:
-    | (((value: ISelectOption | null, actionMeta: ActionMeta<ISelectOption>) => void) &
-        ((value: ISelectOption | null, action: ActionMeta<ISelectOption>) => void))
+    | (((value: TSelectOption | null, actionMeta: ActionMeta<TSelectOption>) => void) &
+        ((value: TSelectOption | null, action: ActionMeta<TSelectOption>) => void))
     | undefined;
   onFocus?: FocusEventHandler;
 };

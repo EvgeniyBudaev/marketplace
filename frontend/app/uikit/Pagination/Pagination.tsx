@@ -6,6 +6,7 @@ import styles from "./Pagination.module.css";
 
 export interface IPaginationProps {
   className?: string;
+  forcePage?: number;
   initialPage?: number;
   marginPagesDisplayed?: number;
   pagesCount: number;
@@ -15,6 +16,7 @@ export interface IPaginationProps {
 
 export const Pagination: React.FC<IPaginationProps> = ({
   className,
+  forcePage,
   initialPage,
   marginPagesDisplayed = 3,
   pagesCount,
@@ -23,6 +25,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
 }) => {
   return (
     <ReactPaginate
+      forcePage={forcePage}
       initialPage={initialPage}
       marginPagesDisplayed={marginPagesDisplayed}
       pageCount={pagesCount}

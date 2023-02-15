@@ -34,6 +34,8 @@
 /* #0044BB */
 .Tooltip-Element {
   display: inline-block;
+  max-width: 300px;
+  width: 100%;
   background-color: #000;
   color: #fff;
   border-radius: 4px;
@@ -41,7 +43,6 @@
   font-weight: normal;
   font-size: 16px;
   line-height: 20px;
-  padding: 16px 24px;
   z-index: 10;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }

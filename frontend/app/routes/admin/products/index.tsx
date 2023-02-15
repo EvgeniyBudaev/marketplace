@@ -10,16 +10,17 @@ export const loader = async (args: LoaderArgs) => {
   const { request } = args;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
-  console.log("[products formValues] ", formValues);
+
   const formattedParams = mapParamsToDto({
     ...formValues,
   });
+  console.log("[products formattedParams: ] ", formattedParams);
   const response = await getProducts(request, { params: formattedParams });
 
   if (!response.success) {
     throw internalError();
   }
-
+  console.log("response.data: ", response.data);
   return json({
     products: response.data,
   });

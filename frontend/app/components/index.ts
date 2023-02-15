@@ -3,7 +3,8 @@ export * from "./ErrorBoundary";
 export * from "./Layout";
 export * from "./Logo";
 export * from "./NavLink";
-export * from "./Search";
+export * from "./search/SearchGlobal";
+export * from "./table";
 export * from "./ThemeSwitcher";
 
 import { errorLinks } from "~/components/Error";
@@ -11,7 +12,9 @@ import { layoutLinks } from "~/components/Layout";
 import { footerLinks } from "~/components/Layout/Footer";
 import { headerLinks } from "~/components/Layout/Header";
 import { logoLinks } from "~/components/Logo";
-import { searchLinks } from "~/components/Search";
+import { searchGlobalLinks } from "~/components/search/SearchGlobal";
+import { searchingPanelLinks } from "~/components/search/SearchingPanel";
+import { tableHeaderLinks } from "~/components/table";
 import { themeSwitcherLinks } from "~/components/ThemeSwitcher";
 
 export const links = () => {
@@ -21,7 +24,9 @@ export const links = () => {
     ...logoLinks(),
     ...footerLinks(),
     ...headerLinks(),
-    ...searchLinks(),
+    ...searchGlobalLinks(),
+    ...searchingPanelLinks(),
+    ...tableHeaderLinks(),
     ...themeSwitcherLinks(),
   ];
 };

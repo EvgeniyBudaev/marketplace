@@ -1,47 +1,106 @@
-import { useCallback, useEffect, useState } from "react";
+import { FormEvent, KeyboardEvent, useCallback, useEffect, useState } from "react";
 import type { FC } from "react";
-import { useSearchParams } from "@remix-run/react";
+import { useFetcher, useSearchParams, useSubmit } from "@remix-run/react";
 import { createBrowserHistory } from "history";
+import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
 import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
 import { CatalogsTable } from "~/pages/Admin/Catalogs/CatalogsTable";
 import { TCatalogs } from "~/shared/api/catalogs";
 import { TParams } from "~/types";
 import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
 import styles from "./Catalogs.module.css";
+import { SearchingPanel } from "~/components/search";
+import isNull from "lodash/isNull";
+import { EFormMethods } from "~/shared/form";
+import { ERoutes } from "~/enums";
+import debounce from "lodash/debounce";
 
 type TProps = {
   catalogs: TCatalogs;
 };
 
 export const Catalogs: FC<TProps> = ({ catalogs }) => {
+  const fetcher = useFetcher();
+  const submit = useSubmit();
   const history = typeof document !== "undefined" ? createBrowserHistory() : null;
   const [searchParams] = useSearchParams();
+  const search = searchParams.get("search");
+  const defaultSearch: string = !isNull(search) ? search : "";
   const [filter, setFilter] = useState<TParams>({});
-  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: Number(searchParams.get("page")) || DEFAULT_PAGE,
+    size: Number(searchParams.get("size")) || DEFAULT_PAGE_SIZE,
+  });
 
   const getFormData = useCallback(() => {
     const formData = new FormData();
-
-    // formData.append("sort", sorting);
-    formData.append("page", page.toString());
-
-    Object.entries(filter).forEach(([group, values]) => {
-      values.forEach((value: string) => formData.append(group, value));
-    });
-
+    formData.append("page", pagination.page.toString());
+    formData.append("size", pagination.size.toString());
     return formData;
-  }, [page]);
+  }, [pagination]);
 
   useEffect(() => {
     history?.push("?" + new URLSearchParams(getFormData() as any).toString());
-  }, [page]);
+    submit(getFormData());
+  }, [pagination]);
 
   const handleChangePage = useCallback(
     ({ selected }: { selected: number }) => {
-      setPage(selected);
+      setPagination((prevState) => ({
+        ...prevState,
+        page: selected + 1,
+      }));
     },
-    [setPage],
+    [setPagination],
   );
+
+  const handleChangePageSize = useCallback(
+    (pageSize: number) => {
+      setPagination((prevState) => ({
+        ...prevState,
+        page: DEFAULT_PAGE,
+        size: pageSize,
+      }));
+    },
+    [setPagination],
+  );
+
+  const handleSearchBlur = () => {
+    setIsSearchActive(false);
+  };
+
+  const handleSearchFocus = () => {
+    setIsSearchActive(true);
+    fetcher.submit(
+      { search: "" },
+      {
+        method: EFormMethods.Get,
+        action: ERoutes.AdminProducts,
+      },
+    );
+  };
+
+  const handleSearchKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setIsSearchActive(false);
+    }
+  };
+
+  const debouncedFetcher = useCallback(
+    debounce((query) => {
+      fetcher.submit(query, {
+        method: EFormMethods.Get,
+        action: ERoutes.AdminProducts,
+      });
+    }, DEBOUNCE_TIMEOUT),
+    [],
+  );
+
+  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    debouncedFetcher(event.currentTarget);
+  };
 
   return (
     <section className="Catalogs">
@@ -51,11 +110,25 @@ export const Catalogs: FC<TProps> = ({ catalogs }) => {
             <Typography variant={ETypographyVariant.TextH1Bold}>Каталоги</Typography>
           </h1>
         </div>
-        <div>
+        <div className="Catalogs-HeaderControls">
+          <SearchingPanel
+            className="Catalogs-SearchingPanel"
+            defaultSearch={defaultSearch}
+            isActive={isSearchActive}
+            onBlur={handleSearchBlur}
+            onClick={handleSearchFocus}
+            onFocus={handleSearchFocus}
+            onKeyDown={handleSearchKeyDown}
+            onSubmit={handleSearchSubmit}
+          />
           <LinkButton href="/admin/catalogs/add">Добавить</LinkButton>
         </div>
       </div>
-      <CatalogsTable catalogs={catalogs} onChangePage={handleChangePage} />
+      <CatalogsTable
+        catalogs={catalogs}
+        onChangePage={handleChangePage}
+        onChangePageSize={handleChangePageSize}
+      />
     </section>
   );
 };

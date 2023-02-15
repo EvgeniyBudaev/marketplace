@@ -3,18 +3,18 @@ import type { FC, MouseEvent } from "react";
 import { useNavigate } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
-import { SearchListItem } from "~/components/Search/SearchListItem";
-import type { TFocusDirection, TFocusedOption } from "~/components/Search/types";
+import { SearchGlobalListItem } from "~/components/search/SearchGlobal/SearchGlobalListItem";
+import type { TFocusDirection, TFocusedOption } from "~/components/search/SearchGlobal/types";
 import { useKey } from "~/hooks";
 import type { TProductByCatalog, TProductsByCatalog } from "~/shared/api/products";
-import styles from "./SearchList.module.css";
+import styles from "./SearchGlobalList.module.css";
 
 type TProps = {
   productList: TProductsByCatalog | null;
   onBlur: () => void;
 };
 
-export const SearchList: FC<TProps> = ({ productList, onBlur }) => {
+export const SearchGlobalList: FC<TProps> = ({ productList, onBlur }) => {
   const [focusedOption, setFocusedOption] = useState<TFocusedOption>({
     focusedOption: null,
   });
@@ -109,7 +109,7 @@ export const SearchList: FC<TProps> = ({ productList, onBlur }) => {
       <ul className="SearchProductList">
         {!isEmpty(list) &&
           list.map((item, index) => (
-            <SearchListItem
+            <SearchGlobalListItem
               index={index}
               item={item}
               key={item.id}
@@ -123,6 +123,6 @@ export const SearchList: FC<TProps> = ({ productList, onBlur }) => {
   );
 };
 
-export function searchListLinks() {
+export function searchGlobalListLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

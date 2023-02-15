@@ -6,24 +6,23 @@ import clsx from "clsx";
 import debounce from "lodash/debounce";
 import isNull from "lodash/isNull";
 
-import { TRANSITION } from "~/constants";
+import { DEBOUNCE_TIMEOUT, TRANSITION } from "~/constants";
 import { ERoutes } from "~/enums";
 import type { TProductsByCatalog } from "~/shared/api/products";
 import { EFormMethods } from "~/shared/form";
 import { Icon, Overlay } from "~/uikit";
 
-import { SearchList, searchListLinks } from "./SearchList";
-import { searchListItemLinks } from "./SearchListItem";
+import { SearchGlobalList, searchGlobalListLinks } from "./SearchGlobalList";
+import { searchGlobalListItemLinks } from "./SearchGlobalListItem";
 import commonStyles from "./Common.css";
-import styles from "./Search.module.css";
+import styles from "./SearchGlobal.module.css";
 
 type TProps = {
   className?: string;
   transition?: number;
 };
 
-export const Search: FC<TProps> = ({ className, transition = TRANSITION }) => {
-  const DEBOUNCE_TIMEOUT = 300;
+export const SearchGlobal: FC<TProps> = ({ className, transition = TRANSITION }) => {
   const [isActive, setIsActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const nodeRef = useRef<HTMLDivElement>(null);
@@ -73,16 +72,16 @@ export const Search: FC<TProps> = ({ className, transition = TRANSITION }) => {
   return (
     <>
       <div
-        className={clsx("Search", className, {
+        className={clsx("SearchGlobal", className, {
           Search__active: isActive,
         })}
       >
-        <div className="Search-Form">
-          <div className="Search-InputWrapper">
+        <div className="SearchGlobal-Form">
+          <div className="SearchGlobal-InputWrapper">
             <Form method={EFormMethods.Get} onChange={handleSubmit}>
               <input
                 autoComplete="off"
-                className="Search-Input"
+                className="SearchGlobal-Input"
                 defaultValue={defaultSearch}
                 name="search"
                 placeholder="Поиск"
@@ -95,17 +94,17 @@ export const Search: FC<TProps> = ({ className, transition = TRANSITION }) => {
               />
             </Form>
           </div>
-          <Icon className="Search-Icon" type="Search" />
+          <Icon className="SearchGlobal-Icon" type="Search" />
         </div>
         <CSSTransition
-          className="SearchDropDownWindow"
+          className="SearchGlobalDropDownWindow"
           in={isActive}
           nodeRef={nodeRef}
           timeout={transition}
           unmountOnExit
         >
           <div ref={nodeRef}>
-            <SearchList productList={productList} onBlur={handleBlur} />
+            <SearchGlobalList productList={productList} onBlur={handleBlur} />
           </div>
         </CSSTransition>
       </div>
@@ -114,11 +113,11 @@ export const Search: FC<TProps> = ({ className, transition = TRANSITION }) => {
   );
 };
 
-export function searchLinks() {
+export function searchGlobalLinks() {
   return [
     { rel: "stylesheet", href: styles },
     { rel: "stylesheet", href: commonStyles },
-    ...searchListLinks(),
-    ...searchListItemLinks(),
+    ...searchGlobalListLinks(),
+    ...searchGlobalListItemLinks(),
   ];
 }

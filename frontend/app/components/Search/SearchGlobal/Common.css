@@ -34,7 +34,7 @@
 /* #008dd3 */
 /* #0044BB */
 /* ----- Выпадающее окно в поиске ----- */
-.SearchDropDownWindow {
+.SearchGlobalDropDownWindow {
   content: "";
   position: absolute;
   top: 50px;
@@ -46,23 +46,23 @@
   border-radius: 4px;
   z-index: 101;
 }
-.SearchDropDownWindow.enter {
+.SearchGlobalDropDownWindow.enter {
   opacity: 0;
 }
-.SearchDropDownWindow.enter-active {
+.SearchGlobalDropDownWindow.enter-active {
   opacity: 1;
   transition: opacity 0.3s;
 }
-.SearchDropDownWindow.exit {
+.SearchGlobalDropDownWindow.exit {
   opacity: 1;
   transition: opacity 0.3s;
 }
-.SearchDropDownWindow.exit-active {
+.SearchGlobalDropDownWindow.exit-active {
   opacity: 0;
   transition: opacity 0.3s;
 }
 
-.theme-dark .SearchDropDownWindow {
+.theme-dark .SearchGlobalDropDownWindow {
   background-color: rgb(24, 24, 31);
 }
 

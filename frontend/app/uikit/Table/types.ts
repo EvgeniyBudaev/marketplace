@@ -1,4 +1,4 @@
-import React from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent } from "react";
 import { ColumnDef, OnChangeFn, RowSelectionState } from "@tanstack/react-table";
 // import {TableSortingType} from "~/uikit/Table/Table";
 
@@ -7,18 +7,18 @@ export type TTableProps<TColumn extends Record<string, any>> = {
   columns: Array<ColumnDef<TColumn>>;
   currentPage?: number;
   data: TColumn[];
+  defaultPageSize?: number | null;
   getId?: (row: TColumn) => string | number;
   pagesCount?: number;
   rowSelection?: RowSelectionState;
-  searchedKeyword?: string;
   // sorting?: TableSortingType;
   sorting?: any;
-  isSearch?: boolean;
+  onChangePageSize?: (pageSize: number) => void;
   onPageChange?: ({ selected }: { selected: number }) => void;
   onRowSelectionChange?: OnChangeFn<RowSelectionState>;
-  onSearchChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   // onSort?: (sorting: TableSortingType) => void;
   onSort?: any;
+  pageSizeOptions?: number[] | null;
   totalItems?: number;
   totalItemsTitle?: string;
 };

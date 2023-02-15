@@ -28,6 +28,15 @@ export const VARIANTS: { [key in TSelectVariants]: TSelectVariantStyle } = {
         transition: "all 0.15s",
       },
     },
+    menu: {
+      zIndex: 10,
+    },
+    menuList: {
+      zIndex: "10",
+    },
+    menuPortal: {
+      zIndex: 10,
+    },
   },
 
   // My secondary variant is for a light theme.
@@ -55,5 +64,10 @@ export const VARIANTS: { [key in TSelectVariants]: TSelectVariantStyle } = {
         transition: "all 0.15s",
       },
     },
+    menu: {
+      zIndex: 10,
+    },
+    menuList: {},
+    menuPortal: {},
   },
 };

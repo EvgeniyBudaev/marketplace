@@ -10,15 +10,17 @@ export const loader = async (args: LoaderArgs) => {
   const { request } = args;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
+
   const formattedParams = mapParamsToDto({
     ...formValues,
   });
+  console.log("[catalogs formattedParams: ] ", formattedParams);
   const response = await getCatalogs(request, { params: formattedParams });
 
   if (!response.success) {
     throw internalError();
   }
-
+  console.log("response.data: ", response.data);
   return json({
     catalogs: response.data,
   });

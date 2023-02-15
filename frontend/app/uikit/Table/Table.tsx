@@ -1,9 +1,12 @@
 import { ForwardedRef, forwardRef, memo, PropsWithChildren, ReactElement, useMemo } from "react";
 import { Column, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import clsx from "clsx";
-import { Pagination } from "~/uikit";
-import { SortingIcon, sortingIconLinks } from "./SortingIcon";
+import isNil from "lodash/isNil";
+import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "~/constants";
+import { NavigationPanel, navigationPanelLinks } from "~/uikit/Table/NavigationPanel";
 import { TTableProps } from "~/uikit/Table/types";
+import { Pagination, Select } from "~/uikit";
+import { SortingIcon, sortingIconLinks } from "./SortingIcon";
 import styles from "./Table.module.css";
 
 // export type SortingType = IdType<string> | `-${IdType<string>}`;
@@ -18,14 +21,14 @@ const TableComponent = <TColumn extends Record<string, any>>(
     className,
     columns,
     currentPage,
+    defaultPageSize,
     pagesCount,
-    searchedKeyword,
     sorting,
-    isSearch,
+    onChangePageSize,
     onPageChange,
     onRowSelectionChange,
-    onSearchChange,
     onSort,
+    pageSizeOptions,
     rowSelection,
     totalItems,
     totalItemsTitle,
@@ -68,12 +71,6 @@ const TableComponent = <TColumn extends Record<string, any>>(
 
   return (
     <div ref={ref}>
-      {/*{isSearch && (*/}
-      {/*    <Search*/}
-      {/*        searchedKeyword={searchedKeyword}*/}
-      {/*        onSearchChange={onSearchChange}*/}
-      {/*    />*/}
-      {/*)}*/}
       <div className="Table-Header">
         {totalItemsTitle}&nbsp;<span className="Table-HeaderCount">{totalItems}</span>
       </div>
@@ -138,9 +135,14 @@ const TableComponent = <TColumn extends Record<string, any>>(
           </tbody>
         </table>
       </div>
-      {currentPage && pagesCount && onPageChange && (
-        <Pagination initialPage={currentPage - 1} pagesCount={pagesCount} onChange={onPageChange} />
-      )}
+      <NavigationPanel
+        currentPage={currentPage}
+        defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
+        onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
+        onPageChange={onPageChange}
+        pagesCount={pagesCount}
+        pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
+      />
     </div>
   );
 };
@@ -148,5 +150,5 @@ const TableComponent = <TColumn extends Record<string, any>>(
 export const Table = forwardRef(TableComponent) as typeof TableComponent;
 
 export function tableLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...sortingIconLinks()];
+  return [{ rel: "stylesheet", href: styles }, ...sortingIconLinks(), ...navigationPanelLinks()];
 }

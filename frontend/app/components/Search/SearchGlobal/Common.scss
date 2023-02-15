@@ -4,7 +4,7 @@
 
 $maxWidth: 620px;
 
-.SearchDropDownWindow {
+.SearchGlobalDropDownWindow {
   content: "";
   position: absolute;
   top: 50px;
@@ -37,7 +37,7 @@ $maxWidth: 620px;
 }
 
 .theme-dark {
-  .SearchDropDownWindow {
+  .SearchGlobalDropDownWindow {
     background-color: $color-night;
   }
 }

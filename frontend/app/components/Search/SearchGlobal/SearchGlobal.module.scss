@@ -4,7 +4,7 @@ $maxWidth: 620px;
 $heightDropDown: 335px;
 $height: 43px;
 
-.Search {
+.SearchGlobal {
   $this: &;
   display: flex;
   align-items: center;
@@ -73,7 +73,7 @@ $height: 43px;
 }
 
 .theme-dark {
-  .Search {
+  .SearchGlobal {
     $this: &;
 
     &-Input {
@@ -88,7 +88,7 @@ $height: 43px;
 }
 
 @media (max-width: 768px) {
-  .Search {
+  .SearchGlobal {
     &-Input {
       height: $height;
     }

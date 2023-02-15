@@ -5,7 +5,7 @@ import { ERoutes } from "~/enums";
 import type { TProductByCatalog } from "~/shared/api/products";
 import { ETypographyVariant, Typography } from "~/uikit";
 import { createPath, formatCurrency, formatProxy } from "~/utils";
-import styles from "./SearchListItem.module.css";
+import styles from "./SearchGlobalListItem.module.css";
 
 type TProps = {
   index: number;
@@ -14,7 +14,7 @@ type TProps = {
   onMouseOver: (event: MouseEvent<HTMLLIElement>, index: number) => void;
 };
 
-export const SearchListItem: FC<TProps> = ({ index, item, isActive, onMouseOver }) => {
+export const SearchGlobalListItem: FC<TProps> = ({ index, item, isActive, onMouseOver }) => {
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.ProductDetail,
     params: { alias: item.alias },
@@ -27,11 +27,11 @@ export const SearchListItem: FC<TProps> = ({ index, item, isActive, onMouseOver 
   return (
     <>
       {"catalogAlias" in item && (
-        <li className="SearchListItem" onMouseOver={handleMouseOver}>
+        <li className="SearchGlobalListItem" onMouseOver={handleMouseOver}>
           <Link
             to={ROUTE_PRODUCT_DETAIL}
-            className={clsx("SearchListItem-Link", {
-              "SearchListItem-Link__active": isActive,
+            className={clsx("SearchGlobalListItem-Link", {
+              "SearchGlobalListItem-Link__active": isActive,
             })}
           >
             <div className="SearchListItem-Images">
@@ -44,10 +44,10 @@ export const SearchListItem: FC<TProps> = ({ index, item, isActive, onMouseOver 
                 height="28"
               />
             </div>
-            <div className="SearchListItem-Title">
+            <div className="SearchGlobalListItem-Title">
               <Typography variant={ETypographyVariant.TextB3Regular}>{item.name}</Typography>
             </div>
-            <div className="SearchListItem-Price">
+            <div className="SearchGlobalListItem-Price">
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {formatCurrency(parseInt(item.price))} ₽
               </Typography>
@@ -59,6 +59,6 @@ export const SearchListItem: FC<TProps> = ({ index, item, isActive, onMouseOver 
   );
 };
 
-export function searchListItemLinks() {
+export function searchGlobalListItemLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

@@ -32,21 +32,21 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.Search {
+.SearchingPanel {
   display: flex;
   align-items: center;
   position: relative;
-  max-width: 620px;
+  max-width: 200px;
   width: 100%;
   background-color: transparent;
 }
-.Search-Form {
+.SearchingPanel-Form {
   display: flex;
   align-items: center;
   position: relative;
   width: 100%;
 }
-.Search-InputWrapper {
+.SearchingPanel-InputWrapper {
   padding: 0;
   width: 100%;
   height: 43px;
@@ -55,7 +55,7 @@
   border-left: 1px solid rgb(228, 228, 228);
   border-right: 1px solid rgb(228, 228, 228);
 }
-.Search-Input {
+.SearchingPanel-Input {
   font-family: "Roboto", sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -69,44 +69,21 @@
   background-color: rgb(255, 255, 255);
   outline: transparent;
 }
-.Search-Input::placeholder {
+.SearchingPanel-Input::placeholder {
   background-color: transparent;
   color: rgb(51, 51, 51);
 }
-.Search-Icon {
+.SearchingPanel-Icon {
   position: absolute;
   right: 15px;
   width: 24px;
   height: 24px;
 }
-.Search__active {
+.SearchingPanel__active {
   width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-  z-index: 101;
 }
-.Search__active .Search-Input {
+.SearchingPanel__active .SearchingPanel-Input {
   background-color: transparent;
 }
 
-.theme-dark .Search-Input {
-  background-color: rgb(24, 24, 31);
-  color: rgb(255, 255, 255);
-}
-.theme-dark .Search-Input::placeholder {
-  color: rgb(255, 255, 255);
-}
-
-@media (max-width: 768px) {
-  .Search-Input {
-    height: 43px;
-  }
-  .Search-InputWrapper {
-    border: none;
-  }
-  .Search-Icon {
-    width: 16px;
-    height: 16px;
-  }
-}
-
-/*# sourceMappingURL=Search.module.css.map */
+/*# sourceMappingURL=SearchingPanel.module.css.map */
