@@ -10,7 +10,6 @@ import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,16 +33,17 @@ public class ManageProductService implements ManageProductDao {
     private final ProductMapper productMapper;
 
     @Autowired
-    public ManageProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, ProductService productService) {
+    public ManageProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, ProductService productService, ProductMapper productMapper) {
 
         this.entityManager = entityManager;
         this.catalogService = catalogService;
         this.attributeService = attributeService;
         this.productService = productService;
-        this.productMapper = Mappers.getMapper(ProductMapper.class);
+        this.productMapper = productMapper;
     }
 
 
+    @Transactional
     public void delete(String alias) {
         Query query = entityManager
                 .createQuery("UPDATE Product as p set p.enabled=false where p.alias=:alias");

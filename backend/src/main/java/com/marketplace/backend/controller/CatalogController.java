@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,6 +50,7 @@ public class CatalogController {
         }
         UrlResolver resolver = new UrlResolverImpl();
         QueryParam param = resolver.resolveQueryString(queryString);
+        System.out.println(param);
         return catalogService.findAll(param);
     }
 
@@ -85,24 +87,24 @@ public class CatalogController {
         return dto;
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseSingleAfterSaveCatalogDto saveCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
         Catalog catalog = catalogService.saveNewCatalog(dto);
         return getResponseSingleAfterSaveCatalogDto(catalog);
     }
 
 
-    @DeleteMapping("{alias}")
+    @DeleteMapping("/delete/{alias}")
     public void deleteCatalog(@PathVariable String alias) {
         catalogService.delete(alias);
     }
 
-    @PatchMapping
+    @PatchMapping("/patch")
     public ResponseSingleAfterSaveCatalogDto updateCatalog (@RequestBody @Valid RequestUpdateCatalogDto dto){
         Catalog catalog = catalogService.updateCatalog(dto);
         return getResponseSingleAfterSaveCatalogDto(catalog);
     }
-    @PutMapping
+    @PutMapping("/put")
     public ResponseSingleAfterSaveCatalogDto putCatalog(@RequestBody @Valid RequestPutCatalogDto dto){
         Catalog catalog = catalogService.putCatalog(dto);
         return getResponseSingleAfterSaveCatalogDto(catalog);
@@ -110,7 +112,7 @@ public class CatalogController {
 
     public ResponseSingleAfterSaveCatalogDto getResponseSingleAfterSaveCatalogDto(Catalog catalog) {
         if(catalog.getAttributes()==null){
-            return mapper.entityToAfterSaveDto(catalog,null,null);
+            return mapper.entityToAfterSaveDto(catalog, Collections.emptyList(),Collections.emptyList());
         }
         List<Attribute> selAttributeList = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();

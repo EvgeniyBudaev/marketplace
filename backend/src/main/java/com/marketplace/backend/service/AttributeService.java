@@ -13,6 +13,9 @@ import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
+import com.marketplace.backend.service.utils.queryes.QueryParam;
+import com.marketplace.backend.service.utils.queryes.processor.QueryProcessor;
+import com.marketplace.backend.service.utils.queryes.processor.QueryProcessorImpl;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,15 +125,23 @@ public class AttributeService implements AttributeDao {
     }
     @Override
     @Transactional
-    public Paging<ResponseAttributeForGetAll> findAll(Integer page, Integer pageSize){
-        TypedQuery<Long> query = entityManager.createQuery("SELECT count (a) from Attribute a where a.enabled=true",Long.class);
-        Integer count =  Math.toIntExact(query.getSingleResult());
-        Paging<ResponseAttributeForGetAll> result = new Paging<>(count,pageSize,page);
-        TypedQuery<Attribute> resultQuery = entityManager.createQuery("SELECT a from Attribute a where a.enabled=true", Attribute.class);
-        resultQuery.setFirstResult((page-1)*pageSize );
-        resultQuery.setMaxResults(pageSize);
-        List<ResponseAttributeForGetAll> dtoList = attributeMapper.entitiesToListDto(resultQuery.getResultList());
-        result.setContent(dtoList);
+    public Paging<ResponseAttributeForGetAll> findAll(QueryParam param){
+        QueryProcessor processor = new QueryProcessorImpl(param, Attribute.class);
+        TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
+        TypedQuery<Attribute> resultQuery = entityManager.createQuery(processor.getMainQuery(), Attribute.class);
+        if(param.getSearchString()!=null){
+            resultQuery.setParameter("param",param.getSearchString());
+            countQuery.setParameter("param",param.getSearchString());
+        }
+        int count = Math.toIntExact(countQuery.getSingleResult());
+        Paging<ResponseAttributeForGetAll> result = new Paging<>(count, param.getPageSize(),param.getPage());
+        if(count==0){
+            return result;
+        }
+        resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
+        resultQuery.setMaxResults(result.getPageSize());
+        List<Attribute> attributes = resultQuery.getResultList();
+        result.setContent(attributeMapper.entitiesToListDto(attributes));
         return result;
     }
 

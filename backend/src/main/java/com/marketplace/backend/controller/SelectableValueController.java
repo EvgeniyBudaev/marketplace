@@ -30,7 +30,7 @@ public class SelectableValueController {
     public Set<ResponseSaveUpdateSelValueDto> patchValue(@RequestBody RequestUpdateSelValueDto dto){
         List<Object[]> rawResult = attributeValueService.updateSelectableValue(dto);
         if(rawResult.isEmpty()){
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
         Set<ResponseSaveUpdateSelValueDto> resultDtos = new HashSet<>(rawResult.size());
         for(Object[] object:rawResult){
@@ -46,7 +46,7 @@ public class SelectableValueController {
     public Set<ResponseSaveUpdateSelValueDto>  deleteValue(@PathVariable(name = "id")Long id){
         List<Object[]> rawResult = attributeValueService.deleteById(id);
         if(rawResult.isEmpty()){
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
         Set<ResponseSaveUpdateSelValueDto> resultDtos = new HashSet<>(rawResult.size());
         for(Object[] object:rawResult){

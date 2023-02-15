@@ -14,13 +14,14 @@ import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.utils.queryes.QueryParam;
-import com.marketplace.backend.service.utils.queryes.processor.CatalogQueryProcessorImpl;
 import com.marketplace.backend.service.utils.queryes.processor.QueryProcessor;
+import com.marketplace.backend.service.utils.queryes.processor.QueryProcessorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,6 +51,8 @@ public class CatalogService {
         catalog.setAttributes(attributeList);
         attributeList.forEach(x->x.getCatalog().add(catalog));
         catalog.setEnabled(true);
+        catalog.setCreatedAt(LocalDateTime.now());
+        catalog.setModifyDate(LocalDateTime.now());
         entityManager.persist(catalog);
         entityManager.flush();
         return catalog;
@@ -58,11 +61,12 @@ public class CatalogService {
     public Catalog putCatalog(RequestPutCatalogDto dto){
         Set<Attribute> newAttributes = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         Query updateQuery = entityManager
-                .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true ,c.image = :image where c.id=:id");
+                .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true ,c.image = :image, c.modifyDate = :modify where c.id=:id");
         updateQuery.setParameter("alias",dto.getAlias());
         updateQuery.setParameter("name",dto.getName());
         updateQuery.setParameter("image",dto.getImage());
         updateQuery.setParameter("id",dto.getId());
+        updateQuery.setParameter("modify",LocalDateTime.now());
         updateQuery.executeUpdate();
         Catalog catalog = findCatalogByAliasWithFullAttributes(dto.getAlias());
         Set<Attribute> oldAttributes = catalog.getAttributes();
@@ -79,6 +83,7 @@ public class CatalogService {
     @Transactional
     public Catalog updateCatalog(RequestUpdateCatalogDto dto){
        Catalog catalog =  catalogMapper.dtoToEntity(dto);
+       catalog.setModifyDate(LocalDateTime.now());
        entityManager.merge(catalog);
        return catalog;
     }
@@ -103,7 +108,7 @@ public class CatalogService {
 
     @Transactional
     public Paging<ResponseSimpleCatalogDto> findAll(QueryParam param) {
-        QueryProcessor processor = new CatalogQueryProcessorImpl(param);
+       QueryProcessor processor = new QueryProcessorImpl(param, Catalog.class);
        TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
        TypedQuery<Catalog> resultQuery = entityManager.createQuery(processor.getMainQuery(), Catalog.class);
        if(param.getSearchString()!=null){
@@ -124,9 +129,9 @@ public class CatalogService {
 
     @Transactional
     public void delete(String alias) {
-        TypedQuery<Long> query = entityManager.createQuery("Select count (p.products) from Catalog as p where p.alias=:alias ", Long.class);
+        TypedQuery<Long> query = entityManager.createQuery("Select count (p) from Product as p  where p.catalog.alias=:alias and p.enabled=true", Long.class);
         query.setParameter("alias",alias);
-        int count = Math.toIntExact(query.getSingleResult());
+        Long count = query.getSingleResult();
         if(count>0){
             throw  new OperationNotAllowedException("Каталог содержит продукты удаление невозможно");
         }

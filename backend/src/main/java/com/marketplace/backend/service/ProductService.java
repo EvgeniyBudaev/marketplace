@@ -2,12 +2,16 @@ package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
-import com.marketplace.backend.dto.product.response.ResponseProductSimpleDto;
+import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
 import com.marketplace.backend.exception.ResourceNotFoundException;
+import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.ProductQueryParam;
+import com.marketplace.backend.service.utils.queryes.QueryParam;
+import com.marketplace.backend.service.utils.queryes.processor.QueryProcessor;
+import com.marketplace.backend.service.utils.queryes.processor.QueryProcessorImpl;
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessor;
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessorImpl;
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryProcessorParam;
@@ -28,9 +32,11 @@ import java.util.stream.Collectors;
 public class ProductService implements ProductDao {
 
     private final EntityManager entityManager;
+    private final ProductMapper productMapper;
 
-    public ProductService(EntityManager entityManager) {
+    public ProductService(EntityManager entityManager, ProductMapper productMapper) {
         this.entityManager = entityManager;
+        this.productMapper = productMapper;
     }
 
 
@@ -122,20 +128,24 @@ public class ProductService implements ProductDao {
         return dtoPaging;
     }
 
-    public Paging<ResponseProductSimpleDto> findAll(Integer page, Integer pageSize){
-        TypedQuery<Long> countQuery =entityManager.createQuery("SELECT COUNT (p) FROM Product as p", Long.class);
-        Integer count = Math.toIntExact(countQuery.getSingleResult());
-        if(count.equals(0)){
-            throw new ResourceNotFoundException("Продукты в базе данных отсутствую");
+    public Paging<ResponseProductGetAllDto> findAll(QueryParam param){
+        QueryProcessor processor = new QueryProcessorImpl(param, Product.class);
+        TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
+        TypedQuery<Product> resultQuery = entityManager.createQuery(processor.getMainQuery(), Product.class);
+        if(param.getSearchString()!=null){
+            resultQuery.setParameter("param",param.getSearchString());
+            countQuery.setParameter("param",param.getSearchString());
         }
-        TypedQuery<ResponseProductSimpleDto> query = entityManager.
-                createQuery("SELECT NEW com.marketplace.backend" +
-                        ".dto.product.response.ResponseProductSimpleDto(p.name,p.alias) from Product as p", ResponseProductSimpleDto.class);
-        Paging<ResponseProductSimpleDto> dtoPaging = new Paging<>(count,pageSize,page);
-        query.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());
-        query.setMaxResults(dtoPaging.getPageSize());
-        dtoPaging.setContent(query.getResultList());
-        return dtoPaging;
+        int count = Math.toIntExact(countQuery.getSingleResult());
+        Paging<ResponseProductGetAllDto> result = new Paging<>(count, param.getPageSize(),param.getPage());
+        if(count==0){
+            return result;
+        }
+        resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
+        resultQuery.setMaxResults(result.getPageSize());
+        List<Product> products = resultQuery.getResultList();
+        result.setContent(productMapper.entitiesToListGetAllDto(products));
+        return result;
     }
 
     private void setParamInQuery(TypedQuery<?> query,Map<String,Object> param){
