@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class ResponseSaveUpdateSelValueDto {
     private Long id;
     private String value;
-    private String attributeAlias;
+    private Long attributeId;
 }

@@ -22,7 +22,7 @@ public interface SelectableValueMapper {
     SelectableValue saveDtoToEntity(RequestSaveSelValueDto dto);
 
     Set<ResponseSaveUpdateSelValueDto> entityValuesSetToDtoSet(Set<SelectableValue> values);
-    @Mapping(target = "attributeAlias", source = "attribute.alias")
+    @Mapping(target = "attributeId", source = "attribute.id")
     ResponseSaveUpdateSelValueDto selectableValueToResponseSaveUpdateSelValueDto(SelectableValue selectableValue);
 
     List<SelectableValue> dtoListToEntitySet(List<RequestPutAttributeDto.SelectableValueDto> dtoList);
