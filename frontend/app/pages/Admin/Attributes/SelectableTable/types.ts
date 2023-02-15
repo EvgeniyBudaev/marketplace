@@ -9,6 +9,7 @@ export type TOptionsSubmitForm = {
   fetcher: FetcherWithComponents<FieldValues>;
 };
 
-export type TAction = {
-  action: string;
+export type TDeleteModalState = {
+  isOpen: boolean;
+  id?: number;
 };

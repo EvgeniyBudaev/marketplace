@@ -84,8 +84,8 @@ Modal.Header = ({ className, align, children }: TModalHeaderProps): JSX.Element 
 };
 
 type TModalContentProps = {
-  className?: string;
   children?: React.ReactNode;
+  className?: string;
 };
 
 // eslint-disable-next-line react/display-name
@@ -95,25 +95,12 @@ Modal.Content = ({ className, children }: TModalContentProps): JSX.Element => {
 
 type TModalFooterProps = {
   className?: string;
-  buttonSubmitText?: string;
-  onSubmit?: () => void;
-  typeButton?: TButton;
+  children?: React.ReactNode;
 };
 
 // eslint-disable-next-line react/display-name
-Modal.Footer = ({
-  className,
-  buttonSubmitText = "Change",
-  onSubmit,
-  typeButton,
-}: TModalFooterProps): JSX.Element => {
-  return (
-    <div className={clsx("ModalFooter", className)}>
-      <Button onClick={onSubmit} type={typeButton}>
-        {buttonSubmitText}
-      </Button>
-    </div>
-  );
+Modal.Footer = ({ children, className }: TModalFooterProps): JSX.Element => {
+  return <div className={clsx("ModalFooter", className)}>{children}</div>;
 };
 
 export function modalLinks() {

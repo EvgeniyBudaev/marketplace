@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { FC } from "react";
-import { useSearchParams, useSubmit } from "@remix-run/react";
+import { useFetcher, useSearchParams, useSubmit } from "@remix-run/react";
 import { createBrowserHistory } from "history";
 import { attributeAddLinks } from "~/pages/Admin/Attributes/AttributeAdd";
 import { attributeEditLinks } from "~/pages/Admin/Attributes/AttributeEdit";
@@ -14,12 +14,14 @@ type TProps = {
   attributes: TAttributes;
 };
 
-export const Attributes: FC<TProps> = ({ attributes }) => {
+export const Attributes: FC<TProps> = (props) => {
+  const fetcher = useFetcher();
   const submit = useSubmit();
   const history = typeof document !== "undefined" ? createBrowserHistory() : null;
   const [searchParams] = useSearchParams();
   const [filter, setFilter] = useState<TParams>({});
   const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
+  const attributes = fetcher.data?.attributes ?? props.attributes;
 
   const getFormData = useCallback(() => {
     const formData = new FormData();
@@ -58,7 +60,7 @@ export const Attributes: FC<TProps> = ({ attributes }) => {
           <LinkButton href="/admin/attributes/add">Добавить</LinkButton>
         </div>
       </div>
-      <AttributesTable attributes={attributes} onChangePage={handleChangePage} />
+      <AttributesTable attributes={attributes} fetcher={fetcher} onChangePage={handleChangePage} />
     </section>
   );
 };

@@ -4,21 +4,13 @@ import { EFormFields } from "~/pages/Admin/Attributes/SelectableTable";
 import { Button, Input, Modal } from "~/uikit";
 
 type TProps = {
-  defaultValue: string;
-  id: number;
-  isOpenModal: boolean;
-  onModalClose: () => void;
-  onSubmit: ({ id, value }: { id: number; value: string }) => void;
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: ({ value }: { value: string }) => void;
 };
 
-export const SelectableEditModal: FC<TProps> = ({
-  defaultValue,
-  id,
-  isOpenModal,
-  onModalClose,
-  onSubmit,
-}) => {
-  const [value, setValue] = useState(defaultValue);
+export const SelectableAddModal: FC<TProps> = ({ isOpen, onClose, onSubmit }) => {
+  const [value, setValue] = useState("");
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -26,20 +18,19 @@ export const SelectableEditModal: FC<TProps> = ({
 
   const handleSubmit = () => {
     console.log("Form value: ", value);
-    onModalClose();
-    onSubmit({ id, value });
+    onClose();
+    onSubmit({ value });
   };
 
   return (
-    <Modal isOpen={isOpenModal} onCloseModal={onModalClose}>
+    <Modal isOpen={isOpen} onCloseModal={onClose}>
       <Modal.Header>
-        <h2>Редактирование значения</h2>
+        <h2>Добавление нового значения</h2>
       </Modal.Header>
       <Modal.Content>
         <div>
           <Input
-            defaultValue={value}
-            label="Название атрибута"
+            label="Название значения"
             name={EFormFields.Value}
             type="text"
             onChange={handleChange}

@@ -1,55 +1,74 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import type { FC } from "react";
+import { useFetcher } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes, ETheme } from "~/enums";
 import { useSettings } from "~/hooks";
-import { mapFormDataToDto } from "~/pages/Admin/Attributes/AttributeAdd";
 import {
   EFormFields,
   formSchema,
+  mapFormDataToDto,
+  TAddModalState,
   TForm,
   TOptionsSubmitForm,
   useGetTypeOptions,
 } from "~/pages/Admin/Attributes/AttributeEdit";
-import { TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
+import { SelectableTable } from "~/pages/Admin/Attributes/SelectableTable";
+import {
+  EAttributeAction,
+  ESelectableValueAction,
+  TAttributeDetail,
+  TSelectableItem,
+} from "~/shared/api/attributes";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
 import { TParams } from "~/types";
-import {
-  Button,
-  ETypographyVariant,
-  Input as InputUI,
-  Modal,
-  notify,
-  Tag,
-  Typography,
-} from "~/uikit";
+import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./AttributeEdit.module.css";
-import { SelectableTable } from "~/pages/Admin/Attributes/SelectableTable";
+import { SelectableAddModal } from "~/pages/Admin/Attributes/SelectableAddModal";
 
 type TProps = {
   attribute: TAttributeDetail;
 };
 
-export const AttributeEdit: FC<TProps> = ({ attribute }) => {
+export const AttributeEdit: FC<TProps> = (props) => {
+  const fetcherRemix = useFetcher();
+  const attribute: TAttributeDetail = fetcherRemix.data?.attribute ?? props.attribute;
+
   const settings = useSettings();
   const theme = settings.settings.theme;
 
   const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({ filter: [idCheckbox] });
 
-  console.log("attribute: ", attribute);
+  const [addModal, setAddModal] = useState<TAddModalState>({ isOpen: false });
+
+  // console.log("attribute: ", attribute);
 
   const { defaultTypeOptions, typeOptions } = useGetTypeOptions(attribute.type);
 
   const [selectable, setSelectable] = useState<TSelectableItem[]>(attribute?.selectable ?? []);
-  console.log("selectable: ", selectable);
+  // console.log("selectable: ", selectable);
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
   const fetcher = form.fetcher;
+
+  useEffect(() => {
+    if (isDoneType && fetcher.data?.success) {
+      notify.success({
+        title: "Атрибут обновлен",
+      });
+    }
+    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
+      notify.error({
+        title: "Не удалось обновить атрибут",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetcher.data, fetcher.data?.success, isDoneType]);
 
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
@@ -74,27 +93,62 @@ export const AttributeEdit: FC<TProps> = ({ attribute }) => {
   };
 
   const handleChangeSelectableValue = ({ id, value }: { id: number; value: string }) => {
-    setSelectable((prevState) => {
-      const idx = prevState.findIndex((item) => item.id === id);
-      const oldItem = prevState[idx];
-      const newItem = { ...oldItem, value };
-      return [...prevState.slice(0, idx), newItem, ...prevState.slice(idx + 1)];
+    const form = new FormData();
+    form.append("id", `${id}`);
+    form.append("value", `${value}`);
+    form.append("_method", ESelectableValueAction.EditSelectableValue);
+    fetcher.submit(form, {
+      method: EFormMethods.Patch,
+      action: createPath({
+        route: ERoutes.AttributeEdit,
+        params: { alias: attribute.alias },
+        withIndex: true,
+      }),
     });
   };
 
-  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
-    console.log("Form params: ", params);
-    const formattedParams: any = mapFormDataToDto({ ...params, selectable });
-    console.log("formattedParams: ", formattedParams);
+  const handleCloseAddModal = () => {
+    setAddModal((prev) => ({ ...prev, isOpen: false }));
+  };
 
-    const formData = new FormData();
-    formData.append("alias", formattedParams.alias);
-    formData.append("name", formattedParams.name);
-    formData.append("type", formattedParams.type);
-    formData.append("selectable", JSON.stringify(formattedParams.selectable));
+  const handleOpenAddModal = () => {
+    setAddModal((prev) => ({ ...prev, isOpen: true }));
+  };
+
+  const handleAdd = (value: string) => {
+    const form = new FormData();
+    form.append("attributeAlias", `${attribute.alias}`);
+    form.append("value", `${value}`);
+    form.append("_method", ESelectableValueAction.AddSelectableValue);
+    fetcher.submit(form, {
+      method: EFormMethods.Post,
+      action: createPath({
+        route: ERoutes.AttributeEdit,
+        params: { alias: attribute.alias },
+        withIndex: true,
+      }),
+    });
+  };
+
+  const handleSubmitAddModal = ({ value }: { value: string }) => {
+    if (value) {
+      handleAdd(value);
+      handleCloseAddModal();
+    }
+  };
+
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
+    // console.log("Form params: ", params);
+    const formattedParams = mapFormDataToDto({
+      ...params,
+      id: attribute.id,
+      selectable,
+      _method: EAttributeAction.EditAttribute,
+    });
+    // console.log("formattedParams: ", formattedParams);
 
     fetcher.submit(formattedParams, {
-      method: EFormMethods.Patch,
+      method: EFormMethods.Put,
       action: createPath({
         route: ERoutes.AttributeEdit,
         params: { alias: attribute.alias },
@@ -139,7 +193,12 @@ export const AttributeEdit: FC<TProps> = ({ attribute }) => {
             onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
+        <div>
+          <Button onClick={handleOpenAddModal}>Добавить новое значение</Button>
+        </div>
         <SelectableTable
+          attribute={attribute}
+          fetcher={fetcherRemix}
           items={attribute.selectable ?? []}
           onChangeSelectableValue={handleChangeSelectableValue}
         />
@@ -149,6 +208,11 @@ export const AttributeEdit: FC<TProps> = ({ attribute }) => {
           </Button>
         </div>
       </Form>
+      <SelectableAddModal
+        isOpen={addModal.isOpen}
+        onClose={handleCloseAddModal}
+        onSubmit={handleSubmitAddModal}
+      />
     </section>
   );
 };
