@@ -26,44 +26,43 @@ export const Catalogs: FC<TProps> = ({ catalogs }) => {
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
   const defaultSearch: string = !isNull(search) ? search : "";
-  const [filter, setFilter] = useState<TParams>({});
   const [isSearchActive, setIsSearchActive] = useState(false);
-  const [pagination, setPagination] = useState({
+  const [filter, setFilter] = useState<TParams>({
     page: Number(searchParams.get("page")) || DEFAULT_PAGE,
     size: Number(searchParams.get("size")) || DEFAULT_PAGE_SIZE,
   });
 
   const getFormData = useCallback(() => {
     const formData = new FormData();
-    formData.append("page", pagination.page.toString());
-    formData.append("size", pagination.size.toString());
+    formData.append("page", filter.page.toString());
+    formData.append("size", filter.size.toString());
     return formData;
-  }, [pagination]);
+  }, [filter]);
 
   useEffect(() => {
     history?.push("?" + new URLSearchParams(getFormData() as any).toString());
     submit(getFormData());
-  }, [pagination]);
+  }, [filter]);
 
   const handleChangePage = useCallback(
     ({ selected }: { selected: number }) => {
-      setPagination((prevState) => ({
+      setFilter((prevState) => ({
         ...prevState,
         page: selected + 1,
       }));
     },
-    [setPagination],
+    [setFilter],
   );
 
   const handleChangePageSize = useCallback(
     (pageSize: number) => {
-      setPagination((prevState) => ({
+      setFilter((prevState) => ({
         ...prevState,
         page: DEFAULT_PAGE,
         size: pageSize,
       }));
     },
-    [setPagination],
+    [setFilter],
   );
 
   const handleSearchBlur = () => {

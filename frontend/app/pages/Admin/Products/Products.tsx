@@ -1,77 +1,63 @@
-import { FormEvent, KeyboardEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useState } from "react";
 import type { FC } from "react";
-import { useFetcher, useNavigate, useSearchParams, useSubmit } from "@remix-run/react";
-import { createBrowserHistory } from "history";
+import { useNavigate, useSearchParams } from "@remix-run/react";
 import debounce from "lodash/debounce";
+import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
 import { SearchingPanel } from "~/components/search";
 import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
-import { ERoutes } from "~/enums";
 import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import { ProductsTable } from "~/pages/Admin/Products/ProductsTable";
 import { TProducts } from "~/shared/api/products";
-import { EFormMethods } from "~/shared/form";
-import { TParams } from "~/types";
 import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
 import styles from "./Products.module.css";
+import { TParams } from "~/types";
+import isEmpty from "lodash/isEmpty";
 
 type TProps = {
   products: TProducts;
 };
 
 export const Products: FC<TProps> = ({ products }) => {
-  const fetcher = useFetcher();
   const navigate = useNavigate();
-  const submit = useSubmit();
-  const history = typeof document !== "undefined" ? createBrowserHistory() : null;
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
   const defaultSearch: string = !isNull(search) ? search : "";
-  const [filter, setFilter] = useState<TParams>({});
   const [isSearchActive, setIsSearchActive] = useState(false);
-  const [pagination, setPagination] = useState({
+  const [filter, setFilter] = useState<TParams>({
     page: Number(searchParams.get("page")) || DEFAULT_PAGE,
     size: Number(searchParams.get("size")) || DEFAULT_PAGE_SIZE,
+    search: searchParams.get("search") || "",
   });
 
-  const getFormData = useCallback(() => {
-    const formData = new FormData();
+  const page = !isNil(products.currentPage)
+    ? products.currentPage.toString()
+    : DEFAULT_PAGE_SIZE.toString();
+  const size = !isNil(products.pageSize)
+    ? products.pageSize.toString()
+    : DEFAULT_PAGE_SIZE.toString();
 
-    // formData.append("sort", sorting);
-    formData.append("page", pagination.page.toString());
-    formData.append("size", pagination.size.toString());
+  const handleChangePage = ({ selected }: { selected: number }) => {
+    if (isEmpty(defaultSearch)) {
+      setSearchParams({ page: (selected + 1).toString(), size });
+    } else {
+      setSearchParams({ page: (selected + 1).toString(), size, search: defaultSearch });
+    }
+  };
 
-    Object.entries(filter).forEach(([group, values]) => {
-      values.forEach((value: string) => formData.append(group, value));
-    });
-
-    return formData;
-  }, [pagination]);
-
-  useEffect(() => {
-    const query = "?" + new URLSearchParams(getFormData() as any).toString();
-    navigate(query);
-  }, [pagination]);
-
-  const handleChangePage = useCallback(
-    ({ selected }: { selected: number }) => {
-      setPagination((prevState) => ({
-        ...prevState,
-        page: selected + 1,
-      }));
-    },
-    [setPagination],
-  );
-
-  const handleChangePageSize = useCallback(
+  const handleChangeSize = useCallback(
     (pageSize: number) => {
-      setPagination((prevState) => ({
-        ...prevState,
-        page: DEFAULT_PAGE,
-        size: pageSize,
-      }));
+      if (isEmpty(defaultSearch)) {
+        setSearchParams({ page: DEFAULT_PAGE.toString(), size: pageSize.toString() });
+      } else {
+        setSearchParams({
+          page: DEFAULT_PAGE.toString(),
+          size: pageSize.toString(),
+          search: defaultSearch,
+        });
+      }
     },
-    [setPagination],
+    [defaultSearch],
   );
 
   const handleSearchBlur = () => {
@@ -80,13 +66,6 @@ export const Products: FC<TProps> = ({ products }) => {
 
   const handleSearchFocus = () => {
     setIsSearchActive(true);
-    fetcher.submit(
-      { search: "" },
-      {
-        method: EFormMethods.Get,
-        action: ERoutes.AdminProducts,
-      },
-    );
   };
 
   const handleSearchKeyDown = (event: KeyboardEvent) => {
@@ -96,18 +75,26 @@ export const Products: FC<TProps> = ({ products }) => {
   };
 
   const debouncedFetcher = useCallback(
-    debounce((query) => {
-      fetcher.submit(query, {
-        method: EFormMethods.Get,
-        action: ERoutes.AdminProducts,
-      });
+    debounce((query: string) => {
+      if (isEmpty(query)) {
+        setSearchParams({
+          page: DEFAULT_PAGE.toString(),
+          size,
+        });
+      } else {
+        setSearchParams({
+          page: DEFAULT_PAGE.toString(),
+          size,
+          search: query,
+        });
+      }
     }, DEBOUNCE_TIMEOUT),
-    [],
+    [searchParams],
   );
 
-  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    debouncedFetcher(event.currentTarget);
+    debouncedFetcher(event.target.value);
   };
 
   return (
@@ -135,7 +122,7 @@ export const Products: FC<TProps> = ({ products }) => {
       <ProductsTable
         products={products}
         onChangePage={handleChangePage}
-        onChangePageSize={handleChangePageSize}
+        onChangePageSize={handleChangeSize}
       />
     </section>
   );
