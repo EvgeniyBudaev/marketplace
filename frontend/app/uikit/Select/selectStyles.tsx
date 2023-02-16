@@ -1,10 +1,10 @@
 import { GroupBase, StylesConfig } from "react-select";
 import { VARIANTS } from "~/uikit";
-import type { ISelectOption, TSelectVariants } from "~/uikit";
+import type { TSelectOption, TSelectVariants } from "~/uikit";
 
 export const selectStyles = (
   variant: TSelectVariants = "primary",
-): StylesConfig<ISelectOption, false, GroupBase<ISelectOption>> | undefined => {
+): StylesConfig<TSelectOption, false, GroupBase<TSelectOption>> | undefined => {
   const style = VARIANTS[variant];
 
   return {
@@ -27,6 +27,16 @@ export const selectStyles = (
       cursor: style.option.cursor,
       ":active": style.option[":active"],
       ":hover": style.option[":hover"],
+    }),
+    menu: (provided) => ({
+      ...provided,
+      zIndex: style.menu.zIndex,
+    }),
+    menuList: (provided) => ({
+      ...provided,
+    }),
+    menuPortal: (provided) => ({
+      ...provided,
     }),
   };
 };

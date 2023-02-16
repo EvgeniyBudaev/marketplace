@@ -7,8 +7,11 @@ const attributeItemSchema = z.object({
 });
 
 export const productsItemSchema = z.object({
+  id: z.number(),
   name: z.string(),
   alias: z.string(),
+  modifyDate: z.string(),
+  createdAt: z.string(),
 });
 
 export const productsSchema = paginationSchema.extend({

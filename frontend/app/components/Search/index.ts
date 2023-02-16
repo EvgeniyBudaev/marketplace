@@ -1,1 +1,2 @@
-export * from "./Search";
+export * from "./SearchGlobal";
+export * from "./SearchingPanel";

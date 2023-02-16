@@ -1,3 +1,8 @@
+export type TSelectOption = {
+  value: string;
+  label: string;
+};
+
 export type TSelectVariants = "primary" | "secondary";
 
 export type TSelectVariantStyle = {
@@ -16,6 +21,7 @@ export type TSelectVariantStyle = {
     borderRadius?: string;
     color?: string;
     cursor?: string;
+    zIndex?: string;
     ":active"?: {
       backgroundColor?: string;
     };
@@ -25,4 +31,9 @@ export type TSelectVariantStyle = {
       transition?: string;
     };
   };
+  menu: {
+    zIndex?: number;
+  };
+  menuList: {};
+  menuPortal: {};
 };

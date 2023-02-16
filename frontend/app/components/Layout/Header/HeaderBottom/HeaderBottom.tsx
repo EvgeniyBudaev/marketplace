@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import clsx from "clsx";
-import { NavLink, Search } from "~/components";
+import { NavLink, SearchGlobal } from "~/components";
 import { TRANSITION } from "~/constants";
 import { Button, ETypographyVariant, Hamburger, Spacer, Typography } from "~/uikit";
 import styles from "./HeaderBottom.module.css";
@@ -35,7 +35,10 @@ export const HeaderBottom: FC<TProps> = ({ className, isCatalogOpen, onCatalogTo
                 </Button>
               </div>
               <Spacer />
-              <Search className="HeaderBottom-SearchControlsDesktop" transition={TRANSITION} />
+              <SearchGlobal
+                className="HeaderBottom-SearchControlsDesktop"
+                transition={TRANSITION}
+              />
               <Spacer />
               <div className="HeaderBottom-InfoRight">
                 <NavLink href={"/about"} activeClassName="HeaderBottom-Text__isActive">
@@ -59,7 +62,7 @@ export const HeaderBottom: FC<TProps> = ({ className, isCatalogOpen, onCatalogTo
             </div>
           </div>
         </div>
-        <Search className="HeaderBottom-SearchControlsMobile" transition={TRANSITION} />
+        <SearchGlobal className="HeaderBottom-SearchControlsMobile" transition={TRANSITION} />
       </div>
     </div>
   );

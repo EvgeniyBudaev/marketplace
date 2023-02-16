@@ -1,0 +1,25 @@
+.TableHeader-THead {
+  background-color: rgb(248, 250, 252);
+}
+.TableHeader-TH {
+  padding: 20px;
+  text-align: start;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+.TableHeader-THInner {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.TableHeader-THText {
+  display: inline-block;
+  color: rgb(100, 116, 139);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.TableHeader-SortingIcon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/*# sourceMappingURL=TableHeader.module.css.map */

@@ -4,6 +4,11 @@
   align-items: center;
   margin-bottom: 30px;
 }
+.Catalogs-HeaderControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .Catalogs-Column {
   width: 50px;
   height: 300px;
@@ -11,6 +16,9 @@
   justify-content: center;
   border: 1px solid #000;
   padding: 8px;
+}
+.Catalogs-SearchingPanel {
+  margin-right: 16px;
 }
 
 /*# sourceMappingURL=Catalogs.module.css.map */

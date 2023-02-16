@@ -1,0 +1,69 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.SearchGlobalListItem {
+  margin: 3px;
+  border-radius: 4px;
+  min-height: 44px;
+}
+.SearchGlobalListItem-Link {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+}
+.SearchGlobalListItem-Link__active {
+  background-color: rgb(223, 213, 195);
+  color: rgb(51, 51, 51);
+}
+.SearchGlobalListItem-Images {
+  margin-right: 10px;
+  height: 28px;
+}
+.SearchGlobalListItem-Title {
+  margin-right: 10px;
+  color: rgb(51, 51, 51);
+}
+.SearchGlobalListItem-Price {
+  color: rgb(142, 142, 147);
+  white-space: nowrap;
+}
+.SearchGlobalListItem-ByCatalog {
+  border-bottom: 1px solid rgb(228, 228, 228);
+}
+
+.theme-dark .SearchGlobalListItem-Link__active span.text-dark {
+  color: rgb(51, 51, 51);
+}
+
+/*# sourceMappingURL=SearchGlobalListItem.module.css.map */

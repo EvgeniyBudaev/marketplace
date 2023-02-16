@@ -1,0 +1,54 @@
+@import "component";
+
+.SearchGlobalListItem {
+  margin: 3px;
+  border-radius: 4px;
+  min-height: 44px;
+
+  &-Link {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+
+    &__active {
+      background-color: $color-light-beige;
+      color: $color-text;
+    }
+  }
+
+  &-Images {
+    margin-right: 10px;
+    height: 28px;
+  }
+
+  &-Title {
+    margin-right: 10px;
+    color: $color-text;
+    //overflow: hidden;
+    //white-space: nowrap;
+    //text-overflow: ellipsis;
+  }
+
+  &-Price {
+    color: $color-suit-gray;
+    white-space: nowrap;
+  }
+
+  &-ByCatalog {
+    border-bottom: 1px solid $color-light-gray;
+  }
+}
+
+.theme-dark {
+  & .SearchGlobalListItem {
+    $this: &;
+
+    &-Link {
+      &__active {
+        span.text-dark {
+          color: $color-text;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.SearchingPanel {
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 200px;
+  width: 100%;
+  background-color: transparent;
+}
+.SearchingPanel-Form {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+.SearchingPanel-InputWrapper {
+  padding: 0;
+  width: 100%;
+  height: 43px;
+  background-color: transparent;
+  border-bottom: 1px solid rgb(228, 228, 228);
+  border-left: 1px solid rgb(228, 228, 228);
+  border-right: 1px solid rgb(228, 228, 228);
+}
+.SearchingPanel-Input {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.25;
+  margin: 0;
+  padding: 0 50px 0 16px;
+  width: 100%;
+  height: 42px;
+  border: none;
+  background-color: rgb(255, 255, 255);
+  outline: transparent;
+}
+.SearchingPanel-Input::placeholder {
+  background-color: transparent;
+  color: rgb(51, 51, 51);
+}
+.SearchingPanel-Icon {
+  position: absolute;
+  right: 15px;
+  width: 24px;
+  height: 24px;
+}
+.SearchingPanel__active {
+  width: 100%;
+}
+.SearchingPanel__active .SearchingPanel-Input {
+  background-color: transparent;
+}
+
+/*# sourceMappingURL=SearchingPanel.module.css.map */

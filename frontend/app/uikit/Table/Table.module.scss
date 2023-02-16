@@ -33,30 +33,6 @@
     }
   }
 
-  &-THead {
-    //@include roboto-16-bold;
-    background-color: rgba(248, 250, 252, 1);
-  }
-
-  &-TH {
-    padding: 20px;
-    text-align: start;
-    border-bottom: 1px solid rgba(224, 224, 224, 1);
-
-    &Inner {
-      display: inline-flex;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    &Text {
-      display: inline-block;
-      color: rgba(100, 116, 139, 1);
-      text-transform: uppercase;
-      font-weight: 500;
-    }
-  }
-
   &-TD {
     padding: 20px;
     border-bottom: 1px solid rgba(224, 224, 224, 1);
@@ -71,10 +47,5 @@
         background-color: rgba(0, 0, 0, 0.04);
       }
     }
-  }
-
-  &-SortingIcon {
-    display: inline-flex;
-    align-items: center;
   }
 }

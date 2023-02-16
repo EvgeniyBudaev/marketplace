@@ -3,6 +3,8 @@ export enum ERoutes {
   Login = "/auth/login",
   Signup = "/auth/signup",
 
+  AdminProducts = "/admin/products",
+
   Attributes = "/admin/attributes",
   AttributeAdd = "/admin/attributes/add",
   AttributeEdit = "/admin/attributes/:alias/edit",
