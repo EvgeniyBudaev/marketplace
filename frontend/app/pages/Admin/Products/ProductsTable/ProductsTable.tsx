@@ -2,15 +2,17 @@ import { forwardRef, memo } from "react";
 import { useGetColumns } from "~/pages/Admin/Products/ProductsTable/hooks";
 import { TProducts, TProduct } from "~/shared/api/products";
 import { createColumnHelper, Table as UiTable } from "~/uikit";
+import type { TTableSortingProps } from "~/uikit";
 
 type TProps = {
+  fieldsSortState: TTableSortingProps;
   products: TProducts;
   onChangePage: ({ selected }: { selected: number }) => void;
   onChangePageSize: (pageSize: number) => void;
 };
 
 const TableComponent = forwardRef<HTMLDivElement, TProps>(
-  ({ products, onChangePage, onChangePageSize }, ref) => {
+  ({ fieldsSortState, products, onChangePage, onChangePageSize }, ref) => {
     const columnHelper = createColumnHelper<TProduct>();
     const columns = useGetColumns(columnHelper);
 
@@ -27,6 +29,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}
+          sorting={fieldsSortState}
           totalItems={countOfResult}
           totalItemsTitle={"Всего продуктов"}
         />

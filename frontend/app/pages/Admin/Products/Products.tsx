@@ -1,7 +1,8 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useCallback, useState } from "react";
 import type { FC } from "react";
-import { useNavigate, useSearchParams } from "@remix-run/react";
+import { useSearchParams } from "@remix-run/react";
 import debounce from "lodash/debounce";
+import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
 import { SearchingPanel } from "~/components/search";
@@ -11,24 +12,23 @@ import { ProductsTable } from "~/pages/Admin/Products/ProductsTable";
 import { TProducts } from "~/shared/api/products";
 import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
 import styles from "./Products.module.css";
-import { TParams } from "~/types";
-import isEmpty from "lodash/isEmpty";
+import { ETableColumns } from "~/pages/Admin/Products/ProductsTable/enums";
+
+type SearchParams = {
+  page: string;
+  size: string;
+  search?: string;
+};
 
 type TProps = {
   products: TProducts;
 };
 
 export const Products: FC<TProps> = ({ products }) => {
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
   const defaultSearch: string = !isNull(search) ? search : "";
   const [isSearchActive, setIsSearchActive] = useState(false);
-  const [filter, setFilter] = useState<TParams>({
-    page: Number(searchParams.get("page")) || DEFAULT_PAGE,
-    size: Number(searchParams.get("size")) || DEFAULT_PAGE_SIZE,
-    search: searchParams.get("search") || "",
-  });
 
   const page = !isNil(products.currentPage)
     ? products.currentPage.toString()
@@ -37,25 +37,36 @@ export const Products: FC<TProps> = ({ products }) => {
     ? products.pageSize.toString()
     : DEFAULT_PAGE_SIZE.toString();
 
+  const getSearchParams = (params: Partial<SearchParams>) => {
+    const defaultSearchParams: SearchParams = {
+      page,
+      size,
+      search: isEmpty(defaultSearch) ? undefined : defaultSearch,
+    };
+    const mergedParams = {
+      ...defaultSearchParams,
+      ...params,
+    };
+    return Object.fromEntries(
+      Object.entries(mergedParams).filter(([_key, value]) => !isEmpty(value)),
+    );
+  };
+
   const handleChangePage = ({ selected }: { selected: number }) => {
-    if (isEmpty(defaultSearch)) {
-      setSearchParams({ page: (selected + 1).toString(), size });
-    } else {
-      setSearchParams({ page: (selected + 1).toString(), size, search: defaultSearch });
-    }
+    setSearchParams(
+      getSearchParams({
+        page: (selected + 1).toString(),
+      }),
+    );
   };
 
   const handleChangeSize = useCallback(
     (pageSize: number) => {
-      if (isEmpty(defaultSearch)) {
-        setSearchParams({ page: DEFAULT_PAGE.toString(), size: pageSize.toString() });
-      } else {
-        setSearchParams({
-          page: DEFAULT_PAGE.toString(),
+      setSearchParams(
+        getSearchParams({
           size: pageSize.toString(),
-          search: defaultSearch,
-        });
-      }
+        }),
+      );
     },
     [defaultSearch],
   );
@@ -74,20 +85,18 @@ export const Products: FC<TProps> = ({ products }) => {
     }
   };
 
+  const handleSortTableByProperty = (data: any) => {
+    console.log("sort data: ", data);
+  };
+
   const debouncedFetcher = useCallback(
     debounce((query: string) => {
-      if (isEmpty(query)) {
-        setSearchParams({
-          page: DEFAULT_PAGE.toString(),
-          size,
-        });
-      } else {
-        setSearchParams({
-          page: DEFAULT_PAGE.toString(),
-          size,
+      setSearchParams(
+        getSearchParams({
           search: query,
-        });
-      }
+          page: DEFAULT_PAGE.toString(),
+        }),
+      );
     }, DEBOUNCE_TIMEOUT),
     [searchParams],
   );
@@ -120,6 +129,11 @@ export const Products: FC<TProps> = ({ products }) => {
         </div>
       </div>
       <ProductsTable
+        fieldsSortState={{
+          columns: [ETableColumns.Name],
+          multiple: true,
+          onChangeSorting: handleSortTableByProperty,
+        }}
         products={products}
         onChangePage={handleChangePage}
         onChangePageSize={handleChangeSize}
