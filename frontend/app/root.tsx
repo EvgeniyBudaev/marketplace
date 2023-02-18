@@ -22,7 +22,7 @@ import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
 import { ETheme } from "~/enums";
-import { useInitLanguage } from "~/hooks";
+import { useInitDayjs, useInitLanguage } from "~/hooks";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
 import { createCartSession, getCart, getCartSession, TCart } from "~/shared/api/cart";
@@ -150,6 +150,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
   }
   const { i18n } = useTranslation();
   useInitLanguage();
+  useInitDayjs();
   const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
 
   return (

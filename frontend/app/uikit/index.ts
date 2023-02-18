@@ -3,6 +3,7 @@ export * from "./Avatar";
 export * from "./Button";
 export * from "./Checkbox";
 export * from "./Colors";
+export * from "./DateTime";
 export * from "./DropDown";
 export * from "./FadeIn";
 export * from "./Hamburger";
@@ -24,6 +25,7 @@ export * from "./Typography";
 import { accordionLinks } from "~/uikit/Accordion";
 import { avatarLinks } from "~/uikit/Avatar";
 import { buttonLinks } from "~/uikit/Button/Button";
+import { dateTimeLinks } from "~/uikit/DateTime";
 import { fadeInLinks } from "~/uikit/FadeIn";
 import { iconButtonLinks } from "~/uikit/Button/IconButton";
 import { linkButtonLinks } from "~/uikit/Button/LinkButton";
@@ -48,6 +50,7 @@ export const links = () => {
     ...accordionLinks(),
     ...avatarLinks(),
     ...buttonLinks(),
+    ...dateTimeLinks(),
     ...fadeInLinks(),
     ...iconButtonLinks(),
     ...linkButtonLinks(),

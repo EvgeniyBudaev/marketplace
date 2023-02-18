@@ -9,15 +9,18 @@ import { SearchingPanel } from "~/components/search";
 import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
 import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import { ProductsTable } from "~/pages/Admin/Products/ProductsTable";
-import { TProducts } from "~/shared/api/products";
-import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
-import styles from "./Products.module.css";
 import { ETableColumns } from "~/pages/Admin/Products/ProductsTable/enums";
+import { TProducts } from "~/shared/api/products";
+import { mapTableSortingToDto } from "~/shared/api/sorting";
+import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
+import type { TTableSortingColumnState } from "~/uikit/Table/types";
+import styles from "./Products.module.css";
 
 type SearchParams = {
   page: string;
   size: string;
   search?: string;
+  sort?: string;
 };
 
 type TProps = {
@@ -27,7 +30,9 @@ type TProps = {
 export const Products: FC<TProps> = ({ products }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
+  const sort = searchParams.get("sort");
   const defaultSearch: string = !isNull(search) ? search : "";
+  const defaultSort: string = !isNull(sort) ? sort : "";
   const [isSearchActive, setIsSearchActive] = useState(false);
 
   const page = !isNil(products.currentPage)
@@ -42,6 +47,7 @@ export const Products: FC<TProps> = ({ products }) => {
       page,
       size,
       search: isEmpty(defaultSearch) ? undefined : defaultSearch,
+      sort: isEmpty(defaultSort) ? undefined : defaultSort,
     };
     const mergedParams = {
       ...defaultSearchParams,
@@ -85,8 +91,16 @@ export const Products: FC<TProps> = ({ products }) => {
     }
   };
 
-  const handleSortTableByProperty = (data: any) => {
-    console.log("sort data: ", data);
+  const handleSortTableByProperty = (
+    params?: TTableSortingColumnState | TTableSortingColumnState[],
+  ) => {
+    const formattedParams = mapTableSortingToDto(params);
+    setSearchParams(
+      getSearchParams({
+        sort: formattedParams.sort,
+        page: DEFAULT_PAGE.toString(),
+      }),
+    );
   };
 
   const debouncedFetcher = useCallback(
@@ -130,7 +144,12 @@ export const Products: FC<TProps> = ({ products }) => {
       </div>
       <ProductsTable
         fieldsSortState={{
-          columns: [ETableColumns.Name],
+          columns: [
+            ETableColumns.Alias,
+            ETableColumns.CreatedAt,
+            ETableColumns.ModifyDate,
+            ETableColumns.Name,
+          ],
           multiple: true,
           onChangeSorting: handleSortTableByProperty,
         }}

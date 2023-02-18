@@ -61,16 +61,5 @@
 .Table-HeaderCount {
   color: rgb(148, 163, 183);
 }
-.Table-TD {
-  padding: 20px;
-  border-bottom: 1px solid rgb(224, 224, 224);
-}
-.Table-TBody .Table-TR {
-  background-color: transparent;
-  transition: background-color 0.15s;
-}
-.Table-TBody .Table-TR:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
 
 /*# sourceMappingURL=Table.module.css.map */
