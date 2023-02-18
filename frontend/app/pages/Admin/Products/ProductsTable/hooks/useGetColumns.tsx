@@ -1,13 +1,16 @@
 import { useMemo } from "react";
-import { ColumnDef, ColumnHelper } from "@tanstack/react-table";
-import { ETableColumns } from "~/pages/Admin/Products/ProductsTable/enums";
-import { TProduct } from "~/shared/api/products";
+import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { TableHeader } from "~/components";
-import { DateTime } from "~/uikit";
+import { ETableColumns } from "~/pages/Admin/Products/ProductsTable/enums";
+import type { TProduct } from "~/shared/api/products";
+import { DateTime, IconButton } from "~/uikit";
 
-type TUseGetColumns = (columnHelper: ColumnHelper<TProduct>) => ColumnDef<TProduct>[];
+type TUseGetColumns = (
+  columnHelper: ColumnHelper<TProduct>,
+  onDelete: (alias: string) => void,
+) => ColumnDef<TProduct>[];
 
-export const useGetColumns: TUseGetColumns = (columnHelper) => {
+export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
   const columns = useMemo(
     () =>
       [
@@ -28,7 +31,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => <TableHeader>Дата добавления</TableHeader>,
           cell: (data) => {
             const value = data.getValue();
-            return <DateTime value={value} isUtc={false} />;
+            return <DateTime value={value} />;
           },
           size: 192,
         }),
@@ -38,12 +41,20 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           header: () => <TableHeader>Дата изменения</TableHeader>,
           cell: (data) => {
             const value = data.getValue();
-            return <DateTime value={value} isUtc={false} />;
+            return <DateTime value={value} />;
           },
           size: 192,
         }),
+
+        columnHelper.display({
+          id: "actions",
+          header: () => "Действия",
+          cell: ({ row }) => (
+            <IconButton typeIcon={"Trash"} onClick={() => onDelete(row.original.alias)} />
+          ),
+        }),
       ].filter(Boolean) as ColumnDef<TProduct>[],
-    [columnHelper],
+    [columnHelper, onDelete],
   );
 
   return columns;

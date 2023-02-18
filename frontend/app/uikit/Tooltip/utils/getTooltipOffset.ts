@@ -1,4 +1,4 @@
-import { TPlacement } from "~/uikit/Tooltip/types";
+import type { TPlacement } from "~/uikit/Tooltip/types";
 
 type TGetTooltipOffsetParams = {
   placement?: TPlacement;

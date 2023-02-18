@@ -1,11 +1,13 @@
 import { forwardRef, memo, useCallback, useState } from "react";
+import type { FetcherWithComponents } from "@remix-run/react";
 import { ERoutes } from "~/enums";
-import { FetcherWithComponents } from "@remix-run/react";
-import { TDeleteModalState, useGetColumns } from "~/pages/Admin/Attributes/SelectableTable";
+import type { TDeleteModalState } from "~/pages/Admin/Attributes/SelectableTable";
+import { useGetColumns } from "~/pages/Admin/Attributes/SelectableTable";
 import { SelectableDeleteModal } from "~/pages/Admin/Attributes/SelectableDeleteModal";
-import { ESelectableValueAction, TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
-import { createColumnHelper, Table as UiTable } from "~/uikit";
+import type { TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
+import { ESelectableValueAction } from "~/shared/api/attributes";
 import { EFormMethods } from "~/shared/form";
+import { createColumnHelper, Table as UiTable } from "~/uikit";
 import { createPath } from "~/utils";
 
 type TProps = {

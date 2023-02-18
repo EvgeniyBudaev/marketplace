@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import type { ChangeEvent, FC } from "react";
 import { EFormFields } from "~/pages/Admin/Attributes/SelectableTable";
 import { Button, Input, Modal } from "~/uikit";

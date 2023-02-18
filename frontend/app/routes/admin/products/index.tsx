@@ -1,10 +1,34 @@
-import { inputFromSearch } from "remix-domains";
-import { json, LoaderArgs } from "@remix-run/node";
+import { inputFromForm, inputFromSearch } from "remix-domains";
+import { json } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { badRequest } from "remix-utils";
 import { Products, productsLinks } from "~/pages/Admin/Products";
-import { getProducts } from "~/shared/api/products";
+import { deleteProduct, EProductAction, getProducts } from "~/shared/api/products";
 import { mapParamsToDto } from "~/shared/api/products/utils";
-import { internalError } from "~/utils";
+import { getResponseError } from "~/shared/domain";
+
+export const action = async (args: ActionArgs) => {
+  const { request } = args;
+  const { _method, alias } = await inputFromForm(request);
+
+  try {
+    if (_method === EProductAction.DeleteProduct) {
+      const response = await deleteProduct(request, { alias });
+      if (response.success) {
+        return json({
+          success: true,
+        });
+      }
+      return badRequest({ success: false });
+    }
+    return badRequest({ success: false });
+  } catch (error) {
+    const errorResponse = error as Response;
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+    return badRequest({ success: false, formError, fieldErrors });
+  }
+};
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
@@ -14,16 +38,21 @@ export const loader = async (args: LoaderArgs) => {
   const formattedParams = mapParamsToDto({
     ...formValues,
   });
-  console.log("[products formattedParams: ] ", formattedParams);
-  const response = await getProducts(request, { params: formattedParams });
 
-  if (!response.success) {
-    throw internalError();
+  try {
+    const response = await getProducts(request, { params: formattedParams });
+    if (response.success) {
+      return json({
+        products: response.data,
+        success: true,
+      });
+    }
+    return badRequest({ success: false });
+  } catch (error) {
+    const errorResponse = error as Response;
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+    return badRequest({ success: false, formError, fieldErrors });
   }
-  console.log("response.data: ", response.data);
-  return json({
-    products: response.data,
-  });
 };
 
 export default function ProductsRoute() {

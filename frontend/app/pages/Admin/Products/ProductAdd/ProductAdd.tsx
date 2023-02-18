@@ -1,15 +1,15 @@
-import type { FC } from "react";
+import { useState } from "react";
+import type { FC, ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
 import { EFormFields } from "~/pages/Admin/Products/ProductAdd/enums";
 import { formSchema } from "~/pages/Admin/Products/ProductAdd/schemas";
-import { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd/types";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd/types";
 import { Checkbox, EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { Button, ETypographyVariant, Typography } from "~/uikit";
 import styles from "./ProductAdd.module.css";
-import { TParams } from "~/types";
+import type { TParams } from "~/types";
 import { createPath } from "~/utils";
-import { ChangeEvent, useState } from "react";
 
 export const ProductAdd: FC = () => {
   const idCheckbox = "checkbox";

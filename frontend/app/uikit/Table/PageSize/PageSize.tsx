@@ -1,7 +1,8 @@
 import { memo } from "react";
 import type { FC } from "react";
 import isNull from "lodash/isNull";
-import { Select, TSelectOption } from "~/uikit";
+import { Select } from "~/uikit";
+import type { TSelectOption } from "~/uikit";
 import { getPageSizeOptions } from "~/uikit/Table/PageSize";
 
 type TProps = {

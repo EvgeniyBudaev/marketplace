@@ -1,4 +1,4 @@
-import { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { Admin, adminLinks } from "~/pages/Admin";
 
 export const loader = async (args: LoaderArgs) => {

@@ -1,6 +1,6 @@
 import { forwardRef, memo } from "react";
 import { useGetColumns } from "~/pages/Admin/Catalogs/CatalogsTable/hooks";
-import { TCatalogs, TCatalog } from "~/shared/api/catalogs";
+import type { TCatalogs, TCatalog } from "~/shared/api/catalogs";
 import { createColumnHelper, Table as UiTable } from "~/uikit";
 
 type TProps = {

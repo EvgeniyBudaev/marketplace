@@ -1,7 +1,7 @@
 import { memo, useRef } from "react";
 import type { FC, MouseEvent, DOMAttributes } from "react";
 import clsx from "clsx";
-import { TButton } from "~/uikit";
+import type { TButton } from "~/uikit";
 import styles from "./Button.module.css";
 
 export interface IButtonProps extends DOMAttributes<HTMLButtonElement> {

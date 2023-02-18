@@ -1,10 +1,11 @@
 import { forwardRef, memo, useCallback, useState } from "react";
-import { FetcherWithComponents } from "@remix-run/react";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { ModalDelete } from "~/components/modal";
 import { ERoutes } from "~/enums";
-import { AttributeDeleteModal } from "~/pages/Admin/Attributes/AttributeDeleteModal";
 import { useGetColumns } from "~/pages/Admin/Attributes/AttributesTable";
 import type { TDeleteModalState } from "~/pages/Admin/Attributes/AttributesTable";
-import { TAttributes, TAttribute, EAttributeAction } from "~/shared/api/attributes";
+import { EAttributeAction } from "~/shared/api/attributes";
+import type { TAttributes, TAttribute } from "~/shared/api/attributes";
 import { EFormMethods } from "~/shared/form";
 import { createColumnHelper, Table as UiTable } from "~/uikit";
 import { createPath } from "~/utils";
@@ -19,7 +20,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
   ({ attributes, fetcher, onChangePage }, ref) => {
     const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({ isOpen: false });
 
-    const handleClickDeleteAttribute = useCallback(
+    const handleDeleteAttribute = useCallback(
       (alias: string) => {
         setDeleteModal({
           isOpen: true,
@@ -30,9 +31,9 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     );
 
     const columnHelper = createColumnHelper<TAttribute>();
-    const columns = useGetColumns(columnHelper, handleClickDeleteAttribute);
+    const columns = useGetColumns(columnHelper, handleDeleteAttribute);
 
-    const { content, countOfPage, countOfResult, currentPage, hasPrevious, hasNext } = attributes;
+    const { content, countOfPage, countOfResult, currentPage } = attributes;
 
     const handleCloseDeleteModal = () => {
       setDeleteModal((prev) => ({ ...prev, isOpen: false }));
@@ -67,7 +68,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           totalItems={countOfResult}
           totalItemsTitle={"Всего атрибутов"}
         />
-        <AttributeDeleteModal
+        <ModalDelete
           isOpen={deleteModal.isOpen}
           onClose={handleCloseDeleteModal}
           onSubmit={handleSubmitDeleteModal}

@@ -1,5 +1,6 @@
 import { inputFromSearch } from "remix-domains";
-import { json, LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Catalogs, catalogsLinks } from "~/pages/Admin/Catalogs";
 import { getCatalogs } from "~/shared/api/catalogs";

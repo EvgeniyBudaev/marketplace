@@ -1,12 +1,12 @@
-import { FormEvent, KeyboardEvent, useCallback, useEffect, useState } from "react";
-import type { FC } from "react";
+import { useCallback, useEffect, useState } from "react";
+import type { FC, FormEvent, KeyboardEvent } from "react";
 import { useFetcher, useSearchParams, useSubmit } from "@remix-run/react";
 import { createBrowserHistory } from "history";
 import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
 import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
 import { CatalogsTable } from "~/pages/Admin/Catalogs/CatalogsTable";
-import { TCatalogs } from "~/shared/api/catalogs";
-import { TParams } from "~/types";
+import type { TCatalogs } from "~/shared/api/catalogs";
+import type { TParams } from "~/types";
 import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
 import styles from "./Catalogs.module.css";
 import { SearchingPanel } from "~/components/search";

@@ -1,19 +1,24 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useState } from "react";
-import type { FC } from "react";
-import { useSearchParams } from "@remix-run/react";
+import { useCallback, useEffect, useState } from "react";
+import type { FC, ChangeEvent, KeyboardEvent } from "react";
+import { useFetcher, useSearchParams } from "@remix-run/react";
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
 import { SearchingPanel } from "~/components/search";
 import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
+import {ERoutes} from "~/enums";
 import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
+import type { TDeleteModalState } from "~/pages/Admin/Products/ProductsTable";
 import { ProductsTable } from "~/pages/Admin/Products/ProductsTable";
 import { ETableColumns } from "~/pages/Admin/Products/ProductsTable/enums";
-import { TProducts } from "~/shared/api/products";
+import {EProductAction} from "~/shared/api/products";
+import type { TProducts } from "~/shared/api/products";
 import { mapTableSortingToDto } from "~/shared/api/sorting";
-import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
+import {EFormMethods} from "~/shared/form";
+import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
 import type { TTableSortingColumnState } from "~/uikit/Table/types";
+import {createPath} from "~/utils";
 import styles from "./Products.module.css";
 
 type SearchParams = {
@@ -27,13 +32,16 @@ type TProps = {
   products: TProducts;
 };
 
-export const Products: FC<TProps> = ({ products }) => {
+export const Products: FC<TProps> = (props) => {
+  const fetcher = useFetcher();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
   const sort = searchParams.get("sort");
   const defaultSearch: string = !isNull(search) ? search : "";
   const defaultSort: string = !isNull(sort) ? sort : "";
+  const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({ isOpen: false });
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const products = fetcher.data?.products ?? props.products;
 
   const page = !isNil(products.currentPage)
     ? products.currentPage.toString()
@@ -41,6 +49,29 @@ export const Products: FC<TProps> = ({ products }) => {
   const size = !isNil(products.pageSize)
     ? products.pageSize.toString()
     : DEFAULT_PAGE_SIZE.toString();
+
+  useEffect(() => {
+    if (fetcher.data && !fetcher.data?.success) {
+      notify.error({
+        title: "Ошибка",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetcher.data, fetcher.data?.success]);
+
+  const handleDeleteProduct = useCallback(
+    (alias: string) => {
+      setDeleteModal({
+        isOpen: true,
+        alias,
+      });
+    },
+    [setDeleteModal],
+  );
+
+  const handleCloseDeleteModal = () => {
+    setDeleteModal((prev) => ({ ...prev, isOpen: false }));
+  };
 
   const getSearchParams = (params: Partial<SearchParams>) => {
     const defaultSearchParams: SearchParams = {
@@ -103,6 +134,7 @@ export const Products: FC<TProps> = ({ products }) => {
     );
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetcher = useCallback(
     debounce((query: string) => {
       setSearchParams(
@@ -118,6 +150,23 @@ export const Products: FC<TProps> = ({ products }) => {
   const handleSearchSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     debouncedFetcher(event.target.value);
+  };
+
+  const handleDelete = (alias: string) => {
+    const form = new FormData();
+    form.append("alias", `${alias}`);
+    form.append("_method", EProductAction.DeleteProduct);
+    fetcher.submit(form, {
+      method: EFormMethods.Delete,
+      action: createPath({ route: ERoutes.AdminProducts, withIndex: true }),
+    });
+  };
+
+  const handleDeleteSubmit = () => {
+    if (deleteModal.alias) {
+      handleDelete(deleteModal.alias);
+      handleCloseDeleteModal();
+    }
   };
 
   return (
@@ -143,6 +192,7 @@ export const Products: FC<TProps> = ({ products }) => {
         </div>
       </div>
       <ProductsTable
+        fetcher={fetcher}
         fieldsSortState={{
           columns: [
             ETableColumns.Alias,
@@ -153,9 +203,13 @@ export const Products: FC<TProps> = ({ products }) => {
           multiple: true,
           onChangeSorting: handleSortTableByProperty,
         }}
+        isOpenDeleteModal={deleteModal.isOpen}
         products={products}
         onChangePage={handleChangePage}
         onChangePageSize={handleChangeSize}
+        onCloseModal={handleCloseDeleteModal}
+        onDelete={handleDeleteProduct}
+        onSubmitDelete={handleDeleteSubmit}
       />
     </section>
   );

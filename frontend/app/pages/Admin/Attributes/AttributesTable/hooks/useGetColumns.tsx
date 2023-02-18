@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { ColumnDef, ColumnHelper } from "@tanstack/react-table";
+import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
 import { ERoutes } from "~/enums";
 import { ETableColumns } from "~/pages/Admin/Attributes/AttributesTable/enums";
-import { TAttribute } from "~/shared/api/attributes";
+import type { TAttribute } from "~/shared/api/attributes";
 import { Icon, IconButton } from "~/uikit";
 import { createPath } from "~/utils";
 

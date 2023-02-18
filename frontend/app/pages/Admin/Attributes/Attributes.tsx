@@ -5,8 +5,8 @@ import { createBrowserHistory } from "history";
 import { attributeAddLinks } from "~/pages/Admin/Attributes/AttributeAdd";
 import { attributeEditLinks } from "~/pages/Admin/Attributes/AttributeEdit";
 import { AttributesTable } from "~/pages/Admin/Attributes/AttributesTable/AttributesTable";
-import { TAttributes } from "~/shared/api/attributes";
-import { TParams } from "~/types";
+import type { TAttributes } from "~/shared/api/attributes";
+import type { TParams } from "~/types";
 import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
 import styles from "./Attributes.module.css";
 

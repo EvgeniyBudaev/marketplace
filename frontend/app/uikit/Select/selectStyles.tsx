@@ -1,4 +1,4 @@
-import { GroupBase, StylesConfig } from "react-select";
+import type { GroupBase, StylesConfig } from "react-select";
 import { VARIANTS } from "~/uikit";
 import type { TSelectOption, TSelectVariants } from "~/uikit";
 

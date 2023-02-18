@@ -51,19 +51,16 @@
 .Hamburger-Burger__black {
   background-color: rgb(51, 51, 51);
 }
-.Hamburger-Burger__black::before,
-.Hamburger-Burger__black::after {
+.Hamburger-Burger__black::before, .Hamburger-Burger__black::after {
   background-color: rgb(51, 51, 51);
 }
 .Hamburger-Burger__white {
   background-color: rgb(255, 255, 255);
 }
-.Hamburger-Burger__white::before,
-.Hamburger-Burger__white::after {
+.Hamburger-Burger__white::before, .Hamburger-Burger__white::after {
   background-color: rgb(255, 255, 255);
 }
-.Hamburger-Burger::before,
-.Hamburger-Burger::after {
+.Hamburger-Burger::before, .Hamburger-Burger::after {
   content: "";
   position: absolute;
   left: 0;
@@ -97,8 +94,7 @@
   .Hamburger-Burger {
     width: 16px;
   }
-  .Hamburger-Burger::before,
-  .Hamburger-Burger::after {
+  .Hamburger-Burger::before, .Hamburger-Burger::after {
     width: 16px;
   }
 }

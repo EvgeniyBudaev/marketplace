@@ -1,5 +1,6 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Attributes, attributesLinks } from "~/pages/Admin/Attributes";
 import { deleteAttribute, EAttributeAction, getAttributes } from "~/shared/api/attributes";

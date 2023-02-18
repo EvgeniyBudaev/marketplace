@@ -1,4 +1,4 @@
-import { VirtualElement } from "@popperjs/core";
+import type { VirtualElement } from "@popperjs/core";
 
 export const getVirtualReference = (x: number, y: number): VirtualElement => ({
   getBoundingClientRect() {

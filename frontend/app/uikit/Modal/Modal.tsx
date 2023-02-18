@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { default as ReactModal } from "react-responsive-modal";
 import clsx from "clsx";
-import { Button, Icon } from "~/uikit";
-import type { TButton } from "~/uikit";
+import { Icon } from "~/uikit";
 import styles from "./Modal.module.css";
 
 type IModalSize = "medium";

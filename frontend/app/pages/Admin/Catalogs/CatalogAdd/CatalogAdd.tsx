@@ -1,12 +1,12 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import type { FC } from "react";
+import { useEffect, useState } from "react";
+import type { FC, ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
 import { EFormFields } from "~/pages/Admin/Catalogs/CatalogAdd/enums";
 import { formSchema } from "~/pages/Admin/Catalogs/CatalogAdd/schemas";
-import { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogAdd/types";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogAdd/types";
 import { Checkbox, EFormMethods, Form, Input, useInitForm } from "~/shared/form";
-import { TParams } from "~/types";
+import type { TParams } from "~/types";
 import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./CatalogAdd.module.css";

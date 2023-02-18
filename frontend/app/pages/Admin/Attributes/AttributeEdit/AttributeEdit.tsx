@@ -1,5 +1,5 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import type { FC } from "react";
+import { useEffect, useState } from "react";
+import type { FC, ChangeEvent } from "react";
 import { useFetcher } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes, ETheme } from "~/enums";
@@ -8,20 +8,18 @@ import {
   EFormFields,
   formSchema,
   mapFormDataToDto,
+  useGetTypeOptions,
+} from "~/pages/Admin/Attributes/AttributeEdit";
+import type {
   TAddModalState,
   TForm,
   TOptionsSubmitForm,
-  useGetTypeOptions,
 } from "~/pages/Admin/Attributes/AttributeEdit";
 import { SelectableTable } from "~/pages/Admin/Attributes/SelectableTable";
-import {
-  EAttributeAction,
-  ESelectableValueAction,
-  TAttributeDetail,
-  TSelectableItem,
-} from "~/shared/api/attributes";
+import { EAttributeAction, ESelectableValueAction } from "~/shared/api/attributes";
+import type { TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
-import { TParams } from "~/types";
+import type { TParams } from "~/types";
 import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./AttributeEdit.module.css";

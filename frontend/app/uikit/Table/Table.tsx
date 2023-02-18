@@ -1,10 +1,11 @@
-import { ForwardedRef, forwardRef, ReactElement, useMemo } from "react";
-import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { forwardRef, useMemo } from "react";
+import type { ForwardedRef, ReactElement } from "react";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "~/constants";
 import { NavigationPanel, navigationPanelLinks } from "~/uikit/Table/NavigationPanel";
-import { TTableProps } from "~/uikit/Table/types";
+import type { TTableProps } from "~/uikit/Table/types";
 import { TableHeader, tableHeaderLinks } from "~/uikit/Table/TableHeader";
 import { sortingIconLinks } from "./SortingIcon";
 import styles from "./Table.module.css";
@@ -25,7 +26,6 @@ const TableComponent = <TColumn extends Record<string, any>>(
     onChangePageSize,
     onPageChange,
     onRowSelectionChange,
-    onSort,
     pageSizeOptions,
     rowSelection,
     totalItems,

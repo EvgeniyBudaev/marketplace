@@ -74,3 +74,9 @@ export const productAddParamsSchema = z.object({
 });
 
 export const productAddSchema = z.any();
+
+export const productDeleteParamsSchema = z.object({
+  alias: z.string(),
+});
+
+export const productDeleteSchema = z.any();

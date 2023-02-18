@@ -1,6 +1,5 @@
 import type { FC } from "react";
 import { Button, Modal } from "~/uikit";
-import React from "react";
 
 type TProps = {
   isOpen: boolean;

@@ -1,17 +1,12 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import type { FC } from "react";
+import { useEffect, useState } from "react";
+import type { FC, ChangeEvent, MouseEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes, ETheme } from "~/enums";
 import { useSettings } from "~/hooks";
-import {
-  EFormFields,
-  formSchema,
-  mapFormDataToDto,
-  TForm,
-  TOptionsSubmitForm,
-} from "~/pages/Admin/Attributes/AttributeAdd";
+import { EFormFields, formSchema, mapFormDataToDto } from "~/pages/Admin/Attributes/AttributeAdd";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Attributes/AttributeAdd";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
-import { TParams } from "~/types";
+import type { TParams } from "~/types";
 import { Button, ETypographyVariant, Input as InputUI, notify, Tag, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./AttributeAdd.module.css";

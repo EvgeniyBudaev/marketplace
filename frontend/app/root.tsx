@@ -25,13 +25,10 @@ import { ETheme } from "~/enums";
 import { useInitDayjs, useInitLanguage } from "~/hooks";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
-import { createCartSession, getCart, getCartSession, TCart } from "~/shared/api/cart";
-import {
-  createSettingsSession,
-  getSettings,
-  getSettingsSession,
-  TSettings,
-} from "~/shared/api/settings";
+import type { TCart } from "~/shared/api/cart";
+import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
+import type { TSettings } from "~/shared/api/settings";
+import { createSettingsSession, getSettings, getSettingsSession } from "~/shared/api/settings";
 import { commitCsrfSession, getCsrfSession } from "~/shared/session";
 import { StoreContextProvider, useStore } from "~/shared/store";
 import { links as uikitLinks, ToastContainer } from "~/uikit";
