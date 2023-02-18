@@ -7,18 +7,18 @@ import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
 import { SearchingPanel } from "~/components/search";
 import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
-import {ERoutes} from "~/enums";
+import { ERoutes } from "~/enums";
 import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import type { TDeleteModalState } from "~/pages/Admin/Products/ProductsTable";
 import { ProductsTable } from "~/pages/Admin/Products/ProductsTable";
 import { ETableColumns } from "~/pages/Admin/Products/ProductsTable/enums";
-import {EProductAction} from "~/shared/api/products";
+import { EProductAction } from "~/shared/api/products";
 import type { TProducts } from "~/shared/api/products";
 import { mapTableSortingToDto } from "~/shared/api/sorting";
-import {EFormMethods} from "~/shared/form";
+import { EFormMethods } from "~/shared/form";
 import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
 import type { TTableSortingColumnState } from "~/uikit/Table/types";
-import {createPath} from "~/utils";
+import { createPath } from "~/utils";
 import styles from "./Products.module.css";
 
 type SearchParams = {
@@ -59,7 +59,7 @@ export const Products: FC<TProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetcher.data, fetcher.data?.success]);
 
-  const handleDeleteProduct = useCallback(
+  const handleClickDeleteIcon = useCallback(
     (alias: string) => {
       setDeleteModal({
         isOpen: true,
@@ -208,7 +208,7 @@ export const Products: FC<TProps> = (props) => {
         onChangePage={handleChangePage}
         onChangePageSize={handleChangeSize}
         onCloseModal={handleCloseDeleteModal}
-        onDelete={handleDeleteProduct}
+        onClickDeleteIcon={handleClickDeleteIcon}
         onSubmitDelete={handleDeleteSubmit}
       />
     </section>

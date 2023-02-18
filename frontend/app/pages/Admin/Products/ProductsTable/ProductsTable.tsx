@@ -13,8 +13,8 @@ type TProps = {
   products: TProducts;
   onChangePage: ({ selected }: { selected: number }) => void;
   onChangePageSize: (pageSize: number) => void;
+  onClickDeleteIcon: (alias: string) => void;
   onCloseModal: () => void;
-  onDelete: (alias: string) => void;
   onSubmitDelete: () => void;
 };
 
@@ -28,13 +28,13 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
       onChangePage,
       onChangePageSize,
       onCloseModal,
-      onDelete,
+      onClickDeleteIcon,
       onSubmitDelete,
     },
     ref,
   ) => {
     const columnHelper = createColumnHelper<TProduct>();
-    const columns = useGetColumns(columnHelper, onDelete);
+    const columns = useGetColumns(columnHelper, onClickDeleteIcon);
 
     const { content, countOfPage, countOfResult, currentPage, pageSize } = products;
 
