@@ -4,7 +4,7 @@ import type { HeaderGroup } from "@tanstack/react-table";
 import type { TTableSortingProps } from "~/uikit";
 import { SortingIcon } from "~/uikit/Table/SortingIcon";
 import { getInitialSortingColumnState } from "~/uikit/Table/TableHeader/utils";
-import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader/types";
+import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
 import styles from "./TableHeader.module.css";
 
 type TProps<TColumn extends object> = {
@@ -62,10 +62,7 @@ export const TableHeader = <T extends object>({ headerGroups, sorting }: TProps<
                   maxWidth: header.getSize(),
                 }}
               >
-                <div
-                  className="TableHeader-THInner"
-                  // onClick={() => handleSortClick(header)}
-                >
+                <div className="TableHeader-THInner">
                   <div className="TableHeader-THText">
                     {header.isPlaceholder
                       ? null

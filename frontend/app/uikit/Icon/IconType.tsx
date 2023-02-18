@@ -3,6 +3,10 @@ import React from "react";
 import {
   ArrowBackIcon,
   ArrowDownIcon,
+  ArrowDropDownIcon,
+  ArrowDropDownStrokeIcon,
+  ArrowDropUpIcon,
+  ArrowDropUpStrokeIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   AttentionIcon,
@@ -29,6 +33,8 @@ import {
   MirrorIcon,
   SearchIcon,
   ShippingIcon,
+  SortDownIcon,
+  SortUpIcon,
   SpinnerIcon,
   StarIcon,
   TrashIcon,
@@ -42,6 +48,10 @@ import {
 export type IconType =
   | "ArrowBack"
   | "ArrowDown"
+  | "ArrowDropDown"
+  | "ArrowDropDownStroke"
+  | "ArrowDropUp"
+  | "ArrowDropUpStroke"
   | "ArrowLeft"
   | "ArrowRight"
   | "Attention"
@@ -68,6 +78,8 @@ export type IconType =
   | "Mirror"
   | "Search"
   | "Shipping"
+  | "SortDown"
+  | "SortUp"
   | "Spinner"
   | "Star"
   | "Trash"
@@ -80,6 +92,10 @@ export type IconType =
 export const iconTypes = new Map([
   ["ArrowBack", <ArrowBackIcon key={"ArrowBack"} />],
   ["ArrowDown", <ArrowDownIcon key={"ArrowDown"} />],
+  ["ArrowDropDown", <ArrowDropDownIcon key={"ArrowDropDown"} />],
+  ["ArrowDropDownStroke", <ArrowDropDownStrokeIcon key={"ArrowDropDownStroke"} />],
+  ["ArrowDropUp", <ArrowDropUpIcon key={"ArrowDropUp"} />],
+  ["ArrowDropUpStroke", <ArrowDropUpStrokeIcon key={"ArrowDropUpStroke"} />],
   ["ArrowLeft", <ArrowLeftIcon key={"ArrowLeft"} />],
   ["ArrowRight", <ArrowRightIcon key={"ArrowRight"} />],
   ["Attention", <AttentionIcon key={"Attention"} />],
@@ -106,6 +122,8 @@ export const iconTypes = new Map([
   ["Mirror", <MirrorIcon key={"Mirror"} />],
   ["Search", <SearchIcon key={"Search"} />],
   ["Shipping", <ShippingIcon key={"Shipping"} />],
+  ["SortDown", <SortDownIcon key={"SortDown"} />],
+  ["SortUp", <SortUpIcon key={"SortUp"} />],
   ["Spinner", <SpinnerIcon key={"Spinner"} />],
   ["Star", <StarIcon key={"Star"} />],
   ["Trash", <TrashIcon key={"Trash"} />],

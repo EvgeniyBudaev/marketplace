@@ -1,8 +1,8 @@
 import { memo } from "react";
 import type { FC } from "react";
 import clsx from "clsx";
-import { ETableSortDirection } from "~/uikit";
-import { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader/types";
+import { ETableSortDirection, Icon, IconButton } from "~/uikit";
+import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
 import styles from "./SortingIcon.module.css";
 
 type TProps = {
@@ -61,26 +61,53 @@ const SortingIconComponent: FC<TProps> = ({ className, headerId, multiple, onCha
 
   return (
     <div className={clsx("SortingIcon", className)}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" height="16px" width="16px">
-        <polygon
-          // fill={sort === sortVariant ? "#000" : "none"}
-          fill="#000000"
-          stroke="#000000"
-          strokeWidth="2"
-          strokeMiterlimit="10"
-          points="16,5 24,13 8,13 "
-          onClick={() => handleChange(headerId, ETableSortDirection.Asc)}
-        />
-        <polygon
-          // fill={sort === `-${sortVariant}` ? "#000" : "none"}
-          fill="#000000"
-          stroke="#000000"
-          strokeWidth="2"
-          strokeMiterlimit="10"
-          points="16,27 8,19 24,19 "
-          onClick={() => handleChange(headerId, ETableSortDirection.Desc)}
-        />
-      </svg>
+      {isAlreadySorted ? (
+        <>
+          <IconButton
+            typeIcon={
+              sortingState.sortDirection === ETableSortDirection.Asc
+                ? "ArrowDropUp"
+                : "ArrowDropUpStroke"
+            }
+            onClick={() =>
+              handleChange(
+                headerId,
+                sortingState.sortDirection === ETableSortDirection.Asc
+                  ? ETableSortDirection.Desc
+                  : ETableSortDirection.Asc,
+                true,
+              )
+            }
+          />
+          <IconButton
+            typeIcon={
+              sortingState.sortDirection === ETableSortDirection.Desc
+                ? "ArrowDropDown"
+                : "ArrowDropDownStroke"
+            }
+            onClick={() =>
+              handleChange(
+                headerId,
+                sortingState.sortDirection === ETableSortDirection.Asc
+                  ? ETableSortDirection.Desc
+                  : ETableSortDirection.Asc,
+                true,
+              )
+            }
+          />
+        </>
+      ) : (
+        <>
+          <Icon
+            type={"ArrowDropUp"}
+            onClick={() => handleChange(headerId, ETableSortDirection.Asc)}
+          />
+          <Icon
+            type={"ArrowDropDown"}
+            onClick={() => handleChange(headerId, ETableSortDirection.Desc)}
+          />
+        </>
+      )}
     </div>
   );
 };

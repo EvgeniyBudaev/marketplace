@@ -29,6 +29,8 @@ export type TTableSortingColumnState = {
   sortDirection?: ETableSortDirection;
 };
 
+export type TTableSortingParams = TTableSortingColumnState | Array<TTableSortingColumnState>;
+
 export type TTableSortingProps = {
   onChangeSorting: (
     sortingParams?: TTableSortingColumnState | Array<TTableSortingColumnState>,

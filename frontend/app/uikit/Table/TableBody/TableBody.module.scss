@@ -1,0 +1,16 @@
+.TableBody {
+  $this: &;
+  & #{$this}-TR {
+    background-color: transparent;
+    transition: background-color 0.15s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  &-TD {
+    padding: 20px;
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+  }
+}

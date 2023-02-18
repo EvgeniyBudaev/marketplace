@@ -8,6 +8,7 @@ import { TTableProps } from "~/uikit/Table/types";
 import { TableHeader, tableHeaderLinks } from "~/uikit/Table/TableHeader";
 import { sortingIconLinks } from "./SortingIcon";
 import styles from "./Table.module.css";
+import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
 
 const TableComponent = <TColumn extends Record<string, any>>(
   props: TTableProps<TColumn>,
@@ -50,25 +51,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
       <div className="Table-Scroll">
         <table className={clsx("Table", className)}>
           <TableHeader<TColumn> headerGroups={table.getHeaderGroups()} sorting={sorting} />
-          <tbody className="Table-TBody">
-            {table.getRowModel().rows.map((row) => {
-              return (
-                <tr className="Table-TR" key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <td
-                        className="Table-TD"
-                        key={cell.id}
-                        style={{ width: cell.column.getSize(), maxWidth: cell.column.getSize() }}
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
+          <TableBody rows={table.getRowModel().rows} />
         </table>
       </div>
       <NavigationPanel
@@ -90,6 +73,7 @@ export function tableLinks() {
     { rel: "stylesheet", href: styles },
     ...navigationPanelLinks(),
     ...sortingIconLinks(),
+    ...tableBodyLinks(),
     ...tableHeaderLinks(),
   ];
 }
