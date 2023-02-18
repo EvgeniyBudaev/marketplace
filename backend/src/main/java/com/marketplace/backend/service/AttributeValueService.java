@@ -17,7 +17,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -111,5 +114,11 @@ public class AttributeValueService {
 
     }
 
+    @Transactional
+    public void deleteSelectableValues(Collection<SelectableValue> values){
+        Query deleteQuery = entityManager.createQuery("DELETE FROM SelectableValue sv where sv in(:values)");
+        deleteQuery.setParameter("values",values);
+        deleteQuery.executeUpdate();
+    }
 
 }

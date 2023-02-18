@@ -1,8 +1,9 @@
 package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.AttributeDao;
-import com.marketplace.backend.dto.attributes.request.RequestPatchAttribute;
-import com.marketplace.backend.dto.attributes.request.RequestSaveAttribute;
+import com.marketplace.backend.dto.attributes.request.RequestPatchAttributeDto;
+import com.marketplace.backend.dto.attributes.request.RequestPutAttributeDto;
+import com.marketplace.backend.dto.attributes.request.RequestSaveAttributeDto;
 import com.marketplace.backend.dto.attributes.response.ResponseAttributeForGetAll;
 import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.exception.ResourceNotFoundException;
@@ -12,6 +13,9 @@ import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
+import com.marketplace.backend.service.utils.queryes.QueryParam;
+import com.marketplace.backend.service.utils.queryes.processor.QueryProcessor;
+import com.marketplace.backend.service.utils.queryes.processor.QueryProcessorImpl;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,18 +40,20 @@ public class AttributeService implements AttributeDao {
 
 
     @Autowired
-    public AttributeService(EntityManager entityManager, AttributeValueService attributeValueService) {
+    public AttributeService(EntityManager entityManager, SelectableValueMapper selectableValueMapper, AttributeValueService attributeValueService) {
 
         this.entityManager = entityManager;
+        this.selectableValueMapper = selectableValueMapper;
         this.attributeValueService = attributeValueService;
         this.attributeMapper = Mappers.getMapper(AttributeMapper.class);
-        this.selectableValueMapper = Mappers.getMapper(SelectableValueMapper.class);
     }
 
     @Override
     @Transactional(rollbackFor = {ResourceNotFoundException.class})
-    public Attribute saveAttribute(RequestSaveAttribute dto) {
+    public Attribute saveAttribute(RequestSaveAttributeDto dto) {
         Attribute attribute = attributeMapper.dtoToEntity(dto);
+        attribute.setCreatedAt(LocalDateTime.now());
+        attribute.setModifyDate(LocalDateTime.now());
         entityManager.persist(attribute);
         if(attribute.getFilter()==null){
             attribute.setFilter(true);
@@ -58,7 +64,6 @@ public class AttributeService implements AttributeDao {
         if(dto.getType().equals(EAttributeType.SELECTABLE)){
             if(dto.getSelectable()!=null){
                 List<SelectableValue> newValuesSet = selectableValueMapper.dtoListToEntitySet(dto.getSelectable());
-                newValuesSet.forEach(x->x.setAttribute(attribute));
                 saveSelectableValues(attribute,newValuesSet);
                 attribute.setSingleSelectableValue(new HashSet<>(newValuesSet));
             }else {
@@ -69,6 +74,7 @@ public class AttributeService implements AttributeDao {
     }
     private void saveSelectableValues(Attribute newAttribute, List<SelectableValue> newValueList) {
         newValueList.forEach(x->{
+            x.setAttribute(newAttribute);
             if(x.getId()==null){
                 entityManager.persist(x);
             }else {
@@ -76,6 +82,36 @@ public class AttributeService implements AttributeDao {
             }
             newAttribute.addSelValue(x);
         });
+    }
+
+    @Transactional
+    public Attribute putAttribute(RequestPutAttributeDto dto){
+        Attribute newAttribute = attributeMapper.dtoToEntity(dto);
+        if(newAttribute.getEnabled()==null){
+            newAttribute.setEnabled(true);
+        }
+        newAttribute.setModifyDate(LocalDateTime.now());
+        Attribute oldAttribute =getAttributeByIdWitSelectableValues(dto.getId());
+        /*произошла смена типа атрибута */
+        if(!oldAttribute.getType().equals(newAttribute.getType())){
+           clearValueWhereChangeAttributeType(oldAttribute);
+           /*произошла смена типа атрибута и новый тип selectable*/
+           if(newAttribute.getType().equals(EAttributeType.SELECTABLE)){
+              List<SelectableValue> newValuesList= selectableValueMapper.dtoListToEntitySet(dto.getSelectable());
+              saveSelectableValues(newAttribute,newValuesList);
+           }
+        }
+        entityManager.detach(oldAttribute);
+        entityManager.merge(newAttribute);
+        /*смены типа не было и у старого и у нового тип selectable*/
+        if(oldAttribute.getType().equals(EAttributeType.SELECTABLE)&&newAttribute.getType().equals(EAttributeType.SELECTABLE)){
+            Set<SelectableValue> oldValueSet = oldAttribute.getSingleSelectableValue();
+            List<SelectableValue> newValueList = selectableValueMapper.dtoListToEntitySet(dto.getSelectable());
+            List<SelectableValue> selectableValuesForDelete = oldValueSet.stream().filter(x->!newValueList.contains(x)).toList();
+            attributeValueService.deleteSelectableValues(selectableValuesForDelete);
+            saveSelectableValues(newAttribute,newValueList);
+        }
+        return newAttribute;
     }
 
 
@@ -89,15 +125,23 @@ public class AttributeService implements AttributeDao {
     }
     @Override
     @Transactional
-    public Paging<ResponseAttributeForGetAll> findAll(Integer page, Integer pageSize){
-        TypedQuery<Long> query = entityManager.createQuery("SELECT count (a) from Attribute a where a.enabled=true",Long.class);
-        Integer count =  Math.toIntExact(query.getSingleResult());
-        Paging<ResponseAttributeForGetAll> result = new Paging<>(count,pageSize,page);
-        TypedQuery<Attribute> resultQuery = entityManager.createQuery("SELECT a from Attribute a where a.enabled=true", Attribute.class);
-        resultQuery.setFirstResult((page-1)*pageSize );
-        resultQuery.setMaxResults(pageSize);
-        List<ResponseAttributeForGetAll> dtoList = attributeMapper.entitiesToListDto(resultQuery.getResultList());
-        result.setContent(dtoList);
+    public Paging<ResponseAttributeForGetAll> findAll(QueryParam param){
+        QueryProcessor processor = new QueryProcessorImpl(param, Attribute.class);
+        TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
+        TypedQuery<Attribute> resultQuery = entityManager.createQuery(processor.getMainQuery(), Attribute.class);
+        if(param.getSearchString()!=null){
+            resultQuery.setParameter("param",param.getSearchString());
+            countQuery.setParameter("param",param.getSearchString());
+        }
+        int count = Math.toIntExact(countQuery.getSingleResult());
+        Paging<ResponseAttributeForGetAll> result = new Paging<>(count, param.getPageSize(),param.getPage());
+        if(count==0){
+            return result;
+        }
+        resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
+        resultQuery.setMaxResults(result.getPageSize());
+        List<Attribute> attributes = resultQuery.getResultList();
+        result.setContent(attributeMapper.entitiesToListDto(attributes));
         return result;
     }
 
@@ -157,7 +201,7 @@ public class AttributeService implements AttributeDao {
     }
 
     @Transactional
-    public Attribute updateAttribute(RequestPatchAttribute dto){
+    public Attribute updateAttribute(RequestPatchAttributeDto dto){
         Attribute attribute = entityManager.find(Attribute.class,dto.getId());
         /*Была ли смена типа атрибута*/
         if (dto.getType()!=null){
@@ -179,6 +223,7 @@ public class AttributeService implements AttributeDao {
         attribute.setModifyDate(LocalDateTime.now());
         return attribute;
     }
+
 
 
 

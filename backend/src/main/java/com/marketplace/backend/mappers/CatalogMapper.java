@@ -1,6 +1,7 @@
 package com.marketplace.backend.mappers;
 
 import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
+import com.marketplace.backend.dto.catalog.request.RequestUpdateCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSingleAfterSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalogDto;
@@ -14,12 +15,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CatalogMapper {
 
     ResponseSingleCatalogDto entityToSingleCatalogDto(Catalog catalog);
 
     Catalog dtoToEntity(RequestSaveCatalogDto dto);
+    Catalog dtoToEntity(RequestUpdateCatalogDto dto);
 
     default ResponseSingleCatalogDto.SelectAttributeDto entitySelectableValuesToDto(List<SelectableValue> entityList, Attribute attribute){
         ResponseSingleCatalogDto.SelectAttributeDto dto = new ResponseSingleCatalogDto.SelectAttributeDto();

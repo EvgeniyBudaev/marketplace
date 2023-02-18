@@ -8,7 +8,10 @@ import com.marketplace.backend.service.AttributeValueService;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -27,14 +30,14 @@ public class SelectableValueController {
     public Set<ResponseSaveUpdateSelValueDto> patchValue(@RequestBody RequestUpdateSelValueDto dto){
         List<Object[]> rawResult = attributeValueService.updateSelectableValue(dto);
         if(rawResult.isEmpty()){
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
         Set<ResponseSaveUpdateSelValueDto> resultDtos = new HashSet<>(rawResult.size());
         for(Object[] object:rawResult){
             ResponseSaveUpdateSelValueDto resultDto = new ResponseSaveUpdateSelValueDto();
             resultDto.setId(((BigInteger) object[0]).longValue());
             resultDto.setValue((String) object[1]);
-            resultDto.setAttributeAlias((String) object[2]);
+            resultDto.setAttributeId((Long) object[2]);
             resultDtos.add(resultDto);
         }
         return resultDtos;
@@ -43,7 +46,7 @@ public class SelectableValueController {
     public Set<ResponseSaveUpdateSelValueDto>  deleteValue(@PathVariable(name = "id")Long id){
         List<Object[]> rawResult = attributeValueService.deleteById(id);
         if(rawResult.isEmpty()){
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
         Set<ResponseSaveUpdateSelValueDto> resultDtos = new HashSet<>(rawResult.size());
         for(Object[] object:rawResult){
@@ -53,7 +56,7 @@ public class SelectableValueController {
                 continue;
             }
             resultDto.setValue((String) object[1]);
-            resultDto.setAttributeAlias((String) object[2]);
+            resultDto.setAttributeId((Long) object[2]);
             resultDtos.add(resultDto);
         }
         return resultDtos;

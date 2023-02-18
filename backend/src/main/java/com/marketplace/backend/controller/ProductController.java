@@ -4,11 +4,10 @@ import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
-import com.marketplace.backend.dto.product.response.ResponseProductSimpleDto;
+import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
-import com.marketplace.backend.service.utils.queryes.ProductUrlResolver;
-import com.marketplace.backend.service.utils.queryes.ProductUrlResolverImpl;
+import com.marketplace.backend.service.utils.queryes.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,17 +62,15 @@ public class ProductController {
     }
 
     @GetMapping("/get_all")
-    public Paging<ResponseProductSimpleDto> findAll(
-            @RequestParam(defaultValue = "1",required = false) Integer page,
-            @RequestParam(defaultValue = "15",required = false) Integer size,
-            @RequestParam(name = "search",required = false)String find){
-        if(page<1){
-            page=1;
-        }
-        if(size<5){
-            size = 5;
-        }
-        return productDao.findAll(page,size);
+    public Paging<ResponseProductGetAllDto> findAll(HttpServletRequest request){
+        String rawQueryString = request.getQueryString();
+        String queryString = null;
+        if (rawQueryString!=null){
+        queryString = URLDecoder.decode(rawQueryString, StandardCharsets.UTF_8);
+    }
+    UrlResolver resolver = new UrlResolverImpl();
+    QueryParam param = resolver.resolveQueryString(queryString);
+    return productDao.findAll(param);
 
     }
     @PostMapping
@@ -83,7 +80,7 @@ public class ProductController {
     }
 
 
-    @DeleteMapping("/{alias}")
+    @DeleteMapping("delete/{alias}")
     public String deleteProduct(@PathVariable String alias) {
         manageProductDao.delete(alias);
         return "Product with alias = " + alias + " was deleted";

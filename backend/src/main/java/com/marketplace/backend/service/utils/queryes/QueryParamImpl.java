@@ -12,16 +12,6 @@ public class QueryParamImpl implements QueryParam {
     private final HashMap<ESortedFields, ESortDirection> sortedParam = new HashMap<>(3);
 
     @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("page", page)
-                .append("pageSize", pageSize)
-                .append("sortedParam", sortedParam.toString())
-                .append("search", searchString)
-                .toString();
-    }
-
-    @Override
     public Integer getPage() {
         return page;
     }
@@ -60,5 +50,15 @@ public class QueryParamImpl implements QueryParam {
 
     public void setSearchString(String searchString) {
         this.searchString = "%"+searchString.toLowerCase()+"%";
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("page", page)
+                .append("pageSize", pageSize)
+                .append("searchString", searchString)
+                .append("sortedParam", sortedParam)
+                .toString();
     }
 }

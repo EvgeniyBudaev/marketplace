@@ -18,7 +18,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/v1/attributes/",
+									"raw": "http://localhost:8080/api/v1/attributes/delete/new_attribute25",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -28,7 +28,8 @@
 										"api",
 										"v1",
 										"attributes",
-										""
+										"delete",
+										"new_attribute25"
 									]
 								}
 							},
@@ -41,7 +42,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":7,\r\n    \"type\":\"SELECTABLE\"\r\n}",
+									"raw": "{\r\n    \"id\":10,\r\n    \"type\":\"DOUBLE\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -72,7 +73,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":7,\r\n    \"filter\":false\r\n}",
+									"raw": "{\r\n    \"id\":10,\r\n    \"filter\":false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -176,7 +177,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/v1/attributes/by_alias/form",
+									"raw": "http://localhost:8080/api/v1/attributes/by_alias/new_attr",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -187,7 +188,7 @@
 										"v1",
 										"attributes",
 										"by_alias",
-										"form"
+										"new_attr"
 									]
 								}
 							},
@@ -200,7 +201,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"alias\": \"new_attribute25\",\n    \"name\": \"Материал\",\n    \"filter\":true,\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n            \"value\":\"Алюминий\"\n        },\n        {\n            \"value\":\"Сталь\"\n        },\n        {\n            \"value\":\"Силикон\"\n        }\n    ]\n}",
+									"raw": "{\n    \"alias\": \"new_attribute28667\",\n    \"name\": \"Материал\",\n    \"filter\":true,\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n            \"value\":\"Алюминий\"\n        },\n        {\n            \"value\":\"Сталь\"\n        },\n        {\n            \"value\":\"Силикон\"\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -219,6 +220,37 @@
 										"v1",
 										"attributes",
 										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add new attribute selectable Copy",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\":\"12\",\n    \"alias\": \"new_attr\",\n    \"name\": \"Материалы\",\n    \"filter\":true,\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n             \"id\": 34,\n            \"value\":\"Алюминий\"\n        },\n        {\n             \"id\": 35,\n            \"value\":\"Сталь\"\n        },\n        {\n             \"id\": 36,\n            \"value\":\"Силикон23\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/put",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"put"
 									]
 								}
 							},
@@ -268,7 +300,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":\"5\",\r\n    \"value\": \"зеркало уникальное новое 1348\"\r\n}",
+									"raw": "{\r\n    \"id\":\"5\",\r\n    \"value\": \"зеркало уникальное новое\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -299,7 +331,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/v1/attributes/values/selectable/18",
+									"raw": "http://localhost:8080/api/v1/attributes/values/selectable/20",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -311,7 +343,7 @@
 										"attributes",
 										"values",
 										"selectable",
-										"18"
+										"20"
 									]
 								}
 							},
@@ -404,7 +436,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"alias\": \"Zerkala567\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
+							"raw": "{\n    \"alias\": \"Zerkala56745\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -412,7 +444,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs",
+							"raw": "http://localhost:8080/api/v1/catalogs/save",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -421,7 +453,8 @@
 							"path": [
 								"api",
 								"v1",
-								"catalogs"
+								"catalogs",
+								"save"
 							]
 						}
 					},
@@ -433,7 +466,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/get_all?page=1&size=10&sort=name_desc&search=ерк",
+							"raw": "http://localhost:8080/api/v1/catalogs/get_all?page=1&size=10&sort=name_desc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -460,7 +493,8 @@
 								},
 								{
 									"key": "search",
-									"value": "ерк"
+									"value": "ерк",
+									"disabled": true
 								}
 							]
 						}
@@ -485,7 +519,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/by_alias/Zerkala",
+							"raw": "http://localhost:8080/api/v1/catalogs/by_alias/Zerkala56745",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -496,20 +530,20 @@
 								"v1",
 								"catalogs",
 								"by_alias",
-								"Zerkala"
+								"Zerkala56745"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "edit catalog",
+					"name": "delete",
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 3,\r\n    \"name\": \"зеркала\",\r\n    \"alias\": \"Zerkal2\",\r\n    \"image\": \"default.jpg\",\r\n        \"attributeAlias\":[\r\n        \"width\",\r\n        \"height\"\r\n    ]\r\n}",
+							"raw": "{\n    \"alias\": \"Zerkala\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -517,7 +551,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs",
+							"raw": "http://localhost:8080/api/v1/catalogs/delete/notebook",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -526,7 +560,71 @@
 							"path": [
 								"api",
 								"v1",
-								"catalogs"
+								"catalogs",
+								"delete",
+								"notebook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit catalog",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 6,\r\n    \"name\": \"зеркала212\",\r\n    \"alias\": \"Zerkala56745\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/catalogs/patch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"catalogs",
+								"patch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put catalog",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"зеркала\",\r\n    \"alias\": \"Zerkala567\",\r\n    \"image\": \"default.jpg\",\r\n        \"attributeAlias\":[\r\n        \"width\",\r\n        \"form\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/catalogs/put",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"catalogs",
+								"put"
 							]
 						}
 					},
@@ -645,12 +743,12 @@
 					"response": []
 				},
 				{
-					"name": "global search",
+					"name": "delete",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/get_all/?pageSize=15&page=2",
+							"raw": "http://localhost:8080/api/v1/products/notebook_alias6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -660,8 +758,7 @@
 								"api",
 								"v1",
 								"products",
-								"get_all",
-								""
+								"notebook_alias6"
 							],
 							"query": [
 								{
@@ -673,14 +770,6 @@
 									"key": "sort",
 									"value": "price_desc,created_asc",
 									"disabled": true
-								},
-								{
-									"key": "pageSize",
-									"value": "15"
-								},
-								{
-									"key": "page",
-									"value": "2"
 								}
 							]
 						}
@@ -729,23 +818,11 @@
 				},
 				{
 					"name": "get all product",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"alias\": \"venetian-mirror\",\n    \"enabled\": true,\n    \"catalogId\":1,\n    \"name\": \"Внецианское зеркало\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/get_all",
+							"raw": "http://localhost:8080/api/v1/products/get_all?page=4&sort=created_asc&size=10&search=аро",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -756,6 +833,34 @@
 								"v1",
 								"products",
 								"get_all"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "лаура",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "4"
+								},
+								{
+									"key": "sort",
+									"value": "name_asc",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_asc"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": "аро"
+								}
 							]
 						}
 					},

@@ -1,7 +1,8 @@
 package com.marketplace.backend.mappers;
 
 
-import com.marketplace.backend.dto.attributes.request.RequestSaveAttribute;
+import com.marketplace.backend.dto.attributes.request.RequestPutAttributeDto;
+import com.marketplace.backend.dto.attributes.request.RequestSaveAttributeDto;
 import com.marketplace.backend.dto.attributes.response.ResponseAttributeForGetAll;
 import com.marketplace.backend.dto.attributes.response.ResponseSingleAttribute;
 import com.marketplace.backend.model.Attribute;
@@ -13,7 +14,8 @@ import java.util.List;
 public interface AttributeMapper {
 
 
-    Attribute dtoToEntity(RequestSaveAttribute attributeDto);
+    Attribute dtoToEntity(RequestSaveAttributeDto attributeDto);
+    Attribute dtoToEntity(RequestPutAttributeDto attributeDto);
 
     ResponseSingleAttribute entityToSingleAttributeDto(Attribute attribute);
     List<ResponseAttributeForGetAll> entitiesToListDto(List<Attribute> attributes);

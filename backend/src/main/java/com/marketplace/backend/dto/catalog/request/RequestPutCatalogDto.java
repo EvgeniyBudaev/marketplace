@@ -1,6 +1,8 @@
 package com.marketplace.backend.dto.catalog.request;
 
 
+
+
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -9,7 +11,9 @@ import java.util.List;
 
 
 @Data
-public class RequestSaveCatalogDto {
+public class RequestPutCatalogDto {
+    @NotNull
+    private Long id;
     @NotNull
     @Size(min = 5,max = 250)
     private String name;

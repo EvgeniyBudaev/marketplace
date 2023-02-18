@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class RequestSaveAttribute {
+public class RequestSaveAttributeDto {
     @NotNull
     @Size(min = 3,max = 50)
     private String name;
@@ -37,7 +37,7 @@ public class RequestSaveAttribute {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RequestSaveAttribute that = (RequestSaveAttribute) o;
+        RequestSaveAttributeDto that = (RequestSaveAttributeDto) o;
         return Objects.equals(name, that.name) && Objects.equals(alias, that.alias) && type == that.type && Objects.equals(filter, that.filter) && Objects.equals(selectable, that.selectable);
     }
 

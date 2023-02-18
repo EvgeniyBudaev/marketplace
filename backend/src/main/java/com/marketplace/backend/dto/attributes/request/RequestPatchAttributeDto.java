@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Data
-public class RequestPatchAttribute {
+public class RequestPatchAttributeDto {
     @NotNull
     private Long id;
     private String name;
@@ -19,7 +19,7 @@ public class RequestPatchAttribute {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RequestPatchAttribute that = (RequestPatchAttribute) o;
+        RequestPatchAttributeDto that = (RequestPatchAttributeDto) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(alias, that.alias) && type == that.type && Objects.equals(filter, that.filter);
     }
 
