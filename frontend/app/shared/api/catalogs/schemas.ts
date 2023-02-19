@@ -59,3 +59,9 @@ export const catalogAddSchema = z.object({
   selectAttribute: catalogAttributeItemSchema.array().nullish(),
   numberAttribute: catalogAttributeItemSchema.array().nullish(),
 });
+
+export const catalogDeleteParamsSchema = z.object({
+  alias: z.string(),
+});
+
+export const catalogDeleteSchema = z.any();
