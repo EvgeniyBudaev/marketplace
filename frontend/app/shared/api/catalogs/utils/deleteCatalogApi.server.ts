@@ -4,13 +4,13 @@ import type { TCatalogDelete, TCatalogDeleteParams } from "~/shared/api/catalogs
 import { EFormMethods } from "~/shared/form";
 
 export const deleteCatalogApi: TApiFunction<TCatalogDeleteParams, TCatalogDelete> = (
-    request,
-    params,
+  request,
+  params,
 ) => {
-    const { alias } = params;
-    const url = `/api/v1/catalogs/${alias}`;
-    console.log("[utils delete params] ", params);
-    return fetchApi<TCatalogDelete>(request, url, {
-        method: EFormMethods.Delete,
-    });
+  const { alias } = params;
+  const url = `/api/v1/catalogs/delete/${alias}`;
+  console.log("[utils delete params] ", params);
+  return fetchApi<TCatalogDelete>(request, url, {
+    method: EFormMethods.Delete,
+  });
 };

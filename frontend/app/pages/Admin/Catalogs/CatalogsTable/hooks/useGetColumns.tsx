@@ -31,7 +31,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
 
         columnHelper.accessor(ETableColumns.Alias, {
           id: ETableColumns.Alias,
-          header: () => <TableHeader>Alias</TableHeader>,
+          header: () => <TableHeader>Псевдоним</TableHeader>,
           size: 192,
         }),
 

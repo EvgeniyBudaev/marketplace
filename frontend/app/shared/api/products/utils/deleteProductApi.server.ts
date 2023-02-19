@@ -8,7 +8,7 @@ export const deleteProductApi: TApiFunction<TProductDeleteParams, TProductDelete
   params,
 ) => {
   const { alias } = params;
-  const url = `/api/v1/products/${alias}`;
+  const url = `/api/v1/products/delete/${alias}`;
   console.log("[utils delete params] ", params);
   return fetchApi<TProductDelete>(request, url, {
     method: EFormMethods.Delete,

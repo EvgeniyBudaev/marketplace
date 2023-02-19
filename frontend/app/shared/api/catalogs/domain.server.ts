@@ -1,12 +1,19 @@
 import {
   catalogAddParamsSchema,
-  catalogAddSchema, catalogDeleteParamsSchema, catalogDeleteSchema,
+  catalogAddSchema,
+  catalogDeleteParamsSchema,
+  catalogDeleteSchema,
   catalogDetailParamsSchema,
   catalogDetailSchema,
   catalogsParamsSchema,
   catalogsSchema,
 } from "~/shared/api/catalogs/schemas";
-import {addCatalogApi, deleteCatalogApi, getCatalogDetailApi, getCatalogsApi} from "~/shared/api/catalogs/utils";
+import {
+  addCatalogApi,
+  deleteCatalogApi,
+  getCatalogDetailApi,
+  getCatalogsApi,
+} from "~/shared/api/catalogs/utils";
 import { apiDomainFunction } from "~/utils";
 
 export const getCatalogDetail = apiDomainFunction(
@@ -22,6 +29,6 @@ export const addCatalog = apiDomainFunction(
 )(addCatalogApi);
 
 export const deleteCatalog = apiDomainFunction(
-    catalogDeleteParamsSchema,
-    catalogDeleteSchema,
+  catalogDeleteParamsSchema,
+  catalogDeleteSchema,
 )(deleteCatalogApi);

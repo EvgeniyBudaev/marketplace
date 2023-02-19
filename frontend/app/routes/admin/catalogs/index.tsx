@@ -1,12 +1,12 @@
-import {inputFromForm, inputFromSearch} from "remix-domains";
-import { json} from "@remix-run/node";
-import type { LoaderArgs ,ActionArgs} from "@remix-run/node";
+import { inputFromForm, inputFromSearch } from "remix-domains";
+import { json } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import {badRequest} from "remix-utils";
+import { badRequest } from "remix-utils";
 import { Catalogs, catalogsLinks } from "~/pages/Admin/Catalogs";
-import {deleteCatalog, ECatalogAction, getCatalogs} from "~/shared/api/catalogs";
+import { deleteCatalog, ECatalogAction, getCatalogs } from "~/shared/api/catalogs";
 import { mapParamsToDto } from "~/shared/api/catalogs/utils";
-import {getResponseError} from "~/shared/domain";
+import { getResponseError } from "~/shared/domain";
 import { internalError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -28,7 +28,7 @@ export const action = async (args: ActionArgs) => {
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
     return badRequest({ success: false, formError, fieldErrors });
   }
-}
+};
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;

@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Link } from "@remix-run/react";
 import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
+import { TableHeader } from "~/components";
 import { ERoutes } from "~/enums";
 import { ETableColumns } from "~/pages/Admin/Attributes/AttributesTable/enums";
 import type { TAttribute } from "~/shared/api/attributes";
@@ -13,44 +14,38 @@ type TUseGetColumns = (
 ) => ColumnDef<TAttribute>[];
 
 export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
-  const columns = useMemo(
+  return useMemo(
     () =>
       [
         columnHelper.accessor(ETableColumns.Name, {
           id: ETableColumns.Name,
-          header: () => "Название",
+          header: () => <TableHeader>Название</TableHeader>,
         }),
 
         columnHelper.accessor(ETableColumns.Alias, {
           id: ETableColumns.Alias,
-          header: () => "Alias",
+          header: () => <TableHeader>Псевдоним</TableHeader>,
         }),
 
         columnHelper.display({
-          id: "edit",
-          header: () => "Редактирование",
+          id: "actions",
+          header: () => <TableHeader>Действия</TableHeader>,
           cell: ({ row }) => (
-            <Link
-              to={createPath({
-                route: ERoutes.AdminProductsEdit,
-                params: { alias: row.original.alias },
-              })}
-            >
-              <Icon type={"Edit"} />
-            </Link>
-          ),
-        }),
-
-        columnHelper.display({
-          id: "delete",
-          header: () => "Удаление",
-          cell: ({ row }) => (
-            <IconButton typeIcon={"Trash"} onClick={() => onDelete(row.original.alias)} />
+            <div className="AttributesTable-Actions">
+              <Link
+                className="AttributesTable-ActionsEdit"
+                to={createPath({
+                  route: ERoutes.AdminAttributeAdd,
+                  params: { alias: row.original.alias },
+                })}
+              >
+                <Icon type="Edit" />
+              </Link>
+              <IconButton typeIcon="Trash" onClick={() => onDelete(row.original.alias)} />
+            </div>
           ),
         }),
       ].filter(Boolean) as ColumnDef<TAttribute>[],
     [columnHelper, onDelete],
   );
-
-  return columns;
 };
