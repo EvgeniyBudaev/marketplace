@@ -9,7 +9,11 @@ type TRoutes =
   | ERoutes.Login
   | ERoutes.Signup;
 
-type TRoutesWithParams = ERoutes.AttributeEdit | ERoutes.CatalogDetail | ERoutes.ProductDetail;
+type TRoutesWithParams =
+  | ERoutes.AttributeEdit
+  | ERoutes.AdminProductsEdit
+  | ERoutes.CatalogDetail
+  | ERoutes.ProductDetail;
 
 type TCreatePathProps =
   | { route: TRoutes; withIndex?: boolean }

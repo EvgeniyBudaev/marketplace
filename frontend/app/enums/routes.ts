@@ -4,6 +4,7 @@ export enum ERoutes {
   Signup = "/auth/signup",
 
   AdminProducts = "/admin/products",
+  AdminProductsEdit = "/admin/products/:alias/edit",
 
   Attributes = "/admin/attributes",
   AttributeAdd = "/admin/attributes/add",

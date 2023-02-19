@@ -80,3 +80,7 @@ export const productDeleteParamsSchema = z.object({
 });
 
 export const productDeleteSchema = z.any();
+
+export const productEditParamsSchema = z.any();
+
+export const productEditSchema = z.any();

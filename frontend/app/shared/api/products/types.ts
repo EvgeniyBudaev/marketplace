@@ -12,6 +12,8 @@ import type {
   productAddParamsSchema,
   productDeleteParamsSchema,
   productDeleteSchema,
+  productEditParamsSchema,
+  productEditSchema,
 } from "./schemas";
 
 export type TProduct = z.infer<typeof productsItemSchema>;
@@ -32,3 +34,6 @@ export type TProductAddParams = z.infer<typeof productAddParamsSchema>;
 
 export type TProductDelete = z.infer<typeof productDeleteSchema>;
 export type TProductDeleteParams = z.infer<typeof productDeleteParamsSchema>;
+
+export type TProductEdit = z.infer<typeof productEditSchema>;
+export type TProductEditParams = z.infer<typeof productEditParamsSchema>;

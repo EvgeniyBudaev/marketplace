@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
+import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { ERoutes } from "~/enums";
 import { ETableColumns } from "~/pages/Admin/Attributes/AttributesTable/enums";
 import type { TAttribute } from "~/shared/api/attributes";
@@ -32,7 +32,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           cell: ({ row }) => (
             <Link
               to={createPath({
-                route: ERoutes.AttributeEdit,
+                route: ERoutes.AdminProductsEdit,
                 params: { alias: row.original.alias },
               })}
             >
@@ -49,7 +49,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           ),
         }),
       ].filter(Boolean) as ColumnDef<TAttribute>[],
-    [columnHelper],
+    [columnHelper, onDelete],
   );
 
   return columns;

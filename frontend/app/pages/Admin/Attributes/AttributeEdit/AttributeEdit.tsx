@@ -15,6 +15,7 @@ import type {
   TForm,
   TOptionsSubmitForm,
 } from "~/pages/Admin/Attributes/AttributeEdit";
+import { SelectableAddModal } from "~/pages/Admin/Attributes/SelectableAddModal";
 import { SelectableTable } from "~/pages/Admin/Attributes/SelectableTable";
 import { EAttributeAction, ESelectableValueAction } from "~/shared/api/attributes";
 import type { TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
@@ -23,7 +24,6 @@ import type { TParams } from "~/types";
 import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./AttributeEdit.module.css";
-import { SelectableAddModal } from "~/pages/Admin/Attributes/SelectableAddModal";
 
 type TProps = {
   attribute: TAttributeDetail;
