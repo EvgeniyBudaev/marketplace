@@ -1,105 +1,73 @@
-import { useCallback, useEffect, useState } from "react";
-import type { FC, FormEvent, KeyboardEvent } from "react";
-import { useFetcher, useSearchParams, useSubmit } from "@remix-run/react";
-import { createBrowserHistory } from "history";
-import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
-import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
-import { CatalogsTable } from "~/pages/Admin/Catalogs/CatalogsTable";
-import type { TCatalogs } from "~/shared/api/catalogs";
-import type { TParams } from "~/types";
-import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
-import styles from "./Catalogs.module.css";
+import { useEffect } from "react";
+import type { FC } from "react";
+import { useFetcher } from "@remix-run/react";
 import { SearchingPanel } from "~/components/search";
-import isNull from "lodash/isNull";
-import { EFormMethods } from "~/shared/form";
 import { ERoutes } from "~/enums";
-import debounce from "lodash/debounce";
+import { useTable } from "~/hooks";
+import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
+import {
+  CatalogsTable,
+  catalogsTableLinks,
+  ETableColumns,
+} from "~/pages/Admin/Catalogs/CatalogsTable";
+import { ECatalogAction } from "~/shared/api/catalogs";
+import type { TCatalogs } from "~/shared/api/catalogs";
+import { EFormMethods } from "~/shared/form";
+import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
+import { createPath } from "~/utils";
+import styles from "./Catalogs.module.css";
 
 type TProps = {
   catalogs: TCatalogs;
 };
 
-export const Catalogs: FC<TProps> = ({ catalogs }) => {
+export const Catalogs: FC<TProps> = (props) => {
   const fetcher = useFetcher();
-  const submit = useSubmit();
-  const history = typeof document !== "undefined" ? createBrowserHistory() : null;
-  const [searchParams] = useSearchParams();
-  const search = searchParams.get("search");
-  const defaultSearch: string = !isNull(search) ? search : "";
-  const [isSearchActive, setIsSearchActive] = useState(false);
-  const [filter, setFilter] = useState<TParams>({
-    page: Number(searchParams.get("page")) || DEFAULT_PAGE,
-    size: Number(searchParams.get("size")) || DEFAULT_PAGE_SIZE,
+  const catalogs = fetcher.data?.products ?? props.catalogs;
+
+  const onDeleteCatalog = (alias: string) => {
+    const form = new FormData();
+    form.append("alias", `${alias}`);
+    form.append("_method", ECatalogAction.DeleteCatalog);
+    fetcher.submit(form, {
+      method: EFormMethods.Delete,
+      action: createPath({ route: ERoutes.AdminCatalogs, withIndex: true }),
+    });
+  };
+
+  const {
+    defaultSearch,
+    deleteModal,
+    isSearchActive,
+    onChangePage,
+    onChangeSize,
+    onClickDeleteIcon,
+    onCloseDeleteModal,
+    onDeleteSubmit,
+    onSearch,
+    onSearchBlur,
+    onSearchFocus,
+    onSearchKeyDown,
+    onSortTableByProperty,
+  } = useTable(onDeleteCatalog, {
+    pageOption: catalogs.currentPage,
+    sizeOption: catalogs.pageSize,
   });
 
-  const getFormData = useCallback(() => {
-    const formData = new FormData();
-    formData.append("page", filter.page.toString());
-    formData.append("size", filter.size.toString());
-    return formData;
-  }, [filter]);
-
   useEffect(() => {
-    history?.push("?" + new URLSearchParams(getFormData() as any).toString());
-    submit(getFormData());
-  }, [filter]);
-
-  const handleChangePage = useCallback(
-    ({ selected }: { selected: number }) => {
-      setFilter((prevState) => ({
-        ...prevState,
-        page: selected + 1,
-      }));
-    },
-    [setFilter],
-  );
-
-  const handleChangePageSize = useCallback(
-    (pageSize: number) => {
-      setFilter((prevState) => ({
-        ...prevState,
-        page: DEFAULT_PAGE,
-        size: pageSize,
-      }));
-    },
-    [setFilter],
-  );
-
-  const handleSearchBlur = () => {
-    setIsSearchActive(false);
-  };
-
-  const handleSearchFocus = () => {
-    setIsSearchActive(true);
-    fetcher.submit(
-      { search: "" },
-      {
-        method: EFormMethods.Get,
-        action: ERoutes.AdminProducts,
-      },
-    );
-  };
-
-  const handleSearchKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      setIsSearchActive(false);
-    }
-  };
-
-  const debouncedFetcher = useCallback(
-    debounce((query) => {
-      fetcher.submit(query, {
-        method: EFormMethods.Get,
-        action: ERoutes.AdminProducts,
+    if (fetcher.data && fetcher.data?.success) {
+      notify.success({
+        title: "Выполнено",
       });
-    }, DEBOUNCE_TIMEOUT),
-    [],
-  );
+    }
 
-  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    debouncedFetcher(event.currentTarget);
-  };
+    if (fetcher.data && !fetcher.data?.success) {
+      notify.error({
+        title: "Ошибка",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetcher.data, fetcher.data?.success]);
 
   return (
     <section className="Catalogs">
@@ -114,24 +82,39 @@ export const Catalogs: FC<TProps> = ({ catalogs }) => {
             className="Catalogs-SearchingPanel"
             defaultSearch={defaultSearch}
             isActive={isSearchActive}
-            onBlur={handleSearchBlur}
-            onClick={handleSearchFocus}
-            onFocus={handleSearchFocus}
-            onKeyDown={handleSearchKeyDown}
-            onSubmit={handleSearchSubmit}
+            onBlur={onSearchBlur}
+            onClick={onSearchFocus}
+            onFocus={onSearchFocus}
+            onKeyDown={onSearchKeyDown}
+            onSubmit={onSearch}
           />
           <LinkButton href="/admin/catalogs/add">Добавить</LinkButton>
         </div>
       </div>
       <CatalogsTable
         catalogs={catalogs}
-        onChangePage={handleChangePage}
-        onChangePageSize={handleChangePageSize}
+        fetcher={fetcher}
+        fieldsSortState={{
+          columns: [
+            ETableColumns.Alias,
+            ETableColumns.CreatedAt,
+            ETableColumns.ModifyDate,
+            ETableColumns.Name,
+          ],
+          multiple: true,
+          onChangeSorting: onSortTableByProperty,
+        }}
+        isOpenDeleteModal={deleteModal.isOpen}
+        onChangePage={onChangePage}
+        onChangePageSize={onChangeSize}
+        onCloseModal={onCloseDeleteModal}
+        onClickDeleteIcon={onClickDeleteIcon}
+        onSubmitDelete={onDeleteSubmit}
       />
     </section>
   );
 };
 
 export function catalogsLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...catalogAddLinks()];
+  return [{ rel: "stylesheet", href: styles }, ...catalogAddLinks(), ...catalogsTableLinks()];
 }

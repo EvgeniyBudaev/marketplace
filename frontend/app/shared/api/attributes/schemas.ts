@@ -100,10 +100,4 @@ export const selectableValueAddParamsSchema = z.object({
   value: z.string(),
 });
 
-export const selectableValueAddSchema = z
-  .object({
-    id: z.number(),
-    attributeAlias: z.string(),
-    value: z.string(),
-  })
-  .array();
+export const selectableValueAddSchema = selectableItemSchema.array();

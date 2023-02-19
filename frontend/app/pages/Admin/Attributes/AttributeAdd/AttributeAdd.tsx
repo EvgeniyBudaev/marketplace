@@ -110,7 +110,7 @@ export const AttributeAdd: FC = () => {
     fetcher.submit(formattedParams, {
       method: EFormMethods.Post,
       action: createPath({
-        route: ERoutes.AttributeAdd,
+        route: ERoutes.AdminAttributeAdd,
         withIndex: true,
       }),
     });

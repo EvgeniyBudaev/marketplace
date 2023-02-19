@@ -1,15 +1,21 @@
 import type { ERoutes } from "~/enums";
 
 type TRoutes =
+  | ERoutes.AdminCatalogs
   | ERoutes.AdminProducts
-  | ERoutes.Attributes
-  | ERoutes.AttributeAdd
+  | ERoutes.AdminAttributes
+  | ERoutes.AdminAttributeAdd
   | ERoutes.Cart
   | ERoutes.CatalogAdd
   | ERoutes.Login
   | ERoutes.Signup;
 
-type TRoutesWithParams = ERoutes.AttributeEdit | ERoutes.CatalogDetail | ERoutes.ProductDetail;
+type TRoutesWithParams =
+  | ERoutes.AdminAttributeEdit
+  | ERoutes.AdminCatalogEdit
+  | ERoutes.AdminProductEdit
+  | ERoutes.CatalogDetail
+  | ERoutes.ProductDetail;
 
 type TCreatePathProps =
   | { route: TRoutes; withIndex?: boolean }

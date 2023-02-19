@@ -5,6 +5,7 @@ import { useGetColumns } from "~/pages/Admin/Products/ProductsTable/hooks";
 import type { TProducts, TProduct } from "~/shared/api/products";
 import { createColumnHelper, Table as UiTable } from "~/uikit";
 import type { TTableSortingProps } from "~/uikit";
+import styles from "./ProductsTable.module.css";
 
 type TProps = {
   fetcher: FetcherWithComponents<any>;
@@ -62,3 +63,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
 TableComponent.displayName = "ProductsTableComponent";
 
 export const ProductsTable = memo(TableComponent);
+
+export function productsTableLinks() {
+  return [{ rel: "stylesheet", href: styles }];
+}

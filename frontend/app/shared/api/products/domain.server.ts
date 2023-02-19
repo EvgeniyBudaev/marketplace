@@ -5,6 +5,8 @@ import {
   productDeleteSchema,
   productDetailParamsSchema,
   productDetailSchema,
+  productEditParamsSchema,
+  productEditSchema,
   productsByCatalogSchema,
   productsByCatalogSearchParamsSchema,
   productsParamsSchema,

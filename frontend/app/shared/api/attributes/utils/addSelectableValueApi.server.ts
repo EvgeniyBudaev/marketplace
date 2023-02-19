@@ -8,7 +8,7 @@ export const addSelectableValueApi: TApiFunction<TSelectableValueAddParams, TSel
   params,
 ) => {
   const url = `/api/v1/attributes/values/selectable`;
-  console.log("[add value params] ", params);
+  console.log("[add selectable value params] ", params);
   return fetchApi<TSelectableValueAdd>(request, url, {
     method: EFormMethods.Post,
     body: params,

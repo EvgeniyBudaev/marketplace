@@ -1,9 +1,12 @@
 import { useMemo } from "react";
+import { Link } from "@remix-run/react";
 import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { TableHeader } from "~/components";
-import { ETableColumns } from "~/pages/Admin/Products/ProductsTable/enums";
+import { ERoutes } from "~/enums";
+import { ETableColumns } from "~/pages/Admin/Products/ProductsTable";
 import type { TProduct } from "~/shared/api/products";
-import { DateTime, IconButton } from "~/uikit";
+import { DateTime, Icon, IconButton } from "~/uikit";
+import { createPath } from "~/utils";
 
 type TUseGetColumns = (
   columnHelper: ColumnHelper<TProduct>,
@@ -11,7 +14,7 @@ type TUseGetColumns = (
 ) => ColumnDef<TProduct>[];
 
 export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
-  const columns = useMemo(
+  return useMemo(
     () =>
       [
         columnHelper.accessor(ETableColumns.Name, {
@@ -22,7 +25,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
 
         columnHelper.accessor(ETableColumns.Alias, {
           id: ETableColumns.Alias,
-          header: () => <TableHeader>Alias</TableHeader>,
+          header: () => <TableHeader>Псевдоним</TableHeader>,
           size: 192,
         }),
 
@@ -48,14 +51,23 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
 
         columnHelper.display({
           id: "actions",
-          header: () => "Действия",
+          header: () => <TableHeader>Действия</TableHeader>,
           cell: ({ row }) => (
-            <IconButton typeIcon={"Trash"} onClick={() => onDelete(row.original.alias)} />
+            <div className="ProductsTable-Actions">
+              <Link
+                className="ProductsTable-ActionsEdit"
+                to={createPath({
+                  route: ERoutes.AdminProductEdit,
+                  params: { alias: row.original.alias },
+                })}
+              >
+                <Icon type="Edit" />
+              </Link>
+              <IconButton typeIcon="Trash" onClick={() => onDelete(row.original.alias)} />
+            </div>
           ),
         }),
       ].filter(Boolean) as ColumnDef<TProduct>[],
     [columnHelper, onDelete],
   );
-
-  return columns;
 };

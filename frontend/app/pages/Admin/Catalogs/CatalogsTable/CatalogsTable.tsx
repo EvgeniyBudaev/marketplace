@@ -1,20 +1,43 @@
 import { forwardRef, memo } from "react";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { ModalDelete } from "~/components/modal";
 import { useGetColumns } from "~/pages/Admin/Catalogs/CatalogsTable/hooks";
 import type { TCatalogs, TCatalog } from "~/shared/api/catalogs";
+import type { TTableSortingProps } from "~/uikit";
 import { createColumnHelper, Table as UiTable } from "~/uikit";
+import styles from "./CatalogsTable.module.css";
 
 type TProps = {
   catalogs: TCatalogs;
+  fetcher: FetcherWithComponents<any>;
+  fieldsSortState: TTableSortingProps;
+  isOpenDeleteModal: boolean;
   onChangePage: ({ selected }: { selected: number }) => void;
   onChangePageSize: (pageSize: number) => void;
+  onClickDeleteIcon: (alias: string) => void;
+  onCloseModal: () => void;
+  onSubmitDelete: () => void;
 };
 
 const TableComponent = forwardRef<HTMLDivElement, TProps>(
-  ({ catalogs, onChangePage, onChangePageSize }, ref) => {
+  (
+    {
+      catalogs,
+      fetcher,
+      fieldsSortState,
+      isOpenDeleteModal,
+      onChangePage,
+      onChangePageSize,
+      onCloseModal,
+      onClickDeleteIcon,
+      onSubmitDelete,
+    },
+    ref,
+  ) => {
     const columnHelper = createColumnHelper<TCatalog>();
-    const columns = useGetColumns(columnHelper);
+    const columns = useGetColumns(columnHelper, onClickDeleteIcon);
 
-    const { content, countOfPage, countOfResult, currentPage } = catalogs;
+    const { content, countOfPage, countOfResult, currentPage, pageSize } = catalogs;
 
     return (
       <div ref={ref}>
@@ -22,13 +45,16 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           columns={columns}
           currentPage={currentPage}
           data={content}
-          getId={(row) => row.id}
+          defaultPageSize={pageSize}
+          getId={(row) => row.alias}
           onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}
+          sorting={fieldsSortState}
           totalItems={countOfResult}
           totalItemsTitle={"Всего каталогов"}
         />
+        <ModalDelete isOpen={isOpenDeleteModal} onClose={onCloseModal} onSubmit={onSubmitDelete} />
       </div>
     );
   },
@@ -37,3 +63,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
 TableComponent.displayName = "CatalogsTableComponent";
 
 export const CatalogsTable = memo(TableComponent);
+
+export function catalogsTableLinks() {
+  return [{ rel: "stylesheet", href: styles }];
+}
