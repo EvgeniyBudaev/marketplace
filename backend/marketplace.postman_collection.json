@@ -177,7 +177,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/v1/attributes/by_alias/new_attr",
+									"raw": "http://localhost:8080/api/v1/attributes/by_alias/color",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -188,7 +188,7 @@
 										"v1",
 										"attributes",
 										"by_alias",
-										"new_attr"
+										"color"
 									]
 								}
 							},
@@ -201,7 +201,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"alias\": \"new_attribute28667\",\n    \"name\": \"Материал\",\n    \"filter\":true,\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n            \"value\":\"Алюминий\"\n        },\n        {\n            \"value\":\"Сталь\"\n        },\n        {\n            \"value\":\"Силикон\"\n        }\n    ]\n}",
+									"raw": "{\n    \"alias\": \"new_attribute667\",\n    \"name\": \"Материал\",\n    \"filter\":true,\n    \"type\": \"SELECTABLE\",\n    \"selectable\": [\n        {\n            \"value\":\"Алюминий\"\n        },\n        {\n            \"value\":\"Сталь\"\n        },\n        {\n            \"value\":\"Силикон\"\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -268,7 +268,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"attributeAlias\":\"category\",\r\n    \"value\": \"зеркало уникальное 345\"\r\n}",
+									"raw": "{\r\n    \"attributeAlias\":\"new_attribute667\",\r\n    \"value\": \"зеркало уникальное 345\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -331,7 +331,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/v1/attributes/values/selectable/20",
+									"raw": "http://localhost:8080/api/v1/attributes/values/selectable/6",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -343,7 +343,7 @@
 										"attributes",
 										"values",
 										"selectable",
-										"20"
+										"6"
 									]
 								}
 							},
@@ -436,7 +436,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"alias\": \"Zerkala56745\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
+							"raw": "{\n    \"alias\": \"Zerkala12\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -642,7 +642,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"alias\": \"venetian-mirror2222\",\n    \"description\": \"Это очень новое зеркало\",\n    \"enabled\": true,\n    \"catalogAlias\": \"mirrors\",\n    \"name\": \"Внецианское зеркало\"\n}",
+							"raw": "{\n    \"alias\": \"venetian-mirror234\",\n    \"description\": \"Это очень новое зеркало\",\n    \"catalogAlias\": \"mirrors\",\n    \"name\": \"Внецианское зеркало\",\n    \"count\": 7,\n    \"price\":156.89,\n    \"selectableValues\":[\n        1,7,8\n    ],\n    \"numericValues\":[\n        {\n            \"attributeAlias\": \"height\",\n            \"value\": 139\n        },\n        {\n            \"attributeAlias\": \"weight\",\n            \"value\": 150\n        },\n        {\n            \"attributeAlias\": \"width\",\n             \"value\": 172\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -650,7 +650,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products",
+							"raw": "http://localhost:8080/api/v1/products/save",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -659,7 +659,8 @@
 							"path": [
 								"api",
 								"v1",
-								"products"
+								"products",
+								"save"
 							]
 						}
 					},
@@ -668,11 +669,11 @@
 				{
 					"name": "edit product",
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"alias\": \"venetian-mirror234\",\n     \"id\": 58,\n    \"description\": \"Это очень новое зеркало\",\n    \"catalogAlias\": \"Zerkal2\",\n    \"name\": \"Внецианское зеркало\",\n    \"count\": 7,\n    \"price\":156.89,\n    \"selectableValues\":[],\n    \"numericValues\":[\n        {\n            \"attributeAlias\": \"height\",\n            \"value\": 139\n        },\n        {\n            \"attributeAlias\": \"width\",\n             \"value\": 172\n        }\n    ]\n}",
+							"raw": "{\n    \"id\": 1,\n    \"catalogAlias\": \"mirrors\",\n    \"name\": \"Венецианское зеркало Бернард\",\n    \"alias\": \"venetian-mirror-bernard\",\n    \"description\": \"Венецианское зеркало Бернард, 85*125 см\",\n    \"price\": \"43000.00\",\n    \"count\": \"15\",\n    \"selectableValues\":[\n        1,7,8\n    ],\n    \"numericValues\":[\n        {\n            \"attributeAlias\": \"height\",\n            \"value\": 139\n        },\n        {\n            \"attributeAlias\": \"weight\",\n            \"value\": 150\n        },\n        {\n            \"attributeAlias\": \"width\",\n             \"value\": 172\n        }\n    ]\n    \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -680,7 +681,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products",
+							"raw": "http://localhost:8080/api/v1/products/put",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -689,7 +690,8 @@
 							"path": [
 								"api",
 								"v1",
-								"products"
+								"products",
+								"put"
 							]
 						}
 					},
@@ -748,7 +750,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/notebook_alias6",
+							"raw": "http://localhost:8080/api/v1/products/delete/notebook_alias6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -758,6 +760,7 @@
 								"api",
 								"v1",
 								"products",
+								"delete",
 								"notebook_alias6"
 							],
 							"query": [
@@ -822,7 +825,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/get_all?page=4&sort=created_asc&size=10&search=аро",
+							"raw": "http://localhost:8080/api/v1/products/get_all?page=1&sort=created_asc&size=10&",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -842,7 +845,7 @@
 								},
 								{
 									"key": "page",
-									"value": "4"
+									"value": "1"
 								},
 								{
 									"key": "sort",
@@ -858,8 +861,8 @@
 									"value": "10"
 								},
 								{
-									"key": "search",
-									"value": "аро"
+									"key": "",
+									"value": null
 								}
 							]
 						}
@@ -868,6 +871,47 @@
 				},
 				{
 					"name": "filter and sorting",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&sort=price_asc,created_asc&page=3&size=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"page",
+								""
+							],
+							"query": [
+								{
+									"key": "catalog",
+									"value": "mirrors"
+								},
+								{
+									"key": "sort",
+									"value": "price_asc,created_asc"
+								},
+								{
+									"key": "page",
+									"value": "3"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter and sorting Copy",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1272,7 +1316,8 @@
 							{
 								"key": "Authorization",
 								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3Mzc4NTI3NSwiaWF0IjoxNjczNzgxNjc1fQ.GG6O7xKLp0MyE4jvriatmCmjq2pkStourN4kcXaqyQ4",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {

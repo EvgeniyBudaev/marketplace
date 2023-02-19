@@ -30,16 +30,14 @@ public class ManageProductService implements ManageProductDao {
     private final EntityManager entityManager;
     private final CatalogService catalogService;
     private final AttributeService attributeService;
-    private final ProductService productService;
     private final ProductMapper productMapper;
 
     @Autowired
-    public ManageProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, ProductService productService, ProductMapper productMapper) {
+    public ManageProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, ProductMapper productMapper) {
 
         this.entityManager = entityManager;
         this.catalogService = catalogService;
         this.attributeService = attributeService;
-        this.productService = productService;
         this.productMapper = productMapper;
     }
 
@@ -60,6 +58,8 @@ public class ManageProductService implements ManageProductDao {
     public Product save(RequestSaveOrUpdate dto){
         checkDto(dto);
         Product newProduct = productMapper.dtoToEntity(dto);
+        newProduct.setDoubleValues(new HashSet<>());
+        newProduct.setSelectableValues(new HashSet<>());
         newProduct.setCatalog(catalogService.simpleCatalogByAlias(dto.getCatalogAlias()));
         entityManager.persist(newProduct);
         Set<SelectableValue> selAttribute = dto.getSelectableValues().stream().map(x->entityManager.getReference(SelectableValue.class,x)).collect(Collectors.toSet());
