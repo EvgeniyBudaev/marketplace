@@ -107,7 +107,7 @@ public class AttributeValueService {
         query.setParameter("id",dto.getId());
         query.executeUpdate();
         Query selListQuery = entityManager.
-                createNativeQuery("select sv2.id, sv2.value, a.alias as attributeAlias from selectable_values as sv2 right join attributes a on a.id = sv2.attribute_id\n" +
+                createNativeQuery("select sv2.id, sv2.value, a.id as attributeAlias from selectable_values as sv2 right join attributes a on a.id = sv2.attribute_id\n" +
                         "                                            right join selectable_values as sv on sv.attribute_id=a.id where sv.id =:id");
         selListQuery.setParameter("id",dto.getId());
         return (List<Object[]>) selListQuery.getResultList();

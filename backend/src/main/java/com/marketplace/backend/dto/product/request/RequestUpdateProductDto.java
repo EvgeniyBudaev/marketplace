@@ -10,7 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class RequestSaveProductDto implements RequestSaveOrUpdate {
+public class RequestUpdateProductDto implements RequestSaveOrUpdate{
+    @NotNull
     private Long id;
     @NotNull
     @Size(min = 5,max = 250)
@@ -28,4 +29,5 @@ public class RequestSaveProductDto implements RequestSaveOrUpdate {
     private BigDecimal price;
     private Set<Long> selectableValues = new HashSet<>();
     private Set<NumericValue> numericValues = new HashSet<>();
+
 }

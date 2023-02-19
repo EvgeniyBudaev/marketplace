@@ -37,7 +37,7 @@ public class SelectableValueController {
             ResponseSaveUpdateSelValueDto resultDto = new ResponseSaveUpdateSelValueDto();
             resultDto.setId(((BigInteger) object[0]).longValue());
             resultDto.setValue((String) object[1]);
-            resultDto.setAttributeId((Long) object[2]);
+            resultDto.setAttributeId(((BigInteger) object[2]).longValue());
             resultDtos.add(resultDto);
         }
         return resultDtos;
