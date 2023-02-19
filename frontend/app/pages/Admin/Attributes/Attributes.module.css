@@ -4,5 +4,13 @@
   align-items: center;
   margin-bottom: 30px;
 }
+.Attributes-HeaderControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Attributes-SearchingPanel {
+  margin-right: 16px;
+}
 
 /*# sourceMappingURL=Attributes.module.css.map */

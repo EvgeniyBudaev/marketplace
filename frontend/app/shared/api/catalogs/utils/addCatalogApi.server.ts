@@ -4,7 +4,7 @@ import type { TCatalogAdd, TCatalogAddParams } from "~/shared/api/catalogs";
 import { EFormMethods } from "~/shared/form";
 
 export const addCatalogApi: TApiFunction<TCatalogAddParams, TCatalogAdd> = (request, params) => {
-  const url = `/api/v1/catalogs`;
+  const url = `/api/v1/catalogs/save`;
   return fetchApi<TCatalogAdd>(request, url, {
     method: EFormMethods.Post,
     body: params,

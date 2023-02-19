@@ -1,12 +1,13 @@
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
-import { ActionArgs, json } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
 import {
   AttributeAdd,
   attributeAddLinks,
   EFormFields,
-  TForm,
 } from "~/pages/Admin/Attributes/AttributeAdd";
+import type { TForm } from "~/pages/Admin/Attributes/AttributeAdd";
 import { addAttribute } from "~/shared/api/attributes";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 

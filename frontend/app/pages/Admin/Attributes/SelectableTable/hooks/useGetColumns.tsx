@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ColumnDef, ColumnHelper } from "@tanstack/react-table";
+import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { ETableColumns } from "~/pages/Admin/Attributes/SelectableTable";
 import type { TSelectableItem } from "~/shared/api/attributes";
 import { Icon, IconButton } from "~/uikit";

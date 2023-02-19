@@ -1,59 +1,43 @@
-import { forwardRef, memo, useCallback, useState } from "react";
-import { FetcherWithComponents } from "@remix-run/react";
-import { ERoutes } from "~/enums";
-import { AttributeDeleteModal } from "~/pages/Admin/Attributes/AttributeDeleteModal";
+import { forwardRef, memo } from "react";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { ModalDelete } from "~/components/modal";
 import { useGetColumns } from "~/pages/Admin/Attributes/AttributesTable";
-import type { TDeleteModalState } from "~/pages/Admin/Attributes/AttributesTable";
-import { TAttributes, TAttribute, EAttributeAction } from "~/shared/api/attributes";
-import { EFormMethods } from "~/shared/form";
+import type { TAttributes, TAttribute } from "~/shared/api/attributes";
 import { createColumnHelper, Table as UiTable } from "~/uikit";
-import { createPath } from "~/utils";
+import type { TTableSortingProps } from "~/uikit";
+import styles from "./AttributesTable.module.css";
 
 type TProps = {
   attributes: TAttributes;
   fetcher: FetcherWithComponents<any>;
+  fieldsSortState: TTableSortingProps;
+  isOpenDeleteModal: boolean;
   onChangePage: ({ selected }: { selected: number }) => void;
+  onChangePageSize: (pageSize: number) => void;
+  onClickDeleteIcon: (alias: string) => void;
+  onCloseModal: () => void;
+  onSubmitDelete: () => void;
 };
 
 const TableComponent = forwardRef<HTMLDivElement, TProps>(
-  ({ attributes, fetcher, onChangePage }, ref) => {
-    const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({ isOpen: false });
-
-    const handleClickDeleteAttribute = useCallback(
-      (alias: string) => {
-        setDeleteModal({
-          isOpen: true,
-          alias,
-        });
-      },
-      [setDeleteModal],
-    );
-
+  (
+    {
+      attributes,
+      fetcher,
+      fieldsSortState,
+      isOpenDeleteModal,
+      onChangePage,
+      onChangePageSize,
+      onCloseModal,
+      onClickDeleteIcon,
+      onSubmitDelete,
+    },
+    ref,
+  ) => {
     const columnHelper = createColumnHelper<TAttribute>();
-    const columns = useGetColumns(columnHelper, handleClickDeleteAttribute);
+    const columns = useGetColumns(columnHelper, onClickDeleteIcon);
 
-    const { content, countOfPage, countOfResult, currentPage, hasPrevious, hasNext } = attributes;
-
-    const handleCloseDeleteModal = () => {
-      setDeleteModal((prev) => ({ ...prev, isOpen: false }));
-    };
-
-    const handleDelete = (alias: string) => {
-      const form = new FormData();
-      form.append("alias", `${alias}`);
-      form.append("_method", EAttributeAction.DeleteAttribute);
-      fetcher.submit(form, {
-        method: EFormMethods.Delete,
-        action: createPath({ route: ERoutes.Attributes, withIndex: true }),
-      });
-    };
-
-    const handleSubmitDeleteModal = () => {
-      if (deleteModal.alias) {
-        handleDelete(deleteModal.alias);
-        handleCloseDeleteModal();
-      }
-    };
+    const { content, countOfPage, countOfResult, currentPage, pageSize } = attributes;
 
     return (
       <div ref={ref}>
@@ -61,17 +45,16 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           columns={columns}
           currentPage={currentPage}
           data={content}
-          getId={(row) => row.id}
+          defaultPageSize={pageSize}
+          getId={(row) => row.alias}
+          onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}
+          sorting={fieldsSortState}
           totalItems={countOfResult}
           totalItemsTitle={"Всего атрибутов"}
         />
-        <AttributeDeleteModal
-          isOpen={deleteModal.isOpen}
-          onClose={handleCloseDeleteModal}
-          onSubmit={handleSubmitDeleteModal}
-        />
+        <ModalDelete isOpen={isOpenDeleteModal} onClose={onCloseModal} onSubmit={onSubmitDelete} />
       </div>
     );
   },
@@ -80,3 +63,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
 TableComponent.displayName = "AttributesTableComponent";
 
 export const AttributesTable = memo(TableComponent);
+
+export function attributesTableLinks() {
+  return [{ rel: "stylesheet", href: styles }];
+}

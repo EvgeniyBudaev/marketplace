@@ -1,4 +1,4 @@
-import { TParams } from "~/types";
+import type { TParams } from "~/types";
 
 export const mapFormDataToDto = (params: TParams) => {
   return {

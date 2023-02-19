@@ -1,10 +1,11 @@
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
-import { ActionArgs, json } from "@remix-run/node";
-import { CatalogAdd, catalogAddLinks, EFormFields, TForm } from "~/pages/Admin/Catalogs/CatalogAdd";
+import { json } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
+import { CatalogAdd, catalogAddLinks, EFormFields } from "~/pages/Admin/Catalogs/CatalogAdd";
+import type { TForm } from "~/pages/Admin/Catalogs/CatalogAdd";
 import { addCatalog, CatalogsApi } from "~/shared/api/catalogs";
 import { getInputErrors, getResponseError } from "~/shared/domain";
-import { parseResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;

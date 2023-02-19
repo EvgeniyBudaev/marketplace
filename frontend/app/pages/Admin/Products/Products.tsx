@@ -1,124 +1,68 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useState } from "react";
+import { useEffect } from "react";
 import type { FC } from "react";
-import { useSearchParams } from "@remix-run/react";
-import debounce from "lodash/debounce";
-import isEmpty from "lodash/isEmpty";
-import isNil from "lodash/isNil";
-import isNull from "lodash/isNull";
+import { useFetcher } from "@remix-run/react";
 import { SearchingPanel } from "~/components/search";
-import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
+import { ERoutes } from "~/enums";
+import { useTable } from "~/hooks";
 import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
-import { ProductsTable } from "~/pages/Admin/Products/ProductsTable";
-import { ETableColumns } from "~/pages/Admin/Products/ProductsTable/enums";
-import { TProducts } from "~/shared/api/products";
-import { mapTableSortingToDto } from "~/shared/api/sorting";
-import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
-import type { TTableSortingColumnState } from "~/uikit/Table/types";
+import { productEditLinks } from "~/pages/Admin/Products/ProductEdit";
+import {
+  ETableColumns,
+  ProductsTable,
+  productsTableLinks,
+} from "~/pages/Admin/Products/ProductsTable";
+import { EProductAction } from "~/shared/api/products";
+import type { TProducts } from "~/shared/api/products";
+import { EFormMethods } from "~/shared/form";
+import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
+import { createPath } from "~/utils";
 import styles from "./Products.module.css";
-
-type SearchParams = {
-  page: string;
-  size: string;
-  search?: string;
-  sort?: string;
-};
 
 type TProps = {
   products: TProducts;
 };
 
-export const Products: FC<TProps> = ({ products }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get("search");
-  const sort = searchParams.get("sort");
-  const defaultSearch: string = !isNull(search) ? search : "";
-  const defaultSort: string = !isNull(sort) ? sort : "";
-  const [isSearchActive, setIsSearchActive] = useState(false);
+export const Products: FC<TProps> = (props) => {
+  const fetcher = useFetcher();
+  const products = fetcher.data?.products ?? props.products;
 
-  const page = !isNil(products.currentPage)
-    ? products.currentPage.toString()
-    : DEFAULT_PAGE_SIZE.toString();
-  const size = !isNil(products.pageSize)
-    ? products.pageSize.toString()
-    : DEFAULT_PAGE_SIZE.toString();
-
-  const getSearchParams = (params: Partial<SearchParams>) => {
-    const defaultSearchParams: SearchParams = {
-      page,
-      size,
-      search: isEmpty(defaultSearch) ? undefined : defaultSearch,
-      sort: isEmpty(defaultSort) ? undefined : defaultSort,
-    };
-    const mergedParams = {
-      ...defaultSearchParams,
-      ...params,
-    };
-    return Object.fromEntries(
-      Object.entries(mergedParams).filter(([_key, value]) => !isEmpty(value)),
-    );
+  const onDeleteProduct = (alias: string) => {
+    const form = new FormData();
+    form.append("alias", `${alias}`);
+    form.append("_method", EProductAction.DeleteProduct);
+    fetcher.submit(form, {
+      method: EFormMethods.Delete,
+      action: createPath({ route: ERoutes.AdminProducts, withIndex: true }),
+    });
   };
 
-  const handleChangePage = ({ selected }: { selected: number }) => {
-    setSearchParams(
-      getSearchParams({
-        page: (selected + 1).toString(),
-      }),
-    );
-  };
+  const {
+    defaultSearch,
+    deleteModal,
+    isSearchActive,
+    onChangePage,
+    onChangeSize,
+    onClickDeleteIcon,
+    onCloseDeleteModal,
+    onDeleteSubmit,
+    onSearch,
+    onSearchBlur,
+    onSearchFocus,
+    onSearchKeyDown,
+    onSortTableByProperty,
+  } = useTable(onDeleteProduct, {
+    pageOption: products.currentPage,
+    sizeOption: products.pageSize,
+  });
 
-  const handleChangeSize = useCallback(
-    (pageSize: number) => {
-      setSearchParams(
-        getSearchParams({
-          size: pageSize.toString(),
-        }),
-      );
-    },
-    [defaultSearch],
-  );
-
-  const handleSearchBlur = () => {
-    setIsSearchActive(false);
-  };
-
-  const handleSearchFocus = () => {
-    setIsSearchActive(true);
-  };
-
-  const handleSearchKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      setIsSearchActive(false);
+  useEffect(() => {
+    if (fetcher.data && !fetcher.data?.success) {
+      notify.error({
+        title: "Ошибка",
+      });
     }
-  };
-
-  const handleSortTableByProperty = (
-    params?: TTableSortingColumnState | TTableSortingColumnState[],
-  ) => {
-    const formattedParams = mapTableSortingToDto(params);
-    setSearchParams(
-      getSearchParams({
-        sort: formattedParams.sort,
-        page: DEFAULT_PAGE.toString(),
-      }),
-    );
-  };
-
-  const debouncedFetcher = useCallback(
-    debounce((query: string) => {
-      setSearchParams(
-        getSearchParams({
-          search: query,
-          page: DEFAULT_PAGE.toString(),
-        }),
-      );
-    }, DEBOUNCE_TIMEOUT),
-    [searchParams],
-  );
-
-  const handleSearchSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    debouncedFetcher(event.target.value);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetcher.data, fetcher.data?.success]);
 
   return (
     <section>
@@ -133,16 +77,17 @@ export const Products: FC<TProps> = ({ products }) => {
             className="Products-SearchingPanel"
             defaultSearch={defaultSearch}
             isActive={isSearchActive}
-            onBlur={handleSearchBlur}
-            onClick={handleSearchFocus}
-            onFocus={handleSearchFocus}
-            onKeyDown={handleSearchKeyDown}
-            onSubmit={handleSearchSubmit}
+            onBlur={onSearchBlur}
+            onClick={onSearchFocus}
+            onFocus={onSearchFocus}
+            onKeyDown={onSearchKeyDown}
+            onSubmit={onSearch}
           />
           <LinkButton href="/admin/products/add">Добавить</LinkButton>
         </div>
       </div>
       <ProductsTable
+        fetcher={fetcher}
         fieldsSortState={{
           columns: [
             ETableColumns.Alias,
@@ -151,16 +96,25 @@ export const Products: FC<TProps> = ({ products }) => {
             ETableColumns.Name,
           ],
           multiple: true,
-          onChangeSorting: handleSortTableByProperty,
+          onChangeSorting: onSortTableByProperty,
         }}
+        isOpenDeleteModal={deleteModal.isOpen}
         products={products}
-        onChangePage={handleChangePage}
-        onChangePageSize={handleChangeSize}
+        onChangePage={onChangePage}
+        onChangePageSize={onChangeSize}
+        onCloseModal={onCloseDeleteModal}
+        onClickDeleteIcon={onClickDeleteIcon}
+        onSubmitDelete={onDeleteSubmit}
       />
     </section>
   );
 };
 
 export function productsLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...productAddLinks()];
+  return [
+    { rel: "stylesheet", href: styles },
+    ...productAddLinks(),
+    ...productEditLinks(),
+    ...productsTableLinks(),
+  ];
 }

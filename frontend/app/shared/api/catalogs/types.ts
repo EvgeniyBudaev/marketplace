@@ -8,6 +8,8 @@ import type {
   catalogsSchema,
   catalogAddParamsSchema,
   catalogAddSchema,
+  catalogDeleteSchema,
+  catalogDeleteParamsSchema,
 } from "./schemas";
 
 export type TCatalogDetail = z.infer<typeof catalogDetailSchema>;
@@ -21,3 +23,6 @@ export type TCatalogsParams = z.infer<typeof catalogsParamsSchema>;
 
 export type TCatalogAddParams = z.infer<typeof catalogAddParamsSchema>;
 export type TCatalogAdd = z.infer<typeof catalogAddSchema>;
+
+export type TCatalogDeleteParams = z.infer<typeof catalogDeleteParamsSchema>;
+export type TCatalogDelete = z.infer<typeof catalogDeleteSchema>;

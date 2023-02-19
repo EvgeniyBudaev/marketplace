@@ -4,6 +4,6 @@ export * from "./useGetFormErrors";
 export * from "./useInitDayjs";
 export * from "./useInitLanguage";
 export * from "./useKey";
-export * from "./usePaging";
+export * from "./useTable";
 export * from "./useSettings";
 export * from "./useUser";

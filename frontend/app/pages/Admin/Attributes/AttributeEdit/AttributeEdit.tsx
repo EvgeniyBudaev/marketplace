@@ -1,5 +1,5 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import type { FC } from "react";
+import { useEffect, useState } from "react";
+import type { FC, ChangeEvent } from "react";
 import { useFetcher } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes, ETheme } from "~/enums";
@@ -8,24 +8,22 @@ import {
   EFormFields,
   formSchema,
   mapFormDataToDto,
+  useGetTypeOptions,
+} from "~/pages/Admin/Attributes/AttributeEdit";
+import type {
   TAddModalState,
   TForm,
   TOptionsSubmitForm,
-  useGetTypeOptions,
 } from "~/pages/Admin/Attributes/AttributeEdit";
+import { SelectableAddModal } from "~/pages/Admin/Attributes/SelectableAddModal";
 import { SelectableTable } from "~/pages/Admin/Attributes/SelectableTable";
-import {
-  EAttributeAction,
-  ESelectableValueAction,
-  TAttributeDetail,
-  TSelectableItem,
-} from "~/shared/api/attributes";
+import { EAttributeAction, ESelectableValueAction } from "~/shared/api/attributes";
+import type { TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
-import { TParams } from "~/types";
+import type { TParams } from "~/types";
 import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./AttributeEdit.module.css";
-import { SelectableAddModal } from "~/pages/Admin/Attributes/SelectableAddModal";
 
 type TProps = {
   attribute: TAttributeDetail;
@@ -47,7 +45,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
 
   const { defaultTypeOptions, typeOptions } = useGetTypeOptions(attribute.type);
 
-  const [selectable, setSelectable] = useState<TSelectableItem[]>(attribute?.selectable ?? []);
+  const [selectable] = useState<TSelectableItem[]>(attribute?.selectable ?? []);
   // console.log("selectable: ", selectable);
 
   const form = useInitForm<TForm>({
@@ -57,14 +55,14 @@ export const AttributeEdit: FC<TProps> = (props) => {
   const fetcher = form.fetcher;
 
   useEffect(() => {
-    if (isDoneType && fetcher.data?.success) {
+    if (fetcher.data && fetcher.data?.success) {
       notify.success({
-        title: "Атрибут обновлен",
+        title: "Выполнено",
       });
     }
-    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
+    if (fetcher.data && !fetcher.data?.success) {
       notify.error({
-        title: "Не удалось обновить атрибут",
+        title: "Ошибка выполнения",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,7 +98,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     fetcher.submit(form, {
       method: EFormMethods.Patch,
       action: createPath({
-        route: ERoutes.AttributeEdit,
+        route: ERoutes.AdminAttributeEdit,
         params: { alias: attribute.alias },
         withIndex: true,
       }),
@@ -123,7 +121,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     fetcher.submit(form, {
       method: EFormMethods.Post,
       action: createPath({
-        route: ERoutes.AttributeEdit,
+        route: ERoutes.AdminAttributeEdit,
         params: { alias: attribute.alias },
         withIndex: true,
       }),
@@ -150,7 +148,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     fetcher.submit(formattedParams, {
       method: EFormMethods.Put,
       action: createPath({
-        route: ERoutes.AttributeEdit,
+        route: ERoutes.AdminAttributeEdit,
         params: { alias: attribute.alias },
         withIndex: true,
       }),

@@ -1,8 +1,12 @@
 import {
   productAddParamsSchema,
   productAddSchema,
+  productDeleteParamsSchema,
+  productDeleteSchema,
   productDetailParamsSchema,
   productDetailSchema,
+  productEditParamsSchema,
+  productEditSchema,
   productsByCatalogSchema,
   productsByCatalogSearchParamsSchema,
   productsParamsSchema,
@@ -12,6 +16,7 @@ import {
   getProductsByCatalogApi,
   getProductDetailApi,
   addProductApi,
+  deleteProductApi,
   getProductsApi,
 } from "~/shared/api/products/utils";
 import { apiDomainFunction } from "~/utils";
@@ -32,3 +37,8 @@ export const addProduct = apiDomainFunction(
   productAddParamsSchema,
   productAddSchema,
 )(addProductApi);
+
+export const deleteProduct = apiDomainFunction(
+  productDeleteParamsSchema,
+  productDeleteSchema,
+)(deleteProductApi);

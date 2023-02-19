@@ -1,5 +1,6 @@
 import { inputFromForm } from "remix-domains";
-import { ActionArgs, json } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
 import { ProductAdd, productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import { addProduct } from "~/shared/api/products";
 import { internalError } from "~/utils";

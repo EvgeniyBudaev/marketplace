@@ -1,9 +1,12 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { badRequest } from "remix-utils";
 import { Attributes, attributesLinks } from "~/pages/Admin/Attributes";
 import { deleteAttribute, EAttributeAction, getAttributes } from "~/shared/api/attributes";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
+import { getResponseError } from "~/shared/domain";
 import { internalError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -22,25 +25,32 @@ export const loader = async (args: LoaderArgs) => {
   const { request } = args;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
+
   const formattedParams = mapParamsToDto({
     ...formValues,
   });
 
-  const response = await getAttributes(request, { params: formattedParams });
+  try {
+    const response = await getAttributes(request, { params: formattedParams });
 
-  if (!response.success) {
-    throw internalError();
+    if (response.success) {
+      return json({
+        attributes: response.data,
+        success: true,
+      });
+    }
+    return badRequest({ success: false });
+  } catch (error) {
+    const errorResponse = error as Response;
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+    return badRequest({ success: false, formError, fieldErrors });
   }
-
-  return json({
-    attributes: response.data,
-  });
 };
 
 export default function AttributesRoute() {
-  const data = useLoaderData<typeof loader>();
+  const { attributes } = useLoaderData<typeof loader>();
 
-  return <Attributes attributes={data.attributes} />;
+  return <Attributes attributes={attributes} />;
 }
 
 export function links() {

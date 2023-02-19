@@ -1,7 +1,8 @@
 import { memo, useEffect, useRef } from "react";
 import type { FC, DOMAttributes } from "react";
 import clsx from "clsx";
-import { EColorType, ETextColor, TColor } from "~/uikit";
+import { EColorType, ETextColor } from "~/uikit";
+import type { TColor } from "~/uikit";
 import { formatToStringWithPx } from "~/uikit/utils";
 import type { IconType } from "./IconType";
 import { iconTypes } from "./IconType";
