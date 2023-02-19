@@ -77,13 +77,13 @@ public class ProductController {
     return productDao.findAll(param);
 
     }
-    @PostMapping
+    @PostMapping("/save")
     public ResponseProductDto saveProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
         Product product=manageProductDao.save(productDto);
         return new ResponseProductDto(product,productDto.getCatalogAlias());
     }
 
-    @PutMapping
+    @PutMapping("/put")
     public ResponseProductDto updateProduct(@Valid @RequestBody RequestUpdateProductDto productDto) {
         Product product=manageProductDao.update(productDto);
         return new ResponseProductDto(product,productDto.getCatalogAlias());
