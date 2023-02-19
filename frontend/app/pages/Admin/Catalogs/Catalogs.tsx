@@ -55,6 +55,12 @@ export const Catalogs: FC<TProps> = (props) => {
   });
 
   useEffect(() => {
+    if (fetcher.data && fetcher.data?.success) {
+      notify.success({
+        title: "Выполнено",
+      });
+    }
+
     if (fetcher.data && !fetcher.data?.success) {
       notify.error({
         title: "Ошибка",

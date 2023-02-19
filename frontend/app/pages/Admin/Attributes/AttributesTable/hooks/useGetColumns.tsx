@@ -35,7 +35,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
               <Link
                 className="AttributesTable-ActionsEdit"
                 to={createPath({
-                  route: ERoutes.AdminAttributeAdd,
+                  route: ERoutes.AdminAttributeEdit,
                   params: { alias: row.original.alias },
                 })}
               >

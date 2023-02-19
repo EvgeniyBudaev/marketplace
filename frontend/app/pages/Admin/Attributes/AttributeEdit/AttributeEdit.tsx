@@ -45,7 +45,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
 
   const { defaultTypeOptions, typeOptions } = useGetTypeOptions(attribute.type);
 
-  const [selectable, setSelectable] = useState<TSelectableItem[]>(attribute?.selectable ?? []);
+  const [selectable] = useState<TSelectableItem[]>(attribute?.selectable ?? []);
   // console.log("selectable: ", selectable);
 
   const form = useInitForm<TForm>({
@@ -55,14 +55,14 @@ export const AttributeEdit: FC<TProps> = (props) => {
   const fetcher = form.fetcher;
 
   useEffect(() => {
-    if (isDoneType && fetcher.data?.success) {
+    if (fetcher.data && fetcher.data?.success) {
       notify.success({
-        title: "Атрибут обновлен",
+        title: "Выполнено",
       });
     }
-    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
+    if (fetcher.data && !fetcher.data?.success) {
       notify.error({
-        title: "Не удалось обновить атрибут",
+        title: "Ошибка выполнения",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,7 +98,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     fetcher.submit(form, {
       method: EFormMethods.Patch,
       action: createPath({
-        route: ERoutes.AttributeEdit,
+        route: ERoutes.AdminAttributeEdit,
         params: { alias: attribute.alias },
         withIndex: true,
       }),
@@ -121,7 +121,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     fetcher.submit(form, {
       method: EFormMethods.Post,
       action: createPath({
-        route: ERoutes.AttributeEdit,
+        route: ERoutes.AdminAttributeEdit,
         params: { alias: attribute.alias },
         withIndex: true,
       }),
@@ -148,7 +148,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     fetcher.submit(formattedParams, {
       method: EFormMethods.Put,
       action: createPath({
-        route: ERoutes.AttributeEdit,
+        route: ERoutes.AdminAttributeEdit,
         params: { alias: attribute.alias },
         withIndex: true,
       }),

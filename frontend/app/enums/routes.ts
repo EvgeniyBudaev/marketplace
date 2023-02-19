@@ -5,14 +5,13 @@ export enum ERoutes {
 
   AdminAttributes = "/admin/attributes",
   AdminAttributeAdd = "/admin/attributes/add",
+  AdminAttributeEdit = "/admin/attributes/:alias/edit",
 
   AdminCatalogs = "/admin/catalogs",
   AdminCatalogEdit = "/admin/catalogs/:alias/edit",
 
   AdminProducts = "/admin/products",
   AdminProductEdit = "/admin/products/:alias/edit",
-
-  AttributeEdit = "/admin/attributes/:alias/edit",
 
   Cart = "/cart",
   CatalogAdd = "/admin/catalogs/add",

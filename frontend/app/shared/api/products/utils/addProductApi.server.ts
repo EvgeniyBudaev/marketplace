@@ -3,8 +3,11 @@ import type { TApiFunction } from "~/shared/api";
 import type { TProductAdd, TProductAddParams } from "~/shared/api/products";
 import { EFormMethods } from "~/shared/form";
 
-export const addProductApi: TApiFunction<TProductAddParams, TProductAdd> = (request) => {
-  return fetchApi<TProductAdd>(request, `/api/v1/products`, {
+export const addProductApi: TApiFunction<TProductAddParams, TProductAdd> = (request, params) => {
+  const url = `/api/v1/products/save`;
+  console.log("[utils add params] ", params);
+  return fetchApi<TProductAdd>(request, url, {
     method: EFormMethods.Post,
+    body: params,
   });
 };

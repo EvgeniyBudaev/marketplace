@@ -4,14 +4,14 @@ type TRoutes =
   | ERoutes.AdminCatalogs
   | ERoutes.AdminProducts
   | ERoutes.AdminAttributes
+  | ERoutes.AdminAttributeAdd
   | ERoutes.Cart
   | ERoutes.CatalogAdd
   | ERoutes.Login
   | ERoutes.Signup;
 
 type TRoutesWithParams =
-  | ERoutes.AttributeEdit
-  | ERoutes.AdminAttributeAdd
+  | ERoutes.AdminAttributeEdit
   | ERoutes.AdminCatalogEdit
   | ERoutes.AdminProductEdit
   | ERoutes.CatalogDetail

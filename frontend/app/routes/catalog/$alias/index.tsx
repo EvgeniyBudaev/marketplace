@@ -1,6 +1,6 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import { ActionArgs, json } from "@remix-run/node";
-import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import { Catalog, catalogLinks } from "~/pages";
