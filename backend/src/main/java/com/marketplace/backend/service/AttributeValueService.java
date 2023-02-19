@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -89,7 +90,7 @@ public class AttributeValueService {
     @Transactional
     public List<Object[]> deleteById(Long id){
         Query selListQuery = entityManager.
-                createNativeQuery("select sv2.id, sv2.value, a.alias as attributeAlias from selectable_values as sv2 right join attributes a on a.id = sv2.attribute_id\n" +
+                createNativeQuery("select sv2.id, sv2.value, a.id as attributeId from selectable_values as sv2 right join attributes a on a.id = sv2.attribute_id\n" +
                         "                                            right join selectable_values as sv on sv.attribute_id=a.id where sv.id =:id");
         selListQuery.setParameter("id",id);
         List<Object[]> result = selListQuery.getResultList();
@@ -119,6 +120,23 @@ public class AttributeValueService {
         Query deleteQuery = entityManager.createQuery("DELETE FROM SelectableValue sv where sv in(:values)");
         deleteQuery.setParameter("values",values);
         deleteQuery.executeUpdate();
+    }
+
+    @Transactional
+    public void updateAttributeModifyDate(String alias){
+        Query updateQuery = entityManager
+                .createQuery("UPDATE Attribute set modifyDate=:time where alias=:alias");
+        updateQuery.setParameter("time", LocalDateTime.now());
+        updateQuery.setParameter("alias",alias);
+        updateQuery.executeUpdate();
+    }
+    @Transactional
+    public void updateAttributeModifyDate(Long attributeId){
+        Query updateQuery = entityManager
+                .createQuery("UPDATE Attribute set modifyDate=:time where id=:id");
+        updateQuery.setParameter("time", LocalDateTime.now());
+        updateQuery.setParameter("id",attributeId);
+        updateQuery.executeUpdate();
     }
 
 }

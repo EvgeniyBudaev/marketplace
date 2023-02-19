@@ -5,6 +5,7 @@ import java.util.HashMap;
 public enum ESortedFields {
     CREATED("created","createdAt"),
     MODIFIED("modify","modifyDate"),
+    ALIAS("alias","alias"),
     NAME("name","name"),
     PRICE("price","price");
     private final String alias;
