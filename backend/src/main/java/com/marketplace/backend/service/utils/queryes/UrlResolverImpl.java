@@ -21,7 +21,7 @@ public class UrlResolverImpl implements UrlResolver {
         for(String row: paramArray){
             String[] row1 = row.split("=");
             if (row1.length != 2) {
-                throw new OperationNotAllowedException("Не поддерживаемый запрос");
+                continue;
             }
             switch (row1[0]) {
                 case "page" -> param.setPage(Integer.valueOf(row1[1]));

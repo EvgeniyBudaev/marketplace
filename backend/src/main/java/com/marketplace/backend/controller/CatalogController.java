@@ -7,6 +7,7 @@ import com.marketplace.backend.dto.catalog.request.RequestUpdateCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSingleAfterSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalogDto;
+import com.marketplace.backend.exception.AppError;
 import com.marketplace.backend.mappers.CatalogMapper;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
@@ -18,6 +19,8 @@ import com.marketplace.backend.service.utils.queryes.QueryParam;
 import com.marketplace.backend.service.utils.queryes.UrlResolver;
 import com.marketplace.backend.service.utils.queryes.UrlResolverImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,8 +98,13 @@ public class CatalogController {
 
 
     @DeleteMapping("/delete/{alias}")
-    public void deleteCatalog(@PathVariable String alias) {
-        catalogService.delete(alias);
+    public ResponseEntity<?> deleteCatalog(@PathVariable String alias) {
+       int countOfDeleteCatalogs = catalogService.delete(alias);
+        if(countOfDeleteCatalogs<1){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден каталог с псевдониммом: "+alias));
+        }
+        return ResponseEntity.ok("Каталог с псевдонимом = " + alias + " удален");
     }
 
     @PatchMapping("/patch")

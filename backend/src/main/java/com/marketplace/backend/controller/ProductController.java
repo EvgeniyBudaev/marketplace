@@ -92,7 +92,6 @@ public class ProductController {
     @DeleteMapping("delete/{alias}")
     public ResponseEntity<?> deleteProduct(@PathVariable String alias) {
         Integer countProductMarkAsDeleted = manageProductDao.delete(alias);
-        System.out.println(countProductMarkAsDeleted);
         if(countProductMarkAsDeleted<1){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден продукт с псевдониммом: "+alias));
