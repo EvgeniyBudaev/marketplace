@@ -7,4 +7,16 @@ export const formSchema = z.object({
   [EFormFields.Enabled]: z.boolean(),
   [EFormFields.Image]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
   [EFormFields.Name]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+  [EFormFields.AttributeAlias]: z.union([
+    z.object({
+      label: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+      value: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    }),
+    z
+      .object({
+        label: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+        value: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+      })
+      .array(),
+  ]),
 });
