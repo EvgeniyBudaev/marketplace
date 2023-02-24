@@ -92,28 +92,6 @@
 .HeaderBottom-InfoLeft .HeaderBottom-Text:last-child {
   margin-right: 0;
 }
-.HeaderBottom-InfoRight .HeaderBottom-Text:last-child {
-  margin-left: 25px;
-}
-.HeaderBottom-Text {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  margin-left: 25px;
-  transition: all 0.15s;
-}
-.HeaderBottom-Text span {
-  transition: all 0.15s;
-}
-.HeaderBottom-Text span:hover {
-  color: rgb(176, 151, 106);
-}
-.HeaderBottom-Text__isActive {
-  color: rgb(176, 151, 106);
-}
-.HeaderBottom-Text:hover {
-  color: rgb(176, 151, 106);
-}
 .HeaderBottom-ButtonCatalog {
   top: -1px;
   height: 42px;
