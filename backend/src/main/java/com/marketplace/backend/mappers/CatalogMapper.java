@@ -2,6 +2,7 @@ package com.marketplace.backend.mappers;
 
 import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.request.RequestUpdateCatalogDto;
+import com.marketplace.backend.dto.catalog.response.ResponseAttributeByCatalogAlias;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSingleAfterSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalogDto;
@@ -11,6 +12,7 @@ import com.marketplace.backend.model.values.SelectableValue;
 import org.mapstruct.Mapper;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,6 +36,26 @@ public interface CatalogMapper {
     }
     ResponseSingleCatalogDto.SelectValueDto singleEntitySelectableValueToDto(SelectableValue entity);
     ResponseSimpleCatalogDto entityToSimpleCatalogDto(Catalog catalog);
+
+    ResponseAttributeByCatalogAlias entityToAttributesDto(Catalog catalog);
+    Set<ResponseAttributeByCatalogAlias.NumberAttributeDto> numericAttributeToDto(Set<Attribute> numAttributeList);
+    default Set<ResponseAttributeByCatalogAlias.SelectAttributeDto> selectableAttributeToDto(Set<Attribute> selAttributeList){
+        if ( selAttributeList == null ) {
+            return null;
+        }
+        Set<ResponseAttributeByCatalogAlias.SelectAttributeDto> set = new LinkedHashSet<>(Math.max((int) (selAttributeList.size() / .75f) + 1, 16));
+        for ( Attribute attribute : selAttributeList ) {
+            ResponseAttributeByCatalogAlias.SelectAttributeDto attributeDto = attributeToSelectAttributeDto( attribute );
+            attributeDto.setValues(singleAttributeValuesToDto(attribute.getSingleSelectableValue()));
+            set.add( attributeDto );
+        }
+
+        return set;
+    }
+
+    ResponseAttributeByCatalogAlias.SelectAttributeDto attributeToSelectAttributeDto(Attribute attribute);
+
+    Set<ResponseAttributeByCatalogAlias.SelectValueDto> singleAttributeValuesToDto(Set<SelectableValue> entities);
     default ResponseSingleAfterSaveCatalogDto entityToAfterSaveDto(Catalog catalog,List<Attribute> selAttributeList,List<Attribute> numAttributeList){
         ResponseSingleAfterSaveCatalogDto dto = new ResponseSingleAfterSaveCatalogDto();
         dto.setId(catalog.getId());

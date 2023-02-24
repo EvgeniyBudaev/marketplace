@@ -51,8 +51,6 @@ public class ManageProductService implements ManageProductDao {
     }
 
 
-
-
     @Override
     @Transactional(rollbackOn = {ResourceNotFoundException.class,OperationNotAllowedException.class})
     public Product save(RequestSaveOrUpdate dto){
@@ -60,6 +58,7 @@ public class ManageProductService implements ManageProductDao {
         Product newProduct = productMapper.dtoToEntity(dto);
         newProduct.setDoubleValues(new HashSet<>());
         newProduct.setSelectableValues(new HashSet<>());
+        newProduct.setEnabled(true);
         newProduct.setCatalog(catalogService.simpleCatalogByAlias(dto.getCatalogAlias()));
         entityManager.persist(newProduct);
         Set<SelectableValue> selAttribute = dto.getSelectableValues().stream().map(x->entityManager.getReference(SelectableValue.class,x)).collect(Collectors.toSet());
