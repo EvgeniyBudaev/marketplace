@@ -1,19 +1,31 @@
 import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes } from "~/enums";
+import { ERoutes, ETheme } from "~/enums";
+import { useSettings } from "~/hooks";
 import { EFormFields } from "~/pages/Admin/Catalogs/CatalogAdd/enums";
 import { formSchema } from "~/pages/Admin/Catalogs/CatalogAdd/schemas";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogAdd/types";
-import { Checkbox, EFormMethods, Form, Input, useInitForm } from "~/shared/form";
+import { useGetAttributeOptions } from "~/pages/Admin/Catalogs/hooks";
+import type { TAttributes } from "~/shared/api/attributes";
+import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
 import type { TParams } from "~/types";
 import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./CatalogAdd.module.css";
 
-export const CatalogAdd: FC = () => {
+type TProps = {
+  attributes: TAttributes;
+};
+
+export const CatalogAdd: FC<TProps> = ({ attributes }) => {
+  const settings = useSettings();
+  const theme = settings.settings.theme;
+
   const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({ enabled: [] });
+
+  const { attributeOptions } = useGetAttributeOptions({ attributes });
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
@@ -89,6 +101,15 @@ export const CatalogAdd: FC = () => {
         </div>
         <Input label="Image" name={EFormFields.Image} type="text" />
         <Input label="Name" name={EFormFields.Name} type="text" />
+        <div className="CatalogAdd--FormFieldGroup">
+          <Select
+            defaultValue={attributeOptions[0]}
+            isMulti={true}
+            name={EFormFields.AttributeAlias}
+            options={attributeOptions}
+            theme={theme === ETheme.Light ? "primary" : "secondary"}
+          />
+        </div>
         <div className="CatalogAdd-Control">
           <Button className="CatalogAdd-Button" type="submit">
             Создать

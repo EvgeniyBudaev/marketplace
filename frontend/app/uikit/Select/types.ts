@@ -37,3 +37,5 @@ export type TSelectVariantStyle = {
   menuList: {};
   menuPortal: {};
 };
+
+export type isSelectMultiType = true | false;

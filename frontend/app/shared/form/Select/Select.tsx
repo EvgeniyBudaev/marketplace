@@ -1,16 +1,17 @@
 import { memo, useCallback } from "react";
 import type { FC } from "react";
 import { useController, useFormContext } from "react-hook-form";
+import type { OnChangeValue } from "react-select";
 import isNull from "lodash/isNull";
-import { TSorting } from "~/types";
 import { Select as SelectUi } from "~/uikit";
-import type { TSelectProps as TSelectPropsUi } from "~/uikit";
+import type { TSelectProps as TSelectPropsUi, isSelectMultiType, TSelectOption } from "~/uikit";
 
 type TSelectProps = TSelectPropsUi & {
+  isMulti?: isSelectMultiType;
   name: string;
 };
 
-const Component: FC<TSelectProps> = ({ defaultValue, name, ...props }) => {
+const Component: FC<TSelectProps> = ({ defaultValue, isMulti, name, ...props }) => {
   const { control } = useFormContext();
   const {
     field,
@@ -22,14 +23,22 @@ const Component: FC<TSelectProps> = ({ defaultValue, name, ...props }) => {
   });
 
   const handleChange = useCallback(
-    (selectedOption: TSorting | null) => {
+    (selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>) => {
       if (isNull(selectedOption)) return;
       field.onChange(selectedOption);
     },
     [field],
   );
 
-  return <SelectUi {...props} name={field.name} onChange={handleChange} value={field.value} />;
+  return (
+    <SelectUi
+      {...props}
+      isMulti={isMulti}
+      name={field.name}
+      onChange={handleChange}
+      value={field.value}
+    />
+  );
 };
 
 export const Select = memo(Component);

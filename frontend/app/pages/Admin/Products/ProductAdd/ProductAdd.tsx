@@ -1,20 +1,31 @@
 import { useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes } from "~/enums";
-import { EFormFields } from "~/pages/Admin/Products/ProductAdd/enums";
-import { formSchema } from "~/pages/Admin/Products/ProductAdd/schemas";
-import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd/types";
-import { Checkbox, EFormMethods, Form, Input, useInitForm } from "~/shared/form";
-import { Button, ETypographyVariant, Typography } from "~/uikit";
-import styles from "./ProductAdd.module.css";
+import { ERoutes, ETheme } from "~/enums";
+import { useSettings } from "~/hooks";
+import { useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
+import { EFormFields, formSchema } from "~/pages/Admin/Products/ProductAdd";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd";
+import type { TCatalogs } from "~/shared/api/catalogs";
+import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
 import type { TParams } from "~/types";
+import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath } from "~/utils";
+import styles from "./ProductAdd.module.css";
 
-export const ProductAdd: FC = () => {
+type TProps = {
+  catalogs: TCatalogs;
+};
+
+export const ProductAdd: FC<TProps> = ({ catalogs }) => {
+  const settings = useSettings();
+  const theme = settings.settings.theme;
+
   const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({ enabled: [idCheckbox] });
-  console.log("filter: ", filter);
+
+  const { catalogAliasesTypeOptions } = useGetCatalogAlias({ catalogs });
+
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
@@ -59,7 +70,14 @@ export const ProductAdd: FC = () => {
       </h1>
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
         <Input label="Alias" name={EFormFields.Alias} type="text" />
-        <Input label="CatalogAlias" name={EFormFields.CatalogAlias} type="text" />
+        <div className="AttributeAdd-FormFieldGroup">
+          <Select
+            defaultValue={catalogAliasesTypeOptions[0]}
+            name={EFormFields.CatalogAlias}
+            options={catalogAliasesTypeOptions}
+            theme={theme === ETheme.Light ? "primary" : "secondary"}
+          />
+        </div>
         <Input label="Description" name={EFormFields.Description} type="text" />
         <div className="ProductAdd-FormFieldGroup">
           <Checkbox
@@ -72,6 +90,8 @@ export const ProductAdd: FC = () => {
           />
         </div>
         <Input label="Name" name={EFormFields.Name} type="text" />
+        <Input label="Count" name={EFormFields.Count} type="text" />
+        <Input label="Price" name={EFormFields.Price} type="text" />
         <div className="ProductAdd-Control">
           <Button className="ProductAdd-Button" type="submit">
             Создать

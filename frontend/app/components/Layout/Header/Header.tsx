@@ -4,15 +4,13 @@ import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 //import useWindowScroll from "hooks/useWindowScroll";
 import { TRANSITION } from "~/constants";
-import { ETheme } from "~/enums";
-import { TCart } from "~/shared/api/cart";
+import type { ETheme } from "~/enums";
+import type { TCart } from "~/shared/api/cart";
 import { Overlay } from "~/uikit";
 import { CatalogDropDown, catalogDropDownLinks } from "./CatalogDropDown";
 import { HeaderBottom } from "./HeaderBottom";
-import { HeaderCenter } from "./HeaderCenter";
 import { headerBottomLinks } from "~/components/Layout/Header/HeaderBottom";
-import { headerCenterLinks } from "~/components/Layout/Header/HeaderCenter";
-import { headerIconListLinks } from "~/components/Layout/Header/HeaderCenter/HeaderIconsList";
+import { headerIconListLinks } from "~/components/Layout/Header/HeaderIconsList";
 import styles from "./Header.module.css";
 
 type TProps = {
@@ -46,7 +44,6 @@ export const Header: FC<TProps> = ({ cart, theme }) => {
         })}
       >
         <header className="Header" ref={headerRef}>
-          <HeaderCenter cart={cart} isScroll={isScroll} theme={theme} />
           <HeaderBottom isCatalogOpen={isCatalogOpen} onCatalogToggle={onCatalogToggle} />
         </header>
       </div>
@@ -69,7 +66,6 @@ export function headerLinks() {
     { rel: "stylesheet", href: styles },
     ...catalogDropDownLinks(),
     ...headerBottomLinks(),
-    ...headerCenterLinks(),
     ...headerIconListLinks(),
   ];
 }

@@ -73,6 +73,25 @@
 .Footer-Link:hover {
   color: rgb(65, 75, 90);
 }
+.Footer-Text {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin-left: 25px;
+  transition: all 0.15s;
+}
+.Footer-Text span {
+  transition: all 0.15s;
+}
+.Footer-Text span:hover {
+  color: rgb(176, 151, 106);
+}
+.Footer-Text__isActive {
+  color: rgb(176, 151, 106);
+}
+.Footer-Text:hover {
+  color: rgb(176, 151, 106);
+}
 
 @media (max-width: 768px) {
   .Footer-LogoWrapper svg {

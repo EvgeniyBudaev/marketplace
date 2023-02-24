@@ -8,7 +8,7 @@ export const deleteAttributeApi: TApiFunction<TAttributeDeleteParams, TAttribute
   params,
 ) => {
   const { alias } = params;
-  const url = `/api/v1/attributes/${alias}`;
+  const url = `/api/v1/attributes/delete/${alias}`;
   console.log("[utils delete params] ", params);
   return fetchApi<TAttributeDelete>(request, url, {
     method: EFormMethods.Delete,

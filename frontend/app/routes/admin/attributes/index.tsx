@@ -7,18 +7,26 @@ import { Attributes, attributesLinks } from "~/pages/Admin/Attributes";
 import { deleteAttribute, EAttributeAction, getAttributes } from "~/shared/api/attributes";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getResponseError } from "~/shared/domain";
-import { internalError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const { _method, alias } = await inputFromForm(request);
-  if (_method === EAttributeAction.DeleteAttribute) {
-    const response = await deleteAttribute(request, { alias });
-    if (!response.success) {
-      throw internalError();
+  try {
+    if (_method === EAttributeAction.DeleteAttribute) {
+      const response = await deleteAttribute(request, { alias });
+      if (response.success) {
+        return { success: true };
+      }
+      return badRequest({ success: false });
     }
+  } catch (error) {
+    const errorResponse = error as Response;
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+    console.log("[ERROR] ", error);
+    console.log("[fieldErrors] ", fieldErrors);
+    console.log("[formError] ", formError);
+    return badRequest({ success: false, formError, fieldErrors });
   }
-  return null;
 };
 
 export const loader = async (args: LoaderArgs) => {
