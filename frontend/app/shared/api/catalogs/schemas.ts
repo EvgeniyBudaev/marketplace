@@ -31,6 +31,7 @@ export const catalogsItemSchema = z.object({
   name: z.string(),
   alias: z.string(),
   image: z.string().nullish(),
+  enabled: z.boolean(),
   createdAt: z.string(),
   modifyDate: z.string(),
 });

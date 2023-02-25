@@ -1,11 +1,14 @@
-import { inputFromForm } from "remix-domains";
+import { inputFromForm, inputFromSearch } from "remix-domains";
 import { badRequest } from "remix-utils";
-import { json } from "@remix-run/node";
+import { json, LoaderArgs } from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
 import { CatalogAdd, catalogAddLinks, EFormFields } from "~/pages/Admin/Catalogs/CatalogAdd";
 import type { TForm } from "~/pages/Admin/Catalogs/CatalogAdd";
 import { addCatalog, CatalogsApi } from "~/shared/api/catalogs";
 import { getInputErrors, getResponseError } from "~/shared/domain";
+import { mapParamsToDto } from "~/shared/api/attributes/utils";
+import { getAttributes } from "~/shared/api/attributes";
+import { useLoaderData } from "@remix-run/react";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -39,8 +42,35 @@ export const action = async (args: ActionArgs) => {
   }
 };
 
+export const loader = async (args: LoaderArgs) => {
+  const { request } = args;
+  const url = new URL(request.url);
+  const formValues = inputFromSearch(url.searchParams);
+
+  const formattedParams = mapParamsToDto({
+    ...formValues,
+  });
+
+  try {
+    const response = await getAttributes(request, { params: formattedParams });
+
+    if (response.success) {
+      return json({
+        attributes: response.data,
+        success: true,
+      });
+    }
+    return badRequest({ success: false });
+  } catch (error) {
+    const errorResponse = error as Response;
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+    return badRequest({ success: false, formError, fieldErrors });
+  }
+};
+
 export default function CatalogAddRoute() {
-  return <CatalogAdd />;
+  const data = useLoaderData<typeof loader>();
+  return <CatalogAdd attributes={data.attributes} />;
 }
 
 export function links() {

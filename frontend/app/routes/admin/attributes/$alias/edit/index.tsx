@@ -1,5 +1,5 @@
 import { inputFromForm } from "remix-domains";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
@@ -25,6 +25,8 @@ import {
   mapParamsEditAttributeToDto,
   mapParamsEditSelectableValueToDto,
 } from "~/shared/api/attributes/utils";
+import { createPath } from "~/utils";
+import { ERoutes } from "~/enums";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -77,10 +79,11 @@ export const action = async (args: ActionArgs) => {
 
       if (response.success) {
         console.log("[OK]");
-        return json({
-          attribute: response.data,
-          success: true,
-        });
+        return redirect(
+          createPath({
+            route: ERoutes.AdminAttributes,
+          }),
+        );
       }
 
       const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));

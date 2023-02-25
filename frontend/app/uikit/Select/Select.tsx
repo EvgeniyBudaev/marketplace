@@ -1,11 +1,18 @@
 import { memo } from "react";
 import type { FC, FocusEventHandler } from "react";
 import { default as ReactSelect } from "react-select";
-import type { ActionMeta, GroupBase, StylesConfig } from "react-select";
+import type {
+  ActionMeta,
+  GroupBase,
+  StylesConfig,
+  OnChangeValue,
+  MultiValue,
+  SingleValue,
+} from "react-select";
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
 import { selectStyles } from "~/uikit";
-import type { TSelectOption, TSelectVariants } from "~/uikit";
+import type { TSelectOption, TSelectVariants, isSelectMultiType } from "~/uikit";
 import { generateUUID } from "~/utils";
 import styles from "./Select.module.css";
 
@@ -14,16 +21,17 @@ export type TSelectProps = {
   defaultValue?: TSelectOption;
   id?: string;
   instanceId?: string;
+  isMulti?: isSelectMultiType;
   name?: string;
   options: TSelectOption[];
-  styles?: StylesConfig<TSelectOption, false, GroupBase<TSelectOption>> | undefined;
+  styles?: StylesConfig<TSelectOption, isSelectMultiType, GroupBase<TSelectOption>> | undefined;
   theme?: TSelectVariants;
-  value?: TSelectOption;
+  value?: SingleValue<TSelectOption> | MultiValue<TSelectOption>;
   onBlur?: FocusEventHandler;
-  onChange?:
-    | (((value: TSelectOption | null, actionMeta: ActionMeta<TSelectOption>) => void) &
-        ((value: TSelectOption | null, action: ActionMeta<TSelectOption>) => void))
-    | undefined;
+  onChange?: (
+    value: OnChangeValue<TSelectOption, isSelectMultiType>,
+    action: ActionMeta<TSelectOption>,
+  ) => void;
   onFocus?: FocusEventHandler;
 };
 
@@ -32,6 +40,7 @@ const SelectComponent: FC<TSelectProps> = ({
   defaultValue,
   id,
   instanceId,
+  isMulti = false,
   name,
   options,
   styles,
@@ -50,6 +59,7 @@ const SelectComponent: FC<TSelectProps> = ({
       defaultValue={defaultValue}
       id={id ? id : uuid}
       instanceId={instanceId ? instanceId : uuid}
+      isMulti={isMulti}
       name={name}
       options={options}
       styles={!styles && theme ? selectStyles(theme) : styles}
