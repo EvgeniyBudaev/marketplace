@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useFetcher, useSearchParams, useSubmit } from "@remix-run/react";
+import { useLocation, useSearchParams } from "@remix-run/react";
 import { createBrowserHistory } from "history";
 import { DEFAULT_PAGE_SIZE } from "~/constants";
 import { attributeItemLinks } from "~/pages/Catalog/AttributeItem";
@@ -10,7 +10,7 @@ import { panelLinks } from "~/pages/Catalog/Panel";
 import { productListLinks } from "~/pages/Catalog/ProductList";
 import { productListItemLinks } from "~/pages/Catalog/ProductListItem";
 import { sortingLinks } from "~/pages/Catalog/Sorting";
-import { TCart } from "~/shared/api/cart";
+import type { TCart } from "~/shared/api/cart";
 import type { TCatalogDetail } from "~/shared/api/catalogs";
 import type { TProductByCatalog, TProductsByCatalog } from "~/shared/api/products";
 import type { TParams, TSorting } from "~/types";
@@ -47,10 +47,8 @@ const PLACEHOLDER_PRODUCT: TProductByCatalog = {
 const history = typeof document !== "undefined" ? createBrowserHistory() : null;
 
 export const Catalog: FC<TProps> = (props) => {
-  const submit = useSubmit();
-  const fetcher = useFetcher();
-  const isLoading = fetcher.state !== "idle";
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
   const lastLoadedPage = useRef(page);
@@ -110,9 +108,12 @@ export const Catalog: FC<TProps> = (props) => {
       }
 
       if (pages[page - 1] === undefined || isFiltersDirty) {
-        submit(getFormData());
+        setSearchParams(new URLSearchParams(getFormData() as any), { preventScrollReset: true });
       } else {
-        history?.push("?" + new URLSearchParams(getFormData() as any).toString());
+        history?.push({
+          ...location,
+          search: "?" + new URLSearchParams(getFormData() as any).toString(),
+        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,7 +150,7 @@ export const Catalog: FC<TProps> = (props) => {
 
   const getMoreProducts = async () => {
     if (products.content.length < products.countOfResult) {
-      setPage((page) => page + 1);
+      setPage(pages.length + 1);
     }
   };
 
@@ -196,10 +197,10 @@ export const Catalog: FC<TProps> = (props) => {
             sorting={sorting}
           />
           <InfiniteScroll
-            dataLength={getRenderedProductsCount()}
+            dataLength={pages.length}
             next={getMoreProducts}
             hasMore={getRenderedProductsCount() < products.countOfResult}
-            loader={isLoading ? <h4>Loading...</h4> : null}
+            loader={<h4>Loading...</h4>}
             endMessage={
               <p style={{ textAlign: "center" }}>
                 <b>Yay! You have seen it all</b>

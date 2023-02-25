@@ -12,6 +12,7 @@ export enum ERoutes {
   AdminCatalogEdit = "/admin/catalogs/:alias/edit",
 
   AdminProducts = "/admin/products",
+  AdminProductAdd = "/admin/products/add",
   AdminProductEdit = "/admin/products/:alias/edit",
 
   Cart = "/cart",
@@ -21,6 +22,7 @@ export enum ERoutes {
   Recipient = "/recipient",
   Shipping = "/shipping",
 
+  ResourcesAttributesByCatalog = "/resources/catalogs/attributes/:alias",
   ResourcesCatalogs = "/resources/catalogs",
   ResourcesCart = "/resources/cart",
   ResourcesCartItemIncrement = "/resources/cart/increment",

@@ -6,7 +6,7 @@ type TRoutes =
   | ERoutes.AdminAttributes
   | ERoutes.AdminAttributeAdd
   | ERoutes.Cart
-  | ERoutes.CatalogAdd
+  | ERoutes.AdminProductAdd
   | ERoutes.Login
   | ERoutes.Signup;
 
@@ -15,6 +15,7 @@ type TRoutesWithParams =
   | ERoutes.AdminCatalogEdit
   | ERoutes.AdminProductEdit
   | ERoutes.CatalogDetail
+  | ERoutes.ResourcesAttributesByCatalog
   | ERoutes.ProductDetail;
 
 type TCreatePathProps =

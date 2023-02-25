@@ -65,13 +65,7 @@ export const productDetailSchema = z.object({
   attributes: attributeItemSchema.array(),
 });
 
-export const productAddParamsSchema = z.object({
-  alias: z.string(),
-  catalogAlias: z.string(),
-  description: z.string(),
-  enabled: z.boolean(),
-  name: z.string(),
-});
+export const productAddParamsSchema = z.any();
 
 export const productAddSchema = z.any();
 

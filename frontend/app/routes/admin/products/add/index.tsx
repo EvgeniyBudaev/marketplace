@@ -7,6 +7,7 @@ import { mapParamsToDto } from "~/shared/api/catalogs/utils";
 import { addProduct } from "~/shared/api/products";
 import { internalError } from "~/utils";
 import { useLoaderData } from "@remix-run/react";
+import { getAttributesByCatalog } from "~/shared/api/attributes";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -33,14 +34,14 @@ export const loader = async (args: LoaderArgs) => {
     ...formValues,
   });
   console.log("[catalogs formattedParams: ] ", formattedParams);
-  const response = await getCatalogs(request, { params: formattedParams });
+  const catalogsResponse = await getCatalogs(request, { params: formattedParams });
 
-  if (!response.success) {
+  if (!catalogsResponse.success) {
     throw internalError();
   }
-  console.log("response.data: ", response.data);
+  console.log("response.data: ", catalogsResponse.data);
   return json({
-    catalogs: response.data,
+    catalogs: catalogsResponse.data,
   });
 };
 
