@@ -7,6 +7,8 @@ import {
   attributeDetailSchema,
   attributeEditParamsSchema,
   attributeEditSchema,
+  attributesByCatalogParamsSchema,
+  attributesByCatalogSchema,
   attributesParamsSchema,
   attributesSchema,
   selectableValueAddParamsSchema,
@@ -24,6 +26,7 @@ import {
   editSelectableValueApi,
   getAttributeDetailApi,
   getAttributesApi,
+  getAttributesByCatalogApi,
 } from "~/shared/api/attributes/utils";
 import { apiDomainFunction } from "~/utils";
 import { deleteSelectableValueApi } from "~/shared/api/attributes/utils/deleteSelectableValueApi.server";
@@ -67,3 +70,8 @@ export const addSelectableValue = apiDomainFunction(
   selectableValueAddParamsSchema,
   selectableValueAddSchema,
 )(addSelectableValueApi);
+
+export const getAttributesByCatalog = apiDomainFunction(
+  attributesByCatalogParamsSchema,
+  attributesByCatalogSchema,
+)(getAttributesByCatalogApi);

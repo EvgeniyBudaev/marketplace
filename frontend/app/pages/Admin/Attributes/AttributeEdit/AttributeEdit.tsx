@@ -37,7 +37,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
   const theme = settings.settings.theme;
 
   const idCheckbox = "checkbox";
-  const [filter, setFilter] = useState<TParams>({ filter: [idCheckbox] });
+  const [filter, setFilter] = useState<TParams>({ filter: [attribute.filter ? [idCheckbox] : []] });
 
   const [addModal, setAddModal] = useState<TAddModalState>({ isOpen: false });
 

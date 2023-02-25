@@ -5,12 +5,15 @@ import {
   catalogDeleteSchema,
   catalogDetailParamsSchema,
   catalogDetailSchema,
+  catalogEditParamsSchema,
+  catalogEditSchema,
   catalogsParamsSchema,
   catalogsSchema,
 } from "~/shared/api/catalogs/schemas";
 import {
   addCatalogApi,
   deleteCatalogApi,
+  editCatalogApi,
   getCatalogDetailApi,
   getCatalogsApi,
 } from "~/shared/api/catalogs/utils";
@@ -32,3 +35,8 @@ export const deleteCatalog = apiDomainFunction(
   catalogDeleteParamsSchema,
   catalogDeleteSchema,
 )(deleteCatalogApi);
+
+export const editCatalog = apiDomainFunction(
+  catalogEditParamsSchema,
+  catalogEditSchema,
+)(editCatalogApi);

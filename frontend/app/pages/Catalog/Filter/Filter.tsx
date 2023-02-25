@@ -1,7 +1,8 @@
 import type { ChangeEvent, FC } from "react";
 import { Form } from "@remix-run/react";
+import isNil from "lodash/isNil";
 import { TRANSITION } from "~/constants";
-import type { TCatalogAttributeItem, TCatalogDetail } from "~/shared/api/catalogs";
+import type { TCatalogDetail, TCatalogSelectAttributeItem } from "~/shared/api/catalogs";
 import { EFormMethods } from "~/shared/form";
 import type { TParams } from "~/types";
 import { Accordion, Button, Checkbox, ETypographyVariant, Overlay, Typography } from "~/uikit";
@@ -22,20 +23,28 @@ export const getDefaultFilter = (
   catalog: TCatalogDetail,
   searchParams: URLSearchParams,
 ): TParams => {
-  const mapToInitialState = (attributes: TCatalogAttributeItem[]): { [key: string]: string[] } =>
-    attributes.reduce((acc, item) => {
+  const mapToInitialState = (
+    attributes?: TCatalogSelectAttributeItem[] | null,
+  ): { [key: string]: string[] } => {
+    if (isNil(attributes)) {
+      return {};
+    }
+    return attributes.reduce((acc, item) => {
       const all = searchParams.getAll(item.alias);
       return { ...acc, [item.alias]: all.length > 0 ? all : [] };
     }, {});
+  };
 
-  const attributes = catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
-  const initialState = mapToInitialState(attributes);
-
-  return initialState;
+  const attributes =
+    catalog.selectAttribute &&
+    catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
+  return mapToInitialState(attributes);
 };
 
 export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, filter }) => {
-  const attributes = catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
+  const attributes =
+    catalog.selectAttribute &&
+    catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
 
   const onChangeCheckedBox = (
     event: ChangeEvent<HTMLInputElement>,
@@ -67,24 +76,25 @@ export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, fi
     <aside className="Filter">
       <Overlay timeout={TRANSITION} onClick={() => {}} isActive={false} />
       <Form className="Filter-AsideFilterDesktop" method={EFormMethods.Get} onSubmit={handleSubmit}>
-        {attributes.map((item) => (
-          <Accordion key={item.alias} title={item.name} isActive={true}>
-            {item.values.map((valueItem, index) => (
-              <Checkbox
-                checked={
-                  filter && filter[item.alias as keyof TValue].includes(valueItem.id.toString())
-                }
-                className="Filter-CheckboxItem"
-                id={valueItem.id.toString()}
-                label={valueItem.value}
-                key={index}
-                name={item.alias}
-                nameGroup={item.alias}
-                onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
-              />
-            ))}
-          </Accordion>
-        ))}
+        {attributes &&
+          attributes.map((item) => (
+            <Accordion key={item.alias} title={item.name} isActive={true}>
+              {item.values.map((valueItem, index) => (
+                <Checkbox
+                  checked={
+                    filter && filter[item.alias as keyof TValue].includes(valueItem.id.toString())
+                  }
+                  className="Filter-CheckboxItem"
+                  id={valueItem.id.toString()}
+                  label={valueItem.value}
+                  key={index}
+                  name={item.alias}
+                  nameGroup={item.alias}
+                  onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
+                />
+              ))}
+            </Accordion>
+          ))}
         <Button type="submit">
           <Typography variant={ETypographyVariant.TextB3Regular}>Применить</Typography>
         </Button>

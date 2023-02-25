@@ -18,7 +18,7 @@ import styles from "./Select.module.css";
 
 export type TSelectProps = {
   className?: string;
-  defaultValue?: TSelectOption;
+  defaultValue?: TSelectOption | TSelectOption[];
   id?: string;
   instanceId?: string;
   isMulti?: isSelectMultiType;
