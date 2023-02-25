@@ -4,6 +4,7 @@ export * from "./deleteAttributeApi.server";
 export * from "./editAttributeApi.server";
 export * from "./editSelectableValueApi.server";
 export * from "./getAttributesApi.server";
+export * from "./getAttributesByCatalogApi.server";
 export * from "./getAttributeDetailApi.server";
 export * from "./mapParamsToDto.server";
 export * from "./mapParamsAddSelectableValueToDto.server";

@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
+import type { OnChangeValue } from "react-select";
+import { useFetcher } from "@remix-run/react";
+import isNull from "lodash/isNull";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes, ETheme } from "~/enums";
 import { useSettings } from "~/hooks";
 import { useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
 import { EFormFields, formSchema } from "~/pages/Admin/Products/ProductAdd";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd";
+import {
+  getNumberAttributeOptions,
+  getSelectableAttributeOptions,
+} from "~/pages/Admin/Products/utils";
+import type { TAttributesByCatalog } from "~/shared/api/attributes";
 import type { TCatalogs } from "~/shared/api/catalogs";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
 import type { TParams } from "~/types";
 import { Button, ETypographyVariant, Typography } from "~/uikit";
+import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./ProductAdd.module.css";
 
@@ -18,6 +27,7 @@ type TProps = {
 };
 
 export const ProductAdd: FC<TProps> = ({ catalogs }) => {
+  const fetcher = useFetcher();
   const settings = useSettings();
   const theme = settings.settings.theme;
 
@@ -25,6 +35,12 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
   const [filter, setFilter] = useState<TParams>({ enabled: [idCheckbox] });
 
   const { catalogAliasesTypeOptions } = useGetCatalogAlias({ catalogs });
+  const [catalogAlias, setCatalogAlias] = useState<TSelectOption>(catalogAliasesTypeOptions[0]);
+  const attributesByCatalog: TAttributesByCatalog = fetcher.data?.attributesByCatalog;
+  console.log("attributesByCatalog: ", attributesByCatalog);
+  const { numberAttributeOptions } = getNumberAttributeOptions({
+    values: attributesByCatalog?.numberAttribute ? attributesByCatalog.numberAttribute : [],
+  });
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
@@ -52,16 +68,37 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
     }
   };
 
+  const handleChangeCatalogAlias = (
+    selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>,
+  ) => {
+    if (isNull(selectedOption)) return;
+    console.log("selectedOption: ", selectedOption);
+    setCatalogAlias(selectedOption as TSelectOption);
+  };
+
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
-    fetcher.submit(params, {
-      method: EFormMethods.Post,
-      action: createPath({
-        route: ERoutes.CatalogAdd,
-        withIndex: true,
-      }),
-    });
+    // fetcher.submit(params, {
+    //   method: EFormMethods.Post,
+    //   action: createPath({
+    //     route: ERoutes.AdminProductAdd
+    //   }),
+    // });
   };
+
+  useEffect(() => {
+    fetcher.submit(
+      {},
+      {
+        method: EFormMethods.Post,
+        action: createPath({
+          route: ERoutes.ResourcesAttributesByCatalog,
+          params: { alias: catalogAlias.value },
+        }),
+      },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalogAlias]);
 
   return (
     <section>
@@ -74,6 +111,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
           <Select
             defaultValue={catalogAliasesTypeOptions[0]}
             name={EFormFields.CatalogAlias}
+            onChange={handleChangeCatalogAlias}
             options={catalogAliasesTypeOptions}
             theme={theme === ETheme.Light ? "primary" : "secondary"}
           />
@@ -92,6 +130,32 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
         <Input label="Name" name={EFormFields.Name} type="text" />
         <Input label="Count" name={EFormFields.Count} type="text" />
         <Input label="Price" name={EFormFields.Price} type="text" />
+        <div className="ProductAdd-FormFieldGroup">
+          {attributesByCatalog &&
+            attributesByCatalog.selectableAttribute &&
+            attributesByCatalog.selectableAttribute.map((item) => {
+              const { selectableAttributeOptions } = getSelectableAttributeOptions({
+                values: item.values,
+              });
+              return (
+                <div className="ProductAdd-FormFieldGroup">
+                  <Select
+                    defaultValue={selectableAttributeOptions[0]}
+                    name={item.alias}
+                    options={selectableAttributeOptions}
+                    theme={theme === ETheme.Light ? "primary" : "secondary"}
+                  />
+                </div>
+              );
+            })}
+        </div>
+        <div className="ProductAdd-FormFieldGroup">
+          {attributesByCatalog &&
+            attributesByCatalog.numberAttribute &&
+            attributesByCatalog.numberAttribute.map((item) => {
+              return <Input key={item.id} label={item.name} name={item.alias} type="text" />;
+            })}
+        </div>
         <div className="ProductAdd-Control">
           <Button className="ProductAdd-Button" type="submit">
             Создать

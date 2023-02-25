@@ -1,7 +1,7 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
 import { badRequest } from "remix-utils";
-import { json, LoaderArgs } from "@remix-run/node";
-import type { ActionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { CatalogAdd, catalogAddLinks, EFormFields } from "~/pages/Admin/Catalogs/CatalogAdd";
 import type { TForm } from "~/pages/Admin/Catalogs/CatalogAdd";
 import { addCatalog, CatalogsApi } from "~/shared/api/catalogs";

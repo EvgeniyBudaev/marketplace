@@ -1,5 +1,9 @@
 import { z } from "zod";
 import { paginationSchema } from "../commons";
+import {
+  catalogNumberAttributeItemSchema,
+  catalogSelectAttributeItemSchema,
+} from "~/shared/api/catalogs";
 
 export const selectableItemSchema = z.object({
   id: z.number(),
@@ -101,3 +105,13 @@ export const selectableValueAddParamsSchema = z.object({
 });
 
 export const selectableValueAddSchema = selectableItemSchema.array();
+
+export const attributesByCatalogParamsSchema = z.object({
+  alias: z.string(),
+});
+
+export const attributesByCatalogSchema = z.object({
+  alias: z.string(),
+  numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
+  selectableAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+});

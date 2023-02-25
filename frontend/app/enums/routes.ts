@@ -8,19 +8,21 @@ export enum ERoutes {
   AdminAttributeEdit = "/admin/attributes/:alias/edit",
 
   AdminCatalogs = "/admin/catalogs",
+  AdminCatalogAdd = "/admin/catalogs/add",
   AdminCatalogEdit = "/admin/catalogs/:alias/edit",
 
   AdminProducts = "/admin/products",
+  AdminProductAdd = "/admin/products/add",
   AdminProductEdit = "/admin/products/:alias/edit",
 
   Cart = "/cart",
-  CatalogAdd = "/admin/catalogs/add",
   CatalogDetail = "/catalog/:alias",
   Order = "/order",
   ProductDetail = "/product/:alias",
   Recipient = "/recipient",
   Shipping = "/shipping",
 
+  ResourcesAttributesByCatalog = "/resources/catalogs/attributes/:alias",
   ResourcesCatalogs = "/resources/catalogs",
   ResourcesCart = "/resources/cart",
   ResourcesCartItemIncrement = "/resources/cart/increment",

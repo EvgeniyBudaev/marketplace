@@ -6,11 +6,17 @@ const catalogAttributeValueItemSchema = z.object({
   value: z.string(),
 });
 
-export const catalogAttributeItemSchema = z.object({
+export const catalogSelectAttributeItemSchema = z.object({
   id: z.number(),
   name: z.string(),
   alias: z.string(),
   values: catalogAttributeValueItemSchema.array(),
+});
+
+export const catalogNumberAttributeItemSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  alias: z.string(),
 });
 
 export const catalogDetailSchema = z.object({
@@ -19,7 +25,10 @@ export const catalogDetailSchema = z.object({
   alias: z.string(),
   image: z.string().nullish(),
   enabled: z.boolean(),
-  selectAttribute: catalogAttributeItemSchema.array(),
+  createdAt: z.string(),
+  modifyDate: z.string(),
+  selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+  numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
 });
 
 export const catalogDetailParamsSchema = z.object({
@@ -57,8 +66,8 @@ export const catalogAddSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string(),
   modifyDate: z.string(),
-  selectAttribute: catalogAttributeItemSchema.array().nullish(),
-  numberAttribute: catalogAttributeItemSchema.array().nullish(),
+  selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+  numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
 });
 
 export const catalogDeleteParamsSchema = z.object({
@@ -66,3 +75,24 @@ export const catalogDeleteParamsSchema = z.object({
 });
 
 export const catalogDeleteSchema = z.any();
+
+export const catalogEditParamsSchema = z.object({
+  alias: z.string(),
+  attributeAlias: z.string().array(),
+  enabled: z.boolean(),
+  id: z.number(),
+  image: z.string(),
+  name: z.string(),
+});
+
+export const catalogEditSchema = z.object({
+  alias: z.string(),
+  createdAt: z.string(),
+  enabled: z.boolean(),
+  id: z.number(),
+  image: z.string().nullish(),
+  modifyDate: z.string(),
+  name: z.string(),
+  numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
+  selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+});

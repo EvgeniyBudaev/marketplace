@@ -1,10 +1,10 @@
 import type { GroupBase, StylesConfig } from "react-select";
 import { VARIANTS } from "~/uikit";
-import type { TSelectOption, TSelectVariants } from "~/uikit";
+import type { TSelectOption, TSelectVariants, isSelectMultiType } from "~/uikit";
 
 export const selectStyles = (
   variant: TSelectVariants = "primary",
-): StylesConfig<TSelectOption, false, GroupBase<TSelectOption>> | undefined => {
+): StylesConfig<TSelectOption, isSelectMultiType, GroupBase<TSelectOption>> | undefined => {
   const style = VARIANTS[variant];
 
   return {

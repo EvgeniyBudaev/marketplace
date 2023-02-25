@@ -9,9 +9,10 @@ import type { TSelectProps as TSelectPropsUi, isSelectMultiType, TSelectOption }
 type TSelectProps = TSelectPropsUi & {
   isMulti?: isSelectMultiType;
   name: string;
+  onChange?: (selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>) => void;
 };
 
-const Component: FC<TSelectProps> = ({ defaultValue, isMulti, name, ...props }) => {
+const Component: FC<TSelectProps> = ({ defaultValue, isMulti, name, onChange, ...props }) => {
   const { control } = useFormContext();
   const {
     field,
@@ -26,6 +27,7 @@ const Component: FC<TSelectProps> = ({ defaultValue, isMulti, name, ...props }) 
     (selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>) => {
       if (isNull(selectedOption)) return;
       field.onChange(selectedOption);
+      onChange?.(selectedOption);
     },
     [field],
   );

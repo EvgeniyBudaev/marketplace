@@ -4,7 +4,6 @@ import { useFetcher } from "@remix-run/react";
 import { SearchingPanel } from "~/components/search";
 import { ERoutes } from "~/enums";
 import { useTable } from "~/hooks";
-import { catalogAddLinks } from "~/pages/Admin/Catalogs/CatalogAdd";
 import {
   CatalogsTable,
   catalogsTableLinks,
@@ -116,5 +115,5 @@ export const Catalogs: FC<TProps> = (props) => {
 };
 
 export function catalogsLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...catalogAddLinks(), ...catalogsTableLinks()];
+  return [{ rel: "stylesheet", href: styles }, ...catalogsTableLinks()];
 }

@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import {
+import type {
   attributeAddParamsSchema,
   attributeAddSchema,
   attributeDeleteParamsSchema,
@@ -8,6 +8,8 @@ import {
   attributeDetailSchema,
   attributeEditParamsSchema,
   attributeEditSchema,
+  attributesByCatalogParamsSchema,
+  attributesByCatalogSchema,
   attributesItemSchema,
   attributesParamsSchema,
   attributesSchema,
@@ -46,3 +48,6 @@ export type TSelectableValueDelete = z.infer<typeof selectableValueDeleteSchema>
 
 export type TSelectableValueAddParams = z.infer<typeof selectableValueAddParamsSchema>;
 export type TSelectableValueAdd = z.infer<typeof selectableValueAddSchema>;
+
+export type TAttributesByCatalogParams = z.infer<typeof attributesByCatalogParamsSchema>;
+export type TAttributesByCatalog = z.infer<typeof attributesByCatalogSchema>;
