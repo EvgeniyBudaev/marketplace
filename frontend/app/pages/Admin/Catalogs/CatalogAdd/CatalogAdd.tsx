@@ -76,7 +76,6 @@ export const CatalogAdd: FC<TProps> = ({ attributes }) => {
       method: EFormMethods.Post,
       action: createPath({
         route: ERoutes.AdminCatalogAdd,
-        withIndex: true,
       }),
     });
   };

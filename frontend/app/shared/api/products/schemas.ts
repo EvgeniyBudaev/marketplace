@@ -3,6 +3,7 @@ import { paginationSchema } from "../commons";
 
 const attributeItemSchema = z.object({
   attributeName: z.string(),
+  attributeAlias: z.string(),
   value: z.string(),
 });
 
@@ -62,12 +63,28 @@ export const productDetailSchema = z.object({
   price: z.string(),
   count: z.string(),
   createdAt: z.string(),
+  modifyDate: z.string(),
   attributes: attributeItemSchema.array(),
 });
 
-export const productAddParamsSchema = z.any();
+const numericValuesSchema = z.object({
+  attributeAlias: z.string(),
+  value: z.number(),
+});
 
-export const productAddSchema = z.any();
+export const productAddParamsSchema = z.object({
+  alias: z.string(),
+  catalogAlias: z.string(),
+  count: z.number(),
+  description: z.string().nullish(),
+  enabled: z.boolean(),
+  name: z.string(),
+  numericValues: numericValuesSchema.array().nullish(),
+  price: z.number(),
+  selectableValues: z.number().array().nullish(),
+});
+
+export const productAddSchema = productDetailSchema;
 
 export const productDeleteParamsSchema = z.object({
   alias: z.string(),

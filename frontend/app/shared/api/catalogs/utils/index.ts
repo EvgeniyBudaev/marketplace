@@ -6,4 +6,4 @@ export * from "./getCatalogDetailApi.server";
 export * from "./getCatalogsApi.server";
 export * from "./mapAddCatalogToDto.server";
 export * from "./mapEditCatalogToDto.server";
-export * from "./mapParamsToDto.server";
+export * from "./mapCatalogsToDto.server";

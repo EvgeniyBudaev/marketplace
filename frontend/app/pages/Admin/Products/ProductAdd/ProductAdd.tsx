@@ -7,17 +7,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes, ETheme } from "~/enums";
 import { useSettings } from "~/hooks";
 import { useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
-import { EFormFields, formSchema } from "~/pages/Admin/Products/ProductAdd";
-import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd";
 import {
-  getNumberAttributeOptions,
-  getSelectableAttributeOptions,
-} from "~/pages/Admin/Products/utils";
+  EFormFields,
+  formattedProductAdd,
+  formSchema,
+  mapProductAddToDto,
+} from "~/pages/Admin/Products/ProductAdd";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd";
+import { getSelectableAttributeOptions } from "~/pages/Admin/Products/utils";
 import type { TAttributesByCatalog } from "~/shared/api/attributes";
 import type { TCatalogs } from "~/shared/api/catalogs";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
 import type { TParams } from "~/types";
-import { Button, ETypographyVariant, Typography } from "~/uikit";
+import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./ProductAdd.module.css";
@@ -27,7 +29,7 @@ type TProps = {
 };
 
 export const ProductAdd: FC<TProps> = ({ catalogs }) => {
-  const fetcher = useFetcher();
+  const fetcherRemix = useFetcher();
   const settings = useSettings();
   const theme = settings.settings.theme;
 
@@ -36,15 +38,13 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
 
   const { catalogAliasesTypeOptions } = useGetCatalogAlias({ catalogs });
   const [catalogAlias, setCatalogAlias] = useState<TSelectOption>(catalogAliasesTypeOptions[0]);
-  const attributesByCatalog: TAttributesByCatalog = fetcher.data?.attributesByCatalog;
-  console.log("attributesByCatalog: ", attributesByCatalog);
-  const { numberAttributeOptions } = getNumberAttributeOptions({
-    values: attributesByCatalog?.numberAttribute ? attributesByCatalog.numberAttribute : [],
-  });
+  const attributesByCatalog: TAttributesByCatalog = fetcherRemix.data?.attributesByCatalog;
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
+  const isDoneType = form.isDoneType;
+  const fetcher = form.fetcher;
 
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
@@ -72,22 +72,34 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
     selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>,
   ) => {
     if (isNull(selectedOption)) return;
-    console.log("selectedOption: ", selectedOption);
     setCatalogAlias(selectedOption as TSelectOption);
   };
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
-    // fetcher.submit(params, {
-    //   method: EFormMethods.Post,
-    //   action: createPath({
-    //     route: ERoutes.AdminProductAdd
-    //   }),
-    // });
+    const formattedParams = formattedProductAdd(params);
+    console.log("formattedParams: ", formattedParams);
+    const dataFormToDto = mapProductAddToDto(formattedParams);
+    console.log("dataFormToDto : ", dataFormToDto);
+    fetcher.submit(dataFormToDto, {
+      method: EFormMethods.Post,
+      action: createPath({
+        route: ERoutes.AdminProductAdd,
+      }),
+    });
   };
 
   useEffect(() => {
-    fetcher.submit(
+    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
+      notify.error({
+        title: "Ошибка выполнения",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetcher.data, fetcher.data?.success, isDoneType]);
+
+  useEffect(() => {
+    fetcherRemix.submit(
       {},
       {
         method: EFormMethods.Post,
@@ -138,7 +150,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
                 values: item.values,
               });
               return (
-                <div className="ProductAdd-FormFieldGroup">
+                <div className="ProductAdd-FormFieldGroup" key={item.id}>
                   <Select
                     defaultValue={selectableAttributeOptions[0]}
                     name={item.alias}
@@ -153,7 +165,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
           {attributesByCatalog &&
             attributesByCatalog.numberAttribute &&
             attributesByCatalog.numberAttribute.map((item) => {
-              return <Input key={item.id} label={item.name} name={item.alias} type="text" />;
+              return <Input key={item.id} label={item.name} name={item.alias} type="number" />;
             })}
         </div>
         <div className="ProductAdd-Control">

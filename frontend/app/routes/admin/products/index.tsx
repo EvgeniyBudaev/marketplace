@@ -5,7 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import { Products, productsLinks } from "~/pages/Admin/Products";
 import { deleteProduct, EProductAction, getProducts } from "~/shared/api/products";
-import { mapParamsToDto } from "~/shared/api/products/utils";
+import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getResponseError } from "~/shared/domain";
 
 export const action = async (args: ActionArgs) => {
@@ -35,7 +35,7 @@ export const loader = async (args: LoaderArgs) => {
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
 
-  const formattedParams = mapParamsToDto({
+  const formattedParams = mapProductsToDto({
     ...formValues,
   });
 
