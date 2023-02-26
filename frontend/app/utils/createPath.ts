@@ -2,6 +2,7 @@ import type { ERoutes } from "~/enums";
 
 type TRoutes =
   | ERoutes.AdminCatalogs
+  | ERoutes.AdminCatalogAdd
   | ERoutes.AdminProducts
   | ERoutes.AdminAttributes
   | ERoutes.AdminAttributeAdd

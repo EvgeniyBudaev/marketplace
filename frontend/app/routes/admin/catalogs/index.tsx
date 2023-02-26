@@ -5,7 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import { Catalogs, catalogsLinks } from "~/pages/Admin/Catalogs";
 import { deleteCatalog, ECatalogAction, getCatalogs } from "~/shared/api/catalogs";
-import { mapParamsToDto } from "~/shared/api/catalogs/utils";
+import { mapCatalogsToDto } from "~/shared/api/catalogs/utils";
 import { getResponseError } from "~/shared/domain";
 import { internalError } from "~/utils";
 
@@ -35,7 +35,7 @@ export const loader = async (args: LoaderArgs) => {
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
 
-  const formattedParams = mapParamsToDto({
+  const formattedParams = mapCatalogsToDto({
     ...formValues,
   });
   console.log("[catalogs formattedParams: ] ", formattedParams);
