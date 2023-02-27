@@ -119,7 +119,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
       </h1>
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
         <Input label="Alias" name={EFormFields.Alias} type="text" />
-        <div className="AttributeAdd-FormFieldGroup">
+        <div className="ProductAdd-FormFieldGroup">
           <Select
             defaultValue={catalogAliasesTypeOptions[0]}
             name={EFormFields.CatalogAlias}

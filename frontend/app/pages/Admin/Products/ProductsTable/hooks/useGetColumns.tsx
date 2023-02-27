@@ -29,6 +29,12 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           size: 192,
         }),
 
+        columnHelper.accessor(ETableColumns.Enabled, {
+          id: ETableColumns.Enabled,
+          header: () => <TableHeader>Статус</TableHeader>,
+          size: 192,
+        }),
+
         columnHelper.accessor(ETableColumns.CreatedAt, {
           id: ETableColumns.CreatedAt,
           header: () => <TableHeader>Дата добавления</TableHeader>,
