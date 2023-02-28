@@ -1,29 +1,27 @@
 @import "component";
 
 .ThemeSwitcher {
-  &-Switcher {
-    &-DisplayButton {
+  &-DisplayButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    width: 40px;
+
+    span {
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 38px;
-      width: 40px;
+    }
 
-      span {
-        display: flex;
-        align-items: center;
-      }
+    svg {
+      height: 20px;
+      width: 20px;
+      fill: $color-dark-gray;
+    }
 
+    &__checked {
       svg {
-        height: 20px;
-        width: 20px;
-        fill: $color-dark-gray;
-      }
-
-      &__checked {
-        svg {
-          fill: $color-black;
-        }
+        fill: $color-black;
       }
     }
   }

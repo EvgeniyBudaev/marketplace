@@ -35,23 +35,6 @@
 .HeaderBottom {
   display: flex;
   position: relative;
-  height: 44px;
-  border-top: 1px solid rgb(228, 228, 228);
-  border-bottom: 1px solid rgb(228, 228, 228);
-}
-.HeaderBottom::before,
-.HeaderBottom:after {
-  height: 44px;
-  border-top: 1px solid rgb(228, 228, 228);
-  border-bottom: 1px solid rgb(228, 228, 228);
-}
-.HeaderBottom::before {
-  left: -100%;
-  top: 0;
-}
-.HeaderBottom:after {
-  right: -100%;
-  top: -1px;
 }
 .HeaderBottom__catalogOpen {
   border-top: 1px solid white;
@@ -60,15 +43,14 @@
 .HeaderBottom__catalogOpen .HeaderBottom-Link {
   display: none;
 }
+.HeaderBottom-Title {
+  display: flex;
+  align-items: center;
+  color: rgb(255, 255, 255);
+}
 .HeaderBottom .HeaderBottom-SearchControlsMobile {
   display: none;
   max-width: 100%;
-}
-.HeaderBottom-Container {
-  max-width: 1230px;
-  width: 100%;
-  padding: 0 15px;
-  margin: 0 auto;
 }
 .HeaderBottom-Desktop {
   display: block;
@@ -92,26 +74,8 @@
 .HeaderBottom-InfoLeft .HeaderBottom-Text:last-child {
   margin-right: 0;
 }
-.HeaderBottom-ButtonCatalog {
-  top: -1px;
-  height: 42px;
-  border-radius: 0;
-  box-shadow: none;
-}
-.HeaderBottom-ButtonCatalog span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.HeaderBottom-ButtonCatalogText {
-  margin-left: 12px;
-}
 
 @media (max-width: 768px) {
-  .HeaderBottom {
-    border-top: 1px solid transparent;
-    padding-bottom: 16px;
-  }
   .HeaderBottom-Desktop {
     display: none;
   }
@@ -122,7 +86,6 @@
 }
 @media (max-width: 500px) {
   .HeaderBottom {
-    padding-bottom: 8px;
     margin-top: -10px;
   }
 }

@@ -2,10 +2,15 @@ import { useState } from "react";
 import type { FC } from "react";
 import clsx from "clsx";
 import { ETheme } from "~/enums";
-import { IconButton, Switcher } from "~/uikit";
-import styles from "./ThemeSwitcher.module.css";
+import { ESwitcherVariant, IconButton, Switcher, SWITCHER_THEMES } from "~/uikit";
 
-export const ThemeSwitcher: FC = () => {
+type TProps = {
+  className?: string;
+  variant?: ESwitcherVariant;
+};
+
+export const ThemeSwitcher: FC<TProps> = ({ className, variant = ESwitcherVariant.Default }) => {
+  const currentTheme = SWITCHER_THEMES()[variant];
   const [theme, setTheme] = useState("LIGHT");
   const isLight = theme !== ETheme.Dark;
 
@@ -17,17 +22,17 @@ export const ThemeSwitcher: FC = () => {
   const handleSwitchToLight = handleClick(ETheme.Light);
 
   return (
-    <Switcher isChecked={isLight}>
+    <Switcher className={clsx(currentTheme, className)} isChecked={isLight} variant={variant}>
       <IconButton
-        className={clsx("ThemeSwitcher-Switcher-DisplayButton", {
-          "ThemeSwitcher-Switcher-DisplayButton__checked": isLight,
+        className={clsx("ThemeSwitcher-DisplayButton", {
+          "ThemeSwitcher-DisplayButton__checked": isLight,
         })}
         typeIcon="LightMode"
         onClick={handleSwitchToLight}
       />
       <IconButton
-        className={clsx("ThemeSwitcher-Switcher-DisplayButton", {
-          "ThemeSwitcher-Switcher-DisplayButton__checked": !isLight,
+        className={clsx("ThemeSwitcher-DisplayButton", {
+          "ThemeSwitcher-DisplayButton__checked": !isLight,
         })}
         typeIcon="DarkMode"
         onClick={handleSwitchToDark}
@@ -35,7 +40,3 @@ export const ThemeSwitcher: FC = () => {
     </Switcher>
   );
 };
-
-export function themeSwitcherLinks() {
-  return [{ rel: "stylesheet", href: styles }];
-}

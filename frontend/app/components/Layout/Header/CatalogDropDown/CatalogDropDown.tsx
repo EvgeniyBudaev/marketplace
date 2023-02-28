@@ -51,7 +51,7 @@ export const CatalogDropDown = forwardRef(
         ref={ref}
       >
         <div className="CatalogDropDown-Container">
-          {!isLoading && <CatalogList catalogs={catalogs} onClose={onClose} />}
+          {/*{!isLoading && <CatalogList catalogs={catalogs} onClose={onClose} />}*/}
         </div>
       </div>
     );

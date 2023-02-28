@@ -69,6 +69,9 @@
   justify-content: space-evenly;
   width: 100%;
 }
+.Switcher.Switcher__header .Switcher-Inner {
+  background-color: rgba(255, 255, 255, 0.2);
+}
 
 .theme-dark .Switcher-Inner {
   background-color: rgb(31, 32, 41);

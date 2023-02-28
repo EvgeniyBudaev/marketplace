@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.Container {
+  /*ширина контейнера чистая 1200px*/
+  margin: 0 auto;
+  padding: 0 15px;
+  max-width: 1470px;
+  width: 100%;
+}
+
+/*# sourceMappingURL=Container.module.css.map */

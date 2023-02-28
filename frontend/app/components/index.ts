@@ -1,7 +1,5 @@
 import { errorLinks } from "~/components/Error";
-import { layoutLinks } from "~/components/Layout";
-import { footerLinks } from "~/components/Layout/Footer";
-import { headerLinks } from "~/components/Layout/Header";
+import { containerLinks, footerLinks, headerLinks, layoutLinks } from "~/components/Layout";
 import { logoLinks } from "~/components/Logo";
 import { modalDeleteLinks } from "~/components/modal";
 import { searchGlobalLinks } from "~/components/search/SearchGlobal";
@@ -20,6 +18,7 @@ export * from "./ThemeSwitcher";
 
 export const links = () => {
   return [
+    ...containerLinks(),
     ...errorLinks(),
     ...headerLinks(),
     ...layoutLinks(),

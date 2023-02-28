@@ -4,7 +4,7 @@ import { useFetchers, useLocation, useTransition } from "@remix-run/react";
 import clsx from "clsx";
 import NProgress from "nprogress";
 import { ERoutes, ETheme } from "~/enums";
-import { TCart } from "~/shared/api/cart";
+import type { TCart } from "~/shared/api/cart";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import nProgressStyles from "nprogress/nprogress.css";

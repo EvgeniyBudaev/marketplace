@@ -1,31 +1,9 @@
 @import "component";
 
-$height: 44px;
-
 .HeaderBottom {
   $this: &;
   display: flex;
   position: relative;
-  height: $height;
-  border-top: 1px solid $color-light-gray;
-  border-bottom: 1px solid $color-light-gray;
-
-  &::before,
-  &:after {
-    height: $height;
-    border-top: 1px solid $color-light-gray;
-    border-bottom: 1px solid $color-light-gray;
-  }
-
-  &::before {
-    left: -100%;
-    top: 0;
-  }
-
-  &:after {
-    right: -100%;
-    top: -1px;
-  }
 
   &__catalogOpen {
     border-top: 1px solid white;
@@ -36,16 +14,15 @@ $height: 44px;
     }
   }
 
+  &-Title {
+    display: flex;
+    align-items: center;
+    color: $color-white;
+  }
+
   & #{$this}-SearchControlsMobile {
     display: none;
     max-width: 100%;
-  }
-
-  &-Container {
-    max-width: 1230px;
-    width: 100%;
-    padding: 0 15px;
-    margin: 0 auto;
   }
 
   &-Desktop {
@@ -75,33 +52,11 @@ $height: 44px;
   &-InfoLeft #{$this}-Text:last-child {
     margin-right: 0;
   }
-
-  &-ButtonCatalog {
-    top: -1px;
-    height: 42px;
-    border-radius: 0;
-    box-shadow: none;
-
-    span {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &Hamburger {
-    }
-
-    &Text {
-      margin-left: 12px;
-    }
-  }
 }
 
 @media (max-width: 768px) {
   .HeaderBottom {
     $this: &;
-    border-top: 1px solid transparent;
-    padding-bottom: 16px;
 
     &-Desktop {
       display: none;
@@ -116,7 +71,6 @@ $height: 44px;
 
 @media (max-width: 500px) {
   .HeaderBottom {
-    padding-bottom: 8px;
     margin-top: -10px;
   }
 }

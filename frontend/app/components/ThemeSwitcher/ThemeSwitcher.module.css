@@ -32,23 +32,23 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.ThemeSwitcher-Switcher-DisplayButton {
+.ThemeSwitcher-DisplayButton {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 38px;
   width: 40px;
 }
-.ThemeSwitcher-Switcher-DisplayButton span {
+.ThemeSwitcher-DisplayButton span {
   display: flex;
   align-items: center;
 }
-.ThemeSwitcher-Switcher-DisplayButton svg {
+.ThemeSwitcher-DisplayButton svg {
   height: 20px;
   width: 20px;
   fill: rgb(185, 181, 181);
 }
-.ThemeSwitcher-Switcher-DisplayButton__checked svg {
+.ThemeSwitcher-DisplayButton__checked svg {
   fill: rgb(0, 0, 0);
 }
 

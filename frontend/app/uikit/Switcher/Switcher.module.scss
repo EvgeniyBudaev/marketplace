@@ -1,6 +1,7 @@
 @import "component";
 
 .Switcher {
+  $this: &;
   outline: none;
   max-width: 94px;
   width: 100%;
@@ -39,6 +40,12 @@
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
+  }
+
+  &#{$this}__header {
+    #{$this}-Inner {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   }
 }
 

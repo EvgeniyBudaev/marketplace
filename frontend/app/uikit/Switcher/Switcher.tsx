@@ -1,16 +1,25 @@
 import { memo } from "react";
 import type { FC, ReactNode } from "react";
 import clsx from "clsx";
-import styles from "./Switcher.module.css";
+import { ESwitcherVariant, SWITCHER_THEMES } from "~/uikit";
 
 type TProps = {
   children?: ReactNode;
+  className?: string;
   isChecked?: boolean;
+  variant?: ESwitcherVariant;
 };
 
-const SwitcherComponent: FC<TProps> = ({ children, isChecked }) => {
+const SwitcherComponent: FC<TProps> = ({
+  children,
+  className,
+  isChecked,
+  variant = ESwitcherVariant.Default,
+}) => {
+  const currentTheme = SWITCHER_THEMES()[variant];
+
   return (
-    <div className="Switcher">
+    <div className={clsx(currentTheme, className)}>
       <div className="Switcher-Inner">
         <div
           className={clsx("Switcher-Pointer", {
@@ -24,7 +33,3 @@ const SwitcherComponent: FC<TProps> = ({ children, isChecked }) => {
 };
 
 export const Switcher = memo(SwitcherComponent);
-
-export function switcherLinks() {
-  return [{ rel: "stylesheet", href: styles }];
-}
