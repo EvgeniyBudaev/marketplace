@@ -38,22 +38,19 @@
   position: relative;
   max-width: 620px;
   width: 100%;
-  background-color: transparent;
+  border-radius: 56px;
 }
 .SearchGlobal-Form {
   display: flex;
   align-items: center;
   position: relative;
   width: 100%;
+  z-index: 101;
 }
 .SearchGlobal-InputWrapper {
   padding: 0;
   width: 100%;
   height: 43px;
-  background-color: transparent;
-  border-bottom: 1px solid rgb(228, 228, 228);
-  border-left: 1px solid rgb(228, 228, 228);
-  border-right: 1px solid rgb(228, 228, 228);
 }
 .SearchGlobal-Input {
   font-family: "Roboto", sans-serif;
@@ -66,12 +63,18 @@
   width: 100%;
   height: 42px;
   border: none;
-  background-color: rgb(255, 255, 255);
+  border-radius: 56px;
+  background-color: rgba(255, 255, 255, 0.2);
   outline: transparent;
+  cursor: pointer;
+  transition: background 0.3s ease 0s;
 }
 .SearchGlobal-Input::placeholder {
   background-color: transparent;
-  color: rgb(51, 51, 51);
+  color: rgba(255, 255, 255, 0.5);
+}
+.SearchGlobal-Input:hover {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .SearchGlobal-Icon {
   position: absolute;
@@ -79,13 +82,24 @@
   width: 24px;
   height: 24px;
 }
+.SearchGlobal-Icon svg {
+  fill: rgb(255, 255, 255);
+}
 .SearchGlobal__active {
-  width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-  z-index: 101;
+  background-color: rgb(255, 255, 255);
 }
 .SearchGlobal__active .SearchGlobal-Input {
-  background-color: transparent;
+  background-color: rgb(255, 255, 255);
+  transition: none;
+}
+.SearchGlobal__active .SearchGlobal-Input::placeholder {
+  background-color: rgb(255, 255, 255);
+}
+.SearchGlobal__active .SearchGlobal-Input:hover {
+  background-color: rgb(255, 255, 255);
+}
+.SearchGlobal__active .SearchGlobal-Icon svg {
+  fill: rgb(51, 51, 51);
 }
 
 .theme-dark .SearchGlobal-Input {

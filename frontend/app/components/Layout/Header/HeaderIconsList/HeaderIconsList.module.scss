@@ -15,44 +15,31 @@
     text-align: center;
     max-width: 94px;
     width: 100%;
-
-    a {
-      text-decoration: none;
-      transition: all 0.15s;
-
-      svg {
-        height: 25px;
-        width: 25px;
-      }
-
-      svg,
-      path {
-        transition: all 0.15s;
-      }
-
-      &:hover {
-        #{$this}-IconDescription {
-          color: $color-beige;
-        }
-
-        svg,
-        path {
-          fill: $color-beige;
-        }
-      }
-    }
-  }
-
-  &-IconDescription span {
-    transition: all 0.15s;
-
-    &:hover {
-      color: $color-beige;
-    }
   }
 
   &-IconLink {
     position: relative;
+    text-decoration: none;
+
+    svg,
+    path {
+      height: 25px;
+      width: 25px;
+      fill: $color-white;
+    }
+
+    #{$this}-IconDescription {
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.15s;
+    }
+
+    &:hover {
+      color: $color-white;
+
+      #{$this}-IconDescription {
+        color: $color-white;
+      }
+    }
   }
 
   &-CartItemsCount {

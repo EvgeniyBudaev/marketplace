@@ -11,6 +11,7 @@ export const productsItemSchema = z.object({
   id: z.number(),
   name: z.string(),
   alias: z.string(),
+  enabled: z.boolean(),
   modifyDate: z.string(),
   createdAt: z.string(),
 });

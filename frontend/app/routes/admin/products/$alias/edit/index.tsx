@@ -1,4 +1,4 @@
-import { inputFromForm } from "remix-domains";
+import { inputFromForm, inputFromSearch } from "remix-domains";
 import { json } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
@@ -8,12 +8,13 @@ import { getInputErrors, getResponseError } from "~/shared/domain";
 import { EFormFields } from "~/pages/Admin/Attributes/AttributeEdit";
 import type { TForm } from "~/pages/Admin/Attributes/AttributeEdit";
 import { ProductEdit, productEditLinks } from "~/pages/Admin/Products/ProductEdit";
+import { getCatalogs } from "~/shared/api/catalogs";
+import { mapProductsToDto } from "~/shared/api/products/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
   console.log("formValues: ", formValues);
-  const _method = formValues?._method ?? "";
 
   try {
     return null;
@@ -31,13 +32,21 @@ export const action = async (args: ActionArgs) => {
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
   const { alias } = params;
+  const url = new URL(request.url);
+  const formValues = inputFromSearch(url.searchParams);
+
+  const formattedParams = mapProductsToDto({
+    ...formValues,
+  });
 
   try {
     const response = await getProductDetail(request, { alias });
+    const catalogsResponse = await getCatalogs(request, { params: formattedParams });
 
-    if (response.success) {
+    if (response.success && catalogsResponse.success) {
       console.log("[OK]");
       return json({
+        catalogs: catalogsResponse.data,
         product: response.data,
         success: true,
       });
@@ -58,9 +67,9 @@ export const loader = async (args: LoaderArgs) => {
 };
 
 export default function ProductEditRoute() {
-  const { product } = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
 
-  return <ProductEdit product={product} />;
+  return <ProductEdit catalogs={data.catalogs} product={data.product} />;
 }
 
 export function links() {

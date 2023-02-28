@@ -73,7 +73,7 @@ export const SearchGlobal: FC<TProps> = ({ className, transition = TRANSITION })
     <>
       <div
         className={clsx("SearchGlobal", className, {
-          Search__active: isActive,
+          SearchGlobal__active: isActive,
         })}
       >
         <div className="SearchGlobal-Form">

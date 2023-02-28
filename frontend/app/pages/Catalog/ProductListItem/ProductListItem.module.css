@@ -169,8 +169,8 @@
   transition: all 0.3s;
 }
 .ProductListItem-ButtonGoAtCart:hover {
-  color: rgb(153, 126, 77);
-  border: 1px solid rgb(153, 126, 77);
+  color: rgb(95, 79, 25);
+  border: 1px solid rgb(95, 79, 25);
 }
 .ProductListItem-ButtonAddToCart {
   height: 42px;

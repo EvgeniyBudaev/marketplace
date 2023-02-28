@@ -1,10 +1,12 @@
 import type { FC } from "react";
+import { Link } from "@remix-run/react";
 import clsx from "clsx";
-import { SearchGlobal } from "~/components";
+import { Container, SearchGlobal } from "~/components";
 import { HeaderIconsList } from "~/components/Layout/Header/HeaderIconsList";
 import { TRANSITION } from "~/constants";
-import { Button, ETypographyVariant, Hamburger, Spacer, Typography } from "~/uikit";
+import { ETypographyVariant, Hamburger, Spacer, Typography } from "~/uikit";
 import styles from "./HeaderBottom.module.css";
+import { ERoutes } from "~/enums";
 
 type TProps = {
   className?: string;
@@ -19,21 +21,25 @@ export const HeaderBottom: FC<TProps> = ({ className, isCatalogOpen, onCatalogTo
         HeaderBottom__catalogOpen: isCatalogOpen,
       })}
     >
-      <div className="HeaderBottom-Container">
+      <Container>
         <div className="HeaderBottom-Desktop">
           <div className="HeaderBottom-Info">
             <div className="HeaderBottom-InfoInner">
               <div className="HeaderBottom-InfoLeft">
-                <Button className="HeaderBottom-ButtonCatalog" onClick={onCatalogToggle}>
-                  <Hamburger
-                    className="HeaderBottom-ButtonCatalogHamburger"
-                    color="white"
-                    isActive={isCatalogOpen}
-                  />
-                  <div className="HeaderBottom-ButtonCatalogText">
-                    <Typography variant={ETypographyVariant.TextB3Regular}>Каталог</Typography>
-                  </div>
-                </Button>
+                <Hamburger
+                  className="HeaderBottom-Hamburger"
+                  color="white"
+                  isActive={isCatalogOpen}
+                  onClick={onCatalogToggle}
+                />
+                <Link
+                  className="HeaderBottom-Title"
+                  to={{
+                    pathname: `${ERoutes.Root}`,
+                  }}
+                >
+                  <Typography variant={ETypographyVariant.TextH1Medium}>Marketplace</Typography>
+                </Link>
               </div>
               <Spacer />
               <SearchGlobal
@@ -46,7 +52,7 @@ export const HeaderBottom: FC<TProps> = ({ className, isCatalogOpen, onCatalogTo
           </div>
         </div>
         <SearchGlobal className="HeaderBottom-SearchControlsMobile" transition={TRANSITION} />
-      </div>
+      </Container>
     </div>
   );
 };

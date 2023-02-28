@@ -1,3 +1,26 @@
+import { accordionLinks } from "~/uikit/Accordion";
+import { avatarLinks } from "~/uikit/Avatar";
+import { buttonLinks } from "~/uikit/Button/Button";
+import { dateTimeLinks } from "~/uikit/DateTime";
+import { fadeInLinks } from "~/uikit/FadeIn";
+import { iconButtonLinks } from "~/uikit/Button/IconButton";
+import { linkButtonLinks } from "~/uikit/Button/LinkButton";
+import { checkboxLinks } from "~/uikit/Checkbox";
+import { dropDownLinks } from "~/uikit/DropDown";
+import { hamburgerLinks } from "~/uikit/Hamburger";
+import { iconLinks } from "~/uikit/Icon";
+import { inputLinks } from "~/uikit/Input";
+import { modalLinks } from "~/uikit/Modal";
+import { overlayLinks } from "~/uikit/Overlay";
+import { paginationLinks } from "~/uikit/Pagination";
+import { selectLinks } from "~/uikit/Select";
+import { spacerLinks } from "~/uikit/Spacer";
+import { switcherLinks } from "~/uikit/Switcher";
+import { tableLinks } from "~/uikit/Table";
+import { tagLinks } from "~/uikit/Tag";
+import { tooltipLinks } from "~/uikit/Tooltip";
+import { typographyLinks } from "~/uikit/Typography/constants";
+
 export * from "./Accordion";
 export * from "./Avatar";
 export * from "./Button";
@@ -21,29 +44,6 @@ export * from "./Tag";
 export * from "./Toast";
 export * from "./Tooltip";
 export * from "./Typography";
-
-import { accordionLinks } from "~/uikit/Accordion";
-import { avatarLinks } from "~/uikit/Avatar";
-import { buttonLinks } from "~/uikit/Button/Button";
-import { dateTimeLinks } from "~/uikit/DateTime";
-import { fadeInLinks } from "~/uikit/FadeIn";
-import { iconButtonLinks } from "~/uikit/Button/IconButton";
-import { linkButtonLinks } from "~/uikit/Button/LinkButton";
-import { checkboxLinks } from "~/uikit/Checkbox";
-import { dropDownLinks } from "~/uikit/DropDown";
-import { hamburgerLinks } from "~/uikit/Hamburger";
-import { iconLinks } from "~/uikit/Icon";
-import { inputLinks } from "~/uikit/Input";
-import { modalLinks } from "~/uikit/Modal";
-import { overlayLinks } from "~/uikit/Overlay";
-import { paginationLinks } from "~/uikit/Pagination";
-import { selectLinks } from "~/uikit/Select";
-import { spacerLinks } from "~/uikit/Spacer";
-import { switcherLinks } from "~/uikit/Switcher";
-import { tableLinks } from "~/uikit/Table";
-import { tagLinks } from "~/uikit/Tag";
-import { tooltipLinks } from "~/uikit/Tooltip";
-import { typographyLinks } from "~/uikit/Typography/constants";
 
 export const links = () => {
   return [
