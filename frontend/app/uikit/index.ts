@@ -35,6 +35,7 @@ export * from "./Input";
 export * from "./Modal";
 export * from "./Overlay";
 export * from "./Pagination";
+export * from "./Popover";
 export * from "./Select";
 export * from "./Sidebar";
 export * from "./Spacer";

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { flexRender } from "@tanstack/react-table";
 import type { HeaderGroup } from "@tanstack/react-table";
+import clsx from "clsx";
 import type { TTableSortingProps } from "~/uikit";
-import { SortingIcon } from "~/uikit/Table/SortingIcon";
+import { Sorting } from "~/uikit/Table/Sorting";
 import { getInitialSortingColumnState } from "~/uikit/Table/TableHeader/utils";
 import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
 import styles from "./TableHeader.module.css";
@@ -62,21 +63,26 @@ export const TableHeader = <T extends object>({ headerGroups, sorting }: TProps<
                   maxWidth: header.getSize(),
                 }}
               >
-                <div className="TableHeader-THInner">
-                  <div className="TableHeader-THText">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
-                  </div>
+                <div
+                  className={clsx("TableHeader-THInner", {
+                    "TableHeader-THInner__sorting": hasSorting,
+                  })}
+                >
                   <>
                     {hasSorting && (
                       <div className="Table-SortingIcon">
-                        <SortingIcon
-                          state={sortingState}
-                          onChange={handleChangeSorting}
-                          headerId={header.id}
+                        <Sorting
+                          header={header}
                           multiple={sorting?.multiple}
+                          onChange={handleChangeSorting}
+                          state={sortingState}
                         />
+                      </div>
+                    )}
+                    {!hasSorting && header.isPlaceholder && null}
+                    {!hasSorting && !header.isPlaceholder && (
+                      <div className="TableHeader-THText">
+                        {flexRender(header.column.columnDef.header, header.getContext())}
                       </div>
                     )}
                   </>

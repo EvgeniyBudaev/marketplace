@@ -1,21 +1,29 @@
-import { memo } from "react";
-import type { FC } from "react";
+import type { ReactElement } from "react";
+import { flexRender } from "@tanstack/react-table";
+import type { Header } from "@tanstack/react-table";
 import clsx from "clsx";
-import { ETableSortDirection, Icon, IconButton } from "~/uikit";
+import { ETableSortDirection, Icon, IconButton, Popover } from "~/uikit";
 import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
-import styles from "./SortingIcon.module.css";
+import styles from "./Sorting.module.css";
 
-type TProps = {
+type TProps<T extends object> = {
   className?: string;
-  state: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null;
+  header: Header<T, unknown>;
+  multiple?: boolean;
   onChange: (
     value: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null,
   ) => void;
-  multiple?: boolean;
-  headerId: string;
+  state: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null;
 };
 
-const SortingIconComponent: FC<TProps> = ({ className, headerId, multiple, onChange, state }) => {
+export const Sorting = <T extends object>({
+  className,
+  header,
+  multiple,
+  onChange,
+  state,
+}: TProps<T>): ReactElement => {
+  const headerId = header.id;
   const sortingState = multiple
     ? (state as Array<TSortingColumnStateWithReset>).find((item) => item.sortProperty === headerId)
     : (state as TSortingColumnStateWithReset);
@@ -59,8 +67,30 @@ const SortingIconComponent: FC<TProps> = ({ className, headerId, multiple, onCha
     onChange(preparedSortingParams);
   };
 
+  const renderIconIndicator = () => {
+    if (isAlreadySorted && sortingState.sortDirection === ETableSortDirection.Asc) {
+      return (
+        <div>
+          <Icon type="SortUp" />
+        </div>
+      );
+    } else if (isAlreadySorted && sortingState.sortDirection === ETableSortDirection.Desc) {
+      return (
+        <div>
+          <Icon type="SortDown" />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Icon type="Sorting" />
+        </div>
+      );
+    }
+  };
+
   return (
-    <div className={clsx("SortingIcon", className)}>
+    <div className={clsx("Sorting", className)}>
       {isAlreadySorted ? (
         <>
           <IconButton
@@ -98,22 +128,36 @@ const SortingIconComponent: FC<TProps> = ({ className, headerId, multiple, onCha
         </>
       ) : (
         <>
-          <Icon
-            type={"ArrowDropUp"}
-            onClick={() => handleChange(headerId, ETableSortDirection.Asc)}
-          />
-          <Icon
-            type={"ArrowDropDown"}
-            onClick={() => handleChange(headerId, ETableSortDirection.Desc)}
-          />
+          <Popover>
+            <Popover.Button>
+              <div className="Sorting-ButtonText">
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(header.column.columnDef.header, header.getContext())}
+              </div>
+              {renderIconIndicator()}
+            </Popover.Button>
+            <Popover.Panel>
+              <ul>
+                <li>Сортировать по возрастанию</li>
+                <li>Сортировать по убыванию</li>
+              </ul>
+            </Popover.Panel>
+          </Popover>
+          {/*<Icon*/}
+          {/*  type={"ArrowDropUp"}*/}
+          {/*  onClick={() => handleChange(headerId, ETableSortDirection.Asc)}*/}
+          {/*/>*/}
+          {/*<Icon*/}
+          {/*  type={"ArrowDropDown"}*/}
+          {/*  onClick={() => handleChange(headerId, ETableSortDirection.Desc)}*/}
+          {/*/>*/}
         </>
       )}
     </div>
   );
 };
 
-export const SortingIcon = memo(SortingIconComponent);
-
-export function sortingIconLinks() {
+export function sortingLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

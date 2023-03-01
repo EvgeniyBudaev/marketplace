@@ -11,9 +11,18 @@
     border-bottom: 1px solid rgba(224, 224, 224, 1);
 
     &Inner {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      cursor: pointer;
+      justify-content: space-between;
+      padding: 4px;
+      transition: all 0.15s;
+
+      &__sorting {
+        cursor: pointer;
+        &:hover {
+          background-color: #dfd3c3;
+        }
+      }
     }
 
     &Text {

@@ -7,9 +7,17 @@
   border-bottom: 1px solid rgb(224, 224, 224);
 }
 .TableHeader-THInner {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 4px;
+  transition: all 0.15s;
+}
+.TableHeader-THInner__sorting {
   cursor: pointer;
+}
+.TableHeader-THInner__sorting:hover {
+  background-color: #dfd3c3;
 }
 .TableHeader-THText {
   display: inline-block;

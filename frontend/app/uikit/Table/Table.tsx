@@ -7,7 +7,7 @@ import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "~/constants";
 import { NavigationPanel, navigationPanelLinks } from "~/uikit/Table/NavigationPanel";
 import type { TTableProps } from "~/uikit/Table/types";
 import { TableHeader, tableHeaderLinks } from "~/uikit/Table/TableHeader";
-import { sortingIconLinks } from "./SortingIcon";
+import { sortingLinks } from "./Sorting";
 import styles from "./Table.module.css";
 import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
 
@@ -72,7 +72,7 @@ export function tableLinks() {
   return [
     { rel: "stylesheet", href: styles },
     ...navigationPanelLinks(),
-    ...sortingIconLinks(),
+    ...sortingLinks(),
     ...tableBodyLinks(),
     ...tableHeaderLinks(),
   ];
