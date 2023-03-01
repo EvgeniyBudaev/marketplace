@@ -1,6 +1,8 @@
-.SortingIcon {
+.Sorting {
   display: inline-flex;
   flex-direction: column;
   height: max-content;
   width: max-content;
 }
+
+/*# sourceMappingURL=Sorting.module.css.map */

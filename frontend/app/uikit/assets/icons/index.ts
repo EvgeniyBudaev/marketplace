@@ -30,6 +30,7 @@ export * from "./LogoShortIcon";
 export * from "./MirrorIcon";
 export * from "./SearchIcon";
 export * from "./ShippingIcon";
+export * from "./SortingIcon";
 export * from "./SortDownIcon";
 export * from "./SortUpIcon";
 export * from "./SpinnerIcon";
