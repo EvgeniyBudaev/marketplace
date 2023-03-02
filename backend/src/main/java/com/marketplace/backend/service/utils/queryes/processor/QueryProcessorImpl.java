@@ -29,20 +29,20 @@ public class QueryProcessorImpl implements QueryProcessor {
     @Override
     public String getCountQuery() {
 
-        StringBuilder queryString = new StringBuilder("select count (c) from ").append(this.tableName).append(" as c where c.enabled=true");
+        StringBuilder queryString = new StringBuilder("select count (c) from ").append(this.tableName).append(" as c ");
 
         if(param.getSearchString()!=null){
-            queryString.append(" and lower (c.name) like lower (:param) ");
+            queryString.append(" where lower (c.name) like lower (:param) ");
         }
        return queryString.toString();
     }
 
     @Override
     public String getMainQuery() {
-        StringBuilder queryString = new StringBuilder("select c from ").append(this.tableName).append(" as c where c.enabled=true ");
+        StringBuilder queryString = new StringBuilder("select c from ").append(this.tableName).append(" as c ");
         Map<ESortedFields, ESortDirection> paramMap = param.getSortedParam();
         if (param.getSearchString()!=null){
-            queryString.append("and lower (c.name) like lower (:param) ");
+            queryString.append("where lower (c.name) like lower (:param) ");
         }
         queryString.append("order by ");
         if(paramMap.isEmpty()){

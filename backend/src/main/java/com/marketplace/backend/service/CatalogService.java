@@ -128,16 +128,16 @@ public class CatalogService {
     }
 
     @Transactional
-    public void delete(String alias) {
+    public int delete(String alias) {
         TypedQuery<Long> query = entityManager.createQuery("Select count (p) from Product as p  where p.catalog.alias=:alias and p.enabled=true", Long.class);
         query.setParameter("alias",alias);
         Long count = query.getSingleResult();
         if(count>0){
             throw  new OperationNotAllowedException("Каталог содержит продукты удаление невозможно");
         }
-        Query queryDelete = entityManager.createQuery("UPDATE Catalog as c set c.enabled = false where c.alias=:alias");
+        Query queryDelete = entityManager.createQuery("UPDATE Catalog as c set c.enabled = false where c.alias=:alias and c.enabled=true");
         queryDelete.setParameter("alias",alias);
-        queryDelete.executeUpdate();
+        return queryDelete.executeUpdate();
     }
 
 

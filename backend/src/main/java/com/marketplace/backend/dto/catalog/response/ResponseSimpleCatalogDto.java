@@ -11,6 +11,7 @@ public class ResponseSimpleCatalogDto {
     private String name;
     private String alias;
     private String image;
+    private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime modifyDate;
 }

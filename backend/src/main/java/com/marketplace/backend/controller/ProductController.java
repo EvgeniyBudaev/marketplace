@@ -3,13 +3,17 @@ package com.marketplace.backend.controller;
 import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+import com.marketplace.backend.dto.product.request.RequestUpdateProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
+import com.marketplace.backend.exception.AppError;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,17 +77,26 @@ public class ProductController {
     return productDao.findAll(param);
 
     }
-    @PostMapping
-    public ResponseProductDto saveOrUpdateProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
+    @PostMapping("/save")
+    public ResponseProductDto saveProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
         Product product=manageProductDao.save(productDto);
         return new ResponseProductDto(product,productDto.getCatalogAlias());
     }
 
+    @PutMapping("/put")
+    public ResponseProductDto updateProduct(@Valid @RequestBody RequestUpdateProductDto productDto) {
+        Product product=manageProductDao.update(productDto);
+        return new ResponseProductDto(product,productDto.getCatalogAlias());
+    }
 
     @DeleteMapping("delete/{alias}")
-    public String deleteProduct(@PathVariable String alias) {
-        manageProductDao.delete(alias);
-        return "Product with alias = " + alias + " was deleted";
+    public ResponseEntity<?> deleteProduct(@PathVariable String alias) {
+        Integer countProductMarkAsDeleted = manageProductDao.delete(alias);
+        if(countProductMarkAsDeleted<1){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден продукт с псевдониммом: "+alias));
+        }
+        return ResponseEntity.ok("Product with alias = " + alias + " was deleted");
     }
 
 }
