@@ -13,6 +13,7 @@ import { inputLinks } from "~/uikit/Input";
 import { modalLinks } from "~/uikit/Modal";
 import { overlayLinks } from "~/uikit/Overlay";
 import { paginationLinks } from "~/uikit/Pagination";
+import { popoverCustomLinks } from "~/uikit/Popover";
 import { selectLinks } from "~/uikit/Select";
 import { spacerLinks } from "~/uikit/Spacer";
 import { switcherLinks } from "~/uikit/Switcher";
@@ -63,6 +64,7 @@ export const links = () => {
     ...modalLinks(),
     ...overlayLinks(),
     ...paginationLinks(),
+    ...popoverCustomLinks(),
     ...selectLinks(),
     ...spacerLinks(),
     ...switcherLinks(),

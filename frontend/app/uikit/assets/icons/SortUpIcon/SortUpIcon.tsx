@@ -29,7 +29,7 @@ const IconComponent: FC<TProps> = ({ className, onClick, ...props }) => (
     <line
       fill="none"
       stroke="#000"
-      stroke-linecap="round"
+      strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="16"
       x1="184"
@@ -39,9 +39,9 @@ const IconComponent: FC<TProps> = ({ className, onClick, ...props }) => (
     />
     <line
       stroke="#000"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="16"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="16"
       x1="48"
       x2="120"
       y1="128"
@@ -49,9 +49,9 @@ const IconComponent: FC<TProps> = ({ className, onClick, ...props }) => (
     />
     <line
       stroke="#000"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="16"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="16"
       x1="48"
       x2="104"
       y1="64"
@@ -59,9 +59,9 @@ const IconComponent: FC<TProps> = ({ className, onClick, ...props }) => (
     />
     <line
       stroke="#000"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="16"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="16"
       x1="48"
       x2="184"
       y1="192"

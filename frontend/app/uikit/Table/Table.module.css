@@ -48,7 +48,7 @@
   overflow-x: auto;
   max-width: 100%;
 }
-.Table-Header {
+.Table-Head {
   padding: 20px;
   border: 1px solid rgb(226, 232, 240);
   border-bottom: none;
@@ -58,7 +58,7 @@
   font-size: 16px;
   font-weight: 600;
 }
-.Table-HeaderCount {
+.Table-HeadCount {
   color: rgb(148, 163, 183);
 }
 

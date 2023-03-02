@@ -1,4 +1,4 @@
-import { forwardRef, memo } from "react";
+import { forwardRef, memo, useMemo, useState } from "react";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { ModalDelete } from "~/components/modal";
 import { useGetColumns } from "~/pages/Admin/Catalogs/CatalogsTable/hooks";
@@ -36,8 +36,24 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
   ) => {
     const columnHelper = createColumnHelper<TCatalog>();
     const columns = useGetColumns(columnHelper, onClickDeleteIcon);
+    const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
 
     const { content, countOfPage, countOfResult, currentPage, pageSize } = catalogs;
+
+    const settingsProps = useMemo(
+      () => ({
+        options: {
+          hiddenColumns,
+          setHiddenColumns,
+          optionsSorting: {
+            ascText: "Сортировать по возрастанию",
+            descText: "Сортировать по убыванию",
+            hideColumnText: "Скрыть столбец",
+          },
+        },
+      }),
+      [hiddenColumns, setHiddenColumns],
+    );
 
     return (
       <div ref={ref}>
@@ -50,6 +66,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}
+          settings={settingsProps}
           sorting={fieldsSortState}
           totalItems={countOfResult}
           totalItemsTitle={"Всего каталогов"}

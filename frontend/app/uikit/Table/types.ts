@@ -1,5 +1,23 @@
-import type { ColumnDef, OnChangeFn, RowSelectionState } from "@tanstack/react-table";
+import type { Column, ColumnDef, OnChangeFn, RowSelectionState } from "@tanstack/react-table";
 import type { ETableSortDirection } from "~/uikit";
+
+type TOptionsProps<T extends object> = {
+  columns: Column<T, unknown>[];
+  hiddenColumns?: string[];
+  optionsSorting?: {
+    ascText?: string;
+    descText?: string;
+    hideColumnText?: string;
+  };
+  setHiddenColumns: (hiddenColumns: string[]) => void;
+};
+
+type TSettingsProps<T extends object> = {
+  options?: Omit<TOptionsProps<T>, "columns">;
+  columns: TOptionsProps<T>["columns"];
+};
+
+type TTableSettingsProps<TColumn extends object> = Omit<TSettingsProps<TColumn>, "columns">;
 
 export type TTableProps<TColumn extends Record<string, any>> = {
   className?: string;
@@ -15,6 +33,7 @@ export type TTableProps<TColumn extends Record<string, any>> = {
   onPageChange?: ({ selected }: { selected: number }) => void;
   onRowSelectionChange?: OnChangeFn<RowSelectionState>;
   pageSizeOptions?: number[] | null;
+  settings?: TTableSettingsProps<TColumn>;
   totalItems?: number;
   totalItemsTitle?: string;
 };
@@ -33,4 +52,11 @@ export type TTableSortingProps = {
   columns: string[];
   defaultSorting?: TTableSortingColumnState | Array<TTableSortingColumnState>;
   multiple?: boolean;
+};
+
+export type TTableSortingHandleChange = {
+  sortProperty: string;
+  sortDirection: ETableSortDirection;
+  shouldReset?: boolean;
+  close?: () => void;
 };

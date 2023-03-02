@@ -1,8 +1,59 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
 .Sorting {
-  display: inline-flex;
-  flex-direction: column;
-  height: max-content;
-  width: max-content;
+  width: 100%;
+}
+.Sorting-DropDownListItem {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(228, 228, 228);
+  transition: all 0.3s;
+}
+.Sorting-DropDownListItem-Icon {
+  margin-right: 8px;
+}
+.Sorting-DropDownListItem:hover {
+  background-color: rgb(223, 213, 195);
+}
+.Sorting-DropDownListItem__active {
+  background-color: rgb(176, 151, 106);
+}
+.Sorting-DropDownListItem__active:hover {
+  background-color: rgb(176, 151, 106);
 }
 
 /*# sourceMappingURL=Sorting.module.css.map */

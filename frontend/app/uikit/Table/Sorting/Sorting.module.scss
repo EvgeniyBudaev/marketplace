@@ -1,6 +1,29 @@
+@import "component";
+
 .Sorting {
-  display: inline-flex;
-  flex-direction: column;
-  height: max-content;
-  width: max-content;
+  width: 100%;
+
+  &-DropDownListItem {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    cursor: pointer;
+    border-bottom: 1px solid $color-light-gray;
+    transition: all $transition;
+
+    &-Icon {
+      margin-right: 8px;
+    }
+
+    &:hover {
+      background-color: $color-light-beige;
+    }
+
+    &__active {
+      background-color: $color-beige;
+      &:hover {
+        background-color: $color-beige;
+      }
+    }
+  }
 }
