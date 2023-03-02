@@ -1,0 +1,73 @@
+@charset "UTF-8";
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Popover {
+  width: 100%;
+  /* ----- Открытие/закрытие DropDown ----- */
+}
+.Popover-Button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.Popover-Panel {
+  content: "";
+  position: absolute;
+  bottom: -24px;
+  right: 0;
+  height: max-content;
+  width: max-content;
+  background-color: white;
+  border: 1px solid transparent;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  z-index: 100;
+}
+.Popover-Panel.enter {
+  opacity: 0;
+}
+.Popover-Panel.enter-active {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.Popover-Panel.exit {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.Popover-Panel.exit-active {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/*# sourceMappingURL=Popover.css.map */

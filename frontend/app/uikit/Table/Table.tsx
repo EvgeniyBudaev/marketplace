@@ -28,6 +28,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
     onRowSelectionChange,
     pageSizeOptions,
     rowSelection,
+    settings,
     totalItems,
     totalItemsTitle,
   } = props;
@@ -45,12 +46,18 @@ const TableComponent = <TColumn extends Record<string, any>>(
 
   return (
     <div ref={ref}>
-      <div className="Table-Header">
-        {totalItemsTitle}&nbsp;<span className="Table-HeaderCount">{totalItems}</span>
+      <div className="Table-Head">
+        {totalItemsTitle}&nbsp;<span className="Table-HeadCount">{totalItems}</span>
       </div>
       <div className="Table-Scroll">
         <table className={clsx("Table", className)}>
-          <TableHeader<TColumn> headerGroups={table.getHeaderGroups()} sorting={sorting} />
+          <TableHeader<TColumn>
+            headerGroups={table.getHeaderGroups()}
+            hiddenColumns={settings?.options?.hiddenColumns}
+            optionsSorting={settings?.options?.optionsSorting}
+            setHiddenColumns={settings?.options?.setHiddenColumns}
+            sorting={sorting}
+          />
           <TableBody rows={table.getRowModel().rows} />
         </table>
       </div>

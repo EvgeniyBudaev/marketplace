@@ -2,25 +2,36 @@ import type { ReactElement } from "react";
 import { flexRender } from "@tanstack/react-table";
 import type { Header } from "@tanstack/react-table";
 import clsx from "clsx";
-import { ETableSortDirection, Icon, IconButton, Popover } from "~/uikit";
+import { ETableSortDirection, ETypographyVariant, Icon, Popover, Typography } from "~/uikit";
+import type { TTableSortingHandleChange } from "~/uikit";
 import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
 import styles from "./Sorting.module.css";
 
 type TProps<T extends object> = {
   className?: string;
   header: Header<T, unknown>;
+  hiddenColumns?: string[];
   multiple?: boolean;
   onChange: (
     value: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null,
   ) => void;
+  optionsSorting?: {
+    ascText?: string;
+    descText?: string;
+    hideColumnText?: string;
+  };
+  setHiddenColumns?: (hiddenColumns: string[]) => void;
   state: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null;
 };
 
 export const Sorting = <T extends object>({
   className,
   header,
+  hiddenColumns,
   multiple,
   onChange,
+  optionsSorting,
+  setHiddenColumns,
   state,
 }: TProps<T>): ReactElement => {
   const headerId = header.id;
@@ -30,11 +41,13 @@ export const Sorting = <T extends object>({
   const isAlreadySorted = sortingState?.sortProperty === headerId;
   const hasColumnInArray = multiple && !!sortingState;
 
-  const handleChange = (
-    sortProperty: string,
-    sortDirection: ETableSortDirection,
-    shouldReset?: boolean,
-  ) => {
+  const handleChange = ({
+    sortProperty,
+    sortDirection,
+    shouldReset,
+    close,
+  }: TTableSortingHandleChange) => {
+    close?.();
     if (sortingState && sortProperty === sortingState.sortProperty && sortingState.shouldReset) {
       if (multiple) {
         onChange(
@@ -90,71 +103,55 @@ export const Sorting = <T extends object>({
   };
 
   return (
-    <div className={clsx("Sorting", className)}>
-      {isAlreadySorted ? (
-        <>
-          <IconButton
-            typeIcon={
-              sortingState.sortDirection === ETableSortDirection.Asc
-                ? "ArrowDropUp"
-                : "ArrowDropUpStroke"
-            }
+    <Popover className="Sorting">
+      <Popover.Button>
+        <div className="Sorting-ButtonText">
+          {header.isPlaceholder
+            ? null
+            : flexRender(header.column.columnDef.header, header.getContext())}
+        </div>
+        {renderIconIndicator()}
+      </Popover.Button>
+      <Popover.Panel>
+        <ul>
+          <li
+            className={clsx("Sorting-DropDownListItem", {
+              "Sorting-DropDownListItem__active":
+                sortingState?.sortDirection === ETableSortDirection.Asc,
+            })}
             onClick={() =>
-              handleChange(
-                headerId,
-                sortingState.sortDirection === ETableSortDirection.Asc
-                  ? ETableSortDirection.Desc
-                  : ETableSortDirection.Asc,
-                true,
-              )
+              handleChange({
+                sortProperty: headerId,
+                sortDirection: ETableSortDirection.Asc,
+              })
             }
-          />
-          <IconButton
-            typeIcon={
-              sortingState.sortDirection === ETableSortDirection.Desc
-                ? "ArrowDropDown"
-                : "ArrowDropDownStroke"
-            }
+          >
+            <Icon className="Sorting-DropDownListItem-Icon" type={"SortUp"} />
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              {optionsSorting?.ascText ?? ""}
+            </Typography>
+          </li>
+
+          <li
+            className={clsx("Sorting-DropDownListItem", {
+              "Sorting-DropDownListItem__active":
+                sortingState?.sortDirection === ETableSortDirection.Desc,
+            })}
             onClick={() =>
-              handleChange(
-                headerId,
-                sortingState.sortDirection === ETableSortDirection.Asc
-                  ? ETableSortDirection.Desc
-                  : ETableSortDirection.Asc,
-                true,
-              )
+              handleChange({
+                sortProperty: headerId,
+                sortDirection: ETableSortDirection.Desc,
+              })
             }
-          />
-        </>
-      ) : (
-        <>
-          <Popover>
-            <Popover.Button>
-              <div className="Sorting-ButtonText">
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(header.column.columnDef.header, header.getContext())}
-              </div>
-              {renderIconIndicator()}
-            </Popover.Button>
-            <Popover.Panel>
-              <ul>
-                <li>Сортировать по возрастанию</li>
-                <li>Сортировать по убыванию</li>
-              </ul>
-            </Popover.Panel>
-          </Popover>
-          {/*<Icon*/}
-          {/*  type={"ArrowDropUp"}*/}
-          {/*  onClick={() => handleChange(headerId, ETableSortDirection.Asc)}*/}
-          {/*/>*/}
-          {/*<Icon*/}
-          {/*  type={"ArrowDropDown"}*/}
-          {/*  onClick={() => handleChange(headerId, ETableSortDirection.Desc)}*/}
-          {/*/>*/}
-        </>
-      )}
-    </div>
+          >
+            <Icon className="Sorting-DropDownListItem-Icon" type={"SortDown"} />
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              {optionsSorting?.descText ?? ""}
+            </Typography>
+          </li>
+        </ul>
+      </Popover.Panel>
+    </Popover>
   );
 };
 

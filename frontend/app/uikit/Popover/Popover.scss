@@ -1,0 +1,44 @@
+@import "component";
+
+.Popover {
+  width: 100%;
+
+  &-Button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* ----- Открытие/закрытие DropDown ----- */
+  &-Panel {
+    content: "";
+    position: absolute;
+    bottom: -24px;
+    right: 0;
+    height: max-content;
+    width: max-content;
+    background-color: white;
+    border: 1px solid transparent;
+    box-shadow: $shadow-perimeter;
+    z-index: 100;
+
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: opacity $transition;
+    }
+
+    &.exit {
+      opacity: 1;
+      transition: opacity $transition;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: opacity $transition;
+    }
+  }
+}

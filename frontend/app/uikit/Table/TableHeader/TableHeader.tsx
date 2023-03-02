@@ -10,10 +10,23 @@ import styles from "./TableHeader.module.css";
 
 type TProps<TColumn extends object> = {
   headerGroups: HeaderGroup<TColumn>[];
+  hiddenColumns?: string[];
+  optionsSorting?: {
+    ascText?: string;
+    descText?: string;
+    hideColumnText?: string;
+  };
+  setHiddenColumns?: (hiddenColumns: string[]) => void;
   sorting?: TTableSortingProps;
 };
 
-export const TableHeader = <T extends object>({ headerGroups, sorting }: TProps<T>) => {
+export const TableHeader = <T extends object>({
+  headerGroups,
+  hiddenColumns,
+  optionsSorting,
+  setHiddenColumns,
+  sorting,
+}: TProps<T>) => {
   const [sortingState, setSortingState] = useState<
     TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null
   >(getInitialSortingColumnState(sorting));
@@ -70,14 +83,15 @@ export const TableHeader = <T extends object>({ headerGroups, sorting }: TProps<
                 >
                   <>
                     {hasSorting && (
-                      <div className="Table-SortingIcon">
-                        <Sorting
-                          header={header}
-                          multiple={sorting?.multiple}
-                          onChange={handleChangeSorting}
-                          state={sortingState}
-                        />
-                      </div>
+                      <Sorting
+                        header={header}
+                        hiddenColumns={hiddenColumns}
+                        multiple={sorting?.multiple}
+                        onChange={handleChangeSorting}
+                        optionsSorting={optionsSorting}
+                        setHiddenColumns={setHiddenColumns}
+                        state={sortingState}
+                      />
                     )}
                     {!hasSorting && header.isPlaceholder && null}
                     {!hasSorting && !header.isPlaceholder && (
