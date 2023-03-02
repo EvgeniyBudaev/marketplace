@@ -33,16 +33,16 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.Popover {
+.PopoverCustom {
   width: 100%;
   /* ----- Открытие/закрытие DropDown ----- */
 }
-.Popover-Button {
+.PopoverCustom-Button {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.Popover-Panel {
+.PopoverCustom-Panel {
   content: "";
   position: absolute;
   bottom: -24px;
@@ -54,20 +54,20 @@
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   z-index: 100;
 }
-.Popover-Panel.enter {
+.PopoverCustom-Panel.enter {
   opacity: 0;
 }
-.Popover-Panel.enter-active {
+.PopoverCustom-Panel.enter-active {
   opacity: 1;
   transition: opacity 0.3s;
 }
-.Popover-Panel.exit {
+.PopoverCustom-Panel.exit {
   opacity: 1;
   transition: opacity 0.3s;
 }
-.Popover-Panel.exit-active {
+.PopoverCustom-Panel.exit-active {
   opacity: 0;
   transition: opacity 0.3s;
 }
 
-/*# sourceMappingURL=Popover.css.map */
+/*# sourceMappingURL=PopoverCustom.css.map */
