@@ -8,6 +8,7 @@ import xor from "lodash/xor";
 import { ETableSortDirection, ETypographyVariant, Icon, Popover, Typography } from "~/uikit";
 import type { TTableSortingHandleChange } from "~/uikit";
 import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
+import type { TOptionsSorting } from "~/uikit/Table/Options";
 import { SortingHeader } from "./SortingHeader";
 import styles from "./Sorting.module.css";
 
@@ -19,11 +20,7 @@ type TProps<T extends object> = {
   onChange: (
     value: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null,
   ) => void;
-  optionsSorting?: {
-    ascText?: string;
-    descText?: string;
-    hideColumnText?: string;
-  };
+  optionsSorting?: TOptionsSorting;
   setHiddenColumns?: (hiddenColumns: string[]) => void;
   state: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null;
 };
@@ -163,7 +160,7 @@ export const Sorting = <T extends object>({
             })
           }
         >
-          <Icon className="Sorting-DropDownListItem-Icon" type={"SortUp"} />
+          <Icon className="Sorting-DropDownListItem-Icon" type="SortUp" />
           <Typography variant={ETypographyVariant.TextB3Regular}>
             {optionsSorting?.ascText ?? ""}
           </Typography>
@@ -183,14 +180,29 @@ export const Sorting = <T extends object>({
             })
           }
         >
-          <Icon className="Sorting-DropDownListItem-Icon" type={"SortDown"} />
+          <Icon className="Sorting-DropDownListItem-Icon" type="SortDown" />
           <Typography variant={ETypographyVariant.TextB3Regular}>
             {optionsSorting?.descText ?? ""}
           </Typography>
         </li>
 
+        <li
+          className={clsx("Sorting-DropDownListItem")}
+          onClick={() =>
+            handleChange({
+              sortProperty: headerId,
+              sortDirection: ETableSortDirection.Desc,
+            })
+          }
+        >
+          <Icon className="Sorting-DropDownListItem-Icon" type="Sorting" />
+          <Typography variant={ETypographyVariant.TextB3Regular}>
+            {optionsSorting?.defaultText ?? ""}
+          </Typography>
+        </li>
+
         <li className="Sorting-DropDownListItem" onClick={handleHideColumn}>
-          <Icon className="Sorting-DropDownListItem-Icon" type={"VisibilityOff"} />
+          <Icon className="Sorting-DropDownListItem-Icon" type="VisibilityOff" />
           <Typography variant={ETypographyVariant.TextB3Regular}>
             {optionsSorting?.hideColumnText ?? ""}
           </Typography>

@@ -1,9 +1,9 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import {flexRender} from "@tanstack/react-table";
-import type { HeaderContext} from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
+import type { HeaderContext } from "@tanstack/react-table";
 import clsx from "clsx";
 import xor from "lodash/xor";
-import {Button, ETypographyVariant, IconButton, Modal, Typography, useModalWindow} from "~/uikit";
+import { Button, ETypographyVariant, IconButton, Modal, Typography, useModalWindow } from "~/uikit";
 import type { TOptionsProps } from "~/uikit/Table/Options/types";
 import styles from "./Options.module.css";
 
@@ -43,11 +43,15 @@ const Component = <T extends object>({
       <IconButton onClick={openModal} typeIcon="Settings" />
       <Modal isOpen={isOpenModal} onCloseModal={handleCloseModal}>
         <Modal.Header>
-          <Typography variant={ETypographyVariant.TextH6Bold}>{optionsModalHeader && optionsModalHeader}</Typography>
+          <Typography variant={ETypographyVariant.TextH6Bold}>
+            {optionsModalHeader && optionsModalHeader}
+          </Typography>
         </Modal.Header>
         <Modal.Content>
           <div className="Options-FieldHeader">
-            <Typography variant={ETypographyVariant.TextB4Medium}>{optionsFieldHeader && optionsFieldHeader}</Typography>
+            <Typography variant={ETypographyVariant.TextB4Medium}>
+              {optionsFieldHeader && optionsFieldHeader}
+            </Typography>
           </div>
           <div className="Options-Columns">
             {columns.map((column) => {
@@ -58,8 +62,10 @@ const Component = <T extends object>({
                   className={clsx("Options-ColumnsButton", {
                     "Options-ColumnsButton__canHide": canHide,
                     "Options-ColumnsButton__notCanHide": !canHide,
-                    "Options-ColumnsButton__notLocalHiddenColls": canHide && !localHiddenColls.includes(column.id),
-                    "Options-ColumnsButton__localHiddenColls": canHide && localHiddenColls.includes(column.id),
+                    "Options-ColumnsButton__notLocalHiddenColls":
+                      canHide && !localHiddenColls.includes(column.id),
+                    "Options-ColumnsButton__localHiddenColls":
+                      canHide && localHiddenColls.includes(column.id),
                   })}
                   disabled={!canHide}
                   onClick={onChangeColumn(column.id)}
@@ -91,4 +97,3 @@ export const Options = memo(Component) as typeof Component;
 export function optionsLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }
-

@@ -53,16 +53,16 @@ export const TYPOGRAPHY_THEMES = (options: TThemesOptions) => {
       mainStyles,
     ),
     [ETypographyVariant.TextB3Medium]: clsx(
-        "Typography-text-b3 Typography-text-b3__medium",
-        mainStyles,
+      "Typography-text-b3 Typography-text-b3__medium",
+      mainStyles,
     ),
     [ETypographyVariant.TextB3Regular]: clsx(
       "Typography-text-b3 Typography-text-b3__regular",
       mainStyles,
     ),
     [ETypographyVariant.TextB4Medium]: clsx(
-        "Typography-text-b4 Typography-text-b4__medium",
-        mainStyles,
+      "Typography-text-b4 Typography-text-b4__medium",
+      mainStyles,
     ),
     [ETypographyVariant.TextB4Regular]: clsx(
       "Typography-text-b4 Typography-text-b4__regular",

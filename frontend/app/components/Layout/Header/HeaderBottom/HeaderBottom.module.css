@@ -64,7 +64,8 @@
   align-items: center;
   width: 100%;
 }
-.HeaderBottom-InfoLeft, .HeaderBottom-InfoRight {
+.HeaderBottom-InfoLeft,
+.HeaderBottom-InfoRight {
   display: flex;
 }
 .HeaderBottom-InfoLeft .HeaderBottom-Text {

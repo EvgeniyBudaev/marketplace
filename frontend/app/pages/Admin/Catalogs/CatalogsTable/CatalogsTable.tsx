@@ -50,6 +50,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           optionsModalHeader: "Настройка таблицы",
           optionsSorting: {
             ascText: "Сортировать по возрастанию",
+            defaultText: "По умолчанию",
             descText: "Сортировать по убыванию",
             hideColumnText: "Скрыть столбец",
           },
