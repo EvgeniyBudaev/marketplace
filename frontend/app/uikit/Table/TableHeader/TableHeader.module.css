@@ -1,5 +1,39 @@
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
 .TableHeader-THead {
-  background-color: rgb(248, 250, 252);
+  background-color: rgba(223, 213, 195, 0.3);
 }
 .TableHeader-TH {
   padding: 20px;
@@ -10,7 +44,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px;
+  padding: 8px;
   width: 100%;
   transition: all 0.15s;
 }
@@ -18,7 +52,7 @@
   cursor: pointer;
 }
 .TableHeader-THInner__sorting:hover {
-  background-color: #dfd3c3;
+  background-color: rgb(223, 213, 195);
 }
 .TableHeader-THText {
   display: inline-block;

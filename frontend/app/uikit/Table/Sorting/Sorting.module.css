@@ -35,6 +35,22 @@
 .Sorting {
   width: 100%;
 }
+.Sorting-Button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(100, 116, 139);
+  width: 100%;
+}
+.Sorting-Button svg {
+  fill: rgb(100, 116, 139);
+}
+.Sorting-DropDownList {
+  background-color: white;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
 .Sorting-DropDownListItem {
   display: flex;
   align-items: center;
@@ -42,6 +58,9 @@
   cursor: pointer;
   border-bottom: 1px solid rgb(228, 228, 228);
   transition: all 0.3s;
+}
+.Sorting-DropDownListItem:last-child {
+  border-bottom: none;
 }
 .Sorting-DropDownListItem-Icon {
   margin-right: 8px;

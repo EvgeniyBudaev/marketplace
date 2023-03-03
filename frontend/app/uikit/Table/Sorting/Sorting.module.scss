@@ -3,6 +3,25 @@
 .Sorting {
   width: 100%;
 
+  &-Button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgba(100, 116, 139, 1);
+    width: 100%;
+
+    svg {
+      fill: rgba(100, 116, 139, 1);
+    }
+  }
+
+  &-DropDownList {
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: $shadow-perimeter;
+  }
+
   &-DropDownListItem {
     display: flex;
     align-items: center;
@@ -10,6 +29,10 @@
     cursor: pointer;
     border-bottom: 1px solid $color-light-gray;
     transition: all $transition;
+
+    &:last-child {
+      border-bottom: none;
+    }
 
     &-Icon {
       margin-right: 8px;
