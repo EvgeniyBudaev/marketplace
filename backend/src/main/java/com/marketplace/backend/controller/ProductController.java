@@ -5,8 +5,10 @@ import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
 import com.marketplace.backend.dto.product.request.RequestUpdateProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
+import com.marketplace.backend.dto.product.response.ResponseProductDtoForAdmin;
 import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
 import com.marketplace.backend.exception.AppError;
+import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.*;
@@ -27,11 +29,13 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class ProductController {
     private final ProductDao productDao;
+    private final ProductMapper productMapper;
     private final ManageProductDao manageProductDao;
 
     @Autowired
-    public ProductController(ProductDao productDao, ManageProductDao manageProductDao) {
+    public ProductController(ProductDao productDao, ProductMapper productMapper, ManageProductDao manageProductDao) {
         this.productDao = productDao;
+        this.productMapper = productMapper;
         this.manageProductDao = manageProductDao;
     }
 
@@ -97,6 +101,25 @@ public class ProductController {
                     .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден продукт с псевдониммом: "+alias));
         }
         return ResponseEntity.ok("Product with alias = " + alias + " was deleted");
+    }
+
+    @GetMapping("/admin/by_alias")
+    public ResponseProductDtoForAdmin getProductByAliasForAdmin(@RequestParam(value = "alias") String alias){
+        Product product = productDao.findProductByAlias(alias);
+        ResponseProductDtoForAdmin dto = productMapper.entityToDtoForAdmin(product);
+        if (product.getDoubleValues()!=null){
+            dto.setAttributeValuesSet(productMapper.numValuesToDtoForAdmin(product.getDoubleValues()));
+        }
+        if(product.getSelectableValues()!=null){
+            if(dto.getAttributeValuesSet()==null){
+                dto.setAttributeValuesSet(productMapper.
+                        selValuesToDtoForAdmin(product.getSelectableValues()));
+            }else {
+                dto.getAttributeValuesSet().addAll(productMapper.
+                        selValuesToDtoForAdmin(product.getSelectableValues()));
+            }
+        }
+        return dto;
     }
 
 }
