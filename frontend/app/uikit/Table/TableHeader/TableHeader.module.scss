@@ -1,8 +1,10 @@
+@import "component";
+
 .TableHeader {
   $this: &;
 
   &-THead {
-    background-color: rgba(248, 250, 252, 1);
+    background-color: rgba(223, 213, 195, 0.3);
   }
 
   &-TH {
@@ -14,14 +16,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 4px;
+      padding: 8px;
       width: 100%;
       transition: all 0.15s;
 
       &__sorting {
         cursor: pointer;
         &:hover {
-          background-color: #dfd3c3;
+          background-color: $color-light-beige;
         }
       }
     }

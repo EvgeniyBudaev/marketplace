@@ -110,6 +110,9 @@
 .Typography-text-b3__bold {
   font-weight: 700;
 }
+.Typography-text-b3__medium {
+  font-weight: 500;
+}
 .Typography-text-b3__regular {
   font-weight: 400;
 }
@@ -118,6 +121,9 @@
   font-size: 12px;
   font-style: normal;
   line-height: 1.25;
+}
+.Typography-text-b4__medium {
+  font-weight: 500;
 }
 .Typography-text-b4__regular {
   font-weight: 400;

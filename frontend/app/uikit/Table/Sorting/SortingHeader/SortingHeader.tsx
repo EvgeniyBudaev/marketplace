@@ -1,13 +1,20 @@
-import { forwardRef } from "react";
-import type { ComponentPropsWithoutRef } from "react";
+import { forwardRef, memo } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 interface ISortingHeaderProps extends ComponentPropsWithoutRef<"div"> {
+  children?: ReactNode;
   className?: string;
-  onClick(): void;
+  onClick?: () => void;
 }
 
-export const SortingHeader = forwardRef<HTMLDivElement, ISortingHeaderProps>((props, ref) => (
-  <div className={props.className} ref={ref} onClick={props.onClick}>
-    {props.children}
-  </div>
-));
+const Component = forwardRef<HTMLDivElement, ISortingHeaderProps>(
+  ({ children, className, onClick }, ref) => (
+    <div className={className} ref={ref} onClick={onClick}>
+      {children}
+    </div>
+  ),
+);
+
+Component.displayName = "SortingHeader";
+
+export const SortingHeader = memo(Component);

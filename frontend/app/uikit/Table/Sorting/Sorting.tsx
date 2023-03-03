@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactElement } from "react";
 import { flexRender } from "@tanstack/react-table";
 import type { Header } from "@tanstack/react-table";
+import { useSearchParams } from "@remix-run/react";
 import clsx from "clsx";
+import xor from "lodash/xor";
 import { ETableSortDirection, ETypographyVariant, Icon, Popover, Typography } from "~/uikit";
 import type { TTableSortingHandleChange } from "~/uikit";
 import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
@@ -43,6 +45,25 @@ export const Sorting = <T extends object>({
     : (state as TSortingColumnStateWithReset);
   const isAlreadySorted = sortingState?.sortProperty === headerId;
   const hasColumnInArray = multiple && !!sortingState;
+  const [searchParams] = useSearchParams();
+
+  const checkSortingSearchParams = () => {
+    const sort = searchParams.get("sort");
+    const listSearchParams = sort && sort.split(",");
+    const formattedListSearchParams =
+      listSearchParams &&
+      listSearchParams.map((item) => {
+        const array = item.split("_");
+        return {
+          sortProperty: array[0],
+          sortDirection: array[1].toUpperCase(),
+        };
+      });
+    const findSearchParams =
+      formattedListSearchParams &&
+      formattedListSearchParams.find((item) => item.sortProperty === headerId);
+    return findSearchParams ? findSearchParams.sortDirection : undefined;
+  };
 
   const handleChange = ({
     sortProperty,
@@ -84,7 +105,6 @@ export const Sorting = <T extends object>({
   };
 
   const handlePopoverToggle = () => {
-    console.log("handlePopoverToggle");
     setIsPopoverOpen((prevState) => !prevState);
   };
 
@@ -92,14 +112,26 @@ export const Sorting = <T extends object>({
     setIsPopoverOpen(false);
   };
 
+  const handleHideColumn = useCallback(() => {
+    setHiddenColumns?.(xor(hiddenColumns, [header.column.id]));
+  }, [header.column.id, hiddenColumns, setHiddenColumns]);
+
   const renderIconIndicator = () => {
-    if (isAlreadySorted && sortingState.sortDirection === ETableSortDirection.Asc) {
+    if (
+      isAlreadySorted
+        ? sortingState.sortDirection === ETableSortDirection.Asc
+        : checkSortingSearchParams() && checkSortingSearchParams() === ETableSortDirection.Asc
+    ) {
       return (
         <div>
           <Icon type="SortUp" />
         </div>
       );
-    } else if (isAlreadySorted && sortingState.sortDirection === ETableSortDirection.Desc) {
+    } else if (
+      isAlreadySorted
+        ? sortingState.sortDirection === ETableSortDirection.Desc
+        : checkSortingSearchParams() && checkSortingSearchParams() === ETableSortDirection.Desc
+    ) {
       return (
         <div>
           <Icon type="SortDown" />
@@ -116,11 +148,13 @@ export const Sorting = <T extends object>({
 
   const renderPopoverContent = () => {
     return (
-      <ul>
+      <ul className="Sorting-DropDownList">
         <li
           className={clsx("Sorting-DropDownListItem", {
             "Sorting-DropDownListItem__active":
-              sortingState?.sortDirection === ETableSortDirection.Asc,
+              sortingState?.sortDirection === ETableSortDirection.Asc ||
+              (checkSortingSearchParams() &&
+                checkSortingSearchParams() === ETableSortDirection.Asc),
           })}
           onClick={() =>
             handleChange({
@@ -138,7 +172,9 @@ export const Sorting = <T extends object>({
         <li
           className={clsx("Sorting-DropDownListItem", {
             "Sorting-DropDownListItem__active":
-              sortingState?.sortDirection === ETableSortDirection.Desc,
+              sortingState?.sortDirection === ETableSortDirection.Desc ||
+              (checkSortingSearchParams() &&
+                checkSortingSearchParams() === ETableSortDirection.Desc),
           })}
           onClick={() =>
             handleChange({
@@ -152,6 +188,13 @@ export const Sorting = <T extends object>({
             {optionsSorting?.descText ?? ""}
           </Typography>
         </li>
+
+        <li className="Sorting-DropDownListItem" onClick={handleHideColumn}>
+          <Icon className="Sorting-DropDownListItem-Icon" type={"VisibilityOff"} />
+          <Typography variant={ETypographyVariant.TextB3Regular}>
+            {optionsSorting?.hideColumnText ?? ""}
+          </Typography>
+        </li>
       </ul>
     );
   };
@@ -163,8 +206,8 @@ export const Sorting = <T extends object>({
       onClickOutside={handleClickOutside}
       positions={["bottom"]}
     >
-      <SortingHeader className="Sorting-ButtonText" onClick={handlePopoverToggle}>
-        <div className="Sorting-ButtonText" onClick={handlePopoverToggle}>
+      <SortingHeader className="Sorting-Button" onClick={handlePopoverToggle}>
+        <div className="Sorting-ButtonText">
           {header.isPlaceholder
             ? null
             : flexRender(header.column.columnDef.header, header.getContext())}
@@ -172,56 +215,6 @@ export const Sorting = <T extends object>({
         {renderIconIndicator()}
       </SortingHeader>
     </Popover>
-
-    // <Popover className="Sorting">
-    //   <Popover.Button>
-    //     <div className="Sorting-ButtonText">
-    //       {header.isPlaceholder
-    //         ? null
-    //         : flexRender(header.column.columnDef.header, header.getContext())}
-    //     </div>
-    //     {renderIconIndicator()}
-    //   </Popover.Button>
-    //   <Popover.Panel>
-    //     <ul>
-    //       <li
-    //         className={clsx("Sorting-DropDownListItem", {
-    //           "Sorting-DropDownListItem__active":
-    //             sortingState?.sortDirection === ETableSortDirection.Asc,
-    //         })}
-    //         onClick={() =>
-    //           handleChange({
-    //             sortProperty: headerId,
-    //             sortDirection: ETableSortDirection.Asc,
-    //           })
-    //         }
-    //       >
-    //         <Icon className="Sorting-DropDownListItem-Icon" type={"SortUp"} />
-    //         <Typography variant={ETypographyVariant.TextB3Regular}>
-    //           {optionsSorting?.ascText ?? ""}
-    //         </Typography>
-    //       </li>
-    //
-    //       <li
-    //         className={clsx("Sorting-DropDownListItem", {
-    //           "Sorting-DropDownListItem__active":
-    //             sortingState?.sortDirection === ETableSortDirection.Desc,
-    //         })}
-    //         onClick={() =>
-    //           handleChange({
-    //             sortProperty: headerId,
-    //             sortDirection: ETableSortDirection.Desc,
-    //           })
-    //         }
-    //       >
-    //         <Icon className="Sorting-DropDownListItem-Icon" type={"SortDown"} />
-    //         <Typography variant={ETypographyVariant.TextB3Regular}>
-    //           {optionsSorting?.descText ?? ""}
-    //         </Typography>
-    //       </li>
-    //     </ul>
-    //   </Popover.Panel>
-    // </Popover>
   );
 };
 

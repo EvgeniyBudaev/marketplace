@@ -45,6 +45,9 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
         options: {
           hiddenColumns,
           setHiddenColumns,
+          optionsChangeText: "Показать",
+          optionsFieldHeader: "Поля таблицы",
+          optionsModalHeader: "Настройка таблицы",
           optionsSorting: {
             ascText: "Сортировать по возрастанию",
             descText: "Сортировать по убыванию",

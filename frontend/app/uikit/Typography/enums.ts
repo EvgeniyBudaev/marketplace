@@ -9,6 +9,8 @@ export enum ETypographyVariant {
   TextH6Bold = "Text/H6Bold",
   TextB2Bold = "Text/B2Bold",
   TextB3Bold = "Text/B3Bold",
+  TextB3Medium = "Text/B3Medium",
   TextB3Regular = "Text/B3Regular",
+  TextB4Medium = "Text/B4Medium",
   TextB4Regular = "Text/B4Regular",
 }

@@ -49,6 +49,9 @@
   max-width: 100%;
 }
 .Table-Head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 20px;
   border: 1px solid rgb(226, 232, 240);
   border-bottom: none;

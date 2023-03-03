@@ -1,0 +1,51 @@
+@import "component";
+
+.Options {
+  &-FieldHeader {
+    margin-bottom: 8px;
+  }
+
+  &-Columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem; /* 8px */
+    margin-bottom: 40px;
+  }
+
+  &-ColumnsButton {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 8px 16px;
+    border-radius: 100px;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+
+    &:hover {
+      background-color: $color-light-beige;
+    }
+
+    &__canHide {
+      cursor: pointer;
+    }
+
+    &__notCanHide {
+      color: $color-alto-gray;
+      background-color: $color-disabled;
+      cursor: default;
+    }
+
+    &__notLocalHiddenColls {
+      background-color: rgba(223, 213, 195, 0.3);
+      border-color: $color-beige;
+    }
+
+    &__localHiddenColls {
+      border-color: $color-alto-gray;
+      background-color: $color-silver-gray;
+    }
+  }
+
+  &-ModalCancel {
+    margin-right: 24px;
+  }
+}

@@ -1,15 +1,18 @@
 import { forwardRef, useMemo } from "react";
 import type { ForwardedRef, ReactElement } from "react";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import type { VisibilityState } from "@tanstack/react-table";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "~/constants";
+import { Control } from "~/uikit/Table/Control";
 import { NavigationPanel, navigationPanelLinks } from "~/uikit/Table/NavigationPanel";
-import type { TTableProps } from "~/uikit/Table/types";
+import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
+import {optionsLinks} from "~/uikit/Table/Options";
 import { TableHeader, tableHeaderLinks } from "~/uikit/Table/TableHeader";
+import type { TTableProps } from "~/uikit/Table/types";
 import { sortingLinks } from "./Sorting";
 import styles from "./Table.module.css";
-import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
 
 const TableComponent = <TColumn extends Record<string, any>>(
   props: TTableProps<TColumn>,
@@ -20,6 +23,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
     className,
     columns,
     currentPage,
+    debug,
     defaultPageSize,
     pagesCount,
     sorting,
@@ -33,21 +37,39 @@ const TableComponent = <TColumn extends Record<string, any>>(
     totalItemsTitle,
   } = props;
 
+  const hiddenColumns = settings?.options?.hiddenColumns;
+
+  const columnVisibility = useMemo<VisibilityState | undefined>(
+    () =>
+      hiddenColumns?.reduce((acc, item) => {
+        acc[item] = false;
+
+        return acc;
+      }, {} as VisibilityState),
+    [hiddenColumns],
+  );
+
   const table = useReactTable({
     data,
     state: {
+      columnVisibility,
       rowSelection,
     },
     columns,
     onRowSelectionChange,
     getCoreRowModel: getCoreRowModel(),
     getRowId: props.getId ?? ((row) => row.id),
+    debugTable: debug,
   });
 
   return (
     <div ref={ref}>
       <div className="Table-Head">
-        {totalItemsTitle}&nbsp;<span className="Table-HeadCount">{totalItems}</span>
+        <div>
+          {" "}
+          {totalItemsTitle}&nbsp;<span className="Table-HeadCount">{totalItems}</span>
+        </div>
+        <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()} />}</div>
       </div>
       <div className="Table-Scroll">
         <table className={clsx("Table", className)}>
@@ -79,6 +101,7 @@ export function tableLinks() {
   return [
     { rel: "stylesheet", href: styles },
     ...navigationPanelLinks(),
+      ...optionsLinks(),
     ...sortingLinks(),
     ...tableBodyLinks(),
     ...tableHeaderLinks(),
