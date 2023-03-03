@@ -430,35 +430,158 @@
 			"name": "Catalogs",
 			"item": [
 				{
-					"name": "add catalog",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"alias\": \"Zerkala12\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Admin",
+					"item": [
+						{
+							"name": "add catalog",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"tv\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/catalogs/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"catalogs",
+										"save"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/save",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"catalogs",
-								"save"
-							]
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"Zerkala\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/catalogs/delete/notebook",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"catalogs",
+										"delete",
+										"notebook"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get attribute catalog by alias",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/admin/catalogs/attributes/mirrors",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"catalogs",
+										"attributes",
+										"mirrors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit catalog",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 6,\r\n    \"name\": \"зеркала212\",\r\n    \"alias\": \"Zerkala56745\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/catalogs/patch",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"catalogs",
+										"patch"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "put catalog",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"зеркала\",\r\n    \"alias\": \"Zerkala567\",\r\n    \"image\": \"default.jpg\",\r\n        \"attributeAlias\":[\r\n        \"width\",\r\n        \"form\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/catalogs/put",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"catalogs",
+										"put"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
 					"name": "get all catalogs",
@@ -519,136 +642,6 @@
 								"catalogs",
 								"by_alias",
 								"mirrors"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get attribute catalog by alias",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"alias\": \"Zerkala\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/admin/catalogs/attributes/mirrors",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"catalogs",
-								"attributes",
-								"mirrors"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"alias\": \"Zerkala\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/delete/notebook",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"catalogs",
-								"delete",
-								"notebook"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "edit catalog",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": 6,\r\n    \"name\": \"зеркала212\",\r\n    \"alias\": \"Zerkala56745\"\r\n    \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/patch",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"catalogs",
-								"patch"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "put catalog",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"зеркала\",\r\n    \"alias\": \"Zerkala567\",\r\n    \"image\": \"default.jpg\",\r\n        \"attributeAlias\":[\r\n        \"width\",\r\n        \"form\"\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/put",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"catalogs",
-								"put"
 							]
 						}
 					},
@@ -777,7 +770,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/v1/products/by_alias?alias=venetian-mirror-bernard",
+									"raw": "http://localhost:8080/api/v1/products/admin/by_alias?alias=venetian-mirror-bernard",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -787,6 +780,7 @@
 										"api",
 										"v1",
 										"products",
+										"admin",
 										"by_alias"
 									],
 									"query": [
