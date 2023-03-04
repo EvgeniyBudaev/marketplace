@@ -18,6 +18,7 @@ import type { TTableSortingHandleChange, TPopoverPosition } from "~/uikit";
 import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
 import type { TOptionsSorting } from "~/uikit/Table/Options";
 import styles from "./TableHeaderItem.css";
+import { usePopper } from "react-popper";
 
 type TProps<T extends object> = {
   className?: string;
@@ -53,6 +54,32 @@ export const TableHeaderItem = <T extends object>({
   const isAlreadySorted = sortingState?.sortProperty === headerId;
   const hasColumnInArray = multiple && !!sortingState;
   const [searchParams] = useSearchParams();
+  
+  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>()
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>()
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    modifiers: [
+      {
+        name: "flip",
+        options: {
+          altBoundary: true,
+        },
+      },
+      {
+        name: "offset",
+        options: {
+          offset: [0, 12],
+        },
+      },
+      {
+        name: "preventOverflow",
+        options: {
+          altBoundary: true,
+          padding: 12,
+        },
+      },
+    ],
+  });
 
   useEffect(
     () => {
@@ -278,7 +305,10 @@ export const TableHeaderItem = <T extends object>({
   return (
     <UiPopover className="HeadlessPopover">
       <div className="HeadlessPopover-Inner">
-        <UiPopover.Button className="HeadlessPopover-Button">
+        <UiPopover.Button
+          ref={setReferenceElement}
+          className="HeadlessPopover-Button"
+        >
           <div ref={triggerRef}>{renderPopoverTrigger()}</div>
         </UiPopover.Button>
         <Transition
@@ -291,10 +321,13 @@ export const TableHeaderItem = <T extends object>({
           leaveTo="HeadlessPopover-Transition__leaveTo"
         >
           <UiPopover.Panel
+            ref={setPopperElement}
+            style={styles.popper}
             className={clsx(
               "HeadlessPopover-Panel transform",
               `HeadlessPopover-Panel__${POPOVER_POSITION_STYLES[popoverPosition]}`,
             )}
+            {...attributes.popper}
           >
             {({ close }) => (
               <div className="HeadlessPopover-PanelContent">{renderPopoverContent(close)}</div>
