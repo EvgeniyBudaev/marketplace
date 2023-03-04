@@ -54,9 +54,9 @@ export const TableHeaderItem = <T extends object>({
   const isAlreadySorted = sortingState?.sortProperty === headerId;
   const hasColumnInArray = multiple && !!sortingState;
   const [searchParams] = useSearchParams();
-  
-  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>()
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>()
+
+  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>();
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     modifiers: [
       {
@@ -304,37 +304,34 @@ export const TableHeaderItem = <T extends object>({
 
   return (
     <UiPopover className="HeadlessPopover">
-      <div className="HeadlessPopover-Inner">
-        <UiPopover.Button
-          ref={setReferenceElement}
-          className="HeadlessPopover-Button"
+      <UiPopover.Button ref={setReferenceElement} className="HeadlessPopover-Button">
+        <div ref={triggerRef}>{renderPopoverTrigger()}</div>
+      </UiPopover.Button>
+      <Transition as={Fragment}>
+        <UiPopover.Panel
+          ref={setPopperElement}
+          style={styles.popper}
+          className={clsx(
+            "HeadlessPopover-Panel",
+            `HeadlessPopover-Panel__${POPOVER_POSITION_STYLES[popoverPosition]}`,
+          )}
+          {...attributes.popper}
         >
-          <div ref={triggerRef}>{renderPopoverTrigger()}</div>
-        </UiPopover.Button>
-        <Transition
-          as={Fragment}
-          enter="HeadlessPopover-Transition__enter"
-          enterFrom="HeadlessPopover-Transition__enterFrom"
-          enterTo="HeadlessPopover-Transition__enterTo"
-          leave="HeadlessPopover-Transition__leave"
-          leaveFrom="HeadlessPopover-Transition__leaveFrom"
-          leaveTo="HeadlessPopover-Transition__leaveTo"
-        >
-          <UiPopover.Panel
-            ref={setPopperElement}
-            style={styles.popper}
-            className={clsx(
-              "HeadlessPopover-Panel transform",
-              `HeadlessPopover-Panel__${POPOVER_POSITION_STYLES[popoverPosition]}`,
-            )}
-            {...attributes.popper}
-          >
-            {({ close }) => (
+          {({ close }) => (
+            <Transition.Child
+              as={Fragment}
+              enter="HeadlessPopover-Transition__enter"
+              enterFrom="HeadlessPopover-Transition__enterFrom"
+              enterTo="HeadlessPopover-Transition__enterTo"
+              leave="HeadlessPopover-Transition__leave"
+              leaveFrom="HeadlessPopover-Transition__leaveFrom"
+              leaveTo="HeadlessPopover-Transition__leaveTo"
+            >
               <div className="HeadlessPopover-PanelContent">{renderPopoverContent(close)}</div>
-            )}
-          </UiPopover.Panel>
-        </Transition>
-      </div>
+            </Transition.Child>
+          )}
+        </UiPopover.Panel>
+      </Transition>
     </UiPopover>
   );
 };

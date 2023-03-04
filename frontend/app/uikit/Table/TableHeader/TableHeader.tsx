@@ -75,22 +75,16 @@ export const TableHeader = <T extends object>({
                   maxWidth: header.getSize(),
                 }}
               >
-                <div
-                  className={clsx("TableHeader-THInner", {
-                    "TableHeader-THInner__sorting": hasSorting,
-                  })}
-                >
-                  <TableHeaderItem
-                    hasSorting={hasSorting}
-                    header={header}
-                    hiddenColumns={hiddenColumns}
-                    multiple={sorting?.multiple}
-                    onChange={handleChangeSorting}
-                    optionsSorting={optionsSorting}
-                    setHiddenColumns={setHiddenColumns}
-                    state={sortingState}
-                  />
-                </div>
+                <TableHeaderItem
+                  hasSorting={hasSorting}
+                  header={header}
+                  hiddenColumns={hiddenColumns}
+                  multiple={sorting?.multiple}
+                  onChange={handleChangeSorting}
+                  optionsSorting={optionsSorting}
+                  setHiddenColumns={setHiddenColumns}
+                  state={sortingState}
+                />
               </th>
             );
           })}
