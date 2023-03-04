@@ -17,7 +17,11 @@ export const TableBody = <T extends object>({ rows }: TProps<T>) => {
                 <td
                   className="TableBody-TD"
                   key={cell.id}
-                  style={{ width: cell.column.getSize(), maxWidth: cell.column.getSize() }}
+                  style={{
+                    width: cell.column.getSize(),
+                    minWidth: cell.column.getSize(),
+                    maxWidth: cell.column.getSize(),
+                  }}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>

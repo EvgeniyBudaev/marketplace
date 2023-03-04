@@ -215,6 +215,7 @@ export const TableHeaderItem = <T extends object>({
       </div>
     );
   };
+  console.log("checkSortingSearchParams(): ", checkSortingSearchParams());
 
   const renderPopoverContent = (close: any) => {
     return (
@@ -269,7 +270,7 @@ export const TableHeaderItem = <T extends object>({
 
             <li
               className={clsx("TableHeaderItem-DropDownListItem", {
-                "TableHeaderItem-DropDownListItem__active": !sortingState,
+                "TableHeaderItem-DropDownListItem__active": !checkSortingSearchParams(),
               })}
               onClick={() =>
                 handleChange({

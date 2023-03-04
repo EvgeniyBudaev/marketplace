@@ -4,16 +4,12 @@
   position: relative;
   width: 100%;
 
-  &-Inner {
-    position: relative;
-    display: inline;
-  }
-
   &-Button {
     background-color: transparent;
     border: none;
     outline-width: 0;
     padding: 0;
+    width: 100%;
   }
 
   &-Panel {

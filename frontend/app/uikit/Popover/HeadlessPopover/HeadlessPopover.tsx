@@ -37,29 +37,27 @@ const PopoverComponent: FC<TPopoverProps> = ({ children, trigger, position = "ce
 
   return (
     <UiPopover className="HeadlessPopover">
-      <div className="HeadlessPopover-Inner">
-        <UiPopover.Button className="HeadlessPopover-Button">
-          <div ref={triggerRef}>{trigger}</div>
-        </UiPopover.Button>
-        <Transition
-          as={Fragment}
-          enter="HeadlessPopover-Transition__enter"
-          enterFrom="HeadlessPopover-Transition__enterFrom"
-          enterTo="HeadlessPopover-Transition__enterTo"
-          leave="HeadlessPopover-Transition__leave"
-          leaveFrom="HeadlessPopover-Transition__leaveFrom"
-          leaveTo="HeadlessPopover-Transition__leaveTo"
+      <UiPopover.Button className="HeadlessPopover-Button">
+        <div ref={triggerRef}>{trigger}</div>
+      </UiPopover.Button>
+      <Transition
+        as={Fragment}
+        enter="HeadlessPopover-Transition__enter"
+        enterFrom="HeadlessPopover-Transition__enterFrom"
+        enterTo="HeadlessPopover-Transition__enterTo"
+        leave="HeadlessPopover-Transition__leave"
+        leaveFrom="HeadlessPopover-Transition__leaveFrom"
+        leaveTo="HeadlessPopover-Transition__leaveTo"
+      >
+        <UiPopover.Panel
+          className={clsx(
+            "HeadlessPopover-Panel transform",
+            `HeadlessPopover-Panel__${POPOVER_POSITION_STYLES[popoverPosition]}`,
+          )}
         >
-          <UiPopover.Panel
-            className={clsx(
-              "HeadlessPopover-Panel transform",
-              `HeadlessPopover-Panel__${POPOVER_POSITION_STYLES[popoverPosition]}`,
-            )}
-          >
-            <div className="HeadlessPopover-PanelContent">{children}</div>
-          </UiPopover.Panel>
-        </Transition>
-      </div>
+          <div className="HeadlessPopover-PanelContent">{children}</div>
+        </UiPopover.Panel>
+      </Transition>
     </UiPopover>
   );
 };

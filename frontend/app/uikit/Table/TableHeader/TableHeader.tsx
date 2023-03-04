@@ -72,6 +72,7 @@ export const TableHeader = <T extends object>({
                 style={{
                   position: "relative",
                   width: header.getSize(),
+                  minWidth: header.getSize(),
                   maxWidth: header.getSize(),
                 }}
               >

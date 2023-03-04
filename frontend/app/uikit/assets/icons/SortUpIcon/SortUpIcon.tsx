@@ -21,14 +21,14 @@ const IconComponent: FC<TProps> = ({ className, onClick, ...props }) => (
     <polyline
       fill="none"
       points="144 88 184 48 224 88"
-      stroke="#000"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="16"
     />
     <line
       fill="none"
-      stroke="#000"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="16"
@@ -38,7 +38,7 @@ const IconComponent: FC<TProps> = ({ className, onClick, ...props }) => (
       y2="48"
     />
     <line
-      stroke="#000"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="16"
@@ -48,7 +48,7 @@ const IconComponent: FC<TProps> = ({ className, onClick, ...props }) => (
       y2="128"
     />
     <line
-      stroke="#000"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="16"
@@ -58,7 +58,7 @@ const IconComponent: FC<TProps> = ({ className, onClick, ...props }) => (
       y2="64"
     />
     <line
-      stroke="#000"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="16"

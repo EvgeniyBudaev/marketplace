@@ -36,15 +36,12 @@
   position: relative;
   width: 100%;
 }
-.HeadlessPopover-Inner {
-  position: relative;
-  display: inline;
-}
 .HeadlessPopover-Button {
   background-color: transparent;
   border: none;
   outline-width: 0;
   padding: 0;
+  width: 100%;
 }
 .HeadlessPopover-Panel {
   position: absolute;
