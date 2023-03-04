@@ -1,18 +1,31 @@
 @import "component";
 
-.Sorting {
+.TableHeaderItem {
   width: 100%;
 
   &-Button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: rgba(100, 116, 139, 1);
+    padding: 8px;
     width: 100%;
+    color: rgba(100, 116, 139, 1);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
 
     svg {
       fill: rgba(100, 116, 139, 1);
     }
+
+    &:hover {
+      background-color: $color-light-beige;
+    }
+  }
+
+  &-IconIndicator {
+    height: 24px;
+    width: 24px;
   }
 
   &-DropDownList {
@@ -20,6 +33,8 @@
     border: 1px solid transparent;
     border-radius: 4px;
     box-shadow: $shadow-perimeter;
+    max-width: 200px;
+    width: 100%;
   }
 
   &-DropDownListItem {
@@ -35,6 +50,8 @@
     }
 
     &-Icon {
+      height: 24px;
+      width: 24px;
       margin-right: 8px;
     }
 

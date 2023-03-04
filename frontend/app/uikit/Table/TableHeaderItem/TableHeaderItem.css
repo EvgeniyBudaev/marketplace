@@ -32,26 +32,39 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.Sorting {
+.TableHeaderItem {
   width: 100%;
 }
-.Sorting-Button {
+.TableHeaderItem-Button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: rgb(100, 116, 139);
+  padding: 8px;
   width: 100%;
+  color: rgb(100, 116, 139);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
 }
-.Sorting-Button svg {
+.TableHeaderItem-Button svg {
   fill: rgb(100, 116, 139);
 }
-.Sorting-DropDownList {
+.TableHeaderItem-Button:hover {
+  background-color: rgb(223, 213, 195);
+}
+.TableHeaderItem-IconIndicator {
+  height: 24px;
+  width: 24px;
+}
+.TableHeaderItem-DropDownList {
   background-color: white;
   border: 1px solid transparent;
   border-radius: 4px;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  max-width: 200px;
+  width: 100%;
 }
-.Sorting-DropDownListItem {
+.TableHeaderItem-DropDownListItem {
   display: flex;
   align-items: center;
   padding: 4px;
@@ -59,20 +72,22 @@
   border-bottom: 1px solid rgb(228, 228, 228);
   transition: all 0.3s;
 }
-.Sorting-DropDownListItem:last-child {
+.TableHeaderItem-DropDownListItem:last-child {
   border-bottom: none;
 }
-.Sorting-DropDownListItem-Icon {
+.TableHeaderItem-DropDownListItem-Icon {
+  height: 24px;
+  width: 24px;
   margin-right: 8px;
 }
-.Sorting-DropDownListItem:hover {
+.TableHeaderItem-DropDownListItem:hover {
   background-color: rgb(223, 213, 195);
 }
-.Sorting-DropDownListItem__active {
+.TableHeaderItem-DropDownListItem__active {
   background-color: rgb(176, 151, 106);
 }
-.Sorting-DropDownListItem__active:hover {
+.TableHeaderItem-DropDownListItem__active:hover {
   background-color: rgb(176, 151, 106);
 }
 
-/*# sourceMappingURL=Sorting.module.css.map */
+/*# sourceMappingURL=TableHeaderItem.css.map */

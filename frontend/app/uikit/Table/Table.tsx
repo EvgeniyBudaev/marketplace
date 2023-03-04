@@ -8,10 +8,10 @@ import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "~/constants";
 import { Control } from "~/uikit/Table/Control";
 import { NavigationPanel, navigationPanelLinks } from "~/uikit/Table/NavigationPanel";
 import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
-import {optionsLinks} from "~/uikit/Table/Options";
+import { optionsLinks } from "~/uikit/Table/Options";
 import { TableHeader, tableHeaderLinks } from "~/uikit/Table/TableHeader";
 import type { TTableProps } from "~/uikit/Table/types";
-import { sortingLinks } from "./Sorting";
+import { tableHeaderItemLinks } from "./TableHeaderItem";
 import styles from "./Table.module.css";
 
 const TableComponent = <TColumn extends Record<string, any>>(
@@ -101,9 +101,9 @@ export function tableLinks() {
   return [
     { rel: "stylesheet", href: styles },
     ...navigationPanelLinks(),
-      ...optionsLinks(),
-    ...sortingLinks(),
+    ...optionsLinks(),
     ...tableBodyLinks(),
     ...tableHeaderLinks(),
+    ...tableHeaderItemLinks(),
   ];
 }

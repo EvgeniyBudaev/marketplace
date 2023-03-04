@@ -20,7 +20,6 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
         columnHelper.accessor(ETableColumns.Image, {
           id: ETableColumns.Image,
           header: () => <TableHeader>Изображение</TableHeader>,
-          size: 192,
         }),
 
         columnHelper.accessor(ETableColumns.Name, {

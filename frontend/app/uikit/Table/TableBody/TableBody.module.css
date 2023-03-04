@@ -1,8 +1,9 @@
-.TableBody .TableBody-TR {
+.TableBody-TR {
+  width: 100%;
   background-color: transparent;
   transition: background-color 0.15s;
 }
-.TableBody .TableBody-TR:hover {
+.TableBody-TR:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 .TableBody-TD {

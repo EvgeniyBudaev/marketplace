@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { flexRender } from "@tanstack/react-table";
 import type { HeaderGroup } from "@tanstack/react-table";
 import clsx from "clsx";
 import type { TTableSortingProps } from "~/uikit";
-import { Sorting } from "~/uikit/Table/Sorting";
+import { TableHeaderItem } from "~/uikit/Table/TableHeaderItem";
 import { getInitialSortingColumnState } from "~/uikit/Table/TableHeader/utils";
 import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
 import styles from "./TableHeader.module.css";
@@ -76,31 +75,16 @@ export const TableHeader = <T extends object>({
                   maxWidth: header.getSize(),
                 }}
               >
-                <div
-                  className={clsx("TableHeader-THInner", {
-                    "TableHeader-THInner__sorting": hasSorting,
-                  })}
-                >
-                  <>
-                    {hasSorting && (
-                      <Sorting
-                        header={header}
-                        hiddenColumns={hiddenColumns}
-                        multiple={sorting?.multiple}
-                        onChange={handleChangeSorting}
-                        optionsSorting={optionsSorting}
-                        setHiddenColumns={setHiddenColumns}
-                        state={sortingState}
-                      />
-                    )}
-                    {!hasSorting && header.isPlaceholder && null}
-                    {!hasSorting && !header.isPlaceholder && (
-                      <div className="TableHeader-THText">
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                      </div>
-                    )}
-                  </>
-                </div>
+                <TableHeaderItem
+                  hasSorting={hasSorting}
+                  header={header}
+                  hiddenColumns={hiddenColumns}
+                  multiple={sorting?.multiple}
+                  onChange={handleChangeSorting}
+                  optionsSorting={optionsSorting}
+                  setHiddenColumns={setHiddenColumns}
+                  state={sortingState}
+                />
               </th>
             );
           })}

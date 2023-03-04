@@ -8,9 +8,10 @@ type TProps = {
   className?: string;
   children?: ReactNode;
   isOpen?: boolean;
+  transition?: number;
 };
 
-const DropDownComponent: FC<TProps> = ({ className, children, isOpen }: TProps) => {
+const DropDownComponent: FC<TProps> = ({ className, children, isOpen, transition }: TProps) => {
   const nodeRef = useRef(null);
 
   return (
@@ -18,7 +19,7 @@ const DropDownComponent: FC<TProps> = ({ className, children, isOpen }: TProps) 
       className={className}
       in={isOpen}
       nodeRef={nodeRef}
-      timeout={TRANSITION}
+      timeout={transition ?? TRANSITION}
       unmountOnExit
     >
       <div ref={nodeRef}>

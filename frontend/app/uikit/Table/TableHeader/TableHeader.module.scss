@@ -7,33 +7,14 @@
     background-color: rgba(223, 213, 195, 0.3);
   }
 
+  &-TR {
+    position: relative;
+  }
+
   &-TH {
     padding: 20px;
     text-align: start;
     border-bottom: 1px solid rgba(224, 224, 224, 1);
-
-    &Inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px;
-      width: 100%;
-      transition: all 0.15s;
-
-      &__sorting {
-        cursor: pointer;
-        &:hover {
-          background-color: $color-light-beige;
-        }
-      }
-    }
-
-    &Text {
-      display: inline-block;
-      color: rgba(100, 116, 139, 1);
-      text-transform: uppercase;
-      font-weight: 500;
-    }
   }
 
   &-SortingIcon {

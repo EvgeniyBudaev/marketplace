@@ -1,6 +1,8 @@
 .TableBody {
   $this: &;
-  & #{$this}-TR {
+
+  &-TR {
+    width: 100%;
     background-color: transparent;
     transition: background-color 0.15s;
 
