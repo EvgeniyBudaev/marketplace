@@ -18,21 +18,12 @@
       justify-content: space-between;
       padding: 8px;
       width: 100%;
+      cursor: pointer;
       transition: all 0.15s;
 
-      &__sorting {
-        cursor: pointer;
-        &:hover {
-          background-color: $color-light-beige;
-        }
+      &:hover {
+        background-color: $color-light-beige;
       }
-    }
-
-    &Text {
-      display: inline-block;
-      color: rgba(100, 116, 139, 1);
-      text-transform: uppercase;
-      font-weight: 500;
     }
   }
 

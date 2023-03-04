@@ -1,6 +1,6 @@
 @import "component";
 
-.Sorting {
+.TableHeaderItem {
   width: 100%;
 
   &-Button {
@@ -9,10 +9,16 @@
     justify-content: space-between;
     color: rgba(100, 116, 139, 1);
     width: 100%;
+    text-transform: uppercase;
 
     svg {
       fill: rgba(100, 116, 139, 1);
     }
+  }
+
+  &-IconIndicator {
+    height: 24px;
+    width: 24px;
   }
 
   &-DropDownList {
@@ -20,6 +26,8 @@
     border: 1px solid transparent;
     border-radius: 4px;
     box-shadow: $shadow-perimeter;
+    max-width: 200px;
+    width: 100%;
   }
 
   &-DropDownListItem {
@@ -35,6 +43,8 @@
     }
 
     &-Icon {
+      height: 24px;
+      width: 24px;
       margin-right: 8px;
     }
 
@@ -47,6 +57,39 @@
       &:hover {
         background-color: $color-beige;
       }
+    }
+  }
+
+  /* ----- Открытие/закрытие DropDown ----- */
+  &-DropDown {
+    content: "";
+    //position: absolute;
+    //bottom: -24px;
+    //right: 0;
+    //height: max-content;
+    //width: max-content;
+    //background-color: white;
+    //border: 1px solid transparent;
+    //box-shadow: $shadow-perimeter;
+    //z-index: 100;
+
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: opacity $transition;
+    }
+
+    &.exit {
+      opacity: 1;
+      transition: opacity $transition;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: opacity $transition;
     }
   }
 }

@@ -11,7 +11,7 @@ import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
 import { optionsLinks } from "~/uikit/Table/Options";
 import { TableHeader, tableHeaderLinks } from "~/uikit/Table/TableHeader";
 import type { TTableProps } from "~/uikit/Table/types";
-import { sortingLinks } from "./Sorting";
+import { tableHeaderItemLinks } from "./TableHeaderItem";
 import styles from "./Table.module.css";
 
 const TableComponent = <TColumn extends Record<string, any>>(
@@ -102,8 +102,8 @@ export function tableLinks() {
     { rel: "stylesheet", href: styles },
     ...navigationPanelLinks(),
     ...optionsLinks(),
-    ...sortingLinks(),
     ...tableBodyLinks(),
     ...tableHeaderLinks(),
+    ...tableHeaderItemLinks(),
   ];
 }

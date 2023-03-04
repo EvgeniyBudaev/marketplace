@@ -46,19 +46,11 @@
   justify-content: space-between;
   padding: 8px;
   width: 100%;
+  cursor: pointer;
   transition: all 0.15s;
 }
-.TableHeader-THInner__sorting {
-  cursor: pointer;
-}
-.TableHeader-THInner__sorting:hover {
+.TableHeader-THInner:hover {
   background-color: rgb(223, 213, 195);
-}
-.TableHeader-THText {
-  display: inline-block;
-  color: rgb(100, 116, 139);
-  text-transform: uppercase;
-  font-weight: 500;
 }
 .TableHeader-SortingIcon {
   display: inline-flex;

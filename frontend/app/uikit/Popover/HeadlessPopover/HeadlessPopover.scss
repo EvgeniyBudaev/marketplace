@@ -1,0 +1,73 @@
+@import "component";
+
+.HeadlessPopover {
+  position: relative;
+  width: 100%;
+
+  &-Inner {
+    position: relative;
+    display: inline;
+  }
+
+  &-Button {
+    background-color: transparent;
+    border: none;
+    outline-width: 0;
+    padding: 0;
+  }
+
+  &-Panel {
+    position: absolute;
+    z-index: 50;
+    margin-top: 12px;
+
+    &__left {
+      left: 0;
+    }
+
+    &__center {
+      left: 2px;
+      transform: translateX(-2px);
+    }
+
+    &__right {
+      right: 0;
+    }
+  }
+
+  &-PanelContent {
+    position: relative;
+    border-radius: 8px;
+    width: max-content;
+  }
+
+  &-Transition {
+    &__enter {
+      transition: all 0.15s ease-out;
+    }
+
+    &__enterFrom {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    &__enterTo {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    &__leave {
+      transition: all 0.15s ease-in;
+    }
+
+    &__leaveFrom {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    &__leaveTo {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+}
