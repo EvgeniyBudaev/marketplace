@@ -17,7 +17,7 @@ public class ResponseAttributeByCatalogAlias {
     public static class NumberAttributeDto {
         private Long id;
         private String name;
-        private String alias;
+        private String attributeAlias;
     }
     @Data
     @NoArgsConstructor

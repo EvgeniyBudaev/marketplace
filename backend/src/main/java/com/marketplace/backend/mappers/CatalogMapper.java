@@ -10,6 +10,7 @@ import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.values.SelectableValue;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -38,8 +39,12 @@ public interface CatalogMapper {
     ResponseSimpleCatalogDto entityToSimpleCatalogDto(Catalog catalog);
 
     ResponseAttributeByCatalogAlias entityToAttributesDto(Catalog catalog);
-    Set<ResponseAttributeByCatalogAlias.NumberAttributeDto> numericAttributeToDto(Set<Attribute> numAttributeList);
-    default Set<ResponseAttributeByCatalogAlias.SelectAttributeDto> selectableAttributeToDto(Set<Attribute> selAttributeList){
+
+    Set<ResponseAttributeByCatalogAlias.NumberAttributeDto> numericAttributesToDto(Set<Attribute> numAttributeList);
+
+    @Mapping(source = "alias",target = "attributeAlias")
+    ResponseAttributeByCatalogAlias.NumberAttributeDto numericAttributeToDto(Attribute numAttribute);
+    default Set<ResponseAttributeByCatalogAlias.SelectAttributeDto> selectableAttributesToDto(Set<Attribute> selAttributeList){
         if ( selAttributeList == null ) {
             return null;
         }
@@ -52,7 +57,7 @@ public interface CatalogMapper {
 
         return set;
     }
-
+   /* @Mapping(source = "alias",target = "attributeAlias")*/
     ResponseAttributeByCatalogAlias.SelectAttributeDto attributeToSelectAttributeDto(Attribute attribute);
 
     Set<ResponseAttributeByCatalogAlias.SelectValueDto> singleAttributeValuesToDto(Set<SelectableValue> entities);

@@ -37,12 +37,12 @@ public class AdminCatalogController {
         Set<Attribute> numAttributeSet = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).collect(Collectors.toUnmodifiableSet());
         if(!numAttributeSet.isEmpty()){
-            dto.setNumberAttribute(catalogMapper.numericAttributeToDto(numAttributeSet));
+            dto.setNumberAttribute(catalogMapper.numericAttributesToDto(numAttributeSet));
         }
         if(selAttributeSet.isEmpty()){
             return dto;
         }
-        dto.setSelectableAttribute(catalogMapper.selectableAttributeToDto(selAttributeSet));
+        dto.setSelectableAttribute(catalogMapper.selectableAttributesToDto(selAttributeSet));
 
         return dto;
     }
