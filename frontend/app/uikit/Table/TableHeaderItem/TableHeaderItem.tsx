@@ -1,11 +1,13 @@
 import { createRef, Fragment, useCallback, useEffect, useState } from "react";
 import type { ReactElement } from "react";
+import { usePopper } from "react-popper";
 import { Popover as UiPopover, Transition } from "@headlessui/react";
 import { flexRender } from "@tanstack/react-table";
 import type { Header } from "@tanstack/react-table";
 import { useSearchParams } from "@remix-run/react";
 import clsx from "clsx";
 import xor from "lodash/xor";
+
 import {
   ETableSortDirection,
   ETypographyVariant,
@@ -16,9 +18,8 @@ import {
 } from "~/uikit";
 import type { TTableSortingHandleChange, TPopoverPosition } from "~/uikit";
 import type { TSortingColumnStateWithReset } from "~/uikit/Table/TableHeader";
-import type { TOptionsSorting } from "~/uikit/Table/Options";
+import type { TTableOptionsSorting } from "~/uikit/Table/Options";
 import styles from "./TableHeaderItem.css";
-import { usePopper } from "react-popper";
 
 type TProps<T extends object> = {
   className?: string;
@@ -29,7 +30,7 @@ type TProps<T extends object> = {
   onChange: (
     value: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null,
   ) => void;
-  optionsSorting?: TOptionsSorting;
+  optionsSorting?: TTableOptionsSorting;
   setHiddenColumns?: (hiddenColumns: string[]) => void;
   state: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> | null;
 };
@@ -215,7 +216,6 @@ export const TableHeaderItem = <T extends object>({
       </div>
     );
   };
-  console.log("checkSortingSearchParams(): ", checkSortingSearchParams());
 
   const renderPopoverContent = (close: any) => {
     return (

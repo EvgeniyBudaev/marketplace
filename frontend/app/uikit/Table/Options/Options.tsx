@@ -4,7 +4,7 @@ import type { HeaderContext } from "@tanstack/react-table";
 import clsx from "clsx";
 import xor from "lodash/xor";
 import { Button, ETypographyVariant, IconButton, Modal, Typography, useModalWindow } from "~/uikit";
-import type { TOptionsProps } from "~/uikit/Table/Options/types";
+import type { TTableOptionsProps } from "~/uikit/Table/Options/types";
 import styles from "./Options.module.css";
 
 const Component = <T extends object>({
@@ -14,7 +14,7 @@ const Component = <T extends object>({
   optionsFieldHeader,
   optionsModalHeader,
   setHiddenColumns,
-}: TOptionsProps<T>) => {
+}: TTableOptionsProps<T>) => {
   const { isOpenModal, closeModal, openModal } = useModalWindow();
   const [localHiddenColls, setLocalHiddenColls] = useState(hiddenColumns || []);
 

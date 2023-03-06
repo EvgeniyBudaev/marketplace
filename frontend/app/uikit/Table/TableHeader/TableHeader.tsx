@@ -1,6 +1,5 @@
 import { useState } from "react";
 import type { HeaderGroup } from "@tanstack/react-table";
-import clsx from "clsx";
 import type { TTableSortingProps } from "~/uikit";
 import { TableHeaderItem } from "~/uikit/Table/TableHeaderItem";
 import { getInitialSortingColumnState } from "~/uikit/Table/TableHeader/utils";
