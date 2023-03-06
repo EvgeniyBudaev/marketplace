@@ -10,12 +10,12 @@
   border-radius: 0 0 2px 2px;
   border-collapse: separate;
   border-spacing: 0;
-  margin-bottom: 30px;
 
   &-Scroll {
     position: relative;
     max-width: 100%;
     overflow-x: auto;
+    margin-bottom: 30px;
   }
 
   &-Head {

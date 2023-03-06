@@ -1,8 +1,9 @@
 import { memo } from "react";
 import type { FC } from "react";
-import isNull from "lodash/isNull";
+import type { OnChangeValue } from "react-select";
+import isNil from "lodash/isNil";
 import { Select } from "~/uikit";
-import type { TSelectOption } from "~/uikit";
+import type { TSelectOption, isSelectMultiType } from "~/uikit";
 import { getPageSizeOptions } from "~/uikit/Table/PageSize";
 
 type TProps = {
@@ -14,14 +15,20 @@ type TProps = {
 const Component: FC<TProps> = ({ defaultPageSize, options, onChangePageSize }) => {
   const selectOptions = getPageSizeOptions(options);
 
-  const handleChangePageSize = (options: TSelectOption | null) => {
-    if (isNull(options)) return;
-    onChangePageSize(Number(options.value));
+  const handleChangePageSize = (options?: OnChangeValue<TSelectOption, isSelectMultiType>) => {
+    if (isNil(options)) return;
+    if (Array.isArray(options)) {
+      onChangePageSize(Number(options[0].value));
+    } else {
+      const optionsSingle = options as TSelectOption;
+      onChangePageSize(Number(optionsSingle.value));
+    }
   };
 
   return (
     <div>
       <Select
+        isMulti={false}
         name="pagination"
         options={selectOptions}
         theme={"primary"}
