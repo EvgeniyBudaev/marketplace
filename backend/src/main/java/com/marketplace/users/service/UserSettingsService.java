@@ -9,6 +9,7 @@ import com.marketplace.users.model.enums.ECurrency;
 import com.marketplace.users.model.enums.ELanguage;
 import com.marketplace.users.model.enums.ETheme;
 import com.marketplace.users.repository.UserSettingsRepository;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,8 @@ public class UserSettingsService {
         UserSettings settings = getSettings(principal,dto.getUuid());
         settings.setTheme(dto.getTheme());
         settings.setModifyDate(LocalDateTime.now());
-        entityManager.merge(settings);
+        Session session = (Session) entityManager;
+        session.saveOrUpdate(settings);
         return settings;
     }
 
@@ -83,8 +85,7 @@ public class UserSettingsService {
         settings.setCurrency(ECurrency.RUB);
         settings.setLanguage(ELanguage.RU);
         settings.setTheme(ETheme.LIGHT);
-        SessionId sessionId = new SessionId();
-        sessionId.setUuid(uuid);
+        SessionId sessionId = sessionIdService.getSession(uuid);
         settings.setSessionId(sessionId);
         return settings;
     }
