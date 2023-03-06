@@ -1,18 +1,18 @@
 import type { Column } from "@tanstack/react-table";
 
-export type TOptionsSorting = {
+export type TTableOptionsSorting = {
   ascText?: string;
   defaultText?: string;
   descText?: string;
   hideColumnText?: string;
 };
 
-export type TOptionsProps<T extends object> = {
+export type TTableOptionsProps<T extends object> = {
   columns: Column<T, unknown>[];
   hiddenColumns?: string[];
   optionsChangeText?: string;
   optionsFieldHeader?: string;
   optionsModalHeader?: string;
-  optionsSorting?: TOptionsSorting;
+  optionsSorting?: TTableOptionsSorting;
   setHiddenColumns: (hiddenColumns: string[]) => void;
 };

@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import type { FC } from "react";
+import type { OnChangeValue } from "react-select";
 import { Form } from "@remix-run/react";
 import clsx from "clsx";
-import isNull from "lodash/isNull";
+import isNil from "lodash/isNil";
 import { ETheme } from "~/enums";
 import { useSettings } from "~/hooks";
 import { EFormMethods } from "~/shared/form";
 import type { TSorting } from "~/types";
 import { ETypographyVariant, Select, Typography } from "~/uikit";
+import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import styles from "./Sorting.module.css";
 
 type TProps = {
@@ -31,10 +33,14 @@ export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
   const [isSelectOpened, setIsSelectOpened] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (selectedOption: TSorting | null) => {
-    if (isNull(selectedOption)) return;
-
-    onSortingChange?.(selectedOption.value);
+  const handleChange = (selectedOption?: OnChangeValue<TSelectOption, isSelectMultiType>) => {
+    if (isNil(selectedOption)) return;
+    if (Array.isArray(selectedOption)) {
+      onSortingChange?.(selectedOption[0].value);
+    } else {
+      const selectedOptionSingle = selectedOption as TSelectOption;
+      onSortingChange?.(selectedOptionSingle.value);
+    }
     setIsSubmitting((prevState) => !prevState);
   };
 
@@ -62,6 +68,7 @@ export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
           className={clsx("Sorting-Select", {
             "Sorting-Select__active": isSelectOpened,
           })}
+          isMulti={false}
           options={options}
           theme={theme === ETheme.Light ? "primary" : "secondary"}
           value={options.find((option) => option.value === sorting)!}
