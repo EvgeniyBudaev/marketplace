@@ -1,7 +1,8 @@
 package com.marketplace.users.service;
 
+import com.marketplace.users.dto.settings.request.PatchSettingsByThemeRequestDto;
 import com.marketplace.users.dto.settings.request.UpdateSettingsRequestDto;
-import com.marketplace.users.dto.settings.request.UserSettingsRequestDto;
+import com.marketplace.users.mappers.UserSettingsMapper;
 import com.marketplace.users.model.SessionId;
 import com.marketplace.users.model.UserSettings;
 import com.marketplace.users.model.enums.ECurrency;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -23,21 +25,32 @@ public class UserSettingsService {
     private final EntityManager entityManager;
     private final SessionIdService sessionIdService;
 
+    private final UserSettingsMapper userSettingsMapper;
+
     @Autowired
-    public UserSettingsService(UserSettingsRepository userSettingsRepository, EntityManager entityManager, SessionIdService sessionIdService) {
+    public UserSettingsService(UserSettingsRepository userSettingsRepository, EntityManager entityManager, SessionIdService sessionIdService, UserSettingsMapper userSettingsMapper) {
         this.userSettingsRepository = userSettingsRepository;
         this.entityManager = entityManager;
         this.sessionIdService = sessionIdService;
+        this.userSettingsMapper = userSettingsMapper;
     }
 
-    public UserSettings geSettings(Principal principal, UserSettingsRequestDto dto){
-        if(dto.getUuid()==null){
+    public UserSettings getSettings(Principal principal, String uuid){
+        if(uuid==null){
             return getDefaultSettings(null);
         }
         if(principal==null){
-            return getSettingsForNonAuthUser(dto.getUuid());
+            return getSettingsForNonAuthUser(uuid);
         }
         return getSettingsForAuthUser(principal.getName());
+    }
+    @Transactional
+    public UserSettings patchTheme(Principal principal,PatchSettingsByThemeRequestDto dto){
+        UserSettings settings = getSettings(principal,dto.getUuid());
+        settings.setTheme(dto.getTheme());
+        settings.setModifyDate(LocalDateTime.now());
+        entityManager.merge(settings);
+        return settings;
     }
 
     private UserSettings getSettingsForNonAuthUser(String uuid){
@@ -85,7 +98,7 @@ public class UserSettingsService {
 
     private UserSettings updateSettingsForAuthUser(String email, UpdateSettingsRequestDto dto){
         SessionId sessionId = sessionIdService.getSessionIdByUserEmail(email);
-        UserSettings settings = entityFromDto(dto);
+        UserSettings settings = userSettingsMapper.entityFromDto(dto);
         settings.setSessionId(sessionId);
         userSettingsRepository.save(settings);
         sessionIdService.updateUserSettingsId(sessionId,settings);
@@ -94,7 +107,7 @@ public class UserSettingsService {
 
     private UserSettings updateSettingsForNonAuthUser(UpdateSettingsRequestDto dto){
         SessionId sessionId = sessionIdService.getSession(dto.getUuid());
-        UserSettings settings = entityFromDto(dto);
+        UserSettings settings = userSettingsMapper.entityFromDto(dto);
         settings.setSessionId(sessionId);
         userSettingsRepository.save(settings);
         sessionIdService.updateUserSettingsId(sessionId,settings);
@@ -102,12 +115,7 @@ public class UserSettingsService {
     }
 
 
-    private UserSettings entityFromDto(UpdateSettingsRequestDto dto){
-        UserSettings settings = new UserSettings();
-        settings.setTheme(dto.getTheme());
-        settings.setLanguage(dto.getLanguage());
-        settings.setCurrency(dto.getCurrency());
-        settings.setModifyDate(LocalDateTime.now());
-        return settings;
-    }
+
+
+
 }

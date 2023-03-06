@@ -43,7 +43,6 @@ public class AdminCatalogController {
             return dto;
         }
         dto.setSelectableAttribute(catalogMapper.selectableAttributesToDto(selAttributeSet));
-
         return dto;
     }
 }
