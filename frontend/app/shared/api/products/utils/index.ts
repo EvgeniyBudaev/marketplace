@@ -1,5 +1,6 @@
 export * from "./addProductApi.server";
 export * from "./deleteProductApi.server";
+export * from "./getAdminProductDetailApi.server";
 export * from "./getProductsApi.server";
 export * from "./getProductsByCatalogApi.server";
 export * from "./getProductDetailApi.server";

@@ -17,7 +17,7 @@ import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductEd
 import { getSelectableAttributeOptions } from "~/pages/Admin/Products/utils";
 import type { TAttributesByCatalog } from "~/shared/api/attributes";
 import type { TCatalogs } from "~/shared/api/catalogs";
-import type { TProductDetail } from "~/shared/api/products";
+import type { TAdminProductDetail } from "~/shared/api/products";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
 import type { TParams } from "~/types";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
@@ -27,7 +27,7 @@ import styles from "./ProductEdit.module.css";
 
 type TProps = {
   catalogs: TCatalogs;
-  product: TProductDetail;
+  product: TAdminProductDetail;
 };
 
 export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {

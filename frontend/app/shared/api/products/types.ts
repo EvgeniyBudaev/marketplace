@@ -1,5 +1,7 @@
 import type { z } from "zod";
 import type {
+  adminProductDetailParamsSchema,
+  adminProductDetailSchema,
   productDetailParamsSchema,
   productDetailSchema,
   productsByCatalogSearchParamsSchema,
@@ -26,8 +28,10 @@ export type TProductsByCatalogSearchParams = z.infer<typeof productsByCatalogSea
 export type TProductsByCatalog = z.infer<typeof productsByCatalogSchema>;
 
 export type TProductDetail = z.infer<typeof productDetailSchema>;
-
 export type TProductDetailParams = z.infer<typeof productDetailParamsSchema>;
+
+export type TAdminProductDetail = z.infer<typeof adminProductDetailSchema>;
+export type TAdminProductDetailParams = z.infer<typeof adminProductDetailParamsSchema>;
 
 export type TProductAdd = z.infer<typeof productAddSchema>;
 export type TProductAddParams = z.infer<typeof productAddParamsSchema>;

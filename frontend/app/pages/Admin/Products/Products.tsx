@@ -56,6 +56,12 @@ export const Products: FC<TProps> = (props) => {
   });
 
   useEffect(() => {
+    if (fetcher.data && fetcher.data?.success) {
+      notify.success({
+        title: "Выполнено",
+      });
+    }
+
     if (fetcher.data && !fetcher.data?.success) {
       notify.error({
         title: "Ошибка",
@@ -65,7 +71,7 @@ export const Products: FC<TProps> = (props) => {
   }, [fetcher.data, fetcher.data?.success]);
 
   return (
-    <section>
+    <section className="Products">
       <div className="Products-Header">
         <div>
           <h1 className="Products-Title">
