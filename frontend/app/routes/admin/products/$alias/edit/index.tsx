@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
-import { getProductDetail } from "~/shared/api/products";
+import { getAdminProductDetail } from "~/shared/api/products";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { EFormFields } from "~/pages/Admin/Attributes/AttributeEdit";
 import type { TForm } from "~/pages/Admin/Attributes/AttributeEdit";
@@ -40,7 +40,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 
   try {
-    const response = await getProductDetail(request, { alias });
+    const response = await getAdminProductDetail(request, { alias });
     const catalogsResponse = await getCatalogs(request, { params: formattedParams });
 
     if (response.success && catalogsResponse.success) {

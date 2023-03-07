@@ -96,3 +96,30 @@ export const productDeleteSchema = z.any();
 export const productEditParamsSchema = z.any();
 
 export const productEditSchema = z.any();
+
+const attributeValuesSetItemSchema = z.object({
+  id: z.number(),
+  attributeType: z.string(),
+  attributeName: z.string(),
+  attributeAlias: z.string(),
+  value: z.string(),
+});
+
+export const adminProductDetailParamsSchema = z.object({
+  alias: z.string(),
+});
+
+export const adminProductDetailSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  alias: z.string(),
+  catalogAlias: z.string(),
+  enabled: z.boolean(),
+  description: z.string().nullish(),
+  rating: z.number(),
+  price: z.string(),
+  count: z.string(),
+  createdAt: z.string(),
+  modifyDate: z.string(),
+  attributeValuesSet: attributeValuesSetItemSchema.array(),
+});
