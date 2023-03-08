@@ -16,7 +16,7 @@ export const catalogSelectAttributeItemSchema = z.object({
 export const catalogNumberAttributeItemSchema = z.object({
   id: z.number(),
   name: z.string(),
-  alias: z.string(),
+  attributeAlias: z.string(),
 });
 
 export const catalogDetailSchema = z.object({
@@ -27,8 +27,10 @@ export const catalogDetailSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string(),
   modifyDate: z.string(),
-  selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
-  numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
+  // selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+  // numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
+  selectAttribute: z.any(),
+  numberAttribute: z.any(),
 });
 
 export const catalogDetailParamsSchema = z.object({
@@ -66,8 +68,10 @@ export const catalogAddSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string(),
   modifyDate: z.string(),
-  selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
-  numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
+  // selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+  // numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
+  selectAttribute: z.any(),
+  numberAttribute: z.any(),
 });
 
 export const catalogDeleteParamsSchema = z.object({
@@ -93,6 +97,8 @@ export const catalogEditSchema = z.object({
   image: z.string().nullish(),
   modifyDate: z.string(),
   name: z.string(),
-  numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
-  selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+  // numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
+  // selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+  selectAttribute: z.any(),
+  numberAttribute: z.any(),
 });

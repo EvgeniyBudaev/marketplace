@@ -63,8 +63,8 @@ export const productDetailSchema = z.object({
   rating: z.number(),
   price: z.string(),
   count: z.string(),
-  createdAt: z.string(),
-  modifyDate: z.string(),
+  createdAt: z.string().nullish(),
+  modifyDate: z.string().nullish(),
   attributes: attributeItemSchema.array(),
 });
 
@@ -95,7 +95,7 @@ export const productDeleteSchema = z.any();
 
 export const productEditParamsSchema = z.any();
 
-export const productEditSchema = z.any();
+export const productEditSchema = productDetailSchema;
 
 const attributeValuesSetItemSchema = z.object({
   id: z.number(),

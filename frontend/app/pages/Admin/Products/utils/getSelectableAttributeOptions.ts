@@ -12,3 +12,16 @@ export const getSelectableAttributeOptions: TProps = ({ values }) => {
 
   return { selectableAttributeOptions };
 };
+
+// type TProps = ({ values }: { values: {value: string, id: number, attributeType: string, attributeName: string, attributeAlias: string} }) => {
+//   selectableAttributeOptions: { value: string; label: string }[];
+// };
+//
+// export const getSelectableAttributeOptions: TProps = ({ values }) => {
+//   const data = {
+//     value: values.id.toString(),
+//     label: values.value,
+//   };
+//
+//   return { selectableAttributeOptions: [data] };
+// };

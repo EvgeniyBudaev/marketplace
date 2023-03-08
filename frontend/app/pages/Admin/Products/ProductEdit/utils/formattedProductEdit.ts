@@ -3,7 +3,7 @@ import type { TParams } from "~/types";
 const isNumeric = (key: string, value?: string | number | null | TParams): boolean => {
   if (key === "count" || key === "price") return false;
   if (typeof value === "string") {
-    return /^-?\d+$/.test(value);
+    return !isNaN(Number(value)) && !isNaN(parseFloat(value));
   } else return typeof value === "number";
 };
 

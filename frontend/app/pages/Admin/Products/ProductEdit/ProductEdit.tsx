@@ -47,6 +47,13 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
   );
   const attributesByCatalog: TAttributesByCatalog = fetcherRemix.data?.attributesByCatalog;
 
+  const productSelectableAttributeList = product.attributeValuesSet.filter(
+    (item) => item.attributeType === "SELECTABLE",
+  );
+  const productNumberAttributeList = product.attributeValuesSet.filter(
+    (item) => item.attributeType === "DOUBLE",
+  );
+
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
@@ -86,12 +93,13 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
     console.log("Form params: ", params);
     const formattedParams = formattedProductEdit(params);
     console.log("formattedParams: ", formattedParams);
-    const dataFormToDto = mapProductEditToDto(formattedParams);
+    const dataFormToDto = mapProductEditToDto(formattedParams, product.id);
     console.log("dataFormToDto : ", dataFormToDto);
     fetcher.submit(dataFormToDto, {
       method: EFormMethods.Post,
       action: createPath({
-        route: ERoutes.AdminProductAdd,
+        route: ERoutes.AdminProductEdit,
+        params: { alias: product.alias },
       }),
     });
   };
@@ -157,6 +165,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
         <div className="ProductEdit-FormFieldGroup">
           {attributesByCatalog &&
             attributesByCatalog.selectableAttribute &&
+            productSelectableAttributeList &&
             attributesByCatalog.selectableAttribute.map((item) => {
               const { selectableAttributeOptions } = getSelectableAttributeOptions({
                 values: item.values,
@@ -173,11 +182,36 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
               );
             })}
         </div>
+        {/*<div className="ProductEdit-FormFieldGroup">*/}
+        {/*  {productSelectableAttributeList &&*/}
+        {/*      productSelectableAttributeList.map((item) => {*/}
+        {/*      const { selectableAttributeOptions } = getSelectableAttributeOptions({*/}
+        {/*        values: item,*/}
+        {/*      });*/}
+        {/*      return (*/}
+        {/*        <div className="ProductEdit-FormFieldGroup" key={item.id}>*/}
+        {/*          <Select*/}
+        {/*            defaultValue={selectableAttributeOptions[0]}*/}
+        {/*            name={item.attributeAlias}*/}
+        {/*            options={selectableAttributeOptions}*/}
+        {/*            theme={theme === ETheme.Light ? "primary" : "secondary"}*/}
+        {/*          />*/}
+        {/*        </div>*/}
+        {/*      );*/}
+        {/*    })}*/}
+        {/*</div>*/}
         <div className="ProductEdit-FormFieldGroup">
-          {attributesByCatalog &&
-            attributesByCatalog.numberAttribute &&
-            attributesByCatalog.numberAttribute.map((item) => {
-              return <Input key={item.id} label={item.name} name={item.alias} type="number" />;
+          {productNumberAttributeList &&
+            productNumberAttributeList.map((item) => {
+              return (
+                <Input
+                  defaultValue={item.value}
+                  key={item.id}
+                  label={item.attributeName}
+                  name={item.attributeAlias}
+                  type="number"
+                />
+              );
             })}
         </div>
         <div className="ProductEdit-Control">
