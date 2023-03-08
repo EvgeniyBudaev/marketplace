@@ -26,7 +26,7 @@ export const useGetAttributeByCatalogOptions: TUseGetCatalogAlias = ({ attribute
     !isNil(attributesByCatalog.numberAttribute) && !isEmpty(attributesByCatalog.numberAttribute)
       ? attributesByCatalog.numberAttribute.map((item) => {
           return {
-            value: item.alias,
+            value: item.attributeAlias,
             label: item.name,
           };
         })

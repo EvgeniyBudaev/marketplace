@@ -4,6 +4,6 @@ export const formattedAttributeAliasList = (options: TSelectOption | TSelectOpti
   if (Array.isArray(options)) {
     return options.map((item) => item.value);
   } else {
-    return Array.from(new Set(options.value));
+    return [options.value];
   }
 };

@@ -13,7 +13,6 @@ import {
   mapCatalogEditFormDataToDto,
 } from "~/pages/Admin/Catalogs/CatalogEdit";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogEdit";
-import { EAttributeAction } from "~/shared/api/attributes";
 import type { TAttributes, TAttributesByCatalog } from "~/shared/api/attributes";
 import type { TCatalogDetail } from "~/shared/api/catalogs";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
@@ -95,7 +94,6 @@ export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catal
       action: createPath({
         route: ERoutes.AdminCatalogEdit,
         params: { alias: catalog.alias },
-        withIndex: true,
       }),
     });
   };

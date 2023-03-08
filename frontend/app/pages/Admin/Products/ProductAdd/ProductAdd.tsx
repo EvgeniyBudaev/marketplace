@@ -39,6 +39,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
   const { catalogAliasesTypeOptions } = useGetCatalogAlias({ catalogs });
   const [catalogAlias, setCatalogAlias] = useState<TSelectOption>(catalogAliasesTypeOptions[0]);
   const attributesByCatalog: TAttributesByCatalog = fetcherRemix.data?.attributesByCatalog;
+  console.log("attributesByCatalog: ", attributesByCatalog);
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
@@ -165,7 +166,9 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
           {attributesByCatalog &&
             attributesByCatalog.numberAttribute &&
             attributesByCatalog.numberAttribute.map((item) => {
-              return <Input key={item.id} label={item.name} name={item.alias} type="number" />;
+              return (
+                <Input key={item.id} label={item.name} name={item.attributeAlias} type="number" />
+              );
             })}
         </div>
         <div className="ProductAdd-Control">

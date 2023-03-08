@@ -1,24 +1,37 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
-import { getAdminProductDetail } from "~/shared/api/products";
-import { getInputErrors, getResponseError } from "~/shared/domain";
+import { ERoutes } from "~/enums";
 import { EFormFields } from "~/pages/Admin/Attributes/AttributeEdit";
 import type { TForm } from "~/pages/Admin/Attributes/AttributeEdit";
 import { ProductEdit, productEditLinks } from "~/pages/Admin/Products/ProductEdit";
 import { getCatalogs } from "~/shared/api/catalogs";
-import { mapProductsToDto } from "~/shared/api/products/utils";
+import { editProduct, getAdminProductDetail } from "~/shared/api/products";
+import { mapProductEditToDto, mapProductsToDto } from "~/shared/api/products/utils";
+import { getInputErrors, getResponseError } from "~/shared/domain";
+import { createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
   console.log("formValues: ", formValues);
+  const formattedParams = mapProductEditToDto({
+    ...formValues,
+  });
+  console.log("formattedParams: ", formattedParams);
 
   try {
-    return null;
-    // return badRequest({ fieldErrors, success: false });
+    const productResponse = await editProduct(request, formattedParams);
+    if (productResponse.success) {
+      return redirect(
+        createPath({
+          route: ERoutes.AdminProducts,
+        }),
+      );
+    }
+    return badRequest({ success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
@@ -40,18 +53,21 @@ export const loader = async (args: LoaderArgs) => {
   });
 
   try {
-    const response = await getAdminProductDetail(request, { alias });
+    const productDetailResponse = await getAdminProductDetail(request, { alias });
     const catalogsResponse = await getCatalogs(request, { params: formattedParams });
 
-    if (response.success && catalogsResponse.success) {
+    if (productDetailResponse.success && catalogsResponse.success) {
       console.log("[OK]");
       return json({
         catalogs: catalogsResponse.data,
-        product: response.data,
+        product: productDetailResponse.data,
         success: true,
       });
     }
-    const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
+    const fieldErrors = getInputErrors<keyof TForm>(
+      productDetailResponse,
+      Object.values(EFormFields),
+    );
     console.log("[BAD]");
     console.log("[fieldErrors] ", fieldErrors);
 

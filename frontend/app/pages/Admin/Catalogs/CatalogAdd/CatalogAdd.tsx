@@ -4,7 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes, ETheme } from "~/enums";
 import { useSettings } from "~/hooks";
 import { useGetAttributeOptions } from "~/pages/Admin/Catalogs/hooks";
-import { EFormFields, formSchema } from "~/pages/Admin/Catalogs/CatalogAdd";
+import {
+  EFormFields,
+  formSchema,
+  mapCatalogAddFormDataToDto,
+} from "~/pages/Admin/Catalogs/CatalogAdd";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogAdd";
 import type { TAttributes } from "~/shared/api/attributes";
 import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
@@ -72,7 +76,11 @@ export const CatalogAdd: FC<TProps> = ({ attributes }) => {
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
-    fetcher.submit(params, {
+    const formattedParams = mapCatalogAddFormDataToDto({
+      ...params,
+      attributeAlias: params.attributeAlias,
+    });
+    fetcher.submit(formattedParams, {
       method: EFormMethods.Post,
       action: createPath({
         route: ERoutes.AdminCatalogAdd,

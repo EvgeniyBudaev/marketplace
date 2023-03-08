@@ -1,19 +1,22 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
 import { badRequest } from "remix-utils";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { ERoutes } from "~/enums";
 import { CatalogAdd, catalogAddLinks, EFormFields } from "~/pages/Admin/Catalogs/CatalogAdd";
 import type { TForm } from "~/pages/Admin/Catalogs/CatalogAdd";
 import { addCatalog, CatalogsApi } from "~/shared/api/catalogs";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getAttributes } from "~/shared/api/attributes";
-import { useLoaderData } from "@remix-run/react";
+import { createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
   const formattedParams = CatalogsApi.mapAddCatalogToDto(formValues);
+  console.log("[catalog add formattedParams] ", formattedParams);
 
   try {
     const response = await addCatalog(request, formattedParams);
@@ -21,10 +24,11 @@ export const action = async (args: ActionArgs) => {
 
     if (response.success) {
       console.log("[OK]");
-      return json({
-        catalog: response.data,
-        success: true,
-      });
+      return redirect(
+        createPath({
+          route: ERoutes.AdminCatalogs,
+        }),
+      );
     }
 
     const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
