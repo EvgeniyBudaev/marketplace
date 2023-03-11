@@ -99,11 +99,11 @@ public class CatalogService {
     }
 
     public Set<NumberAttributeDto> findUseNumericAttributesInCatalog(Catalog catalog){
-        return attributeValueService.findNumberAttributesUseInCatalog(catalog.getId());
+        return attributeValueService.findUseNumberAttributesUseInCatalog(catalog.getId());
     }
 
-    public Set<SelectableValue> findSelectableAttributesInCatalog(Catalog catalog){
-        return attributeValueService.findSelectableAttributesInCatalog(catalog.getId());
+    public Set<SelectableValue> findUseSelectableAttributesInCatalog(Catalog catalog){
+        return attributeValueService.findUseSelectableAttributesInCatalog(catalog.getId());
     }
 
     @Transactional

@@ -6,6 +6,7 @@ import com.marketplace.backend.dto.catalog.request.RequestSaveCatalogDto;
 import com.marketplace.backend.dto.catalog.request.RequestUpdateCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSimpleCatalogDto;
 import com.marketplace.backend.dto.catalog.response.ResponseSingleAfterSaveCatalogDto;
+import com.marketplace.backend.dto.catalog.response.single.NumberAttributeDto;
 import com.marketplace.backend.dto.catalog.response.single.ResponseSingleCatalogDto;
 import com.marketplace.backend.exception.AppError;
 import com.marketplace.backend.mappers.CatalogMapper;
@@ -69,13 +70,21 @@ public class CatalogController {
         List<Attribute> numAttributeList = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
         if(!numAttributeList.isEmpty()){
-            dto.setNumberAttribute(catalogService.findUseNumericAttributesInCatalog(catalog));
+            Set<NumberAttributeDto> num = catalogService.findUseNumericAttributesInCatalog(catalog);
+            if(num==null||num.isEmpty()){
+                dto.setNumberAttribute(null);
+            }else {
+                dto.setNumberAttribute(num);
+            }
+        }else {
+            dto.setNumberAttribute(null);
         }
         if(selAttributeList.isEmpty()){
+            dto.setSelectAttribute(null);
             return dto;
         }
         Set<ResponseSingleCatalogDto.SelectAttributeDto> selectAttributeDtos = new HashSet<>();
-        Set<SelectableValue> selectableValues = catalogService.findSelectableAttributesInCatalog(catalog);
+        Set<SelectableValue> selectableValues = catalogService.findUseSelectableAttributesInCatalog(catalog);
         for(Attribute attribute: selAttributeList){
             List<SelectableValue> selValueForAttributes
                     = selectableValues.stream().filter(value -> {

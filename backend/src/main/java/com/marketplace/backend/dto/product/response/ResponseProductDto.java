@@ -24,7 +24,7 @@ public class ResponseProductDto {
     private String count;
     private LocalDateTime createdAt;
     private LocalDateTime modifyDate;
-    private Set<AttributeValueDto> attributes = new HashSet<>();
+    private Set<AttributeValueDto> attributes;
 
     @Data
     public static class AttributeValueDto{
@@ -45,17 +45,30 @@ public class ResponseProductDto {
         this.setModifyDate(product.getModifyDate());
         this.setDescription(product.getDescription());
         this.setRating(product.getRating());
-        this.getAttributes().addAll(convertDoubleValueToDto(product.getDoubleValues()));
-        this.getAttributes().addAll(convertIntegerValueToDto(product.getBooleanValues()));
-        this.getAttributes().addAll(convertSelectValueToDto(product.getSelectableValues()));
+        if (product.getSelectableValues().isEmpty()&&product.getBooleanValues().isEmpty()&&product.getDoubleValues().isEmpty()){
+            return;
+        }
+        this.attributes = new HashSet<>();
+        Set<AttributeValueDto> numValuesDto =convertDoubleValueToDto(product.getDoubleValues());
+        if(numValuesDto!=null){
+            this.getAttributes().addAll(numValuesDto);
+        }
+        Set<AttributeValueDto> boolValueDto = convertBooleanValueToDto(product.getBooleanValues());
+        if(boolValueDto!=null){
+            this.getAttributes().addAll(boolValueDto);
+        }
+        Set<AttributeValueDto> selValueDto =convertSelectValueToDto(product.getSelectableValues());
+        if(selValueDto!=null){
+            this.getAttributes().addAll(selValueDto);
+        }
     }
 
 
     private Set<AttributeValueDto> convertDoubleValueToDto(Set<DoubleValue> list){
-        Set<AttributeValueDto> result = new HashSet<>();
-        if (list==null){
-            return result;
+        if (list==null||list.isEmpty()){
+            return null;
         }
+        Set<AttributeValueDto> result = new HashSet<>();
         for(DoubleValue doubleValue:list){
             AttributeValueDto valueDto = new AttributeValueDto();
             valueDto.setValue(doubleValue.getValue().toString());
@@ -65,11 +78,11 @@ public class ResponseProductDto {
         }
         return result;
     }
-    private Set<AttributeValueDto> convertIntegerValueToDto(Set<BooleanValue> list){
-        Set<AttributeValueDto> result = new HashSet<>();
-        if (list==null){
-            return result;
+    private Set<AttributeValueDto> convertBooleanValueToDto(Set<BooleanValue> list){
+        if (list==null||list.isEmpty()){
+            return null;
         }
+        Set<AttributeValueDto> result = new HashSet<>();
         for(BooleanValue booleanValue :list){
             AttributeValueDto valueDto = new AttributeValueDto();
             valueDto.setValue(booleanValue.getValue().toString());
@@ -80,10 +93,11 @@ public class ResponseProductDto {
         return result;
     }
     private Set<AttributeValueDto> convertSelectValueToDto(Set<SelectableValue> list){
-        Set<AttributeValueDto> result = new HashSet<>();
-        if (list==null){
-            return result;
+        if (list==null||list.isEmpty()){
+            return null;
         }
+        Set<AttributeValueDto> result = new HashSet<>();
+
         for(SelectableValue selectableValue :list){
             AttributeValueDto valueDto = new AttributeValueDto();
             valueDto.setValue(selectableValue.getValue());

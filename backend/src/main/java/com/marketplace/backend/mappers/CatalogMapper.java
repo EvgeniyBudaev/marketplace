@@ -31,6 +31,10 @@ public interface CatalogMapper {
         dto.setId(attribute.getId());
         dto.setName(attribute.getName());
         dto.setAlias(attribute.getAlias());
+        if(entityList==null||entityList.isEmpty()){
+            dto.setValues(null);
+            return dto;
+        }
         Set<ResponseSingleCatalogDto.SelectValueDto> valueDtoList = entityList.stream().map(this::singleEntitySelectableValueToDto).collect(Collectors.toSet());
         dto.setValues(valueDtoList);
         return dto;
@@ -70,25 +74,33 @@ public interface CatalogMapper {
         dto.setEnabled(catalog.isEnabled());
         dto.setCreatedAt(catalog.getCreatedAt());
         dto.setModifyDate(catalog.getModifyDate());
-        Set<ResponseSingleAfterSaveCatalogDto.SelectAttributeDto> selectAttributeDtos = new HashSet<>();
-        selAttributeList.forEach(x->{
-            ResponseSingleAfterSaveCatalogDto.SelectAttributeDto selDto = new ResponseSingleAfterSaveCatalogDto.SelectAttributeDto();
-            selDto.setAlias(x.getAlias());
-            selDto.setId(x.getId());
-            selDto.setName(x.getName());
-            Set<ResponseSingleAfterSaveCatalogDto.SelectValueDto> selectValueDtoSet = new HashSet<>(x.getSingleSelectableValue().size());
-            x.getSingleSelectableValue().forEach(y-> {
-                ResponseSingleAfterSaveCatalogDto.SelectValueDto  selectValueDto = new ResponseSingleAfterSaveCatalogDto.SelectValueDto(y.getId(), y.getValue());
-                selectValueDtoSet.add(selectValueDto);
+        if (selAttributeList==null||selAttributeList.isEmpty()){
+            dto.setSelectAttribute(null);
+        }else {
+            Set<ResponseSingleAfterSaveCatalogDto.SelectAttributeDto> selectAttributeDtos = new HashSet<>();
+            selAttributeList.forEach(x->{
+                ResponseSingleAfterSaveCatalogDto.SelectAttributeDto selDto = new ResponseSingleAfterSaveCatalogDto.SelectAttributeDto();
+                selDto.setAlias(x.getAlias());
+                selDto.setId(x.getId());
+                selDto.setName(x.getName());
+                Set<ResponseSingleAfterSaveCatalogDto.SelectValueDto> selectValueDtoSet = new HashSet<>(x.getSingleSelectableValue().size());
+                x.getSingleSelectableValue().forEach(y-> {
+                    ResponseSingleAfterSaveCatalogDto.SelectValueDto  selectValueDto = new ResponseSingleAfterSaveCatalogDto.SelectValueDto(y.getId(), y.getValue());
+                    selectValueDtoSet.add(selectValueDto);
+                });
+                selDto.setValues(selectValueDtoSet);
+                selectAttributeDtos.add(selDto);
             });
-           selDto.setValues(selectValueDtoSet);
-           selectAttributeDtos.add(selDto);
-        });
-        dto.setSelectAttribute(selectAttributeDtos);
-        Set<ResponseSingleAfterSaveCatalogDto.NumberAttributeDto> numberAttributeDtos =
-                numAttributeList.stream().map(x->new ResponseSingleAfterSaveCatalogDto.
-                        NumberAttributeDto(x.getId(),x.getName(),x.getAlias())).collect(Collectors.toUnmodifiableSet());
-        dto.setNumberAttribute(numberAttributeDtos);
+            dto.setSelectAttribute(selectAttributeDtos);
+        }
+        if(numAttributeList==null||numAttributeList.isEmpty()){
+            dto.setNumberAttribute(null);
+        }else {
+            Set<ResponseSingleAfterSaveCatalogDto.NumberAttributeDto> numberAttributeDtos =
+                    numAttributeList.stream().map(x->new ResponseSingleAfterSaveCatalogDto.
+                            NumberAttributeDto(x.getId(),x.getName(),x.getAlias())).collect(Collectors.toUnmodifiableSet());
+            dto.setNumberAttribute(numberAttributeDtos);
+        }
         return dto;
     }
 }
