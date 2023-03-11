@@ -22,7 +22,7 @@ type TProps = {
 
 export const Catalogs: FC<TProps> = (props) => {
   const fetcher = useFetcher();
-  const catalogs = fetcher.data?.products ?? props.catalogs;
+  const catalogs = fetcher.data?.catalogs ?? props.catalogs;
 
   const onDeleteCatalog = (alias: string) => {
     const form = new FormData();

@@ -10,7 +10,7 @@ export const catalogSelectAttributeItemSchema = z.object({
   id: z.number(),
   name: z.string(),
   alias: z.string(),
-  values: catalogAttributeValueItemSchema.array(),
+  values: catalogAttributeValueItemSchema.array().nullish(),
 });
 
 export const catalogNumberAttributeItemSchema = z.object({
@@ -27,10 +27,17 @@ export const catalogDetailSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string(),
   modifyDate: z.string(),
-  // selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
-  // numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
-  selectAttribute: z.any(),
-  numberAttribute: z.any(),
+  selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+  numberAttribute: z
+    .object({
+      id: z.number(),
+      name: z.string(),
+      alias: z.string(),
+      min: z.number(),
+      max: z.number(),
+    })
+    .array()
+    .nullish(),
 });
 
 export const catalogDetailParamsSchema = z.object({
@@ -68,10 +75,15 @@ export const catalogAddSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string(),
   modifyDate: z.string(),
-  // selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
-  // numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
-  selectAttribute: z.any(),
-  numberAttribute: z.any(),
+  selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
+  numberAttribute: z
+    .object({
+      id: z.number(),
+      name: z.string(),
+      alias: z.string(),
+    })
+    .array()
+    .nullish(),
 });
 
 export const catalogDeleteParamsSchema = z.object({
@@ -97,8 +109,13 @@ export const catalogEditSchema = z.object({
   image: z.string().nullish(),
   modifyDate: z.string(),
   name: z.string(),
-  // numberAttribute: catalogNumberAttributeItemSchema.array().nullish(),
-  // selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
-  selectAttribute: z.any(),
-  numberAttribute: z.any(),
+  numberAttribute: z
+    .object({
+      id: z.number(),
+      name: z.string(),
+      alias: z.string(),
+    })
+    .array()
+    .nullish(),
+  selectAttribute: catalogSelectAttributeItemSchema.array().nullish(),
 });

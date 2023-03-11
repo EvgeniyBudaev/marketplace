@@ -89,6 +89,7 @@ export const loader = async (args: LoaderArgs) => {
 export default function CatalogEditRoute() {
   const data = useLoaderData<typeof loader>();
   console.log("data.catalog: ", data.catalog);
+
   return (
     <CatalogEdit
       attributes={data.attributes}
