@@ -5,5 +5,6 @@ export * from "./useInitDayjs";
 export * from "./useInitLanguage";
 export * from "./useKey";
 export * from "./useTable";
+export * from "./useTheme";
 export * from "./useSettings";
 export * from "./useUser";

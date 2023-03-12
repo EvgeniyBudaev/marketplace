@@ -1,6 +1,6 @@
 import { fetchApi } from "~/shared/api";
 import type { TApiFunction } from "~/shared/api";
-import { TSettings, TSettingsParams } from "~/shared/api/settings";
+import type { TSettings, TSettingsParams } from "~/shared/api/settings";
 import { EFormMethods } from "~/shared/form";
 
 export const getSettingsApi: TApiFunction<TSettingsParams, TSettings> = (request, params) => {

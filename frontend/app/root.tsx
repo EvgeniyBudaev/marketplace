@@ -85,6 +85,7 @@ export const loader = async (args: LoaderArgs) => {
     throw internalError();
   }
   const updatedSettingsSession = await createSettingsSession(settingsResponse.data);
+  console.log("[ROOT settings] ", settingsResponse.data);
 
   const data: RootLoaderData = {
     cart: cartResponse.data,
@@ -177,6 +178,8 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
 export default function App() {
   const { cart, csrfToken, cspScriptNonce, ENV, settings, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
+  console.log("[App settings] ", settings);
+  console.log("[App user] ", user);
 
   const store = useStore();
   const setUser = store.setUser;
