@@ -19,10 +19,12 @@ public class UserSettingsController {
     private final UserSettingsService userSettingsService;
     private final UserSettingsMapper userSettingsMapper;
 
+
     @Autowired
     public UserSettingsController(UserSettingsService userSettingsService, UserSettingsMapper userSettingsMapper) {
         this.userSettingsService = userSettingsService;
         this.userSettingsMapper = userSettingsMapper;
+
     }
 
     @PostMapping
@@ -33,7 +35,7 @@ public class UserSettingsController {
     }
 
     @PostMapping("/update")
-    private UserSettingsResponseDto updateSettings(Principal principal,
+    public UserSettingsResponseDto updateSettings(Principal principal,
                                                    @Valid @RequestBody UpdateSettingsRequestDto dto){
         UserSettings userSettings = userSettingsService.updateSettings(principal, dto);
         return userSettingsMapper.entityToDto(userSettings);
@@ -41,10 +43,11 @@ public class UserSettingsController {
     }
 
     @PatchMapping("/patch/theme")
-    private UserSettingsResponseDto patchSettingsByTheme(Principal principal, @Valid @RequestBody PatchSettingsByThemeRequestDto dto){
+    public UserSettingsResponseDto patchSettingsByTheme(Principal principal, @Valid @RequestBody PatchSettingsByThemeRequestDto dto){
         UserSettings userSettings = userSettingsService.patchTheme(principal,dto);
         return userSettingsMapper.entityToDto(userSettings);
     }
+
 
 
 }
