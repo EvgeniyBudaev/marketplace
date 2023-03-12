@@ -2,7 +2,7 @@ import { redirect } from "@remix-run/node";
 import isNil from "lodash/isNil";
 import type { TUser } from "~/shared/api/users/types";
 import { commitSession, destroySession, getSession } from "~/shared/session";
-import { TLogin } from "~/shared/api/auth/types";
+import type { TLogin } from "~/shared/api/auth/types";
 import { refreshToken } from "./domain.server";
 
 export const createUserSession = async (user: TUser, login: TLogin, redirectTo: string) => {

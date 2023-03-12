@@ -28,4 +28,5 @@ export enum ERoutes {
   ResourcesCartItemIncrement = "/resources/cart/increment",
   ResourcesLogout = "/resources/logout",
   ResourcesSearch = "/resources/search",
+  ResourcesTheme = "/resources/theme",
 }

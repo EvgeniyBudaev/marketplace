@@ -10,3 +10,15 @@ export const settingsSchema = z.object({
   theme: z.string(),
   uuid: z.string(),
 });
+
+export const themeParamsSchema = z.object({
+  uuid: z.string(),
+  theme: z.string(),
+});
+
+export const themeSchema = z.object({
+  currency: z.string(),
+  language: z.string(),
+  theme: z.string(),
+  uuid: z.string(),
+});
