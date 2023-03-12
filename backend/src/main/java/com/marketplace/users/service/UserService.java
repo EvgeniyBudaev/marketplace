@@ -53,6 +53,7 @@ public class UserService {
         user.setRoles(defaultRole);
         user.setIsEmailVerified(false);
         user.setIsPhoneVerified(false);
+        user.setSessionId(setNewSessionByNewUser(user));
         return  saveUser(user);
     }
 
@@ -73,10 +74,7 @@ public class UserService {
         setNewSessionByNewUser(user);
         return user;
     }
-
-    public SessionId getSessionByUser(AppUser user){
-        return sessionIdService.getSession(user);
-    }
+    
     public SessionId setNewSessionByNewUser(AppUser user){
         return sessionIdService.setNewSessionForNewUser(user);
     }
