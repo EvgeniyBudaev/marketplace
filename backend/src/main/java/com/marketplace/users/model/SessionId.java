@@ -30,8 +30,8 @@ public class SessionId {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @OneToOne
-    @JoinColumn(name = "settings_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "settings_id",referencedColumnName = "id")
     private UserSettings userSettings;
     @Override
     public boolean equals(Object o) {
