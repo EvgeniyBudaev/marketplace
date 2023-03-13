@@ -16,6 +16,9 @@ spring:
         format_sql: true
         jdbc:
           batch_size: 10
+  jackson:
+    serialization:
+      write-null-map-values: off
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

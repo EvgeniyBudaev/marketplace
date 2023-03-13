@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -118,6 +119,13 @@ public class SessionIdService {
     public SessionId getSessionIdByUserEmail(String email){
         AppUser user = userDetailsService.findUserWithRolesByEmail(email);
         return getSession(user);
+    }
+
+    public AppUser getUserInfo(Principal principal){
+        if(principal==null){
+            return  null;
+        }
+        return userDetailsService.findUserWithRolesByEmail(principal.getName());
     }
 
 }

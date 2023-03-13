@@ -36,7 +36,7 @@ public class AttributeValueService {
         this.selectableValueMapper = selectableValueMapper;
     }
 
-    public Set<NumberAttributeDto> findNumberAttributesUseInCatalog(Long catalogId){
+    public Set<NumberAttributeDto> findUseNumberAttributesUseInCatalog(Long catalogId){
         TypedQuery<NumberAttributeDto> doubleValueQuery = entityManager
                 .createQuery("SELECT distinct new com.marketplace.backend." +
                         "dto.catalog.response.single" +
@@ -47,7 +47,7 @@ public class AttributeValueService {
         return doubleValueQuery.getResultStream().filter(x->x.getId()!=null).collect(Collectors.toSet());
     }
 
-    public Set<SelectableValue> findSelectableAttributesInCatalog(Long catalogId){
+    public Set<SelectableValue> findUseSelectableAttributesInCatalog(Long catalogId){
         TypedQuery<SelectableValue> selectableValueQuery = entityManager
                 .createQuery("select distinct sv from Product as p  join p.selectableValues as sv where p.catalog.id=:catalogId", SelectableValue.class);
         selectableValueQuery.setParameter("catalogId",catalogId);

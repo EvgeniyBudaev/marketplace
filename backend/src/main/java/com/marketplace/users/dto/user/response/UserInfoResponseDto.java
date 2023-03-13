@@ -3,10 +3,12 @@ package com.marketplace.users.dto.user.response;
 import com.marketplace.users.model.AppUser;
 import com.marketplace.users.model.SessionId;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class UserInfoResponseDto {
     private Long id;
     private String firstName;

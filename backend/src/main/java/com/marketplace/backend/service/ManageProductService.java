@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -113,10 +114,15 @@ public class ManageProductService implements ManageProductDao {
            product.getDoubleValues().add(doubleValue);
            entityManager.persist(doubleValue);
         });
-        entityManager.merge(product);
-        return product;
+        Product finalProduct = entityManager.merge(product);
+        finalProduct.setCreatedAt(getCreatedAt(finalProduct));
+        return finalProduct;
     }
-
+    public LocalDateTime getCreatedAt(Product product){
+     TypedQuery<LocalDateTime> query= entityManager.createQuery("SELECT p.createdAt FROM Product as p where p=:p", LocalDateTime.class);
+     query.setParameter("p",product);
+     return query.getSingleResult();
+    }
     private void checkDto(RequestSaveOrUpdate dto){
         /*атрибуты которые должны быть заполнены*/
         Set<Attribute> neededAttributes = catalogService.attributesInCatalogByAlias(dto.getCatalogAlias());
