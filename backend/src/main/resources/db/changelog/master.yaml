@@ -6,9 +6,10 @@ databaseChangeLog:
   - include:
       file: db/changelog/users/users.yaml
   - include:
+      file: db/changelog/cart/cart.yaml
+  - include:
       file: db/changelog/users/user_settings.yaml
   - include:
       file: db/changelog/users/user_session.yaml
-  - include:
-      file: db/changelog/cart/cart.yaml
+
 

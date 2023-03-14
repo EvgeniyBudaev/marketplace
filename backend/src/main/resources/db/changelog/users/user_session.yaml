@@ -4,4 +4,8 @@ databaseChangeLog:
   - include:
       file: db/changelog/users/session/create/add-foreign-key-session-user.sql
   - include:
+      file: db/changelog/users/session/create/add-foreign-key-session-cart.sql
+  - include:
+      file: db/changelog/users/session/create/add-foreign-key-session-settings.sql
+  - include:
       file: db/changelog/users/session/complete/complete-session-table.sql
