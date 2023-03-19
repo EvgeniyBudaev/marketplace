@@ -1,9 +1,7 @@
-import { useState } from "react";
 import type { FC } from "react";
 import clsx from "clsx";
-import { ETheme } from "~/enums";
 import { useTheme } from "~/hooks";
-import { ESwitcherVariant, IconButton, Switcher, SWITCHER_THEMES } from "~/uikit";
+import { ESwitcherVariant, ETheme, IconButton, Switcher, SWITCHER_THEMES } from "~/uikit";
 
 type TProps = {
   className?: string;
@@ -12,9 +10,7 @@ type TProps = {
 
 export const ThemeSwitcher: FC<TProps> = ({ className, variant = ESwitcherVariant.Default }) => {
   const currentTheme = SWITCHER_THEMES()[variant];
-  // const [theme, setTheme] = useState("LIGHT");
   const { theme, onChangeTheme } = useTheme();
-  console.log("ThemeSwitcher theme: ", theme);
   const isLight = theme !== ETheme.Dark;
 
   const handleClick = (theme: ETheme) => () => {

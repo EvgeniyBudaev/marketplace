@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes, ETheme } from "~/enums";
-import { useSettings } from "~/hooks";
+import { ERoutes } from "~/enums";
+import { useTheme } from "~/hooks";
 import {
   useGetAttributeByCatalogOptions,
   useGetAttributeOptions,
@@ -28,8 +28,7 @@ type TProps = {
 };
 
 export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catalog }) => {
-  const settings = useSettings();
-  const theme = settings.settings.theme;
+  const { theme } = useTheme();
 
   const idCheckbox = "enabled";
   const [filter, setFilter] = useState<TParams>({ enabled: catalog.enabled ? [idCheckbox] : [] });
@@ -128,7 +127,7 @@ export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catal
             isMulti={true}
             name={EFormFields.AttributeAlias}
             options={attributeOptions}
-            theme={theme === ETheme.Light ? "primary" : "secondary"}
+            theme={theme}
           />
         </div>
         <div className="CatalogEdit-Control">

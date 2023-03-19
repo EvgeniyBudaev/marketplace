@@ -12,7 +12,7 @@ import type {
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
 import { selectStyles } from "~/uikit";
-import type { TSelectOption, TSelectVariants, isSelectMultiType } from "~/uikit";
+import type { TSelectOption, ETheme, isSelectMultiType } from "~/uikit";
 import { generateUUID } from "~/utils";
 import styles from "./Select.module.css";
 
@@ -25,7 +25,7 @@ export type TSelectProps = {
   name?: string;
   options: TSelectOption[];
   styles?: StylesConfig<TSelectOption, isSelectMultiType, GroupBase<TSelectOption>> | undefined;
-  theme?: TSelectVariants;
+  theme?: ETheme;
   value?: SingleValue<TSelectOption> | MultiValue<TSelectOption>;
   onBlur?: FocusEventHandler;
   onChange?: (

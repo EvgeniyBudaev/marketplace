@@ -4,8 +4,7 @@ import type { OnChangeValue } from "react-select";
 import { Form } from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
-import { ETheme } from "~/enums";
-import { useSettings } from "~/hooks";
+import { useTheme } from "~/hooks";
 import { EFormMethods } from "~/shared/form";
 import type { TSorting } from "~/types";
 import { ETypographyVariant, Select, Typography } from "~/uikit";
@@ -26,9 +25,7 @@ export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
     { value: "price_desc", label: PRICE_DOWN },
   ];
 
-  const settings = useSettings();
-  const theme = settings.settings.theme;
-  console.log("settings: ", settings);
+  const { theme } = useTheme();
 
   const [isSelectOpened, setIsSelectOpened] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -70,7 +67,7 @@ export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
           })}
           isMulti={false}
           options={options}
-          theme={theme === ETheme.Light ? "primary" : "secondary"}
+          theme={theme}
           value={options.find((option) => option.value === sorting)!}
           onBlur={handleBlur}
           onChange={handleChange}

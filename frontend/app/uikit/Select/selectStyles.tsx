@@ -1,9 +1,9 @@
 import type { GroupBase, StylesConfig } from "react-select";
-import { VARIANTS } from "~/uikit";
-import type { TSelectOption, TSelectVariants, isSelectMultiType } from "~/uikit";
+import { VARIANTS, ETheme } from "~/uikit";
+import type { TSelectOption, isSelectMultiType } from "~/uikit";
 
 export const selectStyles = (
-  variant: TSelectVariants = "primary",
+  variant = ETheme.Light,
 ): StylesConfig<TSelectOption, isSelectMultiType, GroupBase<TSelectOption>> | undefined => {
   const style = VARIANTS[variant];
 
@@ -21,11 +21,12 @@ export const selectStyles = (
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: style.option.backgroundColor,
+      backgroundColor: state.isSelected
+        ? style.option[":active"].backgroundColor
+        : style.option.backgroundColor,
       borderRadius: style.option.borderRadius,
-      color: state.isFocused || state.isSelected ? style.option.color : "",
+      color: state.isSelected ? style.option[":active"].color : style.option.color,
       cursor: style.option.cursor,
-      ":active": style.option[":active"],
       ":hover": style.option[":hover"],
     }),
     menu: (provided) => ({

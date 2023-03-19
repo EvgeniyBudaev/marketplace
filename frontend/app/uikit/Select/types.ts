@@ -3,8 +3,6 @@ export type TSelectOption = {
   label: string;
 };
 
-export type TSelectVariants = "primary" | "secondary";
-
 export type TSelectVariantStyle = {
   control: {
     background?: string;
@@ -24,6 +22,8 @@ export type TSelectVariantStyle = {
     zIndex?: string;
     ":active"?: {
       backgroundColor?: string;
+      color?: string;
+      transition?: string;
     };
     ":hover"?: {
       backgroundColor?: string;

@@ -8,13 +8,10 @@ import { updateTheme } from "~/shared/api/settings";
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
-  console.log("[formValues] ", formValues);
 
   try {
     const response = await updateTheme(request, formValues);
-    console.log("[response.success] ", response.success);
     if (response.success) {
-      console.log("[response.data] ", response.data);
       return json({
         theme: response.data,
         success: true,

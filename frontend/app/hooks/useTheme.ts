@@ -1,16 +1,14 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useFetcher } from "@remix-run/react";
 import { ERoutes } from "~/enums";
-import type { ETheme } from "~/enums";
-import { useSettings, useUser } from "~/hooks";
+import { useSettings } from "~/hooks";
 import { EFormMethods } from "~/shared/form";
+import type { ETheme } from "~/uikit";
 import { createPath } from "~/utils";
 
 export const useTheme = () => {
   const fetcher = useFetcher();
-  const { settings, onChangeSettings } = useSettings();
-  const { user, onChangeUser } = useUser();
-  const [theme, setTheme] = useState("LIGHT");
+  const { settings } = useSettings();
   console.log("useTheme settings:  ", settings);
 
   const handleChangeTheme = useCallback(
@@ -27,11 +25,11 @@ export const useTheme = () => {
         },
       );
     },
-    [fetcher, settings.uuid],
+    [fetcher, settings],
   );
 
   return {
     onChangeTheme: handleChangeTheme,
-    theme: settings.theme,
+    theme: settings.theme as ETheme,
   };
 };

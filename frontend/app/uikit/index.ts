@@ -77,3 +77,4 @@ export const links = () => {
 };
 
 export type IconType = import("./Icon/IconType").IconType;
+export * from "./enums";

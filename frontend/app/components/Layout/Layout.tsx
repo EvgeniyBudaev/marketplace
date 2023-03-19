@@ -3,8 +3,10 @@ import type { FC, PropsWithChildren } from "react";
 import { useFetchers, useLocation, useTransition } from "@remix-run/react";
 import clsx from "clsx";
 import NProgress from "nprogress";
-import { ERoutes, ETheme } from "~/enums";
+import { ERoutes } from "~/enums";
 import type { TCart } from "~/shared/api/cart";
+import { ETheme } from "~/uikit";
+
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import nProgressStyles from "nprogress/nprogress.css";
