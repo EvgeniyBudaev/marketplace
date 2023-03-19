@@ -1,5 +1,5 @@
 import type { Column, ColumnDef, OnChangeFn, RowSelectionState } from "@tanstack/react-table";
-import type { ETableSortDirection } from "~/uikit";
+import type { ETableSortDirection, ETheme } from "~/uikit";
 
 type TOptionsProps<T extends object> = {
   columns: Column<T, unknown>[];
@@ -35,6 +35,7 @@ export type TTableProps<TColumn extends Record<string, any>> = {
   onRowSelectionChange?: OnChangeFn<RowSelectionState>;
   pageSizeOptions?: number[] | null;
   settings?: TTableSettingsProps<TColumn>;
+  theme?: ETheme;
   totalItems?: number;
   totalItemsTitle?: string;
 };

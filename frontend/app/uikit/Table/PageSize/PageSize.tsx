@@ -2,7 +2,7 @@ import { memo } from "react";
 import type { FC } from "react";
 import type { OnChangeValue } from "react-select";
 import isNil from "lodash/isNil";
-import { Select } from "~/uikit";
+import { Select, ETheme } from "~/uikit";
 import type { TSelectOption, isSelectMultiType } from "~/uikit";
 import { getPageSizeOptions } from "~/uikit/Table/PageSize";
 
@@ -10,9 +10,15 @@ type TProps = {
   defaultPageSize: number;
   options: number[];
   onChangePageSize: (pageSize: number) => void;
+  theme?: ETheme;
 };
 
-const Component: FC<TProps> = ({ defaultPageSize, options, onChangePageSize }) => {
+const Component: FC<TProps> = ({
+  defaultPageSize,
+  options,
+  onChangePageSize,
+  theme = ETheme.Light,
+}) => {
   const selectOptions = getPageSizeOptions(options);
 
   const handleChangePageSize = (options?: OnChangeValue<TSelectOption, isSelectMultiType>) => {
@@ -31,7 +37,7 @@ const Component: FC<TProps> = ({ defaultPageSize, options, onChangePageSize }) =
         isMulti={false}
         name="pagination"
         options={selectOptions}
-        theme={"primary"}
+        theme={theme}
         value={selectOptions.find((option) => option.value === defaultPageSize.toString())}
         onChange={handleChangePageSize}
       />

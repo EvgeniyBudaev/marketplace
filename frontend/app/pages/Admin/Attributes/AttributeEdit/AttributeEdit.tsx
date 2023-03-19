@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import { useFetcher } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes, ETheme } from "~/enums";
-import { useSettings } from "~/hooks";
+import { ERoutes } from "~/enums";
+import { useTheme } from "~/hooks";
 import {
   EFormFields,
   formSchema,
@@ -33,8 +33,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
   const fetcherRemix = useFetcher();
   const attribute: TAttributeDetail = fetcherRemix.data?.attribute ?? props.attribute;
 
-  const settings = useSettings();
-  const theme = settings.settings.theme;
+  const { theme } = useTheme();
 
   const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({ filter: [attribute.filter ? [idCheckbox] : []] });
@@ -178,7 +177,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
             defaultValue={defaultTypeOptions}
             name={EFormFields.Type}
             options={typeOptions}
-            theme={theme === ETheme.Light ? "primary" : "secondary"}
+            theme={theme}
           />
         </div>
         <div className="AttributeEdit-FormFieldGroup">

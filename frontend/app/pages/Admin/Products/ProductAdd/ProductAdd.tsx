@@ -4,8 +4,8 @@ import type { OnChangeValue } from "react-select";
 import { useFetcher } from "@remix-run/react";
 import isNull from "lodash/isNull";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes, ETheme } from "~/enums";
-import { useSettings } from "~/hooks";
+import { ERoutes } from "~/enums";
+import { useTheme } from "~/hooks";
 import { useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
 import {
   EFormFields,
@@ -30,8 +30,7 @@ type TProps = {
 
 export const ProductAdd: FC<TProps> = ({ catalogs }) => {
   const fetcherRemix = useFetcher();
-  const settings = useSettings();
-  const theme = settings.settings.theme;
+  const { theme } = useTheme();
 
   const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({ enabled: [idCheckbox] });
@@ -126,7 +125,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
             name={EFormFields.CatalogAlias}
             onChange={handleChangeCatalogAlias}
             options={catalogAliasesTypeOptions}
-            theme={theme === ETheme.Light ? "primary" : "secondary"}
+            theme={theme}
           />
         </div>
         <Input label="Description" name={EFormFields.Description} type="text" />
@@ -156,7 +155,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
                     defaultValue={selectableAttributeOptions[0]}
                     name={item.alias}
                     options={selectableAttributeOptions}
-                    theme={theme === ETheme.Light ? "primary" : "secondary"}
+                    theme={theme}
                   />
                 </div>
               );

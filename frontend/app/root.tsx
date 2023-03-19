@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import type { FC, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
+import modalStyles from "react-responsive-modal/styles.css";
 import { json } from "@remix-run/node";
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import {
@@ -21,20 +23,17 @@ import isNil from "lodash/isNil";
 import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
-import { ETheme } from "~/enums";
 import { useInitDayjs, useInitLanguage } from "~/hooks";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
 import type { TCart } from "~/shared/api/cart";
 import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
 import type { TSettings } from "~/shared/api/settings";
-import { createSettingsSession, getSettings, getSettingsSession } from "~/shared/api/settings";
+import { createSettingsSession, getSettings } from "~/shared/api/settings";
 import { commitCsrfSession, getCsrfSession } from "~/shared/session";
 import { StoreContextProvider, useStore } from "~/shared/store";
-import { links as uikitLinks, ToastContainer } from "~/uikit";
+import { ETheme, links as uikitLinks, ToastContainer } from "~/uikit";
 import { createBoundaries, internalError } from "~/utils";
-import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
-import modalStyles from "react-responsive-modal/styles.css";
 import styles from "../styles/app.css";
 
 interface RootLoaderData {
@@ -69,23 +68,16 @@ export const loader = async (args: LoaderArgs) => {
   if (!cartResponse.success) {
     throw internalError();
   }
-  // console.log("cartResponse.data: ", cartResponse.data);
+
   const updatedCartSession = await createCartSession(cartResponse.data);
 
   // Get settings
-  const settingsSession = await getSettingsSession(request);
-  const settings = JSON.parse(settingsSession || "{}");
-  let settingsResponse;
-  if (isEmpty(settings)) {
-    settingsResponse = await getSettings(request, { uuid: cartResponse.data.uuid });
-  } else {
-    settingsResponse = settings;
-  }
+  const settingsResponse = await getSettings(request, { uuid: cartResponse.data.uuid });
   if (!settingsResponse.success) {
     throw internalError();
   }
+
   const updatedSettingsSession = await createSettingsSession(settingsResponse.data);
-  console.log("[ROOT settings] ", settingsResponse.data);
 
   const data: RootLoaderData = {
     cart: cartResponse.data,
@@ -101,13 +93,12 @@ export const loader = async (args: LoaderArgs) => {
 
   const headers = new Headers();
   headers.append("Set-Cookie", await commitCsrfSession(csrfSession));
-  Object.entries(updatedCartSession.headers).forEach(([header, value]) => {
-    headers.append(header, value);
-  });
-  // TODO: сделать чтобы добавлялось в куки
-  // Object.entries(updatedSettingsSession.headers).forEach(([header, value]) => {
-  //   headers.append(header, value);
-  // });
+
+  [updatedCartSession.headers, updatedSettingsSession.headers]
+    .flatMap((headers) => Object.entries(headers))
+    .forEach(([header, value]) => {
+      headers.append(header, value);
+    });
 
   return json(data, {
     headers,
@@ -178,8 +169,6 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
 export default function App() {
   const { cart, csrfToken, cspScriptNonce, ENV, settings, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
-  console.log("[App settings] ", settings);
-  console.log("[App user] ", user);
 
   const store = useStore();
   const setUser = store.setUser;

@@ -1,6 +1,7 @@
 import { forwardRef, memo, useMemo, useState } from "react";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { ModalDelete } from "~/components/modal";
+import { useTheme } from "~/hooks";
 import { useGetColumns } from "~/pages/Admin/Catalogs/CatalogsTable/hooks";
 import type { TCatalogs, TCatalog } from "~/shared/api/catalogs";
 import type { TTableSortingProps } from "~/uikit";
@@ -37,6 +38,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     const columnHelper = createColumnHelper<TCatalog>();
     const columns = useGetColumns(columnHelper, onClickDeleteIcon);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
+    const { theme } = useTheme();
 
     const { content, countOfPage, countOfResult, currentPage, pageSize } = catalogs;
 
@@ -72,6 +74,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           pagesCount={countOfPage}
           settings={settingsProps}
           sorting={fieldsSortState}
+          theme={theme}
           totalItems={countOfResult}
           totalItemsTitle={"Всего каталогов"}
         />

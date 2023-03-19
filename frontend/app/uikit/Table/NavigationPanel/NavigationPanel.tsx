@@ -2,6 +2,7 @@ import { memo } from "react";
 import type { FC } from "react";
 import { PageSize } from "~/uikit/Table/PageSize";
 import { Pagination } from "~/uikit";
+import type { ETheme } from "~/uikit";
 import styles from "./NavigationPanel.module.css";
 
 type TProps = {
@@ -11,6 +12,7 @@ type TProps = {
   onPageChange?: ({ selected }: { selected: number }) => void;
   pagesCount?: number;
   pageSizeOptions: number[];
+  theme?: ETheme;
 };
 
 const Component: FC<TProps> = ({
@@ -20,6 +22,7 @@ const Component: FC<TProps> = ({
   onPageChange,
   pagesCount,
   pageSizeOptions,
+  theme,
 }) => {
   return (
     <div className="NavigationPanel">
@@ -27,6 +30,7 @@ const Component: FC<TProps> = ({
         defaultPageSize={defaultPageSize}
         options={pageSizeOptions}
         onChangePageSize={onChangePageSize}
+        theme={theme}
       />
       {currentPage && pagesCount && onPageChange && (
         <Pagination forcePage={currentPage - 1} pagesCount={pagesCount} onChange={onPageChange} />

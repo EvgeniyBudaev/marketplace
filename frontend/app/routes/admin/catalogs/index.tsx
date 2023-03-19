@@ -38,13 +38,11 @@ export const loader = async (args: LoaderArgs) => {
   const formattedParams = mapCatalogsToDto({
     ...formValues,
   });
-  console.log("[catalogs formattedParams: ] ", formattedParams);
   const response = await getCatalogs(request, { params: formattedParams });
 
   if (!response.success) {
     throw internalError();
   }
-  console.log("response.data: ", response.data);
   return json({
     catalogs: response.data,
   });
