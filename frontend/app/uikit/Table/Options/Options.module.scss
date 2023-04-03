@@ -21,7 +21,7 @@
     border: 1px solid transparent;
 
     &:hover {
-      background-color: $color-light-beige;
+      background-color: $color-primary-light-hover;
     }
 
     &__canHide {
@@ -35,8 +35,8 @@
     }
 
     &__notLocalHiddenColls {
-      background-color: rgba(223, 213, 195, 0.3);
-      border-color: $color-beige;
+      background-color: $color-primary-light;
+      border-color: $color-primary;
     }
 
     &__localHiddenColls {
@@ -47,5 +47,13 @@
 
   &-ModalCancel {
     margin-right: 24px;
+  }
+}
+
+.theme-dark {
+  .Options {
+    &-ColumnsButton {
+      color: $color-white;
+    }
   }
 }

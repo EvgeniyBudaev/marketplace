@@ -29,6 +29,7 @@
   &Default {
     padding: 40px;
     color: $color-text;
+    border-radius: $border-radius;
 
     &__medium {
       min-width: 760px;
@@ -51,6 +52,13 @@
         }
       }
     }
+  }
+}
+
+.theme-dark {
+  .ModalDefault {
+    background: $color-darkness;
+    box-shadow: $shadow-perimeter-light;
   }
 }
 

@@ -33,16 +33,16 @@
   }
 
   & > #{$this}__active > a {
-    background-color: $color-beige;
-    border-color: $color-beige;
+    background-color: $color-primary;
+    border-color: $color-primary;
     color: white;
   }
 
   & > #{$this}__active > a,
   & > #{$this}__active > a:hover,
   & > #{$this}__active > a:focus {
-    background-color: $color-beige;
-    border-color: $color-beige;
+    background-color: $color-primary;
+    border-color: $color-primary;
     outline: transparent;
     cursor: default;
   }

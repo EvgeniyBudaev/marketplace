@@ -1,3 +1,7 @@
+/* #148F2B */
+/* #0A4715 */
+/* #148F2B */
+/* #148F2B */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -50,7 +54,7 @@
   fill: rgb(100, 116, 139);
 }
 .TableHeaderItem-Button:hover {
-  background-color: rgb(223, 213, 195);
+  background-color: rgba(20, 143, 43, 0.5);
 }
 .TableHeaderItem-IconIndicator {
   height: 24px;
@@ -81,13 +85,21 @@
   margin-right: 8px;
 }
 .TableHeaderItem-DropDownListItem:hover {
-  background-color: rgb(223, 213, 195);
+  background-color: rgba(20, 143, 43, 0.3);
 }
 .TableHeaderItem-DropDownListItem__active {
-  background-color: rgb(176, 151, 106);
+  background-color: rgb(20, 143, 43);
 }
 .TableHeaderItem-DropDownListItem__active:hover {
-  background-color: rgb(176, 151, 106);
+  background-color: rgb(20, 143, 43);
+}
+
+.theme-dark .TableHeaderItem-DropDownList {
+  background-color: rgb(31, 32, 41);
+  box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px, rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
+}
+.theme-dark .TableHeaderItem-Button svg {
+  fill: rgb(255, 255, 255);
 }
 
 /*# sourceMappingURL=TableHeaderItem.css.map */

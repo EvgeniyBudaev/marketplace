@@ -9,7 +9,7 @@ import { EFormMethods } from "~/shared/form";
 import type { TSorting } from "~/types";
 import { ETypographyVariant, Select, Typography } from "~/uikit";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
-import styles from "./Sorting.module.css";
+import styles from "./Sorting.css";
 
 type TProps = {
   onSortingChange?: (data: TSorting["value"]) => void;

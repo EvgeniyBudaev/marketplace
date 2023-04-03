@@ -73,7 +73,7 @@
     svg {
       width: 20px;
       height: 20px;
-      fill: $color-beige;
+      fill: $color-primary;
     }
   }
 
@@ -94,7 +94,7 @@
     transition: all 0.15s;
 
     &:hover {
-      color: $color-beige;
+      color: $color-primary;
     }
   }
 
@@ -107,7 +107,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $color-beige;
+      color: $color-primary;
       border-bottom: 1px solid rgba(176, 151, 106, 0.3);
     }
   }

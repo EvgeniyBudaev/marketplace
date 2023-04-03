@@ -19,7 +19,7 @@
     }
 
     &:hover {
-      background-color: $color-light-beige;
+      background-color: $color-primary-light-hover;
     }
   }
 
@@ -56,14 +56,27 @@
     }
 
     &:hover {
-      background-color: $color-light-beige;
+      background-color: $color-primary-light;
     }
 
     &__active {
-      background-color: $color-beige;
+      background-color: $color-primary;
       &:hover {
-        background-color: $color-beige;
+        background-color: $color-primary;
       }
+    }
+  }
+}
+
+.theme-dark {
+  .TableHeaderItem {
+    &-DropDownList {
+      background-color: $color-darkness;
+      box-shadow: $shadow-perimeter-light;
+    }
+
+    &-Button svg {
+      fill: $color-white;
     }
   }
 }

@@ -1,0 +1,135 @@
+/* #148F2B */
+/* #0A4715 */
+/* #148F2B */
+/* #148F2B */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
+/* #B0976A */
+/* #997E4D */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Shipping {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.Shipping-Step {
+  margin-left: 20px;
+  color: rgb(142, 142, 147);
+}
+.Shipping-Title {
+  margin-bottom: 16px;
+}
+.Shipping-Form {
+  max-width: 550px;
+  width: 100%;
+}
+.Shipping-FormContent {
+  margin-bottom: 157px;
+}
+.Shipping-FormFooter {
+  padding-top: 24px;
+  border-top: 1px solid rgb(228, 228, 228);
+}
+.Shipping-FormFieldGroup {
+  display: flex;
+  justify-content: space-between;
+}
+.Shipping-FormFieldGroupItem {
+  max-width: 266px;
+  width: 100%;
+}
+.Shipping-FormFieldGroup.FormFieldCouple {
+  justify-content: flex-start;
+  margin-left: -20px;
+}
+.Shipping-FormFieldGroup.FormFieldCouple .FormFieldGroupItem {
+  margin-left: 20px;
+  flex-basis: calc(50% - 20px);
+}
+.Shipping-TextField {
+  height: 126px;
+}
+.Shipping-TextField textarea {
+  height: 126px;
+  resize: none;
+}
+.Shipping-Controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Shipping-ControlsLink {
+  display: flex;
+  align-items: center;
+  color: rgb(20, 143, 43);
+  transition: all 0.15s;
+}
+.Shipping-ControlsLink svg {
+  width: 30px;
+  height: 30px;
+  fill: rgb(20, 143, 43);
+  transition: all 0.15s;
+}
+.Shipping-ControlsLink:hover {
+  color: rgb(10, 71, 21);
+}
+.Shipping-ControlsLink:hover svg {
+  fill: rgb(10, 71, 21);
+}
+.Shipping-Map {
+  position: absolute;
+  left: 574px;
+  top: -30px;
+  padding-left: 46px;
+  width: 100%;
+  min-width: 340px;
+}
+
+@media (max-width: 1230px) {
+  .Shipping-Map {
+    display: none;
+  }
+  .Shipping-FormContent {
+    margin-bottom: 0;
+  }
+}
+@media (max-width: 768px) {
+  .Shipping-Step {
+    margin-left: 0;
+  }
+  .Shipping-ControlsLink svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/*# sourceMappingURL=Shipping.module.css.map */

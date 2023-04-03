@@ -1,4 +1,8 @@
 @charset "UTF-8";
+/* #148F2B */
+/* #0A4715 */
+/* #148F2B */
+/* #148F2B */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -81,8 +85,8 @@
   width: 20px;
   height: 20px;
   color: rgb(51, 51, 51);
-  background-color: rgb(176, 151, 106);
-  border: 1px solid rgb(176, 151, 106);
+  background-color: rgb(20, 143, 43);
+  border: 1px solid rgb(20, 143, 43);
   border-radius: 50%;
 }
 .HeaderIconsList-AvatarDropDown {

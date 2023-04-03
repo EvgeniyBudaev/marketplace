@@ -1,4 +1,8 @@
 @charset "UTF-8";
+/* #148F2B */
+/* #0A4715 */
+/* #148F2B */
+/* #148F2B */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -79,13 +83,13 @@
 }
 .Checkbox-Wrapper .Checkbox:checked + label::before {
   border-color: rgba(186, 185, 185, 0.5);
-  background-color: rgb(176, 151, 106);
+  background-color: rgb(20, 143, 43);
 }
 .Checkbox-Wrapper .Checkbox:not(:disabled):not(:checked) + label:hover::before {
   border-color: rgba(134, 134, 134, 0.5);
 }
 .Checkbox-Wrapper .Checkbox:not(:disabled):active + label::before {
-  background-color: rgb(176, 151, 106);
+  background-color: rgb(20, 143, 43);
   border-color: rgba(186, 185, 185, 0.5);
 }
 .Checkbox-Wrapper .Checkbox:focus:not(:checked) + label::before {
@@ -109,7 +113,7 @@
 }
 .Checkbox-Wrapper:hover .Checkbox-Label,
 .Checkbox-Wrapper:hover .Checkbox-Description {
-  color: rgb(176, 151, 106);
+  color: rgb(20, 143, 43);
 }
 
 /*# sourceMappingURL=Checkbox.module.css.map */

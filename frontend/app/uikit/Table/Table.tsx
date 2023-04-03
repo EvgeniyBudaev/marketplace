@@ -33,6 +33,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
     pageSizeOptions,
     rowSelection,
     settings,
+    theme,
     totalItems,
     totalItemsTitle,
   } = props;
@@ -90,6 +91,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
         onPageChange={onPageChange}
         pagesCount={pagesCount}
         pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
+        theme={theme}
       />
     </div>
   );

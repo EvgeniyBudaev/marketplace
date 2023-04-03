@@ -1,10 +1,11 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import type { FC } from "react";
 import type { OnChangeValue } from "react-select";
 import isNil from "lodash/isNil";
 import { Select, ETheme } from "~/uikit";
 import type { TSelectOption, isSelectMultiType } from "~/uikit";
 import { getPageSizeOptions } from "~/uikit/Table/PageSize";
+import clsx from "clsx";
 
 type TProps = {
   defaultPageSize: number;
@@ -19,6 +20,7 @@ const Component: FC<TProps> = ({
   onChangePageSize,
   theme = ETheme.Light,
 }) => {
+  const [isSelectOpened, setIsSelectOpened] = useState(false);
   const selectOptions = getPageSizeOptions(options);
 
   const handleChangePageSize = (options?: OnChangeValue<TSelectOption, isSelectMultiType>) => {
@@ -31,15 +33,28 @@ const Component: FC<TProps> = ({
     }
   };
 
+  const handleBlur = () => {
+    setIsSelectOpened(false);
+  };
+
+  const handleFocus = () => {
+    setIsSelectOpened(true);
+  };
+
   return (
     <div>
       <Select
+        className={clsx("Sorting-Select", {
+          "Sorting-Select__active": isSelectOpened,
+        })}
         isMulti={false}
         name="pagination"
         options={selectOptions}
         theme={theme}
         value={selectOptions.find((option) => option.value === defaultPageSize.toString())}
+        onBlur={handleBlur}
         onChange={handleChangePageSize}
+        onFocus={handleFocus}
       />
     </div>
   );
