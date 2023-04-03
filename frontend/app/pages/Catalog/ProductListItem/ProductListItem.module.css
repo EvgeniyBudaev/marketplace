@@ -1,3 +1,7 @@
+/* #148F2B */
+/* #0A4715 */
+/* #148F2B */
+/* #148F2B */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -68,7 +72,7 @@
   transition: all 0.15s;
 }
 .ProductListItem-Content .ProductListItem-ContentTitle:hover {
-  color: rgb(176, 151, 106);
+  color: rgb(20, 143, 43);
 }
 .ProductListItem-Footer {
   display: flex;
@@ -82,7 +86,7 @@
 }
 .ProductListItem-FooterStatus {
   margin-bottom: 16px;
-  color: rgb(176, 151, 106);
+  color: rgb(20, 143, 43);
 }
 .ProductListItem-FooterAddToCartLine {
   display: none;
@@ -161,16 +165,16 @@
   padding: 10px 30px;
   height: 42px;
   width: max-content;
-  color: rgb(176, 151, 106);
+  color: rgb(20, 143, 43);
   background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(176, 151, 106);
+  border: 1px solid rgb(20, 143, 43);
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
   transition: all 0.3s;
 }
 .ProductListItem-ButtonGoAtCart:hover {
-  color: rgb(95, 79, 25);
-  border: 1px solid rgb(95, 79, 25);
+  color: rgb(10, 71, 21);
+  border: 1px solid rgb(10, 71, 21);
 }
 .ProductListItem-ButtonAddToCart {
   height: 42px;

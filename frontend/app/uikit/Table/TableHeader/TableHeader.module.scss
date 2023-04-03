@@ -4,7 +4,7 @@
   $this: &;
 
   &-THead {
-    background-color: rgba(223, 213, 195, 0.3);
+    background-color: $color-primary-light;
   }
 
   &-TR {

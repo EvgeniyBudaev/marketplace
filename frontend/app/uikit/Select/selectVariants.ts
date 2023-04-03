@@ -20,13 +20,13 @@ export const VARIANTS: { [key in ETheme]: any } = {
       color: "currentColor",
       cursor: "pointer",
       ":active": {
-        backgroundColor: "#dfd3c3",
-        color: "#000",
+        backgroundColor: "#148F2B",
+        color: "#fff",
         transition: "all 0.15s",
       },
       ":hover": {
-        backgroundColor: "#e4e4e4",
-        color: "#000",
+        backgroundColor: "#0A4715",
+        color: "#fff",
         transition: "all 0.15s",
       },
     },
@@ -45,7 +45,7 @@ export const VARIANTS: { [key in ETheme]: any } = {
   LIGHT: {
     control: {
       background: "transparent",
-      border: "1px solid #B0976A",
+      border: "1px solid #148F2B",
       borderRadius: "2px",
       cursor: "pointer",
     },
@@ -58,11 +58,11 @@ export const VARIANTS: { [key in ETheme]: any } = {
       color: "currentColor",
       cursor: "pointer",
       ":active": {
-        backgroundColor: "#dfd3c3",
+        backgroundColor: "#148F2B",
       },
       ":hover": {
-        backgroundColor: "#e4e4e4",
-        color: "currentColor",
+        backgroundColor: "#0A4715",
+        color: "#fff",
         transition: "all 0.15s",
       },
     },

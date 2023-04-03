@@ -1,4 +1,8 @@
 @charset "UTF-8";
+/* #148F2B */
+/* #0A4715 */
+/* #148F2B */
+/* #148F2B */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -42,6 +46,7 @@
 .ModalDefault {
   padding: 40px;
   color: rgb(51, 51, 51);
+  border-radius: 4px;
 }
 .ModalDefault__medium {
   min-width: 760px;
@@ -58,6 +63,11 @@
 }
 .ModalDefaultCloseButton:hover svg {
   fill: rgb(142, 142, 147);
+}
+
+.theme-dark .ModalDefault {
+  background: rgb(31, 32, 41);
+  box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px, rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
 }
 
 /* ----- Модальное окно по центру адаптировано ----- */

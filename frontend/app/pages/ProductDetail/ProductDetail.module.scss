@@ -13,11 +13,11 @@
     margin-bottom: 20px;
 
     &Text {
-      color: $color-beige;
+      color: $color-primary;
       transition: all 0.15s;
 
       &:hover {
-        color: $color-beige-hover;
+        color: $color-primary-hover;
       }
     }
   }
@@ -92,7 +92,7 @@
 
   &-Status {
     display: inline-block;
-    color: $color-beige;
+    color: $color-primary;
   }
 
   &-Pay {

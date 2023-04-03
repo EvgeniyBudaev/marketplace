@@ -30,11 +30,11 @@
   &-Link {
     display: flex;
     align-items: center;
-    color: $color-beige;
+    color: $color-primary;
     transition: all 0.15s;
 
     &:hover {
-      color: $color-beige-hover;
+      color: $color-primary-hover;
     }
   }
 
@@ -148,12 +148,12 @@
 
     &Change {
       //@include roboto-14-medium;
-      color: $color-beige;
+      color: $color-primary;
       cursor: pointer;
       transition: all 0.15s;
 
       &:hover {
-        color: $color-beige-hover;
+        color: $color-primary-hover;
       }
     }
 
@@ -174,19 +174,19 @@
       //@include roboto-18-medium;
       display: flex;
       align-items: center;
-      color: $color-beige;
+      color: $color-primary;
       transition: all 0.15s;
 
       svg {
         width: 30px;
         height: 30px;
-        fill: $color-beige;
+        fill: $color-primary;
         transition: all 0.15s;
       }
     }
 
     &Link:hover {
-      color: $color-beige-hover;
+      color: $color-primary-hover;
 
       svg {
         fill: $color-beige-hover;

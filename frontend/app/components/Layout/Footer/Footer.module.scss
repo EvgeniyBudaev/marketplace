@@ -7,7 +7,7 @@
   padding: 32px 15px;
   min-height: 50px;
   width: 100%;
-  background-color: #dfd5c3;
+  background-color: $color-primary-hover;
   overflow-y: hidden;
   z-index: 1;
 
@@ -59,16 +59,16 @@
       transition: all 0.15s;
 
       &:hover {
-        color: $color-beige;
+        color: $color-primary;
       }
     }
 
     &__isActive {
-      color: $color-beige;
+      color: $color-primary;
     }
 
     &:hover {
-      color: $color-beige;
+      color: $color-primary;
     }
   }
 }

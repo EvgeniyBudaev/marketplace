@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["TableBody.module.scss"],"names":[],"mappings":"AAGE;EACE;EACA;EACA;;AAEA;EACE;;AAIJ;EACE;EACA","file":"TableBody.module.css"}
+{"version":3,"sourceRoot":"","sources":["../../../../styles/colors.scss","TableBody.module.scss"],"names":[],"mappings":"AAAsC;AACK;AACG;AACM;AAElB;AACU;AACH;AACM;AACN;AACM;AACZ;AACM;AAEH;AAGN;AACG;AACG;AACG;AAEH;AACD;AACO;AAEV;AACQ;AACM;AAEX;AACK;AACA;AACC;AACD;AACG;AACN;AAEI;AAEL;AACM;AACA;AAER;AACM;AAEP;AACI;AC3CrC;EACE;EACA;EACA;;AAEA;EACE,kBDRsB;;ACY1B;EACE;EACA","file":"TableBody.module.css"}
