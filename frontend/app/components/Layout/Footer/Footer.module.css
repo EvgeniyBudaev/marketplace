@@ -1,7 +1,7 @@
-/* #148F2B */
-/* #0A4715 */
-/* #148F2B */
-/* #148F2B */
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -15,8 +15,8 @@
 /* #18181f */
 /* #1f2029 */
 /* #8a8fa0 */
-/* #B0976A */
-/* #997E4D */
+/* #b0976a */
+/* #997e4d */
 /* #dfd3c3 */
 /* #e31235 */
 /* #fbe4e3 */
@@ -43,7 +43,7 @@
   padding: 32px 15px;
   min-height: 50px;
   width: 100%;
-  background-color: rgb(10, 71, 21);
+  background-color: rgb(176, 151, 106);
   overflow-y: hidden;
   z-index: 1;
 }
@@ -88,13 +88,13 @@
   transition: all 0.15s;
 }
 .Footer-Text span:hover {
-  color: rgb(20, 143, 43);
+  color: rgb(95, 79, 25);
 }
 .Footer-Text__isActive {
-  color: rgb(20, 143, 43);
+  color: rgb(95, 79, 25);
 }
 .Footer-Text:hover {
-  color: rgb(20, 143, 43);
+  color: rgb(95, 79, 25);
 }
 
 @media (max-width: 768px) {

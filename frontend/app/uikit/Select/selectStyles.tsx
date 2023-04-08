@@ -8,7 +8,7 @@ export const selectStyles = (
   const style = VARIANTS[variant];
 
   return {
-    control: (provided, state) => ({
+    control: (provided) => ({
       ...provided,
       background: style.control.background,
       border: style.control.border,
@@ -22,10 +22,14 @@ export const selectStyles = (
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected
-        ? style.option[":active"].backgroundColor
-        : style.option.backgroundColor,
+        ? (style.option && style.option[":active"] && style.option[":active"].backgroundColor) ||
+          style.option.backgroundColor
+        : (style.option && style.option.backgroundColor) || style.option.backgroundColor,
       borderRadius: style.option.borderRadius,
-      color: state.isSelected ? style.option[":active"].color : style.option.color,
+      color: state.isSelected
+        ? (style.option && style.option[":active"] && style.option[":active"].color) ||
+          style.option.color
+        : (style.option && style.option.color) || style.option.color,
       cursor: style.option.cursor,
       ":hover": style.option[":hover"],
     }),

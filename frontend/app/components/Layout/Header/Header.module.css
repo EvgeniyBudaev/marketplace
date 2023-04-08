@@ -1,8 +1,8 @@
 @charset "UTF-8";
-/* #148F2B */
-/* #0A4715 */
-/* #148F2B */
-/* #148F2B */
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -16,8 +16,8 @@
 /* #18181f */
 /* #1f2029 */
 /* #8a8fa0 */
-/* #B0976A */
-/* #997E4D */
+/* #b0976a */
+/* #997e4d */
 /* #dfd3c3 */
 /* #e31235 */
 /* #fbe4e3 */
@@ -43,7 +43,7 @@
   height: 100%;
   opacity: 1;
   z-index: 102;
-  background: radial-gradient(ellipse at center, #148f2b 0%, #000000 100%) no-repeat;
+  background: radial-gradient(ellipse at center, #b0976a 0%, #000000 100%) no-repeat;
   padding: 16px 0 44px;
 }
 .Header-Wrapper {

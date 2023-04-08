@@ -37,14 +37,18 @@ export const getDefaultFilter = (
 
   const attributes =
     catalog.selectAttribute &&
-    catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
+    catalog.selectAttribute.filter((attribute) =>
+      attribute.values ? attribute.values.length > 0 : [],
+    );
   return mapToInitialState(attributes);
 };
 
 export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, filter }) => {
   const attributes =
     catalog.selectAttribute &&
-    catalog.selectAttribute.filter((attribute) => attribute.values.length > 0);
+    catalog.selectAttribute.filter((attribute) =>
+      attribute.values ? attribute.values.length > 0 : [],
+    );
 
   const onChangeCheckedBox = (
     event: ChangeEvent<HTMLInputElement>,
@@ -79,20 +83,21 @@ export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, fi
         {attributes &&
           attributes.map((item) => (
             <Accordion key={item.alias} title={item.name} isActive={true}>
-              {item.values.map((valueItem, index) => (
-                <Checkbox
-                  checked={
-                    filter && filter[item.alias as keyof TValue].includes(valueItem.id.toString())
-                  }
-                  className="Filter-CheckboxItem"
-                  id={valueItem.id.toString()}
-                  label={valueItem.value}
-                  key={index}
-                  name={item.alias}
-                  nameGroup={item.alias}
-                  onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
-                />
-              ))}
+              {item.values &&
+                item.values.map((valueItem, index) => (
+                  <Checkbox
+                    checked={
+                      filter && filter[item.alias as keyof TValue].includes(valueItem.id.toString())
+                    }
+                    className="Filter-CheckboxItem"
+                    id={valueItem.id.toString()}
+                    label={valueItem.value}
+                    key={index}
+                    name={item.alias}
+                    nameGroup={item.alias}
+                    onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
+                  />
+                ))}
             </Accordion>
           ))}
         <Button type="submit">

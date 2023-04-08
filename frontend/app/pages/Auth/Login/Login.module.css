@@ -1,7 +1,7 @@
-/* #148F2B */
-/* #0A4715 */
-/* #148F2B */
-/* #148F2B */
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -15,8 +15,8 @@
 /* #18181f */
 /* #1f2029 */
 /* #8a8fa0 */
-/* #B0976A */
-/* #997E4D */
+/* #b0976a */
+/* #997e4d */
 /* #dfd3c3 */
 /* #e31235 */
 /* #fbe4e3 */
@@ -79,11 +79,11 @@
   margin-right: 10px;
 }
 .Login-Signup a {
-  color: rgb(20, 143, 43);
+  color: rgb(176, 151, 106);
   transition: all 0.15s;
 }
 .Login-Signup a:hover {
-  color: rgb(10, 71, 21);
+  color: rgb(95, 79, 25);
 }
 
 /*# sourceMappingURL=Login.module.css.map */
