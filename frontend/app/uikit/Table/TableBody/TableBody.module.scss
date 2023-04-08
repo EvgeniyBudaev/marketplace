@@ -9,7 +9,9 @@
     transition: background-color 0.15s;
 
     &:hover {
-      background-color: $color-primary-light-hover;
+      background-color: $color-primary-hover;
+      color: $color-white;
+      fill: $color-white;
     }
   }
 

@@ -9,17 +9,17 @@
     justify-content: space-between;
     padding: 8px;
     width: 100%;
-    color: rgba(100, 116, 139, 1);
+    color: $color-white;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.15s;
 
     svg {
-      fill: rgba(100, 116, 139, 1);
+      fill: $color-white;
     }
 
     &:hover {
-      background-color: $color-primary-light-hover;
+      background-color: $color-primary-hover;
     }
   }
 
@@ -56,11 +56,15 @@
     }
 
     &:hover {
-      background-color: $color-primary-light;
+      background-color: $color-primary-hover;
+      color: $color-white;
     }
 
     &__active {
       background-color: $color-primary;
+      color: $color-white;
+      fill: $color-white;
+
       &:hover {
         background-color: $color-primary;
       }

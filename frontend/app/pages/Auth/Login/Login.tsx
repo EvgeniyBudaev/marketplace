@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Link } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FormErrors } from "~/components";
 import { ERoutes } from "~/enums";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { EFormFields } from "~/pages/Auth/Login/enums";
@@ -15,10 +16,6 @@ export const Login: FC = () => {
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
-
-  //console.log("fetcher.data: ", form.fetcher.data);
-  const errors = form.methods.formState.errors;
-  //console.log("errors: ", errors);
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
@@ -42,6 +39,7 @@ export const Login: FC = () => {
             <div className="Login-FormFieldGroup">
               <Input label="Электронная почта" name={EFormFields.Email} type="text" />
               <Input label="Пароль" name={EFormFields.Password} type="text" />
+              <FormErrors fetcher={form.fetcher} />
             </div>
             <div className="Login-Control">
               <Button className="Login-Button" type="submit">

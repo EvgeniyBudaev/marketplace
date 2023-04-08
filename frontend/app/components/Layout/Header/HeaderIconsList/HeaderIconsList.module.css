@@ -1,8 +1,8 @@
 @charset "UTF-8";
-/* #148F2B */
-/* #0A4715 */
-/* #148F2B */
-/* #148F2B */
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -16,8 +16,8 @@
 /* #18181f */
 /* #1f2029 */
 /* #8a8fa0 */
-/* #B0976A */
-/* #997E4D */
+/* #b0976a */
+/* #997e4d */
 /* #dfd3c3 */
 /* #e31235 */
 /* #fbe4e3 */
@@ -85,8 +85,8 @@
   width: 20px;
   height: 20px;
   color: rgb(51, 51, 51);
-  background-color: rgb(20, 143, 43);
-  border: 1px solid rgb(20, 143, 43);
+  background-color: rgb(176, 151, 106);
+  border: 1px solid rgb(176, 151, 106);
   border-radius: 50%;
 }
 .HeaderIconsList-AvatarDropDown {
@@ -135,15 +135,15 @@
 }
 .HeaderIconsList-DropDownUser.enter-active {
   opacity: 1;
-  transition: opacity 0.3s;
+  transition: opacity 0.15s;
 }
 .HeaderIconsList-DropDownUser.exit {
   opacity: 1;
-  transition: opacity 0.3s;
+  transition: opacity 0.15s;
 }
 .HeaderIconsList-DropDownUser.exit-active {
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.15s;
 }
 
 @media (max-width: 768px) {

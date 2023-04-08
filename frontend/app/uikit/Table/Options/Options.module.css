@@ -1,7 +1,7 @@
-/* #148F2B */
-/* #0A4715 */
-/* #148F2B */
-/* #148F2B */
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -15,8 +15,8 @@
 /* #18181f */
 /* #1f2029 */
 /* #8a8fa0 */
-/* #B0976A */
-/* #997E4D */
+/* #b0976a */
+/* #997e4d */
 /* #dfd3c3 */
 /* #e31235 */
 /* #fbe4e3 */
@@ -42,7 +42,7 @@
 .Options-Columns {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem; /* 8px */
+  gap: 8px;
   margin-bottom: 40px;
 }
 .Options-ColumnsButton {
@@ -52,9 +52,10 @@
   border-radius: 100px;
   transition: all 0.15s;
   border: 1px solid transparent;
+  color: rgb(255, 255, 255);
 }
 .Options-ColumnsButton:hover {
-  background-color: rgba(20, 143, 43, 0.5);
+  background-color: rgb(95, 79, 25);
 }
 .Options-ColumnsButton__canHide {
   cursor: pointer;
@@ -65,8 +66,8 @@
   cursor: default;
 }
 .Options-ColumnsButton__notLocalHiddenColls {
-  background-color: rgba(20, 143, 43, 0.3);
-  border-color: rgb(20, 143, 43);
+  background-color: rgb(176, 151, 106);
+  border-color: rgb(95, 79, 25);
 }
 .Options-ColumnsButton__localHiddenColls {
   border-color: rgb(87, 87, 87);

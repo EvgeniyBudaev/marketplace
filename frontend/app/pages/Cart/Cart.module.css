@@ -1,7 +1,7 @@
-/* #148F2B */
-/* #0A4715 */
-/* #148F2B */
-/* #148F2B */
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -15,8 +15,8 @@
 /* #18181f */
 /* #1f2029 */
 /* #8a8fa0 */
-/* #B0976A */
-/* #997E4D */
+/* #b0976a */
+/* #997e4d */
 /* #dfd3c3 */
 /* #e31235 */
 /* #fbe4e3 */
@@ -96,7 +96,7 @@
 .Cart-IconLogoShort svg {
   width: 20px;
   height: 20px;
-  fill: rgb(20, 143, 43);
+  fill: rgb(176, 151, 106);
 }
 .Cart-IconEnter {
   width: 20px;
@@ -113,7 +113,7 @@
   transition: all 0.15s;
 }
 .Cart-TextEnter:hover {
-  color: rgb(20, 143, 43);
+  color: rgb(176, 151, 106);
 }
 .Cart-BackToShopping {
   display: inline-block;
@@ -124,7 +124,7 @@
   cursor: pointer;
 }
 .Cart-BackToShopping:hover {
-  color: rgb(20, 143, 43);
+  color: rgb(176, 151, 106);
   border-bottom: 1px solid rgba(176, 151, 106, 0.3);
 }
 

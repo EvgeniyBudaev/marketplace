@@ -12,7 +12,7 @@ import { useSetFieldErrors } from "./hooks";
 import type { TFormComponentProps } from "./types";
 
 const Component = <T extends FieldValues>({
-  //authenticity = true,
+  // authenticity = true,
   id,
   children,
   onChange,
@@ -37,6 +37,7 @@ const Component = <T extends FieldValues>({
   const onSubmit = useCallback(
     (data: T) => {
       let preparedData = {
+        ...omitEmptyFields(form.methods.getValues()),
         ...omitEmptyFields(data),
       };
 
@@ -49,7 +50,7 @@ const Component = <T extends FieldValues>({
       }
     },
     // [authenticity, handleSubmit, csrf, form.fetcher],
-    [handleSubmit, fetcher],
+    [handleSubmit, fetcher, form.methods.getValues],
   );
 
   return (

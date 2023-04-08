@@ -7,6 +7,7 @@ import { iconButtonLinks } from "~/uikit/Button/IconButton";
 import { linkButtonLinks } from "~/uikit/Button/LinkButton";
 import { checkboxLinks } from "~/uikit/Checkbox";
 import { dropDownLinks } from "~/uikit/DropDown";
+import { errorLinks } from "~/uikit/Error";
 import { hamburgerLinks } from "~/uikit/Hamburger";
 import { iconLinks } from "~/uikit/Icon";
 import { inputLinks } from "~/uikit/Input";
@@ -29,6 +30,7 @@ export * from "./Checkbox";
 export * from "./Colors";
 export * from "./DateTime";
 export * from "./DropDown";
+export * from "./Error";
 export * from "./FadeIn";
 export * from "./Hamburger";
 export * from "./Icon";
@@ -53,6 +55,7 @@ export const links = () => {
     ...avatarLinks(),
     ...buttonLinks(),
     ...dateTimeLinks(),
+    ...errorLinks(),
     ...fadeInLinks(),
     ...iconButtonLinks(),
     ...linkButtonLinks(),

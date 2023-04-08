@@ -120,13 +120,13 @@
   align-items: center;
   padding: 18px 40px 18px 12px;
   width: 100%;
-  background-color: $color-bg-input;
+  background-color: $color-primary-light;
   border: 1px solid transparent;
   border-radius: 4px;
   outline: transparent;
 
   &:hover {
-    background-color: $color-bg-input-hover;
+    background-color: $color-primary-light-hover;
     transition: background-color 0.25s ease;
   }
 

@@ -5,7 +5,7 @@ import { TableHeader } from "~/components";
 import { ERoutes } from "~/enums";
 import { ETableColumns } from "~/pages/Admin/Attributes/AttributesTable/enums";
 import type { TAttribute } from "~/shared/api/attributes";
-import { Icon, IconButton } from "~/uikit";
+import { Icon } from "~/uikit";
 import { createPath } from "~/utils";
 
 type TUseGetColumns = (
@@ -33,7 +33,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           cell: ({ row }) => (
             <div className="AttributesTable-Actions">
               <Link
-                className="AttributesTable-ActionsEdit"
+                className="AttributesTable-Action AttributesTable-ActionsEdit"
                 to={createPath({
                   route: ERoutes.AdminAttributeEdit,
                   params: { alias: row.original.alias },
@@ -41,7 +41,11 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
               >
                 <Icon type="Edit" />
               </Link>
-              <IconButton typeIcon="Trash" onClick={() => onDelete(row.original.alias)} />
+              <Icon
+                className="AttributesTable-Action"
+                type="Trash"
+                onClick={() => onDelete(row.original.alias)}
+              />
             </div>
           ),
         }),

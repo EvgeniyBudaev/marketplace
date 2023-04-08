@@ -1,6 +1,6 @@
 import { memo } from "react";
 import type { FC } from "react";
-import { PageSize } from "~/uikit/Table/PageSize";
+import { PageSize, pageSizeLinks } from "~/uikit/Table/PageSize";
 import { Pagination } from "~/uikit";
 import type { ETheme } from "~/uikit";
 import styles from "./NavigationPanel.module.css";
@@ -43,5 +43,5 @@ const Component: FC<TProps> = ({
 export const NavigationPanel = memo(Component);
 
 export function navigationPanelLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{ rel: "stylesheet", href: styles }, ...pageSizeLinks()];
 }

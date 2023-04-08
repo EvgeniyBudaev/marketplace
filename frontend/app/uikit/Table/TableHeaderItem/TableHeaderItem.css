@@ -1,7 +1,7 @@
-/* #148F2B */
-/* #0A4715 */
-/* #148F2B */
-/* #148F2B */
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -15,8 +15,8 @@
 /* #18181f */
 /* #1f2029 */
 /* #8a8fa0 */
-/* #B0976A */
-/* #997E4D */
+/* #b0976a */
+/* #997e4d */
 /* #dfd3c3 */
 /* #e31235 */
 /* #fbe4e3 */
@@ -45,16 +45,16 @@
   justify-content: space-between;
   padding: 8px;
   width: 100%;
-  color: rgb(100, 116, 139);
+  color: rgb(255, 255, 255);
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.15s;
 }
 .TableHeaderItem-Button svg {
-  fill: rgb(100, 116, 139);
+  fill: rgb(255, 255, 255);
 }
 .TableHeaderItem-Button:hover {
-  background-color: rgba(20, 143, 43, 0.5);
+  background-color: rgb(95, 79, 25);
 }
 .TableHeaderItem-IconIndicator {
   height: 24px;
@@ -74,7 +74,7 @@
   padding: 4px;
   cursor: pointer;
   border-bottom: 1px solid rgb(228, 228, 228);
-  transition: all 0.3s;
+  transition: all 0.15s;
 }
 .TableHeaderItem-DropDownListItem:last-child {
   border-bottom: none;
@@ -85,13 +85,16 @@
   margin-right: 8px;
 }
 .TableHeaderItem-DropDownListItem:hover {
-  background-color: rgba(20, 143, 43, 0.3);
+  background-color: rgb(95, 79, 25);
+  color: rgb(255, 255, 255);
 }
 .TableHeaderItem-DropDownListItem__active {
-  background-color: rgb(20, 143, 43);
+  background-color: rgb(176, 151, 106);
+  color: rgb(255, 255, 255);
+  fill: rgb(255, 255, 255);
 }
 .TableHeaderItem-DropDownListItem__active:hover {
-  background-color: rgb(20, 143, 43);
+  background-color: rgb(176, 151, 106);
 }
 
 .theme-dark .TableHeaderItem-DropDownList {

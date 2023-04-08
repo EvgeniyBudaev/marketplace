@@ -1,18 +1,20 @@
 import { inputFromForm } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { badRequest } from "remix-utils";
+
 import { Login, loginLinks } from "~/pages/Auth/Login";
+import { LOGIN_FORM_KEYS } from "~/pages/Auth/Login/constants";
 import { createUserSession, login } from "~/shared/api/auth";
 import { getUser } from "~/shared/api/users/domain.server";
+import { getInputErrors } from "~/shared/domain";
 import { commitSession, getSession } from "~/shared/session";
-import { createBoundaries, parseResponseError } from "~/utils";
+import { createBoundaries, getResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
 
-  //Ryan Florence
   let errored = false;
   const session = await getSession(request.headers.get("Cookie"));
 
@@ -37,25 +39,29 @@ export const action = async (args: ActionArgs) => {
 
   try {
     const loginResponse = await login(request, formValues);
+
     if (!loginResponse.success) {
-      return json(loginResponse);
+      const fieldErrors = getInputErrors(loginResponse, Object.values(LOGIN_FORM_KEYS));
+      return badRequest({ success: false, fieldErrors });
     }
 
     const userResponse = await getUser(request, {
       access_token: loginResponse.data.access_token,
     });
 
-    if (userResponse.success) {
-      return createUserSession(userResponse.data, loginResponse.data, "/");
+    if (!userResponse.success) {
+      const fieldErrors = getInputErrors(loginResponse, Object.values(LOGIN_FORM_KEYS));
+      return badRequest({ success: false, fieldErrors });
     }
 
-    return json(userResponse);
+    return createUserSession(userResponse.data, loginResponse.data, "/");
   } catch (error) {
-    return parseResponseError(error);
+    const errorResponse = error as Response;
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+    return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
-//Ryan Florence
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
   const session = await getSession(request.headers.get("Cookie"));
@@ -75,8 +81,6 @@ export const loader = async (args: LoaderArgs) => {
 };
 
 export default function LoginRoute() {
-  const errors = useLoaderData<typeof loader>(); // { session.emailError && <span>{session.emailError}</span>}
-  //console.log("Login errors: ", errors);
   return <Login />;
 }
 

@@ -1,10 +1,15 @@
 {
   "errorBoundary": {
     "common": {
-      "unexpectedError": "Добавь сюда перевод!!!"
+      "unexpectedError": "Unexpected error"
     }
   },
   "home": {
     "title": "Title"
+  },
+  "common": {
+    "validation": {
+      "cyrillicEmail": "Only Latin characters"
+    }
   }
 }

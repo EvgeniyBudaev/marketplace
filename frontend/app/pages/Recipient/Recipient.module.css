@@ -1,7 +1,7 @@
-/* #148F2B */
-/* #0A4715 */
-/* #148F2B */
-/* #148F2B */
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
 /* #333333 */
 /* #b0976a */
 /* #bab9b9 */
@@ -15,8 +15,8 @@
 /* #18181f */
 /* #1f2029 */
 /* #8a8fa0 */
-/* #B0976A */
-/* #997E4D */
+/* #b0976a */
+/* #997e4d */
 /* #dfd3c3 */
 /* #e31235 */
 /* #fbe4e3 */
@@ -69,20 +69,20 @@
 .Recipient-ControlsLink {
   display: flex;
   align-items: center;
-  color: rgb(20, 143, 43);
+  color: rgb(176, 151, 106);
   transition: all 0.15s;
 }
 .Recipient-ControlsLink svg {
   width: 30px;
   height: 30px;
-  fill: rgb(20, 143, 43);
+  fill: rgb(176, 151, 106);
   transition: all 0.15s;
 }
 .Recipient-ControlsLink:hover {
-  color: rgb(10, 71, 21);
+  color: rgb(95, 79, 25);
 }
 .Recipient-ControlsLink:hover svg {
-  fill: rgb(10, 71, 21);
+  fill: rgb(95, 79, 25);
 }
 .Recipient-ControlsText {
   margin-left: 4px;

@@ -9,7 +9,6 @@ import { createPath } from "~/utils";
 export const useTheme = () => {
   const fetcher = useFetcher();
   const { settings } = useSettings();
-  console.log("useTheme settings:  ", settings);
 
   const handleChangeTheme = useCallback(
     (theme: ETheme) => {

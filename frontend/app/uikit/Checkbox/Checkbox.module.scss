@@ -3,7 +3,7 @@
 .Checkbox-Wrapper {
   display: flex;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all $transition;
 
   .Checkbox {
     position: absolute;
@@ -34,7 +34,7 @@
       border: 1px solid $color-border;
       border-radius: 4px;
       margin-right: 15px;
-      transition: all 0.15s;
+      transition: all $transition;
     }
 
     /* стили при нахождении элемента в состоянии checked */
@@ -52,7 +52,7 @@
 
     /* стили при наведении курсора на checkbox */
     &:not(:disabled):not(:checked) + label:hover::before {
-      border-color: $color-border-hover;
+      border-color: $color-primary;
     }
 
     /* стили для активного состояния чекбокса (при нажатии на него) */
@@ -80,7 +80,7 @@
     &-Description {
       position: relative;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all $transition;
     }
 
     &-Icon {
@@ -90,12 +90,34 @@
   }
 
   &:hover {
-    .Checkbox {
-      border: 1px solid $color-border-hover;
+    & .Checkbox {
+      border: 1px solid $color-primary;
 
       &-Label,
       &-Description {
         color: $color-primary;
+      }
+    }
+  }
+}
+
+.theme-dark {
+  .Checkbox-Wrapper {
+    .Checkbox {
+      &-Label .text-dark,
+      &-Description .text-dark {
+        transition: all $transition;
+      }
+    }
+
+    &:hover {
+      .Checkbox {
+        border: 1px solid $color-primary;
+
+        &-Label .text-dark,
+        &-Description .text-dark {
+          color: $color-primary;
+        }
       }
     }
   }

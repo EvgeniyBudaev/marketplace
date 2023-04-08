@@ -9,6 +9,7 @@ import { themeSwitcherLinks } from "~/components/ThemeSwitcher";
 
 export * from "./Error";
 export * from "./ErrorBoundary";
+export * from "./form";
 export * from "./Layout";
 export * from "./Logo";
 export * from "./NavLink";

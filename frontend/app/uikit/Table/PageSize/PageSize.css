@@ -1,0 +1,17 @@
+.PageSize-Select {
+  max-width: 220px;
+  width: 100%;
+}
+.PageSize-Select svg {
+  fill: black;
+  transition: all 0.15s;
+}
+.PageSize-Select__active svg {
+  transform: rotate(180deg);
+}
+
+.theme-dark .PageSize-Select svg {
+  fill: #fff;
+}
+
+/*# sourceMappingURL=PageSize.css.map */

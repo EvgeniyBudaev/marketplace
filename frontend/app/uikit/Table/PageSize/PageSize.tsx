@@ -1,11 +1,12 @@
 import { memo, useState } from "react";
 import type { FC } from "react";
 import type { OnChangeValue } from "react-select";
+import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { Select, ETheme } from "~/uikit";
 import type { TSelectOption, isSelectMultiType } from "~/uikit";
 import { getPageSizeOptions } from "~/uikit/Table/PageSize";
-import clsx from "clsx";
+import styles from "./PageSize.css";
 
 type TProps = {
   defaultPageSize: number;
@@ -44,8 +45,8 @@ const Component: FC<TProps> = ({
   return (
     <div>
       <Select
-        className={clsx("Sorting-Select", {
-          "Sorting-Select__active": isSelectOpened,
+        className={clsx("PageSize-Select", {
+          "PageSize-Select__active": isSelectOpened,
         })}
         isMulti={false}
         name="pagination"
@@ -61,3 +62,7 @@ const Component: FC<TProps> = ({
 };
 
 export const PageSize = memo(Component);
+
+export function pageSizeLinks() {
+  return [{ rel: "stylesheet", href: styles }];
+}
