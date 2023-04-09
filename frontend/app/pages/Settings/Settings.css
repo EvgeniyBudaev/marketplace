@@ -36,36 +36,23 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.Sorting {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
+.Settings-Title {
+  margin-bottom: 30px;
 }
-.Sorting-Label {
-  display: inline-block;
-  margin-right: 30px;
-}
-.Sorting-Select {
+.Settings-Select {
   max-width: 220px;
   width: 100%;
 }
-.Sorting-Select svg {
+.Settings-Select svg {
   fill: rgb(0, 0, 0);
   transition: all 0.15s;
 }
-.Sorting-Select__active svg {
+.Settings-Select__active svg {
   transform: rotate(180deg);
 }
 
-.theme-dark .Sorting-Select svg {
+.theme-dark .Settings-Select svg {
   fill: rgb(255, 255, 255);
 }
 
-@media (max-width: 768px) {
-  .Sorting-Label {
-    margin-right: 8px;
-  }
-}
-
-/*# sourceMappingURL=Sorting.css.map */
+/*# sourceMappingURL=Settings.css.map */

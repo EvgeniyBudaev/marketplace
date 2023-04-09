@@ -1,4 +1,4 @@
-import { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { Contacts, contactsLinks } from "~/pages/Contacts";
 
 export const loader = async (args: LoaderArgs) => {

@@ -1,8 +1,10 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormErrors } from "~/components";
 import { ERoutes } from "~/enums";
+import { useTranslatedForm, useTranslatedResolver } from "~/hooks";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { EFormFields } from "~/pages/Auth/Login/enums";
 import { formSchema } from "~/pages/Auth/Login/schemas";
@@ -13,9 +15,14 @@ import { createPath } from "~/utils";
 import styles from "./Login.module.css";
 
 export const Login: FC = () => {
-  const form = useInitForm<TForm>({
-    resolver: zodResolver(formSchema),
-  });
+  const { t } = useTranslation();
+  const resolver = useTranslatedResolver(zodResolver(formSchema));
+
+  const form = useTranslatedForm(
+    useInitForm<TForm>({
+      resolver,
+    }),
+  );
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
@@ -33,24 +40,36 @@ export const Login: FC = () => {
       <div className="Login-Center">
         <div className="Login-CenterContent">
           <h1 className="Login-CenterContentTitle">
-            <Typography variant={ETypographyVariant.TextH1Bold}>Вход</Typography>
+            <Typography variant={ETypographyVariant.TextH1Bold}>{t("login.title")}</Typography>
           </h1>
           <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
             <div className="Login-FormFieldGroup">
-              <Input label="Электронная почта" name={EFormFields.Email} type="text" />
-              <Input label="Пароль" name={EFormFields.Password} type="text" />
+              <Input
+                label={t("form.email.title") ?? "Email"}
+                name={EFormFields.Email}
+                type="text"
+              />
+              <Input
+                label={t("form.password.title") ?? "Password"}
+                name={EFormFields.Password}
+                type="text"
+              />
               <FormErrors fetcher={form.fetcher} />
             </div>
             <div className="Login-Control">
               <Button className="Login-Button" type="submit">
-                Войти
+                {t("login.enter")}
               </Button>
             </div>
           </Form>
           <div className="Login-Signup">
-            <Typography variant={ETypographyVariant.TextB3Regular}>Нет аккаунта?</Typography>
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              {t("login.noAccount")}
+            </Typography>
             <Link to={ERoutes.Signup}>
-              <Typography variant={ETypographyVariant.TextB3Regular}>Зарегистрироваться</Typography>
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {t("login.register")}
+              </Typography>
             </Link>
           </div>
         </div>

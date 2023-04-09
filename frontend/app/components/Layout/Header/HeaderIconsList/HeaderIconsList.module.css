@@ -39,7 +39,7 @@
 /* #0044BB */
 .HeaderIconsList {
   display: flex;
-  max-width: 282px;
+  max-width: 400px;
   width: 100%;
   /* ----- Открытие/закрытие DropDown ----- */
 }

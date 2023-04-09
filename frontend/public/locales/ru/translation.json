@@ -1,13 +1,13 @@
 {
   "errorBoundary": {
     "common": {
-      "unexpectedStatus": "Добавь сюда перевод!!!",
-      "internalError": "Добавь сюда перевод!!!",
-      "notImplemented": "Добавь сюда перевод!!!",
-      "gatewayTimeout": "Добавь сюда перевод!!!",
-      "badRequest": "Добавь сюда перевод!!!",
-      "accessDenied": "Добавь сюда перевод!!!",
-      "notFound": "Добавь сюда перевод!!!"
+      "unexpectedStatus": "Непредвиденный ответ сервера со статусом",
+      "internalError": "Ошибка на сервере",
+      "notImplemented": "Метод запроса не поддерживается сервером",
+      "gatewayTimeout": "Время ответа сервера истекло",
+      "badRequest": "Некорректный запрос",
+      "accessDenied": "Нет доступа",
+      "notFound": "Страница не найдена"
     }
   }
 }

@@ -4,8 +4,37 @@
       "unexpectedError": "Unexpected error"
     }
   },
+  "header": {
+    "settings": "Settings",
+    "cart": "Cart",
+    "exit": "Exit",
+    "enter": "Enter"
+  },
+  "login": {
+    "title": "Entry",
+    "enter": "Login",
+    "noAccount": "no account?",
+    "register": "Register"
+  },
+  "form": {
+    "email": {
+      "title": "Email"
+    },
+    "password": {
+      "title": "Password"
+    }
+  },
   "home": {
     "title": "Title"
+  },
+  "settings": {
+    "language": {
+      "options": {
+        "ru": "Russian",
+        "en": "English"
+      }
+    },
+    "title": "Settings"
   },
   "common": {
     "validation": {

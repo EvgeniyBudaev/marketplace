@@ -8,4 +8,5 @@ export * from "./Home";
 export * from "./Order";
 export * from "./ProductDetail";
 export * from "./Recipient";
+export * from "./Settings";
 export * from "./Shipping";

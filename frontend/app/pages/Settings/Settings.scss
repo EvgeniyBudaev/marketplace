@@ -1,14 +1,8 @@
 @import "component";
 
-.Sorting {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-
-  &-Label {
-    display: inline-block;
-    margin-right: 30px;
+.Settings {
+  &-Title {
+    margin-bottom: 30px;
   }
 
   &-Select {
@@ -29,19 +23,11 @@
 }
 
 .theme-dark {
-  .Sorting {
+  .Settings {
     &-Select {
       svg {
         fill: $color-white;
       }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .Sorting {
-    &-Label {
-      margin-right: 8px;
     }
   }
 }

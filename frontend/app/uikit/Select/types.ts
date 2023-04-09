@@ -1,6 +1,7 @@
 export type TSelectOption = {
   value: string;
   label: string;
+  prefixIcon?: JSX.Element;
 };
 
 export type TSelectVariantStyle = {

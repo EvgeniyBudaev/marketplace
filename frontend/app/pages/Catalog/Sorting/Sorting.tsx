@@ -66,12 +66,12 @@ export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
             "Sorting-Select__active": isSelectOpened,
           })}
           isMulti={false}
-          options={options}
-          theme={theme}
-          value={options.find((option) => option.value === sorting)!}
           onBlur={handleBlur}
           onChange={handleChange}
           onFocus={handleFocus}
+          options={options}
+          theme={theme}
+          value={options.find((option) => option.value === sorting)!}
         />
       </Form>
     </div>

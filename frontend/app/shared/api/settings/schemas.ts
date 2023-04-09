@@ -22,3 +22,15 @@ export const themeSchema = z.object({
   theme: z.string(),
   uuid: z.string(),
 });
+
+export const languageParamsSchema = z.object({
+  uuid: z.string(),
+  language: z.string(),
+});
+
+export const languageSchema = z.object({
+  currency: z.string(),
+  language: z.string(),
+  theme: z.string(),
+  uuid: z.string(),
+});
