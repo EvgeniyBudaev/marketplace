@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormErrors } from "~/components";
@@ -13,6 +14,8 @@ import { createPath } from "~/utils";
 import styles from "./Login.module.css";
 
 export const Login: FC = () => {
+  const { t } = useTranslation();
+
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
@@ -33,7 +36,7 @@ export const Login: FC = () => {
       <div className="Login-Center">
         <div className="Login-CenterContent">
           <h1 className="Login-CenterContentTitle">
-            <Typography variant={ETypographyVariant.TextH1Bold}>Вход</Typography>
+            <Typography variant={ETypographyVariant.TextH1Bold}>{t("login.title")}</Typography>
           </h1>
           <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
             <div className="Login-FormFieldGroup">

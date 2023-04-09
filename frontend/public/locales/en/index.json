@@ -4,6 +4,9 @@
       "unexpectedError": "Unexpected error"
     }
   },
+  "login": {
+    "title": "Entry"
+  },
   "home": {
     "title": "Title"
   },
