@@ -62,11 +62,7 @@
 .Order-Link:hover {
   color: rgb(95, 79, 25);
 }
-.Order-Payment,
-.Order-Products,
-.Order-Recipient,
-.Order-Shipping,
-.Order-Total {
+.Order-Payment, .Order-Products, .Order-Recipient, .Order-Shipping, .Order-Total {
   margin-bottom: 24px;
   padding: 24px;
   border: 1px solid rgb(228, 228, 228);

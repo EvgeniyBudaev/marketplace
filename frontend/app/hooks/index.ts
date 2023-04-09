@@ -6,6 +6,8 @@ export * from "./useInitLanguage";
 export * from "./useLanguage";
 export * from "./useKey";
 export * from "./useTable";
+export * from "./useTranslatedForm";
+export * from "./useTranslatedResolver";
 export * from "./useTheme";
 export * from "./useSettings";
 export * from "./useUser";
