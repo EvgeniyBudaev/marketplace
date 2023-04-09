@@ -69,7 +69,9 @@
   border-color: rgb(176, 151, 106);
   color: white;
 }
-.Pagination > .Pagination__active > a, .Pagination > .Pagination__active > a:hover, .Pagination > .Pagination__active > a:focus {
+.Pagination > .Pagination__active > a,
+.Pagination > .Pagination__active > a:hover,
+.Pagination > .Pagination__active > a:focus {
   background-color: rgb(176, 151, 106);
   border-color: rgb(176, 151, 106);
   outline: transparent;

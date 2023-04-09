@@ -4,7 +4,7 @@ import { Link } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormErrors } from "~/components";
 import { ERoutes } from "~/enums";
-import {useTranslatedForm, useTranslatedResolver} from "~/hooks";
+import { useTranslatedForm, useTranslatedResolver } from "~/hooks";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { EFormFields } from "~/pages/Auth/Login/enums";
 import { formSchema } from "~/pages/Auth/Login/schemas";
