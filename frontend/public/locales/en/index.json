@@ -59,5 +59,15 @@
       }
     },
     "title": "Settings"
+  },
+  "common": {
+    "validation": {
+      "email": "Invalid email",
+      "cyrillicEmail": "Only Latin characters",
+      "empty": "Field cannot be empty",
+      "onlyLetters": "Allowed characters: letters only",
+      "passwordNotMatch": "Password mismatch",
+      "wrongCharacter": "Allowed characters: {characters}"
+    }
   }
 }

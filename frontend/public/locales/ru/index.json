@@ -59,5 +59,15 @@
       }
     },
     "title": "Настройки"
+  },
+  "common": {
+    "validation": {
+      "email": "Email указан неправильно",
+      "cyrillicEmail": "Только латинские символы",
+      "empty": "Поле не может быть пустым!",
+      "onlyLetters": "Допустимые символы: только буквы",
+      "passwordNotMatch": "Пароли не совпадают",
+      "wrongCharacter": "Допустимые символы: {characters}"
+    }
   }
 }
