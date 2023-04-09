@@ -1,0 +1,127 @@
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #B9B5B5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Recipient-Step {
+  margin-left: 20px;
+  color: rgb(142, 142, 147);
+}
+.Recipient-Title {
+  margin-bottom: 16px;
+}
+.Recipient-Inner {
+  display: flex;
+  width: 100%;
+}
+.Recipient-Form {
+  max-width: 590px;
+  width: 100%;
+}
+.Recipient-FormContent {
+  margin-bottom: 232px;
+}
+.Recipient-FormFooter {
+  padding-top: 24px;
+  border-top: 1px solid rgb(228, 228, 228);
+}
+.Recipient-Controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  max-width: 590px;
+  width: 100%;
+}
+.Recipient-ControlsLink {
+  display: flex;
+  align-items: center;
+  color: rgb(176, 151, 106);
+  transition: all 0.15s;
+}
+.Recipient-ControlsLink svg {
+  width: 30px;
+  height: 30px;
+  fill: rgb(176, 151, 106);
+  transition: all 0.15s;
+}
+.Recipient-ControlsLink:hover {
+  color: rgb(95, 79, 25);
+}
+.Recipient-ControlsLink:hover svg {
+  fill: rgb(95, 79, 25);
+}
+.Recipient-ControlsText {
+  margin-left: 4px;
+}
+.Recipient-Info {
+  display: flex;
+  margin-left: 46px;
+}
+.Recipient-InfoIcon {
+  width: 20px;
+  height: 20px;
+}
+.Recipient-InfoText {
+  margin-left: 12px;
+}
+.Recipient-InfoTitle {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 1000px) {
+  .Recipient-Inner {
+    flex-direction: column-reverse;
+  }
+  .Recipient-FormContent {
+    margin-bottom: 0;
+  }
+  .Recipient-Info {
+    margin-left: 0;
+    margin-bottom: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .Recipient-Step {
+    margin-left: 0;
+  }
+  .Recipient-ControlsLink svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/*# sourceMappingURL=Recipient.module.css.map */

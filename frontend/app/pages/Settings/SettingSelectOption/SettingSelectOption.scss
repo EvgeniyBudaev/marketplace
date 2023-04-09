@@ -1,0 +1,10 @@
+.SettingSelectOption {
+  display: flex;
+  align-items: center;
+
+  &-Children {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+  }
+}

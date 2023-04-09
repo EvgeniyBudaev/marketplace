@@ -22,9 +22,6 @@ export const action = async (args: ActionArgs) => {
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
     return badRequest({ success: false, formError, fieldErrors });
   }
 };

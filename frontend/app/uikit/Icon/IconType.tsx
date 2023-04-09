@@ -21,6 +21,7 @@ import {
   DisplayGridIcon,
   DisplayLineIcon,
   EditIcon,
+  EnglishLanguageIcon,
   EnterIcon,
   ExitIcon,
   FactoryIcon,
@@ -31,6 +32,7 @@ import {
   LogoIcon,
   LogoShortIcon,
   MirrorIcon,
+  RussianLanguageIcon,
   SearchIcon,
   SettingsIcon,
   ShippingIcon,
@@ -68,6 +70,7 @@ export type IconType =
   | "DisplayGrid"
   | "DisplayLine"
   | "Edit"
+  | "EnglishLanguage"
   | "Enter"
   | "Exit"
   | "Factory"
@@ -78,6 +81,7 @@ export type IconType =
   | "Logo"
   | "LogoShort"
   | "Mirror"
+  | "RussianLanguage"
   | "Search"
   | "Settings"
   | "Shipping"
@@ -114,6 +118,7 @@ export const iconTypes = new Map([
   ["DisplayGrid", <DisplayGridIcon key={"DisplayGrid"} />],
   ["DisplayLine", <DisplayLineIcon key={"DisplayLine"} />],
   ["Edit", <EditIcon key={"Edit"} />],
+  ["EnglishLanguage", <EnglishLanguageIcon key={"EnglishLanguage"} />],
   ["Enter", <EnterIcon key={"Enter"} />],
   ["Exit", <ExitIcon key={"Exit"} />],
   ["Factory", <FactoryIcon key={"Factory"} />],
@@ -124,6 +129,7 @@ export const iconTypes = new Map([
   ["Logo", <LogoIcon key={"Logo"} />],
   ["LogoShort", <LogoShortIcon key={"LogoShort"} />],
   ["Mirror", <MirrorIcon key={"Mirror"} />],
+  ["RussianLanguage", <RussianLanguageIcon key={"RussianLanguage"} />],
   ["Search", <SearchIcon key={"Search"} />],
   ["Settings", <SettingsIcon key={"Settings"} />],
   ["Shipping", <ShippingIcon key={"Shipping"} />],

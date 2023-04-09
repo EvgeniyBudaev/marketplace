@@ -8,7 +8,9 @@ import type {
   OnChangeValue,
   MultiValue,
   SingleValue,
+  GetOptionLabel,
 } from "react-select";
+import type { SelectComponents } from "react-select/dist/declarations/src/components";
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
 import { selectStyles } from "~/uikit";
@@ -18,37 +20,41 @@ import styles from "./Select.module.css";
 
 export type TSelectProps = {
   className?: string;
+  components?: Partial<SelectComponents<any, any, GroupBase<any>>>;
   defaultValue?: TSelectOption | TSelectOption[];
+  getOptionLabel?: GetOptionLabel<TSelectOption | TSelectOption[]>;
   id?: string;
   instanceId?: string;
   isMulti?: isSelectMultiType;
   name?: string;
-  options: TSelectOption[];
-  styles?: StylesConfig<TSelectOption, isSelectMultiType, GroupBase<TSelectOption>> | undefined;
-  theme?: ETheme;
-  value?: SingleValue<TSelectOption> | MultiValue<TSelectOption>;
   onBlur?: FocusEventHandler;
   onChange?: (
     value: OnChangeValue<TSelectOption, isSelectMultiType>,
     action: ActionMeta<TSelectOption>,
   ) => void;
   onFocus?: FocusEventHandler;
+  options: TSelectOption[];
+  styles?: StylesConfig<TSelectOption, isSelectMultiType, GroupBase<TSelectOption>> | undefined;
+  theme?: ETheme;
+  value?: SingleValue<TSelectOption> | MultiValue<TSelectOption>;
 };
 
 const SelectComponent: FC<TSelectProps> = ({
   className,
+  components,
   defaultValue,
+  getOptionLabel,
   id,
   instanceId,
   isMulti = false,
   name,
+  onBlur,
+  onChange,
+  onFocus,
   options,
   styles,
   theme,
   value,
-  onBlur,
-  onChange,
-  onFocus,
 }) => {
   const uuid = generateUUID();
 
@@ -56,17 +62,19 @@ const SelectComponent: FC<TSelectProps> = ({
   return isHydrated ? (
     <ReactSelect
       className={clsx("Select", className)}
+      components={components}
       defaultValue={defaultValue}
+      getOptionLabel={getOptionLabel}
       id={id ? id : uuid}
       instanceId={instanceId ? instanceId : uuid}
       isMulti={isMulti}
       name={name}
-      options={options}
-      styles={!styles && theme ? selectStyles(theme) : styles}
-      value={value}
       onBlur={onBlur}
       onChange={onChange}
       onFocus={onFocus}
+      options={options}
+      styles={!styles && theme ? selectStyles(theme) : styles}
+      value={value}
     />
   ) : null;
 };

@@ -9,6 +9,7 @@ type TRoutes =
   | ERoutes.Cart
   | ERoutes.AdminProductAdd
   | ERoutes.Login
+  | ERoutes.ResourcesLanguage
   | ERoutes.ResourcesTheme
   | ERoutes.Signup;
 

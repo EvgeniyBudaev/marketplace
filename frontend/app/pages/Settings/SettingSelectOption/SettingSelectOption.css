@@ -1,0 +1,11 @@
+.SettingSelectOption {
+  display: flex;
+  align-items: center;
+}
+.SettingSelectOption-Children {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+/*# sourceMappingURL=SettingSelectOption.css.map */

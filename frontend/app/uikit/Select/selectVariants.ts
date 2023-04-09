@@ -2,6 +2,7 @@ import type { ETheme, TSelectVariantStyle } from "~/uikit";
 
 const COLOR_PRIMARY = "#b0976a";
 const COLOR_PRIMARY_HOVER = "#997e4d";
+const COLOR_WHITE = "#fff";
 
 export const VARIANTS: { [key in ETheme]: TSelectVariantStyle } = {
   // Dark theme
@@ -24,12 +25,12 @@ export const VARIANTS: { [key in ETheme]: TSelectVariantStyle } = {
       cursor: "pointer",
       ":active": {
         backgroundColor: COLOR_PRIMARY,
-        color: "#fff",
+        color: COLOR_WHITE,
         transition: "all 0.15s",
       },
       ":hover": {
         backgroundColor: COLOR_PRIMARY_HOVER,
-        color: "#fff",
+        color: COLOR_WHITE,
         transition: "all 0.15s",
       },
     },
@@ -56,17 +57,17 @@ export const VARIANTS: { [key in ETheme]: TSelectVariantStyle } = {
       color: "currentColor",
     },
     option: {
-      backgroundColor: "#fff",
+      backgroundColor: COLOR_WHITE,
       borderRadius: "0",
       color: "currentColor",
       cursor: "pointer",
       ":active": {
         backgroundColor: COLOR_PRIMARY,
-        color: "#fff",
+        color: COLOR_WHITE,
       },
       ":hover": {
         backgroundColor: COLOR_PRIMARY_HOVER,
-        color: "#fff",
+        color: COLOR_WHITE,
         transition: "all 0.15s",
       },
     },

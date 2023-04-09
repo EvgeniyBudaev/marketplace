@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useFetcher, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
@@ -18,6 +19,7 @@ type TProps = {
 };
 
 export const HeaderIconsList: FC<TProps> = ({ cart, className }) => {
+  const { t } = useTranslation();
   const { user } = useUser();
   const [cartId, setCartId] = useState("");
   const [cartItemsCountTotal, setCartItemsCountTotal] = useState("");
@@ -71,6 +73,21 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className }) => {
         <ThemeSwitcher variant={ESwitcherVariant.Header} />
       </div>
       <div className="HeaderIconsList-Item">
+        <Link
+          className="HeaderIconsList-IconLink"
+          to={{
+            pathname: `${ERoutes.Settings}`,
+          }}
+        >
+          <Icon className="HeaderIconsList-Icon" type="Settings" />
+          <div className="HeaderIconsList-IconDescription">
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              {t("header.settings")}
+            </Typography>
+          </div>
+        </Link>
+      </div>
+      <div className="HeaderIconsList-Item">
         <div>
           <Link
             className="HeaderIconsList-IconLink"
@@ -80,7 +97,7 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className }) => {
           >
             <Icon className="HeaderIconsList-Icon" type="Cart" />
             <div className="HeaderIconsList-IconDescription">
-              <Typography variant={ETypographyVariant.TextB3Regular}>Корзина</Typography>
+              <Typography variant={ETypographyVariant.TextB3Regular}>{t("header.cart")}</Typography>
             </div>
             <div className="HeaderIconsList-CartItemsCount">
               <Typography variant={ETypographyVariant.TextB3Regular}>
@@ -99,7 +116,9 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className }) => {
                 <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleLogout}>
                   <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="Exit" />
                   <div className="HeaderIconsList-AvatarDropDown_MenuItemText">
-                    <Typography variant={ETypographyVariant.TextB3Regular}>Выйти</Typography>
+                    <Typography variant={ETypographyVariant.TextB3Regular}>
+                      {t("header.exit")}
+                    </Typography>
                   </div>
                 </li>
               </ul>
@@ -109,7 +128,9 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className }) => {
           <Link className="HeaderIconsList-IconLink" to={ERoutes.Login}>
             <Icon className="HeaderIconsList-Icon" type="User" />
             <div className="HeaderIconsList-IconDescription">
-              <Typography variant={ETypographyVariant.TextB3Regular}>Войти</Typography>
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {t("header.enter")}
+              </Typography>
             </div>
           </Link>
         )}

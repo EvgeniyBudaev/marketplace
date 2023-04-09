@@ -4,11 +4,37 @@
       "unexpectedError": "Произошла непредвиденная ошибка"
     }
   },
+  "header": {
+    "settings": "Настройки",
+    "cart": "Корзина",
+    "exit": "Выйти",
+    "enter": "Войти"
+  },
   "login": {
-    "title": "Вход"
+    "title": "Вход",
+    "enter": "Войти",
+    "noAccount": "нет аккаунта?",
+    "register": "Зарегистрироваться"
+  },
+  "form": {
+    "email": {
+      "title": "Электронная почта"
+    },
+    "password": {
+      "title": "Пароль"
+    }
   },
   "home": {
     "title": "Заголовок"
+  },
+  "settings": {
+    "language": {
+      "options": {
+        "ru": "Русский",
+        "en": "Английский"
+      }
+    },
+    "title": "Настройки"
   },
   "common": {
     "validation": {

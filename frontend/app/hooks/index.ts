@@ -3,6 +3,7 @@ export * from "./useFetcherData";
 export * from "./useGetFormErrors";
 export * from "./useInitDayjs";
 export * from "./useInitLanguage";
+export * from "./useLanguage";
 export * from "./useKey";
 export * from "./useTable";
 export * from "./useTheme";

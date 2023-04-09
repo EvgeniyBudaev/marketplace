@@ -20,6 +20,7 @@ export enum ERoutes {
   Order = "/order",
   ProductDetail = "/product/:alias",
   Recipient = "/recipient",
+  Settings = "/settings",
   Shipping = "/shipping",
 
   ResourcesAttributesByCatalog = "/resources/catalogs/attributes/:alias",
@@ -28,5 +29,6 @@ export enum ERoutes {
   ResourcesCartItemIncrement = "/resources/cart/increment",
   ResourcesLogout = "/resources/logout",
   ResourcesSearch = "/resources/search",
+  ResourcesLanguage = "/resources/language",
   ResourcesTheme = "/resources/theme",
 }
