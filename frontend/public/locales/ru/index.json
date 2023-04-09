@@ -22,7 +22,31 @@
     },
     "password": {
       "title": "Пароль"
+    },
+    "firstName": {
+      "title": "Имя"
+    },
+    "lastName": {
+      "title": "Фамилия"
+    },
+    "middleName": {
+      "title": "Отчество"
+    },
+    "mobilePhone": {
+      "title": "Мобильный телефон"
+    },
+    "address": {
+      "title": "Адрес"
+    },
+    "passwordConfirm": {
+      "title": "Подтверждение пароля"
     }
+  },
+  "signup": {
+    "title": "Регистрация",
+    "register": "Зарегистрироваться",
+    "haveAccount": "Есть аккаунт?",
+    "enter": "Войти"
   },
   "home": {
     "title": "Заголовок"
@@ -35,10 +59,5 @@
       }
     },
     "title": "Настройки"
-  },
-  "common": {
-    "validation": {
-      "cyrillicEmail": "Только латинские символы!"
-    }
   }
 }

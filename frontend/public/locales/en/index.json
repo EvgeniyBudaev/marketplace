@@ -22,7 +22,31 @@
     },
     "password": {
       "title": "Password"
+    },
+    "firstName": {
+      "title": "First name"
+    },
+    "lastName": {
+      "title": "Last name"
+    },
+    "middleName": {
+      "title": "Middle name"
+    },
+    "mobilePhone": {
+      "title": "Mobile phone"
+    },
+    "address": {
+      "title": "Address"
+    },
+    "passwordConfirm": {
+      "title": "Password confirm"
     }
+  },
+  "signup": {
+    "title": "Registration",
+    "register": "Signup",
+    "haveAccount": "Have an account?",
+    "enter": "Enter"
   },
   "home": {
     "title": "Title"
@@ -35,10 +59,5 @@
       }
     },
     "title": "Settings"
-  },
-  "common": {
-    "validation": {
-      "cyrillicEmail": "Only Latin characters"
-    }
   }
 }

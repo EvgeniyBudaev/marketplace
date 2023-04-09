@@ -1,11 +1,12 @@
 import { inputFromForm } from "remix-domains";
-import { json } from "@remix-run/node";
+import { badRequest } from "remix-utils";
 import type { ActionArgs } from "@remix-run/node";
 import { Signup, signupLinks } from "~/pages/Auth/Signup";
+import { SIGNUP_FORM_KEYS } from "~/pages/Auth/Signup/constants";
 import { createUserSession, signup } from "~/shared/api/auth";
 import { mapSignupToDto } from "~/shared/api/auth/utils";
-import { parseResponseError } from "~/utils";
-import ShippingRoute from "~/routes/shipping";
+import { getInputErrors } from "~/shared/domain";
+import { getResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -15,13 +16,16 @@ export const action = async (args: ActionArgs) => {
   try {
     const userResponse = await signup(request, formattedParams);
 
-    if (userResponse.success) {
-      return createUserSession(userResponse.data, "/");
+    if (!userResponse.success) {
+      const fieldErrors = getInputErrors(userResponse, Object.values(SIGNUP_FORM_KEYS));
+      return badRequest({ success: false, fieldErrors });
     }
 
-    return json(userResponse);
+    return createUserSession(userResponse.data, "/");
   } catch (error) {
-    return parseResponseError(error);
+    const errorResponse = error as Response;
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+    return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
