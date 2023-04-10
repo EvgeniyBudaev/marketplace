@@ -1,5 +1,6 @@
 package com.marketplace.users.service;
 
+import com.marketplace.users.dto.settings.request.PatchSettingsByLanguageRequestDto;
 import com.marketplace.users.dto.settings.request.PatchSettingsByThemeRequestDto;
 import com.marketplace.users.dto.settings.request.UpdateSettingsRequestDto;
 import com.marketplace.users.mappers.UserSettingsMapper;
@@ -49,8 +50,18 @@ public class UserSettingsService {
     public UserSettings patchTheme(Principal principal,PatchSettingsByThemeRequestDto dto){
         UserSettings settings = getSettings(principal,dto.getUuid());
         settings.setTheme(dto.getTheme());
+        return getUserSettings(settings, dto.getUuid());
+    }
+    @Transactional
+    public UserSettings patchLanguage(Principal principal, PatchSettingsByLanguageRequestDto dto){
+        UserSettings settings = getSettings(principal,dto.getUuid());
+        settings.setLanguage(dto.getLanguage());
+        return getUserSettings(settings, dto.getUuid());
+    }
+
+    public UserSettings getUserSettings(UserSettings settings, String uuid) {
         Session session = (Session) entityManager;
-        SessionId sessionId = sessionIdService.getSession(dto.getUuid());
+        SessionId sessionId = sessionIdService.getSession(uuid);
         settings.setModifyDate(LocalDateTime.now());
         session.saveOrUpdate(settings);
         session.flush();

@@ -1,5 +1,6 @@
 package com.marketplace.users.controllers;
 
+import com.marketplace.users.dto.settings.request.PatchSettingsByLanguageRequestDto;
 import com.marketplace.users.dto.settings.request.PatchSettingsByThemeRequestDto;
 import com.marketplace.users.dto.settings.request.UpdateSettingsRequestDto;
 import com.marketplace.users.dto.settings.request.UserSettingsRequestDto;
@@ -48,6 +49,11 @@ public class UserSettingsController {
         return userSettingsMapper.entityToDto(userSettings);
     }
 
+    @PatchMapping("/patch/language")
+    public UserSettingsResponseDto patchSettingsByLanguage(Principal principal, @Valid @RequestBody PatchSettingsByLanguageRequestDto dto){
+        UserSettings userSettings = userSettingsService.patchLanguage(principal,dto);
+        return userSettingsMapper.entityToDto(userSettings);
+    }
 
 
 }

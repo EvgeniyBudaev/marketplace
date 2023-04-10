@@ -1,6 +1,7 @@
 package com.marketplace.users.service;
 
 import com.marketplace.backend.exception.ResourceNotFoundException;
+import com.marketplace.users.exception.AuthException;
 import com.marketplace.users.model.AppUser;
 import com.marketplace.users.validators.PhoneNumberValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
@@ -31,11 +32,7 @@ public class AppUserDetailsService implements UserDetailsService {
                 .createQuery("SELECT u from AppUser as u where u.email=:email and u.enabled=true", AppUser.class);
         query.setParameter("email",email);
         query.setHint("javax.persistence.fetchgraph", entityGraph);
-        AppUser user  = query.getSingleResult();
-        if(user==null){
-            throw new UsernameNotFoundException(String.format("User '%s' not found", email));
-        }
-        return user;
+        return query.getResultStream().findFirst().orElseThrow(AuthException::new);
     }
     public AppUser findUserWithRolesByPhone(String phone) {
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("user-with-roles");
@@ -43,11 +40,7 @@ public class AppUserDetailsService implements UserDetailsService {
                 .createQuery("SELECT u from AppUser as u where u.phone=:phone and u.enabled=true", AppUser.class);
         query.setParameter("phone",phone);
         query.setHint("javax.persistence.fetchgraph", entityGraph);
-        AppUser user  = query.getSingleResult();
-        if(user==null){
-            throw new UsernameNotFoundException(String.format("User '%s' not found", phone));
-        }
-        return user;
+        return query.getResultStream().findFirst().orElseThrow(AuthException::new);
     }
 
     public AppUser findUserByRefreshToken(String token){

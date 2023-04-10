@@ -23,7 +23,7 @@ public class SessionId {
     @Column(name = "updated")
     private LocalDateTime updated;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private AppUser user;
     @OneToOne

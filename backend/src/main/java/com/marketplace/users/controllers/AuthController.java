@@ -9,6 +9,7 @@ import com.marketplace.users.dto.auth.response.AuthResponseDto;
 import com.marketplace.users.model.AppUser;
 import com.marketplace.users.service.AuthService;
 import com.marketplace.users.utils.JwtTokenUtil;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -59,6 +61,7 @@ public class AuthController {
                 .setExpireIn(accessExpires)
                 .setRefreshExpireIn(refreshExpire)
                 .setUuid(user.getSessionId().getUuid())
+                .setPermissions(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .build();
     }
 }

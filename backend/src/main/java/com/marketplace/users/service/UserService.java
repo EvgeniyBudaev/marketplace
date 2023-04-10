@@ -41,7 +41,7 @@ public class UserService {
         AppUser user = saveNewUser(dto);
         String reference ="http://localhost:3000/auth/activate/"+tokenService.generateToken(user);
         this.eventPublisher.multicastEvent(new RegistrationUserCompleteEvent(user, reference));
-        return new UserInfoResponseDto(user,user.getSessionId());
+        return new UserInfoResponseDto(user);
     }
 
     public AppUser saveNewUser(RegisterUserRequestDto dto){
@@ -53,6 +53,7 @@ public class UserService {
         user.setRoles(defaultRole);
         user.setIsEmailVerified(false);
         user.setIsPhoneVerified(false);
+        user.setEnabled(true);
         user.setSessionId(setNewSessionByNewUser(user));
         return  saveUser(user);
     }
@@ -70,8 +71,8 @@ public class UserService {
     }
     @Transactional
     public AppUser saveUser(AppUser user){
+        user.setSessionId(setNewSessionByNewUser(user));
         userRepository.save(user);
-        setNewSessionByNewUser(user);
         return user;
     }
     

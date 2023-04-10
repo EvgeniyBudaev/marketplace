@@ -50,12 +50,12 @@ public class SessionIdService {
         return session;
     }
 
+    @Transactional
     public SessionId setNewSessionForNewUser(AppUser user){
         SessionId session = new SessionId();
         session.setUuid(this.generateUuid());
         session.setUpdated(LocalDateTime.now());
         session.setUser(user);
-        sessionRepository.save(session);
         return session;
     }
 

@@ -5,6 +5,7 @@ package com.marketplace.users.dto.auth.response;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class AuthResponseDto {
@@ -14,6 +15,7 @@ public class AuthResponseDto {
     private Date refresh_expires_in;
     private String token_type;
     private String uuid;
+    private List<String> permissions;
 
     public static Builder builder(){
         return new Builder();
@@ -47,6 +49,10 @@ public class AuthResponseDto {
         }
         public  Builder setTokenType(ETokenType type){
             dto.setToken_type(type.getType());
+            return this;
+        }
+        public Builder setPermissions(List<String> permissions){
+            dto.setPermissions(permissions);
             return this;
         }
 

@@ -5,7 +5,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,10 +42,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 email = jwtTokenUtil.getEmailFromToken(jwt);
             } catch (ExpiredJwtException e) {
                 log.error("The token is expired");
-                throw  new AccessDeniedException("Срок действия токена авторизации истек");
-            } catch (MalformedJwtException e) {
+                /*throw  new AccessDeniedException("Срок действия токена авторизации истек");*/
+            }
+            catch (MalformedJwtException e) {
                 log.error("RefreshToken not valid");
-                throw new AccessDeniedException("Токен авторизации не валиден");
+               /* throw new AccessDeniedException("Токен авторизации не валиден");*/
             }
         }
 
