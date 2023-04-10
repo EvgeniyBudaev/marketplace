@@ -1,7 +1,10 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FormErrors } from "~/components";
 import { ERoutes } from "~/enums";
+import { useTranslatedForm, useTranslatedResolver } from "~/hooks";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { EFormFields } from "~/pages/Auth/Signup/enums";
 import { formSchema } from "~/pages/Auth/Signup/schemas";
@@ -12,11 +15,14 @@ import { createPath } from "~/utils";
 import styles from "./Signup.module.css";
 
 export const Signup: FC = () => {
-  const form = useInitForm<TForm>({
-    resolver: zodResolver(formSchema),
-  });
-  const errors = form.methods.formState.errors;
-  console.log("errors: ", errors);
+  const { t } = useTranslation();
+  const resolver = useTranslatedResolver(zodResolver(formSchema));
+
+  const form = useTranslatedForm(
+    useInitForm<TForm>({
+      resolver,
+    }),
+  );
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
@@ -34,31 +40,68 @@ export const Signup: FC = () => {
       <div className="Signup-Inner">
         <div className="Signup-Content">
           <h1 className="Signup-Title">
-            <Typography variant={ETypographyVariant.TextH1Bold}>Регистрация</Typography>
+            <Typography variant={ETypographyVariant.TextH1Bold}>{t("signup.title")}</Typography>
           </h1>
           <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
             <div className="Signup-FormFieldGroup">
-              <Input label="Имя" name={EFormFields.FirstName} type="text" />
-              <Input label="Фамилия" name={EFormFields.LastName} type="text" />
-              <Input label="Отчество" name={EFormFields.MiddleName} type="text" />
-              <Input label="Мобильный телефон" name={EFormFields.Phone} type="text" />
-              <Input label="Электронная почта" name={EFormFields.Email} type="text" />
-              <Input label="Адрес" name={EFormFields.ShippingAddress} type="text" />
-              <Input label="Пароль" name={EFormFields.Password} type="text" />
-              <Input label="Подтверждение пароля" name={EFormFields.RePassword} type="text" />
+              <Input
+                label={t("form.firstName.title") ?? "First name"}
+                name={EFormFields.FirstName}
+                type="text"
+              />
+              <Input
+                label={t("form.lastName.title") ?? "Last name"}
+                name={EFormFields.LastName}
+                type="text"
+              />
+              <Input
+                label={t("form.middleName.title") ?? "Middle name"}
+                name={EFormFields.MiddleName}
+                type="text"
+              />
+              <Input
+                label={t("form.mobilePhone.title") ?? "Mobile phone"}
+                name={EFormFields.Phone}
+                type="text"
+              />
+              <Input
+                label={t("form.email.title") ?? "Email"}
+                name={EFormFields.Email}
+                type="text"
+              />
+              <Input
+                label={t("form.address.title") ?? "Address"}
+                name={EFormFields.ShippingAddress}
+                type="text"
+              />
+              <Input
+                label={t("form.password.title") ?? "Password"}
+                name={EFormFields.Password}
+                type="text"
+              />
+              <Input
+                label={t("form.passwordConfirm.title") ?? "Password confirmation"}
+                name={EFormFields.RePassword}
+                type="text"
+              />
+              <FormErrors fetcher={form.fetcher} />
             </div>
             <div className="Signup-Control">
               <Button className="Signup-Button" type="submit">
                 <Typography variant={ETypographyVariant.TextB3Regular}>
-                  Зарегистрироваться
+                  {t("signup.register")}
                 </Typography>
               </Button>
             </div>
           </Form>
           <div className="Signup-Registration">
-            <Typography variant={ETypographyVariant.TextB3Regular}>Есть аккаунт?</Typography>
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              {t("signup.haveAccount")}
+            </Typography>
             <Link to={ERoutes.Login}>
-              <Typography variant={ETypographyVariant.TextB3Regular}>Войти</Typography>
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {t("signup.enter")}
+              </Typography>
             </Link>
           </div>
         </div>
