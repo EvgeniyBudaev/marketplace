@@ -8,7 +8,7 @@ export const Home: FC = () => {
 
   return (
     <div className="Home">
-      <h1>{t("home.title")}</h1>
+      <h1>{t("pages.home.title")}</h1>
 
       <div>
         <LinkButton href="/catalog/mirrors">Каталог зеркал</LinkButton>

@@ -10,11 +10,31 @@
     "exit": "Exit",
     "enter": "Enter"
   },
-  "login": {
-    "title": "Entry",
-    "enter": "Login",
-    "noAccount": "no account?",
-    "register": "Register"
+  "pages": {
+    "login": {
+      "title": "Entry",
+      "enter": "Login",
+      "noAccount": "no account?",
+      "register": "Register"
+    },
+    "signup": {
+      "title": "Registration",
+      "register": "Signup",
+      "haveAccount": "Have an account?",
+      "enter": "Enter"
+    },
+    "home": {
+      "title": "Добавь сюда перевод!!!"
+    },
+    "settings": {
+      "language": {
+        "options": {
+          "ru": "Russian",
+          "en": "English"
+        }
+      },
+      "title": "Home page"
+    }
   },
   "form": {
     "email": {
@@ -42,24 +62,6 @@
       "title": "Password confirm"
     }
   },
-  "signup": {
-    "title": "Registration",
-    "register": "Signup",
-    "haveAccount": "Have an account?",
-    "enter": "Enter"
-  },
-  "home": {
-    "title": "Title"
-  },
-  "settings": {
-    "language": {
-      "options": {
-        "ru": "Russian",
-        "en": "English"
-      }
-    },
-    "title": "Settings"
-  },
   "common": {
     "validation": {
       "email": "Invalid email",
@@ -67,7 +69,7 @@
       "empty": "Field cannot be empty",
       "onlyLetters": "Allowed characters: letters only",
       "passwordNotMatch": "Password mismatch",
-      "wrongCharacter": "Allowed characters: {characters}"
+      "wrongCharacter": "Allowed characters: 0-9, \"-\", \" \", \"+\", \"(\", \")\""
     }
   }
 }
