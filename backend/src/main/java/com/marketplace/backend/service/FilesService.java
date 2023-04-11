@@ -30,7 +30,7 @@ public class FilesService {
     }
 
     public Product getProductByAlias(String alias){
-        return productService.findSimpleProductByAlias(alias);
+        return productService.findProductWithCatalogByAlias(alias);
     }
 
     public Boolean saveFileOnFileSystem( MultipartFile file, Path path) {
@@ -46,20 +46,19 @@ public class FilesService {
 
     @Transactional
     public ProductFile saveEntity(Product product, String url, EFileType type) {
+        TypedQuery<ProductFile> query = entityManager
+                .createQuery("SELECT file FROM ProductFile as file where file.url=:url", ProductFile.class);
+        query.setParameter("url",url);
+        List<ProductFile> productFiles=query.getResultList();
+        if(!productFiles.isEmpty()){
+            return productFiles.get(0);
+        }
         ProductFile productFile = new ProductFile();
         productFile.setFileType(type);
         productFile.setProduct(product);
         productFile.setUrl(url);
         entityManager.persist(productFile);
         return productFile;
-    }
-
-    public List<ProductFile> getAllImageEntities(String productAlias){
-        TypedQuery<ProductFile> query = entityManager
-                .createQuery("SELECT files FROM ProductFile as files inner join Product as p on files.product =p where p.alias=:alias and files.fileType=:type",ProductFile.class);
-        query.setParameter("alias",productAlias);
-        query.setParameter("type",EFileType.IMAGE);
-        return query.getResultList();
     }
 
 }

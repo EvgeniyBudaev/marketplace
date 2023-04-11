@@ -64,6 +64,7 @@ public class AdminFilesController {
     public ResponseEntity<?> uploadFile(@Valid FilesUploadRequestDto dto,
                                         @RequestParam(name = "file") MultipartFile uploadFile) {
         Product product = filesService.getProductByAlias(dto.getProductAlias());
+
         if (dto.getFileType().equals(EFileType.IMAGE) && this.isImageDirectoryAvailability) {
             if (checkImageFile(uploadFile)) {
                 Path imageDir = Path.of(IMAGE_DIR.toString(), product.getAlias());
@@ -98,11 +99,6 @@ public class AdminFilesController {
         return new ResponseEntity<>("Директория для сохранения файла не доступна", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("images/{productAlias}")
-    public List<ProductFile> getAllImageLinks(@PathVariable String productAlias){
-        List<ProductFile> productFiles = filesService.getAllImageEntities(productAlias);
-        return productFiles;
-    }
     private Boolean checkImageFile(MultipartFile file) {
         String mimetype = file.getContentType();
         if (mimetype==null){
