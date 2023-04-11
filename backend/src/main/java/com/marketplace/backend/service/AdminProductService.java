@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class ManageProductService implements ManageProductDao {
+public class AdminProductService implements ManageProductDao {
     @PersistenceContext
     private final EntityManager entityManager;
     private final CatalogService catalogService;
@@ -34,7 +34,7 @@ public class ManageProductService implements ManageProductDao {
     private final ProductMapper productMapper;
 
     @Autowired
-    public ManageProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, ProductMapper productMapper) {
+    public AdminProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, ProductMapper productMapper) {
 
         this.entityManager = entityManager;
         this.catalogService = catalogService;

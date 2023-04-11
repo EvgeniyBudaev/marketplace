@@ -656,6 +656,78 @@
 					"name": "Admin",
 					"item": [
 						{
+							"name": "Files",
+							"item": [
+								{
+									"name": "upload file",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "productAlias",
+													"value": "venetian-mirror-bernard",
+													"type": "text"
+												},
+												{
+													"key": "fileType",
+													"value": "IMAGE",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/images/avatar.png"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/v1/products/files/upload",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"v1",
+												"products",
+												"files",
+												"upload"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all image links by product alias",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080/api/v1/products/files/images/venetian-mirror-bernard",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"v1",
+												"products",
+												"files",
+												"images",
+												"venetian-mirror-bernard"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "edit product",
 							"request": {
 								"method": "PUT",

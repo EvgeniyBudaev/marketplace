@@ -154,6 +154,13 @@ public class ProductService implements ProductDao {
         }
     }
 
+    public Product findSimpleProductByAlias(String alias){
+        TypedQuery<Product> query = entityManager
+                .createQuery("SELECT p from Product as p where p.alias=:alias and p.enabled=true", Product.class);
+        query.setParameter("alias", alias);
+        return query.getResultStream().findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
+    }
+
 
 
 }

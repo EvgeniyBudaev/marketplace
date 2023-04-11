@@ -86,7 +86,8 @@ public class Product {
     @JoinColumn(name = "catalog_id",nullable = false)
     private Catalog catalog;
 
-
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
+    private Set<ProductFile> productFiles;
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     private Set<DoubleValue> doubleValues = new HashSet<>();
 
