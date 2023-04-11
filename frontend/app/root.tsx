@@ -138,7 +138,8 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
     cspScriptNonce = "";
   }
   const { i18n } = useTranslation();
-  useInitLanguage();
+  const language = !isNil(settings) ? settings?.language.toLowerCase() : "ru";
+  useInitLanguage(language);
   useInitDayjs();
   const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
 

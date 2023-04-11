@@ -22,23 +22,21 @@ export const Settings: FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const [isSelectOpened, setIsSelectOpened] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const options = [
     {
       value: ELanguages.Ru,
-      label: t("settings.language.options.ru"),
+      label: t("pages.settings.language.options.ru"),
       prefixIcon: <Icon type="RussianLanguage" />,
     },
     {
       value: ELanguages.En,
-      label: t("settings.language.options.en"),
+      label: t("pages.settings.language.options.en"),
       prefixIcon: <Icon type="EnglishLanguage" />,
     },
   ];
 
   const handleChange = (selectedOption?: OnChangeValue<TSelectOption, isSelectMultiType>) => {
-    console.log("selectedOption: ", selectedOption);
     if (isNil(selectedOption)) return;
     if (Array.isArray(selectedOption)) {
       onChangeLanguage?.(selectedOption[0].value);
@@ -46,7 +44,6 @@ export const Settings: FC = () => {
       const selectedOptionSingle = selectedOption as TSelectOption;
       onChangeLanguage?.(selectedOptionSingle.value as ELanguages);
     }
-    setIsSubmitting((prevState) => !prevState);
   };
 
   const handleBlur = () => {
@@ -57,16 +54,10 @@ export const Settings: FC = () => {
     setIsSelectOpened(true);
   };
 
-  useEffect(() => {
-    if (!isSubmitting) return;
-
-    setIsSubmitting((prevState) => !prevState);
-  }, [isSubmitting, setIsSubmitting]);
-
   return (
     <section className="Settings">
       <h1 className="Settings-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>{t("settings.title")}</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>{t("pages.settings.title")}</Typography>
       </h1>
       <div>
         <Select

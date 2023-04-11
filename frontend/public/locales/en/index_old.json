@@ -1,0 +1,26 @@
+{
+  "settings": {
+    "language": {
+      "options": {
+        "ru": "Russian",
+        "en": "English"
+      }
+    },
+    "title": "Settings"
+  },
+  "login": {
+    "title": "Entry",
+    "enter": "Login",
+    "noAccount": "no account?",
+    "register": "Register"
+  },
+  "signup": {
+    "title": "Registration",
+    "register": "Signup",
+    "haveAccount": "Have an account?",
+    "enter": "Enter"
+  },
+  "home": {
+    "title": "Title"
+  }
+}

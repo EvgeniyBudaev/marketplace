@@ -87,7 +87,8 @@
 .YMapFormField__active .YMapFormField-Input__active input {
   background-color: rgb(255, 255, 255);
 }
-.YMapFormField__active textarea, .YMapFormField__active textarea:hover {
+.YMapFormField__active textarea,
+.YMapFormField__active textarea:hover {
   background-color: rgb(255, 255, 255);
 }
 .YMapFormField__active .YMapFormField-Input__active.YMapFormField-Input__error {
