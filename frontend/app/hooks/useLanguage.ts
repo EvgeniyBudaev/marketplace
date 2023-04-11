@@ -1,5 +1,7 @@
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
+import dayjs from "dayjs";
 import { ERoutes } from "~/enums";
 import { useSettings } from "~/hooks";
 import { EFormMethods } from "~/shared/form";
@@ -9,9 +11,10 @@ import { createPath } from "~/utils";
 export const useLanguage = () => {
   const fetcher = useFetcher();
   const { settings } = useSettings();
+  const { i18n } = useTranslation();
 
   const handleChangeLanguage = useCallback(
-    (language: ELanguages) => {
+    async (language: ELanguages) => {
       const path = createPath({
         route: ERoutes.ResourcesLanguage,
       });
@@ -23,6 +26,10 @@ export const useLanguage = () => {
           method: EFormMethods.Patch,
         },
       );
+
+      dayjs.locale(language);
+      await i18n.changeLanguage(language);
+      window.location.reload();
     },
     [fetcher, settings],
   );

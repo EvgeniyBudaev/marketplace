@@ -40,7 +40,9 @@ export const Signup: FC = () => {
       <div className="Signup-Inner">
         <div className="Signup-Content">
           <h1 className="Signup-Title">
-            <Typography variant={ETypographyVariant.TextH1Bold}>{t("signup.title")}</Typography>
+            <Typography variant={ETypographyVariant.TextH1Bold}>
+              {t("pages.signup.title")}
+            </Typography>
           </h1>
           <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
             <div className="Signup-FormFieldGroup">
@@ -89,18 +91,18 @@ export const Signup: FC = () => {
             <div className="Signup-Control">
               <Button className="Signup-Button" type="submit">
                 <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {t("signup.register")}
+                  {t("pages.signup.register")}
                 </Typography>
               </Button>
             </div>
           </Form>
           <div className="Signup-Registration">
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              {t("signup.haveAccount")}
+              {t("pages.signup.haveAccount")}
             </Typography>
             <Link to={ERoutes.Login}>
               <Typography variant={ETypographyVariant.TextB3Regular}>
-                {t("signup.enter")}
+                {t("pages.signup.enter")}
               </Typography>
             </Link>
           </div>

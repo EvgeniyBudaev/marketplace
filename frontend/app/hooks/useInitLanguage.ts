@@ -9,9 +9,9 @@ export function useChangeLanguage(locale: string) {
   }, [locale, i18n]);
 }
 
-export const useInitLanguage = () => {
-  const [language, setLanguage] = useState("ru");
-  useChangeLanguage("ru");
+export const useInitLanguage = (locale: string) => {
+  const [language, setLanguage] = useState(locale);
+  useChangeLanguage(language);
 
   return [language, setLanguage];
 };
