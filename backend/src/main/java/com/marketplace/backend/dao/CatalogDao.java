@@ -9,7 +9,10 @@ import com.marketplace.backend.model.Paging;
 public interface CatalogDao {
 
     ResponseSingleCatalogDto save(RequestSaveCatalogDto dto);
+
     ResponseSingleCatalogDto findCatalogByAlias(String alias);
+
     Paging<ResponseSimpleCatalogDto> getAll(Integer page, Integer pageSize);
+
     Catalog findEntityByAlias(String alias);
 }

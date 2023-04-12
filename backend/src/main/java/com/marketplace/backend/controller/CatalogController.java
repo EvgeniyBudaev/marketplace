@@ -39,6 +39,7 @@ public class CatalogController {
 
     private final CatalogService catalogService;
     private final CatalogMapper mapper;
+
     @Autowired
     public CatalogController(CatalogService catalogService, CatalogMapper mapper) {
         this.catalogService = catalogService;
@@ -49,7 +50,7 @@ public class CatalogController {
     public Paging<ResponseSimpleCatalogDto> findAll(HttpServletRequest request) {
         String rawQueryString = request.getQueryString();
         String queryString = null;
-        if (rawQueryString!=null){
+        if (rawQueryString != null) {
             queryString = URLDecoder.decode(rawQueryString, StandardCharsets.UTF_8);
         }
         UrlResolver resolver = new UrlResolverImpl();
@@ -62,38 +63,38 @@ public class CatalogController {
     public ResponseSingleCatalogDto getCatalogByAlias(@PathVariable String alias) {
         Catalog catalog = catalogService.findCatalogByAliasWithFullAttributes(alias);
         ResponseSingleCatalogDto dto = mapper.entityToSingleCatalogDto(catalog);
-        if(catalog.getAttributes()==null){
+        if (catalog.getAttributes() == null) {
             return dto;
         }
         List<Attribute> selAttributeList = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
         List<Attribute> numAttributeList = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
-        if(!numAttributeList.isEmpty()){
+        if (!numAttributeList.isEmpty()) {
             Set<NumberAttributeDto> num = catalogService.findUseNumericAttributesInCatalog(catalog);
-            if(num==null||num.isEmpty()){
+            if (num == null || num.isEmpty()) {
                 dto.setNumberAttribute(null);
-            }else {
+            } else {
                 dto.setNumberAttribute(num);
             }
-        }else {
+        } else {
             dto.setNumberAttribute(null);
         }
-        if(selAttributeList.isEmpty()){
+        if (selAttributeList.isEmpty()) {
             dto.setSelectAttribute(null);
             return dto;
         }
         Set<ResponseSingleCatalogDto.SelectAttributeDto> selectAttributeDtos = new HashSet<>();
         Set<SelectableValue> selectableValues = catalogService.findUseSelectableAttributesInCatalog(catalog);
-        for(Attribute attribute: selAttributeList){
+        for (Attribute attribute : selAttributeList) {
             List<SelectableValue> selValueForAttributes
                     = selectableValues.stream().filter(value -> {
-                if(value==null){
+                if (value == null) {
                     return false;
                 }
                 return value.getAttribute().equals(attribute);
             }).toList();
-            selectAttributeDtos.add(mapper.entitySelectableValuesToDto(selValueForAttributes,attribute));
+            selectAttributeDtos.add(mapper.entitySelectableValuesToDto(selValueForAttributes, attribute));
         }
         dto.setSelectAttribute(selectAttributeDtos);
         return dto;
@@ -108,33 +109,34 @@ public class CatalogController {
 
     @DeleteMapping("/delete/{alias}")
     public ResponseEntity<?> deleteCatalog(@PathVariable String alias) {
-       int countOfDeleteCatalogs = catalogService.delete(alias);
-        if(countOfDeleteCatalogs<1){
+        int countOfDeleteCatalogs = catalogService.delete(alias);
+        if (countOfDeleteCatalogs < 1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден каталог с псевдониммом: "+alias));
+                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден каталог с псевдониммом: " + alias));
         }
         return ResponseEntity.ok("Каталог с псевдонимом = " + alias + " удален");
     }
 
     @PatchMapping("/patch")
-    public ResponseSingleAfterSaveCatalogDto updateCatalog (@RequestBody @Valid RequestUpdateCatalogDto dto){
+    public ResponseSingleAfterSaveCatalogDto updateCatalog(@RequestBody @Valid RequestUpdateCatalogDto dto) {
         Catalog catalog = catalogService.updateCatalog(dto);
         return getResponseSingleAfterSaveCatalogDto(catalog);
     }
+
     @PutMapping("/put")
-    public ResponseSingleAfterSaveCatalogDto putCatalog(@RequestBody @Valid RequestPutCatalogDto dto){
+    public ResponseSingleAfterSaveCatalogDto putCatalog(@RequestBody @Valid RequestPutCatalogDto dto) {
         Catalog catalog = catalogService.putCatalog(dto);
         return getResponseSingleAfterSaveCatalogDto(catalog);
     }
 
     public ResponseSingleAfterSaveCatalogDto getResponseSingleAfterSaveCatalogDto(Catalog catalog) {
-        if(catalog.getAttributes()==null){
-            return mapper.entityToAfterSaveDto(catalog, Collections.emptyList(),Collections.emptyList());
+        if (catalog.getAttributes() == null) {
+            return mapper.entityToAfterSaveDto(catalog, Collections.emptyList(), Collections.emptyList());
         }
         List<Attribute> selAttributeList = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).toList();
         List<Attribute> numAttributeList = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).toList();
-        return mapper.entityToAfterSaveDto(catalog,selAttributeList,numAttributeList);
+        return mapper.entityToAfterSaveDto(catalog, selAttributeList, numAttributeList);
     }
 }

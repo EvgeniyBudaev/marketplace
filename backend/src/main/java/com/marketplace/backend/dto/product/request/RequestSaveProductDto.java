@@ -13,13 +13,13 @@ import java.util.Set;
 public class RequestSaveProductDto implements RequestSaveOrUpdate {
     private Long id;
     @NotNull
-    @Size(min = 5,max = 250)
+    @Size(min = 5, max = 250)
     private String name;
     @NotNull
     @Size(max = 250)
     private String description;
     @NotNull
-    @Size(min = 5,max = 250)
+    @Size(min = 5, max = 250)
     private String alias;
     @NotNull
     private String catalogAlias;

@@ -53,8 +53,8 @@ public class AdminProductService implements ManageProductDao {
 
 
     @Override
-    @Transactional(rollbackOn = {ResourceNotFoundException.class,OperationNotAllowedException.class})
-    public Product save(RequestSaveOrUpdate dto){
+    @Transactional(rollbackOn = {ResourceNotFoundException.class, OperationNotAllowedException.class})
+    public Product save(RequestSaveOrUpdate dto) {
         checkDto(dto);
         Product newProduct = productMapper.dtoToEntity(dto);
         newProduct.setDoubleValues(new HashSet<>());
@@ -62,25 +62,26 @@ public class AdminProductService implements ManageProductDao {
         newProduct.setEnabled(true);
         newProduct.setCatalog(catalogService.simpleCatalogByAlias(dto.getCatalogAlias()));
         entityManager.persist(newProduct);
-        Set<SelectableValue> selAttribute = dto.getSelectableValues().stream().map(x->entityManager.getReference(SelectableValue.class,x)).collect(Collectors.toSet());
+        Set<SelectableValue> selAttribute = dto.getSelectableValues().stream().map(x -> entityManager.getReference(SelectableValue.class, x)).collect(Collectors.toSet());
         selAttribute.forEach(newProduct::addSelValue);
         List<String> numericValueAttributeAlias = dto.getNumericValues().stream().map(NumericValue::getAttributeAlias).toList();
         Set<Attribute> numericAttributes = attributeService.getListAttributeByAliases(numericValueAttributeAlias);
         newProduct.setDoubleValues(new HashSet<>());
-        for(NumericValue value : dto.getNumericValues()){
+        for (NumericValue value : dto.getNumericValues()) {
             DoubleValue doubleValue = new DoubleValue();
             doubleValue.setProduct(newProduct);
             newProduct.getDoubleValues().add(doubleValue);
             doubleValue.setValue(value.getValue());
-            doubleValue.setAttribute(numericAttributes.stream().filter(x->x.getAlias()
-                    .equals(value.getAttributeAlias())).findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден атрибут с псевдонимом: "+value.getAttributeAlias())));
+            doubleValue.setAttribute(numericAttributes.stream().filter(x -> x.getAlias()
+                    .equals(value.getAttributeAlias())).findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден атрибут с псевдонимом: " + value.getAttributeAlias())));
             entityManager.persist(doubleValue);
         }
         return newProduct;
     }
+
     @Override
-    @Transactional(rollbackOn = {ResourceNotFoundException.class,OperationNotAllowedException.class})
-    public Product update(RequestSaveOrUpdate dto){
+    @Transactional(rollbackOn = {ResourceNotFoundException.class, OperationNotAllowedException.class})
+    public Product update(RequestSaveOrUpdate dto) {
         checkDto(dto);
         Product product = productMapper.dtoToEntity(dto);
         product.setEnabled(true);
@@ -89,69 +90,71 @@ public class AdminProductService implements ManageProductDao {
         product.setSelectableValues(new HashSet<>());
         product.setDoubleValues(new HashSet<>());
         Query queryDelNumericValue = entityManager.createNativeQuery("DELETE FROM double_value where product_id =:id");
-        queryDelNumericValue.setParameter("id",dto.getId());
+        queryDelNumericValue.setParameter("id", dto.getId());
         queryDelNumericValue.executeUpdate();
         Query queryDelSelValue = entityManager.createNativeQuery("DELETE FROM products_selectable where product_id=:id");
-        queryDelSelValue.setParameter("id",dto.getId());
+        queryDelSelValue.setParameter("id", dto.getId());
         queryDelSelValue.executeUpdate();
         Set<Long> selValueIds = dto.getSelectableValues();
-        for(Long id:selValueIds){
-            SelectableValue selectableValue = entityManager.getReference(SelectableValue.class,id);
-            if(selectableValue==null){
-                throw new ResourceNotFoundException("Не найдено значение с id "+id);
+        for (Long id : selValueIds) {
+            SelectableValue selectableValue = entityManager.getReference(SelectableValue.class, id);
+            if (selectableValue == null) {
+                throw new ResourceNotFoundException("Не найдено значение с id " + id);
             }
             product.addSelValue(selectableValue);
         }
         List<String> numericValueAlias = dto.getNumericValues().stream().map(NumericValue::getAttributeAlias).toList();
         Set<Attribute> attributes = attributeService.getListAttributeByAliases(numericValueAlias);
-        dto.getNumericValues().forEach(x->{
-           Attribute attribute = attributes.stream().filter(y->y.getAlias().equals(x.getAttributeAlias())).
-                   findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден атрибут с псевдонимом "+x.getAttributeAlias()));
-           DoubleValue doubleValue = new DoubleValue();
-           doubleValue.setProduct(product);
-           doubleValue.setAttribute(attribute);
-           doubleValue.setValue(x.getValue());
-           product.getDoubleValues().add(doubleValue);
-           entityManager.persist(doubleValue);
+        dto.getNumericValues().forEach(x -> {
+            Attribute attribute = attributes.stream().filter(y -> y.getAlias().equals(x.getAttributeAlias())).
+                    findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден атрибут с псевдонимом " + x.getAttributeAlias()));
+            DoubleValue doubleValue = new DoubleValue();
+            doubleValue.setProduct(product);
+            doubleValue.setAttribute(attribute);
+            doubleValue.setValue(x.getValue());
+            product.getDoubleValues().add(doubleValue);
+            entityManager.persist(doubleValue);
         });
         Product finalProduct = entityManager.merge(product);
         finalProduct.setCreatedAt(getCreatedAt(finalProduct));
         return finalProduct;
     }
-    public LocalDateTime getCreatedAt(Product product){
-     TypedQuery<LocalDateTime> query= entityManager.createQuery("SELECT p.createdAt FROM Product as p where p=:p", LocalDateTime.class);
-     query.setParameter("p",product);
-     return query.getSingleResult();
+
+    public LocalDateTime getCreatedAt(Product product) {
+        TypedQuery<LocalDateTime> query = entityManager.createQuery("SELECT p.createdAt FROM Product as p where p=:p", LocalDateTime.class);
+        query.setParameter("p", product);
+        return query.getSingleResult();
     }
-    private void checkDto(RequestSaveOrUpdate dto){
+
+    private void checkDto(RequestSaveOrUpdate dto) {
         /*атрибуты которые должны быть заполнены*/
         Set<Attribute> neededAttributes = catalogService.attributesInCatalogByAlias(dto.getCatalogAlias());
         Set<Attribute> attributeInDto = new HashSet<>();
-        if(!dto.getSelectableValues().isEmpty()){
+        if (!dto.getSelectableValues().isEmpty()) {
             attributeInDto.addAll(attributeService.attributesAliasBySelValueIds(dto.getSelectableValues().stream().toList()));
         }
-        if(!dto.getNumericValues().isEmpty()){
+        if (!dto.getNumericValues().isEmpty()) {
             attributeInDto.addAll(attributeService.getListAttributeByAliases(dto.getNumericValues().stream().map(NumericValue::getAttributeAlias).collect(Collectors.toList())));
         }
         /*Проверяем все ли требуемые атрибуты присутствуют в dto*/
-        if(!attributeInDto.containsAll(neededAttributes)||!neededAttributes.containsAll(attributeInDto)){
+        if (!attributeInDto.containsAll(neededAttributes) || !neededAttributes.containsAll(attributeInDto)) {
             StringBuilder sb = new StringBuilder();
-            neededAttributes.stream().filter(x-> !attributeInDto.contains(x)).forEach(x-> sb.append(x.getName()).append(","));
+            neededAttributes.stream().filter(x -> !attributeInDto.contains(x)).forEach(x -> sb.append(x.getName()).append(","));
             StringBuilder sb2 = new StringBuilder();
-            attributeInDto.stream().filter(x->!neededAttributes.contains(x)).forEach(x->sb2.append(x.getName()).append(","));
+            attributeInDto.stream().filter(x -> !neededAttributes.contains(x)).forEach(x -> sb2.append(x.getName()).append(","));
             String message = null;
-            if(!sb.isEmpty()&&!sb2.isEmpty()){
-                message = "В запросе осутствуют значения следующих атрибутов: "+sb+ " а так же присутствуют лишние: "+sb2;
+            if (!sb.isEmpty() && !sb2.isEmpty()) {
+                message = "В запросе осутствуют значения следующих атрибутов: " + sb + " а так же присутствуют лишние: " + sb2;
             }
-            if(sb.isEmpty()&&!sb2.isEmpty()){
-                message = "В запросе присутствуют значения лишних атрибутов: "+sb2;
+            if (sb.isEmpty() && !sb2.isEmpty()) {
+                message = "В запросе присутствуют значения лишних атрибутов: " + sb2;
             }
-            if(!sb.isEmpty()&&sb2.isEmpty()){
-                message = "В запросе осутствуют значения следующих атрибутов: "+sb;
+            if (!sb.isEmpty() && sb2.isEmpty()) {
+                message = "В запросе осутствуют значения следующих атрибутов: " + sb;
             }
             /*удаляем последнюю запятую*/
-            if(message!=null){
-                message = message.substring(0,message.length()-1);
+            if (message != null) {
+                message = message.substring(0, message.length() - 1);
             }
             throw new OperationNotAllowedException(message);
         }

@@ -16,7 +16,7 @@ public class RefreshToken {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "token",nullable = false)
+    @Column(name = "token", nullable = false)
     private String token;
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)

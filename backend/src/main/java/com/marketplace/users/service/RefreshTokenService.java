@@ -19,22 +19,22 @@ public class RefreshTokenService {
     }
 
     @Transactional
-    public void updateToken(String email, String token){
+    public void updateToken(String email, String token) {
         Query query = entityManager.createNativeQuery("INSERT INTO refresh(id, token) " +
                 "VALUES ((SELECT u.id from users as u where email=:email),:token) " +
                 "ON DUPLICATE KEY UPDATE refresh.token=:token");
-        query.setParameter("email",email);
-        query.setParameter("token",token);
-       query.executeUpdate();
+        query.setParameter("email", email);
+        query.setParameter("token", token);
+        query.executeUpdate();
     }
 
-    public AppUser getUserByRefreshToken(String refreshToken){
+    public AppUser getUserByRefreshToken(String refreshToken) {
         TypedQuery<AppUser> query =
                 entityManager.createQuery("SELECT tok.user from RefreshToken as tok where tok.token=:token", AppUser.class);
-        query.setParameter("token",refreshToken);
+        query.setParameter("token", refreshToken);
         return query.getResultStream()
                 .findFirst()
-                .orElseThrow(()->new AccessDeniedException("Пользователь не найден"));
+                .orElseThrow(() -> new AccessDeniedException("Пользователь не найден"));
     }
 
 }

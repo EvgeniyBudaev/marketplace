@@ -37,24 +37,26 @@ public class UserSettingsService {
         this.userSettingsMapper = userSettingsMapper;
     }
 
-    public UserSettings getSettings(Principal principal, String uuid){
-        if(uuid==null){
+    public UserSettings getSettings(Principal principal, String uuid) {
+        if (uuid == null) {
             return getDefaultSettings(null);
         }
-        if(principal==null){
+        if (principal == null) {
             return getSettingsForNonAuthUser(uuid);
         }
         return getSettingsForAuthUser(principal.getName());
     }
+
     @Transactional
-    public UserSettings patchTheme(Principal principal,PatchSettingsByThemeRequestDto dto){
-        UserSettings settings = getSettings(principal,dto.getUuid());
+    public UserSettings patchTheme(Principal principal, PatchSettingsByThemeRequestDto dto) {
+        UserSettings settings = getSettings(principal, dto.getUuid());
         settings.setTheme(dto.getTheme());
         return getUserSettings(settings, dto.getUuid());
     }
+
     @Transactional
-    public UserSettings patchLanguage(Principal principal, PatchSettingsByLanguageRequestDto dto){
-        UserSettings settings = getSettings(principal,dto.getUuid());
+    public UserSettings patchLanguage(Principal principal, PatchSettingsByLanguageRequestDto dto) {
+        UserSettings settings = getSettings(principal, dto.getUuid());
         settings.setLanguage(dto.getLanguage());
         return getUserSettings(settings, dto.getUuid());
     }
@@ -70,32 +72,34 @@ public class UserSettingsService {
         return settings;
     }
 
-    private UserSettings getSettingsForNonAuthUser(String uuid){
-        if(uuid==null){
+    private UserSettings getSettingsForNonAuthUser(String uuid) {
+        if (uuid == null) {
             return getDefaultSettings(null);
         }
         TypedQuery<UserSettings> query =
                 entityManager.
                         createQuery("SELECT s FROM UserSettings as s inner join SessionId as sid on s.id=sid.userSettings.id where sid.uuid=:uuid", UserSettings.class);
-        query.setParameter("uuid",uuid);
+        query.setParameter("uuid", uuid);
         Optional<UserSettings> optionalUserSettings = query.getResultStream().findFirst();
-        if(optionalUserSettings.isEmpty()){
+        if (optionalUserSettings.isEmpty()) {
             return getDefaultSettings(uuid);
         }
         return optionalUserSettings.get();
     }
-    private UserSettings getSettingsForAuthUser(String email){
+
+    private UserSettings getSettingsForAuthUser(String email) {
         TypedQuery<UserSettings> query =
                 entityManager.
                         createQuery("SELECT s FROM SessionId as sid left join UserSettings as s where sid.user.email=:email", UserSettings.class);
-        query.setParameter("email",email);
+        query.setParameter("email", email);
         Optional<UserSettings> optionalUserSettings = query.getResultStream().findFirst();
-        if(optionalUserSettings.isEmpty()){
+        if (optionalUserSettings.isEmpty()) {
             return getDefaultSettings(sessionIdService.getSessionIdByUserEmail(email).getUuid());
         }
         return optionalUserSettings.get();
     }
-    private UserSettings getDefaultSettings(String uuid){
+
+    private UserSettings getDefaultSettings(String uuid) {
         UserSettings settings = new UserSettings();
         settings.setCurrency(ECurrency.RUB);
         settings.setLanguage(ELanguage.RU);
@@ -106,34 +110,31 @@ public class UserSettingsService {
         return settings;
     }
 
-    public UserSettings updateSettings(Principal principal, UpdateSettingsRequestDto dto){
-       if(principal!=null){
-           return updateSettingsForAuthUser(principal.getName(),dto);
-       }
-       return updateSettingsForNonAuthUser(dto);
+    public UserSettings updateSettings(Principal principal, UpdateSettingsRequestDto dto) {
+        if (principal != null) {
+            return updateSettingsForAuthUser(principal.getName(), dto);
+        }
+        return updateSettingsForNonAuthUser(dto);
     }
 
-    private UserSettings updateSettingsForAuthUser(String email, UpdateSettingsRequestDto dto){
+    private UserSettings updateSettingsForAuthUser(String email, UpdateSettingsRequestDto dto) {
         SessionId sessionId = sessionIdService.getSessionIdByUserEmail(email);
         UserSettings settings = userSettingsMapper.entityFromDto(dto);
         sessionId.setUserSettings(settings);
         userSettingsRepository.save(settings);
-        sessionIdService.updateUserSettingsId(sessionId,settings);
+        sessionIdService.updateUserSettingsId(sessionId, settings);
         return settings;
     }
 
-    private UserSettings updateSettingsForNonAuthUser(UpdateSettingsRequestDto dto){
+    private UserSettings updateSettingsForNonAuthUser(UpdateSettingsRequestDto dto) {
         SessionId sessionId = sessionIdService.getSession(dto.getUuid());
         UserSettings settings = userSettingsMapper.entityFromDto(dto);
         sessionId.setUserSettings(settings);
         userSettingsRepository.save(settings);
-        sessionIdService.updateUserSettingsId(sessionId,settings);
+        sessionIdService.updateUserSettingsId(sessionId, settings);
         settings.setSessionId(sessionId);
         return settings;
     }
-
-
-
 
 
 }

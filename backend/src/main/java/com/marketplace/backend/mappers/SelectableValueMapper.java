@@ -15,13 +15,18 @@ import java.util.Set;
 public interface SelectableValueMapper {
 
     SelectableValue dtoToEntity(SelectableValueDto dto);
-    @Mapping(target = "attributeId",source = "attribute.id")
+
+    @Mapping(target = "attributeId", source = "attribute.id")
     SelectableValueDto entityToDto(SelectableValue selectableValue);
+
     Set<SelectableValueDto> entitySetToDtoSet(Set<SelectableValue> values);
+
     List<SelectableValue> dtoListToEntitySet(Set<SelectableValueDto> dtoList);
+
     SelectableValue saveDtoToEntity(RequestSaveSelValueDto dto);
 
     Set<ResponseSaveUpdateSelValueDto> entityValuesSetToDtoSet(Set<SelectableValue> values);
+
     @Mapping(target = "attributeId", source = "attribute.id")
     ResponseSaveUpdateSelValueDto selectableValueToResponseSaveUpdateSelValueDto(SelectableValue selectableValue);
 

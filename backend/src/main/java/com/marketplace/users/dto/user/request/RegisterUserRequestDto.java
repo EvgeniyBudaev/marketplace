@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 public class RegisterUserRequestDto {
     private Long id;
     @NotNull
-    @Size(min = 2,max = 50)
+    @Size(min = 2, max = 50)
     private String firstName;
     @Size(max = 50)
     private String middleName;
@@ -26,13 +26,13 @@ public class RegisterUserRequestDto {
     @NotBlank
     private String email;
     @NotNull
-    @Size(min = 6,max = 50)
+    @Size(min = 6, max = 50)
     private String password;
     @NotNull
-    @Size(min = 15,max = 250)
+    @Size(min = 15, max = 250)
     private String shippingAddress;
 
-    public AppUser convertToUser(){
+    public AppUser convertToUser() {
         AppUser user = new AppUser();
         user.setId(this.id);
         user.setFirstName(this.firstName);

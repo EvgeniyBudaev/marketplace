@@ -27,13 +27,13 @@ public class ResponseProductDto {
     private Set<AttributeValueDto> attributes;
 
     @Data
-    public static class AttributeValueDto{
-       private String attributeName;
-       private String attributeAlias;
-       private String value;
+    public static class AttributeValueDto {
+        private String attributeName;
+        private String attributeAlias;
+        private String value;
     }
 
-    public ResponseProductDto(Product product, String catalogAlias){
+    public ResponseProductDto(Product product, String catalogAlias) {
         this.setCatalogAlias(catalogAlias);
         this.setId(product.getId());
         this.setName(product.getName());
@@ -45,31 +45,31 @@ public class ResponseProductDto {
         this.setModifyDate(product.getModifyDate());
         this.setDescription(product.getDescription());
         this.setRating(product.getRating());
-        if (product.getSelectableValues().isEmpty()&&product.getBooleanValues().isEmpty()&&product.getDoubleValues().isEmpty()){
+        if (product.getSelectableValues().isEmpty() && product.getBooleanValues().isEmpty() && product.getDoubleValues().isEmpty()) {
             return;
         }
         this.attributes = new HashSet<>();
-        Set<AttributeValueDto> numValuesDto =convertDoubleValueToDto(product.getDoubleValues());
-        if(numValuesDto!=null){
+        Set<AttributeValueDto> numValuesDto = convertDoubleValueToDto(product.getDoubleValues());
+        if (numValuesDto != null) {
             this.getAttributes().addAll(numValuesDto);
         }
         Set<AttributeValueDto> boolValueDto = convertBooleanValueToDto(product.getBooleanValues());
-        if(boolValueDto!=null){
+        if (boolValueDto != null) {
             this.getAttributes().addAll(boolValueDto);
         }
-        Set<AttributeValueDto> selValueDto =convertSelectValueToDto(product.getSelectableValues());
-        if(selValueDto!=null){
+        Set<AttributeValueDto> selValueDto = convertSelectValueToDto(product.getSelectableValues());
+        if (selValueDto != null) {
             this.getAttributes().addAll(selValueDto);
         }
     }
 
 
-    private Set<AttributeValueDto> convertDoubleValueToDto(Set<DoubleValue> list){
-        if (list==null||list.isEmpty()){
+    private Set<AttributeValueDto> convertDoubleValueToDto(Set<DoubleValue> list) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
         Set<AttributeValueDto> result = new HashSet<>();
-        for(DoubleValue doubleValue:list){
+        for (DoubleValue doubleValue : list) {
             AttributeValueDto valueDto = new AttributeValueDto();
             valueDto.setValue(doubleValue.getValue().toString());
             valueDto.setAttributeName(doubleValue.getAttribute().getName());
@@ -78,12 +78,13 @@ public class ResponseProductDto {
         }
         return result;
     }
-    private Set<AttributeValueDto> convertBooleanValueToDto(Set<BooleanValue> list){
-        if (list==null||list.isEmpty()){
+
+    private Set<AttributeValueDto> convertBooleanValueToDto(Set<BooleanValue> list) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
         Set<AttributeValueDto> result = new HashSet<>();
-        for(BooleanValue booleanValue :list){
+        for (BooleanValue booleanValue : list) {
             AttributeValueDto valueDto = new AttributeValueDto();
             valueDto.setValue(booleanValue.getValue().toString());
             valueDto.setAttributeName(booleanValue.getAttribute().getName());
@@ -92,13 +93,14 @@ public class ResponseProductDto {
         }
         return result;
     }
-    private Set<AttributeValueDto> convertSelectValueToDto(Set<SelectableValue> list){
-        if (list==null||list.isEmpty()){
+
+    private Set<AttributeValueDto> convertSelectValueToDto(Set<SelectableValue> list) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
         Set<AttributeValueDto> result = new HashSet<>();
 
-        for(SelectableValue selectableValue :list){
+        for (SelectableValue selectableValue : list) {
             AttributeValueDto valueDto = new AttributeValueDto();
             valueDto.setValue(selectableValue.getValue());
             valueDto.setAttributeName(selectableValue.getAttribute().getName());

@@ -8,6 +8,7 @@ import com.marketplace.backend.service.utils.queryes.QueryParam;
 
 public interface AttributeDao {
     Paging<ResponseAttributeForGetAll> findAll(QueryParam param);
+
     Attribute getAttributeByIdWitSelectableValues(String alias);
 
     Attribute saveAttribute(RequestSaveAttributeDto attribute);

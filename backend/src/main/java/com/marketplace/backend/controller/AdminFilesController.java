@@ -7,6 +7,7 @@ import com.marketplace.backend.model.ProductFile;
 import com.marketplace.backend.service.FilesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,7 @@ public class AdminFilesController {
     private final FilesService filesService;
     private final Path IMAGE_DIR;
     private final Path DOC_DIR;
+    private final String BASE_URL = "http://localhost:8080/api/v1/products/files/";
     private Boolean isImageDirectoryAvailability = true;
     private Boolean isDocDirectoryAvailability = true;
 
@@ -60,6 +62,26 @@ public class AdminFilesController {
         }
     }
 
+    @GetMapping("/images/{catalogAlias}/{productAlias}/{fileName}")
+    public ResponseEntity<?> getImageByUrl(@PathVariable String catalogAlias,
+                                           @PathVariable String productAlias,
+                                           @PathVariable String fileName) {
+        char decimetre = '\\';
+        Path path = IMAGE_DIR.resolve(Path.of(catalogAlias + decimetre + productAlias + decimetre + fileName));
+        if (!Files.exists(path)) {
+            return new ResponseEntity<>("Файл отсутствует", HttpStatus.NOT_FOUND);
+        }
+        try {
+            byte[] file = Files.readAllBytes(path);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.valueOf(Files.probeContentType(path)))
+                    .body(file);
+        } catch (IOException e) {
+            log.error(Arrays.toString(e.getStackTrace()));
+            return new ResponseEntity<>("Невозможно прочитать файл", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(@Valid FilesUploadRequestDto dto,
                                         @RequestParam(name = "file") MultipartFile uploadFile) {
@@ -67,14 +89,15 @@ public class AdminFilesController {
 
         if (dto.getFileType().equals(EFileType.IMAGE) && this.isImageDirectoryAvailability) {
             if (checkImageFile(uploadFile)) {
-                Path imageDir = Path.of(IMAGE_DIR.toString(), product.getAlias());
+                Path imageDir = Path.of(IMAGE_DIR.toString(), product.getCatalog().getAlias(), product.getAlias());
                 if (!createIfNotExistProductDir(imageDir)) {
                     return new ResponseEntity<>("Не удалось создать директорию продукта", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-                Path filePath = Path.of(imageDir.toString(),uploadFile.getOriginalFilename());
+                Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
                 if (filesService.saveFileOnFileSystem(uploadFile, filePath)) {
-                    ProductFile file = filesService.saveEntity(product, filePath.toString(), EFileType.IMAGE);
-                    return ResponseEntity.ok(file.getUrl());
+                    Path relativePath = IMAGE_DIR.relativize(filePath);
+                    ProductFile file = filesService.saveEntity(product, relativePath.toString(), EFileType.IMAGE);
+                    return ResponseEntity.ok(createUrl(file.getUrl(), EFileType.IMAGE));
                 } else {
                     return new ResponseEntity<>("Не удалось сохранить файл", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
@@ -83,14 +106,15 @@ public class AdminFilesController {
             }
         }
         if (dto.getFileType().equals(EFileType.DOCUMENT) && this.isDocDirectoryAvailability) {
-            Path docDir = Path.of(DOC_DIR.toString(), product.getAlias());
+            Path docDir = Path.of(IMAGE_DIR.toString(), product.getCatalog().getAlias(), product.getAlias());
             if (!createIfNotExistProductDir(docDir)) {
                 return new ResponseEntity<>("Не удалось создать директорию продукта", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            Path filePath = Path.of(docDir.toString(),uploadFile.getOriginalFilename());
+            Path filePath = Path.of(docDir.toString(), uploadFile.getOriginalFilename());
             if (filesService.saveFileOnFileSystem(uploadFile, filePath)) {
-                ProductFile file = filesService.saveEntity(product, filePath.toString(), EFileType.DOCUMENT);
-                return ResponseEntity.ok(file.getUrl());
+                Path relativePath = DOC_DIR.relativize(filePath);
+                ProductFile file = filesService.saveEntity(product, relativePath.toString(), EFileType.DOCUMENT);
+                return ResponseEntity.ok(createUrl(file.getUrl(), EFileType.DOCUMENT));
             } else {
                 return new ResponseEntity<>("Не удалось сохранить файл", HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -101,10 +125,10 @@ public class AdminFilesController {
 
     private Boolean checkImageFile(MultipartFile file) {
         String mimetype = file.getContentType();
-        if (mimetype==null){
+        if (mimetype == null) {
             return false;
         }
-        String[] type= mimetype.split("/");
+        String[] type = mimetype.split("/");
         return type[0].equals("image");
     }
 
@@ -197,5 +221,12 @@ public class AdminFilesController {
         }
     }
 
-
+    private String createUrl(String relativePath, EFileType type) {
+        String tempUrl = relativePath.replaceAll("\\\\", "/");
+        if (type.equals(EFileType.IMAGE)) {
+            return BASE_URL + "images/" + tempUrl;
+        } else {
+            return BASE_URL + "doc/" + tempUrl;
+        }
+    }
 }

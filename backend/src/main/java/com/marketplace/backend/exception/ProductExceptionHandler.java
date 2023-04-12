@@ -19,20 +19,21 @@ public class ProductExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<AppError> catchBadRequestParam(IllegalRequestParam e){
+    public ResponseEntity<AppError> catchBadRequestParam(IllegalRequestParam e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.name(),
                 e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<AppError> catchBadOperationNotAllowed(OperationNotAllowedException e){
+    public ResponseEntity<AppError> catchBadOperationNotAllowed(OperationNotAllowedException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.name(),
                 e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler
-    public ResponseEntity<AppError> catchSqlException(SQLIntegrityConstraintViolationException e){
+    public ResponseEntity<AppError> catchSqlException(SQLIntegrityConstraintViolationException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.name(),
                 e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);

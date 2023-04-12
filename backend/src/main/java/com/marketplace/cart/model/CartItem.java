@@ -19,13 +19,13 @@ public class CartItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id",nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name = "quantity",nullable = false)
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
     @ManyToOne
-    @JoinColumn(name = "cart_id",nullable = false)
+    @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
     @Override

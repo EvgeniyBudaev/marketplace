@@ -23,13 +23,13 @@ public class SessionController {
     }
 
     @GetMapping("/{uuid}")
-    public void getSession(@PathVariable(required = false) String uuid){
+    public void getSession(@PathVariable(required = false) String uuid) {
         sessionIdService.getSession(uuid);
     }
 
     @GetMapping("details/{uuid}")
-    public UserInfoResponseDto getUserDetailsBySessionId(@PathVariable String uuid, Principal principal){
-        if(principal!=null){
+    public UserInfoResponseDto getUserDetailsBySessionId(@PathVariable String uuid, Principal principal) {
+        if (principal != null) {
             return userMapper.entityToUserInfoDto(sessionIdService.getUserInfo(principal));
         }
         SessionId sessionId = sessionIdService.getSession(uuid);

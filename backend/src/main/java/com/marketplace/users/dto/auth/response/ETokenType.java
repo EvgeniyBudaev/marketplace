@@ -4,8 +4,9 @@ public enum ETokenType {
     BEARER("Bearer");
 
     private final String type;
-    ETokenType(String type){
-        this.type=type;
+
+    ETokenType(String type) {
+        this.type = type;
     }
 
     public String getType() {

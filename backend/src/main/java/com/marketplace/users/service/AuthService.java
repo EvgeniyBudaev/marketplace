@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 
-
 @Service
 public class AuthService {
 
@@ -25,25 +24,25 @@ public class AuthService {
         this.refreshTokenService = refreshTokenService;
     }
 
-    public AppUser authentication(AuthRequestDto dto){
+    public AppUser authentication(AuthRequestDto dto) {
         String emailOrPhone = null;
-        if(dto.getEmail()!=null){
-            emailOrPhone= dto.getEmail();
-        } else if (dto.getPhone()!=null) {
+        if (dto.getEmail() != null) {
+            emailOrPhone = dto.getEmail();
+        } else if (dto.getPhone() != null) {
             emailOrPhone = dto.getPhone();
         }
-        if(emailOrPhone==null){
-           throw  new BadCredentialsException("Не заполнено почта или номер телефона");
+        if (emailOrPhone == null) {
+            throw new BadCredentialsException("Не заполнено почта или номер телефона");
         }
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(emailOrPhone, dto.getPassword()));
         return userDetailsService.findUserWithRolesByEmail(authentication.getName());
-     }
+    }
 
     public AppUser findUserByRefresh(String refreshToken) {
         return refreshTokenService.getUserByRefreshToken(refreshToken);
     }
 
-    public void saveRefreshToken(AppUser user,String token){
+    public void saveRefreshToken(AppUser user, String token) {
         refreshTokenService.updateToken(user.getEmail(), token);
     }
 }

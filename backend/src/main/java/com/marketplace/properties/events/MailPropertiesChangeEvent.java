@@ -4,12 +4,14 @@ import com.marketplace.properties.model.properties.EmailProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
+
 @Getter
 @Setter
 public class MailPropertiesChangeEvent extends ApplicationEvent {
     private EmailProperty property;
+
     public MailPropertiesChangeEvent(EmailProperty property) {
         super(property);
-        this.property =property;
+        this.property = property;
     }
 }

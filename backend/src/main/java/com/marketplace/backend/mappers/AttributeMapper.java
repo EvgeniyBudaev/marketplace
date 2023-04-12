@@ -15,8 +15,10 @@ public interface AttributeMapper {
 
 
     Attribute dtoToEntity(RequestSaveAttributeDto attributeDto);
+
     Attribute dtoToEntity(RequestPutAttributeDto attributeDto);
 
     ResponseSingleAttribute entityToSingleAttributeDto(Attribute attribute);
+
     List<ResponseAttributeForGetAll> entitiesToListDto(List<Attribute> attributes);
 }

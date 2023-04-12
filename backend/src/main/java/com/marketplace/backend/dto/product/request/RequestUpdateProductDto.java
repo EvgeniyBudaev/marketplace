@@ -10,17 +10,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class RequestUpdateProductDto implements RequestSaveOrUpdate{
+public class RequestUpdateProductDto implements RequestSaveOrUpdate {
     @NotNull
     private Long id;
     @NotNull
-    @Size(min = 5,max = 250)
+    @Size(min = 5, max = 250)
     private String name;
     @NotNull
     @Size(max = 250)
     private String description;
     @NotNull
-    @Size(min = 5,max = 250)
+    @Size(min = 5, max = 250)
     private String alias;
     @NotNull
     private String catalogAlias;

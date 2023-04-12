@@ -37,12 +37,12 @@ public class SessionIdService {
         this.userDetailsService = userDetailsService;
     }
 
-    private String generateUuid(){
+    private String generateUuid() {
         return UUID.randomUUID().toString();
     }
 
     @Transactional
-    public SessionId setNewSession(){
+    public SessionId setNewSession() {
         SessionId session = new SessionId();
         session.setUuid(this.generateUuid());
         session.setUpdated(LocalDateTime.now());
@@ -51,7 +51,7 @@ public class SessionIdService {
     }
 
     @Transactional
-    public SessionId setNewSessionForNewUser(AppUser user){
+    public SessionId setNewSessionForNewUser(AppUser user) {
         SessionId session = new SessionId();
         session.setUuid(this.generateUuid());
         session.setUpdated(LocalDateTime.now());
@@ -60,33 +60,34 @@ public class SessionIdService {
     }
 
     public SessionId getSession(String uuid) {
-        if(uuid==null){
+        if (uuid == null) {
             return setNewSession();
         }
         Optional<SessionId> sessionId = sessionRepository.getSessionIdByUuid(uuid);
         return sessionId.orElseGet(this::setNewSession);
     }
-    public SessionId getSession(AppUser user){
+
+    public SessionId getSession(AppUser user) {
         SessionId sessionId;
         TypedQuery<SessionId> sessionIdTypedQuery =
                 entityManager.createQuery("SELECT s from SessionId as s where s.user=:user", SessionId.class);
-        sessionIdTypedQuery.setParameter("user",user);
+        sessionIdTypedQuery.setParameter("user", user);
         Optional<SessionId> sessionIdOptional = sessionIdTypedQuery.getResultStream().findFirst();
-        if(sessionIdOptional.isEmpty()){
+        if (sessionIdOptional.isEmpty()) {
             sessionId = setNewSessionForNewUser(user);
-            log.error("Пользователь был без сессии. Пользователь: "+user.toString());
-        }else {
+            log.error("Пользователь был без сессии. Пользователь: " + user.toString());
+        } else {
             sessionId = sessionIdOptional.get();
         }
         return sessionId;
     }
 
-    public void updateCartInSession(SessionId sessionId, Cart cart){
+    public void updateCartInSession(SessionId sessionId, Cart cart) {
         transactionTemplate.execute(transactionStatus -> {
             Query query = entityManager.
                     createQuery("UPDATE SessionId as s set s.cart=:cart where s.id=:id");
-            query.setParameter("cart",cart);
-            query.setParameter("id",sessionId.getId());
+            query.setParameter("cart", cart);
+            query.setParameter("id", sessionId.getId());
             query.executeUpdate();
             transactionStatus.flush();
             return null;
@@ -94,36 +95,39 @@ public class SessionIdService {
 
     }
 
-    public void updateCartInSession(String uuid,Cart cart){
+    public void updateCartInSession(String uuid, Cart cart) {
         SessionId sessionId = getSession(uuid);
-        updateCartInSession(sessionId,cart);
+        updateCartInSession(sessionId, cart);
         cart.setSessionId(sessionId);
     }
+
     /*В сессию авторизованного пользователя добавляем карту*/
     @Transactional
-    public void updateCartAndUser(AppUser user,Cart cart){
+    public void updateCartAndUser(AppUser user, Cart cart) {
         Query queryUpdate = entityManager
                 .createQuery("UPDATE SessionId as s set s.cart=:cart where s.user=:user");
-        queryUpdate.setParameter("user",user);
-        queryUpdate.setParameter("cart",cart);
+        queryUpdate.setParameter("user", user);
+        queryUpdate.setParameter("cart", cart);
         int countUpdate = queryUpdate.executeUpdate();
-        if(countUpdate!=1){
-            log.error("Обновили "+countUpdate+" записей. Пользователь: "+user.toString()+ " Корзина: "+cart.toString());
+        if (countUpdate != 1) {
+            log.error("Обновили " + countUpdate + " записей. Пользователь: " + user.toString() + " Корзина: " + cart.toString());
         }
     }
+
     @Transactional
-    public void updateUserSettingsId(SessionId sessionId, UserSettings settings){
+    public void updateUserSettingsId(SessionId sessionId, UserSettings settings) {
         sessionId.setUserSettings(settings);
         sessionRepository.save(sessionId);
     }
-    public SessionId getSessionIdByUserEmail(String email){
+
+    public SessionId getSessionIdByUserEmail(String email) {
         AppUser user = userDetailsService.findUserWithRolesByEmail(email);
         return getSession(user);
     }
 
-    public AppUser getUserInfo(Principal principal){
-        if(principal==null){
-            return  null;
+    public AppUser getUserInfo(Principal principal) {
+        if (principal == null) {
+            return null;
         }
         return userDetailsService.findUserWithRolesByEmail(principal.getName());
     }

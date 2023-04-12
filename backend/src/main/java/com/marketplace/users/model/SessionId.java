@@ -17,7 +17,7 @@ public class SessionId {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "uuid",unique = true,nullable = false)
+    @Column(name = "uuid", unique = true, nullable = false)
     private String uuid;
 
     @Column(name = "updated")
@@ -31,8 +31,9 @@ public class SessionId {
     private Cart cart;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "settings_id",referencedColumnName = "id")
+    @JoinColumn(name = "settings_id", referencedColumnName = "id")
     private UserSettings userSettings;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

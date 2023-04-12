@@ -9,10 +9,16 @@ import java.util.Date;
 public interface AuthResponseBuilder {
     AuthResponseBuilder generateAccessToken(String email,
                                             Collection<? extends GrantedAuthority> authorities);
+
     AuthResponseBuilder setAccessTokenExpire(Date expire);
+
     AuthResponseBuilder setRefreshToken(String email);
+
     AuthResponseBuilder setRefreshTokenExpire(Date expire);
+
     AuthResponseBuilder setTokenType(ETokenType type);
+
     AuthResponseBuilder setSession(SessionId sessionId);
+
     AuthResponseDto build();
 }

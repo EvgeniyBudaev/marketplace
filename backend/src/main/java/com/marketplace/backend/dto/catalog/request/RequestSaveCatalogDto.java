@@ -11,10 +11,10 @@ import java.util.List;
 @Data
 public class RequestSaveCatalogDto {
     @NotNull
-    @Size(min = 2,max = 250)
+    @Size(min = 2, max = 250)
     private String name;
     @NotNull
-    @Size(min = 2,max = 250)
+    @Size(min = 2, max = 250)
     private String alias;
     @Size(max = 250)
     private String image;

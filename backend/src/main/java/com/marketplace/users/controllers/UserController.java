@@ -20,21 +20,21 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public UserInfoResponseDto saveOrUpdate(@Valid @RequestBody RegisterUserRequestDto dto){
+    public UserInfoResponseDto saveOrUpdate(@Valid @RequestBody RegisterUserRequestDto dto) {
         return userService.registerNewUser(dto);
     }
 
     @GetMapping("/me")
-    public UserInfoResponseDto userInfo(Principal principal){
-        if(principal==null){
+    public UserInfoResponseDto userInfo(Principal principal) {
+        if (principal == null) {
             throw new AccessDeniedException("Вы не авторизованы");
         }
-        AppUser user  = userService.getUserByEmail(principal.getName());
-        return  new UserInfoResponseDto(user);
+        AppUser user = userService.getUserByEmail(principal.getName());
+        return new UserInfoResponseDto(user);
     }
 
     @GetMapping("/activate/mail/{token}")
-    public void accountActivateByEmail(@PathVariable String token){
+    public void accountActivateByEmail(@PathVariable String token) {
         userService.activateUserByEmail(token);
     }
 }

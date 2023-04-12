@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface QueryChainProcessor {
     QueryProcessorParam attributeQuery(ProductQueryParam param);
+
     QueryProcessorParam productCountQuery(ProductQueryParam param);
+
     QueryProcessorParam productListQuery();
+
     QueryProcessorParam resultQuery(List<Product> param);
 }

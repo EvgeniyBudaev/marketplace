@@ -9,8 +9,8 @@ public class WithoutAttributesProductCommand extends AbstractProductCommand {
     }
 
     @Override
-    protected String createSubQueryString()  {
-        super.param().put("alias",getProductQueryParam().getCatalogAlias());
+    protected String createSubQueryString() {
+        super.param().put("alias", getProductQueryParam().getCatalogAlias());
         return "from Product as p where p.catalog.alias=:alias and p.enabled=true";
     }
 }

@@ -16,15 +16,15 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@NamedEntityGraph(name = "catalog-with-full-attributes",attributeNodes = {
+@NamedEntityGraph(name = "catalog-with-full-attributes", attributeNodes = {
         @NamedAttributeNode("id"),
         @NamedAttributeNode("name"),
         @NamedAttributeNode("alias"),
         @NamedAttributeNode("image"),
         @NamedAttributeNode("enabled"),
-        @NamedAttributeNode(value = "attributes",subgraph = "attribute-with-value")
-},subgraphs =
-        {@NamedSubgraph(name = "attribute-with-value",attributeNodes = {
+        @NamedAttributeNode(value = "attributes", subgraph = "attribute-with-value")
+}, subgraphs =
+        {@NamedSubgraph(name = "attribute-with-value", attributeNodes = {
                 @NamedAttributeNode("name"),
                 @NamedAttributeNode("alias"),
                 @NamedAttributeNode("enabled"),
@@ -32,7 +32,7 @@ import java.util.Set;
                 @NamedAttributeNode("type"),
                 @NamedAttributeNode("name"),
         }),
-})
+        })
 public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,17 +47,17 @@ public class Catalog {
     @Column(name = "image", nullable = false)
     private String image;
 
-    @Column(name = "enabled",nullable = false)
+    @Column(name = "enabled", nullable = false)
     private boolean enabled;
 
-    @OneToMany(mappedBy = "catalog",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "catalog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Product> products;
 
-   @ManyToMany(mappedBy = "catalog",cascade = {CascadeType.PERSIST,CascadeType.DETACH},fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "catalog", cascade = {CascadeType.PERSIST, CascadeType.DETACH}, fetch = FetchType.LAZY)
     private Set<Attribute> attributes;
 
     @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
@@ -77,12 +77,12 @@ public class Catalog {
         return Objects.hash(id);
     }
 
-    public void addAttribute(Attribute attribute){
+    public void addAttribute(Attribute attribute) {
         this.attributes.add(attribute);
         attribute.getCatalog().add(this);
     }
 
-    public void removeAttribute(Attribute attribute){
+    public void removeAttribute(Attribute attribute) {
         this.attributes.remove(attribute);
         attribute.getCatalog().remove(this);
     }

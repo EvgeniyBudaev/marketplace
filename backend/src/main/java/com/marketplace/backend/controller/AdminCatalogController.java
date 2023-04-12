@@ -28,21 +28,21 @@ public class AdminCatalogController {
     }
 
     @GetMapping("/attributes/{alias}")
-    public ResponseAttributeByCatalogAlias getAttributesByCatalogAlias(@PathVariable final String alias){
+    public ResponseAttributeByCatalogAlias getAttributesByCatalogAlias(@PathVariable final String alias) {
         Catalog catalog = adminCatalogService.findCatalogByAliasWithFullAttributes(alias);
 
         ResponseAttributeByCatalogAlias dto = catalogMapper.entityToAttributesDto(catalog);
-        if(catalog.getAttributes()==null){
+        if (catalog.getAttributes() == null) {
             return dto;
         }
         Set<Attribute> selAttributeSet = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).collect(Collectors.toUnmodifiableSet());
         Set<Attribute> numAttributeSet = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).collect(Collectors.toUnmodifiableSet());
-        if(!numAttributeSet.isEmpty()){
+        if (!numAttributeSet.isEmpty()) {
             dto.setNumberAttribute(catalogMapper.numericAttributesToDto(numAttributeSet));
         }
-        if(selAttributeSet.isEmpty()){
+        if (selAttributeSet.isEmpty()) {
             return dto;
         }
         dto.setSelectableAttribute(catalogMapper.selectableAttributesToDto(selAttributeSet));

@@ -24,15 +24,15 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@NamedEntityGraph(name = "attribute-with-selectable-values",attributeNodes = {
+@NamedEntityGraph(name = "attribute-with-selectable-values", attributeNodes = {
         @NamedAttributeNode("id"),
         @NamedAttributeNode("name"),
         @NamedAttributeNode("alias"),
         @NamedAttributeNode("filter"),
         @NamedAttributeNode("type"),
-        @NamedAttributeNode(value = "singleSelectableValue",subgraph = "select-values")
-},subgraphs = {
-        @NamedSubgraph(name = "select-values",attributeNodes = {
+        @NamedAttributeNode(value = "singleSelectableValue", subgraph = "select-values")
+}, subgraphs = {
+        @NamedSubgraph(name = "select-values", attributeNodes = {
                 @NamedAttributeNode("id"),
                 @NamedAttributeNode("value")
         })
@@ -60,23 +60,23 @@ public class Attribute {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "attributes_catalogs",
-    joinColumns = @JoinColumn(name = "attribute_id"),
-    inverseJoinColumns = @JoinColumn(name = "catalog_id"))
+            joinColumns = @JoinColumn(name = "attribute_id"),
+            inverseJoinColumns = @JoinColumn(name = "catalog_id"))
     private Set<Catalog> catalog;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "attribute",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.DETACH},orphanRemoval = true)
+    @OneToMany(mappedBy = "attribute", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH}, orphanRemoval = true)
     private Set<SelectableValue> singleSelectableValue = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "attribute",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "attribute", fetch = FetchType.LAZY)
     private List<BooleanValue> booleanValue = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "attribute",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "attribute", fetch = FetchType.LAZY)
     private List<DoubleValue> doubleValues = new ArrayList<>();
     @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
@@ -108,11 +108,12 @@ public class Attribute {
     }
 
 
-    public void addSelValue(SelectableValue value){
+    public void addSelValue(SelectableValue value) {
         this.singleSelectableValue.add(value);
         value.setAttribute(this);
     }
-    public void removeSelValue(SelectableValue value){
+
+    public void removeSelValue(SelectableValue value) {
         this.singleSelectableValue.remove(value);
         value.setAttribute(null);
     }

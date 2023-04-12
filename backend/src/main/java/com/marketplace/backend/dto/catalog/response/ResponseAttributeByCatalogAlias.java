@@ -19,6 +19,7 @@ public class ResponseAttributeByCatalogAlias {
         private String name;
         private String attributeAlias;
     }
+
     @Data
     @NoArgsConstructor
     public static class SelectAttributeDto {

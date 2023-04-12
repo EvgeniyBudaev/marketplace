@@ -8,6 +8,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @Mapping(target = "uuid",source = "appUser.sessionId.uuid")
+    @Mapping(target = "uuid", source = "appUser.sessionId.uuid")
     UserInfoResponseDto entityToUserInfoDto(AppUser appUser);
 }

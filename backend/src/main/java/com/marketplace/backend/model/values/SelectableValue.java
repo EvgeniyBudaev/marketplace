@@ -24,8 +24,8 @@ public class SelectableValue {
 
     @ManyToMany
     @JoinTable(name = "products_selectable",
-    joinColumns = @JoinColumn(name = "selectable_value_id"),
-    inverseJoinColumns = @JoinColumn(name = "product_id"))
+            joinColumns = @JoinColumn(name = "selectable_value_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
 
 

@@ -6,6 +6,8 @@ import com.marketplace.backend.model.Product;
 
 public interface ManageProductDao {
     Product save(RequestSaveOrUpdate dto);
+
     Product update(RequestSaveOrUpdate dto);
+
     Integer delete(String alias);
 }

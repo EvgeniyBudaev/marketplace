@@ -36,7 +36,7 @@ public class MailSender implements
     }
 
 
-    public void updateMailProperty(EmailProperty emailProperty){
+    public void updateMailProperty(EmailProperty emailProperty) {
         this.mailSender.setHost(emailProperty.getSmtpServer().getHost());
         this.mailSender.setPort(emailProperty.getSmtpServer().getPortTLS());
         this.mailSender.setUsername(emailProperty.getEmail());
@@ -49,7 +49,7 @@ public class MailSender implements
 
     @Override
     public void afterPropertiesSet() throws Exception {
-       EmailProperty property = (EmailProperty) this.appProperties.getProperty(EPropertiesType.EMAIL);
-       updateMailProperty(property);
+        EmailProperty property = (EmailProperty) this.appProperties.getProperty(EPropertiesType.EMAIL);
+        updateMailProperty(property);
     }
 }

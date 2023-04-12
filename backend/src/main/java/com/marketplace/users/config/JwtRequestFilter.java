@@ -43,10 +43,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             } catch (ExpiredJwtException e) {
                 log.error("The token is expired");
                 /*throw  new AccessDeniedException("Срок действия токена авторизации истек");*/
-            }
-            catch (MalformedJwtException e) {
+            } catch (MalformedJwtException e) {
                 log.error("RefreshToken not valid");
-               /* throw new AccessDeniedException("Токен авторизации не валиден");*/
+                /* throw new AccessDeniedException("Токен авторизации не валиден");*/
             }
         }
 

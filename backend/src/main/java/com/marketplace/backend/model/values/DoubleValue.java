@@ -13,18 +13,18 @@ import java.util.Objects;
 @Table(name = "double_value")
 @Getter
 @Setter
-public class DoubleValue{
+public class DoubleValue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
     @ManyToOne
-    @JoinColumn(name = "attribute_id",nullable = false)
+    @JoinColumn(name = "attribute_id", nullable = false)
     private Attribute attribute;
 
     @ManyToOne
-    @JoinColumn(name = "product_id",nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
     @Column(name = "value")
     private Double value;

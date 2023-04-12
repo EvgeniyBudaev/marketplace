@@ -45,11 +45,11 @@ public class CatalogService {
 
 
     @Transactional
-    public Catalog saveNewCatalog(RequestSaveCatalogDto dto){
+    public Catalog saveNewCatalog(RequestSaveCatalogDto dto) {
         Catalog catalog = catalogMapper.dtoToEntity(dto);
         Set<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         catalog.setAttributes(attributeList);
-        attributeList.forEach(x->x.getCatalog().add(catalog));
+        attributeList.forEach(x -> x.getCatalog().add(catalog));
         catalog.setEnabled(true);
         catalog.setCreatedAt(LocalDateTime.now());
         catalog.setModifyDate(LocalDateTime.now());
@@ -57,107 +57,110 @@ public class CatalogService {
         entityManager.flush();
         return catalog;
     }
+
     @Transactional
-    public Catalog putCatalog(RequestPutCatalogDto dto){
+    public Catalog putCatalog(RequestPutCatalogDto dto) {
         Set<Attribute> newAttributes = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         Query updateQuery = entityManager
                 .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true ,c.image = :image, c.modifyDate = :modify where c.id=:id");
-        updateQuery.setParameter("alias",dto.getAlias());
-        updateQuery.setParameter("name",dto.getName());
-        updateQuery.setParameter("image",dto.getImage());
-        updateQuery.setParameter("id",dto.getId());
-        updateQuery.setParameter("modify",LocalDateTime.now());
+        updateQuery.setParameter("alias", dto.getAlias());
+        updateQuery.setParameter("name", dto.getName());
+        updateQuery.setParameter("image", dto.getImage());
+        updateQuery.setParameter("id", dto.getId());
+        updateQuery.setParameter("modify", LocalDateTime.now());
         updateQuery.executeUpdate();
         Catalog catalog = findCatalogByAliasWithFullAttributes(dto.getAlias());
         Set<Attribute> oldAttributes = catalog.getAttributes();
-        Set<Attribute> attributesForDelete = oldAttributes.stream().filter(x->!newAttributes.contains(x)).collect(Collectors.toSet());
-        Set<Attribute> attributesForAdd = newAttributes.stream().filter(x->!oldAttributes.contains(x)).collect(Collectors.toSet());
-        for(Attribute attribute: attributesForDelete){
+        Set<Attribute> attributesForDelete = oldAttributes.stream().filter(x -> !newAttributes.contains(x)).collect(Collectors.toSet());
+        Set<Attribute> attributesForAdd = newAttributes.stream().filter(x -> !oldAttributes.contains(x)).collect(Collectors.toSet());
+        for (Attribute attribute : attributesForDelete) {
             catalog.removeAttribute(attribute);
         }
-        for(Attribute attribute: attributesForAdd){
+        for (Attribute attribute : attributesForAdd) {
             catalog.addAttribute(attribute);
         }
         return catalog;
     }
+
     @Transactional
-    public Catalog updateCatalog(RequestUpdateCatalogDto dto){
-       Catalog catalog =  catalogMapper.dtoToEntity(dto);
-       catalog.setModifyDate(LocalDateTime.now());
-       entityManager.merge(catalog);
-       return catalog;
+    public Catalog updateCatalog(RequestUpdateCatalogDto dto) {
+        Catalog catalog = catalogMapper.dtoToEntity(dto);
+        catalog.setModifyDate(LocalDateTime.now());
+        entityManager.merge(catalog);
+        return catalog;
     }
-    public Catalog findCatalogByAliasWithFullAttributes(String alias){
+
+    public Catalog findCatalogByAliasWithFullAttributes(String alias) {
         TypedQuery<Catalog> catalogQuery =
                 entityManager.
-                        createQuery("SELECT c from Catalog as c where c.alias=:alias",Catalog.class);
-        catalogQuery.setParameter("alias",alias);
+                        createQuery("SELECT c from Catalog as c where c.alias=:alias", Catalog.class);
+        catalogQuery.setParameter("alias", alias);
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("catalog-with-full-attributes");
         catalogQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         return catalogQuery.getResultStream()
-                .findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден каталог с псевдонимом "+alias));
+                .findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден каталог с псевдонимом " + alias));
     }
 
-    public Set<NumberAttributeDto> findUseNumericAttributesInCatalog(Catalog catalog){
+    public Set<NumberAttributeDto> findUseNumericAttributesInCatalog(Catalog catalog) {
         return attributeValueService.findUseNumberAttributesUseInCatalog(catalog.getId());
     }
 
-    public Set<SelectableValue> findUseSelectableAttributesInCatalog(Catalog catalog){
+    public Set<SelectableValue> findUseSelectableAttributesInCatalog(Catalog catalog) {
         return attributeValueService.findUseSelectableAttributesInCatalog(catalog.getId());
     }
 
     @Transactional
     public Paging<ResponseSimpleCatalogDto> findAll(QueryParam param) {
-       QueryProcessor processor = new QueryProcessorImpl(param, Catalog.class);
-       TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
-       TypedQuery<Catalog> resultQuery = entityManager.createQuery(processor.getMainQuery(), Catalog.class);
-       if(param.getSearchString()!=null){
-           resultQuery.setParameter("param",param.getSearchString());
-           countQuery.setParameter("param",param.getSearchString());
-       }
+        QueryProcessor processor = new QueryProcessorImpl(param, Catalog.class);
+        TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
+        TypedQuery<Catalog> resultQuery = entityManager.createQuery(processor.getMainQuery(), Catalog.class);
+        if (param.getSearchString() != null) {
+            resultQuery.setParameter("param", param.getSearchString());
+            countQuery.setParameter("param", param.getSearchString());
+        }
         int count = Math.toIntExact(countQuery.getSingleResult());
-        Paging<ResponseSimpleCatalogDto> result = new Paging<>(count, param.getPageSize(),param.getPage());
-       if(count==0){
-           return result;
-       }
-       resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
-       resultQuery.setMaxResults(result.getPageSize());
-       result.setContent(resultQuery.getResultStream()
-               .map(catalogMapper::entityToSimpleCatalogDto).collect(Collectors.toList()));
-       return result;
+        Paging<ResponseSimpleCatalogDto> result = new Paging<>(count, param.getPageSize(), param.getPage());
+        if (count == 0) {
+            return result;
+        }
+        resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
+        resultQuery.setMaxResults(result.getPageSize());
+        result.setContent(resultQuery.getResultStream()
+                .map(catalogMapper::entityToSimpleCatalogDto).collect(Collectors.toList()));
+        return result;
     }
 
     @Transactional
     public int delete(String alias) {
         TypedQuery<Long> query = entityManager.createQuery("Select count (p) from Product as p  where p.catalog.alias=:alias and p.enabled=true", Long.class);
-        query.setParameter("alias",alias);
+        query.setParameter("alias", alias);
         Long count = query.getSingleResult();
-        if(count>0){
-            throw  new OperationNotAllowedException("Каталог содержит продукты удаление невозможно");
+        if (count > 0) {
+            throw new OperationNotAllowedException("Каталог содержит продукты удаление невозможно");
         }
         Query queryDelete = entityManager.createQuery("UPDATE Catalog as c set c.enabled = false where c.alias=:alias and c.enabled=true");
-        queryDelete.setParameter("alias",alias);
+        queryDelete.setParameter("alias", alias);
         return queryDelete.executeUpdate();
     }
 
 
-    public Set<Attribute> attributesInCatalogByAlias(String alias){
+    public Set<Attribute> attributesInCatalogByAlias(String alias) {
         TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c left join c.attributes where c.enabled=true and c.alias=:alias", Catalog.class);
-        resultQuery.setParameter("alias",alias);
+        resultQuery.setParameter("alias", alias);
         Optional<Catalog> optionalCatalog = resultQuery.getResultStream().findFirst();
-        if(optionalCatalog.isPresent()){
+        if (optionalCatalog.isPresent()) {
             return optionalCatalog.get().getAttributes();
         }
-        throw new ResourceNotFoundException("Не найден каталог с псевдонимом: "+alias);
+        throw new ResourceNotFoundException("Не найден каталог с псевдонимом: " + alias);
     }
 
-    public Catalog simpleCatalogByAlias(String alias){
+    public Catalog simpleCatalogByAlias(String alias) {
         TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c  where c.enabled=true and c.alias=:alias", Catalog.class);
-        resultQuery.setParameter("alias",alias);
+        resultQuery.setParameter("alias", alias);
         Optional<Catalog> optionalCatalog = resultQuery.getResultStream().findFirst();
-        if(optionalCatalog.isPresent()){
+        if (optionalCatalog.isPresent()) {
             return optionalCatalog.get();
         }
-        throw new ResourceNotFoundException("Не найден каталог с псевдонимом: "+alias);
+        throw new ResourceNotFoundException("Не найден каталог с псевдонимом: " + alias);
     }
 }

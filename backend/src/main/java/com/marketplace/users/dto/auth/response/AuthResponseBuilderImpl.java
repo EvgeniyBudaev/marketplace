@@ -10,11 +10,10 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import java.util.Date;
 
-public class AuthResponseBuilderImpl implements AuthResponseBuilder{
+public class AuthResponseBuilderImpl implements AuthResponseBuilder {
     private final AuthResponseDto dto;
     private final JwtTokenUtil util;
     private final Date issuedDate;
-
 
 
     public AuthResponseBuilderImpl(JwtTokenUtil util, AppProperties properties) {
@@ -29,8 +28,8 @@ public class AuthResponseBuilderImpl implements AuthResponseBuilder{
     @Override
     public AuthResponseBuilder generateAccessToken(String email,
                                                    Collection<? extends GrantedAuthority> authorities) {
-        dto.setAccess_token(this.util.generateToken(authorities,email
-                ,this.issuedDate,this.dto.getExpires_in()));
+        dto.setAccess_token(this.util.generateToken(authorities, email
+                , this.issuedDate, this.dto.getExpires_in()));
         return this;
     }
 
@@ -42,7 +41,7 @@ public class AuthResponseBuilderImpl implements AuthResponseBuilder{
 
     @Override
     public AuthResponseBuilder setRefreshToken(String email) {
-        dto.setRefresh_token(util.generateRefreshTokenFromEmail(email,dto.getRefresh_expires_in(),issuedDate));
+        dto.setRefresh_token(util.generateRefreshTokenFromEmail(email, dto.getRefresh_expires_in(), issuedDate));
         return this;
     }
 

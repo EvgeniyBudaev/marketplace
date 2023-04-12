@@ -36,13 +36,13 @@ public class JwtTokenUtil implements InitializingBean, ApplicationListener<JwtPr
                 .collect(Collectors.toList());
         claims.put("roles", rolesList);
         return
-        Jwts.builder()
-                .setClaims(claims)
-                .setSubject(email)
-                .setIssuedAt(issuedDate)
-                .setExpiration(expiredDate)
-                .signWith(SignatureAlgorithm.HS256, getSecret())
-                .compact();
+                Jwts.builder()
+                        .setClaims(claims)
+                        .setSubject(email)
+                        .setIssuedAt(issuedDate)
+                        .setExpiration(expiredDate)
+                        .signWith(SignatureAlgorithm.HS256, getSecret())
+                        .compact();
     }
 
     public String getEmailFromToken(String token) {
@@ -52,7 +52,8 @@ public class JwtTokenUtil implements InitializingBean, ApplicationListener<JwtPr
     public List<String> getRoles(String token) {
         return getClaimFromToken(token, (Function<Claims, List<String>>) claims -> claims.get("roles", List.class));
     }
-    public String generateRefreshTokenFromEmail(String email,Date expires,Date issuedDate) {
+
+    public String generateRefreshTokenFromEmail(String email, Date expires, Date issuedDate) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(issuedDate)
@@ -74,12 +75,12 @@ public class JwtTokenUtil implements InitializingBean, ApplicationListener<JwtPr
 
 
     @Override
-    public void afterPropertiesSet()  {
+    public void afterPropertiesSet() {
         this.jwtProperties = (JwtProperties) this.properties.getProperty(EPropertiesType.JWT);
     }
 
-    private String getSecret(){
-       return this.jwtProperties.getSecret();
+    private String getSecret() {
+        return this.jwtProperties.getSecret();
     }
 
     @Override

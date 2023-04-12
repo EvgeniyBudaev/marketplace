@@ -34,45 +34,46 @@ public class CartItemService {
             cartItem = new CartItem();
             cartItem.setCart(cart);
             cartItem.setProduct(productDao.findProductByAlias(productAlias));
-            setQuantity(cartItem,1);
-        }else{
-            setQuantity(cartItem,cartItem.getQuantity()+1);
+            setQuantity(cartItem, 1);
+        } else {
+            setQuantity(cartItem, cartItem.getQuantity() + 1);
         }
 
-            save(cartItem);
-            return cartItem;
-        }
+        save(cartItem);
+        return cartItem;
+    }
 
     public CartItem decrementQuantity(Set<CartItem> cartItems, String productAlias) {
         CartItem cartItem = getCartItemByProductAlias(cartItems, productAlias);
         if (cartItem == null) {
             throw new ProductCountException();
         }
-        setQuantity(cartItem,cartItem.getQuantity()-1);
-            if (cartItem.getQuantity().equals(0)) {
-                delete(cartItem);
-                return cartItem;
-            }
+        setQuantity(cartItem, cartItem.getQuantity() - 1);
+        if (cartItem.getQuantity().equals(0)) {
+            delete(cartItem);
+            return cartItem;
+        }
         save(cartItem);
         return cartItem;
     }
 
     public CartItem deleteByProductAlias(Set<CartItem> cartItems, String productAlias) {
         CartItem cartItem = getCartItemByProductAlias(cartItems, productAlias);
-        if(cartItem==null) {
+        if (cartItem == null) {
             throw new ProductCountException("Невозможно удалить отсутствующий товар");
         }
         delete(cartItem);
         return cartItem;
     }
+
     public CartItem setQuantity(Cart cart, String productAlias, Integer newQuantity) {
         CartItem cartItem = getCartItemByProductAlias(cart.getItems(), productAlias);
-        if(cartItem==null) {
+        if (cartItem == null) {
             cartItem = new CartItem();
             cartItem.setCart(cart);
             cartItem.setProduct(productDao.findProductByAlias(productAlias));
         }
-        setQuantity(cartItem,newQuantity);
+        setQuantity(cartItem, newQuantity);
         save(cartItem);
         return cartItem;
     }
@@ -84,24 +85,26 @@ public class CartItemService {
     }
 
 
-
     public void delete(CartItem cartItem) {
         cartItemRepository.delete(cartItem);
     }
-    private void setQuantity(CartItem cartItem,Integer newQuantity){
-        if(checkNewQuantity(cartItem.getProduct(),newQuantity)){
+
+    private void setQuantity(CartItem cartItem, Integer newQuantity) {
+        if (checkNewQuantity(cartItem.getProduct(), newQuantity)) {
             cartItem.setQuantity(newQuantity);
-        }else {
-            throw  new ProductCountException();
+        } else {
+            throw new ProductCountException();
         }
     }
-    private CartItem getCartItemByProductAlias(Set<CartItem> cartItems, String productAlias){
-        if (cartItems==null||cartItems.isEmpty()){
+
+    private CartItem getCartItemByProductAlias(Set<CartItem> cartItems, String productAlias) {
+        if (cartItems == null || cartItems.isEmpty()) {
             return null;
         }
         Optional<CartItem> cartItemOptional = cartItems.stream().filter(x -> x.getProduct().getAlias().equals(productAlias)).findFirst();
         return cartItemOptional.orElse(null);
     }
+
     private boolean checkNewQuantity(Product product, Integer newQuantity) {
         if (newQuantity < 0) {
             return false;

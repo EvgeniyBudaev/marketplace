@@ -21,23 +21,24 @@ public class EmailVerifyToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "token",nullable = false,unique = true)
+    @Column(name = "token", nullable = false, unique = true)
     private String token;
 
-    @Column(name = "token_type",nullable = false)
+    @Column(name = "token_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private ETokenType tokenType;
 
-    @Column(name = "expired",nullable = false)
+    @Column(name = "expired", nullable = false)
     private LocalDateTime expired;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
-    public EmailVerifyToken(){}
+    public EmailVerifyToken() {
+    }
 
-    public EmailVerifyToken(AppUser user, ETokenType tokenType, Duration duration, String token){
+    public EmailVerifyToken(AppUser user, ETokenType tokenType, Duration duration, String token) {
         this.user = user;
         this.expired = LocalDateTime.now().plus(duration);
         this.tokenType = tokenType;

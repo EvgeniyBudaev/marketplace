@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -41,7 +42,7 @@ public class ProductController {
 
 
     @GetMapping("/page/")
-    public Paging<ResponseProductDto> findProductInCatalog(HttpServletRequest request){
+    public Paging<ResponseProductDto> findProductInCatalog(HttpServletRequest request) {
         ProductUrlResolver urlResolver = new ProductUrlResolverImpl();
         String queryString = URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8);
         return productDao
@@ -51,70 +52,71 @@ public class ProductController {
 
     @GetMapping("/by_alias")
     public ResponseProductDto getProductByAlias(@RequestParam(value = "alias") String alias) {
-        return new ResponseProductDto(productDao.findProductByAlias(alias),alias);
+        return new ResponseProductDto(productDao.findProductByAlias(alias), alias);
 
     }
 
     @GetMapping("/find")
     public Paging<ResponseProductDto> findAllByLikeName(
-            @RequestParam(defaultValue = "1",required = false) Integer page,
-            @RequestParam(defaultValue = "15",required = false) Integer pageSize,
-            @RequestParam(required = false) String search){
-        if(page<1){
-            page=1;
+            @RequestParam(defaultValue = "1", required = false) Integer page,
+            @RequestParam(defaultValue = "15", required = false) Integer pageSize,
+            @RequestParam(required = false) String search) {
+        if (page < 1) {
+            page = 1;
         }
-        if(pageSize<5){
+        if (pageSize < 5) {
             pageSize = 5;
         }
-        return productDao.findProductLikeName(page,pageSize, search);
+        return productDao.findProductLikeName(page, pageSize, search);
     }
 
     @GetMapping("/get_all")
-    public Paging<ResponseProductGetAllDto> findAll(HttpServletRequest request){
+    public Paging<ResponseProductGetAllDto> findAll(HttpServletRequest request) {
         String rawQueryString = request.getQueryString();
         String queryString = null;
-        if (rawQueryString!=null){
-        queryString = URLDecoder.decode(rawQueryString, StandardCharsets.UTF_8);
-    }
-    UrlResolver resolver = new UrlResolverImpl();
-    QueryParam param = resolver.resolveQueryString(queryString);
-    return productDao.findAll(param);
+        if (rawQueryString != null) {
+            queryString = URLDecoder.decode(rawQueryString, StandardCharsets.UTF_8);
+        }
+        UrlResolver resolver = new UrlResolverImpl();
+        QueryParam param = resolver.resolveQueryString(queryString);
+        return productDao.findAll(param);
 
     }
+
     @PostMapping("/save")
-    public ResponseProductDto saveProduct(@Valid @RequestBody RequestSaveProductDto productDto) {
-        Product product=manageProductDao.save(productDto);
-        return new ResponseProductDto(product,productDto.getCatalogAlias());
+    public ResponseProductDto saveProduct(@Valid RequestSaveProductDto productDto, MultipartFile ... files) {
+        Product product = manageProductDao.save(productDto);
+        return new ResponseProductDto(product, productDto.getCatalogAlias());
     }
 
     @PutMapping("/put")
     public ResponseProductDto updateProduct(@Valid @RequestBody RequestUpdateProductDto productDto) {
-        Product product=manageProductDao.update(productDto);
-        return new ResponseProductDto(product,productDto.getCatalogAlias());
+        Product product = manageProductDao.update(productDto);
+        return new ResponseProductDto(product, productDto.getCatalogAlias());
     }
 
     @DeleteMapping("delete/{alias}")
     public ResponseEntity<?> deleteProduct(@PathVariable String alias) {
         Integer countProductMarkAsDeleted = manageProductDao.delete(alias);
-        if(countProductMarkAsDeleted<1){
+        if (countProductMarkAsDeleted < 1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден продукт с псевдониммом: "+alias));
+                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден продукт с псевдониммом: " + alias));
         }
         return ResponseEntity.ok("Product with alias = " + alias + " was deleted");
     }
 
     @GetMapping("/admin/by_alias")
-    public ResponseProductDtoForAdmin getProductByAliasForAdmin(@RequestParam(value = "alias") String alias){
+    public ResponseProductDtoForAdmin getProductByAliasForAdmin(@RequestParam(value = "alias") String alias) {
         Product product = productDao.findProductByAlias(alias);
         ResponseProductDtoForAdmin dto = productMapper.entityToDtoForAdmin(product);
-        if (product.getDoubleValues()!=null){
+        if (product.getDoubleValues() != null) {
             dto.setAttributeValuesSet(productMapper.numValuesToDtoForAdmin(product.getDoubleValues()));
         }
-        if(product.getSelectableValues()!=null){
-            if(dto.getAttributeValuesSet()==null){
+        if (product.getSelectableValues() != null) {
+            if (dto.getAttributeValuesSet() == null) {
                 dto.setAttributeValuesSet(productMapper.
                         selValuesToDtoForAdmin(product.getSelectableValues()));
-            }else {
+            } else {
                 dto.getAttributeValuesSet().addAll(productMapper.
                         selValuesToDtoForAdmin(product.getSelectableValues()));
             }

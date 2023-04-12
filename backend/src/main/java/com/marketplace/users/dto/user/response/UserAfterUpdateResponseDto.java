@@ -13,8 +13,8 @@ public class UserAfterUpdateResponseDto {
     private String email;
     private String shippingAddress;
 
-    public UserAfterUpdateResponseDto(AppUser user){
-        this.id= user.getId();
+    public UserAfterUpdateResponseDto(AppUser user) {
+        this.id = user.getId();
         this.firstName = user.getFirstName();
         this.middleName = user.getMiddleName();
         this.lastName = user.getLastName();

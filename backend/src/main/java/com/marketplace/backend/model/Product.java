@@ -22,7 +22,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@NamedEntityGraph(name = "product-with-all-fields",attributeNodes = {
+@NamedEntityGraph(name = "product-with-all-fields", attributeNodes = {
         @NamedAttributeNode("id"),
         @NamedAttributeNode("name"),
         @NamedAttributeNode("description"),
@@ -33,15 +33,15 @@ import java.util.Set;
         @NamedAttributeNode("rating"),
         @NamedAttributeNode("createdAt"),
         @NamedAttributeNode("modifyDate"),
-        @NamedAttributeNode(value = "catalog",subgraph = "catalog-subgraph"),
-        @NamedAttributeNode(value = "doubleValues",subgraph = "attribute-subgraph"),
-        @NamedAttributeNode(value = "booleanValues",subgraph = "attribute-subgraph"),
-        @NamedAttributeNode(value = "selectableValues",subgraph = "attribute-subgraph")
-},subgraphs = {
-        @NamedSubgraph(name = "catalog-subgraph",attributeNodes = {
+        @NamedAttributeNode(value = "catalog", subgraph = "catalog-subgraph"),
+        @NamedAttributeNode(value = "doubleValues", subgraph = "attribute-subgraph"),
+        @NamedAttributeNode(value = "booleanValues", subgraph = "attribute-subgraph"),
+        @NamedAttributeNode(value = "selectableValues", subgraph = "attribute-subgraph")
+}, subgraphs = {
+        @NamedSubgraph(name = "catalog-subgraph", attributeNodes = {
                 @NamedAttributeNode("alias")
         }),
-        @NamedSubgraph(name = "attribute-subgraph",attributeNodes = {
+        @NamedSubgraph(name = "attribute-subgraph", attributeNodes = {
                 @NamedAttributeNode("id"),
                 @NamedAttributeNode("value"),
                 @NamedAttributeNode("attribute")
@@ -63,39 +63,39 @@ public class Product {
     @Column(name = "alias", nullable = false, unique = true)
     private String alias;
 
-    @Column(name = "enabled",updatable = false,nullable = false)
+    @Column(name = "enabled", updatable = false, nullable = false)
     private Boolean enabled;
 
-    @Column(name = "count", nullable = false,columnDefinition = "INTEGER, default '0'")
+    @Column(name = "count", nullable = false, columnDefinition = "INTEGER, default '0'")
     private Integer count;
 
-    @Column(name = "price",columnDefinition = "DECIMAL(19,2), default '0.00'")
+    @Column(name = "price", columnDefinition = "DECIMAL(19,2), default '0.00'")
     private BigDecimal price;
 
-    @Column(name = "rating", nullable = false,updatable = false)
+    @Column(name = "rating", nullable = false, updatable = false)
     private double rating;
 
     @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime modifyDate;
     @ManyToOne
-    @JoinColumn(name = "catalog_id",nullable = false)
+    @JoinColumn(name = "catalog_id", nullable = false)
     private Catalog catalog;
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private Set<ProductFile> productFiles;
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private Set<DoubleValue> doubleValues = new HashSet<>();
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    private Set<BooleanValue> booleanValues= new HashSet<>();
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<BooleanValue> booleanValues = new HashSet<>();
 
-    @ManyToMany(mappedBy = "products",fetch = FetchType.LAZY)
-    private Set<SelectableValue> selectableValues= new HashSet<>();
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    private Set<SelectableValue> selectableValues = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -110,7 +110,7 @@ public class Product {
         return Objects.hash(id);
     }
 
-    public void addSelValue(SelectableValue value){
+    public void addSelValue(SelectableValue value) {
         this.selectableValues.add(value);
         value.getProducts().add(this);
     }
