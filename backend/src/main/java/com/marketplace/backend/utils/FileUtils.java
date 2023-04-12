@@ -1,10 +1,12 @@
 package com.marketplace.backend.utils;
 
+import com.marketplace.backend.model.EFileType;
+
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-public class ImageUtils {
+public class FileUtils {
     public static byte[] compressImage(byte[] data) {
         Deflater deflater = new Deflater();
         deflater.setLevel(Deflater.BEST_COMPRESSION);
@@ -39,5 +41,13 @@ public class ImageUtils {
         } catch (Exception ignored) {
         }
         return outputStream.toByteArray();
+    }
+    public static String createUrl(String relativePath, EFileType type, String baseUrl) {
+        String tempUrl = relativePath.replaceAll("\\\\", "/");
+        if (type.equals(EFileType.IMAGE)) {
+            return baseUrl + "images/" + tempUrl;
+        } else {
+            return baseUrl + "doc/" + tempUrl;
+        }
     }
 }

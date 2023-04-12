@@ -12,6 +12,7 @@ import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.service.utils.queryes.*;
+import com.marketplace.properties.model.properties.GlobalProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,14 @@ public class ProductController {
     private final ProductDao productDao;
     private final ProductMapper productMapper;
     private final ManageProductDao manageProductDao;
+    private final GlobalProperty globalProperty;
 
     @Autowired
-    public ProductController(ProductDao productDao, ProductMapper productMapper, ManageProductDao manageProductDao) {
+    public ProductController(ProductDao productDao, ProductMapper productMapper, ManageProductDao manageProductDao, GlobalProperty globalProperty) {
         this.productDao = productDao;
         this.productMapper = productMapper;
         this.manageProductDao = manageProductDao;
+        this.globalProperty = globalProperty;
     }
 
 
@@ -52,7 +55,7 @@ public class ProductController {
 
     @GetMapping("/by_alias")
     public ResponseProductDto getProductByAlias(@RequestParam(value = "alias") String alias) {
-        return new ResponseProductDto(productDao.findProductByAlias(alias), alias);
+        return new ResponseProductDto(productDao.findProductByAlias(alias), alias,globalProperty.getBASE_URL());
 
     }
 
@@ -86,13 +89,13 @@ public class ProductController {
     @PostMapping("/save")
     public ResponseProductDto saveProduct(@Valid RequestSaveProductDto productDto, MultipartFile ... files) {
         Product product = manageProductDao.save(productDto);
-        return new ResponseProductDto(product, productDto.getCatalogAlias());
+        return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
     }
 
     @PutMapping("/put")
     public ResponseProductDto updateProduct(@Valid @RequestBody RequestUpdateProductDto productDto) {
         Product product = manageProductDao.update(productDto);
-        return new ResponseProductDto(product, productDto.getCatalogAlias());
+        return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
     }
 
     @DeleteMapping("delete/{alias}")

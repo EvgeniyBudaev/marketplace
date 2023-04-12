@@ -700,30 +700,6 @@
 										}
 									},
 									"response": []
-								},
-								{
-									"name": "Get all image links by product alias",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "http://localhost:8080/api/v1/products/files/images/venetian-mirror-bernard",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"api",
-												"v1",
-												"products",
-												"files",
-												"images",
-												"venetian-mirror-bernard"
-											]
-										}
-									},
-									"response": []
 								}
 							]
 						},
@@ -771,6 +747,78 @@
 											"language": "json"
 										}
 									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/products/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add product with image",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "alias",
+											"value": "venetian-mirror234",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Это очень новое зеркало",
+											"type": "text"
+										},
+										{
+											"key": "catalogAlias",
+											"value": "mirrors",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Внецианское зеркало",
+											"type": "text"
+										},
+										{
+											"key": "count",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "156.89",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "8",
+											"type": "text"
+										}
+									]
 								},
 								"url": {
 									"raw": "http://localhost:8080/api/v1/products/save",
@@ -873,7 +921,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/page/?catalog=notebook&sort=price_asc&page=10",
+							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&page=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -889,11 +937,12 @@
 							"query": [
 								{
 									"key": "catalog",
-									"value": "notebook"
+									"value": "mirrors"
 								},
 								{
 									"key": "sort",
-									"value": "price_asc"
+									"value": "price_asc",
+									"disabled": true
 								},
 								{
 									"key": "form",
@@ -907,7 +956,7 @@
 								},
 								{
 									"key": "page",
-									"value": "10"
+									"value": "1"
 								}
 							]
 						}

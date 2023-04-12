@@ -36,7 +36,8 @@ import java.util.Set;
         @NamedAttributeNode(value = "catalog", subgraph = "catalog-subgraph"),
         @NamedAttributeNode(value = "doubleValues", subgraph = "attribute-subgraph"),
         @NamedAttributeNode(value = "booleanValues", subgraph = "attribute-subgraph"),
-        @NamedAttributeNode(value = "selectableValues", subgraph = "attribute-subgraph")
+        @NamedAttributeNode(value = "selectableValues", subgraph = "attribute-subgraph"),
+        @NamedAttributeNode(value = "productFiles",subgraph = "files")
 }, subgraphs = {
         @NamedSubgraph(name = "catalog-subgraph", attributeNodes = {
                 @NamedAttributeNode("alias")
@@ -45,7 +46,12 @@ import java.util.Set;
                 @NamedAttributeNode("id"),
                 @NamedAttributeNode("value"),
                 @NamedAttributeNode("attribute")
+        }),
+        @NamedSubgraph(name = "files", attributeNodes = {
+                @NamedAttributeNode(value = "fileType"),
+                @NamedAttributeNode(value = "url")
         })
+
 })
 
 public class Product {

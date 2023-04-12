@@ -4,7 +4,6 @@ import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
 import com.marketplace.backend.exception.ResourceNotFoundException;
-import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
@@ -15,6 +14,7 @@ import com.marketplace.backend.service.utils.queryes.processor.QueryProcessorImp
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessor;
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessorImpl;
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryProcessorParam;
+import com.marketplace.properties.model.properties.GlobalProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +31,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProductService implements ProductDao {
 
+    private final GlobalProperty globalProperty;
     private final EntityManager entityManager;
-    private final ProductMapper productMapper;
 
-    public ProductService(EntityManager entityManager, ProductMapper productMapper) {
+
+    public ProductService(GlobalProperty globalProperty, EntityManager entityManager) {
+        this.globalProperty = globalProperty;
         this.entityManager = entityManager;
-        this.productMapper = productMapper;
     }
 
 
@@ -79,7 +80,7 @@ public class ProductService implements ProductDao {
         productTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         List<Product> resultProductList = productTypedQuery.getResultList();
         result.setContent(resultProductList
-                .stream().map(x -> new ResponseProductDto(x, queryParam.getCatalogAlias())).collect(Collectors.toList()));
+                .stream().map(x -> new ResponseProductDto(x, queryParam.getCatalogAlias(),globalProperty.getBASE_URL())).collect(Collectors.toList()));
         return result;
     }
 
@@ -123,7 +124,7 @@ public class ProductService implements ProductDao {
         resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         dtoPaging.setContent(resultQuery
                 .getResultList().stream()
-                .map(x -> new ResponseProductDto(x, x.getCatalog().getAlias()))
+                .map(x -> new ResponseProductDto(x, x.getCatalog().getAlias(),globalProperty.getBASE_URL()))
                 .collect(Collectors.toList()));
         return dtoPaging;
     }
@@ -144,7 +145,7 @@ public class ProductService implements ProductDao {
         resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
         resultQuery.setMaxResults(result.getPageSize());
         List<Product> products = resultQuery.getResultList();
-        result.setContent(productMapper.entitiesToListGetAllDto(products));
+        result.setContent(products.stream().map(x->new ResponseProductGetAllDto(x,globalProperty)).collect(Collectors.toList()));
         return result;
     }
 

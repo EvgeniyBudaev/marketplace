@@ -5,6 +5,8 @@ import com.marketplace.backend.model.EFileType;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.model.ProductFile;
 import com.marketplace.backend.service.FilesService;
+import com.marketplace.backend.utils.FileUtils;
+import com.marketplace.properties.model.properties.GlobalProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.FileSystem;
@@ -27,47 +28,21 @@ import java.util.*;
 @Slf4j
 public class AdminFilesController {
     private final FilesService filesService;
-    private final Path IMAGE_DIR;
-    private final Path DOC_DIR;
-    private final String BASE_URL = "http://localhost:8080/api/v1/products/files/";
-    private Boolean isImageDirectoryAvailability = true;
-    private Boolean isDocDirectoryAvailability = true;
+    private final GlobalProperty globalProperty;
 
-    public AdminFilesController(FilesService filesService) {
+    public AdminFilesController(FilesService filesService, GlobalProperty globalProperty) {
         this.filesService = filesService;
-        Path appPath = Path.of(System.getProperty("user.dir"));
-        this.IMAGE_DIR = Path.of(appPath.toString(), "MARKETPLACE/IMAGE");
-        this.DOC_DIR = Path.of(appPath.toString(), "MARKETPLACE/DOC");
+        this.globalProperty = globalProperty;
     }
 
-    @PostConstruct
-    public void init() {
-        if (!Files.exists(IMAGE_DIR)) {
-            try {
-                Files.createDirectories(IMAGE_DIR);
-            } catch (IOException e) {
-                log.error("IMAGES DIRECTORY NOT AVAILABILITY");
-                log.error(Arrays.toString(e.getStackTrace()));
-                this.isImageDirectoryAvailability = false;
-            }
-        }
-        if (!Files.exists(DOC_DIR)) {
-            try {
-                Files.createDirectories(DOC_DIR);
-            } catch (IOException e) {
-                log.error("DOCUMENTS DIRECTORY NOT AVAILABILITY");
-                log.error(Arrays.toString(e.getStackTrace()));
-                this.isDocDirectoryAvailability = false;
-            }
-        }
-    }
+
 
     @GetMapping("/images/{catalogAlias}/{productAlias}/{fileName}")
     public ResponseEntity<?> getImageByUrl(@PathVariable String catalogAlias,
                                            @PathVariable String productAlias,
                                            @PathVariable String fileName) {
         char decimetre = '\\';
-        Path path = IMAGE_DIR.resolve(Path.of(catalogAlias + decimetre + productAlias + decimetre + fileName));
+        Path path = globalProperty.getIMAGE_DIR().resolve(Path.of(catalogAlias + decimetre + productAlias + decimetre + fileName));
         if (!Files.exists(path)) {
             return new ResponseEntity<>("Файл отсутствует", HttpStatus.NOT_FOUND);
         }
@@ -87,17 +62,17 @@ public class AdminFilesController {
                                         @RequestParam(name = "file") MultipartFile uploadFile) {
         Product product = filesService.getProductByAlias(dto.getProductAlias());
 
-        if (dto.getFileType().equals(EFileType.IMAGE) && this.isImageDirectoryAvailability) {
+        if (dto.getFileType().equals(EFileType.IMAGE) && globalProperty.getIsImageDirectoryAvailability()) {
             if (checkImageFile(uploadFile)) {
-                Path imageDir = Path.of(IMAGE_DIR.toString(), product.getCatalog().getAlias(), product.getAlias());
+                Path imageDir = Path.of(globalProperty.getIMAGE_DIR().toString(), product.getCatalog().getAlias(), product.getAlias());
                 if (!createIfNotExistProductDir(imageDir)) {
                     return new ResponseEntity<>("Не удалось создать директорию продукта", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
                 Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
                 if (filesService.saveFileOnFileSystem(uploadFile, filePath)) {
-                    Path relativePath = IMAGE_DIR.relativize(filePath);
+                    Path relativePath = globalProperty.getIMAGE_DIR().relativize(filePath);
                     ProductFile file = filesService.saveEntity(product, relativePath.toString(), EFileType.IMAGE);
-                    return ResponseEntity.ok(createUrl(file.getUrl(), EFileType.IMAGE));
+                    return ResponseEntity.ok(FileUtils.createUrl(file.getUrl(), EFileType.IMAGE,globalProperty.getBASE_URL()));
                 } else {
                     return new ResponseEntity<>("Не удалось сохранить файл", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
@@ -105,16 +80,16 @@ public class AdminFilesController {
                 return new ResponseEntity<>("Файл не является изображением", HttpStatus.BAD_REQUEST);
             }
         }
-        if (dto.getFileType().equals(EFileType.DOCUMENT) && this.isDocDirectoryAvailability) {
-            Path docDir = Path.of(IMAGE_DIR.toString(), product.getCatalog().getAlias(), product.getAlias());
+        if (dto.getFileType().equals(EFileType.DOCUMENT) && globalProperty.getIsDocDirectoryAvailability()) {
+            Path docDir = Path.of(globalProperty.getDOC_DIR().toString(), product.getCatalog().getAlias(), product.getAlias());
             if (!createIfNotExistProductDir(docDir)) {
                 return new ResponseEntity<>("Не удалось создать директорию продукта", HttpStatus.INTERNAL_SERVER_ERROR);
             }
             Path filePath = Path.of(docDir.toString(), uploadFile.getOriginalFilename());
             if (filesService.saveFileOnFileSystem(uploadFile, filePath)) {
-                Path relativePath = DOC_DIR.relativize(filePath);
+                Path relativePath = globalProperty.getDOC_DIR().relativize(filePath);
                 ProductFile file = filesService.saveEntity(product, relativePath.toString(), EFileType.DOCUMENT);
-                return ResponseEntity.ok(createUrl(file.getUrl(), EFileType.DOCUMENT));
+                return ResponseEntity.ok(FileUtils.createUrl(file.getUrl(), EFileType.DOCUMENT,globalProperty.getBASE_URL()));
             } else {
                 return new ResponseEntity<>("Не удалось сохранить файл", HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -221,12 +196,4 @@ public class AdminFilesController {
         }
     }
 
-    private String createUrl(String relativePath, EFileType type) {
-        String tempUrl = relativePath.replaceAll("\\\\", "/");
-        if (type.equals(EFileType.IMAGE)) {
-            return BASE_URL + "images/" + tempUrl;
-        } else {
-            return BASE_URL + "doc/" + tempUrl;
-        }
-    }
 }
