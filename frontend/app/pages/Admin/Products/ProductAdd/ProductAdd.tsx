@@ -14,10 +14,19 @@ import {
   mapProductAddToDto,
 } from "~/pages/Admin/Products/ProductAdd";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd";
+import { useImages } from "~/pages/Admin/Products/ProductAdd/hook";
 import { getSelectableAttributeOptions } from "~/pages/Admin/Products/utils";
 import type { TAttributesByCatalog } from "~/shared/api/attributes";
 import type { TCatalogs } from "~/shared/api/catalogs";
-import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
+import {
+  Checkbox,
+  EFormMethods,
+  FileUploader,
+  Form,
+  Input,
+  Select,
+  useInitForm,
+} from "~/shared/form";
 import type { TParams } from "~/types";
 import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
@@ -38,13 +47,18 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
   const { catalogAliasesTypeOptions } = useGetCatalogAlias({ catalogs });
   const [catalogAlias, setCatalogAlias] = useState<TSelectOption>(catalogAliasesTypeOptions[0]);
   const attributesByCatalog: TAttributesByCatalog = fetcherRemix.data?.attributesByCatalog;
-  console.log("attributesByCatalog: ", attributesByCatalog);
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
   const fetcher = form.fetcher;
+  const { setValue, watch } = form.methods;
+
+  const watchImages = watch(EFormFields.Images);
+
+  const { onAddImages, onDeleteImage, fetcherImagesLoading } = useImages(watchImages, setValue);
+  console.log("watchImages: ", watchImages);
 
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
@@ -81,12 +95,12 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
     console.log("formattedParams: ", formattedParams);
     const dataFormToDto = mapProductAddToDto(formattedParams);
     console.log("dataFormToDto : ", dataFormToDto);
-    fetcher.submit(dataFormToDto, {
-      method: EFormMethods.Post,
-      action: createPath({
-        route: ERoutes.AdminProductAdd,
-      }),
-    });
+    // fetcher.submit(dataFormToDto, {
+    //   method: EFormMethods.Post,
+    //   action: createPath({
+    //     route: ERoutes.AdminProductAdd,
+    //   }),
+    // });
   };
 
   useEffect(() => {
@@ -147,7 +161,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
             attributesByCatalog.selectableAttribute &&
             attributesByCatalog.selectableAttribute.map((item) => {
               const { selectableAttributeOptions } = getSelectableAttributeOptions({
-                values: item.values,
+                values: item.values ?? [],
               });
               return (
                 <div className="ProductAdd-FormFieldGroup" key={item.id}>
@@ -169,6 +183,21 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
                 <Input key={item.id} label={item.name} name={item.attributeAlias} type="number" />
               );
             })}
+        </div>
+        <div className="ProductAdd-FormFieldGroup">
+          <FileUploader
+            accept={{
+              "image/jpeg": [".jpeg"],
+              "image/png": [".png"],
+            }}
+            files={watchImages}
+            Input={<input hidden name={EFormFields.Images} type="file" />}
+            isLoading={fetcherImagesLoading}
+            maxSize={1024 * 1024}
+            multiple={false}
+            onAddFiles={onAddImages}
+            onDeleteFile={onDeleteImage}
+          />
         </div>
         <div className="ProductAdd-Control">
           <Button className="ProductAdd-Button" type="submit">

@@ -62,6 +62,11 @@
       "title": "Password confirm"
     }
   },
+  "fileUploader": {
+    "title": "Drag and drop your files or click to upload",
+    "subTitle": "Supported file types: {types}",
+    "action": "Add!"
+  },
   "common": {
     "validation": {
       "email": "Invalid email",

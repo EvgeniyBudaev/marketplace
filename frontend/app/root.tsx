@@ -24,6 +24,7 @@ import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
 import { useInitDayjs, useInitLanguage } from "~/hooks";
+import { links as sharedLinks } from "~/shared";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
 import type { TCart } from "~/shared/api/cart";
@@ -118,6 +119,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: modalStyles },
     ...uikitLinks(),
     ...componentsLinks(),
+    ...sharedLinks(),
   ];
 };
 

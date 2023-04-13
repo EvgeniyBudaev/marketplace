@@ -23,6 +23,7 @@ export enum ERoutes {
   Settings = "/settings",
   Shipping = "/shipping",
 
+  ResourcesAdminProductAddUploadImage = "/resources/admin/products/add",
   ResourcesAttributesByCatalog = "/resources/catalogs/attributes/:alias",
   ResourcesCatalogs = "/resources/catalogs",
   ResourcesCart = "/resources/cart",
