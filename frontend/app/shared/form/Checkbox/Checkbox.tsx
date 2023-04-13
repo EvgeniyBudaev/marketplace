@@ -1,7 +1,8 @@
 import { memo, useEffect } from "react";
 import type { FC } from "react";
 import { useController, useFormContext } from "react-hook-form";
-import { Checkbox as CheckboxUi, TCheckboxProps as TCheckboxPropsUi } from "~/uikit";
+import { Checkbox as CheckboxUi } from "~/uikit";
+import type { TCheckboxProps as TCheckboxPropsUi } from "~/uikit";
 
 type TProps = TCheckboxPropsUi & {
   checked?: boolean;

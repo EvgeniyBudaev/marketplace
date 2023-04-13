@@ -6,7 +6,7 @@ import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
 import type { TCart } from "~/shared/api/cart";
-import { TCatalogDetail } from "~/shared/api/catalogs";
+import type { TCatalogDetail } from "~/shared/api/catalogs";
 import type { TProductByCatalog } from "~/shared/api/products";
 import { EFormMethods } from "~/shared/form";
 import { Button, ETypographyVariant, Typography } from "~/uikit";
@@ -30,6 +30,11 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     route: ERoutes.Cart,
   });
   const count = Number(product.count);
+  const imageProduct = formatProxy(
+    !isNil(product?.images)
+      ? product.images[0]
+      : "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
+  );
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
 
   const imageResponsiveSizeWidth = () => {
@@ -97,9 +102,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
               <img
                 className="ProductListItem-ContentImage"
                 alt={product.name}
-                src={formatProxy(
-                  "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
-                )}
+                src={imageProduct}
                 width={imageResponsiveSizeWidth()}
                 height={imageResponsiveSizeHeight()}
               />

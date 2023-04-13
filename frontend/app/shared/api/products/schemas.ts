@@ -32,6 +32,7 @@ export const productsByCatalogItemSchema = z.object({
   count: z.string(),
   createdAt: z.string(),
   attributes: attributeItemSchema.array(),
+  images: z.string().array().nullish(),
 });
 
 export const productsParamsSchema = z.any();
