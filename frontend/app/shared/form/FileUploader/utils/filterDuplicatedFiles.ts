@@ -1,3 +1,4 @@
+import isNil from "lodash/isNil";
 import type { TFile } from "~/types";
 
 type TFilterDuplicatedFilesResponse = {
@@ -7,9 +8,9 @@ type TFilterDuplicatedFilesResponse = {
 
 export const filterDuplicatedFiles = (
   addedFiles: File[],
-  files: TFile[],
+  files?: TFile[],
 ): TFilterDuplicatedFilesResponse => {
-  const newFiles = [...files];
+  const newFiles = !isNil(files) ? [...files] : [];
   const acceptedFiles: File[] = [];
 
   addedFiles.forEach((addedFile) => {
