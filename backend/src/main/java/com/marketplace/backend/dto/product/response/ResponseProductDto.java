@@ -65,12 +65,16 @@ public class ResponseProductDto {
         if (selValueDto != null) {
             this.getAttributes().addAll(selValueDto);
         }
-        this.images = product.getProductFiles().stream().map(productFile -> {
-            if (productFile.getFileType().equals(EFileType.DOCUMENT)){
-                return null;
-            }
-            return FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,baseUrl);
-        }).collect(Collectors.toSet());
+        if(product.getProductFiles()!=null&&!product.getProductFiles().isEmpty()){
+            this.images = product.getProductFiles().stream().map(productFile -> {
+                if (productFile.getFileType().equals(EFileType.DOCUMENT)){
+                    return null;
+                }
+                return FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,baseUrl);
+            }).collect(Collectors.toSet());
+        }else {
+            this.images=null;
+        }
     }
 
 

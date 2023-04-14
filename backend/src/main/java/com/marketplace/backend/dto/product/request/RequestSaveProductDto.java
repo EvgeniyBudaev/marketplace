@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Data
 public class RequestSaveProductDto implements RequestSaveOrUpdate {
     private Long id;
@@ -28,4 +29,5 @@ public class RequestSaveProductDto implements RequestSaveOrUpdate {
     private BigDecimal price;
     private Set<Long> selectableValues = new HashSet<>();
     private Set<NumericValue> numericValues = new HashSet<>();
+
 }

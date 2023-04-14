@@ -8,17 +8,21 @@ import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.Attribute;
+import com.marketplace.backend.model.EFileType;
 import com.marketplace.backend.model.Product;
+import com.marketplace.backend.model.ProductFile;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -31,14 +35,16 @@ public class AdminProductService implements ManageProductDao {
     private final EntityManager entityManager;
     private final CatalogService catalogService;
     private final AttributeService attributeService;
+    private final AdminFilesService adminFilesService;
     private final ProductMapper productMapper;
 
     @Autowired
-    public AdminProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, ProductMapper productMapper) {
+    public AdminProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, AdminFilesService adminFilesService, ProductMapper productMapper) {
 
         this.entityManager = entityManager;
         this.catalogService = catalogService;
         this.attributeService = attributeService;
+        this.adminFilesService = adminFilesService;
         this.productMapper = productMapper;
     }
 
@@ -49,6 +55,16 @@ public class AdminProductService implements ManageProductDao {
                 .createQuery("UPDATE Product as p set p.enabled=false where p.alias=:alias and p.enabled=true ");
         query.setParameter("alias", alias);
         return query.executeUpdate();
+    }
+
+    @Override
+    public Boolean saveFileOnFileSystem(MultipartFile file, Path path) {
+        return adminFilesService.saveFileOnFileSystem(file,path);
+    }
+
+    @Override
+    public ProductFile saveFileDescription(Product product, String url, EFileType type) {
+        return adminFilesService.saveEntity(product,url,type);
     }
 
 

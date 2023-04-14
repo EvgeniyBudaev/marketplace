@@ -735,37 +735,6 @@
 							"response": []
 						},
 						{
-							"name": "add product",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"alias\": \"venetian-mirror234\",\n    \"description\": \"Это очень новое зеркало\",\n    \"catalogAlias\": \"mirrors\",\n    \"name\": \"Внецианское зеркало\",\n    \"count\": 7,\n    \"price\":156.89,\n    \"selectableValues\":[\n        1,7,8\n    ],\n    \"numericValues\":[\n        {\n            \"attributeAlias\": \"height\",\n            \"value\": 139\n        },\n        {\n            \"attributeAlias\": \"weight\",\n            \"value\": 150\n        },\n        {\n            \"attributeAlias\": \"width\",\n             \"value\": 172\n        }\n    ]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/v1/products/save",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"v1",
-										"products",
-										"save"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "add product with image",
 							"request": {
 								"method": "POST",
@@ -775,7 +744,7 @@
 									"formdata": [
 										{
 											"key": "alias",
-											"value": "venetian-mirror234",
+											"value": "venetian-mirror266167589",
 											"type": "text"
 										},
 										{
@@ -817,6 +786,46 @@
 											"key": "selectableValues[]",
 											"value": "8",
 											"type": "text"
+										},
+										{
+											"key": "numericValues[0].attributeAlias",
+											"value": "height",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[0].value",
+											"value": "139",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[1].attributeAlias",
+											"value": "weight",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[1].value",
+											"value": "150",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[2].attributeAlias",
+											"value": "width",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[2].value",
+											"value": "230",
+											"type": "text"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/images/avatar.png"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/images/btn-hover.svg"
 										}
 									]
 								},

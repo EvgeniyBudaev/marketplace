@@ -20,20 +20,15 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class FilesService {
-    private final ProductService productService;
+public class AdminFilesService {
     @PersistenceContext
     private final EntityManager entityManager;
 
     @Autowired
-    public FilesService(ProductService productService, EntityManager entityManager) {
-        this.productService = productService;
+    public AdminFilesService(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-    public Product getProductByAlias(String alias) {
-        return productService.findProductWithCatalogByAlias(alias);
-    }
 
     public Boolean saveFileOnFileSystem(MultipartFile file, Path path) {
         try {

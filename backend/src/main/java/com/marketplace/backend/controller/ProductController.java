@@ -2,16 +2,20 @@ package com.marketplace.backend.controller;
 
 import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dao.ProductDao;
-import com.marketplace.backend.dto.product.request.RequestSaveProductDto;
+import com.marketplace.backend.dto.product.request.RequestSaveWithImageProductDto;
 import com.marketplace.backend.dto.product.request.RequestUpdateProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDtoForAdmin;
 import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
 import com.marketplace.backend.exception.AppError;
+import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.mappers.ProductMapper;
+import com.marketplace.backend.model.EFileType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
+import com.marketplace.backend.model.ProductFile;
 import com.marketplace.backend.service.utils.queryes.*;
+import com.marketplace.backend.utils.FileUtils;
 import com.marketplace.properties.model.properties.GlobalProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.HashSet;
 
 
 @RestController
@@ -34,13 +40,15 @@ public class ProductController {
     private final ProductMapper productMapper;
     private final ManageProductDao manageProductDao;
     private final GlobalProperty globalProperty;
+    private final FileUtils fileUtils;
 
     @Autowired
-    public ProductController(ProductDao productDao, ProductMapper productMapper, ManageProductDao manageProductDao, GlobalProperty globalProperty) {
+    public ProductController(ProductDao productDao, ProductMapper productMapper, ManageProductDao manageProductDao, GlobalProperty globalProperty, FileUtils fileUtils) {
         this.productDao = productDao;
         this.productMapper = productMapper;
         this.manageProductDao = manageProductDao;
         this.globalProperty = globalProperty;
+        this.fileUtils = fileUtils;
     }
 
 
@@ -86,12 +94,20 @@ public class ProductController {
 
     }
 
-    @PostMapping("/save")
-    public ResponseProductDto saveProduct(@Valid RequestSaveProductDto productDto, MultipartFile ... files) {
+    @PostMapping(value = "/save")
+    public ResponseProductDto saveWithImageProduct(@Valid RequestSaveWithImageProductDto productDto, @RequestParam(name = "files",required = false)MultipartFile[] files) {
         Product product = manageProductDao.save(productDto);
+
+        if(files!=null&&files.length!=0){
+            product.setProductFiles(new HashSet<>(files.length));
+            for (MultipartFile file : files) {
+                product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product));
+            }
+        }else {
+            System.out.println("files is empty");
+        }
         return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
     }
-
     @PutMapping("/put")
     public ResponseProductDto updateProduct(@Valid @RequestBody RequestUpdateProductDto productDto) {
         Product product = manageProductDao.update(productDto);
@@ -127,4 +143,39 @@ public class ProductController {
         return dto;
     }
 
+    private ProductFile saveFile(MultipartFile uploadFile,EFileType eFileType,Product product){
+        if (eFileType.equals(EFileType.IMAGE) && globalProperty.getIsImageDirectoryAvailability()) {
+            if (fileUtils.checkImageFile(uploadFile)) {
+                Path imageDir = Path.of(globalProperty.getIMAGE_DIR().toString(), product.getCatalog().getAlias(), product.getAlias());
+                if (!fileUtils.createIfNotExistProductDir(imageDir)) {
+                    throw new OperationNotAllowedException("Не удалось создать директорию продукта");
+                }
+                Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
+                if (manageProductDao.saveFileOnFileSystem(uploadFile, filePath)) {
+                    Path relativePath = globalProperty.getIMAGE_DIR().relativize(filePath);
+                    return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.IMAGE);
+                    /*return ResponseEntity.ok(FileUtils.createUrl(file.getUrl(), EFileType.IMAGE,globalProperty.getBASE_URL()));*/
+                } else {
+                    throw new OperationNotAllowedException("Не удалось сохранить файл");
+                }
+            } else {
+                throw new OperationNotAllowedException("Файл не является изображением");
+            }
+        }
+        if (eFileType.equals(EFileType.DOCUMENT) && globalProperty.getIsDocDirectoryAvailability()) {
+            Path docDir = Path.of(globalProperty.getDOC_DIR().toString(), product.getCatalog().getAlias(), product.getAlias());
+            if (!fileUtils.createIfNotExistProductDir(docDir)) {
+                throw new OperationNotAllowedException("Не удалось создать директорию продукта");
+            }
+            Path filePath = Path.of(docDir.toString(), uploadFile.getOriginalFilename());
+            if (manageProductDao.saveFileOnFileSystem(uploadFile, filePath)) {
+                Path relativePath = globalProperty.getDOC_DIR().relativize(filePath);
+                return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.DOCUMENT);
+            } else {
+                throw new OperationNotAllowedException("Не удалось сохранить файл");
+            }
+
+        }
+        throw new OperationNotAllowedException("Директория для сохранения файла не доступна");
+    }
 }
