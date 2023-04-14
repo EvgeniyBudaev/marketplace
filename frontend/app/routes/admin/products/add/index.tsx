@@ -30,6 +30,7 @@ export const action = async (args: ActionArgs) => {
       );
     }
     return badRequest({ success: false });
+    // return null;
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};

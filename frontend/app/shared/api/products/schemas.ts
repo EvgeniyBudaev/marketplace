@@ -80,6 +80,7 @@ export const productAddParamsSchema = z.object({
   count: z.number(),
   description: z.string().nullish(),
   enabled: z.boolean(),
+  images: z.any(),
   name: z.string(),
   numericValues: numericValuesSchema.array().nullish(),
   price: z.number(),

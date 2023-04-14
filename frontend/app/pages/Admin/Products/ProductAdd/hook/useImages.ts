@@ -13,10 +13,17 @@ type TResponse = {
   fetcherImagesLoading: boolean;
 };
 
-export const useImages = (images: TFile[], setValue: UseFormSetValue<any>): TResponse => {
+type TUseImagesParams = {
+  images?: TFile[];
+  setValue: UseFormSetValue<any>;
+};
+
+type TUseImages = (params: TUseImagesParams) => TResponse;
+
+export const useImages: TUseImages = ({ images, setValue }) => {
   const fetcherImages = useFetcher();
   const fetcherImagesLoading = fetcherImages.state !== "idle";
-
+  // console.log("images: ", images);
   const onAddImages = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length) {
@@ -29,8 +36,8 @@ export const useImages = (images: TFile[], setValue: UseFormSetValue<any>): TRes
           type,
         }));
 
-        setValue(EFormFields.Images, [...images, ...newImages]);
-
+        // setValue(EFormFields.Images, images ? [...images, ...newImages] : [...newImages]);
+        setValue(EFormFields.Images, images ? [...images, ...acceptedFiles] : [...acceptedFiles]);
         // fetcherImages.submit(formData, {
         //   method: "post",
         //   action: ERoutes.ResourcesAdminProductAddUploadImage,
@@ -43,12 +50,14 @@ export const useImages = (images: TFile[], setValue: UseFormSetValue<any>): TRes
 
   const onDeleteImage = useCallback(
     (deletedFile: TFile) => {
-      setValue(
-        EFormFields.Images,
-        images.filter(
-          (image: TFile) => image.name !== deletedFile.name && image.size !== deletedFile.size,
-        ),
-      );
+      if (images) {
+        setValue(
+          EFormFields.Images,
+          images.filter(
+            (image: TFile) => image.name !== deletedFile.name && image.size !== deletedFile.size,
+          ),
+        );
+      }
     },
     [setValue, images],
   );
@@ -57,16 +66,18 @@ export const useImages = (images: TFile[], setValue: UseFormSetValue<any>): TRes
     if (fetcherImages.data && fetcherImages.type === "done") {
       const { name, id, size } = fetcherImages.data;
 
-      setValue(
-        EFormFields.Images,
-        images.map((image: TFile) => {
-          if (image.name === name && image.size === size) {
-            image.id = id;
-          }
+      if (images) {
+        setValue(
+          EFormFields.Images,
+          images.map((image: TFile) => {
+            if (image.name === name && image.size === size) {
+              image.id = id;
+            }
 
-          return image;
-        }),
-      );
+            return image;
+          }),
+        );
+      }
     }
     // Нужно, чтобы поймать только момент, когда пришел ответ от сервера и записать данные в поле
     // eslint-disable-next-line react-hooks/exhaustive-deps
