@@ -42,10 +42,10 @@ export const getAdminProductDetail = apiDomainFunction(
   adminProductDetailSchema,
 )(getAdminProductDetailApi);
 
-export const addProduct = apiDomainFunction(
-  productAddParamsSchema,
-  productAddSchema,
-)(addProductApi);
+export const addProduct =
+  apiDomainFunction()(addProductApi);
+  // productAddParamsSchema,
+  // productAddSchema,
 
 export const editProduct = apiDomainFunction(
   productEditParamsSchema,

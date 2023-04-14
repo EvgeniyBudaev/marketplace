@@ -32,10 +32,8 @@ export const FileUploader: FC<TFileUploaderProps> = ({
 
   const onDrop = useCallback(
     (addedFiles: File[]) => {
-      if (!isNil(files)) {
-        const { acceptedFiles, newFiles } = filterDuplicatedFiles(addedFiles, files);
-        onAddFiles(acceptedFiles, newFiles);
-      }
+      const { acceptedFiles, newFiles } = filterDuplicatedFiles(addedFiles, files);
+      onAddFiles(acceptedFiles, newFiles);
     },
     [onAddFiles, files],
   );
