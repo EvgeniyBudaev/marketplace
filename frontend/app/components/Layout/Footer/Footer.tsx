@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { Link } from "@remix-run/react";
 import { Logo, NavLink } from "~/components";
 import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./Footer.module.css";
@@ -31,21 +30,21 @@ export const Footer: FC = () => {
         <div className="Footer-Copy">
           <div className="Footer-Text">
             <Typography variant={ETypographyVariant.TextB3Regular}>Web design by</Typography>
-            <Link to={"https://github.com/EvgeniyBudaev"}>
+            <a href={"https://github.com/EvgeniyBudaev"}>
               <span className="Footer-Link">
                 &nbsp;
                 <Typography variant={ETypographyVariant.TextB3Regular}>Evgeniy Budaev</Typography>
               </span>
-            </Link>
+            </a>
           </div>
           <div className="Footer-Text">
             <Typography variant={ETypographyVariant.TextB3Regular}>Developed by</Typography>
-            <Link to={"https://github.com/EvgeniyBudaev"}>
+            <a href={"https://github.com/EvgeniyBudaev"}>
               <span className="Footer-Link">
                 &nbsp;
                 <Typography variant={ETypographyVariant.TextB3Regular}>Evgeniy Budaev</Typography>
               </span>
-            </Link>
+            </a>
           </div>
           <div className="Footer-Text">
             <Typography variant={ETypographyVariant.TextB3Regular}>

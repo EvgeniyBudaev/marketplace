@@ -67,6 +67,7 @@ export const productDetailSchema = z.object({
   createdAt: z.string().nullish(),
   modifyDate: z.string().nullish(),
   attributes: attributeItemSchema.array(),
+  images: z.string().array().nullish(),
 });
 
 const numericValuesSchema = z.object({
@@ -74,18 +75,7 @@ const numericValuesSchema = z.object({
   value: z.number(),
 });
 
-export const productAddParamsSchema = z.object({
-  alias: z.string(),
-  catalogAlias: z.string(),
-  count: z.number(),
-  description: z.string().nullish(),
-  enabled: z.boolean(),
-  images: z.any(),
-  name: z.string(),
-  numericValues: numericValuesSchema.array().nullish(),
-  price: z.number(),
-  selectableValues: z.number().array().nullish(),
-});
+export const productAddParamsSchema = z.any();
 
 export const productAddSchema = productDetailSchema;
 

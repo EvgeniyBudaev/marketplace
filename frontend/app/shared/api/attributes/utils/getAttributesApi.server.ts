@@ -8,7 +8,7 @@ export const getAttributesApi: TApiFunction<TAttributesParams, TAttributes> = (
   { params },
 ) => {
   const url = `/api/v1/attributes/get_all?${new URLSearchParams(params)}`;
-  console.log("[url] ", url);
+  // console.log("[url] ", url);
 
   return fetchApi<TAttributes>(request, url, {
     method: EFormMethods.Get,
