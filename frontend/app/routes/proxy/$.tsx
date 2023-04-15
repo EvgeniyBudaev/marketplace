@@ -10,7 +10,7 @@ const ALLOWED_CONTENT_TYPES = [
   "image/svg+xml",
   "image/webp",
 ];
-const ALLOWED_HOSTS = ["www.semashko.com"];
+const ALLOWED_HOSTS = ["www.semashko.com", "localhost:8080"];
 
 export const loader: LoaderFunction = async ({ params }) => {
   const url = params["*"];

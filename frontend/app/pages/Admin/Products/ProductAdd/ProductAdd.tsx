@@ -61,7 +61,6 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
     images: watchImages,
     setValue,
   });
-  // console.log("watchImages: ", watchImages);
 
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
@@ -93,34 +92,29 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
   };
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
-    // console.log("Form params: ", params);
     const formattedParams = formattedProductAdd(params);
-    // console.log("formattedParams: ", formattedParams);
     const dataFormToDto = mapProductAddToDto(formattedParams);
-    console.log("dataFormToDto : ", dataFormToDto);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.catalogAlias && formData.append("catalogAlias", dataFormToDto.catalogAlias);
     dataFormToDto.count && formData.append("count", dataFormToDto.count);
     dataFormToDto.description && formData.append("description", dataFormToDto.description);
     dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
-    // if (dataFormToDto.images.length) {
-    //   dataFormToDto.images && formData.append("images", dataFormToDto.images[0]);
-    // }
+    dataFormToDto.images && dataFormToDto.images.forEach((file) => formData.append("files", file));
     dataFormToDto.name && formData.append("name", dataFormToDto.name);
-    // dataFormToDto.numericValues && formData.append("numericValues", dataFormToDto.numericValues);
-    dataFormToDto.numericValues &&
-      dataFormToDto.numericValues.forEach((item) =>
-        formData.append("numericValues[]", JSON.stringify(item)),
-      );
-    // if(dataFormToDto.numericValues) {
-    //   for (let i = 0; i < dataFormToDto.numericValues.length; i++) {
-    //     formData.append(dataFormToDto.numericValues[i]["attributeAlias"], dataFormToDto.numericValues[i].attributeAlias);
-    //     formData.append(String(dataFormToDto.numericValues[i]["value"]), dataFormToDto.numericValues[i].value.toString());
-    //   }
-    // }
+    if (dataFormToDto.numericValues) {
+      for (let i = 0; i < dataFormToDto.numericValues.length; i++) {
+        formData.append(
+          `numericValues[${i}].attributeAlias`,
+          dataFormToDto.numericValues[i].attributeAlias,
+        );
+        formData.append(
+          `numericValues[${i}].value`,
+          dataFormToDto.numericValues[i].value.toString(),
+        );
+      }
+    }
     dataFormToDto.price && formData.append("price", dataFormToDto.price);
-    // dataFormToDto.selectableValues && formData.append("selectableValues", dataFormToDto.selectableValues);
     dataFormToDto.selectableValues &&
       dataFormToDto.selectableValues.forEach((item) =>
         formData.append("selectableValues[]", item.toString()),
@@ -133,12 +127,6 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
       }),
       encType: "multipart/form-data",
     });
-    // fetcher.submit(dataFormToDto, {
-    //   method: EFormMethods.Post,
-    //   action: createPath({
-    //     route: ERoutes.AdminProductAdd,
-    //   }),
-    // });
   };
 
   useEffect(() => {

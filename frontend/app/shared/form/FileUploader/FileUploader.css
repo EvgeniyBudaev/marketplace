@@ -50,6 +50,9 @@
   flex-direction: column;
   align-items: center;
 }
+.FileUploader-Dropzone-Button {
+  margin-top: 16px;
+}
 .FileUploader-Files {
   display: flex;
   flex-direction: column;

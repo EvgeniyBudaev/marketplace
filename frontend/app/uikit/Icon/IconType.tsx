@@ -28,6 +28,7 @@ import {
   FilterIcon,
   HomeIcon,
   HouseIcon,
+  ImageIcon,
   LightModeIcon,
   LogoIcon,
   LogoShortIcon,
@@ -77,6 +78,7 @@ export type IconType =
   | "Filter"
   | "Home"
   | "House"
+  | "Image"
   | "LightMode"
   | "Logo"
   | "LogoShort"
@@ -124,7 +126,8 @@ export const iconTypes = new Map([
   ["Factory", <FactoryIcon key={"Factory"} />],
   ["Filter", <FilterIcon key={"Filter"} />],
   ["Home", <HomeIcon key={"Home"} />],
-  ["HouseIcon", <HouseIcon key={"Home"} />],
+  ["House", <HouseIcon key={"Home"} />],
+  ["Image", <ImageIcon key={"Image"} />],
   ["LightMode", <LightModeIcon key={"LightMode"} />],
   ["Logo", <LogoIcon key={"Logo"} />],
   ["LogoShort", <LogoShortIcon key={"LogoShort"} />],

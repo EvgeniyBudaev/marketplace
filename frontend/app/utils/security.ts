@@ -30,7 +30,7 @@ export const getContentSecurityPolicy = (nonce?: string): string => {
     "manifest-src 'self'; " +
     "media-src 'self'; " +
     "object-src 'none'; " +
-    "prefetch-src 'self'; " +
+    // "prefetch-src 'self'; " +
     "script-src-attr 'none';" +
     "worker-src 'self' blob:; " +
     "upgrade-insecure-requests"

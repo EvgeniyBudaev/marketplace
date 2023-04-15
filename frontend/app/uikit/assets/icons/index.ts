@@ -25,6 +25,7 @@ export * from "./FactoryIcon";
 export * from "./FilterIcon";
 export * from "./HomeIcon";
 export * from "./HouseIcon";
+export * from "./ImageIcon";
 export * from "./LightModeIcon";
 export * from "./LogoIcon";
 export * from "./LogoShortIcon";

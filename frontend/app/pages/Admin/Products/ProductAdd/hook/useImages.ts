@@ -1,8 +1,6 @@
 import { useCallback, useEffect } from "react";
 import type { UseFormSetValue } from "react-hook-form";
 import { useFetcher } from "@remix-run/react";
-import dayjs from "dayjs";
-import { ERoutes } from "~/enums";
 import { EFormFields } from "~/pages/Admin/Products/ProductAdd";
 import type { TFileUploaderProps } from "~/shared/form";
 import type { TFile } from "~/types";
@@ -23,26 +21,12 @@ type TUseImages = (params: TUseImagesParams) => TResponse;
 export const useImages: TUseImages = ({ images, setValue }) => {
   const fetcherImages = useFetcher();
   const fetcherImagesLoading = fetcherImages.state !== "idle";
-  // console.log("images: ", images);
   const onAddImages = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length) {
         const formData = new FormData();
         formData.append("file", acceptedFiles[0]);
-        const newImages = acceptedFiles.map(({ name, size, type }) => ({
-          name,
-          createdAt: dayjs().utc().toISOString(),
-          size,
-          type,
-        }));
-
-        // setValue(EFormFields.Images, images ? [...images, ...newImages] : [...newImages]);
         setValue(EFormFields.Images, images ? [...images, ...acceptedFiles] : [...acceptedFiles]);
-        // fetcherImages.submit(formData, {
-        //   method: "post",
-        //   action: ERoutes.ResourcesAdminProductAddUploadImage,
-        //   encType: "multipart/form-data",
-        // });
       }
     },
     [fetcherImages, setValue, images],
@@ -70,9 +54,9 @@ export const useImages: TUseImages = ({ images, setValue }) => {
         setValue(
           EFormFields.Images,
           images.map((image: TFile) => {
-            if (image.name === name && image.size === size) {
-              image.id = id;
-            }
+            // if (image.name === name && image.size === size) {
+            //   image.id = id;
+            // }
 
             return image;
           }),

@@ -27,7 +27,8 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
   ref,
 ) {
   const ROUTE_PRODUCT_DETAIL = createPath({
-    route: ERoutes.Cart,
+    route: ERoutes.ProductDetail,
+    params: { alias: product.alias },
   });
   const count = Number(product.count);
   const imageProduct = formatProxy(

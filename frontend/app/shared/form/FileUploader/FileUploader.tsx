@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import isNil from "lodash/isNil";
 import { filterDuplicatedFiles, getTypes } from "~/shared/form/FileUploader/utils";
 import type { TFile } from "~/types";
-import { Button, Dropzone, ETypographyVariant, Typography } from "~/uikit";
+import { Button, Dropzone, ETypographyVariant, Icon, Typography } from "~/uikit";
 import type { TDropzoneProps } from "~/uikit";
 import styles from "./FileUploader.css";
 
@@ -57,7 +57,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
               {t("fileUploader.subTitle", { types })}
             </Typography>
           )}
-          <Button>{t("fileUploader.action")}</Button>
+          <Button className="FileUploader-Dropzone-Button">{t("fileUploader.action")}</Button>
         </div>
       </Dropzone>
       <div className="FileUploader-Files">
@@ -65,9 +65,10 @@ export const FileUploader: FC<TFileUploaderProps> = ({
           files.map((file) => (
             <div
               className="FileUploader-File"
-              key={file?.name || "" + (file?.lastModified || file?.createdAt)}
+              key={file?.name || "" + file?.lastModified}
+              // key={file?.name || "" + (file?.lastModified || file?.createdAt)}
             >
-              <div>Иконка файла</div>
+              <Icon type="Image" />
               <div>{file.name}</div>
             </div>
           ))}

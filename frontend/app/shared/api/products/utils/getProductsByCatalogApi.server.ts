@@ -10,7 +10,7 @@ export const getProductsByCatalogApi: TApiFunction<
   const encodeAndJoinPair = (pair: any) => pair.map(encodeURIComponent).join("=");
   const searchParams = params && Object.entries(params).map(encodeAndJoinPair).join("&");
   const url = `/api/v1/products/page/?catalog=${alias}${searchParams ? `&${searchParams}` : ""}`;
-  console.log("[url] ", url);
+  // console.log("[url] ", url);
 
   return fetchApi<TProductsByCatalog>(request, url, {
     method: EFormMethods.Get,

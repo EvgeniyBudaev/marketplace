@@ -9,7 +9,7 @@ export const getAttributesByCatalogApi: TApiFunction<
 > = (request, params) => {
   const { alias } = params;
   const url = `/api/v1/admin/catalogs/attributes/${alias}`;
-  console.log("[url] ", url);
+  // console.log("[url] ", url);
 
   return fetchApi<TAttributesByCatalog>(request, url, {
     method: EFormMethods.Get,

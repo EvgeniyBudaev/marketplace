@@ -5,7 +5,6 @@ import { EFormMethods } from "~/shared/form";
 
 export const addProductApi: TApiFunction<TProductAddParams, TProductAdd> = (request, params) => {
   const url = `/api/v1/products/save`;
-  console.log("[utils add params] ", params);
   return fetchApi<TProductAdd>(request, url, {
     method: EFormMethods.Post,
     body: params,

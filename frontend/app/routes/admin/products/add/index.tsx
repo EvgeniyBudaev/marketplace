@@ -1,4 +1,4 @@
-import { inputFromForm, inputFromSearch } from "remix-domains";
+import { inputFromSearch } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
@@ -7,21 +7,16 @@ import { ERoutes } from "~/enums";
 import { ProductAdd, productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import { getCatalogs } from "~/shared/api/catalogs";
 import { addProduct } from "~/shared/api/products";
-import { mapProductAddToDto, mapProductsToDto } from "~/shared/api/products/utils";
+import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getResponseError } from "~/shared/domain";
 import { createPath, internalError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
-  const formValues = await inputFromForm(request);
-  const formattedParams = mapProductAddToDto({
-    ...formValues,
-  });
-  console.log("[ProductAdd action formattedParams] ", formattedParams);
+  const formData = await request.formData();
 
   try {
-    const response = await addProduct(request, formattedParams);
-    console.log("[response.success]", response.success);
+    const response = await addProduct(request, formData);
     if (response.success) {
       return redirect(
         createPath({
@@ -30,13 +25,9 @@ export const action = async (args: ActionArgs) => {
       );
     }
     return badRequest({ success: false });
-    // return null;
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
     return badRequest({ success: false, formError, fieldErrors });
   }
 };

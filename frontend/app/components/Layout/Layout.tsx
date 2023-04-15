@@ -37,7 +37,7 @@ export const Layout: FC<TProps> = ({ cart, className, children, is404, theme = E
   useEffect(() => {
     if (state === "loading") NProgress.start();
     if (state === "idle") NProgress.done();
-  }, [transition.state]);
+  }, [state, transition.state]);
 
   return (
     <div className={clsx("Layout", className)}>
