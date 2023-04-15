@@ -3,7 +3,7 @@ import { badRequest } from "remix-utils";
 import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { ERoutes } from "~/enums";
+import { EPermissions, ERoutes } from "~/enums";
 import { CatalogAdd, catalogAddLinks, EFormFields } from "~/pages/Admin/Catalogs/CatalogAdd";
 import type { TForm } from "~/pages/Admin/Catalogs/CatalogAdd";
 import { addCatalog, CatalogsApi } from "~/shared/api/catalogs";
@@ -11,6 +11,7 @@ import { getInputErrors, getResponseError } from "~/shared/domain";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getAttributes } from "~/shared/api/attributes";
 import { createPath } from "~/utils";
+import { checkRequestPermission } from "~/utils/permission";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -42,15 +43,22 @@ export const action = async (args: ActionArgs) => {
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
+
+  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+
+  if (!isPermissions) {
+    return redirect(ERoutes.Login);
+  }
+
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
-
   const formattedParams = mapParamsToDto({
     ...formValues,
   });
@@ -64,16 +72,19 @@ export const loader = async (args: LoaderArgs) => {
         success: true,
       });
     }
+
     return badRequest({ success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
 export default function CatalogAddRoute() {
   const data = useLoaderData<typeof loader>();
+
   return <CatalogAdd attributes={data.attributes} />;
 }
 

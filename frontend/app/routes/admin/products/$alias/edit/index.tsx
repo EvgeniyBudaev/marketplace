@@ -3,7 +3,7 @@ import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
-import { ERoutes } from "~/enums";
+import { EPermissions, ERoutes } from "~/enums";
 import { EFormFields } from "~/pages/Admin/Attributes/AttributeEdit";
 import type { TForm } from "~/pages/Admin/Attributes/AttributeEdit";
 import { ProductEdit, productEditLinks } from "~/pages/Admin/Products/ProductEdit";
@@ -12,6 +12,7 @@ import { editProduct, getAdminProductDetail } from "~/shared/api/products";
 import { mapProductEditToDto, mapProductsToDto } from "~/shared/api/products/utils";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { createPath } from "~/utils";
+import { checkRequestPermission } from "~/utils/permission";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -24,6 +25,7 @@ export const action = async (args: ActionArgs) => {
 
   try {
     const productResponse = await editProduct(request, formattedParams);
+
     if (productResponse.success) {
       return redirect(
         createPath({
@@ -31,6 +33,7 @@ export const action = async (args: ActionArgs) => {
         }),
       );
     }
+
     return badRequest({ success: false });
   } catch (error) {
     const errorResponse = error as Response;
@@ -38,16 +41,23 @@ export const action = async (args: ActionArgs) => {
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
+
+  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+
+  if (!isPermissions) {
+    return redirect(ERoutes.Login);
+  }
+
   const { alias } = params;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
-
   const formattedParams = mapProductsToDto({
     ...formValues,
   });
@@ -64,6 +74,7 @@ export const loader = async (args: LoaderArgs) => {
         success: true,
       });
     }
+
     const fieldErrors = getInputErrors<keyof TForm>(
       productDetailResponse,
       Object.values(EFormFields),
@@ -78,6 +89,7 @@ export const loader = async (args: LoaderArgs) => {
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };

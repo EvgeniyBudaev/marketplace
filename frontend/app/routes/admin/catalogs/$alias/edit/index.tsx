@@ -3,7 +3,7 @@ import { json, redirect } from "@remix-run/node";
 import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
-import { ERoutes } from "~/enums";
+import { EPermissions, ERoutes } from "~/enums";
 import { CatalogEdit, catalogEditLinks, EFormFields } from "~/pages/Admin/Catalogs/CatalogEdit";
 import type { TForm } from "~/pages/Admin/Catalogs/CatalogEdit";
 import { getAttributes, getAttributesByCatalog } from "~/shared/api/attributes";
@@ -11,6 +11,7 @@ import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { editCatalog, CatalogsApi, getCatalogDetail } from "~/shared/api/catalogs";
 import { createPath } from "~/utils";
+import { checkRequestPermission } from "~/utils/permission";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -44,16 +45,23 @@ export const action = async (args: ActionArgs) => {
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
+
+  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+
+  if (!isPermissions) {
+    return redirect(ERoutes.Login);
+  }
+
   const { alias } = params;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
-
   const formattedParams = mapParamsToDto({
     ...formValues,
   });
@@ -75,6 +83,7 @@ export const loader = async (args: LoaderArgs) => {
         success: true,
       });
     }
+
     return badRequest({ success: false });
   } catch (error) {
     const errorResponse = error as Response;
@@ -82,6 +91,7 @@ export const loader = async (args: LoaderArgs) => {
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };

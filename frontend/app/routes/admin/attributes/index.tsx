@@ -1,22 +1,27 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
+import { EPermissions, ERoutes } from "~/enums";
 import { Attributes, attributesLinks } from "~/pages/Admin/Attributes";
 import { deleteAttribute, EAttributeAction, getAttributes } from "~/shared/api/attributes";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getResponseError } from "~/shared/domain";
+import { checkRequestPermission } from "~/utils/permission";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
   const { _method, alias } = await inputFromForm(request);
+
   try {
     if (_method === EAttributeAction.DeleteAttribute) {
       const response = await deleteAttribute(request, { alias });
+
       if (response.success) {
         return { success: true };
       }
+
       return badRequest({ success: false });
     }
   } catch (error) {
@@ -25,15 +30,22 @@ export const action = async (args: ActionArgs) => {
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
+
+  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+
+  if (!isPermissions) {
+    return redirect(ERoutes.Login);
+  }
+
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
-
   const formattedParams = mapParamsToDto({
     ...formValues,
   });
@@ -47,10 +59,12 @@ export const loader = async (args: LoaderArgs) => {
         success: true,
       });
     }
+
     return badRequest({ success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };

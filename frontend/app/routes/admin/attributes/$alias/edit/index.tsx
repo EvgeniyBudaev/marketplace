@@ -3,6 +3,7 @@ import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
+import { EPermissions, ERoutes } from "~/enums";
 import {
   AttributeEdit,
   attributeEditLinks,
@@ -26,7 +27,7 @@ import {
   mapParamsEditSelectableValueToDto,
 } from "~/shared/api/attributes/utils";
 import { createPath } from "~/utils";
-import { ERoutes } from "~/enums";
+import { checkRequestPermission } from "~/utils/permission";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -43,6 +44,7 @@ export const action = async (args: ActionArgs) => {
         console.log("value add response.data: ", response.data);
         return { success: true };
       }
+
       return badRequest({ success: false });
     }
 
@@ -54,6 +56,7 @@ export const action = async (args: ActionArgs) => {
         console.log("value delete response.data: ", response.data);
         return { success: true };
       }
+
       return badRequest({ success: false });
     }
 
@@ -67,6 +70,7 @@ export const action = async (args: ActionArgs) => {
         console.log("value response.data: ", response.data);
         return { success: true };
       }
+
       return badRequest({ success: false });
     }
 
@@ -98,12 +102,20 @@ export const action = async (args: ActionArgs) => {
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
+
+  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+
+  if (!isPermissions) {
+    return redirect(ERoutes.Login);
+  }
+
   const { alias } = params;
 
   try {
@@ -116,6 +128,7 @@ export const loader = async (args: LoaderArgs) => {
         success: true,
       });
     }
+
     const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
     console.log("[BAD]");
     console.log("[fieldErrors] ", fieldErrors);
@@ -127,6 +140,7 @@ export const loader = async (args: LoaderArgs) => {
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };

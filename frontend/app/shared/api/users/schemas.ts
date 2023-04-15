@@ -17,4 +17,5 @@ export const userSchema = z.object({
   createdAt: z.string(),
   modifyDate: z.string(),
   uuid: z.string(),
+  permissions: z.string().array().nullish(),
 });
