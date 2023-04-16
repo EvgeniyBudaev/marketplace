@@ -11,7 +11,6 @@ import { CatalogDropDown, catalogDropDownLinks } from "./CatalogDropDown";
 import { HeaderBottom } from "./HeaderBottom";
 import { headerBottomLinks } from "~/components/Layout/Header/HeaderBottom";
 import { headerIconListLinks } from "~/components/Layout/Header/HeaderIconsList";
-import { HeaderLine, headerLineLinks } from "~/components/Layout/Header/HeaderLine";
 import styles from "./Header.module.css";
 
 type TProps = {
@@ -47,7 +46,6 @@ export const Header: FC<TProps> = ({ cart, theme }) => {
         <header className="Header" ref={headerRef}>
           <HeaderBottom isCatalogOpen={isCatalogOpen} onCatalogToggle={onCatalogToggle} />
         </header>
-        <HeaderLine />
       </div>
       <CSSTransition
         className="CatalogDropDownWindow"
@@ -69,6 +67,5 @@ export function headerLinks() {
     ...catalogDropDownLinks(),
     ...headerBottomLinks(),
     ...headerIconListLinks(),
-    ...headerLineLinks(),
   ];
 }

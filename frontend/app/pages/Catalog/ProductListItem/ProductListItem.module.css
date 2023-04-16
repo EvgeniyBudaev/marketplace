@@ -58,7 +58,7 @@
 }
 .ProductListItem-Content .ProductListItem-ContentImg {
   text-align: center;
-  height: max-content;
+  height: 140px;
 }
 .ProductListItem-Content .ProductListItem-ContentDescriptionLine {
   display: none;

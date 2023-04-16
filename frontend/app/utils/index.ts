@@ -12,6 +12,7 @@ export * from "./generateUUID";
 export * from "./getResponseError";
 export * from "./internalError";
 export * from "./i18next";
+export * from "./normalizePhoneNumber";
 export * from "./sorting";
 export * from "./parseResponseError.server";
 export * from "./processError";
