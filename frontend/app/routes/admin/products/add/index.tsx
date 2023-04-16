@@ -3,13 +3,14 @@ import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
-import { ERoutes } from "~/enums";
+import { EPermissions, ERoutes } from "~/enums";
 import { ProductAdd, productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import { getCatalogs } from "~/shared/api/catalogs";
 import { addProduct } from "~/shared/api/products";
 import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getResponseError } from "~/shared/domain";
 import { createPath, internalError } from "~/utils";
+import { checkRequestPermission } from "~/utils/permission";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -34,13 +35,18 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
+
+  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+
+  if (!isPermissions) {
+    return redirect(ERoutes.Login);
+  }
+
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
-
   const formattedParams = mapProductsToDto({
     ...formValues,
   });
-
   const catalogsResponse = await getCatalogs(request, { params: formattedParams });
 
   if (!catalogsResponse.success) {

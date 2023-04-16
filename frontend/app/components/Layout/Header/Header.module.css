@@ -46,6 +46,17 @@
   background: radial-gradient(ellipse at center, #b0976a 0%, #000000 100%) no-repeat;
   padding: 16px 0 44px;
 }
+.Header:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 24px;
+  border-radius: 24px 24px 0 0;
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+}
 .Header-Wrapper {
   position: relative;
   max-width: 100%;
@@ -82,6 +93,10 @@
   opacity: 0;
   transform: translateY(-500px);
   transition: opacity 0.3s, transform 0.3s;
+}
+
+.theme-dark .Header:after {
+  background-color: rgb(24, 24, 31);
 }
 
 @media (max-width: 500px) {

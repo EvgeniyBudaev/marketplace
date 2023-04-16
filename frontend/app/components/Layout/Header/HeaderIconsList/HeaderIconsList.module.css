@@ -128,7 +128,7 @@
   border: 1px solid transparent;
   border-radius: 4px;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-  z-index: 103;
+  z-index: 110;
 }
 .HeaderIconsList-DropDownUser.enter {
   opacity: 0;

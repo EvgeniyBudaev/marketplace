@@ -1,13 +1,15 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
+import { EPermissions, ERoutes } from "~/enums";
 import { Catalogs, catalogsLinks } from "~/pages/Admin/Catalogs";
 import { deleteCatalog, ECatalogAction, getCatalogs } from "~/shared/api/catalogs";
 import { mapCatalogsToDto } from "~/shared/api/catalogs/utils";
 import { getResponseError } from "~/shared/domain";
 import { internalError } from "~/utils";
+import { checkRequestPermission } from "~/utils/permission";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -16,25 +18,34 @@ export const action = async (args: ActionArgs) => {
   try {
     if (_method === ECatalogAction.DeleteCatalog) {
       const response = await deleteCatalog(request, { alias });
+
       if (response.success) {
         return json({
           success: true,
         });
       }
+
       return badRequest({ success: false });
     }
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+
     return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
+
+  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+
+  if (!isPermissions) {
+    return redirect(ERoutes.Login);
+  }
+
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
-
   const formattedParams = mapCatalogsToDto({
     ...formValues,
   });
@@ -43,6 +54,7 @@ export const loader = async (args: LoaderArgs) => {
   if (!response.success) {
     throw internalError();
   }
+
   return json({
     catalogs: response.data,
   });

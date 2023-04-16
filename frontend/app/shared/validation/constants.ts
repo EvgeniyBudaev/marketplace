@@ -16,6 +16,6 @@ export const NAME_ERROR_MESSAGE = t("common.validation.onlyLetters");
 export const PASSWORD_ERROR_MESSAGE = t("common.validation.passwordNotMatch");
 
 // export const PHONE_REGEXP = /^[-+\d() ]*$/;
-// export const PHONE_REGEXP = /\+7\s?\(?\d\d\d\)?\s?\d\d\d\s?\d\d\s?\d\d/;
-export const PHONE_REGEXP = /(\+7)(\d{3})(\d{3})(\d{2})(\d{2})/g;
+export const PHONE_REGEXP = /\+7\s?\(?\d\d\d\)?\s?\d\d\d\s?\d\d\s?\d\d/;
+// export const PHONE_REGEXP = /(\+7)(\d{3})(\d{3})(\d{2})(\d{2})/g;
 export const PHONE_ERROR_MESSAGE = t("common.validation.wrongCharacter");

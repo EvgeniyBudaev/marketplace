@@ -1,7 +1,8 @@
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
 import { redirect } from "@remix-run/node";
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { EPermissions, ERoutes } from "~/enums";
 import {
   AttributeAdd,
   attributeAddLinks,
@@ -11,7 +12,7 @@ import type { TForm } from "~/pages/Admin/Attributes/AttributeAdd";
 import { addAttribute } from "~/shared/api/attributes";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { createPath } from "~/utils";
-import { ERoutes } from "~/enums";
+import { checkRequestPermission } from "~/utils/permission";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -50,8 +51,21 @@ export const action = async (args: ActionArgs) => {
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
+
     return badRequest({ success: false, formError, fieldErrors });
   }
+};
+
+export const loader = async (args: LoaderArgs) => {
+  const { request } = args;
+
+  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+
+  if (!isPermissions) {
+    return redirect(ERoutes.Login);
+  }
+
+  return null;
 };
 
 export default function AttributeAddRoute() {
