@@ -6,7 +6,6 @@
   margin-bottom: 30px;
   height: 56px;
   width: 100%;
-  border-radius: 4px;
   word-wrap: break-word;
 
   &-Label {
@@ -14,7 +13,7 @@
     top: 20px;
     left: 12px;
     z-index: 1;
-    color: rgba(0, 0, 0, 0.54);
+    color: $color-lighting;
     pointer-events: none;
     transition: all 0.2s;
 
@@ -47,23 +46,22 @@
   &-Inner {
     width: 100%;
     border: 1px solid transparent;
+    border-radius: $border-radius;
   }
 
   &__active {
     width: 100%;
-    background-color: $color-white;
 
     #{$this}-Label {
-      top: -7px;
-      padding: 0 5px;
-      color: $color-text;
-      background-color: $color-white;
+      top: 0;
+      padding: 0;
+      color: $color-lighting;
     }
 
     #{$this}-Inner__active {
       border: 1px solid rgba(0, 0, 0, 0.54);
       color: $color-text;
-      background-color: $color-white;
+      background-color: transparent;
 
       input:hover,
       input {
@@ -98,8 +96,8 @@
     &:-webkit-autofill {
       border: 1px solid rgba(0, 0, 0, 0.54);
       & ~ #{$this}-Label {
-        top: -7px;
-        padding: 0 5px;
+        top: 0;
+        padding: 0;
         color: $color-text;
         background-color: $color-white;
       }
@@ -136,6 +134,68 @@
     &:hover {
       background-color: $color-light-red-hover;
       transition: background-color 0.25s ease;
+    }
+  }
+}
+
+.theme-dark {
+  .InputField {
+    &-Label .text-dark {
+      color: $color-lighting;
+    }
+
+    &__active {
+      .InputField-Inner__active {
+        input:hover,
+        input {
+          background-color: $color-darkness;
+        }
+      }
+
+      input:-webkit-autofill.Input__active,
+      input:-webkit-autofill.Input__active:hover,
+      input:-webkit-autofill.Input__active:focus,
+      input:-webkit-autofill.Input__active:active {
+        -webkit-box-shadow: 0 0 0 30px $color-darkness inset !important;
+      }
+
+      & textarea,
+      & textarea:hover {
+        background-color: $color-darkness;
+      }
+    }
+
+    & .InputField-ErrorField .text-dark {
+      color: $color-red;
+    }
+
+    /* -------------------- Fix autocomplete form -------------------- */
+    .InputField-Inner {
+      &:-webkit-autofill {
+        color: red;
+        & ~ .InputField-Label {
+          color: $color-white;
+        }
+      }
+
+      input:-webkit-autofill {
+        -webkit-text-fill-color: $color-white;
+      }
+    }
+  }
+
+  .Input {
+    background-color: $color-darkness;
+    border: 1px solid $color-nightSky;
+    color: $color-white;
+
+    &.Input__error {
+      background-color: $color-darkness;
+      border: 1px solid $color-red;
+
+      &:hover {
+        background-color: $color-darkness;
+      }
     }
   }
 }

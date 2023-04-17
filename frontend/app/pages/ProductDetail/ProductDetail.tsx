@@ -1,15 +1,29 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useFetcher } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
-import type { TProductDetail } from "~/shared/api/products";
-import { formatCurrency, formatProxy } from "~/utils";
-import styles from "./ProductDetail.module.css";
 import isNil from "lodash/isNil";
 
+import { ERoutes } from "~/enums";
+import type { TCart } from "~/shared/api/cart";
+import type { TProductByCatalog } from "~/shared/api/products";
+import type { TProductDetail } from "~/shared/api/products";
+import { EFormMethods } from "~/shared/form";
+import { Button, ETypographyVariant, Typography } from "~/uikit";
+import { createPath, formatCurrency, formatProxy } from "~/utils";
+import styles from "./ProductDetail.module.css";
+
 type TProps = {
+  cart: TCart;
   product: TProductDetail;
 };
 
-export const ProductDetail: FC<TProps> = ({ product }) => {
+export const ProductDetail: FC<TProps> = ({ cart, product }) => {
+  const fetcher = useFetcher();
+  const { t } = useTranslation();
+  console.log("product: ", product);
+  console.log("cart: ", cart);
+
   const imageProduct = formatProxy(
     !isNil(product?.images)
       ? product.images[0]
@@ -17,11 +31,17 @@ export const ProductDetail: FC<TProps> = ({ product }) => {
   );
   const isMobileScreen = false;
 
+  const ROUTE_PRODUCT_DETAIL = createPath({
+    route: ERoutes.ProductDetail,
+    params: { alias: product.alias },
+  });
+  const count = Number(product.count);
+
   const imageResponsiveSizeWidth = () => {
     if (isMobileScreen) {
       return 100;
     } else {
-      return 140;
+      return 400;
     }
   };
 
@@ -29,8 +49,47 @@ export const ProductDetail: FC<TProps> = ({ product }) => {
     if (isMobileScreen) {
       return 100;
     } else {
-      return 140;
+      return 400;
     }
+  };
+
+  const handleAddToCart = () => {
+    // fetcher.submit(
+    //     { productAlias: product.alias, uuid: cart.uuid },
+    //     {
+    //       method: EFormMethods.Post,
+    //       action: createPath({
+    //         route: ERoutes.CatalogDetail,
+    //         params: { alias: catalog.alias },
+    //         withIndex: true,
+    //       }),
+    //     },
+    // );
+  };
+
+  const renderButton = (product: TProductDetail) => {
+    const isProductAtCart =
+      cart && !isNil(cart.items) && cart.items.some((item) => item.product.id === product.id);
+
+    return isProductAtCart ? (
+      cart && !isNil(cart.items) && (
+        <Link className="ProductDetail-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
+          <Typography variant={ETypographyVariant.TextB3Regular}>
+            {t("common.actions.inCart")}
+          </Typography>
+        </Link>
+      )
+    ) : (
+      <Button
+        className="ProductDetail-ButtonAddToCart"
+        isDisabled={count <= 0}
+        onClick={handleAddToCart}
+      >
+        <Typography variant={ETypographyVariant.TextB3Regular}>
+          {t("common.actions.addToCart")}
+        </Typography>
+      </Button>
+    );
   };
 
   return (
@@ -40,7 +99,6 @@ export const ProductDetail: FC<TProps> = ({ product }) => {
       <div className="ProductDetail-Info">
         <div className="ProductDetail-ColMedia">
           <div className="ProductDetail-Gallery">
-            Slider
             <img
               className=""
               alt={product.name}
@@ -52,7 +110,9 @@ export const ProductDetail: FC<TProps> = ({ product }) => {
         </div>
         <div className="ProductDetail-ColSpecification">
           <div className="ProductDetail-Specification">
-            <h2 className="ProductDetail-SpecificationTitle">Описание</h2>
+            <h2 className="ProductDetail-SpecificationTitle">
+              {t("pages.productDetail.description")}
+            </h2>
             <ul className="ProductDetail-SpecificationList">
               {!isEmpty(product.attributes) &&
                 product.attributes.map((item) => (
@@ -66,13 +126,16 @@ export const ProductDetail: FC<TProps> = ({ product }) => {
         <div className="ProductDetail-ColPrice">
           <div className="ProductDetail-Price">{formatCurrency(parseInt(product.price))} ₽</div>
           <div>
-            <div className="ProductDetail-ColPriceTitle">Товар:</div>&nbsp;
+            <div className="ProductDetail-ColPriceTitle">{t("pages.productDetail.goods")}:</div>
+            &nbsp;
             <div className="ProductDetail-Status">
-              {Number(product.count) > 0 ? "В наличии" : "Товар отсутствует"}
+              {Number(product.count) > 0
+                ? t("common.actions.inStock")
+                : t("common.actions.itemOutOfStock")}
             </div>
           </div>
-          <div className="ProductDetail-Pay">Картой онлайн/курьеру, наличными</div>
-          TODO: Добавить кнопку!!!
+          <div className="ProductDetail-Pay">{t("pages.productDetail.paymentVariants")}</div>
+          {count > 0 && <div className="ProductDetail-AddToCart">{renderButton(product)}</div>}
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
 import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { TableHeader } from "~/components";
@@ -14,22 +15,30 @@ type TUseGetColumns = (
 ) => ColumnDef<TAttribute>[];
 
 export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
+  const { t } = useTranslation();
+
   return useMemo(
     () =>
       [
         columnHelper.accessor(ETableColumns.Name, {
           id: ETableColumns.Name,
-          header: () => <TableHeader>Название</TableHeader>,
+          header: () => (
+            <TableHeader>{t("pages.admin.attributes.table.columns.info.name")}</TableHeader>
+          ),
         }),
 
         columnHelper.accessor(ETableColumns.Alias, {
           id: ETableColumns.Alias,
-          header: () => <TableHeader>Псевдоним</TableHeader>,
+          header: () => (
+            <TableHeader>{t("pages.admin.attributes.table.columns.info.alias")}</TableHeader>
+          ),
         }),
 
         columnHelper.display({
           id: "actions",
-          header: () => <TableHeader>Действия</TableHeader>,
+          header: () => (
+            <TableHeader>{t("pages.admin.attributes.table.columns.info.actions")}</TableHeader>
+          ),
           cell: ({ row }) => (
             <div className="AttributesTable-Actions">
               <Link
@@ -50,6 +59,6 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           ),
         }),
       ].filter(Boolean) as ColumnDef<TAttribute>[],
-    [columnHelper, onDelete],
+    [columnHelper, onDelete, t],
   );
 };

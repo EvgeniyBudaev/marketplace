@@ -1,4 +1,5 @@
 import { forwardRef, memo, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { ModalDelete } from "~/components/modal";
 import { useTheme } from "~/hooks";
@@ -35,6 +36,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     },
     ref,
   ) => {
+    const { t } = useTranslation();
     const columnHelper = createColumnHelper<TCatalog>();
     const columns = useGetColumns(columnHelper, onClickDeleteIcon);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
@@ -47,18 +49,19 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
         options: {
           hiddenColumns,
           setHiddenColumns,
-          optionsChangeText: "Показать",
-          optionsFieldHeader: "Поля таблицы",
-          optionsModalHeader: "Настройка таблицы",
+          optionsCancelText: t("common.actions.cancel"),
+          optionsChangeText: t("common.actions.apply"),
+          optionsFieldHeader: t("common.table.options.fields"),
+          optionsModalHeader: t("common.table.options.modal"),
           optionsSorting: {
-            ascText: "Сортировать по возрастанию",
-            defaultText: "По умолчанию",
-            descText: "Сортировать по убыванию",
-            hideColumnText: "Скрыть столбец",
+            ascText: t("common.table.options.sorting.asc"),
+            defaultText: t("common.table.options.sorting.default"),
+            descText: t("common.table.options.sorting.desc"),
+            hideColumnText: t("common.table.options.sorting.hide"),
           },
         },
       }),
-      [hiddenColumns, setHiddenColumns],
+      [hiddenColumns, t],
     );
 
     return (
@@ -76,7 +79,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           sorting={fieldsSortState}
           theme={theme}
           totalItems={countOfResult}
-          totalItemsTitle={"Всего каталогов"}
+          totalItemsTitle={t("pages.admin.catalogs.table.header") ?? "Total directories"}
         />
         <ModalDelete isOpen={isOpenDeleteModal} onClose={onCloseModal} onSubmit={onSubmitDelete} />
       </div>

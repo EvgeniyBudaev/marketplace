@@ -14,6 +14,7 @@
 /* #000 */
 /* #18181f */
 /* #1f2029 */
+/* #232838 */
 /* #8a8fa0 */
 /* #b0976a */
 /* #997e4d */
@@ -55,9 +56,6 @@
   width: 100%;
   height: 43px;
   background-color: transparent;
-  border-bottom: 1px solid rgb(228, 228, 228);
-  border-left: 1px solid rgb(228, 228, 228);
-  border-right: 1px solid rgb(228, 228, 228);
 }
 .SearchingPanel-Input {
   font-family: "Roboto", sans-serif;
@@ -69,9 +67,11 @@
   padding: 0 50px 0 16px;
   width: 100%;
   height: 42px;
-  border: none;
+  border: 1px solid rgb(228, 228, 228);
+  border-radius: 4px;
   background-color: rgb(255, 255, 255);
   outline: transparent;
+  transition: all 0.15s;
 }
 .SearchingPanel-Input::placeholder {
   background-color: transparent;
@@ -88,6 +88,19 @@
 }
 .SearchingPanel__active .SearchingPanel-Input {
   background-color: transparent;
+  border: 1px solid rgb(176, 151, 106);
+}
+
+.theme-dark .SearchingPanel-Input {
+  background-color: rgb(31, 32, 41);
+  border: 1px solid rgb(35, 40, 56);
+  color: rgb(255, 255, 255);
+}
+.theme-dark .SearchingPanel-Input::placeholder {
+  color: rgb(255, 255, 255);
+}
+.theme-dark .SearchingPanel__active .SearchingPanel-Input {
+  border: 1px solid rgb(176, 151, 106);
 }
 
 /*# sourceMappingURL=SearchingPanel.module.css.map */

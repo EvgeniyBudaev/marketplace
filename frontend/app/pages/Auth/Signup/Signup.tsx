@@ -9,11 +9,11 @@ import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { EFormFields } from "~/pages/Auth/Signup/enums";
 import { formSchema } from "~/pages/Auth/Signup/schemas";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Auth/Signup/types";
+import { PhoneInputMask } from "~/shared/form/PhoneInputMask";
 import type { TParams } from "~/types";
 import { Button, ETypographyVariant, Typography } from "~/uikit";
 import { createPath, normalizePhoneNumber } from "~/utils";
 import styles from "./Signup.module.css";
-import { PhoneInputMask } from "~/shared/form/PhoneInputMask";
 
 export const Signup: FC = () => {
   const { t } = useTranslation();
@@ -26,16 +26,14 @@ export const Signup: FC = () => {
   );
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
-    console.log("Form params: ", params);
     const formattedParams = { ...params, phone: normalizePhoneNumber(params.phone) };
-    console.log("formattedParams: ", formattedParams);
-    // fetcher.submit(formattedParams, {
-    //   method: EFormMethods.Post,
-    //   action: createPath({
-    //     route: ERoutes.Signup,
-    //     withIndex: true,
-    //   }),
-    // });
+    fetcher.submit(formattedParams, {
+      method: EFormMethods.Post,
+      action: createPath({
+        route: ERoutes.Signup,
+        withIndex: true,
+      }),
+    });
   };
 
   return (

@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   padding: 32px 15px;
-  min-height: 50px;
+  height: 24px;
   width: 100%;
   background-color: $color-primary;
   overflow-y: hidden;
@@ -15,16 +15,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 500px;
+    width: 100%;
   }
 
-  &-LogoWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-  }
-
-  &-Copy {
+  &-Info {
     display: flex;
     justify-content: space-between;
   }
@@ -32,7 +27,7 @@
   &-Text {
     margin-left: 32px;
     text-align: center;
-    color: $color-alto-gray;
+    color: $color-white;
 
     &:first-child {
       margin-left: 0;
@@ -40,7 +35,7 @@
   }
 
   &-Link {
-    color: $color-text;
+    color: $color-white;
     transition: all 0.15s;
 
     &:hover {
@@ -63,6 +58,10 @@
       }
     }
 
+    &__noHover {
+      color: inherit;
+    }
+
     &__isActive {
       color: $color-primary-hover;
     }
@@ -73,26 +72,7 @@
   }
 }
 
-@media (max-width: 768px) {
-  .Footer-LogoWrapper {
-    & svg {
-      max-width: max-content;
-    }
-  }
-}
-
 @media (max-width: 500px) {
-  .Footer-LogoWrapper {
-    .Footer-Logo {
-      max-width: max-content;
-    }
-    & svg {
-      max-width: max-content;
-    }
-  }
-  .Footer-Copy {
-    flex-direction: column;
-  }
   .Footer-Text {
     margin-bottom: 8px;
     margin-left: 0;

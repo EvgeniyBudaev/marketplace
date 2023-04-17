@@ -12,5 +12,13 @@
 .Products-SearchingPanel {
   margin-right: 16px;
 }
+.Products-LinkButton {
+  height: 42px;
+}
+.Products-LinkButton span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
 
 /*# sourceMappingURL=Products.module.css.map */

@@ -37,7 +37,6 @@ const TableComponent = <TColumn extends Record<string, any>>(
     totalItems,
     totalItemsTitle,
   } = props;
-
   const hiddenColumns = settings?.options?.hiddenColumns;
 
   const columnVisibility = useMemo<VisibilityState | undefined>(

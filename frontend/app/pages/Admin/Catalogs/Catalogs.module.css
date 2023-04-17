@@ -20,5 +20,13 @@
 .Catalogs-SearchingPanel {
   margin-right: 16px;
 }
+.Catalogs-LinkButton {
+  height: 42px;
+}
+.Catalogs-LinkButton span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
 
 /*# sourceMappingURL=Catalogs.module.css.map */

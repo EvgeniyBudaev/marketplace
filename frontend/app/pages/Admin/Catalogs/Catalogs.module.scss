@@ -24,4 +24,14 @@
   &-SearchingPanel {
     margin-right: 16px;
   }
+
+  &-LinkButton {
+    height: 42px;
+
+    span {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+  }
 }

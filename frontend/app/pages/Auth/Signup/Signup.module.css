@@ -14,6 +14,7 @@
 /* #000 */
 /* #18181f */
 /* #1f2029 */
+/* #232838 */
 /* #8a8fa0 */
 /* #b0976a */
 /* #997e4d */
@@ -79,11 +80,13 @@
 .Signup-Registration span {
   margin-right: 10px;
 }
-.Signup-Registration a {
+.Signup-Registration a,
+.Signup-Registration a span {
   color: rgb(176, 151, 106);
   transition: all 0.15s;
 }
-.Signup-Registration a:hover {
+.Signup-Registration a:hover,
+.Signup-Registration a span:hover {
   color: rgb(95, 79, 25);
 }
 

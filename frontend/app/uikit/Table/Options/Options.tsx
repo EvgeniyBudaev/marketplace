@@ -10,6 +10,7 @@ import styles from "./Options.module.css";
 const Component = <T extends object>({
   columns,
   hiddenColumns,
+  optionsCancelText,
   optionsChangeText,
   optionsFieldHeader,
   optionsModalHeader,
@@ -80,7 +81,7 @@ const Component = <T extends object>({
         <Modal.Footer>
           <div className="Options-ModalFooter">
             <Button className="Options-ModalCancel" onClick={handleCloseModal}>
-              Отменить
+              {optionsCancelText}
             </Button>
             <Button onClick={submit} type={"submit"}>
               {optionsChangeText}

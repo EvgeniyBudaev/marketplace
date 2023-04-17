@@ -10,6 +10,7 @@ export type TTableOptionsSorting = {
 export type TTableOptionsProps<T extends object> = {
   columns: Column<T, unknown>[];
   hiddenColumns?: string[];
+  optionsCancelText?: string;
   optionsChangeText?: string;
   optionsFieldHeader?: string;
   optionsModalHeader?: string;
