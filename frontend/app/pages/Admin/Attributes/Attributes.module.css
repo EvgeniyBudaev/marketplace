@@ -12,5 +12,13 @@
 .Attributes-SearchingPanel {
   margin-right: 16px;
 }
+.Attributes-LinkButton {
+  height: 42px;
+}
+.Attributes-LinkButton span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
 
 /*# sourceMappingURL=Attributes.module.css.map */

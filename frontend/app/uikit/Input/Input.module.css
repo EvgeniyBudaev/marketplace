@@ -14,6 +14,7 @@
 /* #000 */
 /* #18181f */
 /* #1f2029 */
+/* #232838 */
 /* #8a8fa0 */
 /* #b0976a */
 /* #997e4d */
@@ -41,7 +42,6 @@
   margin-bottom: 30px;
   height: 56px;
   width: 100%;
-  border-radius: 4px;
   word-wrap: break-word;
   /* -------------------- Fix autocomplete form -------------------- */
 }
@@ -50,7 +50,7 @@
   top: 20px;
   left: 12px;
   z-index: 1;
-  color: rgba(0, 0, 0, 0.54);
+  color: rgb(138, 143, 160);
   pointer-events: none;
   transition: all 0.2s;
 }
@@ -78,21 +78,20 @@
 .InputField-Inner {
   width: 100%;
   border: 1px solid transparent;
+  border-radius: 4px;
 }
 .InputField__active {
   width: 100%;
-  background-color: rgb(255, 255, 255);
 }
 .InputField__active .InputField-Label {
-  top: -7px;
-  padding: 0 5px;
-  color: rgb(51, 51, 51);
-  background-color: rgb(255, 255, 255);
+  top: 0;
+  padding: 0;
+  color: rgb(138, 143, 160);
 }
 .InputField__active .InputField-Inner__active {
   border: 1px solid rgba(0, 0, 0, 0.54);
   color: rgb(51, 51, 51);
-  background-color: rgb(255, 255, 255);
+  background-color: transparent;
 }
 .InputField__active .InputField-Inner__active input:hover,
 .InputField__active .InputField-Inner__active input {
@@ -119,8 +118,8 @@
   border: 1px solid rgba(0, 0, 0, 0.54);
 }
 .InputField .InputField-Inner:-webkit-autofill ~ .InputField-Label {
-  top: -7px;
-  padding: 0 5px;
+  top: 0;
+  padding: 0;
   color: rgb(51, 51, 51);
   background-color: rgb(255, 255, 255);
 }
@@ -151,6 +150,51 @@
 .Input.Input__error:hover {
   background-color: rgb(250, 219, 218);
   transition: background-color 0.25s ease;
+}
+
+.theme-dark .InputField {
+  /* -------------------- Fix autocomplete form -------------------- */
+}
+.theme-dark .InputField-Label .text-dark {
+  color: rgb(138, 143, 160);
+}
+.theme-dark .InputField__active .InputField-Inner__active input:hover,
+.theme-dark .InputField__active .InputField-Inner__active input {
+  background-color: rgb(31, 32, 41);
+}
+.theme-dark .InputField__active input:-webkit-autofill.Input__active,
+.theme-dark .InputField__active input:-webkit-autofill.Input__active:hover,
+.theme-dark .InputField__active input:-webkit-autofill.Input__active:focus,
+.theme-dark .InputField__active input:-webkit-autofill.Input__active:active {
+  -webkit-box-shadow: 0 0 0 30px rgb(31, 32, 41) inset !important;
+}
+.theme-dark .InputField__active textarea,
+.theme-dark .InputField__active textarea:hover {
+  background-color: rgb(31, 32, 41);
+}
+.theme-dark .InputField .InputField-ErrorField .text-dark {
+  color: rgb(227, 18, 53);
+}
+.theme-dark .InputField .InputField-Inner:-webkit-autofill {
+  color: red;
+}
+.theme-dark .InputField .InputField-Inner:-webkit-autofill ~ .InputField-Label {
+  color: rgb(255, 255, 255);
+}
+.theme-dark .InputField .InputField-Inner input:-webkit-autofill {
+  -webkit-text-fill-color: rgb(255, 255, 255);
+}
+.theme-dark .Input {
+  background-color: rgb(31, 32, 41);
+  border: 1px solid rgb(35, 40, 56);
+  color: rgb(255, 255, 255);
+}
+.theme-dark .Input.Input__error {
+  background-color: rgb(31, 32, 41);
+  border: 1px solid rgb(227, 18, 53);
+}
+.theme-dark .Input.Input__error:hover {
+  background-color: rgb(31, 32, 41);
 }
 
 /*# sourceMappingURL=Input.module.css.map */

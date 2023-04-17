@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
 import { SearchingPanel } from "~/components/search";
 import { ERoutes } from "~/enums";
@@ -23,6 +24,7 @@ type TProps = {
 };
 
 export const Attributes: FC<TProps> = (props) => {
+  const { t } = useTranslation();
   const fetcher = useFetcher();
   const attributes = fetcher.data?.attributes ?? props.attributes;
 
@@ -69,7 +71,9 @@ export const Attributes: FC<TProps> = (props) => {
       <div className="Attributes-Header">
         <div>
           <h1 className="Attributes-Title">
-            <Typography variant={ETypographyVariant.TextH1Bold}>Атрибуты</Typography>
+            <Typography variant={ETypographyVariant.TextH1Bold}>
+              {t("pages.admin.attributes.title")}
+            </Typography>
           </h1>
         </div>
         <div className="Attributes-HeaderControls">
@@ -83,7 +87,9 @@ export const Attributes: FC<TProps> = (props) => {
             onKeyDown={onSearchKeyDown}
             onSubmit={onSearch}
           />
-          <LinkButton href="/admin/attributes/add">Добавить</LinkButton>
+          <LinkButton className="Attributes-LinkButton" href="/admin/attributes/add">
+            {t("common.actions.add")}
+          </LinkButton>
         </div>
       </div>
       <AttributesTable

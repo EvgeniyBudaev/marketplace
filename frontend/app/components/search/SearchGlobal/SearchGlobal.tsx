@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import type { KeyboardEvent, FC, FormEvent } from "react";
 import { CSSTransition } from "react-transition-group";
+import { useTranslation } from "react-i18next";
 import { Form, useFetcher, useSearchParams } from "@remix-run/react";
 import clsx from "clsx";
 import debounce from "lodash/debounce";
@@ -26,6 +27,7 @@ export const SearchGlobal: FC<TProps> = ({ className, transition = TRANSITION })
   const [isActive, setIsActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const nodeRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
   const defaultSearch: string = !isNull(search) ? search : "";
@@ -84,7 +86,7 @@ export const SearchGlobal: FC<TProps> = ({ className, transition = TRANSITION })
                 className="SearchGlobal-Input"
                 defaultValue={defaultSearch}
                 name="search"
-                placeholder="Поиск"
+                placeholder={t("common.actions.search") ?? "Search"}
                 ref={inputRef}
                 type="text"
                 onBlur={handleBlur}

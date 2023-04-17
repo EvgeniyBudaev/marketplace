@@ -14,6 +14,7 @@
 /* #000 */
 /* #18181f */
 /* #1f2029 */
+/* #232838 */
 /* #8a8fa0 */
 /* #b0976a */
 /* #997e4d */
@@ -41,7 +42,7 @@
   justify-content: center;
   align-items: center;
   padding: 32px 15px;
-  min-height: 50px;
+  height: 24px;
   width: 100%;
   background-color: rgb(176, 151, 106);
   overflow-y: hidden;
@@ -51,27 +52,23 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 500px;
+  width: 100%;
 }
-.Footer-LogoWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-}
-.Footer-Copy {
+.Footer-Info {
   display: flex;
   justify-content: space-between;
 }
 .Footer-Text {
   margin-left: 32px;
   text-align: center;
-  color: rgb(87, 87, 87);
+  color: rgb(255, 255, 255);
 }
 .Footer-Text:first-child {
   margin-left: 0;
 }
 .Footer-Link {
-  color: rgb(51, 51, 51);
+  color: rgb(255, 255, 255);
   transition: all 0.15s;
 }
 .Footer-Link:hover {
@@ -90,6 +87,9 @@
 .Footer-Text span:hover {
   color: rgb(95, 79, 25);
 }
+.Footer-Text__noHover {
+  color: inherit;
+}
 .Footer-Text__isActive {
   color: rgb(95, 79, 25);
 }
@@ -97,21 +97,7 @@
   color: rgb(95, 79, 25);
 }
 
-@media (max-width: 768px) {
-  .Footer-LogoWrapper svg {
-    max-width: max-content;
-  }
-}
 @media (max-width: 500px) {
-  .Footer-LogoWrapper .Footer-Logo {
-    max-width: max-content;
-  }
-  .Footer-LogoWrapper svg {
-    max-width: max-content;
-  }
-  .Footer-Copy {
-    flex-direction: column;
-  }
   .Footer-Text {
     margin-bottom: 8px;
     margin-left: 0;

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
 import { SearchingPanel } from "~/components/search";
 import { ERoutes } from "~/enums";
@@ -21,6 +22,7 @@ type TProps = {
 };
 
 export const Catalogs: FC<TProps> = (props) => {
+  const { t } = useTranslation();
   const fetcher = useFetcher();
   const catalogs = fetcher.data?.catalogs ?? props.catalogs;
 
@@ -73,7 +75,9 @@ export const Catalogs: FC<TProps> = (props) => {
       <div className="Catalogs-Header">
         <div>
           <h1 className="Catalogs-Title">
-            <Typography variant={ETypographyVariant.TextH1Bold}>Каталоги</Typography>
+            <Typography variant={ETypographyVariant.TextH1Bold}>
+              {t("pages.admin.catalogs.title")}
+            </Typography>
           </h1>
         </div>
         <div className="Catalogs-HeaderControls">
@@ -87,7 +91,9 @@ export const Catalogs: FC<TProps> = (props) => {
             onKeyDown={onSearchKeyDown}
             onSubmit={onSearch}
           />
-          <LinkButton href="/admin/catalogs/add">Добавить</LinkButton>
+          <LinkButton className="Catalogs-LinkButton" href="/admin/catalogs/add">
+            {t("common.actions.add")}
+          </LinkButton>
         </div>
       </div>
       <CatalogsTable

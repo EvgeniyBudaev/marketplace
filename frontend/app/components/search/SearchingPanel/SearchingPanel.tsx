@@ -1,12 +1,14 @@
-import { ChangeEvent, FormEvent, FormEventHandler, KeyboardEvent, memo, MouseEvent } from "react";
-import type { FC } from "react";
+import { memo } from "react";
+import type { FC, ChangeEvent, KeyboardEvent, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EFormFields, formSchema, TForm } from "~/components/search";
+
+import { EFormFields, formSchema } from "~/components/search";
+import type { TForm } from "~/components/search";
 import { EFormMethods, Form, useInitForm } from "~/shared/form";
 import { Icon } from "~/uikit";
 import styles from "./SearchingPanel.module.css";
-import { TParams } from "~/types";
 
 type TProps = {
   className?: string;
@@ -29,6 +31,7 @@ const Component: FC<TProps> = ({
   onKeyDown,
   onSubmit,
 }) => {
+  const { t } = useTranslation();
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
@@ -51,7 +54,7 @@ const Component: FC<TProps> = ({
             className="SearchingPanel-Input"
             defaultValue={defaultSearch}
             name={EFormFields.Search}
-            placeholder="Поиск"
+            placeholder={t("common.actions.search") ?? "Search"}
             type="text"
             onBlur={onBlur}
             onClick={onClick}

@@ -92,7 +92,8 @@ $height: 43px;
     $this: &;
 
     &-Input {
-      background-color: $color-night;
+      background-color: $color-darkness;
+      border: 1px solid $color-nightSky;
       color: $color-white;
 
       &::placeholder {

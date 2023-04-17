@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
 import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { TableHeader } from "~/components";
@@ -14,30 +15,40 @@ type TUseGetColumns = (
 ) => ColumnDef<TProduct>[];
 
 export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
+  const { t } = useTranslation();
+
   return useMemo(
     () =>
       [
         columnHelper.accessor(ETableColumns.Name, {
           id: ETableColumns.Name,
-          header: () => <TableHeader>Название</TableHeader>,
+          header: () => (
+            <TableHeader>{t("pages.admin.products.table.columns.info.name")}</TableHeader>
+          ),
           size: 192,
         }),
 
         columnHelper.accessor(ETableColumns.Alias, {
           id: ETableColumns.Alias,
-          header: () => <TableHeader>Псевдоним</TableHeader>,
+          header: () => (
+            <TableHeader>{t("pages.admin.products.table.columns.info.alias")}</TableHeader>
+          ),
           size: 192,
         }),
 
         columnHelper.accessor(ETableColumns.Enabled, {
           id: ETableColumns.Enabled,
-          header: () => <TableHeader>Статус</TableHeader>,
+          header: () => (
+            <TableHeader>{t("pages.admin.products.table.columns.info.status")}</TableHeader>
+          ),
           size: 192,
         }),
 
         columnHelper.accessor(ETableColumns.CreatedAt, {
           id: ETableColumns.CreatedAt,
-          header: () => <TableHeader>Дата добавления</TableHeader>,
+          header: () => (
+            <TableHeader>{t("pages.admin.products.table.columns.info.dateAdded")}</TableHeader>
+          ),
           cell: (data) => {
             const value = data.getValue();
             return <DateTime value={value} />;
@@ -47,7 +58,9 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
 
         columnHelper.accessor(ETableColumns.ModifyDate, {
           id: ETableColumns.ModifyDate,
-          header: () => <TableHeader>Дата изменения</TableHeader>,
+          header: () => (
+            <TableHeader>{t("pages.admin.products.table.columns.info.dateOfChange")}</TableHeader>
+          ),
           cell: (data) => {
             const value = data.getValue();
             return <DateTime value={value} />;
@@ -57,7 +70,9 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
 
         columnHelper.display({
           id: "actions",
-          header: () => <TableHeader>Действия</TableHeader>,
+          header: () => (
+            <TableHeader>{t("pages.admin.products.table.columns.info.actions")}</TableHeader>
+          ),
           cell: ({ row }) => (
             <div className="ProductsTable-Actions">
               <Link
@@ -74,6 +89,6 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           ),
         }),
       ].filter(Boolean) as ColumnDef<TProduct>[],
-    [columnHelper, onDelete],
+    [columnHelper, onDelete, t],
   );
 };

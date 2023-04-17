@@ -95,14 +95,16 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className }) => {
               pathname: `${ERoutes.Cart}${cartId}`,
             }}
           >
-            <Icon className="HeaderIconsList-Icon" type="Cart" />
+            <div className="HeaderIconsList-IconCart">
+              <Icon className="HeaderIconsList-Icon" type="Cart" />
+              <div className="HeaderIconsList-CartItemsCount">
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {cartItemsCountTotal}
+                </Typography>
+              </div>
+            </div>
             <div className="HeaderIconsList-IconDescription">
               <Typography variant={ETypographyVariant.TextB3Regular}>{t("header.cart")}</Typography>
-            </div>
-            <div className="HeaderIconsList-CartItemsCount">
-              <Typography variant={ETypographyVariant.TextB3Regular}>
-                {cartItemsCountTotal}
-              </Typography>
             </div>
           </Link>
         </div>

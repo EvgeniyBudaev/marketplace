@@ -4,7 +4,6 @@
   width: 100%;
 
   &-Title {
-    //@include roboto-24-bold;
     margin-top: 30px;
     margin-bottom: 10px;
   }
@@ -37,10 +36,7 @@
   }
 
   &-Specification {
-    //@include roboto-14-regular;
-
     &Title {
-      //@include roboto-14-bold;
       margin-bottom: 16px;
     }
 
@@ -75,7 +71,7 @@
     max-width: 330px;
     width: 100%;
     height: max-content;
-    border-radius: 4px;
+    border-radius: $border-radius;
     box-shadow: $shadow-perimeter;
 
     &Title {
@@ -96,7 +92,15 @@
   }
 
   &-Pay {
-    //@include roboto-14-regular;
     margin: 8px 0 16px;
+  }
+}
+
+.theme-dark {
+  .ProductDetail {
+    &-ColPrice {
+      background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
+        linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+    }
   }
 }
