@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
 import { useTheme } from "~/hooks";
@@ -28,6 +29,7 @@ type TProps = {
 };
 
 export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catalog }) => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
 
   const idCheckbox = "enabled";
@@ -100,15 +102,22 @@ export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catal
   return (
     <section>
       <h1 className="CatalogEdit-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Редактирование каталога</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>
+          {t("pages.admin.catalogEdit.title")}
+        </Typography>
       </h1>
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
-        <Input defaultValue={catalog.alias} label="Alias" name={EFormFields.Alias} type="text" />
+        <Input
+          defaultValue={catalog.alias}
+          label={t("form.alias.title") ?? "Alias"}
+          name={EFormFields.Alias}
+          type="text"
+        />
         <div className="CatalogEdit-FormFieldGroup">
           <Checkbox
             checked={filter && filter[EFormFields.Enabled].includes(idCheckbox)}
             id={idCheckbox}
-            label={"enabled"}
+            label={t("form.enabled.title") ?? "Enabled"}
             name={EFormFields.Enabled}
             nameGroup={"enabled"}
             onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
@@ -116,11 +125,16 @@ export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catal
         </div>
         <Input
           defaultValue={catalog?.image ?? ""}
-          label="Image"
+          label={t("form.image.title") ?? "Image"}
           name={EFormFields.Image}
           type="text"
         />
-        <Input defaultValue={catalog.name} label="Name" name={EFormFields.Name} type="text" />
+        <Input
+          defaultValue={catalog.name}
+          label={t("form.name.title") ?? "Name"}
+          name={EFormFields.Name}
+          type="text"
+        />
         <div className="CatalogEdit-FormFieldGroup">
           <Select
             defaultValue={attributeByCatalogOptions}
@@ -132,7 +146,7 @@ export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catal
         </div>
         <div className="CatalogEdit-Control">
           <Button className="CatalogEdit-Button" type="submit">
-            Сохранить
+            {t("common.actions.save")}
           </Button>
         </div>
       </Form>

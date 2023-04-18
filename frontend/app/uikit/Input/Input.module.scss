@@ -146,6 +146,8 @@
 
     &__active {
       .InputField-Inner__active {
+        border: 1px solid $color-primary;
+
         input:hover,
         input {
           background-color: $color-darkness;

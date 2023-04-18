@@ -28,7 +28,10 @@
   },
   "common": {
     "actions": {
-      "addToBasket": "В корзину"
+      "addToBasket": "В корзину",
+      "inCart": "В корзине",
+      "inStock": "В наличии",
+      "itemOutOfStock": "Товар отсутствует"
     },
     "table": {
       "header": "Всего каталогов"

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { ERoutes } from "~/enums";
 import { useTheme } from "~/hooks";
 import { useGetAttributeOptions } from "~/pages/Admin/Catalogs/hooks";
@@ -22,6 +24,7 @@ type TProps = {
 };
 
 export const CatalogAdd: FC<TProps> = ({ attributes }) => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
 
   const idCheckbox = "checkbox";
@@ -90,22 +93,24 @@ export const CatalogAdd: FC<TProps> = ({ attributes }) => {
   return (
     <section>
       <h1 className="CatalogAdd-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Добавление каталога</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>
+          {t("pages.admin.catalogAdd.title")}
+        </Typography>
       </h1>
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
-        <Input label="Alias" name={EFormFields.Alias} type="text" />
+        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text" />
         <div className="CatalogAdd-FormFieldGroup">
           <Checkbox
             checked={filter && filter[EFormFields.Enabled].includes(idCheckbox)}
             id={idCheckbox}
-            label={"enabled"}
+            label={t("form.enabled.title") ?? "Enabled"}
             name={EFormFields.Enabled}
-            nameGroup={"enabled"}
+            nameGroup="enabled"
             onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
           />
         </div>
-        <Input label="Image" name={EFormFields.Image} type="text" />
-        <Input label="Name" name={EFormFields.Name} type="text" />
+        <Input label={t("form.image.title") ?? "Image"} name={EFormFields.Image} type="text" />
+        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text" />
         <div className="CatalogAdd-FormFieldGroup">
           <Select
             defaultValue={attributeOptions[0]}
@@ -117,7 +122,7 @@ export const CatalogAdd: FC<TProps> = ({ attributes }) => {
         </div>
         <div className="CatalogAdd-Control">
           <Button className="CatalogAdd-Button" type="submit">
-            Создать
+            {t("common.actions.create")}
           </Button>
         </div>
       </Form>

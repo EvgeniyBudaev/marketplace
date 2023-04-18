@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
@@ -30,6 +31,7 @@ type TProps = {
 };
 
 export const AttributeEdit: FC<TProps> = (props) => {
+  const { t } = useTranslation();
   const fetcherRemix = useFetcher();
   const attribute: TAttributeDetail = fetcherRemix.data?.attribute ?? props.attribute;
 
@@ -157,7 +159,9 @@ export const AttributeEdit: FC<TProps> = (props) => {
   return (
     <section>
       <h1 className="AttributeEdit-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Редактирование атрибута</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>
+          {t("pages.admin.attributeEdit.title")}
+        </Typography>
       </h1>
       <Form<TForm>
         className="AttributeEdit-Form"
@@ -166,12 +170,17 @@ export const AttributeEdit: FC<TProps> = (props) => {
         method={EFormMethods.Patch}
       >
         <Input
-          label="Название атрибута"
+          label={t("form.name.title") ?? "Name"}
           name={EFormFields.Name}
           type="text"
           defaultValue={attribute.name}
         />
-        <Input label="Alias" name={EFormFields.Alias} type="text" defaultValue={attribute.alias} />
+        <Input
+          label={t("form.alias.title") ?? "Alias"}
+          name={EFormFields.Alias}
+          type="text"
+          defaultValue={attribute.alias}
+        />
         <div className="AttributeEdit-FormFieldGroup">
           <Select
             defaultValue={defaultTypeOptions}
@@ -184,14 +193,14 @@ export const AttributeEdit: FC<TProps> = (props) => {
           <Checkbox
             checked={filter && filter[EFormFields.Filter].includes(idCheckbox)}
             id={idCheckbox}
-            label={"filter"}
+            label={t("form.filter.title") ?? "Filter"}
             name={EFormFields.Filter}
-            nameGroup={"filter"}
+            nameGroup="filter"
             onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
-        <div>
-          <Button onClick={handleOpenAddModal}>Добавить новое значение</Button>
+        <div className="AttributeEdit-FormFieldGroup">
+          <Button onClick={handleOpenAddModal}>{t("common.actions.add")}</Button>
         </div>
         <SelectableTable
           attribute={attribute}
@@ -201,7 +210,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
         />
         <div className="AttributeEdit-FormControl">
           <Button className="AttributeEdit-Button" type="submit">
-            Сохранить
+            {t("common.actions.save")}
           </Button>
         </div>
       </Form>

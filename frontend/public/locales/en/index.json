@@ -16,15 +16,19 @@
     "enter": "Enter"
   },
   "common": {
+    "modal": {
+      "deleteQuestion": "Are you sure you want to delete?"
+    },
     "actions": {
-      "search": "Search",
-      "add": "Add",
       "cancel": "Cancel",
+      "delete": "Delete",
+      "search": "Search",
+      "create": "Create",
+      "add": "Add",
+      "save": "Save",
       "apply": "Apply",
-      "inCart": "In the cart",
       "addToCart": "Add to cart",
-      "inStock": "In stock",
-      "itemOutOfStock": "Item out of stock"
+      "sort": "Sort"
     },
     "table": {
       "options": {
@@ -37,6 +41,11 @@
           "hide": "Hide column"
         }
       }
+    },
+    "info": {
+      "inCart": "In the cart",
+      "inStock": "In stock",
+      "itemOutOfStock": "Item out of stock"
     },
     "validation": {
       "email": "Invalid email",
@@ -55,6 +64,26 @@
         "products": "Products",
         "attributes": "Attributes"
       },
+      "attributeAdd": {
+        "title": "Adding an attribute",
+        "addValue": "Add value to list"
+      },
+      "attributeEdit": {
+        "title": "Editing an Attribute",
+        "addModal": {
+          "title": "Adding a new value"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "value": "Value",
+              "edit": "Edit",
+              "delete": "Delete"
+            }
+          },
+          "header": "Total values"
+        }
+      },
       "attributes": {
         "title": "Attributes",
         "table": {
@@ -67,6 +96,12 @@
             }
           }
         }
+      },
+      "catalogAdd": {
+        "title": "Adding a directory"
+      },
+      "catalogEdit": {
+        "title": "Catalog editing"
       },
       "catalogs": {
         "title": "Catalogs",
@@ -84,6 +119,12 @@
             }
           }
         }
+      },
+      "productAdd": {
+        "title": "Product addition"
+      },
+      "productEdit": {
+        "title": "Product Editing"
       },
       "products": {
         "title": "Products",
@@ -114,6 +155,14 @@
       "haveAccount": "Have an account?",
       "enter": "Enter"
     },
+    "catalog": {
+      "from": "from",
+      "goods": "goods",
+      "sorting": {
+        "asc": "ascending price",
+        "desc": "descending price"
+      }
+    },
     "home": {
       "title": "Home page"
     },
@@ -133,6 +182,33 @@
     }
   },
   "form": {
+    "name": {
+      "title": "Name"
+    },
+    "alias": {
+      "title": "Alias"
+    },
+    "filter": {
+      "title": "Filter"
+    },
+    "value": {
+      "title": "Value"
+    },
+    "enabled": {
+      "title": "Enabled"
+    },
+    "image": {
+      "title": "Image"
+    },
+    "description": {
+      "title": "Description"
+    },
+    "count": {
+      "title": "Count"
+    },
+    "price": {
+      "title": "Price"
+    },
     "email": {
       "title": "Email"
     },

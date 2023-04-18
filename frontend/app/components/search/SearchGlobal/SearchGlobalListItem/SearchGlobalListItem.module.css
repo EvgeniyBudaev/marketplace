@@ -48,19 +48,24 @@
   padding: 8px 10px;
 }
 .SearchGlobalListItem-Link__active {
-  background-color: rgb(223, 213, 195);
-  color: rgb(51, 51, 51);
+  background-color: rgb(176, 151, 106);
+  color: rgb(255, 255, 255);
+}
+.SearchGlobalListItem-Link__active .SearchGlobalListItem-Title {
+  color: rgb(255, 255, 255);
+}
+.SearchGlobalListItem-Link__active .SearchGlobalListItem-Price {
+  color: rgb(255, 255, 255);
 }
 .SearchGlobalListItem-Images {
-  margin-right: 10px;
   height: 28px;
 }
 .SearchGlobalListItem-Title {
-  margin-right: 10px;
+  margin: 0 10px;
   color: rgb(51, 51, 51);
 }
 .SearchGlobalListItem-Price {
-  color: rgb(142, 142, 147);
+  color: rgb(51, 51, 51);
   white-space: nowrap;
 }
 .SearchGlobalListItem-ByCatalog {
@@ -68,7 +73,7 @@
 }
 
 .theme-dark .SearchGlobalListItem-Link__active span.text-dark {
-  color: rgb(51, 51, 51);
+  color: rgb(255, 255, 255);
 }
 
 /*# sourceMappingURL=SearchGlobalListItem.module.css.map */

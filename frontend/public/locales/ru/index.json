@@ -16,15 +16,19 @@
     "enter": "Войти"
   },
   "common": {
+    "modal": {
+      "deleteQuestion": "Вы действительно хотите удалить?!"
+    },
     "actions": {
-      "search": "Поиск",
-      "add": "Добавить",
       "cancel": "Отменить",
+      "delete": "Удалить",
+      "search": "Поиск",
+      "create": "Создать",
+      "add": "Добавить",
+      "save": "Сохранить",
       "apply": "Применить",
-      "inCart": "В корзине",
       "addToCart": "В корзину",
-      "inStock": "В наличии",
-      "itemOutOfStock": "Товар отсутствует"
+      "sort": "Сортировать"
     },
     "table": {
       "options": {
@@ -37,6 +41,11 @@
           "hide": "Скрыть столбец"
         }
       }
+    },
+    "info": {
+      "inCart": "В корзине",
+      "inStock": "В наличии",
+      "itemOutOfStock": "Товар отсутствует"
     },
     "validation": {
       "email": "Email указан неправильно",
@@ -55,6 +64,26 @@
         "products": "Продукты",
         "attributes": "Атрибуты"
       },
+      "attributeAdd": {
+        "title": "Добавление атрибута",
+        "addValue": "Добавить значение в список"
+      },
+      "attributeEdit": {
+        "title": "Редактирование атрибута",
+        "addModal": {
+          "title": "Добавление нового значения"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "value": "Значение",
+              "edit": "Редактирование",
+              "delete": "Удаление"
+            }
+          },
+          "header": "Всего значений"
+        }
+      },
       "attributes": {
         "title": "Атрибуты",
         "table": {
@@ -67,6 +96,12 @@
             }
           }
         }
+      },
+      "catalogAdd": {
+        "title": "Добавление каталога"
+      },
+      "catalogEdit": {
+        "title": "Редактирование каталога"
       },
       "catalogs": {
         "title": "Каталоги",
@@ -84,6 +119,12 @@
             }
           }
         }
+      },
+      "productAdd": {
+        "title": "Добавление продукта"
+      },
+      "productEdit": {
+        "title": "Редактирование продукта"
       },
       "products": {
         "title": "Продукты",
@@ -114,6 +155,14 @@
       "haveAccount": "Есть аккаунт?",
       "enter": "Войти"
     },
+    "catalog": {
+      "from": "из",
+      "goods": "товаров",
+      "sorting": {
+        "asc": "по возрастанию цены",
+        "desc": "по убыванию цены"
+      }
+    },
     "home": {
       "title": "Домашняя страница"
     },
@@ -133,6 +182,33 @@
     }
   },
   "form": {
+    "name": {
+      "title": "Название"
+    },
+    "alias": {
+      "title": "Псевдоним"
+    },
+    "filter": {
+      "title": "Фильтр"
+    },
+    "value": {
+      "title": "Значение"
+    },
+    "enabled": {
+      "title": "Включено"
+    },
+    "image": {
+      "title": "Изображение"
+    },
+    "description": {
+      "title": "Описание"
+    },
+    "count": {
+      "title": "Количество"
+    },
+    "price": {
+      "title": "Цена"
+    },
     "email": {
       "title": "Электронная почта"
     },

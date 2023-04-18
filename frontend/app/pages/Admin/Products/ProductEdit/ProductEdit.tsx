@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import type { OnChangeValue } from "react-select";
+import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import isNull from "lodash/isNull";
@@ -31,6 +32,7 @@ type TProps = {
 };
 
 export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
+  const { t } = useTranslation();
   const fetcherRemix = useFetcher();
   const { theme } = useTheme();
 
@@ -129,10 +131,17 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
   return (
     <section>
       <h1 className="ProductEdit-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Редактирование продукта</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>
+          {t("pages.admin.productEdit.title")}
+        </Typography>
       </h1>
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
-        <Input defaultValue={product.alias} label="Alias" name={EFormFields.Alias} type="text" />
+        <Input
+          defaultValue={product.alias}
+          label={t("form.alias.title") ?? "Alias"}
+          name={EFormFields.Alias}
+          type="text"
+        />
         <div className="ProductEdit-FormFieldGroup">
           <Select
             defaultValue={defaultCatalogAlias ?? catalogAliasesTypeOptions[0]}
@@ -144,7 +153,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
         </div>
         <Input
           defaultValue={product?.description ?? ""}
-          label="Description"
+          label={t("form.description.title") ?? "Description"}
           name={EFormFields.Description}
           type="text"
         />
@@ -152,15 +161,30 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
           <Checkbox
             checked={filter && filter[EFormFields.Enabled].includes(idCheckbox)}
             id={idCheckbox}
-            label={"enabled"}
+            label={t("form.enabled.title") ?? "Enabled"}
             name={EFormFields.Enabled}
-            nameGroup={"enabled"}
+            nameGroup="enabled"
             onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
-        <Input defaultValue={product.name} label="Name" name={EFormFields.Name} type="text" />
-        <Input defaultValue={product.count} label="Count" name={EFormFields.Count} type="text" />
-        <Input defaultValue={product.price} label="Price" name={EFormFields.Price} type="text" />
+        <Input
+          defaultValue={product.name}
+          label={t("form.name.title") ?? "Name"}
+          name={EFormFields.Name}
+          type="text"
+        />
+        <Input
+          defaultValue={product.count}
+          label={t("form.count.title") ?? "Count"}
+          name={EFormFields.Count}
+          type="text"
+        />
+        <Input
+          defaultValue={product.price}
+          label={t("form.price.title") ?? "Price"}
+          name={EFormFields.Price}
+          type="text"
+        />
         <div className="ProductEdit-FormFieldGroup">
           {attributesByCatalog &&
             attributesByCatalog.selectableAttribute &&
@@ -215,7 +239,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
         </div>
         <div className="ProductEdit-Control">
           <Button className="ProductEdit-Button" type="submit">
-            Сохранить
+            {t("common.actions.save")}
           </Button>
         </div>
       </Form>

@@ -78,6 +78,12 @@ $base-font-family: "Roboto", sans-serif;
       &__bold {
         font-weight: 700;
       }
+      &__medium {
+        font-weight: 500;
+      }
+      &__regular {
+        font-weight: 400;
+      }
     }
 
     &-b3 {
@@ -101,6 +107,9 @@ $base-font-family: "Roboto", sans-serif;
       font-size: 12px;
       font-style: normal;
       line-height: 1.25;
+      &__bold {
+        font-weight: 700;
+      }
       &__medium {
         font-weight: 500;
       }

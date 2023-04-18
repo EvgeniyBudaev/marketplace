@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
 import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
@@ -26,6 +27,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
   { cart, catalog, product, isCardsLine, fetcher },
   ref,
 ) {
+  const { t } = useTranslation();
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.ProductDetail,
     params: { alias: product.alias },
@@ -42,7 +44,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     if (isMobileScreen) {
       return 100;
     } else {
-      return 140;
+      return 200;
     }
   };
 
@@ -50,7 +52,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     if (isMobileScreen) {
       return 100;
     } else {
-      return 140;
+      return 200;
     }
   };
 
@@ -75,7 +77,9 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     return isProductAtCart ? (
       cart && !isNil(cart.items) && (
         <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
-          <Typography variant={ETypographyVariant.TextB3Regular}>В корзине</Typography>
+          <Typography variant={ETypographyVariant.TextB3Regular}>
+            {t("common.info.inCart")}
+          </Typography>
         </Link>
       )
     ) : (
@@ -84,7 +88,9 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
         isDisabled={count <= 0}
         onClick={handleAddToCart}
       >
-        <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
+        <Typography variant={ETypographyVariant.TextB3Regular}>
+          {t("common.actions.addToCart")}
+        </Typography>
       </Button>
     );
   };
@@ -111,7 +117,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
           </div>
           <div className="ProductListItem-ContentDescription">
             <Link className="ProductListItem-ContentTitle" to={ROUTE_PRODUCT_DETAIL}>
-              <Typography variant={ETypographyVariant.TextB3Regular}>{product.name}</Typography>
+              <Typography variant={ETypographyVariant.TextB2Regular}>{product.name}</Typography>
             </Link>
           </div>
           <ul className="ProductListItem-ContentDescriptionLine">
@@ -123,9 +129,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
             <li className="ProductListItem-ContentTitleLine">
               <Link to={ROUTE_PRODUCT_DETAIL}>
                 <span className="ProductListItem-ContentTitle">
-                  <Typography variant={ETypographyVariant.TextB3Regular}>
-                    {product.description}
-                  </Typography>
+                  <Typography variant={ETypographyVariant.TextB2Regular}>{product.name}</Typography>
                 </span>
               </Link>
             </li>
@@ -134,13 +138,8 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
             ))}
             <li className="ProductListItem-ContentDescriptionLineStatus">
               <Typography variant={ETypographyVariant.TextB3Regular}>
-                {count > 0 ? "В наличии" : "Товар отсутствует"}
+                {count > 0 ? t("common.info.inStock") : t("common.info.itemOutOfStock")}
               </Typography>
-            </li>
-            <li className="ProductListItem-ContentDescriptionLineAddToCartLine">
-              <button>
-                <Typography variant={ETypographyVariant.TextB3Regular}>Click</Typography>
-              </button>
             </li>
           </ul>
         </div>
@@ -152,11 +151,11 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
           </div>
           <div className="ProductListItem-FooterStatus">
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              {count > 0 ? "В наличии" : "Товар отсутствует"}
+              {count > 0 ? t("common.info.inStock") : t("common.info.itemOutOfStock")}
             </Typography>
           </div>
           {count > 0 && (
-            <div className="ProductListItem-FooterAddToCartGrid">{renderButton(product)}</div>
+            <div className="ProductListItem-FooterAddToCart">{renderButton(product)}</div>
           )}
         </div>
       </div>

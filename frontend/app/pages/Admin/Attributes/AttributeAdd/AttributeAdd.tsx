@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { FC, ChangeEvent, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
 import { useTheme } from "~/hooks";
@@ -16,6 +17,7 @@ type TSelectableItem = {
 };
 
 export const AttributeAdd: FC = () => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
 
   const idCheckbox = "checkbox";
@@ -118,7 +120,9 @@ export const AttributeAdd: FC = () => {
   return (
     <section>
       <h1 className="AttributeAdd-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Добавление атрибута</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>
+          {t("pages.admin.attributeAdd.title")}
+        </Typography>
       </h1>
       <Form<TForm>
         className="AttributeAdd-Form"
@@ -126,8 +130,8 @@ export const AttributeAdd: FC = () => {
         handleSubmit={handleSubmit}
         method={EFormMethods.Post}
       >
-        <Input label="Название атрибута" name={EFormFields.Name} type="text" />
-        <Input label="Alias" name={EFormFields.Alias} type="text" />
+        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text" />
+        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text" />
         <div className="AttributeAdd-FormFieldGroup">
           <Select
             defaultValue={selectTypeOptions[0]}
@@ -140,9 +144,9 @@ export const AttributeAdd: FC = () => {
           <Checkbox
             checked={filter && filter[EFormFields.Filter].includes(idCheckbox)}
             id={idCheckbox}
-            label={"filter"}
+            label={t("form.filter.title") ?? "Filter"}
             name={EFormFields.Filter}
-            nameGroup={"filter"}
+            nameGroup="filter"
             onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
@@ -158,18 +162,18 @@ export const AttributeAdd: FC = () => {
           </div>
         </div>
         <InputUI
-          label="Значение атрибута"
+          label={t("form.value.title") ?? "Value"}
           name="Selectable"
           type="text"
           value={currentSelectableValue}
           onChange={handleChangeSelectableValue}
         />
         <Button className="AttributeAdd-Button" type="button" onClick={handleSelectableValueAdd}>
-          Добавить значение в список
+          {t("pages.admin.attributeAdd.addValue")}
         </Button>
         <div className="AttributeAdd-FormControl">
           <Button className="AttributeAdd-Button" type="submit">
-            Создать
+            {t("common.actions.create")}
           </Button>
         </div>
       </Form>
