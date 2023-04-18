@@ -56,10 +56,12 @@
 }
 .ProductListItem-Content {
   position: relative;
+  transition: all 0.15s;
 }
 .ProductListItem-Content .ProductListItem-ContentImg {
   text-align: center;
-  height: 140px;
+  height: 200px;
+  margin-bottom: 24px;
 }
 .ProductListItem-Content .ProductListItem-ContentDescriptionLine {
   display: none;
@@ -70,9 +72,8 @@
   min-height: 54px;
   width: 100%;
   color: rgb(51, 51, 51);
-  transition: all 0.15s;
 }
-.ProductListItem-Content .ProductListItem-ContentTitle:hover {
+.ProductListItem-Content:hover span {
   color: rgb(176, 151, 106);
 }
 .ProductListItem-Footer {
@@ -89,10 +90,7 @@
   margin-bottom: 16px;
   color: rgb(176, 151, 106);
 }
-.ProductListItem-FooterAddToCartLine {
-  display: none;
-}
-.ProductListItem-FooterAddToCartGrid {
+.ProductListItem-FooterAddToCart {
   margin-bottom: 16px;
 }
 .ProductListItem.ProductListItem__line {
@@ -117,7 +115,7 @@
   align-items: center;
   margin-left: 50px;
 }
-.ProductListItem.ProductListItem__line .ProductListItem-ContentTitle {
+.ProductListItem.ProductListItem__line .ProductListItem-ContentTitleLine {
   min-height: max-content;
   margin-bottom: 20px;
 }
@@ -146,21 +144,8 @@
   margin-bottom: 16px;
   color: rgb(142, 142, 147);
 }
-.ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLineAddToCartLine {
-  display: none;
-}
-.ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLine .ContentTitleLine {
-  margin-bottom: 8px;
-}
 .ProductListItem.ProductListItem__line .ProductListItem-Footer {
   justify-content: center;
-}
-.ProductListItem.ProductListItem__line .ProductListItem-FooterAddToCartGrid {
-  display: none;
-}
-.ProductListItem.ProductListItem__line .ProductListItem-FooterAddToCartLine {
-  display: block;
-  margin-top: 26px;
 }
 .ProductListItem-ButtonGoAtCart {
   padding: 10px 30px;
@@ -219,7 +204,7 @@
   .ProductListItem-Footer .ProductListItem-FooterPrice {
     margin: 8px 0;
   }
-  .ProductListItem-FooterAddToCartGrid {
+  .ProductListItem-FooterAddToCart {
     margin-bottom: 8px;
   }
   .ProductListItem.ProductListItem__line .ProductListItem-ContentTitle {
@@ -242,12 +227,6 @@
   .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLine {
     margin-left: 0;
     max-width: 290px;
-  }
-  .ProductListItem.ProductListItem__line
-    .ProductListItem-ContentDescriptionLine
-    .ProductListItemAddToCartLine {
-    display: flex;
-    justify-content: center;
   }
   .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLinePrice,
   .ProductListItem.ProductListItem__line .ProductListItem-ContentTitleLine {

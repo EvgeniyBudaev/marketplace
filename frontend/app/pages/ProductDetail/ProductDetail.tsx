@@ -75,7 +75,7 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
       cart && !isNil(cart.items) && (
         <Link className="ProductDetail-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
           <Typography variant={ETypographyVariant.TextB3Regular}>
-            {t("common.actions.inCart")}
+            {t("common.info.inCart")}
           </Typography>
         </Link>
       )
@@ -130,8 +130,8 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
             &nbsp;
             <div className="ProductDetail-Status">
               {Number(product.count) > 0
-                ? t("common.actions.inStock")
-                : t("common.actions.itemOutOfStock")}
+                ? t("common.info.inStock")
+                : t("common.info.itemOutOfStock")}
             </div>
           </div>
           <div className="ProductDetail-Pay">{t("pages.productDetail.paymentVariants")}</div>

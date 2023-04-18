@@ -25,10 +25,12 @@
 
   &-Content {
     position: relative;
+    transition: all 0.15s;
 
     #{$this}-ContentImg {
       text-align: center;
-      height: 140px;
+      height: 200px;
+      margin-bottom: 24px;
     }
 
     #{$this}-ContentDescription {
@@ -43,11 +45,10 @@
       min-height: 54px;
       width: 100%;
       color: $color-text;
-      transition: all 0.15s;
+    }
 
-      &:hover {
-        color: $color-primary;
-      }
+    &:hover span {
+      color: $color-primary;
     }
   }
 
@@ -67,11 +68,7 @@
       color: $color-primary;
     }
 
-    &AddToCartLine {
-      display: none;
-    }
-
-    &AddToCartGrid {
+    &AddToCart {
       margin-bottom: 16px;
     }
   }
@@ -101,9 +98,12 @@
       margin-left: 50px;
     }
 
-    #{$this}-ContentTitle {
+    #{$this}-ContentTitleLine {
       min-height: max-content;
       margin-bottom: 20px;
+    }
+
+    #{$this}-ContentTitle {
     }
 
     #{$this}-ContentDescription {
@@ -113,47 +113,30 @@
       margin-left: 50px;
       max-width: 300px;
       width: 100%;
+    }
 
-      &Line {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        margin-left: 50px;
-        max-width: 360px;
-        width: 100%;
+    #{$this}-ContentDescriptionLine {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      margin-left: 50px;
+      max-width: 360px;
+      width: 100%;
+    }
 
-        &Price {
-          display: none;
-        }
+    #{$this}-ContentDescriptionLinePrice {
+      display: none;
+    }
 
-        &Status {
-          display: none;
-          margin-top: 8px;
-          margin-bottom: 16px;
-          color: $color-suit-gray;
-        }
-
-        &AddToCartLine {
-          display: none;
-        }
-
-        .ContentTitleLine {
-          margin-bottom: 8px;
-        }
-      }
+    #{$this}-ContentDescriptionLineStatus {
+      display: none;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      color: $color-suit-gray;
     }
 
     #{$this}-Footer {
       justify-content: center;
-    }
-
-    #{$this}-FooterAddToCartGrid {
-      display: none;
-    }
-
-    #{$this}-FooterAddToCartLine {
-      display: block;
-      margin-top: 26px;
     }
   }
 
@@ -181,7 +164,6 @@
 
 .theme-dark {
   .ProductListItem {
-    $this: &;
     background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
       linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
 
@@ -242,7 +224,7 @@
       }
     }
 
-    &-FooterAddToCartGrid {
+    &-FooterAddToCart {
       margin-bottom: 8px;
     }
 
@@ -275,11 +257,6 @@
       #{$this}-ContentDescriptionLine {
         margin-left: 0;
         max-width: 290px;
-
-        #{$this}AddToCartLine {
-          display: flex;
-          justify-content: center;
-        }
       }
 
       #{$this}-ContentDescriptionLinePrice,

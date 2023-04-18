@@ -56,9 +56,15 @@
 }
 
 .theme-dark {
-  .ModalDefault {
-    background: $color-darkness;
-    box-shadow: $shadow-perimeter-light;
+  .Modal {
+    &Header {
+      color: $color-white;
+    }
+
+    &Default {
+      background: $color-darkness;
+      box-shadow: $shadow-perimeter-light;
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 @import "component";
 
 .SearchGlobalListItem {
+  $this: &;
   margin: 3px;
   border-radius: 4px;
   min-height: 44px;
@@ -11,18 +12,25 @@
     padding: 8px 10px;
 
     &__active {
-      background-color: $color-light-beige;
-      color: $color-text;
+      background-color: $color-primary;
+      color: $color-white;
+
+      #{$this}-Title {
+        color: $color-white;
+      }
+
+      #{$this}-Price {
+        color: $color-white;
+      }
     }
   }
 
   &-Images {
-    margin-right: 10px;
     height: 28px;
   }
 
   &-Title {
-    margin-right: 10px;
+    margin: 0 10px;
     color: $color-text;
     //overflow: hidden;
     //white-space: nowrap;
@@ -30,7 +38,7 @@
   }
 
   &-Price {
-    color: $color-suit-gray;
+    color: $color-text;
     white-space: nowrap;
   }
 
@@ -46,7 +54,7 @@
     &-Link {
       &__active {
         span.text-dark {
-          color: $color-text;
+          color: $color-white;
         }
       }
     }

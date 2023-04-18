@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useTranslation } from "react-i18next";
 import { useLocation, useSearchParams } from "@remix-run/react";
 import { createBrowserHistory } from "history";
 import { DEFAULT_PAGE_SIZE } from "~/constants";
@@ -47,6 +48,7 @@ const PLACEHOLDER_PRODUCT: TProductByCatalog = {
 const history = typeof document !== "undefined" ? createBrowserHistory() : null;
 
 export const Catalog: FC<TProps> = (props) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -179,7 +181,8 @@ export const Catalog: FC<TProps> = (props) => {
           <Typography variant={ETypographyVariant.TextH1Bold}>{catalog?.name}</Typography>
         </h1>
         <Typography variant={ETypographyVariant.TextB3Regular}>
-          {productRange.endProduct} из {products.countOfResult} товаров
+          {productRange.endProduct} {t("pages.catalog.from")} {products.countOfResult}{" "}
+          {t("pages.catalog.goods")}
         </Typography>
       </div>
       <div className="Catalog-Inner">

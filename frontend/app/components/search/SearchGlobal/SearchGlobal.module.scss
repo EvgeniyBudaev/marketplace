@@ -100,6 +100,27 @@ $height: 43px;
         color: $color-white;
       }
     }
+
+    &__active {
+      background-color: $color-darkness;
+
+      & .SearchGlobal-Input {
+        background-color: $color-darkness;
+
+        &::placeholder {
+          background-color: $color-darkness;
+        }
+        &:hover {
+          background-color: $color-darkness;
+        }
+      }
+
+      & .SearchGlobal-Icon {
+        svg {
+          fill: $color-white;
+        }
+      }
+    }
   }
 }
 

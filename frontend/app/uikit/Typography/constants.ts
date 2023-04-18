@@ -45,7 +45,15 @@ export const TYPOGRAPHY_THEMES = (options: TThemesOptions) => {
       mainStyles,
     ),
     [ETypographyVariant.TextB2Bold]: clsx(
-      "Typography-text-b3 Typography-text-b2__bold",
+      "Typography-text-b2 Typography-text-b2__bold",
+      mainStyles,
+    ),
+    [ETypographyVariant.TextB2Medium]: clsx(
+      "Typography-text-b2 Typography-text-b2__medium",
+      mainStyles,
+    ),
+    [ETypographyVariant.TextB2Regular]: clsx(
+      "Typography-text-b2 Typography-text-b2__regular",
       mainStyles,
     ),
     [ETypographyVariant.TextB3Bold]: clsx(
@@ -58,6 +66,10 @@ export const TYPOGRAPHY_THEMES = (options: TThemesOptions) => {
     ),
     [ETypographyVariant.TextB3Regular]: clsx(
       "Typography-text-b3 Typography-text-b3__regular",
+      mainStyles,
+    ),
+    [ETypographyVariant.TextB4Bold]: clsx(
+      "Typography-text-b4 Typography-text-b4__bold",
       mainStyles,
     ),
     [ETypographyVariant.TextB4Medium]: clsx(

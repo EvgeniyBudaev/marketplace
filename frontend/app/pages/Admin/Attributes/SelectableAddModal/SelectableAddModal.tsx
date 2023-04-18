@@ -1,7 +1,8 @@
 import { useState } from "react";
 import type { ChangeEvent, FC } from "react";
+import { useTranslation } from "react-i18next";
 import { EFormFields } from "~/pages/Admin/Attributes/SelectableTable";
-import { Button, Input, Modal } from "~/uikit";
+import { Button, ETypographyVariant, Input, Modal, Typography } from "~/uikit";
 
 type TProps = {
   isOpen: boolean;
@@ -10,6 +11,7 @@ type TProps = {
 };
 
 export const SelectableAddModal: FC<TProps> = ({ isOpen, onClose, onSubmit }) => {
+  const { t } = useTranslation();
   const [value, setValue] = useState("");
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -25,12 +27,14 @@ export const SelectableAddModal: FC<TProps> = ({ isOpen, onClose, onSubmit }) =>
   return (
     <Modal isOpen={isOpen} onCloseModal={onClose}>
       <Modal.Header>
-        <h2>Добавление нового значения</h2>
+        <Typography variant={ETypographyVariant.TextB2Bold}>
+          {t("pages.admin.attributeEdit.addModal.title")}
+        </Typography>
       </Modal.Header>
       <Modal.Content>
         <div>
           <Input
-            label="Название значения"
+            label={t("form.name.title") ?? "Name"}
             name={EFormFields.Value}
             type="text"
             onChange={handleChange}
@@ -39,7 +43,7 @@ export const SelectableAddModal: FC<TProps> = ({ isOpen, onClose, onSubmit }) =>
       </Modal.Content>
       <Modal.Footer>
         <Button onClick={handleSubmit} type={"submit"}>
-          Сохранить
+          {t("common.actions.save")}
         </Button>
       </Modal.Footer>
     </Modal>

@@ -106,6 +106,12 @@
 .Typography-text-b2__bold {
   font-weight: 700;
 }
+.Typography-text-b2__medium {
+  font-weight: 500;
+}
+.Typography-text-b2__regular {
+  font-weight: 400;
+}
 .Typography-text-b3 {
   font-family: "Roboto", sans-serif;
   font-size: 14px;
@@ -126,6 +132,9 @@
   font-size: 12px;
   font-style: normal;
   line-height: 1.25;
+}
+.Typography-text-b4__bold {
+  font-weight: 700;
 }
 .Typography-text-b4__medium {
   font-weight: 500;

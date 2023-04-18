@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import type { OnChangeValue } from "react-select";
+import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
 import isNull from "lodash/isNull";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,6 +39,7 @@ type TProps = {
 };
 
 export const ProductAdd: FC<TProps> = ({ catalogs }) => {
+  const { t } = useTranslation();
   const fetcherRemix = useFetcher();
   const { theme } = useTheme();
 
@@ -155,10 +157,12 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
   return (
     <section>
       <h1 className="ProductAdd-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Добавление продукта</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>
+          {t("pages.admin.productAdd.title")}
+        </Typography>
       </h1>
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
-        <Input label="Alias" name={EFormFields.Alias} type="text" />
+        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text" />
         <div className="ProductAdd-FormFieldGroup">
           <Select
             defaultValue={catalogAliasesTypeOptions[0]}
@@ -168,20 +172,24 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
             theme={theme}
           />
         </div>
-        <Input label="Description" name={EFormFields.Description} type="text" />
+        <Input
+          label={t("form.description.title") ?? "Description"}
+          name={EFormFields.Description}
+          type="text"
+        />
         <div className="ProductAdd-FormFieldGroup">
           <Checkbox
             checked={filter && filter[EFormFields.Enabled].includes(idCheckbox)}
             id={idCheckbox}
-            label={"enabled"}
+            label={t("form.enabled.title") ?? "Enabled"}
             name={EFormFields.Enabled}
-            nameGroup={"enabled"}
+            nameGroup="enabled"
             onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
-        <Input label="Name" name={EFormFields.Name} type="text" />
-        <Input label="Count" name={EFormFields.Count} type="text" />
-        <Input label="Price" name={EFormFields.Price} type="text" />
+        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text" />
+        <Input label={t("form.count.title") ?? "Count"} name={EFormFields.Count} type="text" />
+        <Input label={t("form.price.title") ?? "Price"} name={EFormFields.Price} type="text" />
         <div className="ProductAdd-FormFieldGroup">
           {attributesByCatalog &&
             attributesByCatalog.selectableAttribute &&
@@ -227,7 +235,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
         </div>
         <div className="ProductAdd-Control">
           <Button className="ProductAdd-Button" type="submit">
-            Создать
+            {t("common.actions.create")}
           </Button>
         </div>
       </Form>

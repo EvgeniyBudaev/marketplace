@@ -28,7 +28,10 @@
   },
   "common": {
     "actions": {
-      "addToBasket": "Add to cart"
+      "addToBasket": "Add to cart",
+      "inCart": "In the cart",
+      "inStock": "In stock",
+      "itemOutOfStock": "Item out of stock"
     },
     "table": {
       "header": "Total directories"

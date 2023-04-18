@@ -1,5 +1,6 @@
 import type { FC } from "react";
-import { Button, Modal } from "~/uikit";
+import { useTranslation } from "react-i18next";
+import { Button, ETypographyVariant, Modal, Typography } from "~/uikit";
 import styles from "./ModalDelete.module.css";
 
 type TProps = {
@@ -9,18 +10,22 @@ type TProps = {
 };
 
 export const ModalDelete: FC<TProps> = ({ isOpen, onClose, onSubmit }) => {
+  const { t } = useTranslation();
+
   return (
     <Modal isOpen={isOpen} onCloseModal={onClose}>
       <Modal.Header>
-        <h2>Вы действительно хотите удалить?</h2>
+        <Typography variant={ETypographyVariant.TextB2Bold}>
+          {t("common.modal.deleteQuestion")}
+        </Typography>
       </Modal.Header>
       <Modal.Footer>
         <div className="ModalDelete-Footer">
           <Button className="ModalDelete-Cancel" onClick={onClose}>
-            Отменить
+            {t("common.actions.cancel")}
           </Button>
           <Button onClick={onSubmit} type={"submit"}>
-            Удалить
+            {t("common.actions.delete")}
           </Button>
         </div>
       </Modal.Footer>

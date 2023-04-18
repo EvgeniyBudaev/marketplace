@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import type { FC } from "react";
 import type { OnChangeValue } from "react-select";
+import { useTranslation } from "react-i18next";
 import { Form } from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
+
 import { useTheme } from "~/hooks";
 import { EFormMethods } from "~/shared/form";
 import type { TSorting } from "~/types";
@@ -17,8 +19,9 @@ type TProps = {
 };
 
 export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
-  const PRICE_UP = "по возрастанию цены";
-  const PRICE_DOWN = "по убыванию цены";
+  const { t } = useTranslation();
+  const PRICE_UP = t("pages.catalog.sorting.asc");
+  const PRICE_DOWN = t("pages.catalog.sorting.desc");
 
   const options = [
     { value: "price_asc", label: PRICE_UP },
@@ -58,7 +61,9 @@ export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
   return (
     <div className="Sorting">
       <span className="Sorting-Label">
-        <Typography variant={ETypographyVariant.TextB3Regular}>Сортировать</Typography>
+        <Typography variant={ETypographyVariant.TextB3Regular}>
+          {t("common.actions.sort")}
+        </Typography>
       </span>
       <Form method={EFormMethods.Get}>
         <Select

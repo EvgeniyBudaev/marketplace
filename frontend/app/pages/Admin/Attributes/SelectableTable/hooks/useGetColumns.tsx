@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { ETableColumns } from "~/pages/Admin/Attributes/SelectableTable";
 import type { TSelectableItem } from "~/shared/api/attributes";
@@ -12,6 +13,7 @@ type TUseGetColumns = (
 ) => ColumnDef<TSelectableItem>[];
 
 export const useGetColumns: TUseGetColumns = (columnHelper, onChangeSelectableValue, onDelete) => {
+  const { t } = useTranslation();
   const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
 
   const handleModalEditOpen = () => {
@@ -32,18 +34,18 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onChangeSelectableVa
 
         columnHelper.accessor(ETableColumns.Value, {
           id: ETableColumns.Value,
-          header: () => "Value",
+          header: () => t("pages.admin.attributeEdit.table.columns.info.value"),
         }),
 
         columnHelper.display({
           id: "edit",
-          header: () => "Редактирование",
+          header: () => t("pages.admin.attributeEdit.table.columns.info.edit"),
           cell: ({ row }) => {
             const defaultValue = row.original.value;
             const id = row.original.id;
             return (
               <>
-                <Icon type={"Edit"} onClick={handleModalEditOpen} />
+                <Icon type="Edit" onClick={handleModalEditOpen} />
                 <SelectableEditModal
                   defaultValue={defaultValue}
                   id={id}
@@ -58,13 +60,13 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onChangeSelectableVa
 
         columnHelper.display({
           id: "delete",
-          header: () => "Удаление",
+          header: () => t("pages.admin.attributeEdit.table.columns.info.delete"),
           cell: ({ row }) => (
-            <IconButton typeIcon={"Trash"} onClick={() => onDelete(row.original.id)} />
+            <IconButton typeIcon="Trash" onClick={() => onDelete(row.original.id)} />
           ),
         }),
       ].filter(Boolean) as ColumnDef<TSelectableItem>[],
-    [columnHelper],
+    [columnHelper, isOpenModalEdit, onChangeSelectableValue, onDelete, t],
   );
 
   return columns;

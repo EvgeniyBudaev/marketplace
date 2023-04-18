@@ -1,4 +1,5 @@
 import { forwardRef, memo, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { ModalDelete } from "~/components/modal";
 import { ERoutes } from "~/enums";
@@ -20,6 +21,7 @@ type TProps = {
 
 const TableComponent = forwardRef<HTMLDivElement, TProps>(
   ({ attribute, fetcher, items, onChangePage, onChangeSelectableValue }, ref) => {
+    const { t } = useTranslation();
     const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({ isOpen: false });
 
     const handleClickDeleteSelectableValue = useCallback(
@@ -74,7 +76,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           onPageChange={onChangePage}
           pagesCount={1}
           totalItems={items.length}
-          totalItemsTitle={"Всего значений"}
+          totalItemsTitle={t("pages.admin.attributeEdit.table.header") ?? "Total values"}
         />
         <ModalDelete
           isOpen={deleteModal.isOpen}

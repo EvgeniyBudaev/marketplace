@@ -1,4 +1,5 @@
 import type { ChangeEvent, FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Form } from "@remix-run/react";
 import isNil from "lodash/isNil";
 import { TRANSITION } from "~/constants";
@@ -44,6 +45,7 @@ export const getDefaultFilter = (
 };
 
 export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, filter }) => {
+  const { t } = useTranslation();
   const attributes =
     catalog.selectAttribute &&
     catalog.selectAttribute.filter((attribute) =>
@@ -101,7 +103,9 @@ export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, fi
             </Accordion>
           ))}
         <Button type="submit">
-          <Typography variant={ETypographyVariant.TextB3Regular}>Применить</Typography>
+          <Typography variant={ETypographyVariant.TextB3Regular}>
+            {t("common.actions.apply")}
+          </Typography>
         </Button>
       </Form>
     </aside>
