@@ -5,11 +5,13 @@ import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { Select, ETheme } from "~/uikit";
 import type { TSelectOption, isSelectMultiType } from "~/uikit";
+import type { ETablePlacement } from "~/uikit/Table/enums";
 import { getPageSizeOptions } from "~/uikit/Table/PageSize";
 import styles from "./PageSize.css";
 
 type TProps = {
   defaultPageSize: number;
+  dropdownPosition?: ETablePlacement;
   options: number[];
   onChangePageSize: (pageSize: number) => void;
   theme?: ETheme;
@@ -17,6 +19,7 @@ type TProps = {
 
 const Component: FC<TProps> = ({
   defaultPageSize,
+  dropdownPosition,
   options,
   onChangePageSize,
   theme = ETheme.Light,
@@ -49,6 +52,7 @@ const Component: FC<TProps> = ({
           "PageSize-Select__active": isSelectOpened,
         })}
         isMulti={false}
+        menuPlacement={dropdownPosition}
         name="pagination"
         options={selectOptions}
         theme={theme}

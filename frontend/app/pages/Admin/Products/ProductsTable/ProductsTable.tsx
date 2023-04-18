@@ -2,6 +2,7 @@ import { forwardRef, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { ModalDelete } from "~/components/modal";
+import { useTheme } from "~/hooks";
 import { useGetColumns } from "~/pages/Admin/Products/ProductsTable/hooks";
 import type { TProducts, TProduct } from "~/shared/api/products";
 import { createColumnHelper, Table as UiTable } from "~/uikit";
@@ -39,6 +40,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     const columnHelper = createColumnHelper<TProduct>();
     const columns = useGetColumns(columnHelper, onClickDeleteIcon);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
+    const { theme } = useTheme();
 
     const { content, countOfPage, countOfResult, currentPage, pageSize } = products;
 
@@ -75,6 +77,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           pagesCount={countOfPage}
           settings={settingsProps}
           sorting={fieldsSortState}
+          theme={theme}
           totalItems={countOfResult}
           totalItemsTitle={t("pages.admin.products.table.header") ?? "Total products"}
         />

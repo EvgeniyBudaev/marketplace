@@ -9,6 +9,8 @@ import type {
   MultiValue,
   SingleValue,
   GetOptionLabel,
+  MenuPosition,
+  MenuPlacement,
 } from "react-select";
 import type { SelectComponents } from "react-select/dist/declarations/src/components";
 import { useHydrated } from "remix-utils";
@@ -26,6 +28,8 @@ export type TSelectProps = {
   id?: string;
   instanceId?: string;
   isMulti?: isSelectMultiType;
+  menuPlacement?: MenuPlacement;
+  menuPosition?: MenuPosition;
   name?: string;
   onBlur?: FocusEventHandler;
   onChange?: (
@@ -47,6 +51,8 @@ const SelectComponent: FC<TSelectProps> = ({
   id,
   instanceId,
   isMulti = false,
+  menuPlacement,
+  menuPosition,
   name,
   onBlur,
   onChange,
@@ -68,6 +74,8 @@ const SelectComponent: FC<TSelectProps> = ({
       id={id ? id : uuid}
       instanceId={instanceId ? instanceId : uuid}
       isMulti={isMulti}
+      menuPlacement={menuPlacement}
+      menuPosition={menuPosition}
       name={name}
       onBlur={onBlur}
       onChange={onChange}

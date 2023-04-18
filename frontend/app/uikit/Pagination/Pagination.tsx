@@ -1,7 +1,7 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
 import clsx from "clsx";
-import { Icon } from "~/uikit";
+import { ETheme, Icon } from "~/uikit";
 import styles from "./Pagination.module.css";
 
 export interface IPaginationProps {
@@ -12,6 +12,7 @@ export interface IPaginationProps {
   pagesCount: number;
   pageRangeDisplayed?: number;
   onChange: ({ selected }: { selected: number }) => void;
+  theme?: ETheme;
 }
 
 export const Pagination: React.FC<IPaginationProps> = ({
@@ -22,7 +23,9 @@ export const Pagination: React.FC<IPaginationProps> = ({
   pagesCount,
   pageRangeDisplayed = 3,
   onChange,
+  theme,
 }) => {
+  const isDark = theme === ETheme.Dark;
   return (
     <ReactPaginate
       forcePage={forcePage}
@@ -31,7 +34,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
       pageCount={pagesCount}
       pageRangeDisplayed={pageRangeDisplayed}
       onPageChange={onChange}
-      containerClassName={clsx("Pagination", className)}
+      containerClassName={clsx("Pagination", { Pagination__dark: isDark }, className)}
       activeClassName="Pagination__active"
       pageLinkClassName="Pagination__page-link"
       breakLinkClassName="Pagination__page-link"

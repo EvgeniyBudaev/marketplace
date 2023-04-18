@@ -40,5 +40,8 @@
 .Home {
   position: relative;
 }
+.Home-Block {
+  margin: 24px;
+}
 
 /*# sourceMappingURL=Home.module.css.map */

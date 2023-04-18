@@ -14,6 +14,9 @@ export const selectStyles = (
       border: style.control.border,
       borderRadius: style.control.borderRadius,
       cursor: style.control.cursor,
+      transition: style.control.transition,
+      ":active": style.control[":active"],
+      ":hover": style.control[":hover"],
     }),
     singleValue: (provided) => ({
       ...provided,
@@ -31,6 +34,7 @@ export const selectStyles = (
           style.option.color
         : (style.option && style.option.color) || style.option.color,
       cursor: style.option.cursor,
+      transition: style.control.transition,
       ":hover": style.option[":hover"],
     }),
     menu: (provided) => ({

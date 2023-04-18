@@ -28,7 +28,8 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $color-light-gray;
+      background-color: $color-primary-hover;
+      color: white;
     }
   }
 
@@ -56,6 +57,12 @@
 
     &:hover {
       background-color: transparent;
+    }
+  }
+
+  &__dark {
+    & > li > a {
+      color: $color-white;
     }
   }
 }

@@ -1,0 +1,17 @@
+.TestButton {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-color: blue;
+  max-width: max-content;
+  width: 100%;
+  font-size: 16px;
+  clip-path: polygon(0% 0%, calc(100% - 12px) 0%, 100% 12px, 100% 100%, 0% 100%);
+
+  &-Inner {
+    padding: 16px;
+    border: 2px solid blue;
+    border-radius: 8px;
+    background-color: #fff;
+    clip-path: polygon(0% 0%, calc(100% - 14px) 0%, 100% 14px, 100% 100%, 0% 100%);
+  }
+}

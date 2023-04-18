@@ -12,6 +12,15 @@
     }
   }
 
+  &-Column {
+    width: 50px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #000;
+    padding: 8px;
+  }
+
   &-SearchingPanel {
     margin-right: 16px;
   }

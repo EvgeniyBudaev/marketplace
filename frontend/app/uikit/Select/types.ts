@@ -11,6 +11,15 @@ export type TSelectVariantStyle = {
     border?: string;
     borderRadius?: string;
     cursor?: string;
+    transition?: string;
+    ":active"?: {
+      border?: string;
+      transition?: string;
+    };
+    ":hover"?: {
+      border?: string;
+      transition?: string;
+    };
   };
   singleValue: {
     color?: string;
@@ -21,6 +30,7 @@ export type TSelectVariantStyle = {
     color?: string;
     cursor?: string;
     zIndex?: string;
+    transition?: string;
     ":active"?: {
       backgroundColor?: string;
       color?: string;
@@ -33,7 +43,7 @@ export type TSelectVariantStyle = {
     };
   };
   menu: {
-    zIndex?: number;
+    zIndex?: string | number;
   };
   menuList: {};
   menuPortal: {};

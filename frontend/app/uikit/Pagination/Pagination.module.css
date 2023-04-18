@@ -63,7 +63,8 @@
   cursor: pointer;
 }
 .Pagination > li > a:hover {
-  background-color: rgb(228, 228, 228);
+  background-color: rgb(95, 79, 25);
+  color: white;
 }
 .Pagination > .Pagination__active > a {
   background-color: rgb(176, 151, 106);
@@ -86,6 +87,9 @@
 }
 .Pagination > .disabled > a:hover {
   background-color: transparent;
+}
+.Pagination__dark > li > a {
+  color: rgb(255, 255, 255);
 }
 
 /*# sourceMappingURL=Pagination.module.css.map */
