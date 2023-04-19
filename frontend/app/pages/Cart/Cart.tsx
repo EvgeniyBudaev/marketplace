@@ -1,18 +1,20 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useFetcher, useNavigate } from "@remix-run/react";
 import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
+import type { TCart } from "~/shared/api/cart";
 import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import { formatCurrency } from "~/utils";
 import { CartItem, cartItemLinks } from "./CartItem";
 import styles from "./Cart.module.css";
-import { TCart } from "~/shared/api/cart";
 
 type TProps = {
   cart: TCart;
 };
 
 export const Cart: FC<TProps> = (props) => {
+  const { t } = useTranslation();
   const isAuthenticated = true;
   const navigate = useNavigate();
   const fetcher = useFetcher();
@@ -25,7 +27,7 @@ export const Cart: FC<TProps> = (props) => {
   return (
     <section className="Cart">
       <h1 className="Cart-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Моя корзина</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>{t("pages.cart.title")}</Typography>
       </h1>
       <div className="Cart-Inner">
         <div className="Cart-List">
@@ -40,7 +42,7 @@ export const Cart: FC<TProps> = (props) => {
             ))
           ) : (
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              В корзине нет товаров
+              {t("pages.cart.noItemInCart")}
             </Typography>
           )}
         </div>
@@ -50,8 +52,8 @@ export const Cart: FC<TProps> = (props) => {
               <div className="Cart-CostLine">
                 <div className="Cart-CostLineText">
                   <Typography variant={ETypographyVariant.TextB3Regular}>
-                    В корзине 2<> </>
-                    товара
+                    {t("common.info.inCart")} <> </>
+                    {t("pages.cart.products", { items: cart.countProducts })}
                   </Typography>
                 </div>
                 <div className="Cart-CostLinePrice">
@@ -73,7 +75,7 @@ export const Cart: FC<TProps> = (props) => {
                 onClick={handleProceedToCheckout}
               >
                 <Typography variant={ETypographyVariant.TextB3Regular}>
-                  Перейти к оформлению
+                  {t("pages.cart.goToCheckout")}
                 </Typography>
               </Button>
             </div>
@@ -95,7 +97,7 @@ export const Cart: FC<TProps> = (props) => {
                   <Icon className="Cart-IconEnter" type="Enter" />
                   <Link className="Cart-TextEnter" to={ERoutes.Login}>
                     <Typography variant={ETypographyVariant.TextB3Regular}>
-                      Авторизуйтесь/зарегистрируйтесь, чтобы получить 3% от стоимости заказа
+                      {t("pages.cart.discountForAuth")}
                     </Typography>
                   </Link>
                 </div>
@@ -103,7 +105,7 @@ export const Cart: FC<TProps> = (props) => {
             )}
             <div className="Cart-BackToShopping" onClick={() => {}}>
               <Typography variant={ETypographyVariant.TextB3Regular}>
-                Вернуться к покупкам
+                {t("pages.cart.backToShopping")}
               </Typography>
             </div>
           </div>

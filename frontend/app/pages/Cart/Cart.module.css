@@ -121,12 +121,22 @@
   margin-left: 20px;
   color: rgb(0, 141, 211);
   border-bottom: 1px solid rgba(0, 141, 211, 0.3);
-  transition: all 0.15s;
   cursor: pointer;
+  transition: all 0.15s;
+}
+.Cart-BackToShopping span {
+  transition: all 0.15s;
 }
 .Cart-BackToShopping:hover {
+  border-bottom: 1px solid rgb(176, 151, 106);
+}
+.Cart-BackToShopping:hover span {
   color: rgb(176, 151, 106);
-  border-bottom: 1px solid rgba(176, 151, 106, 0.3);
+}
+
+.theme-dark .Cart-OrdersList {
+  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
+    linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
 }
 
 @media (max-width: 1000px) {

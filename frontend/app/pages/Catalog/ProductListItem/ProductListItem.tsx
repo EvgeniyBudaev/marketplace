@@ -76,7 +76,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
 
     return isProductAtCart ? (
       cart && !isNil(cart.items) && (
-        <Link className="ProductListItem-ButtonGoAtCart" to={ROUTE_PRODUCT_DETAIL}>
+        <Link className="ProductListItem-ButtonGoAtCart" to={ERoutes.Cart}>
           <Typography variant={ETypographyVariant.TextB3Regular}>
             {t("common.info.inCart")}
           </Typography>

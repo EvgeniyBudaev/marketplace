@@ -6,6 +6,7 @@ import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "~/constants";
 import { Control } from "~/uikit/Table/Control";
+import { ETablePlacement } from "~/uikit/Table/enums";
 import { NavigationPanel, navigationPanelLinks } from "~/uikit/Table/NavigationPanel";
 import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
 import { optionsLinks } from "~/uikit/Table/Options";
@@ -86,6 +87,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
       <NavigationPanel
         currentPage={currentPage}
         defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
+        dropdownPosition={ETablePlacement.Top}
         onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
         onPageChange={onPageChange}
         pagesCount={pagesCount}

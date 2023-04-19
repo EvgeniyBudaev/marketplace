@@ -35,6 +35,9 @@
     },
     "table": {
       "header": "Total directories"
+    },
+    "info": {
+      "delete": "Добавь сюда перевод!!!"
     }
   },
   "pages": {

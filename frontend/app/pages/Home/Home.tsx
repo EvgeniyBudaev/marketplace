@@ -9,11 +9,10 @@ export const Home: FC = () => {
   return (
     <div className="Home">
       <h1>{t("pages.home.title")}</h1>
-
-      <div>
+      <div className="Home-Block">
         <LinkButton href="/catalog/mirrors">Каталог зеркал</LinkButton>
       </div>
-      <div>
+      <div className="Home-Block">
         <LinkButton href="/admin">Админка</LinkButton>
       </div>
     </div>

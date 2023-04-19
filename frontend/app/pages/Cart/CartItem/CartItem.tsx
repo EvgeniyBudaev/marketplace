@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import type { ChangeEvent, FC, KeyboardEvent } from "react";
+import { useTranslation } from "react-i18next";
 import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
 import { ERoutes } from "~/enums";
-import { TCartItem } from "~/shared/api/cart";
+import type { TCartItem } from "~/shared/api/cart";
 import { EFormMethods } from "~/shared/form";
 import { ETypographyVariant, IconButton, Typography } from "~/uikit";
 import { createPath, formatCurrency, formatProxy } from "~/utils";
@@ -16,6 +17,7 @@ type TProps = {
 };
 
 export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
+  const { t } = useTranslation();
   const [quantity, setQuantity] = useState(cartItem.quantity);
 
   useEffect(() => {
@@ -168,7 +170,9 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
               onClick={handleDelete}
             />
             <div className="CartItem-ProductDelete" onClick={handleDelete}>
-              <Typography variant={ETypographyVariant.TextB3Regular}>Удалить</Typography>
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {t("common.actions.delete")}
+              </Typography>
             </div>
           </div>
         </div>

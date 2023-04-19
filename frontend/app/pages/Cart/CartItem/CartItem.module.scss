@@ -4,7 +4,7 @@
   padding: 24px;
   margin-bottom: 24px;
   border: 1px solid $color-light-gray;
-  border-radius: 4px;
+  border-radius: $border-radius;
 
   &:last-child {
     margin-bottom: 0;
@@ -62,42 +62,43 @@
       justify-content: center;
       width: 30px;
       height: 30px;
-      background-color: $color-white;
-      border: 3px solid $color-moon-gray;
+      background-color: transparent;
+      border: 2px solid $color-moon-gray;
+      transition: all $transition;
 
       &:hover {
-        background-color: $color-pearl-white;
+        background-color: transparent;
+        border-color: $color-primary;
+        color: $color-primary;
       }
     }
 
     &Minus {
       border-radius: 6px 0 0 6px;
-      border-width: 3px 0 3px 3px;
+      border-width: 2px 0 2px 2px;
     }
 
     &Plus {
       border-radius: 0 6px 6px 0;
-      border-width: 3px 3px 3px 0;
+      border-width: 2px 2px 2px 0;
     }
 
     &Count {
       text-align: center;
       width: 30px;
       height: 30px;
-      background-color: $color-moon-gray;
-      border: 3px solid $color-moon-gray;
+      background-color: transparent;
+      border: 2px solid $color-moon-gray;
       outline: transparent;
-      transition: all 0.15s;
+      transition: all $transition;
 
       &:hover {
-        background-color: $color-white;
-        border-color: $color-shade-gray;
+        border-color: $color-primary;
       }
 
       &:active,
       &:focus {
-        background-color: $color-white;
-        border-color: $color-shade-gray;
+        border-color: $color-primary;
       }
     }
 
@@ -109,6 +110,7 @@
       &:hover {
         color: $color-shade-gray;
         background-color: $color-moon-gray;
+        border-color: $color-moon-gray;
       }
     }
   }
@@ -133,16 +135,33 @@
     align-items: flex-end;
     color: $color-dark-gray;
     border-bottom: 1px solid $color-dark-gray;
-    transition: all 0.15s;
+    transition: all $transition;
     cursor: pointer;
 
+    span {
+      transition: all $transition;
+    }
+
     &:hover {
-      color: $color-primary;
+      border-bottom: 1px solid $color-primary;
+      span {
+        color: $color-primary;
+      }
     }
   }
 
   &-ProductDeleteMobile {
     display: none;
+  }
+}
+
+.theme-dark {
+  .CartItem {
+    &-ProductCounter {
+      &Count {
+        color: $color-white;
+      }
+    }
   }
 }
 

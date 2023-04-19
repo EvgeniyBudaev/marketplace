@@ -1,5 +1,6 @@
 import { memo } from "react";
 import type { FC } from "react";
+import type { ETablePlacement } from "~/uikit/Table/enums";
 import { PageSize, pageSizeLinks } from "~/uikit/Table/PageSize";
 import { Pagination } from "~/uikit";
 import type { ETheme } from "~/uikit";
@@ -8,6 +9,7 @@ import styles from "./NavigationPanel.module.css";
 type TProps = {
   currentPage?: number;
   defaultPageSize: number;
+  dropdownPosition?: ETablePlacement;
   onChangePageSize: (pageSize: number) => void;
   onPageChange?: ({ selected }: { selected: number }) => void;
   pagesCount?: number;
@@ -18,6 +20,7 @@ type TProps = {
 const Component: FC<TProps> = ({
   currentPage,
   defaultPageSize,
+  dropdownPosition,
   onChangePageSize,
   onPageChange,
   pagesCount,
@@ -28,12 +31,18 @@ const Component: FC<TProps> = ({
     <div className="NavigationPanel">
       <PageSize
         defaultPageSize={defaultPageSize}
+        dropdownPosition={dropdownPosition}
         options={pageSizeOptions}
         onChangePageSize={onChangePageSize}
         theme={theme}
       />
       {currentPage && pagesCount && onPageChange && (
-        <Pagination forcePage={currentPage - 1} pagesCount={pagesCount} onChange={onPageChange} />
+        <Pagination
+          forcePage={currentPage - 1}
+          pagesCount={pagesCount}
+          onChange={onPageChange}
+          theme={theme}
+        />
       )}
       <div />
     </div>

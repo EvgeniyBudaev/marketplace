@@ -3,6 +3,13 @@ import type { ETheme, TSelectVariantStyle } from "~/uikit";
 const COLOR_PRIMARY = "#b0976a";
 const COLOR_PRIMARY_HOVER = "#997e4d";
 const COLOR_WHITE = "#fff";
+const COLOR_GRAY = "#e4e4e4";
+const CURRENT_COLOR = "currentColor";
+const BORDER_RADIUS = "4px";
+const CURSOR = "pointer";
+const TRANSITION = "all 0.15s";
+const TRANSPARENT = "transparent";
+const Z_INDEX = 10;
 
 export const VARIANTS: { [key in ETheme]: TSelectVariantStyle } = {
   // Dark theme
@@ -11,56 +18,70 @@ export const VARIANTS: { [key in ETheme]: TSelectVariantStyle } = {
       background:
         "linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 40%),\n" +
         "      linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 40%)",
-      border: "1px solid transparent",
-      borderRadius: "4px",
-      cursor: "pointer",
+      border: `1px solid ${TRANSPARENT}`,
+      borderRadius: BORDER_RADIUS,
+      cursor: CURSOR,
+      transition: TRANSITION,
+      ":active": {
+        border: `1px solid ${COLOR_PRIMARY}`,
+      },
+      ":hover": {
+        border: `1px solid ${COLOR_PRIMARY}`,
+      },
     },
     singleValue: {
-      color: "currentColor",
+      color: CURRENT_COLOR,
     },
     option: {
       backgroundColor: "#1f2029",
       borderRadius: "0",
-      color: "currentColor",
-      cursor: "pointer",
+      color: CURRENT_COLOR,
+      cursor: CURSOR,
+      transition: TRANSITION,
       ":active": {
         backgroundColor: COLOR_PRIMARY,
         color: COLOR_WHITE,
-        transition: "all 0.15s",
       },
       ":hover": {
         backgroundColor: COLOR_PRIMARY_HOVER,
         color: COLOR_WHITE,
-        transition: "all 0.15s",
       },
     },
     menu: {
-      zIndex: 10,
+      zIndex: Z_INDEX,
     },
     menuList: {
-      zIndex: "10",
+      zIndex: Z_INDEX,
     },
     menuPortal: {
-      zIndex: 10,
+      zIndex: Z_INDEX,
     },
   },
 
   // Light theme
   LIGHT: {
     control: {
-      background: "transparent",
-      border: "1px solid #b0976a",
-      borderRadius: "2px",
-      cursor: "pointer",
+      background: TRANSPARENT,
+      border: `1px solid ${COLOR_GRAY}`,
+      borderRadius: BORDER_RADIUS,
+      cursor: CURSOR,
+      transition: TRANSITION,
+      ":active": {
+        border: `1px solid ${COLOR_PRIMARY}`,
+      },
+      ":hover": {
+        border: `1px solid ${COLOR_PRIMARY}`,
+      },
     },
     singleValue: {
-      color: "currentColor",
+      color: CURRENT_COLOR,
     },
     option: {
       backgroundColor: COLOR_WHITE,
       borderRadius: "0",
-      color: "currentColor",
-      cursor: "pointer",
+      color: CURRENT_COLOR,
+      cursor: CURSOR,
+      transition: TRANSITION,
       ":active": {
         backgroundColor: COLOR_PRIMARY,
         color: COLOR_WHITE,
@@ -68,11 +89,10 @@ export const VARIANTS: { [key in ETheme]: TSelectVariantStyle } = {
       ":hover": {
         backgroundColor: COLOR_PRIMARY_HOVER,
         color: COLOR_WHITE,
-        transition: "all 0.15s",
       },
     },
     menu: {
-      zIndex: 10,
+      zIndex: Z_INDEX,
     },
     menuList: {},
     menuPortal: {},
