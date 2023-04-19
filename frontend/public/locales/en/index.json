@@ -155,6 +155,14 @@
       "haveAccount": "Have an account?",
       "enter": "Enter"
     },
+    "cart": {
+      "title": "My cart",
+      "noItemInCart": "There are no items in the cart",
+      "products": "{items, plural, one {# product} few {# products} other {# products}}",
+      "goToCheckout": "Go to checkout",
+      "discountForAuth": "Log in / register to get 3% of the order value",
+      "backToShopping": "Back to shopping"
+    },
     "catalog": {
       "from": "from",
       "goods": "goods",

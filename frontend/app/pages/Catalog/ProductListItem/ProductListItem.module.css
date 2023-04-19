@@ -152,9 +152,8 @@
   height: 42px;
   width: max-content;
   color: rgb(176, 151, 106);
-  background-color: rgb(255, 255, 255);
+  background-color: transparent;
   border: 1px solid rgb(176, 151, 106);
-  border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
   transition: all 0.3s;
 }

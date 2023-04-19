@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { LinkButton } from "~/uikit";
 import styles from "./Home.module.css";
-import { TestButton, testButtonLinks } from "~/pages/Home/TestButton";
 
 export const Home: FC = () => {
   const { t } = useTranslation();
@@ -10,11 +9,6 @@ export const Home: FC = () => {
   return (
     <div className="Home">
       <h1>{t("pages.home.title")}</h1>
-
-      <div className="Home-Block">
-        <TestButton />
-      </div>
-
       <div className="Home-Block">
         <LinkButton href="/catalog/mirrors">Каталог зеркал</LinkButton>
       </div>
@@ -26,5 +20,5 @@ export const Home: FC = () => {
 };
 
 export function homeLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...testButtonLinks()];
+  return [{ rel: "stylesheet", href: styles }];
 }

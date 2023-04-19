@@ -92,38 +92,39 @@
   justify-content: center;
   width: 30px;
   height: 30px;
-  background-color: rgb(255, 255, 255);
-  border: 3px solid rgb(235, 235, 235);
+  background-color: transparent;
+  border: 2px solid rgb(235, 235, 235);
+  transition: all 0.15s;
 }
 .CartItem-ProductCounterMinus:hover,
 .CartItem-ProductCounterPlus:hover {
-  background-color: #f5f5f5;
+  background-color: transparent;
+  border-color: rgb(176, 151, 106);
+  color: rgb(176, 151, 106);
 }
 .CartItem-ProductCounterMinus {
   border-radius: 6px 0 0 6px;
-  border-width: 3px 0 3px 3px;
+  border-width: 2px 0 2px 2px;
 }
 .CartItem-ProductCounterPlus {
   border-radius: 0 6px 6px 0;
-  border-width: 3px 3px 3px 0;
+  border-width: 2px 2px 2px 0;
 }
 .CartItem-ProductCounterCount {
   text-align: center;
   width: 30px;
   height: 30px;
-  background-color: rgb(235, 235, 235);
-  border: 3px solid rgb(235, 235, 235);
+  background-color: transparent;
+  border: 2px solid rgb(235, 235, 235);
   outline: transparent;
   transition: all 0.15s;
 }
 .CartItem-ProductCounterCount:hover {
-  background-color: rgb(255, 255, 255);
-  border-color: rgb(153, 153, 153);
+  border-color: rgb(176, 151, 106);
 }
 .CartItem-ProductCounterCount:active,
 .CartItem-ProductCounterCount:focus {
-  background-color: rgb(255, 255, 255);
-  border-color: rgb(153, 153, 153);
+  border-color: rgb(176, 151, 106);
 }
 .CartItem-ProductCounter__disabled {
   color: rgb(153, 153, 153);
@@ -133,6 +134,7 @@
 .CartItem-ProductCounter__disabled:hover {
   color: rgb(153, 153, 153);
   background-color: rgb(235, 235, 235);
+  border-color: rgb(235, 235, 235);
 }
 .CartItem-ProductItemPrice {
   position: relative;
@@ -152,11 +154,21 @@
   transition: all 0.15s;
   cursor: pointer;
 }
+.CartItem-ProductDelete span {
+  transition: all 0.15s;
+}
 .CartItem-ProductDelete:hover {
+  border-bottom: 1px solid rgb(176, 151, 106);
+}
+.CartItem-ProductDelete:hover span {
   color: rgb(176, 151, 106);
 }
 .CartItem-ProductDeleteMobile {
   display: none;
+}
+
+.theme-dark .CartItem-ProductCounterCount {
+  color: rgb(255, 255, 255);
 }
 
 @media (max-width: 768px) {
