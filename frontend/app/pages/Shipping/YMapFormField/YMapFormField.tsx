@@ -5,6 +5,7 @@ import clsx from "clsx";
 import GeoSearch from "~/pages/Shipping/YMap/GeoSearch/GeoSearch";
 import type { TGeoSearchSuggestion } from "~/pages/Shipping/YMap/GeoSearch";
 import type { TPickMapState } from "~/pages/Shipping/YMap/PickMap";
+import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./YMapFormField.module.css";
 
 type FormFieldYMapType = "text";
@@ -76,7 +77,11 @@ export const YMapFormField: FC<TProps> = ({
       })}
     >
       <label className="YMapFormField-Label" htmlFor={name}>
-        {label}
+        <Typography
+          variant={!isFocused ? ETypographyVariant.TextB3Regular : ETypographyVariant.TextB4Regular}
+        >
+          {label}
+        </Typography>
       </label>
       {type === "text" && (
         <>

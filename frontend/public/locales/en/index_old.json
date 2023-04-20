@@ -249,5 +249,10 @@
         "whiteBG": "\u001b[47mAttributes\u001b[49m"
       }
     }
+  },
+  "form": {
+    "comment": {
+      "title": "Добавь сюда перевод!!!"
+    }
   }
 }

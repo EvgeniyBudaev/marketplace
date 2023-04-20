@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Dispatch, FC, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
 import { FullscreenControl, GeolocationControl, ZoomControl } from "@pbe/react-yandex-maps";
 import { Link, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
@@ -38,6 +39,7 @@ type TProps = {
 };
 
 export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, setMapState }) => {
+  const { t } = useTranslation();
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
@@ -67,12 +69,12 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
   return (
     <section className="Shipping">
       <div className="Shipping-Step">
-        <Typography variant={ETypographyVariant.TextB4Regular}>Шаг 1 из 3</Typography>
+        <Typography variant={ETypographyVariant.TextB4Regular}>
+          {t("pages.shipping.step")}
+        </Typography>
       </div>
       <h1 className="Shipping-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>
-          Где Вы хотите получить заказ?
-        </Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>{t("pages.shipping.title")}</Typography>
       </h1>
       <Form<TForm>
         className="Shipping-Form"
@@ -83,7 +85,7 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
         <div className="Shipping-FormContent">
           <div className="Shipping-FormFieldGroup">
             <YMapFormField
-              label="Адрес"
+              label={t("form.address.title") ?? "Address"}
               name={EFormFields.Address}
               searchState={searchState}
               type="text"
@@ -98,35 +100,21 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
           <div className={clsx("Shipping-FormFieldGroup", "Shipping-FormFieldCouple")}>
             <Input
               className="Shipping-FormFieldGroupItem"
-              label="Квартира"
+              label={t("form.apartment.title") ?? "Apartment"}
               name={EFormFields.Apartment}
               type="text"
             />
             <Input
               className="Shipping-FormFieldGroupItem"
-              label="Этаж"
+              label={t("form.floor.title") ?? "Floor"}
               name={EFormFields.Floor}
-              type="text"
-            />
-          </div>
-          <div className={clsx("Shipping-FormFieldGroup", "Shipping-FormFieldCouple")}>
-            <Input
-              className="Shipping-FormFieldGroupItem"
-              label="Подъезд"
-              name={EFormFields.Entrance}
-              type="text"
-            />
-            <Input
-              className="Shipping-FormFieldGroupItem"
-              label="Домофон"
-              name={EFormFields.Intercom}
               type="text"
             />
           </div>
           <div className="Shipping-FormFieldGroup">
             <Input
               className="Shipping-TextField"
-              label="Комментарий для курьера"
+              label={t("form.commentForCourier.title") ?? "Comment for the courier"}
               name={EFormFields.Comment}
               type="textarea"
             />
@@ -137,11 +125,15 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
             <Link className="Shipping-ControlsLink" to={ERoutes.Cart}>
               <Icon type="ArrowBack" />
               <div className="Shipping-ControlsText">
-                <Typography variant={ETypographyVariant.TextB3Regular}>В корзину</Typography>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {t("common.actions.addToCart")}
+                </Typography>
               </div>
             </Link>
             <Button className="Shipping-Button" type="submit" isDisabled={isEmpty(address)}>
-              <Typography variant={ETypographyVariant.TextB3Regular}>Продолжить</Typography>
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {t("common.actions.continue")}
+              </Typography>
             </Button>
           </div>
         </div>

@@ -44,15 +44,16 @@
   width: 100%;
   border-radius: 4px;
   word-wrap: break-word;
+  /* -------------------- Fix autocomplete form -------------------- */
 }
 .YMapFormField-Label {
   position: absolute;
   top: 20px;
   left: 12px;
   z-index: 1;
-  color: rgba(0, 0, 0, 0.54);
+  color: rgb(138, 143, 160);
   pointer-events: none;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 .YMapFormField-Input__error {
   background-color: rgb(251, 228, 227);
@@ -69,24 +70,27 @@
 }
 .YMapFormField__active {
   width: 100%;
-  background-color: rgb(255, 255, 255);
 }
 .YMapFormField__active .YMapFormField-Label {
-  top: -7px;
-  padding: 0 5px;
-  color: rgb(51, 51, 51);
-  background-color: rgb(255, 255, 255);
+  top: 0;
+  padding: 0;
+  color: rgb(138, 143, 160);
 }
 .YMapFormField__active .YMapFormField-Input__active {
-  width: 100%;
+  background-color: transparent;
   border: 1px solid rgba(0, 0, 0, 0.54);
   border-radius: 4px;
   color: rgb(51, 51, 51);
-  background-color: rgb(255, 255, 255);
 }
 .YMapFormField__active .YMapFormField-Input__active input:hover,
 .YMapFormField__active .YMapFormField-Input__active input {
   background-color: rgb(255, 255, 255);
+}
+.YMapFormField__active input:-webkit-autofill.Input__active,
+.YMapFormField__active input:-webkit-autofill.Input__active:hover,
+.YMapFormField__active input:-webkit-autofill.Input__active:focus,
+.YMapFormField__active input:-webkit-autofill.Input__active:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 .YMapFormField__active textarea,
 .YMapFormField__active textarea:hover {
@@ -94,7 +98,18 @@
 }
 .YMapFormField__active .YMapFormField-Input__active.YMapFormField-Input__error {
   border: 1px solid rgb(227, 18, 53);
-  border-radius: 4px;
+  background-color: rgb(255, 255, 255);
+}
+.YMapFormField .YMapFormField-Inner:-webkit-autofill {
+  -webkit-background-clip: text;
+}
+.YMapFormField .YMapFormField-Inner:-webkit-autofill {
+  border: 1px solid rgba(0, 0, 0, 0.54);
+}
+.YMapFormField .YMapFormField-Inner:-webkit-autofill ~ .YMapFormField-Label {
+  top: 0;
+  padding: 0;
+  color: rgb(51, 51, 51);
   background-color: rgb(255, 255, 255);
 }
 .YMapFormField-ErrorMessage {
@@ -104,6 +119,55 @@
   color: rgb(227, 18, 53);
   z-index: 10;
   transition: all 0.3s;
+}
+
+.theme-dark .YMapFormField {
+  /* -------------------- Fix autocomplete form -------------------- */
+}
+.theme-dark .YMapFormField-Label .text-dark {
+  color: rgb(138, 143, 160);
+}
+.theme-dark .YMapFormField__active .YMapFormField-Input__active {
+  border: 1px solid rgb(176, 151, 106);
+}
+.theme-dark .YMapFormField__active .YMapFormField-Input__active input:hover,
+.theme-dark .YMapFormField__active .YMapFormField-Input__active input {
+  background-color: rgb(31, 32, 41);
+  color: rgb(255, 255, 255);
+}
+.theme-dark .YMapFormField__active input:-webkit-autofill.Input__active,
+.theme-dark .YMapFormField__active input:-webkit-autofill.Input__active:hover,
+.theme-dark .YMapFormField__active input:-webkit-autofill.Input__active:focus,
+.theme-dark .YMapFormField__active input:-webkit-autofill.Input__active:active {
+  -webkit-box-shadow: 0 0 0 30px rgb(31, 32, 41) inset !important;
+}
+.theme-dark .YMapFormField__active textarea,
+.theme-dark .YMapFormField__active textarea:hover {
+  background-color: rgb(31, 32, 41);
+}
+.theme-dark .YMapFormField .YMapFormField-ErrorField .text-dark {
+  color: rgb(227, 18, 53);
+}
+.theme-dark .YMapFormField .YMapFormField-Input:-webkit-autofill {
+  color: red;
+}
+.theme-dark .YMapFormField .YMapFormField-Input:-webkit-autofill ~ .YMapFormField-Label {
+  color: rgb(255, 255, 255);
+}
+.theme-dark .YMapFormField .YMapFormField-Input input:-webkit-autofill {
+  -webkit-text-fill-color: rgb(255, 255, 255);
+}
+.theme-dark .GeoSearch-DropDown {
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+  border: 1px solid transparent;
+}
+.theme-dark .GeoSearch-DropDown__active {
+  background-color: rgb(31, 32, 41);
+  border-color: rgb(176, 151, 106);
+}
+.theme-dark .GeoSearch-DropDown p:hover {
+  background-color: rgb(176, 151, 106);
 }
 
 /*# sourceMappingURL=YMapFormField.module.css.map */

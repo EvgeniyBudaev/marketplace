@@ -52,7 +52,7 @@
   z-index: 1;
   color: rgb(138, 143, 160);
   pointer-events: none;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 .InputField-Label .InputField-Inner__error {
   background-color: rgb(251, 228, 227);
@@ -89,9 +89,9 @@
   color: rgb(138, 143, 160);
 }
 .InputField__active .InputField-Inner__active {
+  background-color: transparent;
   border: 1px solid rgba(0, 0, 0, 0.54);
   color: rgb(51, 51, 51);
-  background-color: transparent;
 }
 .InputField__active .InputField-Inner__active input:hover,
 .InputField__active .InputField-Inner__active input {

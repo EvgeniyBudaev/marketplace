@@ -11,7 +11,7 @@
   }
 
   &-Title {
-    margin-bottom: 16px;
+    margin-bottom: 30px;
   }
 
   &-Form {
@@ -65,22 +65,20 @@
     &Link {
       display: flex;
       align-items: center;
-      color: $color-primary;
-      transition: all 0.15s;
+      transition: all $transition;
 
       svg {
         width: 30px;
         height: 30px;
-        fill: $color-primary;
-        transition: all 0.15s;
+        transition: all $transition;
       }
     }
 
     &Link:hover {
-      color: $color-primary-hover;
+      color: $color-primary;
 
       svg {
-        fill: $color-primary-hover;
+        fill: $color-primary;
       }
     }
   }
@@ -92,6 +90,20 @@
     padding-left: 46px;
     width: 100%;
     min-width: 340px;
+  }
+}
+
+.theme-dark {
+  .Shipping {
+    &-Controls {
+      &Link span {
+        transition: all $transition;
+      }
+
+      &Link:hover span {
+        color: $color-primary;
+      }
+    }
   }
 }
 

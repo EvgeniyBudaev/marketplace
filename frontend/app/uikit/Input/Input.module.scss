@@ -15,7 +15,7 @@
     z-index: 1;
     color: $color-lighting;
     pointer-events: none;
-    transition: all 0.2s;
+    transition: all $transition;
 
     #{$this}-Inner__error {
       background-color: $color-light-red;
@@ -59,9 +59,9 @@
     }
 
     #{$this}-Inner__active {
+      background-color: transparent;
       border: 1px solid rgba(0, 0, 0, 0.54);
       color: $color-text;
-      background-color: transparent;
 
       input:hover,
       input {

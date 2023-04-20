@@ -3,6 +3,7 @@ import type { ChangeEvent, FC, KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
+import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
 import type { TCartItem } from "~/shared/api/cart";
 import { EFormMethods } from "~/shared/form";
@@ -23,6 +24,12 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
   useEffect(() => {
     setQuantity(cartItem.quantity);
   }, [cartItem.quantity]);
+
+  const imageProduct = formatProxy(
+    !isNil(cartItem?.product.images)
+      ? cartItem.product.images[0]
+      : "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
+  );
 
   const handleDecrement = () => {
     fetcher.submit(
@@ -109,13 +116,7 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
   return (
     <div className="CartItem">
       <div className="CartItem-Product">
-        <img
-          className="CartItem-ProductImage"
-          src={formatProxy(
-            "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png?itok=fovz__Gi",
-          )}
-          alt={cartItem.product.name}
-        />
+        <img className="CartItem-ProductImage" src={imageProduct} alt={cartItem.product.name} />
         <div className="CartItem-ProductContent">
           <div className="CartItem-ProductHeader">
             <div className="CartItem-ProductTitle">
