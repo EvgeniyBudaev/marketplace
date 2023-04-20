@@ -28,7 +28,9 @@
       "save": "Save",
       "apply": "Apply",
       "addToCart": "Add to cart",
-      "sort": "Sort"
+      "sort": "Sort",
+      "back": "Back",
+      "continue": "Continue"
     },
     "table": {
       "options": {
@@ -179,6 +181,14 @@
       "goods": "Goods",
       "paymentVariants": "Card online / courier, cash"
     },
+    "recipient": {
+      "step": "Step 2 of 3",
+      "title": "Recipient",
+      "specify": "Specify",
+      "realData": "real data",
+      "passport": "You may be asked for a passport",
+      "order": "before handing over the paid order"
+    },
     "settings": {
       "language": {
         "options": {
@@ -187,6 +197,10 @@
         }
       },
       "title": "Home page"
+    },
+    "shipping": {
+      "step": "Step 1 of 3",
+      "title": "Where would you like to receive your order?"
     }
   },
   "form": {
@@ -240,6 +254,15 @@
     },
     "passwordConfirm": {
       "title": "Password confirm"
+    },
+    "apartment": {
+      "title": "Apartment"
+    },
+    "floor": {
+      "title": "Floor"
+    },
+    "commentForCourier": {
+      "title": "Comment for the courier"
     }
   },
   "fileUploader": {

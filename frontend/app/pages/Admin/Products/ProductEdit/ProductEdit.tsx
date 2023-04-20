@@ -19,7 +19,15 @@ import { getSelectableAttributeOptions } from "~/pages/Admin/Products/utils";
 import type { TAttributesByCatalog } from "~/shared/api/attributes";
 import type { TCatalogs } from "~/shared/api/catalogs";
 import type { TAdminProductDetail } from "~/shared/api/products";
-import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
+import {
+  Checkbox,
+  EFormMethods,
+  FileUploader,
+  Form,
+  Input,
+  Select,
+  useInitForm,
+} from "~/shared/form";
 import type { TParams } from "~/types";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
@@ -35,6 +43,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
   const { t } = useTranslation();
   const fetcherRemix = useFetcher();
   const { theme } = useTheme();
+  console.log("product: ", product);
 
   const idCheckbox = "enabled";
   const [filter, setFilter] = useState<TParams>({ enabled: product.enabled ? [idCheckbox] : [] });
@@ -97,7 +106,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
     const dataFormToDto = mapProductEditToDto(formattedParams, product.id);
     console.log("dataFormToDto : ", dataFormToDto);
     fetcher.submit(dataFormToDto, {
-      method: EFormMethods.Post,
+      method: EFormMethods.Put,
       action: createPath({
         route: ERoutes.AdminProductEdit,
         params: { alias: product.alias },
@@ -135,7 +144,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
           {t("pages.admin.productEdit.title")}
         </Typography>
       </h1>
-      <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
+      <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Put}>
         <Input
           defaultValue={product.alias}
           label={t("form.alias.title") ?? "Alias"}
@@ -191,7 +200,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
             productSelectableAttributeList &&
             attributesByCatalog.selectableAttribute.map((item) => {
               const { selectableAttributeOptions } = getSelectableAttributeOptions({
-                values: item.values,
+                values: item.values ?? [],
               });
               return (
                 <div className="ProductEdit-FormFieldGroup" key={item.id}>
@@ -205,24 +214,6 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
               );
             })}
         </div>
-        {/*<div className="ProductEdit-FormFieldGroup">*/}
-        {/*  {productSelectableAttributeList &&*/}
-        {/*      productSelectableAttributeList.map((item) => {*/}
-        {/*      const { selectableAttributeOptions } = getSelectableAttributeOptions({*/}
-        {/*        values: item,*/}
-        {/*      });*/}
-        {/*      return (*/}
-        {/*        <div className="ProductEdit-FormFieldGroup" key={item.id}>*/}
-        {/*          <Select*/}
-        {/*            defaultValue={selectableAttributeOptions[0]}*/}
-        {/*            name={item.attributeAlias}*/}
-        {/*            options={selectableAttributeOptions}*/}
-        {/*            theme={theme === ETheme.Light ? "primary" : "secondary"}*/}
-        {/*          />*/}
-        {/*        </div>*/}
-        {/*      );*/}
-        {/*    })}*/}
-        {/*</div>*/}
         <div className="ProductEdit-FormFieldGroup">
           {productNumberAttributeList &&
             productNumberAttributeList.map((item) => {
@@ -237,6 +228,21 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
               );
             })}
         </div>
+        {/*<div className="ProductAdd-FormFieldGroup">*/}
+        {/*  <FileUploader*/}
+        {/*      accept={{*/}
+        {/*        "image/jpeg": [".jpeg"],*/}
+        {/*        "image/png": [".png"],*/}
+        {/*      }}*/}
+        {/*      files={watchImages}*/}
+        {/*      Input={<input hidden name={EFormFields.Images} type="file" />}*/}
+        {/*      isLoading={fetcherImagesLoading}*/}
+        {/*      maxSize={1024 * 1024}*/}
+        {/*      multiple={false}*/}
+        {/*      onAddFiles={onAddImages}*/}
+        {/*      onDeleteFile={onDeleteImage}*/}
+        {/*  />*/}
+        {/*</div>*/}
         <div className="ProductEdit-Control">
           <Button className="ProductEdit-Button" type="submit">
             {t("common.actions.save")}

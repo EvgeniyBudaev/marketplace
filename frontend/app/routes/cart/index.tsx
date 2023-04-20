@@ -1,5 +1,6 @@
 import { inputFromForm } from "remix-domains";
-import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import { Cart, cartLinks } from "~/pages/Cart";

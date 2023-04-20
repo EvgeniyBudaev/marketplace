@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
@@ -11,6 +12,7 @@ import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./Recipient.module.css";
 
 export const Recipient: FC = () => {
+  const { t } = useTranslation();
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
@@ -24,10 +26,14 @@ export const Recipient: FC = () => {
   return (
     <section className="Recipient">
       <div className="Recipient-Step">
-        <Typography variant={ETypographyVariant.TextB4Regular}>Шаг 2 из 3</Typography>
+        <Typography variant={ETypographyVariant.TextB4Regular}>
+          {t("pages.recipient.step")}
+        </Typography>
       </div>
       <h1 className="Recipient-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Получатель</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>
+          {t("pages.recipient.title")}
+        </Typography>
       </h1>
       <div className="Recipient-Inner">
         <Form<TForm>
@@ -37,21 +43,37 @@ export const Recipient: FC = () => {
           method={EFormMethods.Post}
         >
           <div className="Recipient-FormContent">
-            <Input label="Имя" name={EFormFields.FirstName} type="text" />
-            <Input label="Фамилия" name={EFormFields.LastName} type="text" />
-            <Input label="Мобильный телефон" name={EFormFields.Phone} type="text" />
-            <Input label="Электронная почта" name={EFormFields.Email} type="text" />
+            <Input
+              label={t("form.firstName.title") ?? "First name"}
+              name={EFormFields.FirstName}
+              type="text"
+            />
+            <Input
+              label={t("form.lastName.title") ?? "Last name"}
+              name={EFormFields.LastName}
+              type="text"
+            />
+            <Input
+              label={t("form.mobilePhone.title") ?? "Mobile phone"}
+              name={EFormFields.Phone}
+              type="text"
+            />
+            <Input label={t("form.email.title") ?? "Email"} name={EFormFields.Email} type="text" />
           </div>
           <div className="Recipient-FormFooter">
             <div className="Recipient-Controls">
               <Link className="Recipient-ControlsLink" to={ERoutes.Shipping}>
                 <Icon type="ArrowBack" />
                 <div className="Recipient-ControlsText">
-                  <Typography variant={ETypographyVariant.TextB3Regular}>Назад</Typography>
+                  <Typography variant={ETypographyVariant.TextB3Regular}>
+                    {t("common.actions.back")}
+                  </Typography>
                 </div>
               </Link>
               <Button type="submit">
-                <Typography variant={ETypographyVariant.TextB3Regular}>Продолжить</Typography>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {t("common.actions.continue")}
+                </Typography>
               </Button>
             </div>
           </div>
@@ -60,17 +82,21 @@ export const Recipient: FC = () => {
           <Icon className="Recipient-InfoIcon" type="Attention" />
           <div className="Recipient-InfoText">
             <div className="Recipient-InfoTitle">
-              <Typography variant={ETypographyVariant.TextB3Regular}>Указывайте</Typography>
-              <br />
-              <Typography variant={ETypographyVariant.TextB3Regular}>реальные данные</Typography>
-            </div>
-            <div>
               <Typography variant={ETypographyVariant.TextB3Regular}>
-                У вас могут попросить паспорт,
+                {t("pages.recipient.specify")}
               </Typography>
               <br />
               <Typography variant={ETypographyVariant.TextB3Regular}>
-                прежде чем вручить оплаченный заказ
+                {t("pages.recipient.realData")}
+              </Typography>
+            </div>
+            <div>
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {t("pages.recipient.passport")}
+              </Typography>
+              <br />
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {t("pages.recipient.order")}
               </Typography>
             </div>
           </div>

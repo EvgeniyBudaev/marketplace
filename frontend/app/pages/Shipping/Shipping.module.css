@@ -47,7 +47,7 @@
   color: rgb(142, 142, 147);
 }
 .Shipping-Title {
-  margin-bottom: 16px;
+  margin-bottom: 30px;
 }
 .Shipping-Form {
   max-width: 550px;
@@ -91,20 +91,18 @@
 .Shipping-ControlsLink {
   display: flex;
   align-items: center;
-  color: rgb(176, 151, 106);
   transition: all 0.15s;
 }
 .Shipping-ControlsLink svg {
   width: 30px;
   height: 30px;
-  fill: rgb(176, 151, 106);
   transition: all 0.15s;
 }
 .Shipping-ControlsLink:hover {
-  color: rgb(95, 79, 25);
+  color: rgb(176, 151, 106);
 }
 .Shipping-ControlsLink:hover svg {
-  fill: rgb(95, 79, 25);
+  fill: rgb(176, 151, 106);
 }
 .Shipping-Map {
   position: absolute;
@@ -113,6 +111,13 @@
   padding-left: 46px;
   width: 100%;
   min-width: 340px;
+}
+
+.theme-dark .Shipping-ControlsLink span {
+  transition: all 0.15s;
+}
+.theme-dark .Shipping-ControlsLink:hover span {
+  color: rgb(176, 151, 106);
 }
 
 @media (max-width: 1230px) {
