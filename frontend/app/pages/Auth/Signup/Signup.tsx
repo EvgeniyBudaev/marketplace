@@ -1,4 +1,3 @@
-import {useEffect} from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
@@ -36,17 +35,6 @@ export const Signup: FC = () => {
       }),
     });
   };
-
-  useEffect(() => {
-    const listener = (event: BeforeUnloadEvent) => {
-      if (Object.keys(form.methods.formState.dirtyFields).length === 0) {
-        return;
-      }
-      event.preventDefault();
-    }
-    window.addEventListener("beforeunload", listener);
-    return () => window.removeEventListener("beforeunload", listener)
-  }, [form.methods.formState.dirtyFields]);
 
   return (
     <section className="Signup">

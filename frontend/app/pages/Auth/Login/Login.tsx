@@ -1,22 +1,27 @@
+import {useCallback, useState} from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type {Transition} from "history";
+
 import { FormErrors } from "~/components";
 import { ERoutes } from "~/enums";
-import { useTranslatedForm, useTranslatedResolver } from "~/hooks";
+import {useBlocker, useTranslatedForm, useTranslatedResolver} from "~/hooks";
 import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import { EFormFields } from "~/pages/Auth/Login/enums";
 import { formSchema } from "~/pages/Auth/Login/schemas";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Auth/Login/types";
 import type { TParams } from "~/types";
-import { Button, ETypographyVariant, Typography } from "~/uikit";
+import {Button, ETypographyVariant, Modal, Typography} from "~/uikit";
 import { createPath } from "~/utils";
 import styles from "./Login.module.css";
 
 export const Login: FC = () => {
   const { t } = useTranslation();
   const resolver = useTranslatedResolver(zodResolver(formSchema));
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasChanges, setHasChanges] = useState(true);
 
   const form = useTranslatedForm(
     useInitForm<TForm>({
@@ -34,6 +39,22 @@ export const Login: FC = () => {
       }),
     });
   };
+
+  const blocker = useCallback((tx: Transition) => {
+    setIsOpen(true);
+  }, []);
+
+  const transition = useBlocker(blocker, hasChanges);
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleUnblockTransition = useCallback(() => {
+    setHasChanges(false);
+    closeModal();
+    transition?.retry();
+  }, [transition]);
 
   return (
     <section className="Login">
@@ -76,6 +97,23 @@ export const Login: FC = () => {
           </div>
         </div>
       </div>
+      <Modal isOpen={isOpen} onCloseModal={() => setIsOpen(false)}>
+        <Modal.Header>
+          <Typography variant={ETypographyVariant.TextB2Bold}>
+            Окно подтверждения
+          </Typography>
+        </Modal.Header>
+        <Modal.Footer>
+          <div className="ModalDelete-Footer">
+            <Button className="ModalDelete-Cancel" onClick={() => setIsOpen(false)}>
+              Отменить
+            </Button>
+            <Button onClick={handleUnblockTransition} type={"submit"}>
+              Подтвердить
+            </Button>
+          </div>
+        </Modal.Footer>
+      </Modal>
     </section>
   );
 };
