@@ -90,8 +90,7 @@
   display: flex;
   align-items: center;
 }
-.CartItem-ProductCounterMinus,
-.CartItem-ProductCounterPlus {
+.CartItem-ProductCounterMinus, .CartItem-ProductCounterPlus {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,8 +100,7 @@
   border: 2px solid rgb(235, 235, 235);
   transition: all 0.15s;
 }
-.CartItem-ProductCounterMinus:hover,
-.CartItem-ProductCounterPlus:hover {
+.CartItem-ProductCounterMinus:hover, .CartItem-ProductCounterPlus:hover {
   background-color: transparent;
   border-color: rgb(176, 151, 106);
   color: rgb(176, 151, 106);
@@ -127,8 +125,7 @@
 .CartItem-ProductCounterCount:hover {
   border-color: rgb(176, 151, 106);
 }
-.CartItem-ProductCounterCount:active,
-.CartItem-ProductCounterCount:focus {
+.CartItem-ProductCounterCount:active, .CartItem-ProductCounterCount:focus {
   border-color: rgb(176, 151, 106);
 }
 .CartItem-ProductCounter__disabled {
@@ -173,8 +170,7 @@
 }
 
 .theme-dark .CartItem {
-  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
-    linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%), linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
   border: 1px solid rgb(35, 40, 56);
 }
 .theme-dark .CartItem:hover {
