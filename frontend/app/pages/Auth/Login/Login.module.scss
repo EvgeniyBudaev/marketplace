@@ -67,6 +67,7 @@
       &Content {
         background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
           linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+        border: 1px solid $color-nightSky;
       }
     }
   }

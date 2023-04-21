@@ -1,19 +1,32 @@
 import { useState } from "react";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
+import isNil from "lodash/isNil";
+
 import { ERoutes } from "~/enums";
-import { useCart, useUser } from "~/hooks";
+import { useUser } from "~/hooks";
+import type { TCart } from "~/shared/api/cart";
 import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import { formatCurrency } from "~/utils";
+
+import {
+  OrderProductListItem,
+  orderProductListItemLinks,
+} from "~/pages/Order/OrderProductListItem";
 import styles from "./Order.module.css";
 
-export const Order: FC = () => {
+type TProps = {
+  cart: TCart;
+};
+
+export const Order: FC<TProps> = ({ cart }) => {
+  const { t } = useTranslation();
   const CARD = "card";
   const CASH = "cash";
-  const CARD_TEXT = "Картой при получении";
-  const CASH_TEXT = "Наличными при получении";
-  const { cart } = useCart();
+  const CARD_TEXT = t("pages.order.payWithCard");
+  const CASH_TEXT = t("pages.order.payWithCash");
   const { user } = useUser();
   const [paymentMethod, setPaymentMethod] = useState(CARD);
 
@@ -24,17 +37,21 @@ export const Order: FC = () => {
   return (
     <section className="Order">
       <h1 className="Order-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>Оформление заказа</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>{t("pages.order.title")}</Typography>
       </h1>
       <div className={clsx("Order-Inner", "Order-InnerMobile")}>
         <div className="Order-BlockLeft">
           <div className="Order-Shipping">
             <div className="Order-Inner">
               <h5 className="Order-SubTitle">
-                <Typography variant={ETypographyVariant.TextH5Bold}>Доставка курьером</Typography>
+                <Typography variant={ETypographyVariant.TextH5Bold}>
+                  {t("pages.order.courierDelivery")}
+                </Typography>
               </h5>
               <Link className="Order-Link" to={ERoutes.Shipping}>
-                <Typography variant={ETypographyVariant.TextB3Regular}>Изменить</Typography>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {t("common.actions.change")}
+                </Typography>
               </Link>
             </div>
             <div className="Order-Address">
@@ -75,33 +92,41 @@ export const Order: FC = () => {
           <div className="Order-Products">
             <div className="Order-Inner">
               <h5 className="Order-SubTitle">
-                <Typography variant={ETypographyVariant.TextH5Bold}>Товары</Typography>
+                <Typography variant={ETypographyVariant.TextH5Bold}>
+                  {t("pages.order.goods")}
+                </Typography>
               </h5>
               <Link className="Order-Link" to={ERoutes.Cart}>
-                <Typography variant={ETypographyVariant.TextB3Regular}>Изменить</Typography>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {t("common.actions.change")}
+                </Typography>
               </Link>
             </div>
-            {cart.products.length === 0 ? (
+            {isNil(cart.items) ? (
               <p>
                 <Typography variant={ETypographyVariant.TextB3Regular}>
-                  Ваша корзина пуста.
+                  {t("pages.order.cartEmpty")}
                 </Typography>
               </p>
             ) : (
               <div>
-                {/*{cart.products.map(item => (*/}
-                {/*        <OrderProductsItem key={item.id} item={item} />*/}
-                {/*    ))}*/}
+                {cart.items.map((item) => (
+                  <OrderProductListItem key={item.id} cartItem={item} />
+                ))}
               </div>
             )}
           </div>
           <div className="Order-Recipient">
             <div className="Order-Inner">
               <h5 className="Order-SubTitle">
-                <Typography variant={ETypographyVariant.TextH5Bold}>Получатель</Typography>
+                <Typography variant={ETypographyVariant.TextH5Bold}>
+                  {t("pages.order.recipient")}
+                </Typography>
               </h5>
               <Link className="Order-Link" to={ERoutes.Recipient}>
-                <Typography variant={ETypographyVariant.TextB3Regular}>Изменить</Typography>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {t("common.actions.change")}
+                </Typography>
               </Link>
             </div>
             <div className="Order-RecipientInfo">
@@ -133,7 +158,9 @@ export const Order: FC = () => {
           <div className="Order-Total">
             <div className="Order-Inner">
               <h5 className="Order-SubTitle">
-                <Typography variant={ETypographyVariant.TextH5Bold}>Итого</Typography>
+                <Typography variant={ETypographyVariant.TextH5Bold}>
+                  {t("common.info.total")}
+                </Typography>
               </h5>
               <h5 className="Order-SubTitle">
                 <Typography variant={ETypographyVariant.TextH5Bold}>
@@ -143,7 +170,9 @@ export const Order: FC = () => {
             </div>
             <div className="Order-Inner">
               <div>
-                <Typography variant={ETypographyVariant.TextB3Regular}>Товары - 1 шт.</Typography>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {t("pages.order.goods")} - 1 шт.
+                </Typography>
               </div>
               <div>
                 <Typography variant={ETypographyVariant.TextB3Regular}>
@@ -153,7 +182,9 @@ export const Order: FC = () => {
             </div>
             <div className="Order-Inner">
               <div>
-                <Typography variant={ETypographyVariant.TextB3Regular}>Доставка</Typography>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {t("pages.order.delivery")}
+                </Typography>
               </div>
               <div>
                 <Typography variant={ETypographyVariant.TextB3Regular}>
@@ -186,11 +217,15 @@ export const Order: FC = () => {
                 )}
               </div>
               <div className="Order-PaymentChange" onClick={handleOpenModal}>
-                <Typography variant={ETypographyVariant.TextB3Regular}>Изменить</Typography>
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {t("common.actions.change")}
+                </Typography>
               </div>
             </div>
             <Button className="Order-PaymentButton" onClick={handleSubmit}>
-              <Typography variant={ETypographyVariant.TextB3Regular}>Оформить заказ</Typography>
+              <Typography variant={ETypographyVariant.TextB3Regular}>
+                {t("pages.order.checkout")}
+              </Typography>
             </Button>
           </div>
         </div>
@@ -201,5 +236,5 @@ export const Order: FC = () => {
 };
 
 export function orderLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{ rel: "stylesheet", href: styles }, ...orderProductListItemLinks()];
 }

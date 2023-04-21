@@ -10,9 +10,10 @@
   padding: 10px;
   //background: linear-gradient(40deg, rgba(116, 129, 168, 0.16), rgba(232, 232, 232, 0.1) 16%),
   //  linear-gradient(210deg, rgba(116, 129, 168, 0.5), rgba(232, 232, 232, 0.1) 20%);
-  transition: box-shadow 0.15s;
+  transition: all $transition;
 
   &:hover {
+    border: 1px solid $color-primary;
     box-shadow: $shadow-perimeter;
   }
 
@@ -165,8 +166,10 @@
   .ProductListItem {
     background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
       linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+    border: 1px solid $color-nightSky;
 
     &:hover {
+      border: 1px solid $color-primary;
       box-shadow: $shadow-perimeter-light;
     }
   }

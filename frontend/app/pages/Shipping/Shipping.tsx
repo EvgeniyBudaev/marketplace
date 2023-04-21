@@ -20,6 +20,7 @@ import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
 import type { TParams } from "~/types";
 import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./Shipping.module.css";
+import { useUser } from "~/hooks";
 
 type TProps = {
   searchState: {
@@ -47,6 +48,9 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
   const [address, setAddress] = useState(searchState?.value ?? "");
   const [isDragging, setDragging] = useState(false);
   const navigate = useNavigate();
+  const { user } = useUser();
+  console.log("user: ", user);
+  const isUser = isEmpty(user);
 
   useEffect(() => {
     searchState && setAddress(searchState.value);
@@ -85,6 +89,9 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
         <div className="Shipping-FormContent">
           <div className="Shipping-FormFieldGroup">
             <YMapFormField
+              // TODO: не работает defaultValue
+              // defaultValue={isUser ? user.shippingAddress : ""}
+              //  defaultValue="Москва, проспект Вернадского, 42к2"
               label={t("form.address.title") ?? "Address"}
               name={EFormFields.Address}
               searchState={searchState}

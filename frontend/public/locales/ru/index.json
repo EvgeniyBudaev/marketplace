@@ -29,6 +29,7 @@
       "apply": "Применить",
       "addToCart": "В корзину",
       "sort": "Сортировать",
+      "change": "Изменить",
       "back": "Назад",
       "continue": "Продолжить"
     },
@@ -47,7 +48,8 @@
     "info": {
       "inCart": "В корзине",
       "inStock": "В наличии",
-      "itemOutOfStock": "Товар отсутствует"
+      "itemOutOfStock": "Товар отсутствует",
+      "total": "Итого"
     },
     "validation": {
       "email": "Email указан неправильно",
@@ -162,6 +164,7 @@
       "noItemInCart": "В корзине нет товаров",
       "products": "{items, plural, one {# товар} few {# товара} other {# товаров}}",
       "goToCheckout": "Перейти к оформлению",
+      "rublesPerOrder": "рублей за заказ",
       "discountForAuth": "Авторизуйтесь/зарегистрируйтесь, чтобы получить 3% от стоимости заказа",
       "backToShopping": "Вернуться к покупкам"
     },
@@ -175,6 +178,17 @@
     },
     "home": {
       "title": "Домашняя страница"
+    },
+    "order": {
+      "payWithCard": "Оплатить картой при получении",
+      "payWithCash": "Оплатить наличными при получении",
+      "title": "Оформление заказа",
+      "courierDelivery": "Доставка курьером",
+      "goods": "Товары",
+      "cartEmpty": "Ваша корзина пуста",
+      "recipient": "Получатель",
+      "delivery": "Доставка",
+      "checkout": "Оформить заказ"
     },
     "productDetail": {
       "description": "Описание",

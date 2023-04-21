@@ -117,6 +117,7 @@
 .theme-dark .ProductDetail-ColPrice {
   background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
     linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+  border: 1px solid rgb(35, 40, 56);
 }
 
 /*# sourceMappingURL=ProductDetail.module.css.map */

@@ -29,6 +29,7 @@
       "apply": "Apply",
       "addToCart": "Add to cart",
       "sort": "Sort",
+      "change": "Change",
       "back": "Back",
       "continue": "Continue"
     },
@@ -47,7 +48,8 @@
     "info": {
       "inCart": "In the cart",
       "inStock": "In stock",
-      "itemOutOfStock": "Item out of stock"
+      "itemOutOfStock": "Item out of stock",
+      "total": "Total"
     },
     "validation": {
       "email": "Invalid email",
@@ -162,6 +164,7 @@
       "noItemInCart": "There are no items in the cart",
       "products": "{items, plural, one {# product} few {# products} other {# products}}",
       "goToCheckout": "Go to checkout",
+      "rublesPerOrder": "rubles per order",
       "discountForAuth": "Log in / register to get 3% of the order value",
       "backToShopping": "Back to shopping"
     },
@@ -175,6 +178,17 @@
     },
     "home": {
       "title": "Home page"
+    },
+    "order": {
+      "payWithCard": "Pay by card upon receipt",
+      "payWithCash": "Pay in cash upon receipt",
+      "title": "Checkout",
+      "courierDelivery": "Courier delivery",
+      "goods": "Goods",
+      "cartEmpty": "Your basket is empty",
+      "recipient": "Recipient",
+      "delivery": "Delivery",
+      "checkout": "Checkout"
     },
     "productDetail": {
       "description": "Description",
