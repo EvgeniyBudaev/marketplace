@@ -9,7 +9,7 @@ export const About: React.FC = () => {
         <Typography variant={ETypographyVariant.TextH1Bold}>Информация о магазине</Typography>
       </h1>
       <p className="About-Paragraph">
-        <Typography variant={ETypographyVariant.TextB3Bold}>Компания «FamilyMarket»</Typography>
+        <Typography variant={ETypographyVariant.TextB3Bold}>Компания «FamilyMart»</Typography>
         &nbsp;
         <Typography variant={ETypographyVariant.TextB3Regular}>
           основана в 2023 году. Мы создали наш бренд, чтобы чтобы поставлять на Российский рынок

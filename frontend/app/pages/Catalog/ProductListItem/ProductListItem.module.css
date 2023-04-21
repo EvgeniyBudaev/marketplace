@@ -43,9 +43,10 @@
   border: 1px solid rgb(228, 228, 228);
   border-radius: 8px;
   padding: 10px;
-  transition: box-shadow 0.15s;
+  transition: all 0.15s;
 }
 .ProductListItem:hover {
+  border: 1px solid rgb(176, 151, 106);
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 .ProductListItem-Wrapper {
@@ -168,8 +169,10 @@
 .theme-dark .ProductListItem {
   background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
     linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+  border: 1px solid rgb(35, 40, 56);
 }
 .theme-dark .ProductListItem:hover {
+  border: 1px solid rgb(176, 151, 106);
   box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px, rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
 }
 

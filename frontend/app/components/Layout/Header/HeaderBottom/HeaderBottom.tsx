@@ -38,7 +38,7 @@ export const HeaderBottom: FC<TProps> = ({ className, isCatalogOpen, onCatalogTo
                     pathname: `${ERoutes.Root}`,
                   }}
                 >
-                  <Typography variant={ETypographyVariant.TextH1Medium}>FamilyMarket</Typography>
+                  <Typography variant={ETypographyVariant.TextH1Medium}>FamilyMart</Typography>
                 </Link>
               </div>
               <Spacer />

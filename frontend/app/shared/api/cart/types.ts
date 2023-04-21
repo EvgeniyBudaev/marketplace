@@ -1,5 +1,5 @@
-import { z } from "zod";
-import {
+import type { z } from "zod";
+import type {
   cartItemDecrementParamsSchema,
   cartItemIncrementParamsSchema,
   cartItemSchema,
@@ -19,13 +19,3 @@ export type TCartItemIncrementParams = z.infer<typeof cartItemIncrementParamsSch
 export type TCartItemDecrementParams = z.infer<typeof cartItemDecrementParamsSchema>;
 export type TCartItemRemoveParams = z.infer<typeof cartItemRemoveParamsSchema>;
 export type TCartItemSetQuantityParams = z.infer<typeof cartItemSetQuantityParamsSchema>;
-
-export type TActionCartItemChange = {
-  payload: TCartItem;
-};
-
-export type TActionCartItemDelete = {
-  payload: {
-    id: number;
-  };
-};

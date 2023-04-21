@@ -71,7 +71,7 @@ export const Cart: FC<TProps> = (props) => {
               </div>
               <Button
                 className="Cart-ButtonGoToOrder"
-                isDisabled={false}
+                isDisabled={isNil(cart.items)}
                 onClick={handleProceedToCheckout}
               >
                 <Typography variant={ETypographyVariant.TextB3Regular}>
@@ -86,7 +86,8 @@ export const Cart: FC<TProps> = (props) => {
                   <div>
                     <Typography variant={ETypographyVariant.TextB3Regular}>
                       - {formatCurrency(parseInt("500"))}
-                      <> </>рублей за заказ
+                      <> </>
+                      {t("pages.cart.rublesPerOrder")}
                     </Typography>
                   </div>
                 </div>

@@ -10,6 +10,8 @@ import { formSchema } from "~/pages/Recipient/schemas";
 import type { TForm } from "~/pages/Recipient/types";
 import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./Recipient.module.css";
+import { useUser } from "~/hooks";
+import isEmpty from "lodash/isEmpty";
 
 export const Recipient: FC = () => {
   const { t } = useTranslation();
@@ -17,6 +19,9 @@ export const Recipient: FC = () => {
     resolver: zodResolver(formSchema),
   });
   const navigate = useNavigate();
+  const { user } = useUser();
+  console.log("user: ", user);
+  const isUser = isEmpty(user);
 
   const handleSubmit = (params: TParams) => {
     console.log("Form params: ", params);
@@ -44,6 +49,7 @@ export const Recipient: FC = () => {
         >
           <div className="Recipient-FormContent">
             <Input
+              // defaultValue={isUser ? user.firstName  : ""}
               label={t("form.firstName.title") ?? "First name"}
               name={EFormFields.FirstName}
               type="text"

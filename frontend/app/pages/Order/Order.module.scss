@@ -31,7 +31,7 @@
     display: flex;
     align-items: center;
     color: $color-primary;
-    transition: all 0.15s;
+    transition: all $transition;
 
     &:hover {
       color: $color-primary-hover;
@@ -73,7 +73,6 @@
     }
 
     &InfoSubTitle {
-      //@include roboto-12-regular;
       color: $color-dark-gray;
     }
   }
@@ -104,7 +103,6 @@
     }
 
     &InfoSubTitle {
-      //@include roboto-12-regular;
       color: $color-dark-gray;
     }
   }
@@ -147,7 +145,6 @@
     }
 
     &Change {
-      //@include roboto-14-medium;
       color: $color-primary;
       cursor: pointer;
       transition: all 0.15s;
@@ -171,7 +168,6 @@
     width: 100%;
 
     &Link {
-      //@include roboto-18-medium;
       display: flex;
       align-items: center;
       color: $color-primary;
@@ -224,6 +220,20 @@
     &Content {
       &Inner {
       }
+    }
+  }
+}
+
+.theme-dark {
+  .Order {
+    &-Payment,
+    &-Products,
+    &-Recipient,
+    &-Shipping,
+    &-Total {
+      background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
+        linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+      border: 1px solid $color-nightSky;
     }
   }
 }
