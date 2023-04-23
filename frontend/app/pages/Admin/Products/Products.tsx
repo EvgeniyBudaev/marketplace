@@ -52,7 +52,8 @@ export const Products: FC<TProps> = (props) => {
     onSearchFocus,
     onSearchKeyDown,
     onSortTableByProperty,
-  } = useTable(onDeleteProduct, {
+  } = useTable({
+    onDelete: onDeleteProduct,
     pageOption: products.currentPage,
     sizeOption: products.pageSize,
   });

@@ -9,9 +9,9 @@ export interface IPaginationProps {
   forcePage?: number;
   initialPage?: number;
   marginPagesDisplayed?: number;
+  onChange: ({ selected }: { selected: number }) => void;
   pagesCount: number;
   pageRangeDisplayed?: number;
-  onChange: ({ selected }: { selected: number }) => void;
   theme?: ETheme;
 }
 
@@ -20,30 +20,31 @@ export const Pagination: React.FC<IPaginationProps> = ({
   forcePage,
   initialPage,
   marginPagesDisplayed = 3,
+  onChange,
   pagesCount,
   pageRangeDisplayed = 3,
-  onChange,
   theme,
 }) => {
   const isDark = theme === ETheme.Dark;
+
   return (
     <ReactPaginate
+      activeClassName="Pagination__active"
+      breakClassName="Pagination__page-item"
+      breakLinkClassName="Pagination__page-link"
+      containerClassName={clsx("Pagination", { Pagination__dark: isDark }, className)}
       forcePage={forcePage}
       initialPage={initialPage}
       marginPagesDisplayed={marginPagesDisplayed}
-      pageCount={pagesCount}
-      pageRangeDisplayed={pageRangeDisplayed}
-      onPageChange={onChange}
-      containerClassName={clsx("Pagination", { Pagination__dark: isDark }, className)}
-      activeClassName="Pagination__active"
-      pageLinkClassName="Pagination__page-link"
-      breakLinkClassName="Pagination__page-link"
-      nextLinkClassName="Pagination__page-link"
-      previousLinkClassName="Pagination__page-link"
-      pageClassName="Pagination__page-item"
-      breakClassName="Pagination__page-item"
       nextClassName="Pagination__page-item"
+      nextLinkClassName="Pagination__page-link"
+      onPageChange={onChange}
+      pageClassName="Pagination__page-item"
+      pageCount={pagesCount}
+      pageLinkClassName="Pagination__page-link"
+      pageRangeDisplayed={pageRangeDisplayed}
       previousClassName="Pagination__page-item"
+      previousLinkClassName="Pagination__page-link"
       previousLabel={
         <>
           <Icon type="ArrowLeft" />

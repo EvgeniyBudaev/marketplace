@@ -11,10 +11,13 @@ import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
 import { mapTableSortingToDto } from "~/shared/api/sorting";
 import type { TTableSortingColumnState } from "~/uikit/Table/types";
 
-type TUseTable = (
-  onDelete: (alias: string) => void,
-  params: { pageOption?: number; sizeOption?: number },
-) => {
+type TParams = {
+  onDelete?: (alias: string) => void;
+  pageOption?: number;
+  sizeOption?: number;
+};
+
+type TUseTable = (params: TParams) => {
   defaultSearch: string;
   deleteModal: { isOpen: boolean };
   isSearchActive: boolean;
@@ -30,7 +33,7 @@ type TUseTable = (
   onSortTableByProperty: (params?: TTableSortingColumnState | TTableSortingColumnState[]) => void;
 };
 
-export const useTable: TUseTable = (onDelete, { pageOption, sizeOption }) => {
+export const useTable: TUseTable = ({ onDelete, pageOption, sizeOption }) => {
   const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({ isOpen: false });
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -126,7 +129,7 @@ export const useTable: TUseTable = (onDelete, { pageOption, sizeOption }) => {
 
   const handleDeleteSubmit = () => {
     if (deleteModal.alias) {
-      onDelete(deleteModal.alias);
+      onDelete?.(deleteModal.alias);
       handleCloseDeleteModal();
     }
   };

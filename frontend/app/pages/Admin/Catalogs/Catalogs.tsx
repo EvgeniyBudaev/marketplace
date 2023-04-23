@@ -50,7 +50,8 @@ export const Catalogs: FC<TProps> = (props) => {
     onSearchFocus,
     onSearchKeyDown,
     onSortTableByProperty,
-  } = useTable(onDeleteCatalog, {
+  } = useTable({
+    onDelete: onDeleteCatalog,
     pageOption: catalogs.currentPage,
     sizeOption: catalogs.pageSize,
   });

@@ -15,8 +15,8 @@ import type {
 import type { SelectComponents } from "react-select/dist/declarations/src/components";
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
-import { selectStyles } from "~/uikit";
-import type { TSelectOption, ETheme, isSelectMultiType } from "~/uikit";
+import { selectStyles, ETheme } from "~/uikit";
+import type { TSelectOption, isSelectMultiType } from "~/uikit";
 import { generateUUID } from "~/utils";
 import styles from "./Select.module.css";
 
@@ -59,7 +59,7 @@ const SelectComponent: FC<TSelectProps> = ({
   onFocus,
   options,
   styles,
-  theme,
+  theme = ETheme.Light,
   value,
 }) => {
   const uuid = generateUUID();
