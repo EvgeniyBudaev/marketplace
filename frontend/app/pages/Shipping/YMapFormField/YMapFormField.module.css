@@ -92,7 +92,8 @@
 .YMapFormField__active input:-webkit-autofill.Input__active:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-.YMapFormField__active textarea, .YMapFormField__active textarea:hover {
+.YMapFormField__active textarea,
+.YMapFormField__active textarea:hover {
   background-color: rgb(255, 255, 255);
 }
 .YMapFormField__active .YMapFormField-Input__active.YMapFormField-Input__error {
@@ -140,7 +141,8 @@
 .theme-dark .YMapFormField__active input:-webkit-autofill.Input__active:active {
   -webkit-box-shadow: 0 0 0 30px rgb(31, 32, 41) inset !important;
 }
-.theme-dark .YMapFormField__active textarea, .theme-dark .YMapFormField__active textarea:hover {
+.theme-dark .YMapFormField__active textarea,
+.theme-dark .YMapFormField__active textarea:hover {
   background-color: rgb(31, 32, 41);
 }
 .theme-dark .YMapFormField .YMapFormField-ErrorField .text-dark {

@@ -7,16 +7,16 @@ import styles from "./Overlay.css";
 
 type TProps = {
   className?: string;
-  timeout?: number;
   isActive?: boolean;
   onClick?: (event: MouseEvent) => void;
+  timeout?: number;
 };
 
 const OverlayComponent: FC<TProps> = ({
   className,
-  timeout = TRANSITION,
   isActive = false,
   onClick,
+  timeout = TRANSITION,
 }) => {
   const nodeRef = useRef(null);
 
@@ -25,9 +25,9 @@ const OverlayComponent: FC<TProps> = ({
       className={clsx("Overlay", className)}
       in={isActive}
       nodeRef={nodeRef}
+      onClick={onClick}
       timeout={timeout}
       unmountOnExit
-      onClick={onClick}
     >
       <div ref={nodeRef} />
     </CSSTransition>

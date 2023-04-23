@@ -6,17 +6,17 @@ import { TRANSITION } from "~/constants";
 import { Overlay } from "~/uikit";
 
 type TProps = {
-  className?: string;
   children?: ReactNode;
-  ref: ForwardedRef<HTMLDivElement>;
-  transition?: number;
+  className?: string;
   isActive?: boolean;
   onClose?: (event: MouseEvent) => void;
+  ref: ForwardedRef<HTMLDivElement>;
+  transition?: number;
 };
 
 const SidebarComponent = forwardRef(
   (
-    { className, children, transition = TRANSITION, isActive = false, onClose }: TProps,
+    { children, className, isActive = false, onClose, transition = TRANSITION }: TProps,
     ref: ForwardedRef<HTMLDivElement>,
   ): JSX.Element => {
     return (

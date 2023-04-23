@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import type { ReactNode } from "react";
 import { default as ReactModal } from "react-responsive-modal";
 import clsx from "clsx";
 import { Icon } from "~/uikit";
@@ -8,7 +9,7 @@ type IModalSize = "medium";
 
 type TModalProps = {
   className?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   size?: IModalSize;
   isOpen: boolean;
   onCloseModal: () => void;
@@ -52,9 +53,9 @@ export const Modal = ({
       classNames={defaultClassNames}
       center
       closeIcon={<Icon type="Close" />}
-      styles={styles}
-      open={isOpen}
       onClose={onCloseModal}
+      open={isOpen}
+      styles={styles}
     >
       <div className="Modal">{children}</div>
     </ReactModal>
@@ -62,13 +63,13 @@ export const Modal = ({
 };
 
 type TModalHeaderProps = {
-  className?: string;
   align?: "start" | "center" | "end";
-  children?: React.ReactNode;
+  children?: ReactNode;
+  className?: string;
 };
 
 // eslint-disable-next-line react/display-name
-Modal.Header = ({ className, align, children }: TModalHeaderProps): JSX.Element => {
+Modal.Header = ({ align, children, className }: TModalHeaderProps): JSX.Element => {
   return (
     <div
       className={clsx("ModalHeader", className, {
@@ -83,18 +84,18 @@ Modal.Header = ({ className, align, children }: TModalHeaderProps): JSX.Element 
 };
 
 type TModalContentProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
   className?: string;
 };
 
 // eslint-disable-next-line react/display-name
-Modal.Content = ({ className, children }: TModalContentProps): JSX.Element => {
+Modal.Content = ({ children, className }: TModalContentProps): JSX.Element => {
   return <div className={clsx("ModalContent", className)}>{children}</div>;
 };
 
 type TModalFooterProps = {
   className?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 // eslint-disable-next-line react/display-name
