@@ -744,7 +744,7 @@
 									"formdata": [
 										{
 											"key": "alias",
-											"value": "venetian-mirror266167589",
+											"value": "venetian-mirror93",
 											"type": "text"
 										},
 										{
@@ -826,6 +826,11 @@
 											"key": "files",
 											"type": "file",
 											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/images/btn-hover.svg"
+										},
+										{
+											"key": "defaultImage",
+											"value": "avatar.png",
+											"type": "text"
 										}
 									]
 								},

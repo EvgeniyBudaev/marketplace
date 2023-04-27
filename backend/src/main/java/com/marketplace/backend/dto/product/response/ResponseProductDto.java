@@ -2,6 +2,7 @@ package com.marketplace.backend.dto.product.response;
 
 
 import com.marketplace.backend.model.EFileType;
+import com.marketplace.backend.model.EImageStatus;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.model.values.BooleanValue;
 import com.marketplace.backend.model.values.DoubleValue;
@@ -11,6 +12,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,7 @@ public class ResponseProductDto {
     private LocalDateTime modifyDate;
     private Set<AttributeValueDto> attributes;
     private Set<String> images;
+    private String defaultImage;
 
     @Data
     public static class AttributeValueDto {
@@ -69,6 +72,10 @@ public class ResponseProductDto {
             this.images = product.getProductFiles().stream().map(productFile -> {
                 if (productFile.getFileType().equals(EFileType.DOCUMENT)){
                     return null;
+                }
+                if(Objects.equals(productFile.getImageStatus(),EImageStatus.DEFAULT)){
+                    this.defaultImage = FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,baseUrl);
+                    return this.defaultImage;
                 }
                 return FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,baseUrl);
             }).collect(Collectors.toSet());

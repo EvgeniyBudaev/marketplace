@@ -10,10 +10,7 @@ import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
 import com.marketplace.backend.exception.AppError;
 import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.mappers.ProductMapper;
-import com.marketplace.backend.model.EFileType;
-import com.marketplace.backend.model.Paging;
-import com.marketplace.backend.model.Product;
-import com.marketplace.backend.model.ProductFile;
+import com.marketplace.backend.model.*;
 import com.marketplace.backend.service.utils.queryes.*;
 import com.marketplace.backend.utils.FileUtils;
 import com.marketplace.properties.model.properties.GlobalProperty;
@@ -30,6 +27,8 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.Objects;
+
 
 
 @RestController
@@ -97,14 +96,11 @@ public class ProductController {
     @PostMapping(value = "/save")
     public ResponseProductDto saveWithImageProduct(@Valid RequestSaveWithImageProductDto productDto, @RequestParam(name = "files",required = false)MultipartFile[] files) {
         Product product = manageProductDao.save(productDto);
-
         if(files!=null&&files.length!=0){
             product.setProductFiles(new HashSet<>(files.length));
             for (MultipartFile file : files) {
-                product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product));
+                product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product,productDto.getDefaultImage()));
             }
-        }else {
-            System.out.println("files is empty");
         }
         return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
     }
@@ -143,17 +139,21 @@ public class ProductController {
         return dto;
     }
 
-    private ProductFile saveFile(MultipartFile uploadFile,EFileType eFileType,Product product){
+    private ProductFile saveFile(MultipartFile uploadFile,EFileType eFileType,Product product,String defaultImage){
         if (eFileType.equals(EFileType.IMAGE) && globalProperty.getIsImageDirectoryAvailability()) {
             if (fileUtils.checkImageFile(uploadFile)) {
                 Path imageDir = Path.of(globalProperty.getIMAGE_DIR().toString(), product.getCatalog().getAlias(), product.getAlias());
                 if (!fileUtils.createIfNotExistProductDir(imageDir)) {
                     throw new OperationNotAllowedException("Не удалось создать директорию продукта");
                 }
+                EImageStatus status =null;
+                if(Objects.equals(uploadFile.getOriginalFilename(), defaultImage)){
+                    status=EImageStatus.DEFAULT;
+                }
                 Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
                 if (manageProductDao.saveFileOnFileSystem(uploadFile, filePath)) {
                     Path relativePath = globalProperty.getIMAGE_DIR().relativize(filePath);
-                    return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.IMAGE);
+                    return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.IMAGE,status);
                     /*return ResponseEntity.ok(FileUtils.createUrl(file.getUrl(), EFileType.IMAGE,globalProperty.getBASE_URL()));*/
                 } else {
                     throw new OperationNotAllowedException("Не удалось сохранить файл");
@@ -170,7 +170,7 @@ public class ProductController {
             Path filePath = Path.of(docDir.toString(), uploadFile.getOriginalFilename());
             if (manageProductDao.saveFileOnFileSystem(uploadFile, filePath)) {
                 Path relativePath = globalProperty.getDOC_DIR().relativize(filePath);
-                return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.DOCUMENT);
+                return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.DOCUMENT,null);
             } else {
                 throw new OperationNotAllowedException("Не удалось сохранить файл");
             }

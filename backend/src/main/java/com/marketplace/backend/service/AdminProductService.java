@@ -7,10 +7,7 @@ import com.marketplace.backend.dto.product.request.RequestSaveOrUpdate;
 import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.mappers.ProductMapper;
-import com.marketplace.backend.model.Attribute;
-import com.marketplace.backend.model.EFileType;
-import com.marketplace.backend.model.Product;
-import com.marketplace.backend.model.ProductFile;
+import com.marketplace.backend.model.*;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +60,8 @@ public class AdminProductService implements ManageProductDao {
     }
 
     @Override
-    public ProductFile saveFileDescription(Product product, String url, EFileType type) {
-        return adminFilesService.saveEntity(product,url,type);
+    public ProductFile saveFileDescription(Product product, String url, EFileType type, EImageStatus status) {
+        return adminFilesService.saveEntity(product,url,type,status);
     }
 
 
@@ -174,5 +171,10 @@ public class AdminProductService implements ManageProductDao {
             }
             throw new OperationNotAllowedException(message);
         }
+    }
+
+    @Override
+    public List<ProductFile> getImageFileByProduct(Product product){
+        return adminFilesService.getImageFilesByProduct(product);
     }
 }

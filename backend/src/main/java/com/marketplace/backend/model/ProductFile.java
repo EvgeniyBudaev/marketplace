@@ -24,6 +24,10 @@ public class ProductFile {
     @Enumerated(EnumType.STRING)
     private EFileType fileType;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private EImageStatus imageStatus;
+
     @Column(name = "url")
     private String url;
 }

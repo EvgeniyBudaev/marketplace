@@ -1,6 +1,7 @@
 package com.marketplace.backend.service;
 
 import com.marketplace.backend.model.EFileType;
+import com.marketplace.backend.model.EImageStatus;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.model.ProductFile;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+
 
 @Slf4j
 @Service
@@ -42,7 +44,7 @@ public class AdminFilesService {
     }
 
     @Transactional
-    public ProductFile saveEntity(Product product, String url, EFileType type) {
+    public ProductFile saveEntity(Product product, String url, EFileType type, EImageStatus status) {
         TypedQuery<ProductFile> query = entityManager
                 .createQuery("SELECT file FROM ProductFile as file where file.url=:url", ProductFile.class);
         query.setParameter("url", url);
@@ -51,11 +53,20 @@ public class AdminFilesService {
             return productFiles.get(0);
         }
         ProductFile productFile = new ProductFile();
+        productFile.setImageStatus(status);
         productFile.setFileType(type);
         productFile.setProduct(product);
         productFile.setUrl(url);
         entityManager.persist(productFile);
         return productFile;
     }
+
+    public List<ProductFile> getImageFilesByProduct(Product product){
+        TypedQuery<ProductFile> query = entityManager.createQuery("SELECT p FROM ProductFile as p where p.product=:product and p.fileType=:type", ProductFile.class);
+        query.setParameter("product",product);
+        query.setParameter("type",EFileType.IMAGE);
+        return query.getResultList();
+    }
+
 
 }
