@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import {useEffect, useRef} from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
 import { SearchingPanel } from "~/components/search";
 import { ERoutes } from "~/enums";
-import { useTable } from "~/hooks";
+import {useScrollToTable, useTable} from "~/hooks";
 import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import { productEditLinks } from "~/pages/Admin/Products/ProductEdit";
 import {
@@ -29,6 +29,9 @@ export const Products: FC<TProps> = (props) => {
   const fetcher = useFetcher();
   const { isLoading } = getFetcherOptions(fetcher);
   const products = fetcher.data?.products ?? props.products;
+  const tableRef = useRef<HTMLDivElement>(null);
+
+  useScrollToTable({ ref: tableRef, content: products.content });
 
   const onDeleteProduct = (alias: string) => {
     const form = new FormData();
