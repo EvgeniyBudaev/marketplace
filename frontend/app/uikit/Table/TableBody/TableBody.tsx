@@ -36,7 +36,7 @@ const TableBodyComponent = <T extends object>({ rows }: TProps<T>, ref: Forwarde
   );
 };
 
-export const TableBody = forwardRef(TableBodyComponent) as typeof TableBodyComponent;
+export const TableBody = forwardRef(TableBodyComponent);
 
 export function tableBodyLinks() {
   return [{ rel: "stylesheet", href: styles }];

@@ -41,8 +41,8 @@ const TableComponent = <TColumn extends Record<string, any>>(
     totalItemsTitle,
   } = props;
   const hiddenColumns = settings?.options?.hiddenColumns;
-  const [positionSpinner, setPositionSpinner] = React.useState(0);
   const tableBodyRef = useRef<HTMLTableSectionElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
 
   const columnVisibility = useMemo<VisibilityState | undefined>(
     () =>
@@ -68,14 +68,28 @@ const TableComponent = <TColumn extends Record<string, any>>(
   });
 
   useEffect(() => {
-    if (tableBodyRef.current) {
-      const top =
-          (document.documentElement.clientHeight -
-              Math.max(0, tableBodyRef.current.getBoundingClientRect().y)) /
-          2;
-      setPositionSpinner(top);
+    const updateSpinnerPosition = () => {
+      if(!tableBodyRef.current || !loaderRef.current) {
+        return;
+      }
+      
+
+      const top = Math.min(
+        tableBodyRef.current.clientHeight,
+        Math.max(
+          10,
+          (window.innerHeight / 2) - tableBodyRef.current.getBoundingClientRect().y
+        )
+      );
+
+      loaderRef.current.style.top = `${top}px`;
     }
-  });
+
+    updateSpinnerPosition();
+  
+    document.addEventListener("scroll", updateSpinnerPosition);
+    return () => document.removeEventListener("scroll", updateSpinnerPosition);
+  }, [tableBodyRef, loaderRef]);
 
   return (
     <div ref={ref}>
@@ -97,7 +111,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
         <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()} />}</div>
       </div>
       <div className="Table-Scroll">
-        {isLoading && <TableLoader position={positionSpinner} />}
+        {isLoading && <TableLoader ref={loaderRef} />}
         <table className={clsx("Table", className)}>
           <TableHeader<TColumn>
             headerGroups={table.getHeaderGroups()}
@@ -106,7 +120,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
             setHiddenColumns={settings?.options?.setHiddenColumns}
             sorting={sorting}
           />
-          <div ref={tableBodyRef}><TableBody rows={table.getRowModel().rows} /></div>
+          <TableBody ref={tableBodyRef} rows={table.getRowModel().rows} />
           {/*<TableBody ref={tableBodyRef} rows={table.getRowModel().rows} />*/}
         </table>
       </div>
