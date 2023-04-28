@@ -14,6 +14,7 @@ import {
 } from "~/pages/Admin/Products/ProductsTable";
 import { EProductAction } from "~/shared/api/products";
 import type { TProducts } from "~/shared/api/products";
+import {getFetcherOptions} from "~/shared/fetcher";
 import { EFormMethods } from "~/shared/form";
 import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
@@ -26,6 +27,7 @@ type TProps = {
 export const Products: FC<TProps> = (props) => {
   const { t } = useTranslation();
   const fetcher = useFetcher();
+  const { isLoading } = getFetcherOptions(fetcher);
   const products = fetcher.data?.products ?? props.products;
 
   const onDeleteProduct = (alias: string) => {
@@ -111,6 +113,7 @@ export const Products: FC<TProps> = (props) => {
           multiple: true,
           onChangeSorting: onSortTableByProperty,
         }}
+        isLoading={isLoading}
         isOpenDeleteModal={deleteModal.isOpen}
         products={products}
         onChangePage={onChangePage}

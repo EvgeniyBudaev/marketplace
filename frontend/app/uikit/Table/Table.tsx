@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from "react";
+import React, { forwardRef, useMemo } from "react";
 import type { ForwardedRef, ReactElement } from "react";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import type { VisibilityState } from "@tanstack/react-table";
@@ -11,6 +11,7 @@ import { NavigationPanel, navigationPanelLinks } from "~/uikit/Table/NavigationP
 import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
 import { optionsLinks } from "~/uikit/Table/Options";
 import { TableHeader, tableHeaderLinks } from "~/uikit/Table/TableHeader";
+import {TableLoader, tableLoaderLinks} from "~/uikit/Table/TableLoader";
 import type { TTableProps } from "~/uikit/Table/types";
 import { tableHeaderItemLinks } from "./TableHeaderItem";
 import styles from "./Table.module.css";
@@ -26,6 +27,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
     currentPage,
     debug,
     defaultPageSize,
+    isLoading = false,
     pagesCount,
     sorting,
     onChangePageSize,
@@ -65,6 +67,16 @@ const TableComponent = <TColumn extends Record<string, any>>(
 
   return (
     <div ref={ref}>
+      <NavigationPanel
+          currentPage={currentPage}
+          defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
+          dropdownPosition={ETablePlacement.Bottom}
+          onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
+          onPageChange={onPageChange}
+          pagesCount={pagesCount}
+          pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
+          theme={theme}
+      />
       <div className="Table-Head">
         <div>
           {" "}
@@ -73,6 +85,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
         <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()} />}</div>
       </div>
       <div className="Table-Scroll">
+        {isLoading && <TableLoader />}
         <table className={clsx("Table", className)}>
           <TableHeader<TColumn>
             headerGroups={table.getHeaderGroups()}
@@ -108,5 +121,6 @@ export function tableLinks() {
     ...tableBodyLinks(),
     ...tableHeaderLinks(),
     ...tableHeaderItemLinks(),
+      ...tableLoaderLinks(),
   ];
 }
