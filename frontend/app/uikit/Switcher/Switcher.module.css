@@ -29,6 +29,7 @@
 /* #ebebeb */
 /* #e8e8e8 */
 /* #dedede */
+/* #bfbfbf */
 /* #999999 */
 /* #f0ad4e */
 /* #ffd25d */
@@ -58,7 +59,7 @@
   transform: translateX(46px);
   width: 46px;
   height: 36px;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   border-radius: 100px;
   box-shadow: 0 1px 16px rgba(4, 6, 28, 0.1);
   transition: transform 0.15s linear;
@@ -82,8 +83,7 @@
   background-color: rgb(31, 32, 41);
 }
 .theme-dark .Switcher-Pointer {
-  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 40%),
-    linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 40%);
+  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 40%), linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 40%);
 }
 
 @media (max-width: 1100px) {

@@ -18,6 +18,7 @@ import { paginationLinks } from "~/uikit/Pagination";
 import { headlessPopoverLinks, popoverCustomLinks } from "~/uikit/Popover";
 import { selectLinks } from "~/uikit/Select";
 import { spacerLinks } from "~/uikit/Spacer";
+import { spinnerLinks } from "~/uikit/Spinner";
 import { switcherLinks } from "~/uikit/Switcher";
 import { tableLinks } from "~/uikit/Table";
 import { tagLinks } from "~/uikit/Tag";
@@ -44,6 +45,7 @@ export * from "./Popover";
 export * from "./Select";
 export * from "./Sidebar";
 export * from "./Spacer";
+export * from "./Spinner";
 export * from "./Switcher";
 export * from "./Table";
 export * from "./Tag";
@@ -74,6 +76,7 @@ export const links = () => {
     ...popoverCustomLinks(),
     ...selectLinks(),
     ...spacerLinks(),
+    ...spinnerLinks(),
     ...switcherLinks(),
     ...tableLinks(),
     ...tagLinks(),

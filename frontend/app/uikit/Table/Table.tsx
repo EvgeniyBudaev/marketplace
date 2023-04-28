@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from "react";
+import React, {forwardRef, useEffect, useMemo, useRef} from "react";
 import type { ForwardedRef, ReactElement } from "react";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import type { VisibilityState } from "@tanstack/react-table";
@@ -11,6 +11,7 @@ import { NavigationPanel, navigationPanelLinks } from "~/uikit/Table/NavigationP
 import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
 import { optionsLinks } from "~/uikit/Table/Options";
 import { TableHeader, tableHeaderLinks } from "~/uikit/Table/TableHeader";
+import {TableLoader, tableLoaderLinks} from "~/uikit/Table/TableLoader";
 import type { TTableProps } from "~/uikit/Table/types";
 import { tableHeaderItemLinks } from "./TableHeaderItem";
 import styles from "./Table.module.css";
@@ -26,6 +27,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
     currentPage,
     debug,
     defaultPageSize,
+    isLoading = false,
     pagesCount,
     sorting,
     onChangePageSize,
@@ -39,6 +41,8 @@ const TableComponent = <TColumn extends Record<string, any>>(
     totalItemsTitle,
   } = props;
   const hiddenColumns = settings?.options?.hiddenColumns;
+  const [positionSpinner, setPositionSpinner] = React.useState(0);
+  const tableBodyRef = useRef<HTMLTableSectionElement>(null);
 
   const columnVisibility = useMemo<VisibilityState | undefined>(
     () =>
@@ -63,8 +67,28 @@ const TableComponent = <TColumn extends Record<string, any>>(
     debugTable: debug,
   });
 
+  useEffect(() => {
+    if (tableBodyRef.current) {
+      const top =
+          (document.documentElement.clientHeight -
+              Math.max(0, tableBodyRef.current.getBoundingClientRect().y)) /
+          2;
+      setPositionSpinner(top);
+    }
+  });
+
   return (
     <div ref={ref}>
+      <NavigationPanel
+          currentPage={currentPage}
+          defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
+          dropdownPosition={ETablePlacement.Bottom}
+          onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
+          onPageChange={onPageChange}
+          pagesCount={pagesCount}
+          pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
+          theme={theme}
+      />
       <div className="Table-Head">
         <div>
           {" "}
@@ -73,6 +97,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
         <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()} />}</div>
       </div>
       <div className="Table-Scroll">
+        {isLoading && <TableLoader position={positionSpinner} />}
         <table className={clsx("Table", className)}>
           <TableHeader<TColumn>
             headerGroups={table.getHeaderGroups()}
@@ -81,7 +106,8 @@ const TableComponent = <TColumn extends Record<string, any>>(
             setHiddenColumns={settings?.options?.setHiddenColumns}
             sorting={sorting}
           />
-          <TableBody rows={table.getRowModel().rows} />
+          <div ref={tableBodyRef}><TableBody rows={table.getRowModel().rows} /></div>
+          {/*<TableBody ref={tableBodyRef} rows={table.getRowModel().rows} />*/}
         </table>
       </div>
       <NavigationPanel
@@ -108,5 +134,6 @@ export function tableLinks() {
     ...tableBodyLinks(),
     ...tableHeaderLinks(),
     ...tableHeaderItemLinks(),
+      ...tableLoaderLinks(),
   ];
 }

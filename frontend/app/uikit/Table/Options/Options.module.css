@@ -29,6 +29,7 @@
 /* #ebebeb */
 /* #e8e8e8 */
 /* #dedede */
+/* #bfbfbf */
 /* #999999 */
 /* #f0ad4e */
 /* #ffd25d */
@@ -72,7 +73,7 @@
 }
 .Options-ColumnsButton__localHiddenColls {
   border-color: rgb(87, 87, 87);
-  background-color: #bfbfbf;
+  background-color: rgb(191, 191, 191);
 }
 .Options-ModalCancel {
   margin-right: 24px;

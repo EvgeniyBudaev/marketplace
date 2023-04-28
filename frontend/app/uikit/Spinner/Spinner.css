@@ -1,0 +1,9 @@
+.Spinner {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50%;
+}
+
+/*# sourceMappingURL=Spinner.css.map */

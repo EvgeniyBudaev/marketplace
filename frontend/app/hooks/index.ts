@@ -6,6 +6,7 @@ export * from "./useInitDayjs";
 export * from "./useInitLanguage";
 export * from "./useLanguage";
 export * from "./useKey";
+export * from "./useScrollToTable";
 export * from "./useTable";
 export * from "./useTranslatedForm";
 export * from "./useTranslatedResolver";

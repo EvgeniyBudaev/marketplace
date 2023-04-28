@@ -27,6 +27,7 @@ export type TTableProps<TColumn extends Record<string, any>> = {
   debug?: boolean;
   defaultPageSize?: number | null;
   getId?: (row: TColumn) => string | number;
+  isLoading?: boolean;
   pagesCount?: number;
   rowSelection?: RowSelectionState;
   sorting?: TTableSortingProps;
