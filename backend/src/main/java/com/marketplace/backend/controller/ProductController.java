@@ -3,7 +3,7 @@ package com.marketplace.backend.controller;
 import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.request.RequestSaveWithImageProductDto;
-import com.marketplace.backend.dto.product.request.RequestUpdateProductDto;
+import com.marketplace.backend.dto.product.request.RequestUpdateWithImageProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDtoForAdmin;
 import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
@@ -105,8 +105,11 @@ public class ProductController {
         return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
     }
     @PutMapping("/put")
-    public ResponseProductDto updateProduct(@Valid @RequestBody RequestUpdateProductDto productDto) {
+    public ResponseProductDto updateProduct(@Valid RequestUpdateWithImageProductDto productDto, @RequestParam(name = "files",required = false)MultipartFile[] files) {
         Product product = manageProductDao.update(productDto);
+        for (MultipartFile file : files) {
+            product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product,productDto.getDefaultImage()));
+        }
         return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
     }
 

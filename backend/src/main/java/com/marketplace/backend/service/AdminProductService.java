@@ -130,6 +130,7 @@ public class AdminProductService implements ManageProductDao {
         });
         Product finalProduct = entityManager.merge(product);
         finalProduct.setCreatedAt(getCreatedAt(finalProduct));
+        finalProduct.getProductFiles();
         return finalProduct;
     }
 
