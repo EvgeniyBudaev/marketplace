@@ -74,7 +74,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           data={content}
           defaultPageSize={pageSize}
           getId={(row) => row.alias}
-          isLoading={isLoading}
+          isLoading={true}
           onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}

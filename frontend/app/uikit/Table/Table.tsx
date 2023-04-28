@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from "react";
+import React, {forwardRef, useEffect, useMemo, useRef} from "react";
 import type { ForwardedRef, ReactElement } from "react";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import type { VisibilityState } from "@tanstack/react-table";
@@ -41,6 +41,8 @@ const TableComponent = <TColumn extends Record<string, any>>(
     totalItemsTitle,
   } = props;
   const hiddenColumns = settings?.options?.hiddenColumns;
+  const [positionSpinner, setPositionSpinner] = React.useState(0);
+  const tableBodyRef = useRef<HTMLTableSectionElement>(null);
 
   const columnVisibility = useMemo<VisibilityState | undefined>(
     () =>
@@ -65,6 +67,16 @@ const TableComponent = <TColumn extends Record<string, any>>(
     debugTable: debug,
   });
 
+  useEffect(() => {
+    if (tableBodyRef.current) {
+      const top =
+          (document.documentElement.clientHeight -
+              Math.max(0, tableBodyRef.current.getBoundingClientRect().y)) /
+          2;
+      setPositionSpinner(top);
+    }
+  });
+
   return (
     <div ref={ref}>
       <NavigationPanel
@@ -85,7 +97,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
         <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()} />}</div>
       </div>
       <div className="Table-Scroll">
-        {isLoading && <TableLoader />}
+        {isLoading && <TableLoader position={positionSpinner} />}
         <table className={clsx("Table", className)}>
           <TableHeader<TColumn>
             headerGroups={table.getHeaderGroups()}
@@ -94,7 +106,8 @@ const TableComponent = <TColumn extends Record<string, any>>(
             setHiddenColumns={settings?.options?.setHiddenColumns}
             sorting={sorting}
           />
-          <TableBody rows={table.getRowModel().rows} />
+          <div ref={tableBodyRef}><TableBody rows={table.getRowModel().rows} /></div>
+          {/*<TableBody ref={tableBodyRef} rows={table.getRowModel().rows} />*/}
         </table>
       </div>
       <NavigationPanel
