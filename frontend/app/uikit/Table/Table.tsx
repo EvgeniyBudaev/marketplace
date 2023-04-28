@@ -41,7 +41,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
     totalItemsTitle,
   } = props;
   const hiddenColumns = settings?.options?.hiddenColumns;
-  const tableBodyRef = useRef<HTMLTableSectionElement>(null);
+  const tableRef = useRef<HTMLTableElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
 
   const columnVisibility = useMemo<VisibilityState | undefined>(
@@ -69,18 +69,15 @@ const TableComponent = <TColumn extends Record<string, any>>(
 
   useEffect(() => {
     const updateSpinnerPosition = () => {
-      if(!tableBodyRef.current || !loaderRef.current) {
+      if(!tableRef.current || !loaderRef.current) {
         return;
       }
       
+      const boundingRect = tableRef.current.getBoundingClientRect();
+      const visibleTop = Math.max(0, Math.min(window.innerHeight, boundingRect.y));
+      const visibleBottom = Math.max(0, Math.min(window.innerHeight, boundingRect.bottom));
 
-      const top = Math.min(
-        tableBodyRef.current.clientHeight,
-        Math.max(
-          10,
-          (window.innerHeight / 2) - tableBodyRef.current.getBoundingClientRect().y
-        )
-      );
+      const top = (visibleTop + visibleBottom) / 2 - boundingRect.y;
 
       loaderRef.current.style.top = `${top}px`;
     }
@@ -89,7 +86,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
   
     document.addEventListener("scroll", updateSpinnerPosition);
     return () => document.removeEventListener("scroll", updateSpinnerPosition);
-  }, [tableBodyRef, loaderRef]);
+  }, [tableRef, loaderRef]);
 
   return (
     <div ref={ref}>
@@ -112,7 +109,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
       </div>
       <div className="Table-Scroll">
         {isLoading && <TableLoader ref={loaderRef} />}
-        <table className={clsx("Table", className)}>
+        <table ref={tableRef} className={clsx("Table", className)}>
           <TableHeader<TColumn>
             headerGroups={table.getHeaderGroups()}
             hiddenColumns={settings?.options?.hiddenColumns}
@@ -120,7 +117,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
             setHiddenColumns={settings?.options?.setHiddenColumns}
             sorting={sorting}
           />
-          <TableBody ref={tableBodyRef} rows={table.getRowModel().rows} />
+          <TableBody rows={table.getRowModel().rows} />
           {/*<TableBody ref={tableBodyRef} rows={table.getRowModel().rows} />*/}
         </table>
       </div>
