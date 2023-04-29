@@ -1,5 +1,5 @@
-import { forwardRef} from "react";
-import type {ForwardedRef} from "react";
+import { forwardRef } from "react";
+import type { ForwardedRef } from "react";
 import { flexRender } from "@tanstack/react-table";
 import type { Row } from "@tanstack/react-table";
 import styles from "./TableBody.module.css";
@@ -8,7 +8,10 @@ type TProps<TColumn extends object> = {
   rows: Row<TColumn>[];
 };
 
-const TableBodyComponent = <T extends object>({ rows }: TProps<T>, ref: ForwardedRef<HTMLTableSectionElement>,) => {
+const TableBodyComponent = <T extends object>(
+  { rows }: TProps<T>,
+  ref: ForwardedRef<HTMLTableSectionElement>,
+) => {
   return (
     <tbody className="TableBody-TBody" ref={ref}>
       {rows.map((row) => {

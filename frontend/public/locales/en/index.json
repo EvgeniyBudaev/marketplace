@@ -210,7 +210,10 @@
           "en": "English"
         }
       },
-      "title": "Home page"
+      "title": "Settings",
+      "meta": {
+        "title": "Settings"
+      }
     },
     "shipping": {
       "step": "Step 1 of 3",

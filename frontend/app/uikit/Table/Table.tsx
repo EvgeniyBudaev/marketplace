@@ -1,4 +1,4 @@
-import React, {forwardRef, useCallback, useEffect, useMemo, useRef} from "react";
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef } from "react";
 import type { ForwardedRef, ReactElement } from "react";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import type { VisibilityState } from "@tanstack/react-table";
@@ -11,7 +11,7 @@ import { NavigationPanel, navigationPanelLinks } from "~/uikit/Table/NavigationP
 import { TableBody, tableBodyLinks } from "~/uikit/Table/TableBody";
 import { optionsLinks } from "~/uikit/Table/Options";
 import { TableHeader, tableHeaderLinks } from "~/uikit/Table/TableHeader";
-import {TableLoader, tableLoaderLinks} from "~/uikit/Table/TableLoader";
+import { TableLoader, tableLoaderLinks } from "~/uikit/Table/TableLoader";
 import type { TTableProps } from "~/uikit/Table/types";
 import { tableHeaderItemLinks } from "./TableHeaderItem";
 import styles from "./Table.module.css";
@@ -68,10 +68,10 @@ const TableComponent = <TColumn extends Record<string, any>>(
   });
 
   const updateSpinnerPosition = useCallback(() => {
-    if(!tableRef.current || !loaderRef.current) {
+    if (!tableRef.current || !loaderRef.current) {
       return;
     }
-    
+
     const boundingRect = tableRef.current.getBoundingClientRect();
     const visibleTop = Math.max(0, Math.min(window.innerHeight, boundingRect.y));
     const visibleBottom = Math.max(0, Math.min(window.innerHeight, boundingRect.bottom));
@@ -79,28 +79,28 @@ const TableComponent = <TColumn extends Record<string, any>>(
     const top = (visibleTop + visibleBottom) / 2 - boundingRect.y;
 
     loaderRef.current.style.top = `${top}px`;
-  }, [tableRef, loaderRef])
+  }, [tableRef, loaderRef]);
 
-  useEffect(() => {  
+  useEffect(() => {
     document.addEventListener("scroll", updateSpinnerPosition);
     return () => document.removeEventListener("scroll", updateSpinnerPosition);
   }, [updateSpinnerPosition]);
 
   useEffect(() => {
     updateSpinnerPosition();
-  })
+  });
 
   return (
     <div ref={ref}>
       <NavigationPanel
-          currentPage={currentPage}
-          defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
-          dropdownPosition={ETablePlacement.Bottom}
-          onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
-          onPageChange={onPageChange}
-          pagesCount={pagesCount}
-          pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
-          theme={theme}
+        currentPage={currentPage}
+        defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
+        dropdownPosition={ETablePlacement.Bottom}
+        onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
+        onPageChange={onPageChange}
+        pagesCount={pagesCount}
+        pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
+        theme={theme}
       />
       <div className="Table-Head">
         <div>
@@ -147,6 +147,6 @@ export function tableLinks() {
     ...tableBodyLinks(),
     ...tableHeaderLinks(),
     ...tableHeaderItemLinks(),
-      ...tableLoaderLinks(),
+    ...tableLoaderLinks(),
   ];
 }

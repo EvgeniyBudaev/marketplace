@@ -1,10 +1,10 @@
-import {useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
 import { SearchingPanel } from "~/components/search";
 import { ERoutes } from "~/enums";
-import {useScrollToTable, useTable} from "~/hooks";
+import { useScrollToTable, useTable } from "~/hooks";
 import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import { productEditLinks } from "~/pages/Admin/Products/ProductEdit";
 import {
@@ -14,7 +14,7 @@ import {
 } from "~/pages/Admin/Products/ProductsTable";
 import { EProductAction } from "~/shared/api/products";
 import type { TProducts } from "~/shared/api/products";
-import {getFetcherOptions} from "~/shared/fetcher";
+import { getFetcherOptions } from "~/shared/fetcher";
 import { EFormMethods } from "~/shared/form";
 import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
