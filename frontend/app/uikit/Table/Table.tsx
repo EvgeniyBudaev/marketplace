@@ -1,4 +1,4 @@
-import React, {forwardRef, useEffect, useMemo, useRef} from "react";
+import React, {forwardRef, useCallback, useEffect, useMemo, useRef} from "react";
 import type { ForwardedRef, ReactElement } from "react";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import type { VisibilityState } from "@tanstack/react-table";
@@ -67,26 +67,28 @@ const TableComponent = <TColumn extends Record<string, any>>(
     debugTable: debug,
   });
 
-  useEffect(() => {
-    const updateSpinnerPosition = () => {
-      if(!tableRef.current || !loaderRef.current) {
-        return;
-      }
-      
-      const boundingRect = tableRef.current.getBoundingClientRect();
-      const visibleTop = Math.max(0, Math.min(window.innerHeight, boundingRect.y));
-      const visibleBottom = Math.max(0, Math.min(window.innerHeight, boundingRect.bottom));
-
-      const top = (visibleTop + visibleBottom) / 2 - boundingRect.y;
-
-      loaderRef.current.style.top = `${top}px`;
+  const updateSpinnerPosition = useCallback(() => {
+    if(!tableRef.current || !loaderRef.current) {
+      return;
     }
+    
+    const boundingRect = tableRef.current.getBoundingClientRect();
+    const visibleTop = Math.max(0, Math.min(window.innerHeight, boundingRect.y));
+    const visibleBottom = Math.max(0, Math.min(window.innerHeight, boundingRect.bottom));
 
-    updateSpinnerPosition();
-  
+    const top = (visibleTop + visibleBottom) / 2 - boundingRect.y;
+
+    loaderRef.current.style.top = `${top}px`;
+  }, [tableRef, loaderRef])
+
+  useEffect(() => {  
     document.addEventListener("scroll", updateSpinnerPosition);
     return () => document.removeEventListener("scroll", updateSpinnerPosition);
-  }, [tableRef, loaderRef]);
+  }, [updateSpinnerPosition]);
+
+  useEffect(() => {
+    updateSpinnerPosition();
+  })
 
   return (
     <div ref={ref}>
