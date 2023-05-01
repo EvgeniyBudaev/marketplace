@@ -1,6 +1,6 @@
 import { inputFromForm } from "remix-domains";
-import { json } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import {json} from "@remix-run/node";
+import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import { Cart, cartLinks } from "~/pages/Cart";
@@ -14,6 +14,7 @@ import {
   setQuantityCartItem,
 } from "~/shared/api/cart";
 import { mapCartActionToDto, mapCartSetQuantityToDto } from "~/shared/api/cart/utils";
+import {getStoreFixedT} from "~/shared/store";
 import { internalError, parseResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -51,6 +52,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
+  const [t] = await Promise.all([getStoreFixedT(request)]);
   const cartSession = await getCartSession(request);
   const cart = JSON.parse(cartSession || "{}");
   let cartResponse;
@@ -75,7 +77,12 @@ export const loader = async (args: LoaderArgs) => {
   return json({
     cart: cartResponse.data,
     headers,
+    title: t("pages.cart.meta.title"),
   });
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  return { title: data?.title || "Cart" };
 };
 
 export default function CartRoute() {

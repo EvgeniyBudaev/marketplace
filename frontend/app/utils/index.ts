@@ -15,6 +15,7 @@ export * from "./i18next";
 export * from "./normalizePhoneNumber";
 export * from "./sorting";
 export * from "./parseResponseError.server";
+export * from "./permission";
 export * from "./processError";
 export * from "./processSuccessResponse";
 export * from "./security";

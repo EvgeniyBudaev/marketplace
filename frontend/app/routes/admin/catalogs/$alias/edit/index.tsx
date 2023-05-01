@@ -1,6 +1,6 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, ActionArgs } from "@remix-run/node";
+import {json, redirect} from "@remix-run/node";
+import type { LoaderArgs, ActionArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import { EPermissions, ERoutes } from "~/enums";
@@ -10,8 +10,8 @@ import { getAttributes, getAttributesByCatalog } from "~/shared/api/attributes";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { editCatalog, CatalogsApi, getCatalogDetail } from "~/shared/api/catalogs";
-import { createPath } from "~/utils";
-import { checkRequestPermission } from "~/utils/permission";
+import {getStoreFixedT} from "~/shared/store";
+import { checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -52,8 +52,8 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
+  const [t, isPermissions] = await Promise.all([getStoreFixedT(request), checkRequestPermission(request, [EPermissions.Administrator])]);
 
-  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
 
   if (!isPermissions) {
     return redirect(ERoutes.Login);
@@ -81,6 +81,7 @@ export const loader = async (args: LoaderArgs) => {
         attributesByCatalog: attributesByCatalogResponse.data,
         catalog: catalogDetailResponse.data,
         success: true,
+        title: t("pages.admin.catalogEdit.meta.title"),
       });
     }
 
@@ -94,6 +95,10 @@ export const loader = async (args: LoaderArgs) => {
 
     return badRequest({ success: false, formError, fieldErrors });
   }
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  return { title: data?.title || "Catalog editing" };
 };
 
 export default function CatalogEditRoute() {

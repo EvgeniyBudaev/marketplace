@@ -1,7 +1,7 @@
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
-import { redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import {json, redirect} from "@remix-run/node";
+import type { ActionArgs, LoaderArgs ,MetaFunction} from "@remix-run/node";
 import { EPermissions, ERoutes } from "~/enums";
 import {
   AttributeAdd,
@@ -11,8 +11,8 @@ import {
 import type { TForm } from "~/pages/Admin/Attributes/AttributeAdd";
 import { addAttribute } from "~/shared/api/attributes";
 import { getInputErrors, getResponseError } from "~/shared/domain";
-import { createPath } from "~/utils";
-import { checkRequestPermission } from "~/utils/permission";
+import {getStoreFixedT} from "~/shared/store";
+import { checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -58,14 +58,20 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
+  const [t, isPermissions] = await Promise.all([getStoreFixedT(request), checkRequestPermission(request, [EPermissions.Administrator])]);
 
-  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
 
   if (!isPermissions) {
     return redirect(ERoutes.Login);
   }
 
-  return null;
+  return json({
+    title: t("pages.admin.attributeAdd.meta.title"),
+  });
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  return { title: data?.title || "Adding an attribute" };
 };
 
 export default function AttributeAddRoute() {

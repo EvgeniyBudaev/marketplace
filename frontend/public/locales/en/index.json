@@ -70,7 +70,10 @@
       },
       "attributeAdd": {
         "title": "Adding an attribute",
-        "addValue": "Add value to list"
+        "addValue": "Add value to list",
+        "meta": {
+          "title": "Adding an attribute"
+        }
       },
       "attributeEdit": {
         "title": "Editing an Attribute",
@@ -86,6 +89,9 @@
             }
           },
           "header": "Total values"
+        },
+        "meta": {
+          "title": "Editing an Attribute"
         }
       },
       "attributes": {
@@ -99,13 +105,22 @@
               "actions": "Actions"
             }
           }
+        },
+        "meta": {
+          "title": "Attributes"
         }
       },
       "catalogAdd": {
-        "title": "Adding a directory"
+        "title": "Adding a catalog",
+        "meta": {
+          "title": "Adding a catalog"
+        }
       },
       "catalogEdit": {
-        "title": "Catalog editing"
+        "title": "Catalog editing",
+        "meta": {
+          "title": "Catalog editing"
+        }
       },
       "catalogs": {
         "title": "Catalogs",
@@ -122,13 +137,22 @@
               "actions": "Actions"
             }
           }
+        },
+        "meta": {
+          "title": "Catalogs"
         }
       },
       "productAdd": {
-        "title": "Product addition"
+        "title": "Product addition",
+        "meta": {
+          "title": "Product addition"
+        }
       },
       "productEdit": {
-        "title": "Product Editing"
+        "title": "Product editing",
+        "meta": {
+          "title": "Product editing"
+        }
       },
       "products": {
         "title": "Products",
@@ -144,6 +168,9 @@
             }
           },
           "header": "Total products"
+        },
+        "meta": {
+          "title": "Products"
         }
       }
     },
@@ -151,13 +178,19 @@
       "title": "Entry",
       "enter": "Login",
       "noAccount": "no account?",
-      "register": "Register"
+      "register": "Register",
+      "meta": {
+        "title": "Entry"
+      }
     },
     "signup": {
       "title": "Registration",
       "register": "Signup",
       "haveAccount": "Have an account?",
-      "enter": "Enter"
+      "enter": "Enter",
+      "meta": {
+        "title": "Registration"
+      }
     },
     "cart": {
       "title": "My cart",
@@ -166,7 +199,10 @@
       "goToCheckout": "Go to checkout",
       "rublesPerOrder": "rubles per order",
       "discountForAuth": "Log in / register to get 3% of the order value",
-      "backToShopping": "Back to shopping"
+      "backToShopping": "Back to shopping",
+      "meta": {
+        "title": "My cart"
+      }
     },
     "catalog": {
       "from": "from",
@@ -174,6 +210,9 @@
       "sorting": {
         "asc": "ascending price",
         "desc": "descending price"
+      },
+      "meta": {
+        "title": "Catalog"
       }
     },
     "home": {
@@ -188,7 +227,10 @@
       "cartEmpty": "Your basket is empty",
       "recipient": "Recipient",
       "delivery": "Delivery",
-      "checkout": "Checkout"
+      "checkout": "Checkout",
+      "meta": {
+        "title": "Добавь сюда перевод!!!"
+      }
     },
     "productDetail": {
       "description": "Description",
@@ -201,7 +243,10 @@
       "specify": "Specify",
       "realData": "real data",
       "passport": "You may be asked for a passport",
-      "order": "before handing over the paid order"
+      "order": "before handing over the paid order",
+      "meta": {
+        "title": "Recipient"
+      }
     },
     "settings": {
       "language": {
@@ -217,7 +262,30 @@
     },
     "shipping": {
       "step": "Step 1 of 3",
-      "title": "Where would you like to receive your order?"
+      "title": "Where would you like to receive your order?",
+      "meta": {
+        "title": "Delivery address"
+      }
+    },
+    "about": {
+      "meta": {
+        "title": "About"
+      }
+    },
+    "contacts": {
+      "meta": {
+        "title": "Contacts"
+      }
+    },
+    "delivery": {
+      "meta": {
+        "title": "Delivery"
+      }
+    },
+    "product": {
+      "meta": {
+        "title": "Product"
+      }
     }
   },
   "form": {
@@ -281,6 +349,9 @@
     "commentForCourier": {
       "title": "Comment for the courier"
     }
+  },
+  "root": {
+    "title": "Добавь сюда перевод!!!"
   },
   "fileUploader": {
     "title": "Drag and drop your files or click to upload",

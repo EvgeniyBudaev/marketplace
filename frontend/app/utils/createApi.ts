@@ -6,6 +6,8 @@ import { processError } from "~/utils/processError";
 import { gatewayTimeout } from "~/utils/gatewayTimeout";
 import { internalError } from "~/utils/internalError";
 
+let language: string = 'ru';
+
 /**
  *  Функция создания api- клиента
  *
@@ -13,7 +15,11 @@ import { internalError } from "~/utils/internalError";
  *
  * Возвращает функцию для осуществления http запросов {@link TApiFunction}
  */
-export function createApi(config: TApiConfig): { fetchApi: TApiFunction } {
+export function createApi(config: TApiConfig): {
+  fetchApi: TApiFunction;
+  setApiLanguage: (lng: string) => void;
+  getApiLanguage: () => string;
+} {
   const { basePath } = config;
 
   const fetchApi: TApiFunction = async (request, path, options) => {
@@ -36,7 +42,7 @@ export function createApi(config: TApiConfig): { fetchApi: TApiFunction } {
       headers: {
         ...contentType,
         //Authorization: `Bearer ${accessToken}`,
-        //'Accept-Language': language,
+        'Accept-Language': language,
         traceparent: request.headers.get("traceparent") ?? "",
         ...options?.headers,
       },
@@ -88,5 +94,11 @@ export function createApi(config: TApiConfig): { fetchApi: TApiFunction } {
     throw internalError("Unexpected error");
   };
 
-  return { fetchApi };
+  const setApiLanguage = (lng: string) => {
+    language = lng;
+  };
+
+  const getApiLanguage = () => language;
+
+  return { fetchApi, setApiLanguage, getApiLanguage };
 }

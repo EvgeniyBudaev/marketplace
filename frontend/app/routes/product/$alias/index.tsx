@@ -1,15 +1,16 @@
-import { json } from "@remix-run/node";
+import {json, MetaFunction} from "@remix-run/node";
 import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
-
 import { ProductDetail, productDetailLinks } from "~/pages";
 import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
 import { getProductDetail } from "~/shared/api/products";
+import {getStoreFixedT} from "~/shared/store";
 import { internalError } from "~/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
+  const [t] = await Promise.all([getStoreFixedT(request)]);
   const { alias } = params as { alias: string };
 
   const cartSession = await getCartSession(request);
@@ -42,7 +43,12 @@ export const loader = async (args: LoaderArgs) => {
   return json({
     cart: cartResponse.data,
     product: productDetailResponse.data,
+    title: t("pages.product.meta.title"),
   });
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  return { title: data?.title || "Product" };
 };
 
 export default function ProductDetailRoute() {

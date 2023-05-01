@@ -27,11 +27,10 @@ export const useLanguage = () => {
         },
       );
 
-      dayjs.locale(language);
-      await i18n.changeLanguage(language);
-      window.location.reload();
+      dayjs.locale(language.toLowerCase());
+      await i18n.changeLanguage(language.toLowerCase());
     },
-    [fetcher, settings],
+    [fetcher, i18n, settings],
   );
 
   return {
