@@ -1,6 +1,6 @@
 import { inputFromForm } from "remix-domains";
-import { json, redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import {json, redirect} from "@remix-run/node";
+import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
 import { badRequest } from "remix-utils";
 
 import { Login, loginLinks } from "~/pages/Auth/Login";
@@ -9,6 +9,7 @@ import { createUserSession, login } from "~/shared/api/auth";
 import { getUser } from "~/shared/api/users/domain.server";
 import { getInputErrors } from "~/shared/domain";
 import { commitSession, getSession } from "~/shared/session";
+import {getStoreFixedT} from "~/shared/store";
 import { createBoundaries, getResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -64,6 +65,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
+  const [t] = await Promise.all([getStoreFixedT(request)]);
   const session = await getSession(request.headers.get("Cookie"));
   return json(
     {
@@ -71,6 +73,7 @@ export const loader = async (args: LoaderArgs) => {
       password: session.get("password"),
       emailError: session.get("emailError"),
       passwordError: session.get("passwordError"),
+      title: t("pages.login.meta.title"),
     },
     {
       headers: {
@@ -78,6 +81,10 @@ export const loader = async (args: LoaderArgs) => {
       },
     },
   );
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  return { title: data?.title || "Login" };
 };
 
 export default function LoginRoute() {

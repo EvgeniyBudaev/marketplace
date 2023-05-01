@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
 import { SearchingPanel } from "~/components/search";
 import { ERoutes } from "~/enums";
-import { useTable } from "~/hooks";
+import { useScrollToTable, useTable } from "~/hooks";
 import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import { productEditLinks } from "~/pages/Admin/Products/ProductEdit";
 import {
@@ -14,6 +14,7 @@ import {
 } from "~/pages/Admin/Products/ProductsTable";
 import { EProductAction } from "~/shared/api/products";
 import type { TProducts } from "~/shared/api/products";
+import { getFetcherOptions } from "~/shared/fetcher";
 import { EFormMethods } from "~/shared/form";
 import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
@@ -26,7 +27,11 @@ type TProps = {
 export const Products: FC<TProps> = (props) => {
   const { t } = useTranslation();
   const fetcher = useFetcher();
+  const { isLoading } = getFetcherOptions(fetcher);
   const products = fetcher.data?.products ?? props.products;
+  const tableRef = useRef<HTMLDivElement>(null);
+
+  useScrollToTable({ ref: tableRef, content: products.content });
 
   const onDeleteProduct = (alias: string) => {
     const form = new FormData();
@@ -111,6 +116,7 @@ export const Products: FC<TProps> = (props) => {
           multiple: true,
           onChangeSorting: onSortTableByProperty,
         }}
+        isLoading={isLoading}
         isOpenDeleteModal={deleteModal.isOpen}
         products={products}
         onChangePage={onChangePage}

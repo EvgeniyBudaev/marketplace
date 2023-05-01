@@ -12,6 +12,7 @@ import styles from "./ProductsTable.module.css";
 type TProps = {
   fetcher: FetcherWithComponents<any>;
   fieldsSortState: TTableSortingProps;
+  isLoading?: boolean;
   isOpenDeleteModal: boolean;
   products: TProducts;
   onChangePage: ({ selected }: { selected: number }) => void;
@@ -26,6 +27,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     {
       fetcher,
       fieldsSortState,
+      isLoading,
       isOpenDeleteModal,
       products,
       onChangePage,
@@ -72,6 +74,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           data={content}
           defaultPageSize={pageSize}
           getId={(row) => row.alias}
+          isLoading={isLoading}
           onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}

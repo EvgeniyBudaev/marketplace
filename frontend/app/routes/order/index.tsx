@@ -1,14 +1,16 @@
-import { json } from "@remix-run/node";
-import type { LoaderArgs } from "@remix-run/node";
+import {json} from "@remix-run/node";
+import type { LoaderArgs , MetaFunction} from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import isEmpty from "lodash/isEmpty";
 import { Order, orderLinks } from "~/pages";
 import { getCart, getCartSession } from "~/shared/api/cart";
 import { getResponseError } from "~/shared/domain";
-import { useLoaderData } from "@remix-run/react";
+import {getStoreFixedT} from "~/shared/store";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
+  const [t] = await Promise.all([getStoreFixedT(request)]);
   const cartSession = await getCartSession(request);
   const cart = JSON.parse(cartSession || "{}");
 
@@ -22,6 +24,7 @@ export const loader = async (args: LoaderArgs) => {
         return json({
           cart: response.data,
           success: true,
+          title: t("pages.order.meta.title"),
         });
       }
 
@@ -33,6 +36,10 @@ export const loader = async (args: LoaderArgs) => {
 
     return badRequest({ success: false, formError, fieldErrors });
   }
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  return { title: data?.title || "Order" };
 };
 
 export default function OrderRoute() {

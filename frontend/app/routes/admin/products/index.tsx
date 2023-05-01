@@ -1,6 +1,6 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, ActionArgs } from "@remix-run/node";
+import {json, redirect} from "@remix-run/node";
+import type { LoaderArgs, ActionArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import { EPermissions, ERoutes } from "~/enums";
@@ -8,7 +8,8 @@ import { Products, productsLinks } from "~/pages/Admin/Products";
 import { deleteProduct, EProductAction, getProducts } from "~/shared/api/products";
 import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getResponseError } from "~/shared/domain";
-import { checkRequestPermission } from "~/utils/permission";
+import {getStoreFixedT} from "~/shared/store";
+import { checkRequestPermission } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -38,8 +39,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-
-  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+  const [t, isPermissions] = await Promise.all([getStoreFixedT(request), checkRequestPermission(request, [EPermissions.Administrator])]);
 
   if (!isPermissions) {
     return redirect(ERoutes.Login);
@@ -58,6 +58,7 @@ export const loader = async (args: LoaderArgs) => {
       return json({
         products: response.data,
         success: true,
+        title: t("pages.admin.products.meta.title"),
       });
     }
 
@@ -68,6 +69,10 @@ export const loader = async (args: LoaderArgs) => {
 
     return badRequest({ success: false, formError, fieldErrors });
   }
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  return { title: data?.title || "Products" };
 };
 
 export default function ProductsRoute() {

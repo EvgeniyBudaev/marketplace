@@ -1,5 +1,5 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import { json, redirect } from "@remix-run/node";
+import {json, MetaFunction, redirect} from "@remix-run/node";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
@@ -11,8 +11,8 @@ import { getCatalogs } from "~/shared/api/catalogs";
 import { editProduct, getAdminProductDetail } from "~/shared/api/products";
 import { mapProductEditToDto, mapProductsToDto } from "~/shared/api/products/utils";
 import { getInputErrors, getResponseError } from "~/shared/domain";
-import { createPath } from "~/utils";
-import { checkRequestPermission } from "~/utils/permission";
+import {getStoreFixedT} from "~/shared/store";
+import { checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -48,8 +48,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
-
-  const isPermissions = await checkRequestPermission(request, [EPermissions.Administrator]);
+  const [t, isPermissions] = await Promise.all([getStoreFixedT(request), checkRequestPermission(request, [EPermissions.Administrator])]);
 
   if (!isPermissions) {
     return redirect(ERoutes.Login);
@@ -72,6 +71,7 @@ export const loader = async (args: LoaderArgs) => {
         catalogs: catalogsResponse.data,
         product: productDetailResponse.data,
         success: true,
+        title: t("pages.admin.productEdit.meta.title"),
       });
     }
 
@@ -92,6 +92,10 @@ export const loader = async (args: LoaderArgs) => {
 
     return badRequest({ success: false, formError, fieldErrors });
   }
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  return { title: data?.title || "Product editing" };
 };
 
 export default function ProductEditRoute() {

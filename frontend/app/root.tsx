@@ -25,14 +25,15 @@ import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
 import { useInitDayjs, useInitLanguage } from "~/hooks";
 import { links as sharedLinks } from "~/shared";
+import {setApiLanguage} from "~/shared/api";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
 import type { TCart } from "~/shared/api/cart";
 import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
 import type { TSettings } from "~/shared/api/settings";
-import { createSettingsSession, getSettings } from "~/shared/api/settings";
+import {createSettingsSession, getSettings} from "~/shared/api/settings";
 import { commitCsrfSession, getCsrfSession } from "~/shared/session";
-import { StoreContextProvider, useStore } from "~/shared/store";
+import {parseAcceptLanguage, StoreContextProvider, useStore} from "~/shared/store";
 import { ETheme, links as uikitLinks, ToastContainer } from "~/uikit";
 import { createBoundaries, internalError } from "~/utils";
 import styles from "../styles/app.css";
@@ -41,7 +42,7 @@ interface RootLoaderData {
   cart: TCart;
   csrfToken: string;
   cspScriptNonce: string;
-  title: string;
+  // title: string;
   ENV: Pick<EnvironmentType, "IS_PRODUCTION">;
   settings: TSettings;
   user: TUser | {};
@@ -77,14 +78,17 @@ export const loader = async (args: LoaderArgs) => {
   if (!settingsResponse.success) {
     throw internalError();
   }
-
+  console.log("root settingsResponse.data", settingsResponse.data);
+  setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
   const updatedSettingsSession = await createSettingsSession(settingsResponse.data);
+  console.log("updatedSettingsSession: ", updatedSettingsSession);
+  // const t = await getStoreFixedT(request);
 
   const data: RootLoaderData = {
     cart: cartResponse.data,
     csrfToken,
     cspScriptNonce,
-    title: "root.title",
+    // title: t("root.title"),
     ENV: {
       IS_PRODUCTION: Environment.IS_PRODUCTION,
     },
@@ -106,9 +110,9 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = () => ({
+export const meta: MetaFunction = ({ data = {} }) => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: data.title || "New Remix App",
   viewport: "width=device-width,initial-scale=1",
 });
 

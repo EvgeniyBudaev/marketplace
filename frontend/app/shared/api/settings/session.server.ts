@@ -1,6 +1,6 @@
 import type { SessionStorage } from "@remix-run/node";
 import { createCookieSessionStorage } from "@remix-run/node";
-import { TSettings } from "~/shared/api/settings";
+import type { TSettings } from "~/shared/api/settings";
 
 const { COOKIE_SECRET } = process.env;
 

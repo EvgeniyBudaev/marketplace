@@ -30,6 +30,7 @@
 /* #ebebeb */
 /* #e8e8e8 */
 /* #dedede */
+/* #bfbfbf */
 /* #999999 */
 /* #f0ad4e */
 /* #ffd25d */
@@ -99,8 +100,7 @@
 .Checkbox-Wrapper .Checkbox:disabled + label::before {
   background-color: rgba(186, 185, 185, 0.5);
 }
-.Checkbox-Wrapper .Checkbox-Label,
-.Checkbox-Wrapper .Checkbox-Description {
+.Checkbox-Wrapper .Checkbox-Label, .Checkbox-Wrapper .Checkbox-Description {
   position: relative;
   cursor: pointer;
   transition: all 0.15s;
@@ -112,20 +112,17 @@
 .Checkbox-Wrapper:hover .Checkbox {
   border: 1px solid rgb(176, 151, 106);
 }
-.Checkbox-Wrapper:hover .Checkbox-Label,
-.Checkbox-Wrapper:hover .Checkbox-Description {
+.Checkbox-Wrapper:hover .Checkbox-Label, .Checkbox-Wrapper:hover .Checkbox-Description {
   color: rgb(176, 151, 106);
 }
 
-.theme-dark .Checkbox-Wrapper .Checkbox-Label .text-dark,
-.theme-dark .Checkbox-Wrapper .Checkbox-Description .text-dark {
+.theme-dark .Checkbox-Wrapper .Checkbox-Label .text-dark, .theme-dark .Checkbox-Wrapper .Checkbox-Description .text-dark {
   transition: all 0.15s;
 }
 .theme-dark .Checkbox-Wrapper:hover .Checkbox {
   border: 1px solid rgb(176, 151, 106);
 }
-.theme-dark .Checkbox-Wrapper:hover .Checkbox-Label .text-dark,
-.theme-dark .Checkbox-Wrapper:hover .Checkbox-Description .text-dark {
+.theme-dark .Checkbox-Wrapper:hover .Checkbox-Label .text-dark, .theme-dark .Checkbox-Wrapper:hover .Checkbox-Description .text-dark {
   color: rgb(176, 151, 106);
 }
 

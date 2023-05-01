@@ -1,11 +1,13 @@
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
-import type { ActionArgs } from "@remix-run/node";
+import {json} from "@remix-run/node";
+import type { ActionArgs , LoaderArgs, MetaFunction} from "@remix-run/node";
 import { Signup, signupLinks } from "~/pages/Auth/Signup";
 import { SIGNUP_FORM_KEYS } from "~/pages/Auth/Signup/constants";
 import { createUserSession, signup } from "~/shared/api/auth";
 import { mapSignupToDto } from "~/shared/api/auth/utils";
 import { getInputErrors } from "~/shared/domain";
+import {getStoreFixedT} from "~/shared/store";
 import { getResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -27,6 +29,19 @@ export const action = async (args: ActionArgs) => {
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
     return badRequest({ success: false, formError, fieldErrors });
   }
+};
+
+export const loader = async (args: LoaderArgs) => {
+  const { request } = args;
+  const [t] = await Promise.all([getStoreFixedT(request)]);
+
+  return json({
+    title: t("pages.signup.meta.title"),
+  });
+}
+
+export const meta: MetaFunction = ({ data }) => {
+  return { title: data?.title || "Signup" };
 };
 
 export default function SignupRoute() {
