@@ -1,9 +1,15 @@
-import { getSettingsSession } from "~/shared/api/settings";
+import { userSettingsStore } from "~/process/store";
+import { EStoreKeys } from "~/shared/enums";
 import type { ELanguages } from "~/uikit";
 
-export const getStoreLanguage = async (request: Request): Promise<ELanguages> => {
-  const settingsSession = await getSettingsSession(request);
-  const settings = JSON.parse(settingsSession || "{}");
-  console.log("getStoreLanguage settings: ", settings);
-  return settings.language.toLowerCase();
+type TProps = {
+  request: Request;
+  uuid?: string;
+};
+
+type TGetStoreLanguage = (props: TProps) => Promise<ELanguages>;
+
+export const getStoreLanguage: TGetStoreLanguage = async ({request, uuid}) => {
+  const userSettings = await userSettingsStore.getItem<ELanguages>(request, EStoreKeys.Language, uuid);
+  return userSettings.language.toLowerCase();
 };

@@ -29,7 +29,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
-  const [t] = await Promise.all([getStoreFixedT(request)]);
+  const [t] = await Promise.all([getStoreFixedT({request})]);
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
   const { alias } = params as { alias: string };

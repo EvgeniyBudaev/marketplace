@@ -38,7 +38,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t, isPermissions] = await Promise.all([getStoreFixedT(request), checkRequestPermission(request, [EPermissions.Administrator])]);
+  const [t, isPermissions] = await Promise.all([getStoreFixedT({request}), checkRequestPermission(request, [EPermissions.Administrator])]);
 
 
   if (!isPermissions) {

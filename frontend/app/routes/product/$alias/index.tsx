@@ -10,7 +10,7 @@ import { internalError } from "~/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
-  const [t] = await Promise.all([getStoreFixedT(request)]);
+  const [t] = await Promise.all([getStoreFixedT({request})]);
   const { alias } = params as { alias: string };
 
   const cartSession = await getCartSession(request);

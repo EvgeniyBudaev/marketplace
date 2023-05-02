@@ -33,7 +33,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t] = await Promise.all([getStoreFixedT(request)]);
+  const [t] = await Promise.all([getStoreFixedT({request})]);
 
   return json({
     title: t("pages.signup.meta.title"),
