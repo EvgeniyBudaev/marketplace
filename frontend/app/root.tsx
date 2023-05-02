@@ -85,10 +85,10 @@ export const loader = async (args: LoaderArgs) => {
   if (!settingsResponse.success) {
     throw internalError();
   }
-  console.log("root settingsResponse.data", settingsResponse.data);
+  // console.log("root settingsResponse.data", settingsResponse.data);
   setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
   const updatedSettingsSession = await createSettingsSession(settingsResponse.data);
-  console.log("updatedSettingsSession: ", updatedSettingsSession);
+  // console.log("updatedSettingsSession: ", updatedSettingsSession);
   const t = await getStoreFixedT(request);
 
   const data: RootLoaderData = {
