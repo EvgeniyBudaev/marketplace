@@ -77,6 +77,12 @@ public class UserService {
         return user;
     }
 
+    public AppUser findUserById(Long id){
+        return userRepository
+                .findByIdAndEnabledTrue(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Не найден пользователь с id " + id));
+    }
+
     public SessionId setNewSessionByNewUser(AppUser user) {
         return sessionIdService.setNewSessionForNewUser(user);
     }

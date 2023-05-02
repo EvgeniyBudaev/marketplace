@@ -1,7 +1,9 @@
 package com.marketplace.users.exception;
 
-public class AuthException extends RuntimeException {
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+public class AuthException extends UsernameNotFoundException {
     public AuthException() {
-        super();
+        super("Неверные учетные данные пользователя");
     }
 }

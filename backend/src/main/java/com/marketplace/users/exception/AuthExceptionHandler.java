@@ -23,7 +23,7 @@ public class AuthExceptionHandler {
     public ResponseEntity<AppError> catchUnauthorized(AuthenticationException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.name(),
-                "Не правильное имя пользователя или пароль"), HttpStatus.UNAUTHORIZED);
+                e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler

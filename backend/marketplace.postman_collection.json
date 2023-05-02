@@ -852,6 +852,143 @@
 							"response": []
 						},
 						{
+							"name": "edit product with image Copy",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "alias",
+											"value": "venetian-mirror93",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Это очень новое зеркало",
+											"type": "text"
+										},
+										{
+											"key": "catalogAlias",
+											"value": "mirrors",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Внецианское зеркало",
+											"type": "text"
+										},
+										{
+											"key": "count",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "156.89",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[0].attributeAlias",
+											"value": "height",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[0].value",
+											"value": "139",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[1].attributeAlias",
+											"value": "weight",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[1].value",
+											"value": "150",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[2].attributeAlias",
+											"value": "width",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[2].value",
+											"value": "230",
+											"type": "text"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "defaultImage",
+											"value": "avatar.png",
+											"type": "text"
+										},
+										{
+											"key": "id",
+											"value": "55",
+											"type": "text"
+										},
+										{
+											"key": "images[]",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "images[]",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "defaultImage",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/products/put",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"put"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "delete",
 							"request": {
 								"method": "DELETE",
@@ -1314,6 +1451,42 @@
 								"v1",
 								"users",
 								"me"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user info by Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MzczNzUyNywiaWF0IjoxNjczNzMzOTI3fQ.8pIcj_1RtEquqXkimGUgJTTf1eGPQBLehzE4i1x9yKk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/userinfo/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"userinfo",
+								"1"
 							],
 							"query": [
 								{

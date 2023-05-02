@@ -33,6 +33,15 @@ public class UserController {
         return new UserInfoResponseDto(user);
     }
 
+    @GetMapping("/userinfo/{id}")
+    public UserInfoResponseDto userInfoByUserId(@PathVariable Long id,Principal principal){
+        if (principal == null) {
+            throw new AccessDeniedException("Вы не авторизованы");
+        }
+        AppUser user = userService.findUserById(id);
+        return new UserInfoResponseDto(user);
+    }
+
     @GetMapping("/activate/mail/{token}")
     public void accountActivateByEmail(@PathVariable String token) {
         userService.activateUserByEmail(token);
