@@ -55,4 +55,9 @@ public class RequestSaveWithImageProductDto implements RequestSaveOrUpdate {
     public Set<Long> getSelectableValues(){
         return new HashSet<>(this.selectableValues);
     }
+
+    @Override
+    public List<String> getImages() {
+        return null;
+    }
 }

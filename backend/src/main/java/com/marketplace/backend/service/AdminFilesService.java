@@ -43,6 +43,15 @@ public class AdminFilesService {
         }
     }
 
+    public Boolean deleteFileFromFileSystem(Path path){
+        try {
+           return Files.deleteIfExists(path);
+        }catch (IOException e){
+            log.error("Не удалось удалить файл "+path);
+            log.error(Arrays.toString(e.getStackTrace()));
+        }
+        return false;
+    }
     @Transactional
     public ProductFile saveEntity(Product product, String url, EFileType type, EImageStatus status) {
         TypedQuery<ProductFile> query = entityManager

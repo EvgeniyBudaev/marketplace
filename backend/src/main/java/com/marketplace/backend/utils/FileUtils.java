@@ -2,6 +2,7 @@ package com.marketplace.backend.utils;
 
 import com.marketplace.backend.model.EFileType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,6 +61,14 @@ public class FileUtils {
         } else {
             return baseUrl + "doc/" + tempUrl;
         }
+    }
+    @Nullable
+    public static String createSimpleUrl(String url,String baseUrl){
+        String[] simpleUrl = url.split(baseUrl);
+        if(simpleUrl.length!=1){
+            return null;
+        }
+        return simpleUrl[0];
     }
     public boolean createIfNotExistProductDir(Path path) {
         if (Files.exists(path)) {
@@ -138,9 +147,17 @@ public class FileUtils {
 
         } else {
             try {
-                Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rw-rw----");
+            /*    Set<PosixFilePermission> perms = new HashSet<>();
+                perms.add(PosixFilePermission.OWNER_WRITE);
+                perms.add(PosixFilePermission.OWNER_READ);
+                perms.add(PosixFilePermission.OTHERS_READ);
+                perms.add(PosixFilePermission.OTHERS_WRITE);
+                perms.add(PosixFilePermission.GROUP_READ);
+                perms.add(PosixFilePermission.GROUP_WRITE);
                 FileAttribute<Set<PosixFilePermission>> fileAttribute = PosixFilePermissions.asFileAttribute(perms);
-                Files.createDirectories(path, fileAttribute);
+
+                Files.createDirectories(path, fileAttribute);*/
+                Files.createDirectories(path);
                 return true;
             } catch (IOException e) {
                 log.error("Не удалось создать директорию " + path);

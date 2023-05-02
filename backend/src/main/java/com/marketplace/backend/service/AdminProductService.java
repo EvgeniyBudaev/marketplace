@@ -10,6 +10,7 @@ import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.*;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
+import com.marketplace.properties.model.properties.GlobalProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,15 +35,19 @@ public class AdminProductService implements ManageProductDao {
     private final AttributeService attributeService;
     private final AdminFilesService adminFilesService;
     private final ProductMapper productMapper;
+    private final GlobalProperty globalProperty;
+
 
     @Autowired
-    public AdminProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, AdminFilesService adminFilesService, ProductMapper productMapper) {
+    public AdminProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, AdminFilesService adminFilesService, ProductMapper productMapper, GlobalProperty globalProperty) {
 
         this.entityManager = entityManager;
         this.catalogService = catalogService;
         this.attributeService = attributeService;
         this.adminFilesService = adminFilesService;
         this.productMapper = productMapper;
+
+        this.globalProperty = globalProperty;
     }
 
 
@@ -57,6 +62,16 @@ public class AdminProductService implements ManageProductDao {
     @Override
     public Boolean saveFileOnFileSystem(MultipartFile file, Path path) {
         return adminFilesService.saveFileOnFileSystem(file,path);
+    }
+
+    @Override
+    @Transactional
+    public Boolean deleteFileFromFileSystem(ProductFile productFile) {
+        Query query = entityManager.createQuery("DELETE FROM ProductFile as p  where p=:p");
+        query.setParameter("p",productFile);
+        query.executeUpdate();
+        Path path = Path.of(globalProperty.getIMAGE_DIR().toString(),productFile.getUrl());
+        return adminFilesService.deleteFileFromFileSystem(path);
     }
 
     @Override
@@ -130,7 +145,8 @@ public class AdminProductService implements ManageProductDao {
         });
         Product finalProduct = entityManager.merge(product);
         finalProduct.setCreatedAt(getCreatedAt(finalProduct));
-        finalProduct.getProductFiles();
+        Set<ProductFile> images =new HashSet<>(adminFilesService.getImageFilesByProduct(finalProduct));
+        finalProduct.setProductFiles(images);
         return finalProduct;
     }
 

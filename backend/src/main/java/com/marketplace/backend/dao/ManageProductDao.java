@@ -18,6 +18,7 @@ public interface ManageProductDao {
 
     Integer delete(String alias);
     Boolean saveFileOnFileSystem(MultipartFile file, Path path);
+    Boolean deleteFileFromFileSystem(ProductFile productFile);
     ProductFile saveFileDescription(Product product, String url, EFileType type, EImageStatus status);
     List<ProductFile> getImageFileByProduct(Product product);
 }

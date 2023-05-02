@@ -14,7 +14,7 @@ public interface UserSettingsMapper {
 
     @Mapping(target = "theme", expression = "java(settings.getTheme().name())")
     @Mapping(target = "currency", expression = "java(settings.getCurrency().name())")
-    @Mapping(target = "language", expression = "java(settings.getLanguage().name())")
+    @Mapping(target = "language", expression = "java(settings.getLanguage().getName())")
     @Mapping(target = "uuid", expression = "java(settings.getSessionId().getUuid())")
     UserSettingsResponseDto entityToDto(UserSettings settings);
 }
