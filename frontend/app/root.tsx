@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FC, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
@@ -23,18 +23,25 @@ import isNil from "lodash/isNil";
 import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
-import { useInitDayjs, useInitLanguage } from "~/hooks";
+import { useInitDayjs, useInitLanguage, useLanguageStore } from "~/hooks";
 import { links as sharedLinks } from "~/shared";
-import {setApiLanguage} from "~/shared/api";
+import { setApiLanguage } from "~/shared/api";
 import { getUserSession } from "~/shared/api/auth";
 import type { TUser } from "~/shared/api/users/types";
 import type { TCart } from "~/shared/api/cart";
 import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
 import type { TSettings } from "~/shared/api/settings";
-import {createSettingsSession, getSettings} from "~/shared/api/settings";
+import { createSettingsSession, getSettings } from "~/shared/api/settings";
+import { ChangeLanguageProvider } from "~/shared/context";
 import { commitCsrfSession, getCsrfSession } from "~/shared/session";
-import {parseAcceptLanguage, StoreContextProvider, useStore} from "~/shared/store";
+import {
+  getStoreFixedT,
+  parseAcceptLanguage,
+  StoreContextProvider,
+  useStore,
+} from "~/shared/store";
 import { ETheme, links as uikitLinks, ToastContainer } from "~/uikit";
+import type { ELanguages } from "~/uikit";
 import { createBoundaries, internalError } from "~/utils";
 import styles from "../styles/app.css";
 
@@ -42,7 +49,7 @@ interface RootLoaderData {
   cart: TCart;
   csrfToken: string;
   cspScriptNonce: string;
-  // title: string;
+  title: string;
   ENV: Pick<EnvironmentType, "IS_PRODUCTION">;
   settings: TSettings;
   user: TUser | {};
@@ -55,7 +62,7 @@ export const loader = async (args: LoaderArgs) => {
   const cspScriptNonce = await cryptoRandomStringAsync({ length: 41 });
 
   // Get user
-  const userSession = await getUserSession(request); //Ryan Florence
+  const userSession = await getUserSession(request);
   const user = JSON.parse(userSession || "{}");
 
   // Get cart
@@ -82,13 +89,13 @@ export const loader = async (args: LoaderArgs) => {
   setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
   const updatedSettingsSession = await createSettingsSession(settingsResponse.data);
   console.log("updatedSettingsSession: ", updatedSettingsSession);
-  // const t = await getStoreFixedT(request);
+  const t = await getStoreFixedT(request);
 
   const data: RootLoaderData = {
     cart: cartResponse.data,
     csrfToken,
     cspScriptNonce,
-    // title: t("root.title"),
+    title: t("root.title"),
     ENV: {
       IS_PRODUCTION: Environment.IS_PRODUCTION,
     },
@@ -140,14 +147,19 @@ type TDocumentProps = {
 };
 
 const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, settings }) => {
-  if (typeof window !== "undefined") {
-    cspScriptNonce = "";
-  }
   const { i18n } = useTranslation();
+  // const { storageLanguage, setStorageLanguage } = useLanguageStore();
   const language = !isNil(settings) ? settings?.language.toLowerCase() : "ru";
   useInitLanguage(language);
   useInitDayjs();
   const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
+
+  if (typeof window !== "undefined") {
+    cspScriptNonce = "";
+    // if (!storageLanguage) {
+    //   setStorageLanguage(i18n.language as ELanguages);
+    // }
+  }
 
   return (
     <html lang={i18n.language} dir={i18n.dir()}>
@@ -176,6 +188,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
 export default function App() {
   const { cart, csrfToken, cspScriptNonce, ENV, settings, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
+  const changeLanguageState = useState(false);
 
   const store = useStore();
   const setUser = store.setUser;
@@ -191,7 +204,6 @@ export default function App() {
 
   useEffect(() => {
     isMounted.current = true;
-
     return () => {
       isMounted.current = false;
     };
@@ -200,16 +212,18 @@ export default function App() {
   return (
     <StoreContextProvider store={store}>
       <AuthenticityTokenProvider token={csrfToken}>
-        <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
-          <Outlet />
-          <script
-            nonce={cspScriptNonce}
-            suppressHydrationWarning
-            dangerouslySetInnerHTML={{
-              __html: `window.ENV=${JSON.stringify(ENV)}`,
-            }}
-          />
-        </Document>
+        <ChangeLanguageProvider value={changeLanguageState}>
+          <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
+            <Outlet />
+            <script
+              nonce={cspScriptNonce}
+              suppressHydrationWarning
+              dangerouslySetInnerHTML={{
+                __html: `window.ENV=${JSON.stringify(ENV)}`,
+              }}
+            />
+          </Document>
+        </ChangeLanguageProvider>
       </AuthenticityTokenProvider>
     </StoreContextProvider>
   );
