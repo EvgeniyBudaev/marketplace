@@ -89,7 +89,7 @@ export const loader = async (args: LoaderArgs) => {
   setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
   const updatedSettingsSession = await createSettingsSession(settingsResponse.data);
   // console.log("updatedSettingsSession: ", updatedSettingsSession);
-  const t = await getStoreFixedT(request);
+  const [t] = await Promise.all([getStoreFixedT(request, "index", cartResponse.data.uuid)]);
 
   const data: RootLoaderData = {
     cart: cartResponse.data,

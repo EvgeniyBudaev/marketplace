@@ -3,6 +3,7 @@ import get from "lodash/get";
 import type { ICacheBackend } from "~/process/store";
 import { getSettings, getSettingsSession } from "~/shared/api/settings";
 import type { TSettings } from "~/shared/api/settings";
+import {getCartSession} from "~/shared/api/cart";
 
 class UserProfileStore {
   // private cache: ICacheBackend;
@@ -29,13 +30,18 @@ class UserProfileStore {
     }
   }
 
-  public async get(request: Request) {
+  public async get(request: Request, uuid?: string) {
     try {
       const settingsSession = await getSettingsSession(request);
       const settings: TSettings = JSON.parse(settingsSession || "{}");
+      console.log("get settings: ", settings);
+      console.log("get uuid: ", uuid);
       // let settingsData = await this.cache.get(settings.uuid);
       let settingsData;
-      if (!settingsData) settingsData = await this.loadAndRevalidate(request, settings.uuid);
+      // if (!settingsData) settingsData = await this.loadAndRevalidate(request, settings.uuid);
+      if (!settingsData || !settings) {
+        settingsData = await this.loadAndRevalidate(request, settings.uuid ?? uuid);
+      }
 
       return settingsData;
     } catch {
@@ -43,9 +49,10 @@ class UserProfileStore {
     }
   }
 
-  public async getItem<T>(request: Request, key: string, defaultValue?: T) {
-    const data = (await this.get(request)) as Record<string, any>;
-    // console.log("getItem data: ", data);
+  public async getItem<T>(request: Request, key: string, uuid?: string) {
+  // public async getItem<T>(request: Request, key: string, defaultValue?: T, uuid?: string) {
+    const data = (await this.get(request, uuid)) as Record<string, any>;
+    console.log("getItem data: ", data);
     // return get(data, key, defaultValue);
     return data;
   }
