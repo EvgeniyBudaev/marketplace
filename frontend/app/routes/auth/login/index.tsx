@@ -65,7 +65,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t] = await Promise.all([getStoreFixedT(request)]);
+  const [t] = await Promise.all([getStoreFixedT({request})]);
   const session = await getSession(request.headers.get("Cookie"));
   return json(
     {

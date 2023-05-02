@@ -52,7 +52,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t] = await Promise.all([getStoreFixedT(request)]);
+  const [t] = await Promise.all([getStoreFixedT({request})]);
   const cartSession = await getCartSession(request);
   const cart = JSON.parse(cartSession || "{}");
   let cartResponse;

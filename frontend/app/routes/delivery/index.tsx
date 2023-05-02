@@ -5,7 +5,7 @@ import {getStoreFixedT} from "~/shared/store";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t] = await Promise.all([getStoreFixedT(request)]);
+  const [t] = await Promise.all([getStoreFixedT({request})]);
   return json({
     title: t("pages.delivery.meta.title"),
   });
