@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 public interface UserSettingsMapper {
 
     @Mapping(target = "modifyDate", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "language", expression = "java(com.marketplace.users.model.enums.ELanguage.valueOf(dto.getLanguage().toUpperCase()))")
     UserSettings entityFromDto(UpdateSettingsRequestDto dto);
 
     @Mapping(target = "theme", expression = "java(settings.getTheme().name())")

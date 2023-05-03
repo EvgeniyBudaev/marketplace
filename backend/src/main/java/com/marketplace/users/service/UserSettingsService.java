@@ -57,7 +57,7 @@ public class UserSettingsService {
     @Transactional
     public UserSettings patchLanguage(Principal principal, PatchSettingsByLanguageRequestDto dto) {
         UserSettings settings = getSettings(principal, dto.getUuid());
-        settings.setLanguage(dto.getLanguage());
+        settings.setLanguage(ELanguage.valueOf(dto.getLanguage().toUpperCase()));
         return getUserSettings(settings, dto.getUuid());
     }
 
