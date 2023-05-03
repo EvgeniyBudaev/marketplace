@@ -1,16 +1,28 @@
 import compression from "compression";
 import express from "express";
 import helmet from "helmet";
+import { createServer } from "http";
 import path from "path";
 import { createRequestHandler } from "@remix-run/express";
 import { registerAccessTokenRefresh } from "./app/shared/http";
 import { sessionStorage } from "./app/shared/session";
+import { Server } from "socket.io";
 
 const BUILD_DIR = path.join(process.cwd(), "build");
 const MODE = process.env.NODE_ENV;
 const isProduction = MODE === "production";
 
 const app = express();
+const httpServer = createServer(app);
+
+const io = new Server(httpServer);
+
+io.on("connection", (socket) => {
+  socket.on("socket_send_language", (data) => {
+    socket.emit("socket_receive_language", data);
+  });
+});
+
 app.use(
   helmet.crossOriginEmbedderPolicy({
     policy: "credentialless",
@@ -97,7 +109,7 @@ app.all(
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
 });
 

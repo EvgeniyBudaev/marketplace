@@ -34,8 +34,8 @@ class UserProfileStore {
     try {
       const settingsSession = await getSettingsSession(request);
       const settings: TSettings = JSON.parse(settingsSession || "{}");
-      console.log("get settings: ", settings);
-      console.log("get uuid: ", uuid);
+      // console.log("get settings: ", settings);
+      // console.log("get uuid: ", uuid);
       // let settingsData = await this.cache.get(settings.uuid);
       let settingsData;
       // if (!settingsData) settingsData = await this.loadAndRevalidate(request, settings.uuid);
@@ -52,7 +52,7 @@ class UserProfileStore {
   public async getItem<T>(request: Request, key: string, uuid?: string) {
   // public async getItem<T>(request: Request, key: string, defaultValue?: T, uuid?: string) {
     const data = (await this.get(request, uuid)) as Record<string, any>;
-    console.log("getItem data: ", data);
+    // console.log("getItem data: ", data);
     // return get(data, key, defaultValue);
     return data;
   }

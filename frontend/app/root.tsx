@@ -19,6 +19,9 @@ import clsx from "clsx";
 import { cryptoRandomStringAsync } from "crypto-random-string";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
+import { connect } from "socket.io-client";
+import type { Socket } from "socket.io-client";
+import type { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
@@ -32,7 +35,7 @@ import type { TCart } from "~/shared/api/cart";
 import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
 import type { TSettings } from "~/shared/api/settings";
 import { createSettingsSession, getSettings } from "~/shared/api/settings";
-import { ChangeLanguageProvider } from "~/shared/context";
+import {ChangeLanguageProvider, SocketProvider} from "~/shared/context";
 import { commitCsrfSession, getCsrfSession } from "~/shared/session";
 import {
   getStoreFixedT,
@@ -187,10 +190,20 @@ export default function App() {
   const { cart, csrfToken, cspScriptNonce, ENV, settings, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
   const changeLanguageState = useState(false);
+  const [socket, setSocket] =
+      useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
 
   const store = useStore();
   const setUser = store.setUser;
   const setSettings = store.setSettings;
+
+  useEffect(() => {
+    let connection = connect();
+    setSocket(connection);
+    return () => {
+      connection.close();
+    };
+  }, []);
 
   useEffect(() => {
     setUser(user);
@@ -208,22 +221,24 @@ export default function App() {
   }, []);
 
   return (
-    <StoreContextProvider store={store}>
-      <AuthenticityTokenProvider token={csrfToken}>
-        <ChangeLanguageProvider value={changeLanguageState}>
-          <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
-            <Outlet />
-            <script
-              nonce={cspScriptNonce}
-              suppressHydrationWarning
-              dangerouslySetInnerHTML={{
-                __html: `window.ENV=${JSON.stringify(ENV)}`,
-              }}
-            />
-          </Document>
-        </ChangeLanguageProvider>
-      </AuthenticityTokenProvider>
-    </StoreContextProvider>
+      <SocketProvider value={socket}>
+        <StoreContextProvider store={store}>
+          <AuthenticityTokenProvider token={csrfToken}>
+            <ChangeLanguageProvider value={changeLanguageState}>
+              <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
+                <Outlet />
+                <script
+                    nonce={cspScriptNonce}
+                    suppressHydrationWarning
+                    dangerouslySetInnerHTML={{
+                      __html: `window.ENV=${JSON.stringify(ENV)}`,
+                    }}
+                />
+              </Document>
+            </ChangeLanguageProvider>
+          </AuthenticityTokenProvider>
+        </StoreContextProvider>
+      </SocketProvider>
   );
 }
 

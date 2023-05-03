@@ -40,7 +40,7 @@ export const useLanguage: TUseLanguage = () => {
       setIsChangingLanguage(true);
       dayjs.locale(language.toLowerCase());
       await i18n.changeLanguage(language.toLowerCase());
-      await setStorageLanguage(language.toUpperCase());
+      await setStorageLanguage(language);
     },
     [fetcher, i18n, settings, setIsChangingLanguage, setStorageLanguage],
   );
