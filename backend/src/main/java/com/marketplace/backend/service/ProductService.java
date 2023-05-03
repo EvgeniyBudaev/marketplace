@@ -162,5 +162,11 @@ public class ProductService implements ProductDao {
         return query.getResultStream().findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
     }
 
+    public Long findProductIdByAlias(String alias){
+        TypedQuery<Long> query = entityManager.
+                createQuery("SELECT p.id FROM Product as p where p.alias=:alias", Long.class);
+        query.setParameter("alias",alias);
+        return query.getResultStream().findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
+    }
 
 }

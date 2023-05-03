@@ -1,6 +1,7 @@
 package com.marketplace.backend.controller;
 
 
+import com.marketplace.backend.service.AdminFilesService;
 import com.marketplace.properties.model.properties.GlobalProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,20 +18,21 @@ import java.util.*;
 @Slf4j
 public class AdminFilesController {
     private final GlobalProperty globalProperty;
+    private final AdminFilesService filesService;
 
 
-    public AdminFilesController(GlobalProperty globalProperty) {
+    public AdminFilesController(GlobalProperty globalProperty, AdminFilesService filesService) {
         this.globalProperty = globalProperty;
+        this.filesService = filesService;
     }
 
 
 
-    @GetMapping("/images/{catalogAlias}/{productAlias}/{fileName}")
-    public ResponseEntity<?> getImageByUrl(@PathVariable String catalogAlias,
-                                           @PathVariable String productAlias,
+    @GetMapping("/images/{productAlias}/{fileName}")
+    public ResponseEntity<?> getImageByUrl(@PathVariable String productAlias,
                                            @PathVariable String fileName) {
-        char decimetre = '\\';
-        Path path = globalProperty.getIMAGE_DIR().resolve(Path.of(catalogAlias + decimetre + productAlias + decimetre + fileName));
+        Long productId = filesService.findProductIdByAlias(productAlias);
+        Path path = globalProperty.getIMAGE_DIR().resolve(Path.of(productId.toString(), fileName));
         if (!Files.exists(path)) {
             return new ResponseEntity<>("Файл отсутствует", HttpStatus.NOT_FOUND);
         }

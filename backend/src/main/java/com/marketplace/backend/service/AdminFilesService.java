@@ -1,5 +1,6 @@
 package com.marketplace.backend.service;
 
+import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.model.EFileType;
 import com.marketplace.backend.model.EImageStatus;
 import com.marketplace.backend.model.Product;
@@ -25,10 +26,12 @@ import java.util.List;
 public class AdminFilesService {
     @PersistenceContext
     private final EntityManager entityManager;
+    private final ProductDao productDao;
 
     @Autowired
-    public AdminFilesService(EntityManager entityManager) {
+    public AdminFilesService(EntityManager entityManager, ProductDao productDao) {
         this.entityManager = entityManager;
+        this.productDao = productDao;
     }
 
 
@@ -77,5 +80,8 @@ public class AdminFilesService {
         return query.getResultList();
     }
 
+    public Long findProductIdByAlias(String alias){
+        return productDao.findProductIdByAlias(alias);
+    }
 
 }

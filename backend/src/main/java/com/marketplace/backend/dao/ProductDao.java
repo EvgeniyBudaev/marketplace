@@ -18,4 +18,5 @@ public interface ProductDao {
     Paging<ResponseProductDto> findProductLikeName(Integer page, Integer pageSize, String find);
 
     Paging<ResponseProductGetAllDto> findAll(QueryParam param);
+    Long findProductIdByAlias(String alias);
 }

@@ -744,7 +744,7 @@
 									"formdata": [
 										{
 											"key": "alias",
-											"value": "venetian-mirror93",
+											"value": "venetian-mirror38",
 											"type": "text"
 										},
 										{
@@ -820,12 +820,12 @@
 										{
 											"key": "files",
 											"type": "file",
-											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/images/avatar.png"
+											"src": "/Volumes/Работа/Репозитории/marketplace/frontend/public/assets/images/avatar.png"
 										},
 										{
 											"key": "files",
 											"type": "file",
-											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/images/btn-hover.svg"
+											"src": "/Volumes/Работа/Репозитории/marketplace/frontend/public/assets/images/btn-hover.svg"
 										},
 										{
 											"key": "defaultImage",
@@ -861,7 +861,7 @@
 									"formdata": [
 										{
 											"key": "alias",
-											"value": "venetian-mirror93",
+											"value": "venetian-mirror17",
 											"type": "text"
 										},
 										{
@@ -937,12 +937,13 @@
 										{
 											"key": "files",
 											"type": "file",
-											"src": []
+											"src": [],
+											"disabled": true
 										},
 										{
 											"key": "files",
 											"type": "file",
-											"src": []
+											"src": "/Volumes/Работа/Репозитории/marketplace/frontend/public/assets/images/btn-hover.svg"
 										},
 										{
 											"key": "defaultImage",
@@ -951,23 +952,25 @@
 										},
 										{
 											"key": "id",
-											"value": "55",
+											"value": "65",
+											"type": "text"
+										},
+										{
+											"key": "images[]",
+											"value": "http://localhost:8080/api/v1/products/files/images/mirrors/venetian-mirror17/avatar.png",
 											"type": "text"
 										},
 										{
 											"key": "images[]",
 											"value": "",
-											"type": "text"
-										},
-										{
-											"key": "images[]",
-											"value": "",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "defaultImage",
-											"value": "",
-											"type": "text"
+											"value": "avatar.png",
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
@@ -1331,7 +1334,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"winterom3446777@gmail.com\",\n    \"password\":\"123456\"\n}",
+							"raw": "{\n    \"email\": \"winterom@gmail.com\",\n    \"password\":\"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1759,7 +1762,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"theme\":\"DARK\",\n    \"currency\":\"RUB\",\n    \"language\":\"RU\",\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\"\n}",
+							"raw": "{\n    \"theme\":\"DARK\",\n    \"currency\":\"RUB\",\n    \"language\":\"en\",\n    \"uuid\":\"2506fb45-e8f0-458f-92ea-a0641f24cd45\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1822,7 +1825,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"language\":\"EN\",\n    \"uuid\":\"3b2ac3ac-5339-450b-a470-b648d7fd20e8\"\n}",
+							"raw": "{\n    \"language\":\"en\",\n    \"uuid\":\"2506fb45-e8f0-458f-92ea-a0641f24cd45\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

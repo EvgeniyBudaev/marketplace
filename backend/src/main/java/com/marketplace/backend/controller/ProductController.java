@@ -161,7 +161,7 @@ public class ProductController {
     private ProductFile saveFile(MultipartFile uploadFile,EFileType eFileType,Product product,String defaultImage){
         if (eFileType.equals(EFileType.IMAGE) && globalProperty.getIsImageDirectoryAvailability()) {
             if (fileUtils.checkImageFile(uploadFile)) {
-                Path imageDir = Path.of(globalProperty.getIMAGE_DIR().toString(), product.getCatalog().getAlias(), product.getAlias());
+                Path imageDir = Path.of(globalProperty.getIMAGE_DIR().toString(), product.getId().toString());
                 if (!fileUtils.createIfNotExistProductDir(imageDir)) {
                     throw new OperationNotAllowedException("Не удалось создать директорию продукта");
                 }
@@ -171,29 +171,15 @@ public class ProductController {
                 }
                 Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
                 if (manageProductDao.saveFileOnFileSystem(uploadFile, filePath)) {
-                    Path relativePath = globalProperty.getIMAGE_DIR().relativize(filePath);
+                    Path relativePath = Path.of(product.getAlias(),uploadFile.getOriginalFilename());
                     return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.IMAGE,status);
-                    /*return ResponseEntity.ok(FileUtils.createUrl(file.getUrl(), EFileType.IMAGE,globalProperty.getBASE_URL()));*/
+
                 } else {
                     throw new OperationNotAllowedException("Не удалось сохранить файл");
                 }
             } else {
                 throw new OperationNotAllowedException("Файл не является изображением");
             }
-        }
-        if (eFileType.equals(EFileType.DOCUMENT) && globalProperty.getIsDocDirectoryAvailability()) {
-            Path docDir = Path.of(globalProperty.getDOC_DIR().toString(), product.getCatalog().getAlias(), product.getAlias());
-            if (!fileUtils.createIfNotExistProductDir(docDir)) {
-                throw new OperationNotAllowedException("Не удалось создать директорию продукта");
-            }
-            Path filePath = Path.of(docDir.toString(), uploadFile.getOriginalFilename());
-            if (manageProductDao.saveFileOnFileSystem(uploadFile, filePath)) {
-                Path relativePath = globalProperty.getDOC_DIR().relativize(filePath);
-                return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.DOCUMENT,null);
-            } else {
-                throw new OperationNotAllowedException("Не удалось сохранить файл");
-            }
-
         }
         throw new OperationNotAllowedException("Директория для сохранения файла не доступна");
     }
