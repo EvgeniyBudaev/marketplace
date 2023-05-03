@@ -14,7 +14,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { AuthenticityTokenProvider, createAuthenticityToken } from "remix-utils";
+import {AuthenticityTokenProvider, createAuthenticityToken} from "remix-utils";
 import clsx from "clsx";
 import { cryptoRandomStringAsync } from "crypto-random-string";
 import isEmpty from "lodash/isEmpty";
@@ -154,6 +154,25 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
   useInitLanguage(language);
   useInitDayjs();
   const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
+
+  const lastLanguage = useRef<string | null>(null);
+  useEffect(() => {
+    const languageSwitchChannel = new BroadcastChannel("language");
+
+    languageSwitchChannel.addEventListener("message", (event) => {
+      if(lastLanguage.current !== event.data) {
+        lastLanguage.current = event.data;
+        i18n.changeLanguage(event.data);
+      }
+    })
+
+    i18n.on("languageChanged", (language) => {
+      if(language !== lastLanguage.current) {
+        lastLanguage.current = language;
+        languageSwitchChannel.postMessage(language);
+      }
+    })
+  }, [i18n]);
 
   if (typeof window !== "undefined") {
     cspScriptNonce = "";
