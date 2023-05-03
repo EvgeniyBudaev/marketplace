@@ -10,7 +10,7 @@ export const useLanguageStore = () => {
     async (language: string) => {
       await onChangeSettings((prevState: TSettings) => ({
         ...prevState,
-        language: language.toUpperCase(),
+        language: language,
       }));
     },
     [onChangeSettings],

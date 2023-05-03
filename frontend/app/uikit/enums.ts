@@ -4,6 +4,6 @@ export enum ETheme {
 }
 
 export enum ELanguages {
-  Ru = "RU",
-  En = "EN",
+  Ru = "ru",
+  En = "en",
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import type { FC } from "react";
 import type { OnChangeValue } from "react-select";
 import { useTranslation } from "react-i18next";
@@ -13,15 +13,29 @@ import {
   SettingSelectOption,
   settingSelectOptionLinks,
 } from "~/pages/Settings/SettingSelectOption";
+import {SocketContext} from "~/shared/context";
 import { ELanguages, ETypographyVariant, Icon, Select, Typography } from "~/uikit";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import styles from "./Settings.css";
 
 export const Settings: FC = () => {
+  const SOCKET_SEND_LANGUAGE = "socket_send_language";
+  const SOCKET_RECEIVE_LANGUAGE = "socket_receive_language";
   const { language, onChangeLanguage } = useLanguage();
   const { theme } = useTheme();
   const { t } = useTranslation();
   const [isSelectOpened, setIsSelectOpened] = useState(false);
+  const socket = useContext(SocketContext);
+  // console.log("Settings language: ", language);
+
+  useEffect(() => {
+    if (!socket) return;
+    // console.log("Settings socket: ", socket);
+    socket.on(SOCKET_RECEIVE_LANGUAGE, (data) => {
+      // console.log("socket_receive_language: ", data);
+      onChangeLanguage?.(data);
+    });
+  }, [socket]);
 
   const options = [
     {
@@ -39,10 +53,12 @@ export const Settings: FC = () => {
   const handleChange = (selectedOption?: OnChangeValue<TSelectOption, isSelectMultiType>) => {
     if (isNil(selectedOption)) return;
     if (Array.isArray(selectedOption)) {
-      onChangeLanguage?.(selectedOption[0].value);
+      socket && socket.emit(SOCKET_SEND_LANGUAGE, selectedOption[0].value);
+      // onChangeLanguage?.(selectedOption[0].value);
     } else {
       const selectedOptionSingle = selectedOption as TSelectOption;
-      onChangeLanguage?.(selectedOptionSingle.value as ELanguages);
+      socket && socket.emit(SOCKET_SEND_LANGUAGE, selectedOptionSingle.value as ELanguages);
+      // onChangeLanguage?.(selectedOptionSingle.value as ELanguages);
     }
   };
 
