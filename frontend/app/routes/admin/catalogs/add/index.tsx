@@ -3,6 +3,7 @@ import { badRequest } from "remix-utils";
 import {json, redirect} from "@remix-run/node";
 import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { CatalogAdd, catalogAddLinks, EFormFields } from "~/pages/Admin/Catalogs/CatalogAdd";
 import type { TForm } from "~/pages/Admin/Catalogs/CatalogAdd";
@@ -69,7 +70,7 @@ export const loader = async (args: LoaderArgs) => {
       return json({
         attributes: response.data,
         success: true,
-        title: t("pages.admin.catalogAdd.meta.title"),
+        title: t("routes.titles.catalogAdd"),
       });
     }
 
@@ -82,8 +83,8 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Adding a catalog" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.catalogAdd") || "Adding a catalog" };
 };
 
 export default function CatalogAddRoute() {

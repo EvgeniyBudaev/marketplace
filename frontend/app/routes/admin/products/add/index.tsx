@@ -1,8 +1,9 @@
 import { inputFromSearch } from "remix-domains";
-import {json, MetaFunction, redirect} from "@remix-run/node";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import {json, redirect} from "@remix-run/node";
+import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
+import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { ProductAdd, productAddLinks } from "~/pages/Admin/Products/ProductAdd";
 import { getCatalogs } from "~/shared/api/catalogs";
@@ -54,12 +55,12 @@ export const loader = async (args: LoaderArgs) => {
 
   return json({
     catalogs: catalogsResponse.data,
-    title: t("pages.admin.productAdd.meta.title"),
+    title: t("routes.titles.productAdd"),
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Product addition" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.productAdd") || "Product addition" };
 };
 
 export default function ProductAddRoute() {

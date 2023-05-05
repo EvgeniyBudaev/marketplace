@@ -1,8 +1,9 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import {json, MetaFunction, redirect} from "@remix-run/node";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import {json, redirect} from "@remix-run/node";
+import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
+import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { EFormFields } from "~/pages/Admin/Attributes/AttributeEdit";
 import type { TForm } from "~/pages/Admin/Attributes/AttributeEdit";
@@ -71,7 +72,7 @@ export const loader = async (args: LoaderArgs) => {
         catalogs: catalogsResponse.data,
         product: productDetailResponse.data,
         success: true,
-        title: t("pages.admin.productEdit.meta.title"),
+        title: t("routes.titles.productEdit"),
       });
     }
 
@@ -94,8 +95,8 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Product editing" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.productEdit") || "Product editing" };
 };
 
 export default function ProductEditRoute() {

@@ -3,6 +3,7 @@ import {json, redirect} from "@remix-run/node";
 import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
+import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import {
   AttributeEdit,
@@ -126,7 +127,7 @@ export const loader = async (args: LoaderArgs) => {
       return json({
         attribute: response.data,
         success: true,
-        title: t("pages.admin.attributeEdit.meta.title"),
+        title: t("routes.titles.attributeEdit"),
       });
     }
 
@@ -146,8 +147,8 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Editing an Attribute" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.attributeEdit") || "Editing an Attribute" };
 };
 
 export default function AttributeEditRoute() {

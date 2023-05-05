@@ -3,6 +3,7 @@ import {json, redirect} from "@remix-run/node";
 import type { LoaderArgs, ActionArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
+import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { Catalogs, catalogsLinks } from "~/pages/Admin/Catalogs";
 import { deleteCatalog, ECatalogAction, getCatalogs } from "~/shared/api/catalogs";
@@ -56,12 +57,12 @@ export const loader = async (args: LoaderArgs) => {
 
   return json({
     catalogs: response.data,
-    title: t("pages.admin.catalogs.meta.title"),
+    title: t("routes.titles.catalogs"),
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Catalogs" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.catalogs") || "Catalogs" };
 };
 
 export default function CatalogsRoute() {

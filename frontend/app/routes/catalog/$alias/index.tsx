@@ -3,6 +3,7 @@ import {json} from "@remix-run/node";
 import type { LoaderArgs, ActionArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
+import i18next from "i18next";
 import { Catalog, catalogLinks } from "~/pages";
 import { createCartSession, getCart, getCartSession, incrementCartItem } from "~/shared/api/cart";
 import { getCatalogDetail } from "~/shared/api/catalogs";
@@ -71,12 +72,12 @@ export const loader = async (args: LoaderArgs) => {
     catalog: catalogResponse.data,
     products: productsResponse.data,
     headers,
-    title: t("pages.catalog.meta.title"),
+    title: t("routes.titles.catalog"),
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Catalog" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.catalog") || "Catalog" };
 };
 
 export default function CatalogDetailRoute() {

@@ -2,6 +2,7 @@ import { inputFromForm } from "remix-domains";
 import {json, redirect} from "@remix-run/node";
 import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
 import { badRequest } from "remix-utils";
+import i18next from "i18next";
 
 import { Login, loginLinks } from "~/pages/Auth/Login";
 import { LOGIN_FORM_KEYS } from "~/pages/Auth/Login/constants";
@@ -73,7 +74,7 @@ export const loader = async (args: LoaderArgs) => {
       password: session.get("password"),
       emailError: session.get("emailError"),
       passwordError: session.get("passwordError"),
-      title: t("pages.login.meta.title"),
+      title: t("routes.titles.login"),
     },
     {
       headers: {
@@ -83,8 +84,8 @@ export const loader = async (args: LoaderArgs) => {
   );
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Login" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.login") || "Login" };
 };
 
 export default function LoginRoute() {

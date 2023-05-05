@@ -108,7 +108,10 @@
         "blueBG": "\u001b[44mКаталоги\u001b[49m",
         "magentaBG": "\u001b[45mКаталоги\u001b[49m",
         "cyanBG": "\u001b[46mКаталоги\u001b[49m",
-        "whiteBG": "\u001b[47mКаталоги\u001b[49m"
+        "whiteBG": "\u001b[47mКаталоги\u001b[49m",
+        "meta": {
+          "title": "Каталоги"
+        }
       },
       "products": {
         "0": "П",
@@ -176,7 +179,10 @@
         "blueBG": "\u001b[44mПродукты\u001b[49m",
         "magentaBG": "\u001b[45mПродукты\u001b[49m",
         "cyanBG": "\u001b[46mПродукты\u001b[49m",
-        "whiteBG": "\u001b[47mПродукты\u001b[49m"
+        "whiteBG": "\u001b[47mПродукты\u001b[49m",
+        "meta": {
+          "title": "Продукты"
+        }
       },
       "attributes": {
         "0": "А",
@@ -244,7 +250,95 @@
         "blueBG": "\u001b[44mАтрибуты\u001b[49m",
         "magentaBG": "\u001b[45mАтрибуты\u001b[49m",
         "cyanBG": "\u001b[46mАтрибуты\u001b[49m",
-        "whiteBG": "\u001b[47mАтрибуты\u001b[49m"
+        "whiteBG": "\u001b[47mАтрибуты\u001b[49m",
+        "meta": {
+          "title": "Атрибуты"
+        }
+      },
+      "attributeAdd": {
+        "meta": {
+          "title": "Добавление атрибута"
+        }
+      },
+      "attributeEdit": {
+        "meta": {
+          "title": "Редактирование атрибута"
+        }
+      },
+      "catalogAdd": {
+        "meta": {
+          "title": "Добавление каталога"
+        }
+      },
+      "catalogEdit": {
+        "meta": {
+          "title": "Редактирование каталога"
+        }
+      },
+      "productAdd": {
+        "meta": {
+          "title": "Добавление продукта"
+        }
+      },
+      "productEdit": {
+        "meta": {
+          "title": "Редактирование продукта"
+        }
+      }
+    },
+    "login": {
+      "meta": {
+        "title": "Вход"
+      }
+    },
+    "signup": {
+      "meta": {
+        "title": "Регистрация"
+      }
+    },
+    "cart": {
+      "meta": {
+        "title": "Моя корзина"
+      }
+    },
+    "catalog": {
+      "meta": {
+        "title": "Каталог"
+      }
+    },
+    "order": {
+      "meta": {
+        "title": "Добавь сюда перевод!!!"
+      }
+    },
+    "recipient": {
+      "meta": {
+        "title": "Получатель!"
+      }
+    },
+    "shipping": {
+      "meta": {
+        "title": "Адрес доставки"
+      }
+    },
+    "about": {
+      "meta": {
+        "title": "О нас"
+      }
+    },
+    "contacts": {
+      "meta": {
+        "title": "Контакты"
+      }
+    },
+    "delivery": {
+      "meta": {
+        "title": "Доставка"
+      }
+    },
+    "product": {
+      "meta": {
+        "title": "Продукт"
       }
     }
   },
@@ -252,5 +346,8 @@
     "comment": {
       "title": "Добавь сюда перевод!!!"
     }
+  },
+  "root": {
+    "title": "Добавь сюда перевод!!!"
   }
 }

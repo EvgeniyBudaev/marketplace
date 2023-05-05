@@ -2,6 +2,7 @@ import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
 import {json, redirect} from "@remix-run/node";
 import type { ActionArgs, LoaderArgs ,MetaFunction} from "@remix-run/node";
+import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import {
   AttributeAdd,
@@ -66,12 +67,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 
   return json({
-    title: t("pages.admin.attributeAdd.meta.title"),
+    title: t("routes.titles.attributeAdd"),
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Adding an attribute" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.attributeAdd") || "Adding an attribute" };
 };
 
 export default function AttributeAddRoute() {

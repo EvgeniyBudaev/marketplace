@@ -3,6 +3,7 @@ import type { LoaderArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import isEmpty from "lodash/isEmpty";
+import i18next from "i18next";
 import { Order, orderLinks } from "~/pages";
 import { getCart, getCartSession } from "~/shared/api/cart";
 import { getResponseError } from "~/shared/domain";
@@ -24,7 +25,7 @@ export const loader = async (args: LoaderArgs) => {
         return json({
           cart: response.data,
           success: true,
-          title: t("pages.order.meta.title"),
+          title: t("routes.titles.order"),
         });
       }
 
@@ -38,8 +39,8 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Order" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.order") || "Order" };
 };
 
 export default function OrderRoute() {

@@ -70,10 +70,7 @@
       },
       "attributeAdd": {
         "title": "Adding an attribute",
-        "addValue": "Add value to list",
-        "meta": {
-          "title": "Adding an attribute"
-        }
+        "addValue": "Add value to list"
       },
       "attributeEdit": {
         "title": "Editing an Attribute",
@@ -89,9 +86,6 @@
             }
           },
           "header": "Total values"
-        },
-        "meta": {
-          "title": "Editing an Attribute"
         }
       },
       "attributes": {
@@ -105,22 +99,13 @@
               "actions": "Actions"
             }
           }
-        },
-        "meta": {
-          "title": "Attributes"
         }
       },
       "catalogAdd": {
-        "title": "Adding a catalog",
-        "meta": {
-          "title": "Adding a catalog"
-        }
+        "title": "Adding a catalog"
       },
       "catalogEdit": {
-        "title": "Catalog editing",
-        "meta": {
-          "title": "Catalog editing"
-        }
+        "title": "Catalog editing"
       },
       "catalogs": {
         "title": "Catalogs",
@@ -137,22 +122,13 @@
               "actions": "Actions"
             }
           }
-        },
-        "meta": {
-          "title": "Catalogs"
         }
       },
       "productAdd": {
-        "title": "Product addition",
-        "meta": {
-          "title": "Product addition"
-        }
+        "title": "Product addition"
       },
       "productEdit": {
-        "title": "Product editing",
-        "meta": {
-          "title": "Product editing"
-        }
+        "title": "Product editing"
       },
       "products": {
         "title": "Products",
@@ -168,9 +144,6 @@
             }
           },
           "header": "Total products"
-        },
-        "meta": {
-          "title": "Products"
         }
       }
     },
@@ -178,19 +151,13 @@
       "title": "Entry",
       "enter": "Login",
       "noAccount": "no account?",
-      "register": "Register",
-      "meta": {
-        "title": "Entry"
-      }
+      "register": "Register"
     },
     "signup": {
       "title": "Registration",
       "register": "Signup",
       "haveAccount": "Have an account?",
-      "enter": "Enter",
-      "meta": {
-        "title": "Registration"
-      }
+      "enter": "Enter"
     },
     "cart": {
       "title": "My cart",
@@ -199,10 +166,7 @@
       "goToCheckout": "Go to checkout",
       "rublesPerOrder": "rubles per order",
       "discountForAuth": "Log in / register to get 3% of the order value",
-      "backToShopping": "Back to shopping",
-      "meta": {
-        "title": "My cart"
-      }
+      "backToShopping": "Back to shopping"
     },
     "catalog": {
       "from": "from",
@@ -210,9 +174,6 @@
       "sorting": {
         "asc": "ascending price",
         "desc": "descending price"
-      },
-      "meta": {
-        "title": "Catalog"
       }
     },
     "home": {
@@ -227,10 +188,7 @@
       "cartEmpty": "Your basket is empty",
       "recipient": "Recipient",
       "delivery": "Delivery",
-      "checkout": "Checkout",
-      "meta": {
-        "title": "Добавь сюда перевод!!!"
-      }
+      "checkout": "Checkout"
     },
     "productDetail": {
       "description": "Description",
@@ -243,10 +201,7 @@
       "specify": "Specify",
       "realData": "real data",
       "passport": "You may be asked for a passport",
-      "order": "before handing over the paid order",
-      "meta": {
-        "title": "Recipient"
-      }
+      "order": "before handing over the paid order"
     },
     "settings": {
       "language": {
@@ -262,30 +217,7 @@
     },
     "shipping": {
       "step": "Step 1 of 3",
-      "title": "Where would you like to receive your order?",
-      "meta": {
-        "title": "Delivery address"
-      }
-    },
-    "about": {
-      "meta": {
-        "title": "About"
-      }
-    },
-    "contacts": {
-      "meta": {
-        "title": "Contacts"
-      }
-    },
-    "delivery": {
-      "meta": {
-        "title": "Delivery"
-      }
-    },
-    "product": {
-      "meta": {
-        "title": "Product"
-      }
+      "title": "Where would you like to receive your order?"
     }
   },
   "form": {
@@ -350,8 +282,31 @@
       "title": "Comment for the courier"
     }
   },
-  "root": {
-    "title": "Добавь сюда перевод!!!"
+  "routes": {
+    "titles": {
+      "root": "FamilyMart",
+      "about": "About",
+      "attributeEdit": "Edit attribute",
+      "attributeAdd": "Add attribute",
+      "attributes": "Attributes",
+      "catalogEdit": "Edit catalog",
+      "catalogAdd": "Add catalog",
+      "catalogs": "Catalogs",
+      "admin": "Admin panel",
+      "productEdit": "Edit product",
+      "productAdd": "Add product",
+      "products": "Products",
+      "login": "SignIn",
+      "signup": "SignUp!",
+      "cart": "Cart",
+      "catalog": "Catalog",
+      "contacts": "Contacts",
+      "delivery": "Delivery",
+      "order": "Order",
+      "product": "Product",
+      "recipient": "Recipient",
+      "shipping": "Shipping"
+    }
   },
   "fileUploader": {
     "title": "Drag and drop your files or click to upload",

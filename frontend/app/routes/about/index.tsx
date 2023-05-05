@@ -1,5 +1,6 @@
 import {json} from "@remix-run/node";
 import type { LoaderArgs , MetaFunction} from "@remix-run/node";
+import i18next from "i18next";
 import { About, aboutLinks } from "~/pages/About";
 import {getStoreFixedT} from "~/shared/store";
 
@@ -8,12 +9,12 @@ export const loader = async (args: LoaderArgs) => {
   const [t] = await Promise.all([getStoreFixedT({request})]);
 
   return json({
-    title: t("pages.about.meta.title"),
+    title: t("routes.titles.about"),
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "About" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.about") || "About" };
 };
 
 export default function AboutRoute() {

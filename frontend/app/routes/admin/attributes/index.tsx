@@ -3,6 +3,7 @@ import {json, redirect} from "@remix-run/node";
 import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
+import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { Attributes, attributesLinks } from "~/pages/Admin/Attributes";
 import { deleteAttribute, EAttributeAction, getAttributes } from "~/shared/api/attributes";
@@ -58,7 +59,7 @@ export const loader = async (args: LoaderArgs) => {
       return json({
         attributes: response.data,
         success: true,
-        title: t("pages.admin.attributes.meta.title"),
+        title: t("routes.titles.attributes"),
       });
     }
 
@@ -71,8 +72,8 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Attributes" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.attributes") || "Attributes" };
 };
 
 export default function AttributesRoute() {
