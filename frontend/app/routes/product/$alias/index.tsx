@@ -1,7 +1,8 @@
-import {json, MetaFunction} from "@remix-run/node";
-import type { LoaderArgs } from "@remix-run/node";
+import {json} from "@remix-run/node";
+import type { LoaderArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
+import i18next from "i18next";
 import { ProductDetail, productDetailLinks } from "~/pages";
 import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
 import { getProductDetail } from "~/shared/api/products";
@@ -43,12 +44,12 @@ export const loader = async (args: LoaderArgs) => {
   return json({
     cart: cartResponse.data,
     product: productDetailResponse.data,
-    title: t("pages.product.meta.title"),
+    title: t("routes.titles.product"),
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Product" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.product") || "Product" };
 };
 
 export default function ProductDetailRoute() {

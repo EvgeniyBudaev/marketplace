@@ -2,6 +2,7 @@ import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
 import {json} from "@remix-run/node";
 import type { ActionArgs , LoaderArgs, MetaFunction} from "@remix-run/node";
+import i18next from "i18next";
 import { Signup, signupLinks } from "~/pages/Auth/Signup";
 import { SIGNUP_FORM_KEYS } from "~/pages/Auth/Signup/constants";
 import { createUserSession, signup } from "~/shared/api/auth";
@@ -36,12 +37,12 @@ export const loader = async (args: LoaderArgs) => {
   const [t] = await Promise.all([getStoreFixedT({request})]);
 
   return json({
-    title: t("pages.signup.meta.title"),
+    title: t("routes.titles.signup"),
   });
 }
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Signup" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.signup") || "Signup" };
 };
 
 export default function SignupRoute() {

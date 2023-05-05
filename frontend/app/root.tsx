@@ -22,6 +22,7 @@ import isNil from "lodash/isNil";
 import { connect } from "socket.io-client";
 import type { Socket } from "socket.io-client";
 import type { DefaultEventsMap } from "socket.io/dist/typed-events";
+import i18next from "i18next";
 
 import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
@@ -96,7 +97,7 @@ export const loader = async (args: LoaderArgs) => {
     cart: cartResponse.data,
     csrfToken,
     cspScriptNonce,
-    title: t("root.title"),
+    title: t("routes.titles.root"),
     ENV: {
       IS_PRODUCTION: Environment.IS_PRODUCTION,
     },
@@ -118,9 +119,9 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data = {} }) => ({
+export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: data.title || "New Remix App",
+  title: i18next.t("routes.titles.root") || "FamilyMart",
   viewport: "width=device-width,initial-scale=1",
 });
 

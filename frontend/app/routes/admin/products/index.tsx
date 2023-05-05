@@ -3,6 +3,7 @@ import {json, redirect} from "@remix-run/node";
 import type { LoaderArgs, ActionArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
+import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { Products, productsLinks } from "~/pages/Admin/Products";
 import { deleteProduct, EProductAction, getProducts } from "~/shared/api/products";
@@ -58,7 +59,7 @@ export const loader = async (args: LoaderArgs) => {
       return json({
         products: response.data,
         success: true,
-        title: t("pages.admin.products.meta.title"),
+        title: t("routes.titles.products"),
       });
     }
 
@@ -71,8 +72,8 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Products" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.products") || "Products" };
 };
 
 export default function ProductsRoute() {

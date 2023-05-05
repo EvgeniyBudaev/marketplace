@@ -2,6 +2,7 @@ import { inputFromForm } from "remix-domains";
 import {json} from "@remix-run/node";
 import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import i18next from "i18next";
 import isEmpty from "lodash/isEmpty";
 import { Cart, cartLinks } from "~/pages/Cart";
 import {
@@ -77,12 +78,12 @@ export const loader = async (args: LoaderArgs) => {
   return json({
     cart: cartResponse.data,
     headers,
-    title: t("pages.cart.meta.title"),
+    title: t("routes.titles.cart"),
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  return { title: data?.title || "Cart" };
+export const meta: MetaFunction = () => {
+  return { title: i18next.t("routes.titles.cart") || "Cart" };
 };
 
 export default function CartRoute() {

@@ -108,7 +108,10 @@
         "blueBG": "\u001b[44mCatalogs\u001b[49m",
         "magentaBG": "\u001b[45mCatalogs\u001b[49m",
         "cyanBG": "\u001b[46mCatalogs\u001b[49m",
-        "whiteBG": "\u001b[47mCatalogs\u001b[49m"
+        "whiteBG": "\u001b[47mCatalogs\u001b[49m",
+        "meta": {
+          "title": "Catalogs"
+        }
       },
       "products": {
         "0": "P",
@@ -176,7 +179,10 @@
         "blueBG": "\u001b[44mProducts\u001b[49m",
         "magentaBG": "\u001b[45mProducts\u001b[49m",
         "cyanBG": "\u001b[46mProducts\u001b[49m",
-        "whiteBG": "\u001b[47mProducts\u001b[49m"
+        "whiteBG": "\u001b[47mProducts\u001b[49m",
+        "meta": {
+          "title": "Products"
+        }
       },
       "attributes": {
         "0": "A",
@@ -246,7 +252,95 @@
         "blueBG": "\u001b[44mAttributes\u001b[49m",
         "magentaBG": "\u001b[45mAttributes\u001b[49m",
         "cyanBG": "\u001b[46mAttributes\u001b[49m",
-        "whiteBG": "\u001b[47mAttributes\u001b[49m"
+        "whiteBG": "\u001b[47mAttributes\u001b[49m",
+        "meta": {
+          "title": "Attributes"
+        }
+      },
+      "attributeAdd": {
+        "meta": {
+          "title": "Adding an attribute"
+        }
+      },
+      "attributeEdit": {
+        "meta": {
+          "title": "Editing an Attribute"
+        }
+      },
+      "catalogAdd": {
+        "meta": {
+          "title": "Adding a catalog"
+        }
+      },
+      "catalogEdit": {
+        "meta": {
+          "title": "Catalog editing"
+        }
+      },
+      "productAdd": {
+        "meta": {
+          "title": "Product addition"
+        }
+      },
+      "productEdit": {
+        "meta": {
+          "title": "Product editing"
+        }
+      }
+    },
+    "login": {
+      "meta": {
+        "title": "Entry"
+      }
+    },
+    "signup": {
+      "meta": {
+        "title": "Registration"
+      }
+    },
+    "cart": {
+      "meta": {
+        "title": "My cart"
+      }
+    },
+    "catalog": {
+      "meta": {
+        "title": "Catalog"
+      }
+    },
+    "order": {
+      "meta": {
+        "title": "Добавь сюда перевод!!!"
+      }
+    },
+    "recipient": {
+      "meta": {
+        "title": "Recipient"
+      }
+    },
+    "shipping": {
+      "meta": {
+        "title": "Delivery address"
+      }
+    },
+    "about": {
+      "meta": {
+        "title": "About"
+      }
+    },
+    "contacts": {
+      "meta": {
+        "title": "Contacts"
+      }
+    },
+    "delivery": {
+      "meta": {
+        "title": "Delivery"
+      }
+    },
+    "product": {
+      "meta": {
+        "title": "Product"
       }
     }
   },
@@ -254,5 +348,8 @@
     "comment": {
       "title": "Добавь сюда перевод!!!"
     }
+  },
+  "root": {
+    "title": "Добавь сюда перевод!!!"
   }
 }
