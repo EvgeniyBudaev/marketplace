@@ -14,7 +14,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import {AuthenticityTokenProvider, createAuthenticityToken} from "remix-utils";
+import { AuthenticityTokenProvider, createAuthenticityToken } from "remix-utils";
 import clsx from "clsx";
 import { cryptoRandomStringAsync } from "crypto-random-string";
 import isEmpty from "lodash/isEmpty";
@@ -23,6 +23,8 @@ import { connect } from "socket.io-client";
 import type { Socket } from "socket.io-client";
 import type { DefaultEventsMap } from "socket.io/dist/typed-events";
 import i18next from "i18next";
+import slickStyles from "slick-carousel/slick/slick.css";
+import slickThemeStyles from "slick-carousel/slick/slick-theme.css";
 
 import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
@@ -36,7 +38,7 @@ import type { TCart } from "~/shared/api/cart";
 import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
 import type { TSettings } from "~/shared/api/settings";
 import { createSettingsSession, getSettings } from "~/shared/api/settings";
-import {ChangeLanguageProvider, SocketProvider} from "~/shared/context";
+import { ChangeLanguageProvider, SocketProvider } from "~/shared/context";
 import { commitCsrfSession, getCsrfSession } from "~/shared/session";
 import {
   getStoreFixedT,
@@ -91,7 +93,7 @@ export const loader = async (args: LoaderArgs) => {
   }
   setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
   const updatedSettingsSession = await createSettingsSession(settingsResponse.data);
-  const [t] = await Promise.all([getStoreFixedT({request, uuid: cartResponse.data.uuid})]);
+  const [t] = await Promise.all([getStoreFixedT({ request, uuid: cartResponse.data.uuid })]);
 
   const data: RootLoaderData = {
     cart: cartResponse.data,
@@ -130,6 +132,8 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: styles },
     { rel: "stylesheet", href: reactToastifyStyles },
     { rel: "stylesheet", href: modalStyles },
+    { rel: "stylesheet", href: slickStyles },
+    { rel: "stylesheet", href: slickThemeStyles },
     ...uikitLinks(),
     ...componentsLinks(),
     ...sharedLinks(),
@@ -161,18 +165,18 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
     const languageSwitchChannel = new BroadcastChannel("language");
 
     languageSwitchChannel.addEventListener("message", (event) => {
-      if(lastLanguage.current !== event.data) {
+      if (lastLanguage.current !== event.data) {
         lastLanguage.current = event.data;
         i18n.changeLanguage(event.data);
       }
-    })
+    });
 
     i18n.on("languageChanged", (language) => {
-      if(language !== lastLanguage.current) {
+      if (language !== lastLanguage.current) {
         lastLanguage.current = language;
         languageSwitchChannel.postMessage(language);
       }
-    })
+    });
   }, [i18n]);
 
   if (typeof window !== "undefined") {
@@ -210,8 +214,7 @@ export default function App() {
   const { cart, csrfToken, cspScriptNonce, ENV, settings, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
   const changeLanguageState = useState(false);
-  const [socket, setSocket] =
-      useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
+  const [socket, setSocket] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
 
   const store = useStore();
   const setUser = store.setUser;
@@ -241,24 +244,24 @@ export default function App() {
   }, []);
 
   return (
-      <SocketProvider value={socket}>
-        <StoreContextProvider store={store}>
-          <AuthenticityTokenProvider token={csrfToken}>
-            <ChangeLanguageProvider value={changeLanguageState}>
-              <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
-                <Outlet />
-                <script
-                    nonce={cspScriptNonce}
-                    suppressHydrationWarning
-                    dangerouslySetInnerHTML={{
-                      __html: `window.ENV=${JSON.stringify(ENV)}`,
-                    }}
-                />
-              </Document>
-            </ChangeLanguageProvider>
-          </AuthenticityTokenProvider>
-        </StoreContextProvider>
-      </SocketProvider>
+    <SocketProvider value={socket}>
+      <StoreContextProvider store={store}>
+        <AuthenticityTokenProvider token={csrfToken}>
+          <ChangeLanguageProvider value={changeLanguageState}>
+            <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
+              <Outlet />
+              <script
+                nonce={cspScriptNonce}
+                suppressHydrationWarning
+                dangerouslySetInnerHTML={{
+                  __html: `window.ENV=${JSON.stringify(ENV)}`,
+                }}
+              />
+            </Document>
+          </ChangeLanguageProvider>
+        </AuthenticityTokenProvider>
+      </StoreContextProvider>
+    </SocketProvider>
   );
 }
 
