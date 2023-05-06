@@ -17,6 +17,7 @@ import { overlayLinks } from "~/uikit/Overlay";
 import { paginationLinks } from "~/uikit/Pagination";
 import { headlessPopoverLinks, popoverCustomLinks } from "~/uikit/Popover";
 import { selectLinks } from "~/uikit/Select";
+import { sliderSimpleLinks } from "~/uikit/Slider";
 import { spacerLinks } from "~/uikit/Spacer";
 import { spinnerLinks } from "~/uikit/Spinner";
 import { switcherLinks } from "~/uikit/Switcher";
@@ -44,6 +45,7 @@ export * from "./Pagination";
 export * from "./Popover";
 export * from "./Select";
 export * from "./Sidebar";
+export * from "./Slider";
 export * from "./Spacer";
 export * from "./Spinner";
 export * from "./Switcher";
@@ -75,6 +77,7 @@ export const links = () => {
     ...paginationLinks(),
     ...popoverCustomLinks(),
     ...selectLinks(),
+    ...sliderSimpleLinks(),
     ...spacerLinks(),
     ...spinnerLinks(),
     ...switcherLinks(),

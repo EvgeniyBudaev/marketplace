@@ -11,7 +11,6 @@ import type { TForm } from "~/pages/Recipient/types";
 import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./Recipient.module.css";
 import { useUser } from "~/hooks";
-import isEmpty from "lodash/isEmpty";
 
 export const Recipient: FC = () => {
   const { t } = useTranslation();
@@ -20,8 +19,7 @@ export const Recipient: FC = () => {
   });
   const navigate = useNavigate();
   const { user } = useUser();
-  console.log("user: ", user);
-  const isUser = isEmpty(user);
+  console.log("Recipient user: ", user);
 
   const handleSubmit = (params: TParams) => {
     console.log("Form params: ", params);
@@ -49,22 +47,29 @@ export const Recipient: FC = () => {
         >
           <div className="Recipient-FormContent">
             <Input
-              // defaultValue={isUser ? user.firstName  : ""}
+              defaultValue={user?.firstName ?? ""}
               label={t("form.firstName.title") ?? "First name"}
               name={EFormFields.FirstName}
               type="text"
             />
             <Input
+              defaultValue={user?.lastName ?? ""}
               label={t("form.lastName.title") ?? "Last name"}
               name={EFormFields.LastName}
               type="text"
             />
             <Input
+              defaultValue={user?.phone ?? ""}
               label={t("form.mobilePhone.title") ?? "Mobile phone"}
               name={EFormFields.Phone}
               type="text"
             />
-            <Input label={t("form.email.title") ?? "Email"} name={EFormFields.Email} type="text" />
+            <Input
+              defaultValue={user?.email ?? ""}
+              label={t("form.email.title") ?? "Email"}
+              name={EFormFields.Email}
+              type="text"
+            />
           </div>
           <div className="Recipient-FormFooter">
             <div className="Recipient-Controls">

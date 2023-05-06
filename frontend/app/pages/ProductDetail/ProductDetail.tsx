@@ -9,8 +9,8 @@ import type { TCart } from "~/shared/api/cart";
 import type { TProductByCatalog } from "~/shared/api/products";
 import type { TProductDetail } from "~/shared/api/products";
 import { EFormMethods } from "~/shared/form";
-import { Button, ETypographyVariant, Typography } from "~/uikit";
-import { createPath, formatCurrency, formatProxy } from "~/utils";
+import { Button, ETypographyVariant, SliderSimple, Typography } from "~/uikit";
+import { createPath, formatCurrency, formatListProxy, formatProxy } from "~/utils";
 import styles from "./ProductDetail.module.css";
 
 type TProps = {
@@ -22,12 +22,17 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
   const fetcher = useFetcher();
   const { t } = useTranslation();
   console.log("product: ", product);
-  console.log("cart: ", cart);
+  // console.log("cart: ", cart);
 
   const imageProduct = formatProxy(
     !isNil(product?.images)
       ? product.images[0]
       : "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
+  );
+  const sliderImages = formatListProxy(
+    !isNil(product?.images)
+      ? product.images
+      : ["https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png"],
   );
   const isMobileScreen = false;
 
@@ -99,13 +104,17 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
       <div className="ProductDetail-Info">
         <div className="ProductDetail-ColMedia">
           <div className="ProductDetail-Gallery">
-            <img
-              className=""
-              alt={product.name}
-              src={imageProduct}
-              width={imageResponsiveSizeWidth()}
-              height={imageResponsiveSizeHeight()}
-            />
+            {product?.images ? (
+              <SliderSimple images={sliderImages} />
+            ) : (
+              <img
+                className=""
+                alt={product.name}
+                src={imageProduct}
+                width={imageResponsiveSizeWidth()}
+                height={imageResponsiveSizeHeight()}
+              />
+            )}
           </div>
         </div>
         <div className="ProductDetail-ColSpecification">

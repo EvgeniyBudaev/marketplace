@@ -38,18 +38,37 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.TableLoader {
-  background-color: rgb(228, 228, 228);
-  position: absolute;
-  display: flex;
+.SliderSimple-Item {
   width: 100%;
-  height: 100%;
-  justify-content: center;
-  z-index: 900;
+  position: relative;
 }
-.TableLoader-Inner {
+.SliderSimple-Item::before, .SliderSimple-Item::after {
+  content: "";
   position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.SliderSimple-Item::before {
+  height: 25%;
+  background: linear-gradient(180deg, #000, transparent);
+  opacity: 0.8;
+}
+.SliderSimple-Item::after {
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 95%, #353535);
+}
+.SliderSimple-Item > div {
   width: 100%;
+}
+.SliderSimple-ImageContainer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.SliderSimple-Image {
+  cursor: pointer;
 }
 
-/*# sourceMappingURL=TableLoader.css.map */
+/*# sourceMappingURL=SliderSimple.css.map */

@@ -33,6 +33,7 @@ export const productsByCatalogItemSchema = z.object({
   createdAt: z.string(),
   attributes: attributeItemSchema.array(),
   images: z.string().array().nullish(),
+  defaultImage: z.string().nullish(),
 });
 
 export const productsParamsSchema = z.any();
@@ -68,6 +69,7 @@ export const productDetailSchema = z.object({
   modifyDate: z.string().nullish(),
   attributes: attributeItemSchema.array(),
   images: z.string().array().nullish(),
+  defaultImage: z.string().nullish(),
 });
 
 const numericValuesSchema = z.object({

@@ -19,3 +19,9 @@ export const userSchema = z.object({
   uuid: z.string(),
   permissions: z.string().array().nullish(),
 });
+
+export const userDetailsParamsSchema = z.object({
+  access_token: z.string(),
+  id: z.number(),
+});
+

@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+
 dayjs.extend(utc);
 
 export const formatCurrency = (value: number | string): string => {
@@ -8,4 +9,8 @@ export const formatCurrency = (value: number | string): string => {
 
 export const formatProxy = (value: string): string => {
   return `/proxy/${value}`;
+};
+
+export const formatListProxy = (value: string[]): string[] => {
+  return value.map((image) => `/proxy/${image}`);
 };
