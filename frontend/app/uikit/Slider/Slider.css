@@ -1,0 +1,83 @@
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Slider-Arrow {
+  position: absolute !important;
+  top: 50% !important;
+  z-index: 1 !important;
+}
+.Slider-Arrow.slick-disabled .Slider-ArrowButton {
+  display: none;
+}
+.Slider-ArrowButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  height: 40px;
+  width: 40px;
+  background-color: var(--slider-arrow-backgroundColor);
+  border: 1px solid rgb(232, 232, 232);
+  border-radius: 50%;
+  box-shadow: 0 0.1rem 2rem rgba(4, 6, 28, 0.1);
+  opacity: var(--slider-arrow-opacity);
+  transition: all 0.15s;
+}
+.Slider-ArrowButton__left {
+  left: 15px;
+}
+.Slider-ArrowButton__right {
+  right: 15px;
+}
+.Slider-ArrowButton:hover {
+  background-color: rgb(87, 87, 87);
+  border: 1px solid rgb(87, 87, 87);
+  opacity: 0.8;
+}
+.Slider-ArrowCustom svg {
+  fill: rgb(176, 151, 106);
+  height: 16px;
+  width: 8px;
+}
+
+/*# sourceMappingURL=Slider.css.map */

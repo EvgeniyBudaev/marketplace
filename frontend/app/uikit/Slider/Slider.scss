@@ -1,0 +1,55 @@
+@import "component";
+
+.Slider {
+  &-Arrow {
+    position: absolute !important;
+    top: 50% !important;
+    z-index: 1 !important;
+
+    &.slick-disabled {
+      .Slider-ArrowButton {
+        display: none;
+      }
+    }
+  }
+
+  &-ArrowButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    height: 40px;
+    width: 40px;
+    background-color: var(--slider-arrow-backgroundColor);
+    border: 1px solid $color-mercury-gray;
+    border-radius: 50%;
+    box-shadow: $shadow-sliderArrow;
+    opacity: var(--slider-arrow-opacity);
+    transition: all $transition;
+
+    &__left {
+      left: 15px;
+    }
+
+    &__right {
+      right: 15px;
+    }
+
+    &:hover {
+      background-color: $color-alto-gray;
+      border: 1px solid $color-alto-gray;
+      opacity: 0.8;
+    }
+  }
+
+  &-ArrowCustom {
+    svg {
+      fill: $color-primary;
+      height: 16px;
+      width: 8px;
+    }
+  }
+}
