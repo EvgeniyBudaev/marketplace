@@ -42,23 +42,6 @@
   width: 100%;
   position: relative;
 }
-.SliderSimple-Item::before, .SliderSimple-Item::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-}
-.SliderSimple-Item::before {
-  height: 25%;
-  background: linear-gradient(180deg, #000, transparent);
-  opacity: 0.8;
-}
-.SliderSimple-Item::after {
-  bottom: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 95%, #353535);
-}
 .SliderSimple-Item > div {
   width: 100%;
 }

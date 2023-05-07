@@ -3,7 +3,9 @@ import type { FC } from "react";
 import Slider from "react-slick";
 import { useMediaQuery } from "react-responsive";
 import isEmpty from "lodash/isEmpty";
+import { ESliderArrow, SliderArrow } from "~/uikit";
 import styles from "./SliderSimple.css";
+import sliderStyles from "../Slider.css";
 
 type TProps = {
   className?: string;
@@ -42,11 +44,19 @@ const SliderSimpleComponent: FC<TProps> = ({
     className,
     dots: dots,
     infinite: infinite,
-    nextArrow: nextArrow,
+    nextArrow: arrows ? (
+      <SliderArrow styles={{ right: "5px" }} type={ESliderArrow.Next} />
+    ) : (
+      nextArrow
+    ),
     speed: speed,
     slidesToShow: slidesToShow,
     slidesToScroll: slidesToScroll,
-    prevArrow: prevArrow,
+    prevArrow: arrows ? (
+      <SliderArrow styles={{ left: "5px" }} type={ESliderArrow.Previous} />
+    ) : (
+      prevArrow
+    ),
   };
   const isMobileScreen = useMediaQuery({ query: "(max-width: 100px)" });
 
@@ -59,7 +69,7 @@ const SliderSimpleComponent: FC<TProps> = ({
               {isMobileScreen ? (
                 <img
                   alt={alt}
-                  className="SliderSimple-Image"
+                  className="SliderSimple-Image SliderSimple-Image__mobile"
                   height={height}
                   src={image}
                   width={width}
@@ -85,5 +95,8 @@ const SliderSimpleComponent: FC<TProps> = ({
 export const SliderSimple = memo(SliderSimpleComponent);
 
 export function sliderSimpleLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [
+    { rel: "stylesheet", href: styles },
+    { rel: "stylesheet", href: sliderStyles },
+  ];
 }
