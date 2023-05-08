@@ -7,7 +7,7 @@ import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
 import type { TCart } from "~/shared/api/cart";
 import type { TProductDetail } from "~/shared/api/products";
-import { Button, ETypographyVariant, SliderSimple, Typography } from "~/uikit";
+import { Button, ETypographyVariant, SliderSimple, SliderSyncing, Typography } from "~/uikit";
 import { createPath, formatCurrency, formatListProxy, formatProxy } from "~/utils";
 import styles from "./ProductDetail.module.css";
 
@@ -103,8 +103,15 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
         <div className="ProductDetail-ColMedia">
           <div className="ProductDetail-Gallery">
             {product?.images ? (
-              <SliderSimple arrows={true} dots={true} images={sliderImages} />
+              <SliderSyncing
+                alt={product.name}
+                arrowsModal={true}
+                focusOnSelect={true}
+                images={sliderImages}
+                swipeToSlide={true}
+              />
             ) : (
+              // <SliderSimple alt={product.name} arrows={true} dots={true} images={sliderImages} />
               <img
                 className=""
                 alt={product.name}

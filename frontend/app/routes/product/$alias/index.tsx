@@ -1,17 +1,17 @@
-import {json} from "@remix-run/node";
-import type { LoaderArgs , MetaFunction} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import i18next from "i18next";
 import { ProductDetail, productDetailLinks } from "~/pages";
 import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
 import { getProductDetail } from "~/shared/api/products";
-import {getStoreFixedT} from "~/shared/store";
+import { getStoreFixedT } from "~/shared/store";
 import { internalError } from "~/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
-  const [t] = await Promise.all([getStoreFixedT({request})]);
+  const [t] = await Promise.all([getStoreFixedT({ request })]);
   const { alias } = params as { alias: string };
 
   const cartSession = await getCartSession(request);
@@ -48,8 +48,13 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("routes.titles.product") || "Product" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.product") || "Product" };
+  }
+  hydration++;
+  return { title: data?.title || "Product" };
 };
 
 export default function ProductDetailRoute() {

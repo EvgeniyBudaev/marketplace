@@ -17,7 +17,7 @@ import { overlayLinks } from "~/uikit/Overlay";
 import { paginationLinks } from "~/uikit/Pagination";
 import { headlessPopoverLinks, popoverCustomLinks } from "~/uikit/Popover";
 import { selectLinks } from "~/uikit/Select";
-import { sliderSimpleLinks } from "~/uikit/Slider";
+import { sliderSimpleLinks, sliderSyncingLinks } from "~/uikit/Slider";
 import { spacerLinks } from "~/uikit/Spacer";
 import { spinnerLinks } from "~/uikit/Spinner";
 import { switcherLinks } from "~/uikit/Switcher";
@@ -78,6 +78,7 @@ export const links = () => {
     ...popoverCustomLinks(),
     ...selectLinks(),
     ...sliderSimpleLinks(),
+    ...sliderSyncingLinks(),
     ...spacerLinks(),
     ...spinnerLinks(),
     ...switcherLinks(),

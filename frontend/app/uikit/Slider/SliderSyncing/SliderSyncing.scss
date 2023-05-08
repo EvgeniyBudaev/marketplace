@@ -1,0 +1,29 @@
+@import "component";
+
+.SliderSyncing {
+  &-Nav {
+    .slick-slide {
+      cursor: pointer;
+      padding: 12px;
+
+      img {
+        border: 2px solid transparent;
+        border-radius: $border-radius;
+        padding: 6px;
+        transition: $transition;
+      }
+
+      &:hover {
+        img {
+          border-color: $color-primary;
+        }
+      }
+    }
+
+    .slick-slide.slick-current {
+      img {
+        border-color: $color-primary;
+      }
+    }
+  }
+}

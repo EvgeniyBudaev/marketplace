@@ -8,56 +8,62 @@ import styles from "./SliderSimple.css";
 import sliderStyles from "../Slider.css";
 
 type TProps = {
-  className?: string;
   alt?: string;
   arrows?: boolean;
+  className?: string;
   dots?: boolean;
+  fade?: boolean;
+  height?: string;
   images: string[];
   infinite?: boolean;
-  height?: string;
-  slidesToShow?: number;
-  slidesToScroll?: number;
-  speed?: number;
-  width?: string;
   nextArrow?: JSX.Element;
   prevArrow?: JSX.Element;
+  slidesToScroll?: number;
+  slidesToShow?: number;
+  swipeToSlide?: boolean;
+  speed?: number;
+  width?: string;
 };
 
 const SliderSimpleComponent: FC<TProps> = ({
-  className,
   alt = "",
   arrows = false,
+  className,
   dots = false,
+  fade = false,
   height,
   images,
   infinite = false,
   nextArrow,
-  slidesToShow = 1,
-  slidesToScroll = 1,
-  speed = 500,
-  width,
-
   prevArrow,
+  slidesToScroll = 1,
+  slidesToShow = 1,
+  speed = 500,
+  swipeToSlide = false,
+  width,
 }) => {
   const settings = {
-    arrows: arrows,
+    arrows,
     className,
-    dots: dots,
-    infinite: infinite,
+    dots,
+    fade,
+    infinite,
     nextArrow: arrows ? (
       <SliderArrow styles={{ right: "5px" }} type={ESliderArrow.Next} />
     ) : (
       nextArrow
     ),
-    speed: speed,
-    slidesToShow: slidesToShow,
-    slidesToScroll: slidesToScroll,
     prevArrow: arrows ? (
       <SliderArrow styles={{ left: "5px" }} type={ESliderArrow.Previous} />
     ) : (
       prevArrow
     ),
+    speed,
+    slidesToScroll,
+    slidesToShow,
+    swipeToSlide,
   };
+
   const isMobileScreen = useMediaQuery({ query: "(max-width: 100px)" });
 
   return (
