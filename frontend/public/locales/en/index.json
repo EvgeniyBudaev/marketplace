@@ -305,6 +305,7 @@
       "order": "Order",
       "product": "Product",
       "recipient": "Recipient",
+      "settings": "Settings",
       "shipping": "Shipping"
     }
   },

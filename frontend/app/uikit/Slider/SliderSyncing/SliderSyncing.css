@@ -38,6 +38,9 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
+.SliderSyncing-For {
+  cursor: pointer;
+}
 .SliderSyncing-Nav .slick-slide {
   cursor: pointer;
   padding: 12px;

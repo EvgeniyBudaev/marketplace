@@ -1,6 +1,6 @@
 import { inputFromForm } from "remix-domains";
-import {json} from "@remix-run/node";
-import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import i18next from "i18next";
 import isEmpty from "lodash/isEmpty";
@@ -15,7 +15,7 @@ import {
   setQuantityCartItem,
 } from "~/shared/api/cart";
 import { mapCartActionToDto, mapCartSetQuantityToDto } from "~/shared/api/cart/utils";
-import {getStoreFixedT} from "~/shared/store";
+import { getStoreFixedT } from "~/shared/store";
 import { internalError, parseResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -53,7 +53,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t] = await Promise.all([getStoreFixedT({request})]);
+  const [t] = await Promise.all([getStoreFixedT({ request })]);
   const cartSession = await getCartSession(request);
   const cart = JSON.parse(cartSession || "{}");
   let cartResponse;
@@ -82,8 +82,13 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("routes.titles.cart") || "Cart" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.cart") || "Cart" };
+  }
+  hydration++;
+  return { title: data?.title || "Cart" };
 };
 
 export default function CartRoute() {

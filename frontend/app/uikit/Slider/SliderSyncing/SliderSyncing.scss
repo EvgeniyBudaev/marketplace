@@ -1,6 +1,10 @@
 @import "component";
 
 .SliderSyncing {
+  &-For {
+    cursor: pointer;
+  }
+
   &-Nav {
     .slick-slide {
       cursor: pointer;

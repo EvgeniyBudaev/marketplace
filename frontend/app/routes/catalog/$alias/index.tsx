@@ -1,6 +1,6 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import {json} from "@remix-run/node";
-import type { LoaderArgs, ActionArgs , MetaFunction} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import i18next from "i18next";
@@ -9,7 +9,7 @@ import { createCartSession, getCart, getCartSession, incrementCartItem } from "~
 import { getCatalogDetail } from "~/shared/api/catalogs";
 import { getProductsByCatalog } from "~/shared/api/products";
 import { mapParamsToDto } from "~/shared/api/products/utils";
-import {getStoreFixedT} from "~/shared/store";
+import { getStoreFixedT } from "~/shared/store";
 import { internalError, parseResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -30,7 +30,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
-  const [t] = await Promise.all([getStoreFixedT({request})]);
+  const [t] = await Promise.all([getStoreFixedT({ request })]);
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
   const { alias } = params as { alias: string };
@@ -76,8 +76,13 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("routes.titles.catalog") || "Catalog" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.catalog") || "Catalog" };
+  }
+  hydration++;
+  return { title: data?.title || "Catalog" };
 };
 
 export default function CatalogDetailRoute() {

@@ -6,14 +6,19 @@ import { getStoreFixedT } from "~/shared/store";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t] = await Promise.all([getStoreFixedT({request})]);
+  const [t] = await Promise.all([getStoreFixedT({ request })]);
   return json({
     title: t("routes.titles.contacts"),
   });
 };
 
+let hydration = 0;
 export const meta: MetaFunction = ({ data }) => {
-  return { title: i18next.t("routes.titles.contacts") || "Contacts" };
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.contacts") || "Contacts" };
+  }
+  hydration++;
+  return { title: data?.title || "Contacts" };
 };
 
 export default function ContactsRoute() {
