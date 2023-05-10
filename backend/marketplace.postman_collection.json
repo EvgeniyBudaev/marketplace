@@ -820,17 +820,22 @@
 										{
 											"key": "files",
 											"type": "file",
-											"src": "/Volumes/Работа/Репозитории/marketplace/frontend/public/assets/images/avatar.png"
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/ArrowBack.svg"
 										},
 										{
 											"key": "files",
 											"type": "file",
-											"src": "/Volumes/Работа/Репозитории/marketplace/frontend/public/assets/images/btn-hover.svg"
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/ArrowDown.svg"
 										},
 										{
 											"key": "defaultImage",
-											"value": "avatar.png",
+											"value": "ArrowBack.svg",
 											"type": "text"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/ArrowLeft.svg"
 										}
 									]
 								},
@@ -946,31 +951,29 @@
 											"src": "/Volumes/Работа/Репозитории/marketplace/frontend/public/assets/images/btn-hover.svg"
 										},
 										{
-											"key": "defaultImage",
-											"value": "avatar.png",
-											"type": "text"
-										},
-										{
 											"key": "id",
-											"value": "65",
+											"value": "55",
 											"type": "text"
 										},
 										{
 											"key": "images[]",
-											"value": "http://localhost:8080/api/v1/products/files/images/mirrors/venetian-mirror17/avatar.png",
+											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror38/ArrowLeft.svg",
 											"type": "text"
 										},
 										{
 											"key": "images[]",
-											"value": "",
-											"type": "text",
-											"disabled": true
+											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror38/ArrowBack.svg",
+											"type": "text"
 										},
 										{
 											"key": "defaultImage",
-											"value": "avatar.png",
-											"type": "text",
-											"disabled": true
+											"value": "ArrowBack.svg",
+											"type": "text"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/Attention.svg"
 										}
 									]
 								},

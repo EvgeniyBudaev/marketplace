@@ -107,21 +107,10 @@ public class ProductController {
     @PutMapping("/put")
     public ResponseProductDto updateProduct(@Valid RequestUpdateWithImageProductDto productDto, @RequestParam(name = "files",required = false)MultipartFile[] files) {
         Product product = manageProductDao.update(productDto);
-        Set<ProductFile> images = product.getProductFiles();
-        if(images!=null&&!images.isEmpty()){
-            images.forEach((x)->{
-                String url = FileUtils.createUrl(x.getUrl(),EFileType.IMAGE,globalProperty.getBASE_URL());
-                if(!productDto.getImages().contains(url)){
-                    manageProductDao.deleteFileFromFileSystem(x);
-                    product.getProductFiles().remove(x);
-                }
-            });
-        }
         if(files!=null&&files.length!=0){
             if(product.getProductFiles()==null){
                 product.setProductFiles(new HashSet<>(files.length));
             }
-
             for (MultipartFile file : files) {
                 product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product,productDto.getDefaultImage()));
             }

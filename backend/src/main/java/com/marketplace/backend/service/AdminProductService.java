@@ -10,6 +10,7 @@ import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.*;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
+import com.marketplace.backend.utils.FileUtils;
 import com.marketplace.properties.model.properties.GlobalProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import javax.transaction.Transactional;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,11 +68,12 @@ public class AdminProductService implements ManageProductDao {
 
     @Override
     @Transactional
-    public Boolean deleteFileFromFileSystem(ProductFile productFile) {
+    public Boolean deleteFileFromFileSystem(ProductFile productFile,Long productId) {
         Query query = entityManager.createQuery("DELETE FROM ProductFile as p  where p=:p");
         query.setParameter("p",productFile);
         query.executeUpdate();
-        Path path = Path.of(globalProperty.getIMAGE_DIR().toString(),productFile.getUrl());
+        String filename = Path.of(productFile.getUrl()).getFileName().toString();
+        Path path = Path.of(globalProperty.getIMAGE_DIR().toString(),productId.toString(),filename);
         return adminFilesService.deleteFileFromFileSystem(path);
     }
 
@@ -146,6 +149,27 @@ public class AdminProductService implements ManageProductDao {
         Product finalProduct = entityManager.merge(product);
         finalProduct.setCreatedAt(getCreatedAt(finalProduct));
         Set<ProductFile> images =new HashSet<>(adminFilesService.getImageFilesByProduct(finalProduct));
+        if(!images.isEmpty()){
+            Iterator<ProductFile> iterator = images.iterator();
+            while (iterator.hasNext()){
+                ProductFile x = iterator.next();
+                String url = FileUtils.createUrl(x.getUrl(),EFileType.IMAGE,globalProperty.getBASE_URL());
+                System.out.println(url);
+                if(!dto.getImages().contains(url)){
+                    deleteFileFromFileSystem(x,finalProduct.getId());
+                    iterator.remove();
+                }else {
+                    String filename = Path.of(x.getUrl()).getFileName().toString();
+                    if(filename.equals(dto.getDefaultImage())){
+                        x.setImageStatus(EImageStatus.DEFAULT);
+                    }else {
+                        if(x.getImageStatus()!=null&&x.getImageStatus().equals(EImageStatus.DEFAULT)){
+                            x.setImageStatus(null);
+                        }
+                    }
+                }
+            }
+        }
         finalProduct.setProductFiles(images);
         return finalProduct;
     }
