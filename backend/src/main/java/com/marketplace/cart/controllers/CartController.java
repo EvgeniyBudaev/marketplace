@@ -18,7 +18,6 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 
-
 @RestController
 @RequestMapping("/api/v1/cart")
 public class CartController {
@@ -31,49 +30,48 @@ public class CartController {
 
     @PostMapping
     public CartResponseDto getCart(Principal principal, @RequestBody CartRequestDtoImpl dto) {
-        Cart cart = findCartByAuthority(principal,dto);
+        Cart cart = findCartByAuthority(principal, dto);
         return new CartResponseDto(cart);
     }
 
 
     @PostMapping("/add")
     public CartResponseDto add(Principal principal, @Valid @RequestBody CartManageRequestDto dto) {
-        Cart cart = findCartByAuthority(principal,dto);
+        Cart cart = findCartByAuthority(principal, dto);
         return new CartResponseDto(cartService.incrementQuantity(cart, dto.getProductAlias()));
     }
 
     @PostMapping("/decrement")
     public CartResponseDto decrement(Principal principal, @Valid @RequestBody CartManageRequestDto dto) {
-        Cart cart = findCartByAuthority(principal,dto);
+        Cart cart = findCartByAuthority(principal, dto);
         return new CartResponseDto(cartService.decrementQuantity(cart, dto.getProductAlias()));
     }
 
     @PostMapping("/set_quantity")
-    public CartResponseDto setQuantity(Principal principal, @Valid @RequestBody CartSetQuantityRequestDto dto){
-        Cart cart = findCartByAuthority(principal,dto);
-        return new CartResponseDto(cartService.setQuantity(cart,dto.getProductAlias(),dto.getNewQuantity()));
+    public CartResponseDto setQuantity(Principal principal, @Valid @RequestBody CartSetQuantityRequestDto dto) {
+        Cart cart = findCartByAuthority(principal, dto);
+        return new CartResponseDto(cartService.setQuantity(cart, dto.getProductAlias(), dto.getNewQuantity()));
     }
 
     @PostMapping("/remove")
     public CartResponseDto remove(Principal principal, @Valid @RequestBody CartManageRequestDto dto) {
-        Cart cart = findCartByAuthority(principal,dto);
+        Cart cart = findCartByAuthority(principal, dto);
         return new CartResponseDto(cartService.removeItemFromCart(cart, dto.getProductAlias()));
     }
 
-   @PostMapping("/clear")
+    @PostMapping("/clear")
     public CartResponseDto clear(Principal principal, @RequestBody CartRequestDtoImpl dto) {
-       Cart cart = findCartByAuthority(principal,dto);
-       return new CartResponseDto(cartService.clearCart(cart));
-   }
+        Cart cart = findCartByAuthority(principal, dto);
+        return new CartResponseDto(cartService.clearCart(cart));
+    }
 
 
-
-    private Cart findCartByAuthority(Principal principal,CartRequestDto dto){
+    private Cart findCartByAuthority(Principal principal, CartRequestDto dto) {
         Cart cart;
-        if(principal!=null){
+        if (principal != null) {
             AppUser user = cartService.getUserByEmail(principal);
             cart = cartService.getFullCartForAuthUser(user);
-        }else {
+        } else {
             cart = cartService.getFullCartByUUIDForNonAuthUser(dto.getUuid());
         }
         return cart;

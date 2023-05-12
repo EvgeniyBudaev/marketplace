@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class JwtProperties implements PropertiesType{
+public class JwtProperties implements PropertiesType {
     private String secret;
     private Integer jwtLifetime;
     private Integer jwtRefreshLifetime;

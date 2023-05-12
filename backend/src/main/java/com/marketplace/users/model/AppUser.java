@@ -19,18 +19,18 @@ import java.util.List;
 @Getter
 @Setter
 @NamedEntityGraph(name = "user-with-roles",
- attributeNodes = {
-         @NamedAttributeNode("roles"),
-         @NamedAttributeNode("email"),
-         @NamedAttributeNode("password"),
-         @NamedAttributeNode("sessionId")
-})
+        attributeNodes = {
+                @NamedAttributeNode("roles"),
+                @NamedAttributeNode("email"),
+                @NamedAttributeNode("password"),
+                @NamedAttributeNode("sessionId")
+        })
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name",nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Column(name = "middle_name")
@@ -39,10 +39,10 @@ public class AppUser implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "phone",unique = true)
+    @Column(name = "phone", unique = true)
     private String phone;
 
-    @Column(name = "email",nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "is_email_verified")
@@ -61,24 +61,25 @@ public class AppUser implements UserDetails {
     private String shippingAddress;
 
     @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime modifyDate;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<EmailVerifyToken> emailVerifyTokens;
 
     @ManyToMany
     @JoinTable(name = "users_roles"
-            ,joinColumns = @JoinColumn(name = "user_id")
-            ,inverseJoinColumns = @JoinColumn(name = "role_id"))
+            , joinColumns = @JoinColumn(name = "user_id")
+            , inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<AppRole> roles;
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private SessionId sessionId;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;

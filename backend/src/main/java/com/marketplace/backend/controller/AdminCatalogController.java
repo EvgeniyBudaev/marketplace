@@ -7,7 +7,10 @@ import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.service.AdminCatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,21 +28,21 @@ public class AdminCatalogController {
     }
 
     @GetMapping("/attributes/{alias}")
-    public ResponseAttributeByCatalogAlias getAttributesByCatalogAlias(@PathVariable final String alias){
+    public ResponseAttributeByCatalogAlias getAttributesByCatalogAlias(@PathVariable final String alias) {
         Catalog catalog = adminCatalogService.findCatalogByAliasWithFullAttributes(alias);
 
         ResponseAttributeByCatalogAlias dto = catalogMapper.entityToAttributesDto(catalog);
-        if(catalog.getAttributes()==null){
+        if (catalog.getAttributes() == null) {
             return dto;
         }
         Set<Attribute> selAttributeSet = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.SELECTABLE)).collect(Collectors.toUnmodifiableSet());
         Set<Attribute> numAttributeSet = catalog.getAttributes()
                 .stream().filter(x -> x.getType().equals(EAttributeType.DOUBLE)).collect(Collectors.toUnmodifiableSet());
-        if(!numAttributeSet.isEmpty()){
+        if (!numAttributeSet.isEmpty()) {
             dto.setNumberAttribute(catalogMapper.numericAttributesToDto(numAttributeSet));
         }
-        if(selAttributeSet.isEmpty()){
+        if (selAttributeSet.isEmpty()) {
             return dto;
         }
         dto.setSelectableAttribute(catalogMapper.selectableAttributesToDto(selAttributeSet));

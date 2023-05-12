@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
 @Service
 public class UserVerificationTokenService {
     private final VerificationTokenRepository verificationTokenRepository;
@@ -25,7 +26,7 @@ public class UserVerificationTokenService {
         property = new TokenProperty();
     }
 
-    public String generateToken(AppUser user){
+    public String generateToken(AppUser user) {
         EmailVerifyToken token = new EmailVerifyToken();
         token.setToken(UUID.randomUUID().toString());
         token.setTokenType(ETokenType.EMAIL_TOKEN);
@@ -35,17 +36,17 @@ public class UserVerificationTokenService {
         return token.getToken();
     }
 
-    public AppUser checkEmailToken(String token){
+    public AppUser checkEmailToken(String token) {
         TypedQuery<EmailVerifyToken> query =
                 entityManager.createQuery("SELECT t from " +
                         "EmailVerifyToken as t where t.token=:token and t.tokenType=:tokenType", EmailVerifyToken.class);
-        query.setParameter("tokenType",ETokenType.EMAIL_TOKEN);
-        query.setParameter("token",token);
+        query.setParameter("tokenType", ETokenType.EMAIL_TOKEN);
+        query.setParameter("token", token);
         EmailVerifyToken emailVerifyToken = query.getSingleResult();
-        if(emailVerifyToken ==null){
+        if (emailVerifyToken == null) {
             throw new ResourceNotFoundException("Токен не найден");
         }
-        if (LocalDateTime.now().isAfter(emailVerifyToken.getExpired())){
+        if (LocalDateTime.now().isAfter(emailVerifyToken.getExpired())) {
             throw new VerificationTokenExpiredException("Срок действия токена истек");
         }
         return emailVerifyToken.getUser();

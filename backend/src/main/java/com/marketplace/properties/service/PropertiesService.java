@@ -19,12 +19,12 @@ public class PropertiesService {
     }
 
     @Transactional
-    public Property getPropertyByType(EPropertiesType type){
+    public Property getPropertyByType(EPropertiesType type) {
         TypedQuery<Property> query = entityManager
                 .createQuery("SELECT p FROM Property as p where p.propertiesType=:type", Property.class);
-        query.setParameter("type",type);
+        query.setParameter("type", type);
         Optional<Property> property = query.getResultStream().findFirst();
-        return property.orElseThrow(()->new RuntimeException("Не удалось загрузить проперти для "+type.name()));
+        return property.orElseThrow(() -> new RuntimeException("Не удалось загрузить проперти для " + type.name()));
     }
 
 }

@@ -28,14 +28,14 @@ public class SelectableValueController {
     }
 
     @PatchMapping
-    public Set<ResponseSaveUpdateSelValueDto> patchValue(@RequestBody RequestUpdateSelValueDto dto){
+    public Set<ResponseSaveUpdateSelValueDto> patchValue(@RequestBody RequestUpdateSelValueDto dto) {
         List<Object[]> rawResult = attributeValueService.updateSelectableValue(dto);
-        if(rawResult.isEmpty()){
+        if (rawResult.isEmpty()) {
             return Collections.emptySet();
         }
         Set<ResponseSaveUpdateSelValueDto> resultDtos = new HashSet<>(rawResult.size());
-        long attributeId= 0L;
-        for(Object[] object:rawResult){
+        long attributeId = 0L;
+        for (Object[] object : rawResult) {
             ResponseSaveUpdateSelValueDto resultDto = new ResponseSaveUpdateSelValueDto();
             resultDto.setId(((BigInteger) object[0]).longValue());
             resultDto.setValue((String) object[1]);
@@ -45,30 +45,32 @@ public class SelectableValueController {
         attributeValueService.updateAttributeModifyDate(attributeId);
         return resultDtos;
     }
+
     @DeleteMapping("{id}")
-    public Set<ResponseSaveUpdateSelValueDto>  deleteValue(@PathVariable(name = "id")Long id){
+    public Set<ResponseSaveUpdateSelValueDto> deleteValue(@PathVariable(name = "id") Long id) {
         List<Object[]> rawResult = attributeValueService.deleteById(id);
-        if(rawResult.isEmpty()){
+        if (rawResult.isEmpty()) {
             return Collections.emptySet();
         }
         HashSet<ResponseSaveUpdateSelValueDto> resultDtos = new HashSet<>(rawResult.size());
-        long attributeId= 0L;
-        for(Object[] object:rawResult){
+        long attributeId = 0L;
+        for (Object[] object : rawResult) {
             ResponseSaveUpdateSelValueDto resultDto = new ResponseSaveUpdateSelValueDto();
             resultDto.setId(((BigInteger) object[0]).longValue());
-            if(resultDto.getId().equals(id)){
+            if (resultDto.getId().equals(id)) {
                 continue;
             }
             resultDto.setValue((String) object[1]);
             resultDto.setAttributeId(((BigInteger) object[2]).longValue());
-            attributeId=resultDto.getAttributeId();
+            attributeId = resultDto.getAttributeId();
             resultDtos.add(resultDto);
         }
         attributeValueService.updateAttributeModifyDate(attributeId);
         return resultDtos;
     }
+
     @PostMapping
-    public Set<ResponseSaveUpdateSelValueDto> saveNewValue(@RequestBody RequestSaveSelValueDto dto){
+    public Set<ResponseSaveUpdateSelValueDto> saveNewValue(@RequestBody RequestSaveSelValueDto dto) {
         Set<SelectableValue> result = attributeValueService.saveSelectableValue(dto);
         attributeValueService.updateAttributeModifyDate(dto.getAttributeAlias());
         return selectableValueMapper.entityValuesSetToDtoSet(result);

@@ -13,10 +13,10 @@ public class RequestPutAttributeDto {
     @NotNull
     private Long id;
     @NotNull
-    @Size(min = 3,max = 50)
+    @Size(min = 3, max = 50)
     private String name;
     @NotNull
-    @Size(min = 3,max = 50)
+    @Size(min = 3, max = 50)
     private String alias;
     @NotNull
     private EAttributeType type;
@@ -25,11 +25,11 @@ public class RequestPutAttributeDto {
     private List<SelectableValueDto> selectable;
 
     @Data
-    public static class SelectableValueDto{
+    public static class SelectableValueDto {
         @NotNull
         private Long id;
         @NotNull
-        @Size(min = 3,max = 50)
+        @Size(min = 3, max = 50)
         private String value;
     }
 

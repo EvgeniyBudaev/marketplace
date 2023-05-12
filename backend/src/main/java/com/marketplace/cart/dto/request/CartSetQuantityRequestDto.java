@@ -6,9 +6,10 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
 @Getter
 @Setter
-public class CartSetQuantityRequestDto implements CartRequestDto{
+public class CartSetQuantityRequestDto implements CartRequestDto {
     private String uuid;
     @NotBlank
     private String productAlias;

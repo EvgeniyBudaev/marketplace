@@ -15,10 +15,10 @@ import java.util.Set;
 @Setter
 public class RequestSaveAttributeDto {
     @NotNull
-    @Size(min = 3,max = 50)
+    @Size(min = 3, max = 50)
     private String name;
     @NotNull
-    @Size(min = 3,max = 50)
+    @Size(min = 3, max = 50)
     private String alias;
     @NotNull
     private EAttributeType type;

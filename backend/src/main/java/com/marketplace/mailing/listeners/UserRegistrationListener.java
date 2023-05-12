@@ -22,11 +22,11 @@ public class UserRegistrationListener implements
         eventHandler(event);
     }
 
-    private void eventHandler(RegistrationUserCompleteEvent event){
+    private void eventHandler(RegistrationUserCompleteEvent event) {
         AppUser user = event.getUser();
         SimpleMailMessage message = new SimpleMailMessage();
         String from = mailSender.getMailSender().getUsername();
-        if(from==null){
+        if (from == null) {
             throw new MailSenderNotPrepareException("Отсутствуют настройки почты");
         }
         message.setFrom(from);
@@ -34,7 +34,7 @@ public class UserRegistrationListener implements
         message.setSubject("Регистрация на сайте");
         message
                 .setText("Для завершения регистрации на сайте и подтверждения " +
-                        "электронной почты перейдите по ссылке "+event.getReference());
+                        "электронной почты перейдите по ссылке " + event.getReference());
         mailSender.getMailSender().send(message);
     }
 }

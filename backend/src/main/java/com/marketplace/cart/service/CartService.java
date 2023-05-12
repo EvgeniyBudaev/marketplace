@@ -89,10 +89,11 @@ public class CartService {
             cartItems = new HashSet<>();
             cart.setItems(cartItems);
         }
-        CartItem cartItem = cartItemService.setQuantity(cart, productAlias,newQuantity);
+        CartItem cartItem = cartItemService.setQuantity(cart, productAlias, newQuantity);
         cartItems.add(cartItem);
         return cart;
     }
+
     public Cart getFullCartForAuthUser(AppUser user) {
         TypedQuery<Cart> cartTypedQuery =
                 entityManager.createQuery("SELECT c FROM Cart as c " +
@@ -105,7 +106,7 @@ public class CartService {
             return optionalCart.get();
         }
         Cart cart = emptyCart();
-        sessionIdService.updateCartAndUser(user,cart);
+        sessionIdService.updateCartAndUser(user, cart);
         return cart;
     }
 
@@ -120,18 +121,17 @@ public class CartService {
         if (optionalCart.isPresent()) {
             Cart result = optionalCart.get();
             /*У не авторизованного пользователя сессия и корзина должна быть без User иначе
-            * корзина принадлежит авторизованному пользователю*/
-            if (result.getSessionId().getUser()!=null){
+             * корзина принадлежит авторизованному пользователю*/
+            if (result.getSessionId().getUser() != null) {
                 throw new AccessDeniedException("Доступ запрещен");
             }
             return optionalCart.get();
         }
         /*Если корзины нет заводим новую*/
         cart = emptyCart();
-        sessionIdService.updateCartInSession(uuid,cart);
+        sessionIdService.updateCartInSession(uuid, cart);
         return cart;
     }
-
 
 
     private Cart emptyCart() {
@@ -147,10 +147,9 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public AppUser getUserByEmail(Principal principal){
+    public AppUser getUserByEmail(Principal principal) {
         return userDetailsService.findUserWithRolesByEmail(principal.getName());
     }
-
 
 
 }

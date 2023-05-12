@@ -17,9 +17,9 @@ public class QueryParamImpl implements QueryParam {
     }
 
     public void setPage(Integer page) {
-        if(page==null||page < 1){
+        if (page == null || page < 1) {
             this.page = 1;
-        }else {
+        } else {
             this.page = page;
         }
 
@@ -31,9 +31,9 @@ public class QueryParamImpl implements QueryParam {
     }
 
     public void setPageSize(Integer pageSize) {
-        if (pageSize==null||pageSize <1){
+        if (pageSize == null || pageSize < 1) {
             this.pageSize = 5;
-        }else {
+        } else {
             this.pageSize = pageSize;
         }
     }
@@ -49,7 +49,7 @@ public class QueryParamImpl implements QueryParam {
     }
 
     public void setSearchString(String searchString) {
-        this.searchString = "%"+searchString.toLowerCase()+"%";
+        this.searchString = "%" + searchString.toLowerCase() + "%";
     }
 
     @Override

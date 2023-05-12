@@ -656,6 +656,54 @@
 					"name": "Admin",
 					"item": [
 						{
+							"name": "Files",
+							"item": [
+								{
+									"name": "upload file",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "productAlias",
+													"value": "venetian-mirror-bernard",
+													"type": "text"
+												},
+												{
+													"key": "fileType",
+													"value": "IMAGE",
+													"type": "text"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/images/avatar.png"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:8080/api/v1/products/files/upload",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"v1",
+												"products",
+												"files",
+												"upload"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "edit product",
 							"request": {
 								"method": "PUT",
@@ -687,18 +735,109 @@
 							"response": []
 						},
 						{
-							"name": "add product",
+							"name": "add product with image",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"alias\": \"venetian-mirror234\",\n    \"description\": \"Это очень новое зеркало\",\n    \"catalogAlias\": \"mirrors\",\n    \"name\": \"Внецианское зеркало\",\n    \"count\": 7,\n    \"price\":156.89,\n    \"selectableValues\":[\n        1,7,8\n    ],\n    \"numericValues\":[\n        {\n            \"attributeAlias\": \"height\",\n            \"value\": 139\n        },\n        {\n            \"attributeAlias\": \"weight\",\n            \"value\": 150\n        },\n        {\n            \"attributeAlias\": \"width\",\n             \"value\": 172\n        }\n    ]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "alias",
+											"value": "venetian-mirror38",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Это очень новое зеркало",
+											"type": "text"
+										},
+										{
+											"key": "catalogAlias",
+											"value": "mirrors",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Внецианское зеркало",
+											"type": "text"
+										},
+										{
+											"key": "count",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "156.89",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[0].attributeAlias",
+											"value": "height",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[0].value",
+											"value": "139",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[1].attributeAlias",
+											"value": "weight",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[1].value",
+											"value": "150",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[2].attributeAlias",
+											"value": "width",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[2].value",
+											"value": "230",
+											"type": "text"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/ArrowBack.svg"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/ArrowDown.svg"
+										},
+										{
+											"key": "defaultImage",
+											"value": "ArrowBack.svg",
+											"type": "text"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/ArrowLeft.svg"
 										}
-									}
+									]
 								},
 								"url": {
 									"raw": "http://localhost:8080/api/v1/products/save",
@@ -712,6 +851,144 @@
 										"v1",
 										"products",
 										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit product with image Copy",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "alias",
+											"value": "venetian-mirror17",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Это очень новое зеркало",
+											"type": "text"
+										},
+										{
+											"key": "catalogAlias",
+											"value": "mirrors",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Внецианское зеркало",
+											"type": "text"
+										},
+										{
+											"key": "count",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "156.89",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "selectableValues[]",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[0].attributeAlias",
+											"value": "height",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[0].value",
+											"value": "139",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[1].attributeAlias",
+											"value": "weight",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[1].value",
+											"value": "150",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[2].attributeAlias",
+											"value": "width",
+											"type": "text"
+										},
+										{
+											"key": "numericValues[2].value",
+											"value": "230",
+											"type": "text"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/Volumes/Работа/Репозитории/marketplace/frontend/public/assets/images/btn-hover.svg"
+										},
+										{
+											"key": "id",
+											"value": "55",
+											"type": "text"
+										},
+										{
+											"key": "images[]",
+											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror38/ArrowLeft.svg",
+											"type": "text"
+										},
+										{
+											"key": "images[]",
+											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror38/ArrowBack.svg",
+											"type": "text"
+										},
+										{
+											"key": "defaultImage",
+											"value": "ArrowBack.svg",
+											"type": "text"
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/Attention.svg"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/products/put",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"put"
 									]
 								}
 							},
@@ -801,7 +1078,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/products/page/?catalog=notebook&sort=price_asc&page=10",
+							"raw": "http://localhost:8080/api/v1/products/page/?catalog=mirrors&page=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -817,11 +1094,12 @@
 							"query": [
 								{
 									"key": "catalog",
-									"value": "notebook"
+									"value": "mirrors"
 								},
 								{
 									"key": "sort",
-									"value": "price_asc"
+									"value": "price_asc",
+									"disabled": true
 								},
 								{
 									"key": "form",
@@ -835,7 +1113,7 @@
 								},
 								{
 									"key": "page",
-									"value": "10"
+									"value": "1"
 								}
 							]
 						}
@@ -1059,7 +1337,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"pum@mail.ru\",\n    \"password\":\"123456\"\n}",
+							"raw": "{\n    \"email\": \"winterom@gmail.com\",\n    \"password\":\"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1132,7 +1410,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\":\"Максим\",\n    \"middleName\":\"Максимович\",\n    \"lastName\":\"Максимов\",\n    \"phone\":\"+79319672234\",\n    \"email\":\"winterom34467@gmail.com\",\n    \"password\":\"123456\",\n    \"shippingAddress\": \"Санкт-Петербург Смольный пр-т 15\"\n}",
+							"raw": "{\n    \"firstName\":\"Максим\",\n    \"middleName\":\"Максимович\",\n    \"lastName\":\"Максимов\",\n    \"phone\":\"+79319672234\",\n    \"email\":\"winterom3446777@gmail.com\",\n    \"password\":\"123456\",\n    \"shippingAddress\": \"Санкт-Петербург Смольный пр-т 15\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1179,6 +1457,42 @@
 								"v1",
 								"users",
 								"me"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user info by Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MzczNzUyNywiaWF0IjoxNjczNzMzOTI3fQ.8pIcj_1RtEquqXkimGUgJTTf1eGPQBLehzE4i1x9yKk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/userinfo/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"userinfo",
+								"1"
 							],
 							"query": [
 								{
@@ -1369,7 +1683,7 @@
 			]
 		},
 		{
-			"name": "Settings",
+			"name": "Settings and Session",
 			"item": [
 				{
 					"name": "Get settings",
@@ -1385,7 +1699,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\"\n}",
+							"raw": "{\n    \"uuid\":\"3b2ac3ac-5339-450b-a470-b648d7fd20e8\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1410,17 +1724,24 @@
 				},
 				{
 					"name": "Get userDetails by sessionId",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3ODYyMDMxNywiaWF0IjoxNjc4NjE2NzE3fQ.RrD3Ohguehujy7K-Q_48XL28yJsoJ6YqTUMzOWjnKYs",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aW50ZXJvbTM0NDY3NzdAZ21haWwuY29tIiwicm9sZXMiOlsiQ1VTVE9NRVIiXSwiZXhwIjoxNjgxMTI1NTg4LCJpYXQiOjE2ODExMjE5ODh9.xoF5Vpnw5EP-YDSUC_RjJ-JH7jMSmV4B4TGLexyH7dQ",
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/session/details/327716b1-f8ad-41a1-8fac-31186cf41855",
+							"raw": "http://localhost:8080/api/v1/session/details/3b2ac3ac-5339-450b-a470-b648d7fd20e8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1431,7 +1752,7 @@
 								"v1",
 								"session",
 								"details",
-								"327716b1-f8ad-41a1-8fac-31186cf41855"
+								"3b2ac3ac-5339-450b-a470-b648d7fd20e8"
 							]
 						}
 					},
@@ -1444,7 +1765,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"theme\":\"DARK\",\n    \"currency\":\"RUB\",\n    \"language\":\"RU\",\n    \"uuid\":\"327716b1-f8ad-41a1-8fac-31186cf41855\"\n}",
+							"raw": "{\n    \"theme\":\"DARK\",\n    \"currency\":\"RUB\",\n    \"language\":\"en\",\n    \"uuid\":\"2506fb45-e8f0-458f-92ea-a0641f24cd45\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1495,6 +1816,38 @@
 								"settings",
 								"patch",
 								"theme"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update settings language",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"language\":\"en\",\n    \"uuid\":\"2506fb45-e8f0-458f-92ea-a0641f24cd45\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/settings/patch/language",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"settings",
+								"patch",
+								"language"
 							]
 						}
 					},

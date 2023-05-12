@@ -21,14 +21,14 @@ public class AdminCatalogService {
         this.entityManager = entityManager;
     }
 
-    public Catalog findCatalogByAliasWithFullAttributes(String alias){
+    public Catalog findCatalogByAliasWithFullAttributes(String alias) {
         TypedQuery<Catalog> catalogQuery =
                 entityManager.
-                        createQuery("SELECT c from Catalog as c where c.alias=:alias",Catalog.class);
-        catalogQuery.setParameter("alias",alias);
+                        createQuery("SELECT c from Catalog as c where c.alias=:alias", Catalog.class);
+        catalogQuery.setParameter("alias", alias);
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("catalog-with-full-attributes");
         catalogQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         return catalogQuery.getResultStream()
-                .findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден каталог с псевдонимом "+alias));
+                .findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден каталог с псевдонимом " + alias));
     }
 }

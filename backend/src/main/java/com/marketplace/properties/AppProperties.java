@@ -26,16 +26,16 @@ public class AppProperties {
     }
 
     @PostConstruct
-    public void init(){
-        for(EPropertiesType type:EPropertiesType.values()){
+    public void init() {
+        for (EPropertiesType type : EPropertiesType.values()) {
             Property property = propertiesService.getPropertyByType(type);
-            this.properties.put(type, (PropertiesType) propertiesConverter.convertToEntityAttribute(property.getProperty(),type.getPropertyClass()));
+            this.properties.put(type, (PropertiesType) propertiesConverter.convertToEntityAttribute(property.getProperty(), type.getPropertyClass()));
         }
     }
-    public PropertiesType getProperty(EPropertiesType type){
+
+    public PropertiesType getProperty(EPropertiesType type) {
         return this.properties.get(type);
     }
-
 
 
 }

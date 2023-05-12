@@ -35,12 +35,12 @@ public class AttributeController {
         this.attributeMapper = Mappers.getMapper(AttributeMapper.class);
     }
 
-   /* @PreAuthorize("hasAuthority('ADMINISTRATOR')")*/
+    /* @PreAuthorize("hasAuthority('ADMINISTRATOR')")*/
     @GetMapping("/get_all")
     public Paging<ResponseAttributeForGetAll> findAll(HttpServletRequest request) {
         String rawQueryString = request.getQueryString();
         String queryString = null;
-        if (rawQueryString!=null){
+        if (rawQueryString != null) {
             queryString = URLDecoder.decode(rawQueryString, StandardCharsets.UTF_8);
         }
         UrlResolver resolver = new UrlResolverImpl();
@@ -52,7 +52,7 @@ public class AttributeController {
     public ResponseSingleAttribute getAttributeByAlias(@PathVariable String alias) {
         Attribute attribute = attributeDao.getAttributeByIdWitSelectableValues(alias);
         ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
-        if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
+        if (attribute.getSingleSelectableValue() != null && !attribute.getSingleSelectableValue().isEmpty()) {
             resultDto.setSelectable(selectableValueMapper.entitySetToDtoSet(attribute.getSingleSelectableValue()));
         }
         return resultDto;
@@ -60,29 +60,29 @@ public class AttributeController {
 
     @PostMapping("/save")
     public ResponseSingleAttribute saveAttribute(@RequestBody @Valid RequestSaveAttributeDto dto) {
-       Attribute attribute =  attributeDao.saveAttribute(dto);
-       ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
-       if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
-           resultDto.setSelectable(selectableValueMapper.entitySetToDtoSet(attribute.getSingleSelectableValue()));
-       }
-       return resultDto;
+        Attribute attribute = attributeDao.saveAttribute(dto);
+        ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
+        if (attribute.getSingleSelectableValue() != null && !attribute.getSingleSelectableValue().isEmpty()) {
+            resultDto.setSelectable(selectableValueMapper.entitySetToDtoSet(attribute.getSingleSelectableValue()));
+        }
+        return resultDto;
     }
 
     @PatchMapping("/patch")
-    public ResponseSingleAttribute patchAttribute(@RequestBody @Valid RequestPatchAttributeDto dto){
-        Attribute attribute =  attributeDao.updateAttribute(dto);
+    public ResponseSingleAttribute patchAttribute(@RequestBody @Valid RequestPatchAttributeDto dto) {
+        Attribute attribute = attributeDao.updateAttribute(dto);
         ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
-        if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
+        if (attribute.getSingleSelectableValue() != null && !attribute.getSingleSelectableValue().isEmpty()) {
             resultDto.setSelectable(selectableValueMapper.entitySetToDtoSet(attribute.getSingleSelectableValue()));
         }
         return resultDto;
     }
 
     @PutMapping("/put")
-    public ResponseSingleAttribute putAttribute(@RequestBody @Valid RequestPutAttributeDto dto){
+    public ResponseSingleAttribute putAttribute(@RequestBody @Valid RequestPutAttributeDto dto) {
         Attribute attribute = attributeDao.putAttribute(dto);
         ResponseSingleAttribute resultDto = attributeMapper.entityToSingleAttributeDto(attribute);
-        if(attribute.getSingleSelectableValue()!=null&&!attribute.getSingleSelectableValue().isEmpty()){
+        if (attribute.getSingleSelectableValue() != null && !attribute.getSingleSelectableValue().isEmpty()) {
             resultDto.setSelectable(selectableValueMapper.entitySetToDtoSet(attribute.getSingleSelectableValue()));
         }
         return resultDto;
@@ -91,10 +91,10 @@ public class AttributeController {
 
     @DeleteMapping("delete/{alias}")
     public String deleteAttribute(@PathVariable String alias) {
-        if(alias==null||alias.isEmpty()){
+        if (alias == null || alias.isEmpty()) {
             return "Недопустимый псевдоним";
         }
         Integer count = attributeDao.delete(alias);
-        return "Удалено "+count+" атрибутов";
+        return "Удалено " + count + " атрибутов";
     }
 }

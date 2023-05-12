@@ -9,6 +9,7 @@ import com.marketplace.users.dto.auth.response.AuthResponseDto;
 import com.marketplace.users.model.AppUser;
 import com.marketplace.users.service.AuthService;
 import com.marketplace.users.utils.JwtTokenUtil;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -34,12 +36,13 @@ public class AuthController {
 
     /*Почта pum@mail.ru Пароль 123456 Тел: +79219516997*/
     @PostMapping
-    public AuthResponseDto  authentication(@RequestBody AuthRequestDto authRequest){
+    public AuthResponseDto authentication(@RequestBody AuthRequestDto authRequest) {
         AppUser user = authService.authentication(authRequest);
         return getAuthResponseDto(user);
     }
+
     @PostMapping("/refresh")
-    public AuthResponseDto refreshToken(@RequestBody @Valid RefreshTokenUpdateRequestDto dto){
+    public AuthResponseDto refreshToken(@RequestBody @Valid RefreshTokenUpdateRequestDto dto) {
         AppUser user = authService.findUserByRefresh(dto.getRefreshToken());
         return getAuthResponseDto(user);
     }
@@ -48,10 +51,10 @@ public class AuthController {
         JwtProperties prop = (JwtProperties) properties.getProperty(EPropertiesType.JWT);
         Date issuedDate = new Date();
         Date accessExpires = new Date(issuedDate.getTime() + prop.getJwtLifetime());
-        Date refreshExpire = new Date(issuedDate.getTime()+prop.getJwtRefreshLifetime());
-        String accessToken = jwtUtil.generateToken(user.getAuthorities(), user.getEmail(), issuedDate,accessExpires);
-        String refreshToken = jwtUtil.generateRefreshTokenFromEmail(user.getEmail(),refreshExpire,issuedDate);
-        authService.saveRefreshToken(user,refreshToken);
+        Date refreshExpire = new Date(issuedDate.getTime() + prop.getJwtRefreshLifetime());
+        String accessToken = jwtUtil.generateToken(user.getAuthorities(), user.getEmail(), issuedDate, accessExpires);
+        String refreshToken = jwtUtil.generateRefreshTokenFromEmail(user.getEmail(), refreshExpire, issuedDate);
+        authService.saveRefreshToken(user, refreshToken);
         return AuthResponseDto
                 .builder()
                 .setAccessToken(accessToken)
@@ -59,6 +62,7 @@ public class AuthController {
                 .setExpireIn(accessExpires)
                 .setRefreshExpireIn(refreshExpire)
                 .setUuid(user.getSessionId().getUuid())
+                .setPermissions(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .build();
     }
 }

@@ -1,11 +1,13 @@
 package com.marketplace.users.dto.user.response;
 
 import com.marketplace.users.model.AppUser;
-import com.marketplace.users.model.SessionId;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -22,8 +24,9 @@ public class UserInfoResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifyDate;
     private String uuid;
+    private Set<String> permissions;
 
-    public UserInfoResponseDto(AppUser user, SessionId sessionId) {
+    public UserInfoResponseDto(AppUser user) {
         this.id = user.getId();
         this.firstName = user.getFirstName();
         this.middleName = user.getMiddleName();
@@ -35,6 +38,7 @@ public class UserInfoResponseDto {
         this.isPhoneVerified = user.getIsPhoneVerified();
         this.createdAt = user.getCreatedAt();
         this.modifyDate = user.getModifyDate();
-        this.uuid = sessionId.getUuid();
+        this.uuid = user.getSessionId().getUuid();
+        this.permissions = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
     }
 }

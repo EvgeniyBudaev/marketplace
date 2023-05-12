@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class MailExceptionHandler {
     @ExceptionHandler
-    public ResponseEntity<AppError> catchMailSenderNotPrepare(MailSenderNotPrepareException e){
+    public ResponseEntity<AppError> catchMailSenderNotPrepare(MailSenderNotPrepareException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new AppError(HttpStatus.SERVICE_UNAVAILABLE.name(),
                 e.getMessage()), HttpStatus.SERVICE_UNAVAILABLE);

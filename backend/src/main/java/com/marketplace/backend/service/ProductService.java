@@ -4,7 +4,6 @@ import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
 import com.marketplace.backend.exception.ResourceNotFoundException;
-import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
@@ -15,6 +14,7 @@ import com.marketplace.backend.service.utils.queryes.processor.QueryProcessorImp
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessor;
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessorImpl;
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryProcessorParam;
+import com.marketplace.properties.model.properties.GlobalProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +31,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProductService implements ProductDao {
 
+    private final GlobalProperty globalProperty;
     private final EntityManager entityManager;
-    private final ProductMapper productMapper;
 
-    public ProductService(EntityManager entityManager, ProductMapper productMapper) {
+
+    public ProductService(GlobalProperty globalProperty, EntityManager entityManager) {
+        this.globalProperty = globalProperty;
         this.entityManager = entityManager;
-        this.productMapper = productMapper;
     }
 
 
@@ -56,7 +57,7 @@ public class ProductService implements ProductDao {
         TypedQuery<Long> productQueryCount = entityManager.createQuery(queryProcessorParamCount.query(), Long.class);
         /*Ввиду того что при fetch запросе hibernate сначала выберает весь результат запроса в память а потом в памяти устанавливает границы setFirstResult() setMaxResult()
          * сначала выбираем с ограничениями id продуктов а вторым запросом пожтягиваем зависимые сущности*/
-        setParamInQuery(productQueryCount,queryProcessorParamCount.param());
+        setParamInQuery(productQueryCount, queryProcessorParamCount.param());
         Integer count = Math.toIntExact(productQueryCount.getSingleResult());
         /*Если количество результатов равно нулю тогда кидаем эксепшн*/
         if (count.equals(0)) {
@@ -65,8 +66,8 @@ public class ProductService implements ProductDao {
         QueryProcessorParam queryProcessorParamList = chainProcessor.productListQuery();
         TypedQuery<Product> productQueryList = entityManager
                 .createQuery(queryProcessorParamList.query(), Product.class);
-        setParamInQuery(productQueryList,queryProcessorParamList.param());
-                /*Подготавливаем результат запроса*/
+        setParamInQuery(productQueryList, queryProcessorParamList.param());
+        /*Подготавливаем результат запроса*/
         Paging<ResponseProductDto> result =
                 new Paging<>(count, queryParam.getPageSize(), queryParam.getCurrentPage());
         productQueryList.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
@@ -75,11 +76,11 @@ public class ProductService implements ProductDao {
         /*Финальная выборка продуктов*/
         QueryProcessorParam resultQueryParam = chainProcessor.resultQuery(productIdList);
         TypedQuery<Product> productTypedQuery = entityManager.createQuery(resultQueryParam.query(), Product.class);
-        setParamInQuery(productTypedQuery,resultQueryParam.param());
+        setParamInQuery(productTypedQuery, resultQueryParam.param());
         productTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         List<Product> resultProductList = productTypedQuery.getResultList();
         result.setContent(resultProductList
-                .stream().map(x -> new ResponseProductDto(x, queryParam.getCatalogAlias())).collect(Collectors.toList()));
+                .stream().map(x -> new ResponseProductDto(x, queryParam.getCatalogAlias(),globalProperty.getBASE_URL())).collect(Collectors.toList()));
         return result;
     }
 
@@ -91,14 +92,14 @@ public class ProductService implements ProductDao {
                 .createQuery("SELECT p from Product as p where p.alias=:alias and p.enabled=true", Product.class);
         query.setParameter("alias", alias);
         query.setHint("javax.persistence.fetchgraph", entityGraph);
-        return query.getResultStream().findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
+        return query.getResultStream().findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
     }
 
     @Override
     @Transactional
     public Paging<ResponseProductDto> findProductLikeName(Integer page, Integer pageSize, String find) {
-        if(find==null){
-           find = "%";
+        if (find == null) {
+            find = "%";
         }
         find = "%" + find.toLowerCase() + "%";
         TypedQuery<Long> countQuery = entityManager
@@ -123,37 +124,49 @@ public class ProductService implements ProductDao {
         resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         dtoPaging.setContent(resultQuery
                 .getResultList().stream()
-                .map(x -> new ResponseProductDto(x, x.getCatalog().getAlias()))
+                .map(x -> new ResponseProductDto(x, x.getCatalog().getAlias(),globalProperty.getBASE_URL()))
                 .collect(Collectors.toList()));
         return dtoPaging;
     }
 
-    public Paging<ResponseProductGetAllDto> findAll(QueryParam param){
+    public Paging<ResponseProductGetAllDto> findAll(QueryParam param) {
         QueryProcessor processor = new QueryProcessorImpl(param, Product.class);
         TypedQuery<Long> countQuery = entityManager.createQuery(processor.getCountQuery(), Long.class);
         TypedQuery<Product> resultQuery = entityManager.createQuery(processor.getMainQuery(), Product.class);
-        if(param.getSearchString()!=null){
-            resultQuery.setParameter("param",param.getSearchString());
-            countQuery.setParameter("param",param.getSearchString());
+        if (param.getSearchString() != null) {
+            resultQuery.setParameter("param", param.getSearchString());
+            countQuery.setParameter("param", param.getSearchString());
         }
         int count = Math.toIntExact(countQuery.getSingleResult());
-        Paging<ResponseProductGetAllDto> result = new Paging<>(count, param.getPageSize(),param.getPage());
-        if(count==0){
+        Paging<ResponseProductGetAllDto> result = new Paging<>(count, param.getPageSize(), param.getPage());
+        if (count == 0) {
             return result;
         }
         resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
         resultQuery.setMaxResults(result.getPageSize());
         List<Product> products = resultQuery.getResultList();
-        result.setContent(productMapper.entitiesToListGetAllDto(products));
+        result.setContent(products.stream().map(x->new ResponseProductGetAllDto(x,globalProperty)).collect(Collectors.toList()));
         return result;
     }
 
-    private void setParamInQuery(TypedQuery<?> query,Map<String,Object> param){
+    private void setParamInQuery(TypedQuery<?> query, Map<String, Object> param) {
         for (Map.Entry<String, Object> entry : param.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
         }
     }
 
+    public Product findProductWithCatalogByAlias(String alias) {
+        TypedQuery<Product> query = entityManager
+                .createQuery("SELECT p from Product as p join fetch p.catalog where p.alias=:alias and p.enabled=true", Product.class);
+        query.setParameter("alias", alias);
+        return query.getResultStream().findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
+    }
 
+    public Long findProductIdByAlias(String alias){
+        TypedQuery<Long> query = entityManager.
+                createQuery("SELECT p.id FROM Product as p where p.alias=:alias", Long.class);
+        query.setParameter("alias",alias);
+        return query.getResultStream().findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
+    }
 
 }

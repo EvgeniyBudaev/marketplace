@@ -30,42 +30,43 @@ public class AttributeValueService {
     @PersistenceContext
     private final EntityManager entityManager;
     private final SelectableValueMapper selectableValueMapper;
+
     @Autowired
     public AttributeValueService(EntityManager entityManager, SelectableValueMapper selectableValueMapper) {
         this.entityManager = entityManager;
         this.selectableValueMapper = selectableValueMapper;
     }
 
-    public Set<NumberAttributeDto> findUseNumberAttributesUseInCatalog(Long catalogId){
+    public Set<NumberAttributeDto> findUseNumberAttributesUseInCatalog(Long catalogId) {
         TypedQuery<NumberAttributeDto> doubleValueQuery = entityManager
                 .createQuery("SELECT distinct new com.marketplace.backend." +
                         "dto.catalog.response.single" +
                         ".NumberAttributeDto(at.id,at.name,at.alias,min (dv.value),max (dv.value)) " +
                         "from Product as p left join p.doubleValues as dv " +
                         "left join dv.attribute as at where p.catalog.id =: catalogId group by at", NumberAttributeDto.class);
-        doubleValueQuery.setParameter("catalogId",catalogId);
-        return doubleValueQuery.getResultStream().filter(x->x.getId()!=null).collect(Collectors.toSet());
+        doubleValueQuery.setParameter("catalogId", catalogId);
+        return doubleValueQuery.getResultStream().filter(x -> x.getId() != null).collect(Collectors.toSet());
     }
 
-    public Set<SelectableValue> findUseSelectableAttributesInCatalog(Long catalogId){
+    public Set<SelectableValue> findUseSelectableAttributesInCatalog(Long catalogId) {
         TypedQuery<SelectableValue> selectableValueQuery = entityManager
                 .createQuery("select distinct sv from Product as p  join p.selectableValues as sv where p.catalog.id=:catalogId", SelectableValue.class);
-        selectableValueQuery.setParameter("catalogId",catalogId);
+        selectableValueQuery.setParameter("catalogId", catalogId);
         Stream<SelectableValue> stream = selectableValueQuery.getResultStream();
         return stream.collect(Collectors.toUnmodifiableSet());
     }
 
     @Transactional
-    public Set<SelectableValue> saveSelectableValue(RequestSaveSelValueDto dto){
+    public Set<SelectableValue> saveSelectableValue(RequestSaveSelValueDto dto) {
         TypedQuery<Attribute> query = entityManager.
                 createQuery("SELECT a FROM Attribute as a where a.alias=:alias", Attribute.class);
-        query.setParameter("alias",dto.getAttributeAlias());
+        query.setParameter("alias", dto.getAttributeAlias());
         Optional<Attribute> resultOptional = query.getResultStream().findFirst();
-        if(resultOptional.isEmpty()){
-            throw new ResourceNotFoundException("Не найден атрибут с псевдонимом "+dto.getAttributeAlias());
+        if (resultOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Не найден атрибут с псевдонимом " + dto.getAttributeAlias());
         }
-        Attribute attribute= resultOptional.get();
-        if(!attribute.getType().equals(EAttributeType.SELECTABLE)){
+        Attribute attribute = resultOptional.get();
+        if (!attribute.getType().equals(EAttributeType.SELECTABLE)) {
             throw new OperationNotAllowedException("Данный атрибут не поддерживает строковые значения");
         }
         SelectableValue value = selectableValueMapper.saveDtoToEntity(dto);
@@ -73,69 +74,69 @@ public class AttributeValueService {
         entityManager.persist(value);
         TypedQuery<SelectableValue> valueTypedQuery = entityManager
                 .createQuery("SELECT sv FROM SelectableValue as sv where sv.attribute=:attribute", SelectableValue.class);
-        valueTypedQuery.setParameter("attribute",attribute);
+        valueTypedQuery.setParameter("attribute", attribute);
         return valueTypedQuery.getResultStream().collect(Collectors.toSet());
     }
 
 
-
     @Transactional
-    public void deleteValuesByAttribute(Attribute attribute, String tableName){
-        String queryString = String.format( "DELETE FROM %s as v where v.attribute=:attribute",tableName);
+    public void deleteValuesByAttribute(Attribute attribute, String tableName) {
+        String queryString = String.format("DELETE FROM %s as v where v.attribute=:attribute", tableName);
         Query query = entityManager.createQuery(queryString);
-        query.setParameter("attribute",attribute);
+        query.setParameter("attribute", attribute);
         query.executeUpdate();
     }
 
     @Transactional
-    public List<Object[]> deleteById(Long id){
+    public List<Object[]> deleteById(Long id) {
         Query selListQuery = entityManager.
                 createNativeQuery("select sv2.id, sv2.value, a.id as attributeId from selectable_values as sv2 right join attributes a on a.id = sv2.attribute_id\n" +
                         "                                            right join selectable_values as sv on sv.attribute_id=a.id where sv.id =:id");
-        selListQuery.setParameter("id",id);
+        selListQuery.setParameter("id", id);
         List<Object[]> result = selListQuery.getResultList();
         Query query = entityManager.createQuery("DELETE FROM SelectableValue where id=:id");
-        query.setParameter("id",id);
+        query.setParameter("id", id);
         query.executeUpdate();
         return result;
     }
 
     @Transactional
-    public List<Object[]> updateSelectableValue(RequestUpdateSelValueDto dto){
+    public List<Object[]> updateSelectableValue(RequestUpdateSelValueDto dto) {
         Query query = entityManager
                 .createQuery("UPDATE SelectableValue as sv set sv.value = :value where sv.id = :id");
-        query.setParameter("value",dto.getValue());
-        query.setParameter("id",dto.getId());
+        query.setParameter("value", dto.getValue());
+        query.setParameter("id", dto.getId());
         query.executeUpdate();
         Query selListQuery = entityManager.
                 createNativeQuery("select sv2.id, sv2.value, a.id as attributeAlias from selectable_values as sv2 right join attributes a on a.id = sv2.attribute_id\n" +
                         "                                            right join selectable_values as sv on sv.attribute_id=a.id where sv.id =:id");
-        selListQuery.setParameter("id",dto.getId());
+        selListQuery.setParameter("id", dto.getId());
         return (List<Object[]>) selListQuery.getResultList();
 
     }
 
     @Transactional
-    public void deleteSelectableValues(Collection<SelectableValue> values){
+    public void deleteSelectableValues(Collection<SelectableValue> values) {
         Query deleteQuery = entityManager.createQuery("DELETE FROM SelectableValue sv where sv in(:values)");
-        deleteQuery.setParameter("values",values);
+        deleteQuery.setParameter("values", values);
         deleteQuery.executeUpdate();
     }
 
     @Transactional
-    public void updateAttributeModifyDate(String alias){
+    public void updateAttributeModifyDate(String alias) {
         Query updateQuery = entityManager
                 .createQuery("UPDATE Attribute set modifyDate=:time where alias=:alias");
         updateQuery.setParameter("time", LocalDateTime.now());
-        updateQuery.setParameter("alias",alias);
+        updateQuery.setParameter("alias", alias);
         updateQuery.executeUpdate();
     }
+
     @Transactional
-    public void updateAttributeModifyDate(Long attributeId){
+    public void updateAttributeModifyDate(Long attributeId) {
         Query updateQuery = entityManager
                 .createQuery("UPDATE Attribute set modifyDate=:time where id=:id");
         updateQuery.setParameter("time", LocalDateTime.now());
-        updateQuery.setParameter("id",attributeId);
+        updateQuery.setParameter("id", attributeId);
         updateQuery.executeUpdate();
     }
 

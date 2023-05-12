@@ -18,11 +18,12 @@ public class TokenProperty {
     @Getter
     @Setter
     public static class CredentialVerifyTokenProperty {
-        private long period =24*60*60*1000L;/*Жизнь токена в наносекундах*/
+        private long period = 24 * 60 * 60 * 1000L;/*Жизнь токена в наносекундах*/
     }
+
     @Getter
     @Setter
-    public static  class JwtTokenProperty{
-       private String secret;
+    public static class JwtTokenProperty {
+        private String secret;
     }
 }

@@ -18,7 +18,7 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "property_type",nullable = false,unique = true)
+    @Column(name = "property_type", nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private EPropertiesType propertiesType;
 
@@ -26,8 +26,8 @@ public class Property {
     @Column(name = "updated_at")
     private LocalDateTime modifyDate;
 
-    @Column(name = "property",nullable = false)
-    @Type(type="text")
+    @Column(name = "property", nullable = false)
+    @Type(type = "text")
     private String property;
 
 }

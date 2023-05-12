@@ -1,5 +1,6 @@
 package com.marketplace.users.controllers;
 
+import com.marketplace.users.dto.settings.request.PatchSettingsByLanguageRequestDto;
 import com.marketplace.users.dto.settings.request.PatchSettingsByThemeRequestDto;
 import com.marketplace.users.dto.settings.request.UpdateSettingsRequestDto;
 import com.marketplace.users.dto.settings.request.UserSettingsRequestDto;
@@ -29,25 +30,30 @@ public class UserSettingsController {
 
     @PostMapping
     public UserSettingsResponseDto getSettingsBySession(Principal principal,
-                                                        @RequestBody UserSettingsRequestDto dto){
+                                                        @RequestBody UserSettingsRequestDto dto) {
         UserSettings userSettings = userSettingsService.getSettings(principal, dto.getUuid());
         return userSettingsMapper.entityToDto(userSettings);
     }
 
     @PostMapping("/update")
     public UserSettingsResponseDto updateSettings(Principal principal,
-                                                   @Valid @RequestBody UpdateSettingsRequestDto dto){
+                                                  @Valid @RequestBody UpdateSettingsRequestDto dto) {
         UserSettings userSettings = userSettingsService.updateSettings(principal, dto);
         return userSettingsMapper.entityToDto(userSettings);
 
     }
 
     @PatchMapping("/patch/theme")
-    public UserSettingsResponseDto patchSettingsByTheme(Principal principal, @Valid @RequestBody PatchSettingsByThemeRequestDto dto){
-        UserSettings userSettings = userSettingsService.patchTheme(principal,dto);
+    public UserSettingsResponseDto patchSettingsByTheme(Principal principal, @Valid @RequestBody PatchSettingsByThemeRequestDto dto) {
+        UserSettings userSettings = userSettingsService.patchTheme(principal, dto);
         return userSettingsMapper.entityToDto(userSettings);
     }
 
+    @PatchMapping("/patch/language")
+    public UserSettingsResponseDto patchSettingsByLanguage(Principal principal, @Valid @RequestBody PatchSettingsByLanguageRequestDto dto) {
+        UserSettings userSettings = userSettingsService.patchLanguage(principal, dto);
+        return userSettingsMapper.entityToDto(userSettings);
+    }
 
 
 }

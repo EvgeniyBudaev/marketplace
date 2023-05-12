@@ -37,14 +37,14 @@ public class UserService {
         this.sessionIdService = sessionIdService;
     }
 
-    public UserInfoResponseDto registerNewUser(RegisterUserRequestDto dto){
+    public UserInfoResponseDto registerNewUser(RegisterUserRequestDto dto) {
         AppUser user = saveNewUser(dto);
-        String reference ="http://localhost:3000/auth/activate/"+tokenService.generateToken(user);
+        String reference = "http://localhost:3000/auth/activate/" + tokenService.generateToken(user);
         this.eventPublisher.multicastEvent(new RegistrationUserCompleteEvent(user, reference));
-        return new UserInfoResponseDto(user,user.getSessionId());
+        return new UserInfoResponseDto(user);
     }
 
-    public AppUser saveNewUser(RegisterUserRequestDto dto){
+    public AppUser saveNewUser(RegisterUserRequestDto dto) {
         AppUser user = dto.convertToUser();
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
@@ -53,29 +53,37 @@ public class UserService {
         user.setRoles(defaultRole);
         user.setIsEmailVerified(false);
         user.setIsPhoneVerified(false);
+        user.setEnabled(true);
         user.setSessionId(setNewSessionByNewUser(user));
-        return  saveUser(user);
+        return saveUser(user);
     }
 
-    public AppUser getUserByEmail(String email){
+    public AppUser getUserByEmail(String email) {
         return userRepository
                 .findByEmailAndEnabledTrue(email)
-                .orElseThrow(()->new UsernameNotFoundException("Не найден пользователь с email "+email));
+                .orElseThrow(() -> new UsernameNotFoundException("Не найден пользователь с email " + email));
     }
 
-    public void activateUserByEmail(String token){
+    public void activateUserByEmail(String token) {
         AppUser user = tokenService.checkEmailToken(token);
         user.setIsEmailVerified(true);
         saveUser(user);
     }
+
     @Transactional
-    public AppUser saveUser(AppUser user){
+    public AppUser saveUser(AppUser user) {
+        user.setSessionId(setNewSessionByNewUser(user));
         userRepository.save(user);
-        setNewSessionByNewUser(user);
         return user;
     }
-    
-    public SessionId setNewSessionByNewUser(AppUser user){
+
+    public AppUser findUserById(Long id){
+        return userRepository
+                .findByIdAndEnabledTrue(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Не найден пользователь с id " + id));
+    }
+
+    public SessionId setNewSessionByNewUser(AppUser user) {
         return sessionIdService.setNewSessionForNewUser(user);
     }
 }

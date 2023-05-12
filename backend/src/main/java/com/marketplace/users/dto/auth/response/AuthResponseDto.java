@@ -1,10 +1,10 @@
 package com.marketplace.users.dto.auth.response;
 
 
-
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class AuthResponseDto {
@@ -14,44 +14,59 @@ public class AuthResponseDto {
     private Date refresh_expires_in;
     private String token_type;
     private String uuid;
+    private List<String> permissions;
 
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
-    public AuthResponseDto(){}
-    public static class Builder{
+    public AuthResponseDto() {
+    }
+
+    public static class Builder {
         private final AuthResponseDto dto;
-        public Builder(){
+
+        public Builder() {
             this.dto = new AuthResponseDto();
         }
-        public Builder setAccessToken(String accessToken){
+
+        public Builder setAccessToken(String accessToken) {
             dto.setAccess_token(accessToken);
             return this;
         }
-        public Builder setExpireIn(Date expireIn){
+
+        public Builder setExpireIn(Date expireIn) {
             dto.setExpires_in(expireIn);
             return this;
         }
-        public Builder setRefreshToken(String refreshToken){
+
+        public Builder setRefreshToken(String refreshToken) {
             dto.setRefresh_token(refreshToken);
             return this;
         }
-        public Builder setRefreshExpireIn(Date refreshExpireIn){
+
+        public Builder setRefreshExpireIn(Date refreshExpireIn) {
             dto.setRefresh_expires_in(refreshExpireIn);
             return this;
         }
-        public Builder setUuid(String uuid){
+
+        public Builder setUuid(String uuid) {
             dto.setUuid(uuid);
             return this;
         }
-        public  Builder setTokenType(ETokenType type){
+
+        public Builder setTokenType(ETokenType type) {
             dto.setToken_type(type.getType());
             return this;
         }
 
-        public AuthResponseDto build(){
-            if (dto.getToken_type()==null){
+        public Builder setPermissions(List<String> permissions) {
+            dto.setPermissions(permissions);
+            return this;
+        }
+
+        public AuthResponseDto build() {
+            if (dto.getToken_type() == null) {
                 dto.setToken_type(ETokenType.BEARER.getType());
             }
             return this.dto;

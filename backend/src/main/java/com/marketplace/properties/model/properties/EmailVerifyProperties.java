@@ -6,11 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EmailVerifyProperties implements PropertiesType{
+public class EmailVerifyProperties implements PropertiesType {
     private long period;
 
     @Override
     public EPropertiesType getPropertiesType() {
-        return  EPropertiesType.EMAIL_VERIFY;
+        return EPropertiesType.EMAIL_VERIFY;
     }
 }

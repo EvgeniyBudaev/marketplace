@@ -14,8 +14,8 @@ public class AppRoleService {
         this.roleRepository = roleRepository;
     }
 
-    public AppRole getRoleByName(ERole roleName){
+    public AppRole getRoleByName(ERole roleName) {
         return roleRepository.getAppRoleByName(roleName)
-                .orElseThrow(()->new ResourceNotFoundException("Не найдена роль с именем "+roleName.name()));
+                .orElseThrow(() -> new ResourceNotFoundException("Не найдена роль с именем " + roleName.name()));
     }
 }

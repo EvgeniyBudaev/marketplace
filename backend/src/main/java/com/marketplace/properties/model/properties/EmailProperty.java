@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Getter
 @Setter
-public class EmailProperty implements PropertiesType{
+public class EmailProperty implements PropertiesType {
 
     private String email;
     private String password;
@@ -30,6 +30,7 @@ public class EmailProperty implements PropertiesType{
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(email).append(password).append(smtpServer).append(incomingServer).toHashCode();
     }
+
     @Override
     public String toString() {
         return "EmailProperty{" +
@@ -48,7 +49,7 @@ public class EmailProperty implements PropertiesType{
 
     @Getter
     @Setter
-    public static class OutgoingSmtpServer{
+    public static class OutgoingSmtpServer {
         private String host;
         private Boolean enabledSSL;
         private Boolean enabledTLS;
@@ -73,15 +74,15 @@ public class EmailProperty implements PropertiesType{
 
     @Getter
     @Setter
-    public static class IncomingServer{
+    public static class IncomingServer {
         private IncomingServerType serverType;
         private String imapServer;
         private Boolean enabledSSL;
         private Integer portSSL;
     }
 
-    public enum IncomingServerType{
-        IMAP,POP3
+    public enum IncomingServerType {
+        IMAP, POP3
     }
 
 }

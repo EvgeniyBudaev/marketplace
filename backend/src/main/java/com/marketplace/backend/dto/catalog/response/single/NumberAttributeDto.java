@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NumberAttributeDto{
+public class NumberAttributeDto {
     private Long id;
     private String name;
     private String alias;
