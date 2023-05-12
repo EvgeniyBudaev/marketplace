@@ -29,7 +29,7 @@ public class ResponseProductGetAllDto {
         this.setCreatedAt(product.getCreatedAt());
         this.images = product.getProductFiles().stream().map(productFile -> {
             if (productFile.getFileType().equals(EFileType.DOCUMENT)){
-                return null;
+                return "";
             }
             return FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,globalProperty.getBASE_URL());
         }).collect(Collectors.toSet());

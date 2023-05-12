@@ -28,7 +28,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 
 @RestController
@@ -131,7 +130,7 @@ public class ProductController {
     @GetMapping("/admin/by_alias")
     public ResponseProductDtoForAdmin getProductByAliasForAdmin(@RequestParam(value = "alias") String alias) {
         Product product = productDao.findProductByAlias(alias);
-        ResponseProductDtoForAdmin dto = productMapper.entityToDtoForAdmin(product);
+        ResponseProductDtoForAdmin dto = new ResponseProductDtoForAdmin(product,product.getCatalog().getAlias(),globalProperty.getBASE_URL());
         if (product.getDoubleValues() != null) {
             dto.setAttributeValuesSet(productMapper.numValuesToDtoForAdmin(product.getDoubleValues()));
         }
