@@ -8,7 +8,13 @@ export type TInputProps = TInputPropsUi & {
   name: string;
 };
 
-const InputComponent: FC<TInputProps> = ({ className, defaultValue = "", name, ...props }) => {
+const InputComponent: FC<TInputProps> = ({
+  className,
+  defaultValue = "",
+  hidden,
+  name,
+  ...props
+}) => {
   const { control } = useFormContext();
   const {
     field,
@@ -31,6 +37,7 @@ const InputComponent: FC<TInputProps> = ({ className, defaultValue = "", name, .
       {...props}
       className={className}
       error={error?.message}
+      hidden={hidden}
       isFocused={!!defaultValue}
       name={field.name}
       onChange={handleChange}

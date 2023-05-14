@@ -14,6 +14,7 @@ export const productsItemSchema = z.object({
   enabled: z.boolean(),
   modifyDate: z.string(),
   createdAt: z.string(),
+  images: z.string().array().nullish(),
 });
 
 export const productsSchema = paginationSchema.extend({
@@ -116,4 +117,6 @@ export const adminProductDetailSchema = z.object({
   createdAt: z.string(),
   modifyDate: z.string(),
   attributeValuesSet: attributeValuesSetItemSchema.array(),
+  images: z.string().array().nullish(),
+  defaultImage: z.string().nullish(),
 });

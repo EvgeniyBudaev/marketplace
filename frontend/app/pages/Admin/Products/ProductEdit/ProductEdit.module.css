@@ -1,8 +1,86 @@
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
 .ProductEdit-Title {
   margin-bottom: 30px;
 }
 .ProductEdit-FormFieldGroup {
   margin-bottom: 30px;
+}
+.ProductEdit-Hidden {
+  position: absolute;
+  opacity: 0;
+}
+.ProductEdit-ImageList {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  width: 100%;
+  margin-bottom: 16px;
+}
+.ProductEdit-ImageListItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(176, 151, 106);
+  border-radius: 4px;
+  height: 100px;
+  width: 100px;
+  padding: 8px;
+  transition: all 0.15s;
+}
+.ProductEdit-ImageListItem-Icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+}
+.ProductEdit-ImageListItem-Image {
+  max-width: 100%;
+  max-height: 100%;
+}
+.ProductEdit-ImageListItem:hover {
+  border-color: rgb(95, 79, 25);
 }
 
 /*# sourceMappingURL=ProductEdit.module.css.map */

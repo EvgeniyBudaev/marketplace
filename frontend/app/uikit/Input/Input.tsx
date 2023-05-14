@@ -9,6 +9,7 @@ export interface IInputProps
   autoComplete?: string;
   className?: string;
   error?: string;
+  hidden?: boolean;
   isFocused?: boolean;
   isRequired?: boolean;
   label?: string;
@@ -23,6 +24,7 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
       autoComplete,
       className,
       error,
+      hidden,
       isFocused: isInputFocused,
       isRequired,
       label,
@@ -72,18 +74,19 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
           })}
         >
           <input
+            {...rest}
             className={clsx(className, "Input", {
               Input__active: isFocused,
               Input__error: error,
             })}
             autoComplete={autoComplete}
+            hidden={hidden}
             name={name}
             type={type}
             ref={ref}
             onChange={onChange}
             onFocus={onFocusCallback}
             onBlur={onBlurCallback}
-            {...rest}
           />
         </div>
 

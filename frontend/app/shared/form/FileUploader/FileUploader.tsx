@@ -26,7 +26,6 @@ export const FileUploader: FC<TFileUploaderProps> = ({
   onDeleteFile,
   ...rest
 }) => {
-  console.log("files: ", files);
   const { t } = useTranslation();
   const types = getTypes(accept);
 

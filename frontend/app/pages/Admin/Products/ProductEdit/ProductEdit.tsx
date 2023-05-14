@@ -4,10 +4,11 @@ import type { OnChangeValue } from "react-select";
 import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
 import { ERoutes } from "~/enums";
 import { useTheme } from "~/hooks";
-import { useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
+import { useFiles, useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
 import {
   EFormFields,
   formattedProductEdit,
@@ -30,8 +31,8 @@ import {
 } from "~/shared/form";
 import type { TParams } from "~/types";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
-import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
-import { createPath } from "~/utils";
+import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
+import { createPath, formatProxy } from "~/utils";
 import styles from "./ProductEdit.module.css";
 
 type TProps = {
@@ -46,6 +47,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
   console.log("product: ", product);
 
   const idCheckbox = "enabled";
+  const [images, setImages] = useState<string[]>(product?.images ?? []);
   const [filter, setFilter] = useState<TParams>({ enabled: product.enabled ? [idCheckbox] : [] });
 
   const { catalogAliasesTypeOptions } = useGetCatalogAlias({ catalogs });
@@ -69,6 +71,14 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
   });
   const isDoneType = form.isDoneType;
   const fetcher = form.fetcher;
+  const { setValue, watch } = form.methods;
+
+  const watchFiles = watch(EFormFields.Files);
+  const { onAddFiles, onDeleteFile, fetcherFilesLoading } = useFiles({
+    fieldName: EFormFields.Files,
+    files: watchFiles,
+    setValue,
+  });
 
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
@@ -99,25 +109,69 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
     setCatalogAlias(selectedOption as TSelectOption);
   };
 
+  const handleDeleteImage = (image: string) => {
+    setImages((prevState) => {
+      const idx = prevState.findIndex((item) => item === image);
+      return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
+    });
+  };
+
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
-    console.log("Form params: ", params);
     const formattedParams = formattedProductEdit(params);
-    console.log("formattedParams: ", formattedParams);
-    const dataFormToDto = mapProductEditToDto(formattedParams, product.id);
-    console.log("dataFormToDto : ", dataFormToDto);
-    fetcher.submit(dataFormToDto, {
+    const dataFormToDto = mapProductEditToDto(formattedParams, product.id, images);
+    // console.log("formattedParams: ", formattedParams);
+    // console.log("Form params: ", params);
+    // console.log("dataFormToDto : ", dataFormToDto);
+    const formData = new FormData();
+    dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
+    dataFormToDto.catalogAlias && formData.append("catalogAlias", dataFormToDto.catalogAlias);
+    dataFormToDto.count && formData.append("count", dataFormToDto.count);
+    dataFormToDto.description && formData.append("description", dataFormToDto.description);
+    dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
+    dataFormToDto.id && formData.append("id", dataFormToDto.id);
+    dataFormToDto.images &&
+      dataFormToDto.images.forEach((image) => formData.append("images[]", image));
+    dataFormToDto.files && dataFormToDto.files.forEach((file) => formData.append("files", file));
+    dataFormToDto.name && formData.append("name", dataFormToDto.name);
+    if (dataFormToDto.numericValues) {
+      for (let i = 0; i < dataFormToDto.numericValues.length; i++) {
+        formData.append(
+          `numericValues[${i}].attributeAlias`,
+          dataFormToDto.numericValues[i].attributeAlias,
+        );
+        formData.append(
+          `numericValues[${i}].value`,
+          dataFormToDto.numericValues[i].value.toString(),
+        );
+      }
+    }
+    dataFormToDto.price && formData.append("price", dataFormToDto.price);
+    dataFormToDto.selectableValues &&
+      dataFormToDto.selectableValues.forEach((item) =>
+        formData.append("selectableValues[]", item.toString()),
+      );
+
+    fetcher.submit(formData, {
       method: EFormMethods.Put,
       action: createPath({
         route: ERoutes.AdminProductEdit,
         params: { alias: product.alias },
       }),
+      encType: "multipart/form-data",
     });
   };
 
   useEffect(() => {
+    console.log("isDoneType: ", isDoneType);
+    console.log("success: ", fetcher.data?.success);
     if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
       notify.error({
         title: "Ошибка выполнения",
+      });
+    }
+    if (isDoneType && fetcher.data?.success && !fetcher.data?.fieldErrors) {
+      notify.success({
+        title: "Обновлено",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -228,21 +282,47 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
               );
             })}
         </div>
-        {/*<div className="ProductAdd-FormFieldGroup">*/}
-        {/*  <FileUploader*/}
-        {/*      accept={{*/}
-        {/*        "image/jpeg": [".jpeg"],*/}
-        {/*        "image/png": [".png"],*/}
-        {/*      }}*/}
-        {/*      files={watchImages}*/}
-        {/*      Input={<input hidden name={EFormFields.Images} type="file" />}*/}
-        {/*      isLoading={fetcherImagesLoading}*/}
-        {/*      maxSize={1024 * 1024}*/}
-        {/*      multiple={false}*/}
-        {/*      onAddFiles={onAddImages}*/}
-        {/*      onDeleteFile={onDeleteImage}*/}
-        {/*  />*/}
-        {/*</div>*/}
+        <div className="ProductEdit-FormFieldGroup">
+          <div className="ProductEdit-ImageList">
+            {!isNil(images) &&
+              images.map((image, index) => (
+                <div className="ProductEdit-ImageListItem" key={`${image}-${index}`}>
+                  <Icon
+                    className="ProductEdit-ImageListItem-Icon"
+                    onClick={() => handleDeleteImage(image)}
+                    type="Close"
+                  />
+                  <img
+                    alt={image}
+                    className="ProductEdit-ImageListItem-Image"
+                    src={formatProxy(image)}
+                  />
+                </div>
+              ))}
+          </div>
+          <div className="ProductEdit-Hidden">
+            {!isNil(product.images) && (
+              <Input
+                defaultValue={JSON.stringify(product.images)}
+                name={EFormFields.Images}
+                type="hidden"
+              />
+            )}
+          </div>
+        </div>
+        <FileUploader
+          accept={{
+            "image/jpeg": [".jpeg"],
+            "image/png": [".png"],
+          }}
+          files={watchFiles}
+          Input={<input hidden name={EFormFields.Files} type="file" />}
+          isLoading={fetcherFilesLoading}
+          maxSize={1024 * 1024}
+          multiple={false}
+          onAddFiles={onAddFiles}
+          onDeleteFile={onDeleteFile}
+        />
         <div className="ProductEdit-Control">
           <Button className="ProductEdit-Button" type="submit">
             {t("common.actions.save")}
