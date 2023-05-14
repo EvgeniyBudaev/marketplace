@@ -13,8 +13,13 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("pages.settings.meta.title") || "Settings" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.settings") || "Settings" };
+  }
+  hydration++;
+  return { title: data?.title || "Settings" };
 };
 
 export default function SettingsRoute() {

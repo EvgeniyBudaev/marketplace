@@ -1,59 +1,60 @@
 import { useCallback, useEffect } from "react";
 import type { UseFormSetValue } from "react-hook-form";
 import { useFetcher } from "@remix-run/react";
-import { EFormFields } from "~/pages/Admin/Products/ProductAdd";
 import type { TFileUploaderProps } from "~/shared/form";
 import type { TFile } from "~/types";
 
 type TResponse = {
-  onAddImages: TFileUploaderProps["onAddFiles"];
-  onDeleteImage: TFileUploaderProps["onDeleteFile"];
-  fetcherImagesLoading: boolean;
+  onAddFiles: TFileUploaderProps["onAddFiles"];
+  onDeleteFile: TFileUploaderProps["onDeleteFile"];
+  fetcherFilesLoading: boolean;
 };
 
-type TUseImagesParams = {
-  images?: TFile[];
+type TUseFilesParams = {
+  fieldName: string;
+  files?: TFile[];
   setValue: UseFormSetValue<any>;
 };
 
-type TUseImages = (params: TUseImagesParams) => TResponse;
+type TUseImages = (params: TUseFilesParams) => TResponse;
 
-export const useImages: TUseImages = ({ images, setValue }) => {
-  const fetcherImages = useFetcher();
-  const fetcherImagesLoading = fetcherImages.state !== "idle";
-  const onAddImages = useCallback(
+export const useFiles: TUseImages = ({ fieldName, files, setValue }) => {
+  const fetcherFiles = useFetcher();
+  const fetcherFilesLoading = fetcherFiles.state !== "idle";
+
+  const onAddFiles = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length) {
         const formData = new FormData();
         formData.append("file", acceptedFiles[0]);
-        setValue(EFormFields.Images, images ? [...images, ...acceptedFiles] : [...acceptedFiles]);
+        setValue(fieldName, files ? [...files, ...acceptedFiles] : [...acceptedFiles]);
       }
     },
-    [fetcherImages, setValue, images],
+    [fetcherFiles, setValue, files],
   );
 
-  const onDeleteImage = useCallback(
+  const onDeleteFile = useCallback(
     (deletedFile: TFile) => {
-      if (images) {
+      if (files) {
         setValue(
-          EFormFields.Images,
-          images.filter(
+          fieldName,
+          files.filter(
             (image: TFile) => image.name !== deletedFile.name && image.size !== deletedFile.size,
           ),
         );
       }
     },
-    [setValue, images],
+    [setValue, files],
   );
 
   useEffect(() => {
-    if (fetcherImages.data && fetcherImages.type === "done") {
-      const { name, id, size } = fetcherImages.data;
+    if (fetcherFiles.data && fetcherFiles.type === "done") {
+      const { name, id, size } = fetcherFiles.data;
 
-      if (images) {
+      if (files) {
         setValue(
-          EFormFields.Images,
-          images.map((image: TFile) => {
+          fieldName,
+          files.map((image: TFile) => {
             // if (image.name === name && image.size === size) {
             //   image.id = id;
             // }
@@ -65,11 +66,11 @@ export const useImages: TUseImages = ({ images, setValue }) => {
     }
     // Нужно, чтобы поймать только момент, когда пришел ответ от сервера и записать данные в поле
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetcherImages.data, fetcherImages.type]);
+  }, [fetcherFiles.data, fetcherFiles.type]);
 
   return {
-    onAddImages,
-    onDeleteImage,
-    fetcherImagesLoading,
+    onAddFiles,
+    onDeleteFile,
+    fetcherFilesLoading,
   };
 };

@@ -20,8 +20,13 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("routes.titles.recipient") || "Recipient" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.recipient") || "Recipient" };
+  }
+  hydration++;
+  return { title: data?.title || "Recipient" };
 };
 
 export default function RecipientRoute() {

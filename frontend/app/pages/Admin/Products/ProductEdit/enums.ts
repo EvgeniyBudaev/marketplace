@@ -4,6 +4,8 @@ export enum EFormFields {
   Count = "count",
   Description = "description",
   Enabled = "enabled",
+  Files = "files",
+  Images = "images",
   Name = "name",
   Price = "price",
 }

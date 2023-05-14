@@ -1,6 +1,6 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
-import {json, redirect} from "@remix-run/node";
-import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import i18next from "i18next";
@@ -9,7 +9,7 @@ import { Attributes, attributesLinks } from "~/pages/Admin/Attributes";
 import { deleteAttribute, EAttributeAction, getAttributes } from "~/shared/api/attributes";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getResponseError } from "~/shared/domain";
-import {getStoreFixedT} from "~/shared/store";
+import { getStoreFixedT } from "~/shared/store";
 import { checkRequestPermission } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -39,8 +39,10 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t, isPermissions] = await Promise.all([getStoreFixedT({request}), checkRequestPermission(request, [EPermissions.Administrator])]);
-
+  const [t, isPermissions] = await Promise.all([
+    getStoreFixedT({ request }),
+    checkRequestPermission(request, [EPermissions.Administrator]),
+  ]);
 
   if (!isPermissions) {
     return redirect(ERoutes.Login);
@@ -72,8 +74,13 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("routes.titles.attributes") || "Attributes" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.attributes") || "Attributes" };
+  }
+  hydration++;
+  return { title: data?.title || "Attributes" };
 };
 
 export default function AttributesRoute() {

@@ -1,6 +1,6 @@
 import { inputFromForm } from "remix-domains";
-import {json, redirect} from "@remix-run/node";
-import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { badRequest } from "remix-utils";
 import i18next from "i18next";
 
@@ -10,7 +10,7 @@ import { createUserSession, login } from "~/shared/api/auth";
 import { getUser } from "~/shared/api/users/domain.server";
 import { getInputErrors } from "~/shared/domain";
 import { commitSession, getSession } from "~/shared/session";
-import {getStoreFixedT} from "~/shared/store";
+import { getStoreFixedT } from "~/shared/store";
 import { createBoundaries, getResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -66,7 +66,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t] = await Promise.all([getStoreFixedT({request})]);
+  const [t] = await Promise.all([getStoreFixedT({ request })]);
   const session = await getSession(request.headers.get("Cookie"));
   return json(
     {
@@ -84,8 +84,13 @@ export const loader = async (args: LoaderArgs) => {
   );
 };
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("routes.titles.login") || "Login" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.login") || "Login" };
+  }
+  hydration++;
+  return { title: data?.title || "Login" };
 };
 
 export default function LoginRoute() {

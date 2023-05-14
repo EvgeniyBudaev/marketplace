@@ -1,14 +1,14 @@
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
-import {json} from "@remix-run/node";
-import type { ActionArgs , LoaderArgs, MetaFunction} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import i18next from "i18next";
 import { Signup, signupLinks } from "~/pages/Auth/Signup";
 import { SIGNUP_FORM_KEYS } from "~/pages/Auth/Signup/constants";
 import { createUserSession, signup } from "~/shared/api/auth";
 import { mapSignupToDto } from "~/shared/api/auth/utils";
 import { getInputErrors } from "~/shared/domain";
-import {getStoreFixedT} from "~/shared/store";
+import { getStoreFixedT } from "~/shared/store";
 import { getResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -34,15 +34,20 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t] = await Promise.all([getStoreFixedT({request})]);
+  const [t] = await Promise.all([getStoreFixedT({ request })]);
 
   return json({
     title: t("routes.titles.signup"),
   });
-}
+};
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("routes.titles.signup") || "Signup" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.signup") || "Signup" };
+  }
+  hydration++;
+  return { title: data?.title || "Signup" };
 };
 
 export default function SignupRoute() {

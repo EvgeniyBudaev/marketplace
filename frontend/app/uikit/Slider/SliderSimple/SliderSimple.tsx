@@ -3,67 +3,15 @@ import type { FC } from "react";
 import Slider from "react-slick";
 import { useMediaQuery } from "react-responsive";
 import isEmpty from "lodash/isEmpty";
-import { ESliderArrow, SliderArrow } from "~/uikit";
+import { SLIDER_SIMPLE_SETTINGS } from "~/uikit";
+import type { TSliderSimpleProps } from "~/uikit";
 import styles from "./SliderSimple.css";
 import sliderStyles from "../Slider.css";
 
-type TProps = {
-  alt?: string;
-  arrows?: boolean;
-  className?: string;
-  dots?: boolean;
-  fade?: boolean;
-  height?: string;
-  images: string[];
-  infinite?: boolean;
-  nextArrow?: JSX.Element;
-  prevArrow?: JSX.Element;
-  slidesToScroll?: number;
-  slidesToShow?: number;
-  swipeToSlide?: boolean;
-  speed?: number;
-  width?: string;
-};
+const SliderSimpleComponent: FC<TSliderSimpleProps> = (props) => {
+  const { alt = "", height, images, width } = props;
 
-const SliderSimpleComponent: FC<TProps> = ({
-  alt = "",
-  arrows = false,
-  className,
-  dots = false,
-  fade = false,
-  height,
-  images,
-  infinite = false,
-  nextArrow,
-  prevArrow,
-  slidesToScroll = 1,
-  slidesToShow = 1,
-  speed = 500,
-  swipeToSlide = false,
-  width,
-}) => {
-  const settings = {
-    arrows,
-    className,
-    dots,
-    fade,
-    infinite,
-    nextArrow: arrows ? (
-      <SliderArrow styles={{ right: "5px" }} type={ESliderArrow.Next} />
-    ) : (
-      nextArrow
-    ),
-    prevArrow: arrows ? (
-      <SliderArrow styles={{ left: "5px" }} type={ESliderArrow.Previous} />
-    ) : (
-      prevArrow
-    ),
-    speed,
-    slidesToScroll,
-    slidesToShow,
-    swipeToSlide,
-  };
-
+  const settings = SLIDER_SIMPLE_SETTINGS(props).settings;
   const isMobileScreen = useMediaQuery({ query: "(max-width: 100px)" });
 
   return (

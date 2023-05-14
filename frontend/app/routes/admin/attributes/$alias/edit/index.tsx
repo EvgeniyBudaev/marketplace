@@ -1,6 +1,6 @@
 import { inputFromForm } from "remix-domains";
-import {json, redirect} from "@remix-run/node";
-import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import i18next from "i18next";
@@ -27,7 +27,7 @@ import {
   mapParamsEditAttributeToDto,
   mapParamsEditSelectableValueToDto,
 } from "~/shared/api/attributes/utils";
-import {getStoreFixedT} from "~/shared/store";
+import { getStoreFixedT } from "~/shared/store";
 import { checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -110,8 +110,10 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
-  const [t, isPermissions] = await Promise.all([getStoreFixedT({request}), checkRequestPermission(request, [EPermissions.Administrator])]);
-
+  const [t, isPermissions] = await Promise.all([
+    getStoreFixedT({ request }),
+    checkRequestPermission(request, [EPermissions.Administrator]),
+  ]);
 
   if (!isPermissions) {
     return redirect(ERoutes.Login);
@@ -147,8 +149,13 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("routes.titles.attributeEdit") || "Editing an Attribute" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.attributeEdit") || "Editing an Attribute" };
+  }
+  hydration++;
+  return { title: data?.title || "Editing an Attribute" };
 };
 
 export default function AttributeEditRoute() {

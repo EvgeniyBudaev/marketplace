@@ -1,7 +1,7 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
 import { badRequest } from "remix-utils";
-import {json, redirect} from "@remix-run/node";
-import type { ActionArgs, LoaderArgs , MetaFunction} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
@@ -11,7 +11,7 @@ import { addCatalog, CatalogsApi } from "~/shared/api/catalogs";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getAttributes } from "~/shared/api/attributes";
-import {getStoreFixedT} from "~/shared/store";
+import { getStoreFixedT } from "~/shared/store";
 import { checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
@@ -51,7 +51,10 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t, isPermissions] = await Promise.all([getStoreFixedT({request}), checkRequestPermission(request, [EPermissions.Administrator])]);
+  const [t, isPermissions] = await Promise.all([
+    getStoreFixedT({ request }),
+    checkRequestPermission(request, [EPermissions.Administrator]),
+  ]);
 
   if (!isPermissions) {
     return redirect(ERoutes.Login);
@@ -83,8 +86,13 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = () => {
-  return { title: i18next.t("routes.titles.catalogAdd") || "Adding a catalog" };
+let hydration = 0;
+export const meta: MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined" && hydration) {
+    return { title: i18next.t("routes.titles.catalogAdd") || "Adding a catalog" };
+  }
+  hydration++;
+  return { title: data?.title || "Adding a catalog" };
 };
 
 export default function CatalogAddRoute() {

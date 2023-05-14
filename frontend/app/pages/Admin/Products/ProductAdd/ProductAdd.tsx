@@ -7,7 +7,7 @@ import isNull from "lodash/isNull";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
 import { useTheme } from "~/hooks";
-import { useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
+import { useFiles, useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
 import {
   EFormFields,
   formattedProductAdd,
@@ -15,7 +15,6 @@ import {
   mapProductAddToDto,
 } from "~/pages/Admin/Products/ProductAdd";
 import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd";
-import { useImages } from "~/pages/Admin/Products/ProductAdd/hook";
 import { getSelectableAttributeOptions } from "~/pages/Admin/Products/utils";
 import type { TAttributesByCatalog } from "~/shared/api/attributes";
 import type { TCatalogs } from "~/shared/api/catalogs";
@@ -57,10 +56,21 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
   const fetcher = form.fetcher;
   const { setValue, watch } = form.methods;
 
-  const watchImages = watch(EFormFields.Images);
+  const watchDefaultImages = watch(EFormFields.DefaultImages);
+  const {
+    onAddFiles: onAddDefaultImages,
+    onDeleteFile: onDeleteDefaultImage,
+    fetcherFilesLoading: fetcherDefaultImagesLoading,
+  } = useFiles({
+    fieldName: EFormFields.DefaultImages,
+    files: watchDefaultImages,
+    setValue,
+  });
 
-  const { onAddImages, onDeleteImage, fetcherImagesLoading } = useImages({
-    images: watchImages,
+  const watchFiles = watch(EFormFields.Files);
+  const { onAddFiles, onDeleteFile, fetcherFilesLoading } = useFiles({
+    fieldName: EFormFields.Files,
+    files: watchFiles,
     setValue,
   });
 
@@ -96,13 +106,15 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     const formattedParams = formattedProductAdd(params);
     const dataFormToDto = mapProductAddToDto(formattedParams);
+    console.log("dataFormToDto: ", dataFormToDto);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.catalogAlias && formData.append("catalogAlias", dataFormToDto.catalogAlias);
     dataFormToDto.count && formData.append("count", dataFormToDto.count);
+    dataFormToDto.defaultImages && formData.append("defaultImage", dataFormToDto.defaultImages[0]);
     dataFormToDto.description && formData.append("description", dataFormToDto.description);
     dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
-    dataFormToDto.images && dataFormToDto.images.forEach((file) => formData.append("files", file));
+    dataFormToDto.files && dataFormToDto.files.forEach((file) => formData.append("files", file));
     dataFormToDto.name && formData.append("name", dataFormToDto.name);
     if (dataFormToDto.numericValues) {
       for (let i = 0; i < dataFormToDto.numericValues.length; i++) {
@@ -219,18 +231,35 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
             })}
         </div>
         <div className="ProductAdd-FormFieldGroup">
+          <div>Добавить изображение по умолчанию</div>
           <FileUploader
             accept={{
               "image/jpeg": [".jpeg"],
               "image/png": [".png"],
             }}
-            files={watchImages}
-            Input={<input hidden name={EFormFields.Images} type="file" />}
-            isLoading={fetcherImagesLoading}
+            files={watchDefaultImages}
+            Input={<input hidden name={EFormFields.DefaultImages} type="file" />}
+            isLoading={fetcherDefaultImagesLoading}
             maxSize={1024 * 1024}
             multiple={false}
-            onAddFiles={onAddImages}
-            onDeleteFile={onDeleteImage}
+            onAddFiles={onAddDefaultImages}
+            onDeleteFile={onDeleteDefaultImage}
+          />
+        </div>
+        <div className="ProductAdd-FormFieldGroup">
+          <div>Добавить изображения в галлерею продукта</div>
+          <FileUploader
+            accept={{
+              "image/jpeg": [".jpeg"],
+              "image/png": [".png"],
+            }}
+            files={watchFiles}
+            Input={<input hidden name={EFormFields.Files} type="file" />}
+            isLoading={fetcherFilesLoading}
+            maxSize={1024 * 1024}
+            multiple={false}
+            onAddFiles={onAddFiles}
+            onDeleteFile={onDeleteFile}
           />
         </div>
         <div className="ProductAdd-Control">

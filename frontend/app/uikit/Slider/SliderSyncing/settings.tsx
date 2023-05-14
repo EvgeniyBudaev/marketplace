@@ -7,7 +7,6 @@ export const SLIDER_SYNCING_SETTINGS = (props: TSliderSyncingProps) => {
     arrowsModal = false,
     arrowsNav = false,
     dots = false,
-    fade = false,
     focusOnSelect = false,
     infinite = false,
     nextArrow,
@@ -20,7 +19,6 @@ export const SLIDER_SYNCING_SETTINGS = (props: TSliderSyncingProps) => {
 
   const settings = {
     dots,
-    fade,
     focusOnSelect,
     slidesToScroll,
     speed,
