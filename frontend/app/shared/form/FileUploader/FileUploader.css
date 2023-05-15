@@ -39,10 +39,14 @@
 /* #008dd3 */
 /* #0044BB */
 .FileUploader {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: flex-start;
-  gap: 24px;
+  display: inline-block;
+  width: 100%;
+  border: 1px solid rgb(228, 228, 228);
+  border-radius: 4px;
+  padding: 16px;
+}
+.FileUploader-Dropzone {
+  margin-bottom: 16px;
 }
 .FileUploader-Dropzone__isLoading {
   cursor: default;
@@ -54,22 +58,6 @@
 }
 .FileUploader-Dropzone-Button {
   margin-top: 16px;
-}
-.FileUploader-Files {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-.FileUploader-File {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: 320px;
-  width: 100%;
-  padding: 8px;
-  background-color: rgb(228, 228, 228);
-  border-radius: 4px;
 }
 
 /*# sourceMappingURL=FileUploader.css.map */

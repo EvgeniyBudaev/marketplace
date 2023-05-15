@@ -38,24 +38,14 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.ProductEdit-Title {
-  margin-bottom: 30px;
-}
-.ProductEdit-FormFieldGroup {
-  margin-bottom: 30px;
-}
-.ProductEdit-Hidden {
-  position: absolute;
-  opacity: 0;
-}
-.ProductEdit-ImageList {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+.Previews {
   width: 100%;
+}
+.Previews-Thumb {
+  display: flex;
   margin-bottom: 16px;
 }
-.ProductEdit-ImageListItem {
+.Previews-Thumb-Inner {
   position: relative;
   display: flex;
   align-items: center;
@@ -65,22 +55,45 @@
   height: 100px;
   width: 100px;
   padding: 4px;
-  transition: all 0.15s;
+  margin-right: 8px;
 }
-.ProductEdit-ImageListItem-Icon {
-  position: absolute;
-  top: 0;
-  right: 0;
+.Previews-Thumb-Image {
+  display: block;
+  width: auto;
+  height: 100%;
+}
+.Previews-File {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 320px;
+  width: 100%;
+  padding: 8px;
+  background-color: rgb(228, 228, 228);
+  border-radius: 4px;
+}
+.Previews-File-Inner {
+  display: flex;
+  align-items: center;
+}
+.Previews-File-IconWrapper {
+  cursor: pointer;
   height: 24px;
   width: 24px;
+}
+.Previews-File-ImageIcon {
+  height: 24px;
+  width: 24px;
+}
+.Previews-File-Name {
+  margin-left: 8px;
+}
+.Previews-File-AddIcon {
   cursor: pointer;
-}
-.ProductEdit-ImageListItem-Image {
-  max-width: 100%;
-  max-height: 100%;
-}
-.ProductEdit-ImageListItem:hover {
-  border-color: rgb(95, 79, 25);
+  height: 24px;
+  width: 24px;
 }
 
-/*# sourceMappingURL=ProductEdit.module.css.map */
+/*# sourceMappingURL=Previews.css.map */

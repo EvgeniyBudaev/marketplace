@@ -248,6 +248,9 @@
     "price": {
       "title": "Price"
     },
+    "defaultImage": {
+      "title": "Default image"
+    },
     "email": {
       "title": "Email"
     },

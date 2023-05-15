@@ -1,6 +1,7 @@
 import React from "react";
 
 import {
+  AddCircleOutlineIcon,
   ArrowBackIcon,
   ArrowDownIcon,
   ArrowDropDownIcon,
@@ -51,6 +52,7 @@ import {
 } from "~/uikit/assets/icons";
 
 export type IconType =
+  | "AddCircleOutline"
   | "ArrowBack"
   | "ArrowDown"
   | "ArrowDropDown"
@@ -100,6 +102,7 @@ export type IconType =
   | "VisibilityOff";
 
 export const iconTypes = new Map([
+  ["AddCircleOutline", <AddCircleOutlineIcon key="AddCircleOutline" />],
   ["ArrowBack", <ArrowBackIcon key="ArrowBack" />],
   ["ArrowDown", <ArrowDownIcon key="ArrowDown" />],
   ["ArrowDropDown", <ArrowDropDownIcon key="ArrowDropDown" />],

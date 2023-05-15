@@ -1,12 +1,15 @@
 @import "component";
 
 .FileUploader {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: flex-start;
-  gap: 24px;
+  display: inline-block;
+  width: 100%;
+  border: 1px solid $color-light-gray;
+  border-radius: $border-radius;
+  padding: 16px;
 
   &-Dropzone {
+    margin-bottom: 16px;
+    
     &__isLoading {
       cursor: default;
     }
@@ -22,21 +25,4 @@
     }
   }
 
-  &-Files {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  &-File {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    max-width: 320px;
-    width: 100%;
-    padding: 8px;
-    background-color: $color-light-gray;
-    border-radius: $border-radius;
-  }
 }

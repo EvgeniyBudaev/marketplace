@@ -23,7 +23,7 @@ export const useFiles: TUseImages = ({ fieldName, files, setValue }) => {
   const fetcherFilesLoading = fetcherFiles.state !== "idle";
 
   const onAddFiles = useCallback(
-    (acceptedFiles: File[]) => {
+    (acceptedFiles: TFile[]) => {
       if (acceptedFiles.length) {
         const formData = new FormData();
         formData.append("file", acceptedFiles[0]);
