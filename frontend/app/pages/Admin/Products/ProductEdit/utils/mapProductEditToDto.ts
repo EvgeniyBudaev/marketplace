@@ -4,6 +4,7 @@ type TResponse = {
   alias: string | null;
   catalogAlias: string | null;
   count: string | null;
+  defaultImages: string[] | null;
   description: string | null;
   enabled: string | null;
   files: TFile[];
@@ -19,12 +20,14 @@ export const mapProductEditToDto = (
   params: TParams,
   id: string | number,
   images: string[] | null,
+  defaultImages: string[] | null,
 ): TResponse => {
   return {
     ...params,
     alias: params?.alias ? params.alias : null,
     catalogAlias: params?.catalogAlias ? params.catalogAlias.value : null,
     count: params?.count ? params.count : null,
+    defaultImages: defaultImages ? defaultImages : null,
     description: params?.description ? params.description : null,
     enabled: params?.enabled ? JSON.stringify(params.enabled) : null,
     files: params?.files ? params.files : null,
