@@ -33,6 +33,9 @@ public class ResponseProductGetAllDto {
             }
             return FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,globalProperty.getBASE_URL());
         }).collect(Collectors.toSet());
+        if(this.images.isEmpty()){
+            this.images=null;
+        }
     }
 
 }

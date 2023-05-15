@@ -93,10 +93,13 @@ public class ProductController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseProductDto saveWithImageProduct(@Valid RequestSaveWithImageProductDto productDto, @RequestParam(name = "files",required = false)MultipartFile[] files) {
+    public ResponseProductDto saveWithImageProduct(@Valid RequestSaveWithImageProductDto productDto,@RequestParam(name = "defaultImage",required = false) MultipartFile defaultImage, @RequestParam(name = "files",required = false)MultipartFile[] files) {
         Product product = manageProductDao.save(productDto);
         if(files!=null&&files.length!=0){
             product.setProductFiles(new HashSet<>(files.length));
+            if(defaultImage!=null){
+                product.getProductFiles().add(saveFile(defaultImage, EFileType.IMAGE, product,defaultImage.getOriginalFilename()));
+            }
             for (MultipartFile file : files) {
                 product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product,productDto.getDefaultImage()));
             }
@@ -110,8 +113,9 @@ public class ProductController {
             if(product.getProductFiles()==null){
                 product.setProductFiles(new HashSet<>(files.length));
             }
+
             for (MultipartFile file : files) {
-                product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product,productDto.getDefaultImage()));
+                product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product,null));
             }
         }
         return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
