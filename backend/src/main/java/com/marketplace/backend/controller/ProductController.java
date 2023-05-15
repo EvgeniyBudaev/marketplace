@@ -8,6 +8,7 @@ import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.dto.product.response.ResponseProductDtoForAdmin;
 import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
 import com.marketplace.backend.exception.AppError;
+import com.marketplace.backend.exception.IllegalRequestParam;
 import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.mappers.ProductMapper;
 import com.marketplace.backend.model.*;
@@ -27,7 +28,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.HashSet;
-import java.util.Objects;
+
 
 
 @RestController
@@ -97,26 +98,40 @@ public class ProductController {
         Product product = manageProductDao.save(productDto);
         if(files!=null&&files.length!=0){
             product.setProductFiles(new HashSet<>(files.length));
-            if(defaultImage!=null){
-                product.getProductFiles().add(saveFile(defaultImage, EFileType.IMAGE, product,defaultImage.getOriginalFilename()));
-            }
             for (MultipartFile file : files) {
-                product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product,productDto.getDefaultImage()));
+                product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product));
             }
+        }
+        if(defaultImage!=null){
+            product.getProductFiles().add(saveFile(defaultImage, EFileType.IMAGE, product));
+            manageProductDao.setDefaultFile(product.getProductFiles(),defaultImage.getOriginalFilename());
         }
         return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
     }
     @PutMapping("/put")
-    public ResponseProductDto updateProduct(@Valid RequestUpdateWithImageProductDto productDto, @RequestParam(name = "files",required = false)MultipartFile[] files) {
+    public ResponseProductDto updateProduct(@Valid RequestUpdateWithImageProductDto productDto, @RequestParam(name = "defaultImage",required = false) Object defaultImage, @RequestParam(name = "files",required = false)MultipartFile[] files) {
         Product product = manageProductDao.update(productDto);
         if(files!=null&&files.length!=0){
             if(product.getProductFiles()==null){
                 product.setProductFiles(new HashSet<>(files.length));
             }
-
             for (MultipartFile file : files) {
-                product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product,null));
+                product.getProductFiles().add(saveFile(file, EFileType.IMAGE,product));
             }
+        }
+        if(defaultImage!=null){
+            try {
+                MultipartFile  defaultImageFile = (MultipartFile) defaultImage;
+                product.getProductFiles().add(saveFile(defaultImageFile, EFileType.IMAGE, product));
+            }catch (ClassCastException e){
+                try {
+                    String imageUrl = (String) defaultImage;
+                    System.out.println(imageUrl);
+                }catch (ClassCastException ex){
+                    throw new IllegalRequestParam("Не удалось распознать defaulImage");
+                }
+            }
+
         }
         return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
     }
@@ -150,22 +165,17 @@ public class ProductController {
         return dto;
     }
 
-    private ProductFile saveFile(MultipartFile uploadFile,EFileType eFileType,Product product,String defaultImage){
+    private ProductFile saveFile(MultipartFile uploadFile,EFileType eFileType,Product product){
         if (eFileType.equals(EFileType.IMAGE) && globalProperty.getIsImageDirectoryAvailability()) {
             if (fileUtils.checkImageFile(uploadFile)) {
                 Path imageDir = Path.of(globalProperty.getIMAGE_DIR().toString(), product.getId().toString());
                 if (!fileUtils.createIfNotExistProductDir(imageDir)) {
                     throw new OperationNotAllowedException("Не удалось создать директорию продукта");
                 }
-                EImageStatus status =null;
-                if(Objects.equals(uploadFile.getOriginalFilename(), defaultImage)){
-                    status=EImageStatus.DEFAULT;
-                }
-                Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
+                    Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
                 if (manageProductDao.saveFileOnFileSystem(uploadFile, filePath)) {
                     Path relativePath = Path.of(product.getAlias(),uploadFile.getOriginalFilename());
-                    return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.IMAGE,status);
-
+                    return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.IMAGE);
                 } else {
                     throw new OperationNotAllowedException("Не удалось сохранить файл");
                 }
@@ -175,4 +185,5 @@ public class ProductController {
         }
         throw new OperationNotAllowedException("Директория для сохранения файла не доступна");
     }
+
 }

@@ -78,8 +78,19 @@ public class AdminProductService implements ManageProductDao {
     }
 
     @Override
-    public ProductFile saveFileDescription(Product product, String url, EFileType type, EImageStatus status) {
-        return adminFilesService.saveEntity(product,url,type,status);
+    public ProductFile saveFileDescription(Product product, String url, EFileType type) {
+        return adminFilesService.saveEntity(product,url,type);
+    }
+
+    @Override
+    @Transactional
+    public void setDefaultFile(Set<ProductFile> images, String filename) {
+        images.forEach(x->{
+           if(Path.of(x.getUrl()).getFileName().toString().equals(filename)){
+               x.setImageStatus(EImageStatus.DEFAULT);
+               entityManager.persist(x);
+           }
+        });
     }
 
 
@@ -214,8 +225,4 @@ public class AdminProductService implements ManageProductDao {
         }
     }
 
-    @Override
-    public List<ProductFile> getImageFileByProduct(Product product){
-        return adminFilesService.getImageFilesByProduct(product);
-    }
 }
