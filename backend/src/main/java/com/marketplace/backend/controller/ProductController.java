@@ -24,6 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -123,12 +126,14 @@ public class ProductController {
             try {
                 MultipartFile  defaultImageFile = (MultipartFile) defaultImage;
                 product.getProductFiles().add(saveFile(defaultImageFile, EFileType.IMAGE, product));
+                manageProductDao.setDefaultFile(product.getProductFiles(),defaultImageFile.getOriginalFilename());
             }catch (ClassCastException e){
                 try {
-                    String imageUrl = (String) defaultImage;
-                    System.out.println(imageUrl);
+                    String path = URI.create((String) defaultImage).getPath();
+                    String defaultImageFileName = path.substring(path.lastIndexOf('/') + 1);
+                    manageProductDao.setDefaultFile(product.getProductFiles(),defaultImageFileName);
                 }catch (ClassCastException ex){
-                    throw new IllegalRequestParam("Не удалось распознать defaulImage");
+                    throw new IllegalRequestParam("Не удалось распознать defaultImage");
                 }
             }
 
