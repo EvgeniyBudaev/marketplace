@@ -1,0 +1,69 @@
+@import "component";
+
+.Previews {
+  width: 100%;
+
+  &-Thumb {
+    display: flex;
+    margin-bottom: 16px;
+
+    &-Inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid $color-primary;
+      border-radius: $border-radius;
+      height: 100px;
+      width: 100px;
+      padding: 4px;
+      margin-right: 8px;
+    }
+
+    &-Image {
+      display: block;
+      width: auto;
+      height: 100%;
+    }
+  }
+
+  &-File {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 320px;
+    width: 100%;
+    padding: 8px;
+    background-color: $color-light-gray;
+    border-radius: $border-radius;
+
+    &-Inner {
+      display: flex;
+      align-items: center;
+    }
+
+    &-IconWrapper {
+      cursor: pointer;
+      height: 24px;
+      width: 24px;
+    }
+
+    &-ImageIcon {
+      height: 24px;
+      width: 24px;
+    }
+
+    &-Name {
+      margin-left: 8px;
+    }
+
+    &-AddIcon {
+      cursor: pointer;
+      height: 24px;
+      width: 24px;
+    }
+  }
+
+}

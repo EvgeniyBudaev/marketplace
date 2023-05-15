@@ -1,0 +1,13 @@
+{
+  "errorBoundary": {
+    "common": {
+      "unexpectedStatus": "Непредвиденный ответ сервера со статусом",
+      "internalError": "Ошибка на сервере",
+      "notImplemented": "Метод запроса не поддерживается сервером",
+      "gatewayTimeout": "Время ответа сервера истекло",
+      "badRequest": "Некорректный запрос",
+      "accessDenied": "Нет доступа",
+      "notFound": "Страница не найдена"
+    }
+  }
+}

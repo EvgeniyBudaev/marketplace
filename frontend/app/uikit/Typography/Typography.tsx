@@ -16,7 +16,7 @@ const TypographyComponent: FC<TProps> = ({
   as = "span",
   children,
   color = ETextColor.Dark,
-  variant = ETypographyVariant.TextH1Bold,
+  variant = ETypographyVariant.TextB3Regular,
 }) => {
   const currentTheme = TYPOGRAPHY_THEMES({ color })[variant];
 

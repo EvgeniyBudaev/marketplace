@@ -8,4 +8,4 @@ export type TParams = Record<string, any>;
 //   type?: string | null | undefined;
 // } & Partial<Pick<File, "lastModified">>;
 
-export type TFile = File;
+export type TFile = { preview?: string } & File;

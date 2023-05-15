@@ -1,3 +1,4 @@
+export * from "./AddCircleOutlineIcon";
 export * from "./ArrowBackIcon";
 export * from "./ArrowDownIcon";
 export * from "./ArrowDropDownIcon";

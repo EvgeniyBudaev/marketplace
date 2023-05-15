@@ -2,7 +2,7 @@ export enum EFormFields {
   Alias = "alias",
   CatalogAlias = "catalogAlias",
   Count = "count",
-  DefaultImages = "defaultImages",
+  DefaultImage = "defaultImage",
   Description = "description",
   Enabled = "enabled",
   Files = "files",
