@@ -29,7 +29,7 @@ import {
   Select,
   useInitForm,
 } from "~/shared/form";
-import type { TParams } from "~/types";
+import type { TFile, TParams } from "~/types";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
 import { createPath, formatProxy } from "~/utils";
@@ -47,14 +47,8 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
   console.log("product: ", product);
 
   const idCheckbox = "enabled";
-  const defaultListImage = !isNil(product.defaultImage) ? [product.defaultImage] : [];
-  // const defaultListImage = formatProxy(
-  //   !isNil(product.defaultImage)
-  //     ? [product.defaultImage]
-  //     : ["https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png"],
-  // );
 
-  const [defaultImages, setDefaultImages] = useState<string[]>(defaultListImage);
+  const [defaultImage, setDefaultImage] = useState<TFile | null>(null);
   const [images, setImages] = useState<string[]>(product?.images ?? []);
   const [filter, setFilter] = useState<TParams>({ enabled: product.enabled ? [idCheckbox] : [] });
 
@@ -80,17 +74,6 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
   const isDoneType = form.isDoneType;
   const fetcher = form.fetcher;
   const { setValue, watch } = form.methods;
-
-  const watchDefaultImages = watch(EFormFields.DefaultImages);
-  const {
-    onAddFiles: onAddDefaultImages,
-    onDeleteFile: onDeleteDefaultImage,
-    fetcherFilesLoading: fetcherDefaultImagesLoading,
-  } = useFiles({
-    fieldName: EFormFields.DefaultImages,
-    files: watchDefaultImages,
-    setValue,
-  });
 
   const watchFiles = watch(EFormFields.Files);
   const { onAddFiles, onDeleteFile, fetcherFilesLoading } = useFiles({
@@ -135,9 +118,24 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
     });
   };
 
+  const handleAddFileToDefaultImage = (file: TFile) => {
+    setDefaultImage(file);
+  };
+
+  const handleDeleteFile = (file: TFile, files: TFile[]) => {
+    onDeleteFile(file, files);
+    if (file.name === defaultImage?.name) {
+      setDefaultImage(null);
+    }
+  };
+
+  const handleLoadImage = (file: TFile) => {
+    return file?.preview ? URL.revokeObjectURL(file.preview) : file;
+  };
+
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     const formattedParams = formattedProductEdit(params);
-    const dataFormToDto = mapProductEditToDto(formattedParams, product.id, images, defaultImages);
+    const dataFormToDto = mapProductEditToDto(formattedParams, product.id);
     // console.log("formattedParams: ", formattedParams);
     // console.log("Form params: ", params);
     // console.log("dataFormToDto : ", dataFormToDto);
@@ -145,12 +143,11 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.catalogAlias && formData.append("catalogAlias", dataFormToDto.catalogAlias);
     dataFormToDto.count && formData.append("count", dataFormToDto.count);
-    dataFormToDto.defaultImages && formData.append("defaultImage", dataFormToDto.defaultImages[0]);
+    defaultImage && formData.append("defaultImage", defaultImage);
     dataFormToDto.description && formData.append("description", dataFormToDto.description);
     dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
     dataFormToDto.id && formData.append("id", dataFormToDto.id);
-    dataFormToDto.images &&
-      dataFormToDto.images.forEach((image) => formData.append("images[]", image));
+    images && images.forEach((image) => formData.append("images[]", image));
     dataFormToDto.files && dataFormToDto.files.forEach((file) => formData.append("files", file));
     dataFormToDto.name && formData.append("name", dataFormToDto.name);
     if (dataFormToDto.numericValues) {
@@ -218,6 +215,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
           {t("pages.admin.productEdit.title")}
         </Typography>
       </h1>
+
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Put}>
         <Input
           defaultValue={product.alias}
@@ -225,6 +223,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
           name={EFormFields.Alias}
           type="text"
         />
+
         <div className="ProductEdit-FormFieldGroup">
           <Select
             defaultValue={defaultCatalogAlias ?? catalogAliasesTypeOptions[0]}
@@ -234,12 +233,14 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
             theme={theme}
           />
         </div>
+
         <Input
           defaultValue={product?.description ?? ""}
           label={t("form.description.title") ?? "Description"}
           name={EFormFields.Description}
           type="text"
         />
+
         <div className="ProductEdit-FormFieldGroup">
           <Checkbox
             checked={filter && filter[EFormFields.Enabled].includes(idCheckbox)}
@@ -250,6 +251,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
             onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
+
         <Input
           defaultValue={product.name}
           label={t("form.name.title") ?? "Name"}
@@ -268,6 +270,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
           name={EFormFields.Price}
           type="text"
         />
+
         <div className="ProductEdit-FormFieldGroup">
           {attributesByCatalog &&
             attributesByCatalog.selectableAttribute &&
@@ -288,6 +291,7 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
               );
             })}
         </div>
+
         <div className="ProductEdit-FormFieldGroup">
           {productNumberAttributeList &&
             productNumberAttributeList.map((item) => {
@@ -302,34 +306,25 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
               );
             })}
         </div>
+
+        {/*<div className="ProductEdit-FormFieldGroup">*/}
+        {/*  <div className="ProductEdit-ImageList">*/}
+        {/*    <div className="ProductEdit-ImageListItem">*/}
+        {/*      <img*/}
+        {/*        alt={defaultImages[0]}*/}
+        {/*        className="ProductEdit-ImageListItem-Image"*/}
+        {/*        src={formatProxy(defaultImages[0])}*/}
+        {/*      />*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
+
         <div className="ProductEdit-FormFieldGroup">
-          <div className="ProductEdit-ImageList">
-            <div className="ProductEdit-ImageListItem">
-              <img
-                alt={defaultImages[0]}
-                className="ProductEdit-ImageListItem-Image"
-                src={formatProxy(defaultImages[0])}
-              />
-            </div>
+          <div className="ProductEdit-SubTitle">
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              Текущие изображения в галлереи
+            </Typography>
           </div>
-        </div>
-        <div className="ProductEdit-FormFieldGroup">
-          <div>Добавить изображение по умолчанию</div>
-          <FileUploader
-            accept={{
-              "image/jpeg": [".jpeg"],
-              "image/png": [".png"],
-            }}
-            files={watchDefaultImages}
-            Input={<input hidden name={EFormFields.DefaultImages} type="file" />}
-            isLoading={fetcherDefaultImagesLoading}
-            maxSize={1024 * 1024}
-            multiple={false}
-            onAddFiles={onAddDefaultImages}
-            onDeleteFile={onDeleteDefaultImage}
-          />
-        </div>
-        <div className="ProductEdit-FormFieldGroup">
           <div className="ProductEdit-ImageList">
             {!isNil(images) &&
               images.map((image, index) => (
@@ -357,8 +352,13 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
             )}
           </div>
         </div>
+
         <div className="ProductEdit-FormFieldGroup">
-          <div>Добавить изображения в галлерею продукта</div>
+          <div className="ProductEdit-SubTitle">
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              Добавить новое изображение в галлерею
+            </Typography>
+          </div>
           <FileUploader
             accept={{
               "image/jpeg": [".jpeg"],
@@ -369,10 +369,38 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
             isLoading={fetcherFilesLoading}
             maxSize={1024 * 1024}
             multiple={false}
+            onAddFile={handleAddFileToDefaultImage}
             onAddFiles={onAddFiles}
-            onDeleteFile={onDeleteFile}
+            onDeleteFile={handleDeleteFile}
           />
         </div>
+
+        <div className="ProductEdit-FormFieldGroup">
+          <div className="ProductEdit-SubTitle">
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              Изображение по умолчанию
+            </Typography>
+          </div>
+          <div className="Previews-Thumb-Inner ProductEdit-DefaultImage">
+            {!isNil(defaultImage) && !isNil(defaultImage.preview) && (
+              <img
+                alt={defaultImage.name}
+                className="Previews-Thumb-Image"
+                src={defaultImage.preview}
+                onLoad={() => handleLoadImage(defaultImage)}
+              />
+            )}
+          </div>
+          <div className="Previews-File">
+            <div className="Previews-File-Inner">
+              <div className="Previews-File-IconWrapper">
+                <Icon className="Previews-File-ImageIcon" type="Image" />
+              </div>
+              <div className="Previews-File-Name">{defaultImage?.name}</div>
+            </div>
+          </div>
+        </div>
+
         <div className="ProductEdit-Control">
           <Button className="ProductEdit-Button" type="submit">
             {t("common.actions.save")}

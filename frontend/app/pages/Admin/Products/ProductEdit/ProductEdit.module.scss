@@ -5,6 +5,10 @@
     margin-bottom: 30px;
   }
 
+  &-SubTitle {
+    margin-bottom: 16px;
+  }
+
   &-FormFieldGroup {
     margin-bottom: 30px;
   }
@@ -12,6 +16,10 @@
   &-Hidden {
     position: absolute;
     opacity: 0;
+  }
+
+  &-DefaultImage {
+    margin-bottom: 16px;
   }
 
   &-ImageList {

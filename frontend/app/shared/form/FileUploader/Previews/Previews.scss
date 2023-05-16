@@ -45,9 +45,10 @@
     }
 
     &-IconWrapper {
+      display: flex;
+      align-items: center;
       cursor: pointer;
-      height: 24px;
-      width: 24px;
+      height: inherit;
     }
 
     &-ImageIcon {
@@ -63,6 +64,10 @@
       cursor: pointer;
       height: 24px;
       width: 24px;
+    }
+
+    &-TrashIcon {
+      margin-left: 8px;
     }
   }
 

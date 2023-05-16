@@ -41,12 +41,18 @@
 .ProductEdit-Title {
   margin-bottom: 30px;
 }
+.ProductEdit-SubTitle {
+  margin-bottom: 16px;
+}
 .ProductEdit-FormFieldGroup {
   margin-bottom: 30px;
 }
 .ProductEdit-Hidden {
   position: absolute;
   opacity: 0;
+}
+.ProductEdit-DefaultImage {
+  margin-bottom: 16px;
 }
 .ProductEdit-ImageList {
   display: grid;

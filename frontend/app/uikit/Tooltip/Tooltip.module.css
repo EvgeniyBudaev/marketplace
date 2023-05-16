@@ -38,6 +38,14 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
+.Tooltip {
+  display: flex;
+  align-items: center;
+}
+.Tooltip-Wrapper {
+  display: flex;
+  align-items: center;
+}
 .Tooltip-Element {
   display: inline-block;
   max-width: 300px;

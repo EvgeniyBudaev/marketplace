@@ -40,6 +40,17 @@ export const FileUploader: FC<TFileUploaderProps> = ({
     [onAddFiles, files],
   );
 
+  const onDelete = useCallback(
+    (deletedFile: TFile) => {
+      if (files) {
+        let newFiles = [...files];
+        newFiles = newFiles.filter((file) => file !== deletedFile);
+        onDeleteFile(deletedFile, newFiles);
+      }
+    },
+    [onDeleteFile, files],
+  );
+
   useEffect(() => {
     if (isNil(files)) return;
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
@@ -77,6 +88,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
         className="FileUploader-Previews"
         files={files}
         onAddFile={onAddFile}
+        onDeleteFile={onDelete}
         onLoad={handleLoadImage}
       />
     </div>

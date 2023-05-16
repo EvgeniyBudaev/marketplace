@@ -79,9 +79,10 @@
   align-items: center;
 }
 .Previews-File-IconWrapper {
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  height: 24px;
-  width: 24px;
+  height: inherit;
 }
 .Previews-File-ImageIcon {
   height: 24px;
@@ -94,6 +95,9 @@
   cursor: pointer;
   height: 24px;
   width: 24px;
+}
+.Previews-File-TrashIcon {
+  margin-left: 8px;
 }
 
 /*# sourceMappingURL=Previews.css.map */

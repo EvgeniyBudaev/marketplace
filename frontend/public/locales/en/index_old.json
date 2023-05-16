@@ -347,6 +347,9 @@
   "form": {
     "comment": {
       "title": "Добавь сюда перевод!!!"
+    },
+    "defaultImage": {
+      "title": "Default image"
     }
   },
   "root": {

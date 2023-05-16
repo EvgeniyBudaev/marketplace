@@ -99,6 +99,13 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
     setDefaultImage(file);
   };
 
+  const handleDeleteFile = (file: TFile, files: TFile[]) => {
+    onDeleteFile(file, files);
+    if (file.name === defaultImage?.name) {
+      setDefaultImage(null);
+    }
+  };
+
   const handleLoadImage = (file: TFile) => {
     return file?.preview ? URL.revokeObjectURL(file.preview) : file;
   };
@@ -249,7 +256,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
         <div className="ProductAdd-FormFieldGroup">
           <div className="ProductAdd-SubTitle">
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              Добавить изображения в галлерею продукта
+              Добавить новое изображение в галлерею
             </Typography>
           </div>
           <FileUploader
@@ -262,9 +269,9 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
             isLoading={fetcherFilesLoading}
             maxSize={1024 * 1024}
             multiple={false}
-            onAddFiles={onAddFiles}
             onAddFile={handleAddFileToDefaultImage}
-            onDeleteFile={onDeleteFile}
+            onAddFiles={onAddFiles}
+            onDeleteFile={handleDeleteFile}
           />
         </div>
 

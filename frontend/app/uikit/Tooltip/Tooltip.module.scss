@@ -1,6 +1,14 @@
 @import "component";
 
 .Tooltip {
+  display: flex;
+  align-items: center;
+  
+  &-Wrapper {
+    display: flex;
+    align-items: center;
+  }
+
   &-Element {
     display: inline-block;
     max-width: 300px;
