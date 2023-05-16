@@ -2,7 +2,6 @@ package com.marketplace.backend.service;
 
 import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.backend.model.EFileType;
-import com.marketplace.backend.model.EImageStatus;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.model.ProductFile;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +55,7 @@ public class AdminFilesService {
         return false;
     }
     @Transactional
-    public ProductFile saveEntity(Product product, String url, EFileType type, EImageStatus status) {
+    public ProductFile saveEntity(Product product, String url, EFileType type) {
         TypedQuery<ProductFile> query = entityManager
                 .createQuery("SELECT file FROM ProductFile as file where file.url=:url", ProductFile.class);
         query.setParameter("url", url);
@@ -65,7 +64,6 @@ public class AdminFilesService {
             return productFiles.get(0);
         }
         ProductFile productFile = new ProductFile();
-        productFile.setImageStatus(status);
         productFile.setFileType(type);
         productFile.setProduct(product);
         productFile.setUrl(url);

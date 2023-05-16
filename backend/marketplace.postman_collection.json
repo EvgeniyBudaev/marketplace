@@ -744,7 +744,7 @@
 									"formdata": [
 										{
 											"key": "alias",
-											"value": "venetian-mirror38",
+											"value": "venetian-mirror389",
 											"type": "text"
 										},
 										{
@@ -829,13 +829,9 @@
 										},
 										{
 											"key": "defaultImage",
-											"value": "ArrowBack.svg",
-											"type": "text"
-										},
-										{
-											"key": "files",
 											"type": "file",
-											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/ArrowLeft.svg"
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/Attention.svg",
+											"disabled": true
 										}
 									]
 								},

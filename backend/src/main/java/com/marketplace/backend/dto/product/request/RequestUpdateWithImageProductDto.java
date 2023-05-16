@@ -32,9 +32,14 @@ public class RequestUpdateWithImageProductDto implements RequestSaveOrUpdate {
     private List<Long> selectableValues = new ArrayList<>();
     private List<NumericValue> numericValues = new ArrayList<>();
     private List<String> images =new ArrayList<>();
-    private String defaultImage;/*default image filename*/
+
 
     public Set<Long> getSelectableValues(){
         return new HashSet<>(this.selectableValues);
+    }
+
+    @Override
+    public String getDefaultImage() {
+        return null;
     }
 }
