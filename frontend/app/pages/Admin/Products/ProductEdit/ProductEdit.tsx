@@ -31,7 +31,7 @@ import {
 } from "~/shared/form";
 import type { TFile, TParams } from "~/types";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
-import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
+import { Button, ETypographyVariant, Icon, notify, Tooltip, Typography } from "~/uikit";
 import { createPath, formatProxy } from "~/utils";
 import styles from "./ProductEdit.module.css";
 
@@ -40,15 +40,17 @@ type TProps = {
   product: TAdminProductDetail;
 };
 
-export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
+export const ProductEdit: FC<TProps> = (props) => {
   const { t } = useTranslation();
   const fetcherRemix = useFetcher();
   const { theme } = useTheme();
-  console.log("product: ", product);
-
   const idCheckbox = "enabled";
 
-  const [defaultImage, setDefaultImage] = useState<TFile | null>(null);
+  const [catalogs, setCatalogs] = useState(props.catalogs);
+  const [product, setProduct] = useState(props.product);
+  const [defaultImage, setDefaultImage] = useState<TFile | string | null>(
+    product?.defaultImage ?? null,
+  );
   const [images, setImages] = useState<string[]>(product?.images ?? []);
   const [filter, setFilter] = useState<TParams>({ enabled: product.enabled ? [idCheckbox] : [] });
 
@@ -82,6 +84,11 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
     setValue,
   });
 
+  useEffect(() => {
+    setCatalogs(props.catalogs);
+    setProduct(props.product);
+  }, [props.product, props.catalogs]);
+
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
     id: string,
@@ -111,34 +118,49 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
     setCatalogAlias(selectedOption as TSelectOption);
   };
 
+  const handleAddFileToDefaultImage = (value: TFile | string) => {
+    setDefaultImage(value);
+  };
+
+  const handleDeleteDefaultImage = (value: TFile | string) => {
+    if (typeof defaultImage !== "string" && typeof value !== "string") {
+      if (value.name === defaultImage?.name) {
+        setDefaultImage(null);
+      }
+    }
+    if (typeof defaultImage === "string" && typeof value === "string") {
+      if (value === defaultImage) {
+        setDefaultImage(null);
+      }
+    }
+  };
+
   const handleDeleteImage = (image: string) => {
     setImages((prevState) => {
       const idx = prevState.findIndex((item) => item === image);
       return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
     });
-  };
-
-  const handleAddFileToDefaultImage = (file: TFile) => {
-    setDefaultImage(file);
+    handleDeleteDefaultImage(image);
   };
 
   const handleDeleteFile = (file: TFile, files: TFile[]) => {
-    onDeleteFile(file, files);
-    if (file.name === defaultImage?.name) {
-      setDefaultImage(null);
+    if (typeof defaultImage === "string") {
+      return;
     }
+    onDeleteFile(file, files);
+    handleDeleteDefaultImage(file);
   };
 
-  const handleLoadImage = (file: TFile) => {
+  const handleLoadImage = (file: TFile | string) => {
+    if (typeof file == "string") {
+      return;
+    }
     return file?.preview ? URL.revokeObjectURL(file.preview) : file;
   };
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     const formattedParams = formattedProductEdit(params);
     const dataFormToDto = mapProductEditToDto(formattedParams, product.id);
-    // console.log("formattedParams: ", formattedParams);
-    // console.log("Form params: ", params);
-    // console.log("dataFormToDto : ", dataFormToDto);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.catalogAlias && formData.append("catalogAlias", dataFormToDto.catalogAlias);
@@ -179,8 +201,6 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
   };
 
   useEffect(() => {
-    console.log("isDoneType: ", isDoneType);
-    console.log("success: ", fetcher.data?.success);
     if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
       notify.error({
         title: "Ошибка выполнения",
@@ -307,38 +327,43 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
             })}
         </div>
 
-        {/*<div className="ProductEdit-FormFieldGroup">*/}
-        {/*  <div className="ProductEdit-ImageList">*/}
-        {/*    <div className="ProductEdit-ImageListItem">*/}
-        {/*      <img*/}
-        {/*        alt={defaultImages[0]}*/}
-        {/*        className="ProductEdit-ImageListItem-Image"*/}
-        {/*        src={formatProxy(defaultImages[0])}*/}
-        {/*      />*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-
         <div className="ProductEdit-FormFieldGroup">
           <div className="ProductEdit-SubTitle">
             <Typography variant={ETypographyVariant.TextB3Regular}>
               Текущие изображения в галлереи
             </Typography>
           </div>
-          <div className="ProductEdit-ImageList">
+          <div className="Previews">
             {!isNil(images) &&
               images.map((image, index) => (
-                <div className="ProductEdit-ImageListItem" key={`${image}-${index}`}>
-                  <Icon
-                    className="ProductEdit-ImageListItem-Icon"
-                    onClick={() => handleDeleteImage(image)}
-                    type="Close"
-                  />
-                  <img
-                    alt={image}
-                    className="ProductEdit-ImageListItem-Image"
-                    src={formatProxy(image)}
-                  />
+                <div className="Previews-Thumb" key={`${image}-${index}`}>
+                  <div className="Previews-Thumb-Inner">
+                    <img alt={image} className="Previews-Thumb-Image" src={formatProxy(image)} />
+                  </div>
+                  <div className="Previews-File">
+                    <div className="Previews-File-Inner">
+                      <div className="Previews-File-IconWrapper">
+                        <Icon className="Previews-File-ImageIcon" type="Image" />
+                      </div>
+                      <div className="Previews-File-Name">{image}</div>
+                    </div>
+                    <div className="Previews-File-IconWrapper">
+                      <Tooltip message={t("pages.admin.productEdit.addDefaultImage")}>
+                        <Icon
+                          className="Previews-File-AddIcon"
+                          onClick={() => handleAddFileToDefaultImage(image)}
+                          type="AddCircleOutline"
+                        />
+                      </Tooltip>
+                      <Tooltip message={t("pages.admin.productEdit.deleteImage")}>
+                        <Icon
+                          className="Previews-File-TrashIcon"
+                          onClick={() => handleDeleteImage(image)}
+                          type="Trash"
+                        />
+                      </Tooltip>
+                    </div>
+                  </div>
                 </div>
               ))}
           </div>
@@ -382,11 +407,15 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
             </Typography>
           </div>
           <div className="Previews-Thumb-Inner ProductEdit-DefaultImage">
-            {!isNil(defaultImage) && !isNil(defaultImage.preview) && (
+            {!isNil(defaultImage) && (
               <img
-                alt={defaultImage.name}
+                alt={typeof defaultImage !== "string" ? defaultImage?.name : product.name}
                 className="Previews-Thumb-Image"
-                src={defaultImage.preview}
+                src={
+                  typeof defaultImage !== "string"
+                    ? defaultImage?.preview
+                    : formatProxy(defaultImage)
+                }
                 onLoad={() => handleLoadImage(defaultImage)}
               />
             )}
@@ -396,7 +425,9 @@ export const ProductEdit: FC<TProps> = ({ catalogs, product }) => {
               <div className="Previews-File-IconWrapper">
                 <Icon className="Previews-File-ImageIcon" type="Image" />
               </div>
-              <div className="Previews-File-Name">{defaultImage?.name}</div>
+              <div className="Previews-File-Name">
+                {typeof defaultImage !== "string" ? defaultImage?.name : defaultImage}
+              </div>
             </div>
           </div>
         </div>

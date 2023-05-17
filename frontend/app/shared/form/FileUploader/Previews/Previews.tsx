@@ -49,14 +49,14 @@ export const Previews: FC<TProps> = ({ className, files, onAddFile, onDeleteFile
           </div>
 
           <div className="Previews-File-IconWrapper">
-            <Tooltip message={t("pages.admin.productAdd.previews.addFile")}>
+            <Tooltip message={t("pages.admin.product.previews.addDefaultImage")}>
               <Icon
                 className="Previews-File-AddIcon"
                 onClick={() => handleAddFile(file)}
                 type="AddCircleOutline"
               />
             </Tooltip>
-            <Tooltip message={t("pages.admin.productAdd.previews.deleteFile")}>
+            <Tooltip message={t("pages.admin.product.previews.deleteImage")}>
               <Icon
                 className="Previews-File-TrashIcon"
                 onClick={() => handleDeleteFile(file)}

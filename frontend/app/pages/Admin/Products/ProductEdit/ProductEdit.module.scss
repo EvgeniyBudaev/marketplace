@@ -21,43 +21,4 @@
   &-DefaultImage {
     margin-bottom: 16px;
   }
-
-  &-ImageList {
-    display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    width: 100%;
-    margin-bottom: 16px;
-  }
-
-  &-ImageListItem {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid $color-primary;
-    border-radius: $border-radius;
-    height: 100px;
-    width: 100px;
-    padding: 4px;
-    transition: all $transition;
-
-    &-Icon {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 24px;
-      width: 24px;
-      cursor: pointer;
-    }
-
-    &-Image {
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    &:hover {
-      border-color: $color-primary-hover;
-    }
-  }
 }

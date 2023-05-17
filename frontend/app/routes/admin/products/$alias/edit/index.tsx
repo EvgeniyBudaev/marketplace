@@ -27,13 +27,12 @@ export const action = async (args: ActionArgs) => {
   try {
     const productDetailResponse = await editProduct(request, formData);
     const catalogsResponse = await getCatalogs(request, { params: formattedParams });
-    console.log("[productDetailResponse.success] ", productDetailResponse.success);
-    console.log("[catalogsResponse.success] ", catalogsResponse.success);
+
     if (productDetailResponse.success && catalogsResponse.success) {
       // return redirect(
       //   createPath({
       //     route: ERoutes.AdminProductEdit,
-      //     params: { alias: alias ?? response.data.alias },
+      //     params: { alias: alias ?? productDetailResponse.data.alias },
       //   }),
       // );
       return json({
@@ -48,9 +47,6 @@ export const action = async (args: ActionArgs) => {
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
 
     return badRequest({ success: false, formError, fieldErrors });
   }
@@ -79,7 +75,6 @@ export const loader = async (args: LoaderArgs) => {
     const catalogsResponse = await getCatalogs(request, { params: formattedParams });
 
     if (productDetailResponse.success && catalogsResponse.success) {
-      console.log("[OK]");
       return json({
         catalogs: catalogsResponse.data,
         product: productDetailResponse.data,
@@ -92,16 +87,11 @@ export const loader = async (args: LoaderArgs) => {
       productDetailResponse,
       Object.values(EFormFields),
     );
-    console.log("[BAD]");
-    console.log("[fieldErrors] ", fieldErrors);
 
     return badRequest({ fieldErrors, success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
 
     return badRequest({ success: false, formError, fieldErrors });
   }
