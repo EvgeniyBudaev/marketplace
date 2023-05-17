@@ -128,7 +128,9 @@
         "title": "Product addition"
       },
       "productEdit": {
-        "title": "Product editing"
+        "title": "Product editing",
+        "addDefaultImage": "Select this image as default",
+        "deleteImage": "Delete image"
       },
       "products": {
         "title": "Products",
@@ -144,6 +146,12 @@
             }
           },
           "header": "Total products"
+        }
+      },
+      "product": {
+        "previews": {
+          "addDefaultImage": "Select this image as default",
+          "deleteImage": "Delete image"
         }
       }
     },
@@ -247,9 +255,6 @@
     },
     "price": {
       "title": "Price"
-    },
-    "defaultImage": {
-      "title": "Default image"
     },
     "email": {
       "title": "Email"

@@ -13,7 +13,7 @@ type TProps = {
   className?: string;
   dataTestId?: string;
   isOpen?: boolean;
-  message?: string | ReactElement;
+  message?: string | ReactElement | null;
   modifiers?: TModifiers;
   placement?: TPlacement;
 };
@@ -99,7 +99,7 @@ export const Tooltip: FC<TProps> = ({
   const isHydrated = useHydrated();
 
   return (
-    <div data-testid={dataTestId}>
+    <div className="Tooltip-Wrapper" data-testid={dataTestId}>
       <div
         className={clsx("Tooltip", className)}
         data-testid="tooltip-ref-element"

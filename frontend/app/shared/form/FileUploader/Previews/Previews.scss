@@ -33,7 +33,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    max-width: 320px;
+    max-width: 100%;
     width: 100%;
     padding: 8px;
     background-color: $color-light-gray;
@@ -45,9 +45,10 @@
     }
 
     &-IconWrapper {
+      display: flex;
+      align-items: center;
       cursor: pointer;
-      height: 24px;
-      width: 24px;
+      height: inherit;
     }
 
     &-ImageIcon {
@@ -63,6 +64,10 @@
       cursor: pointer;
       height: 24px;
       width: 24px;
+    }
+
+    &-TrashIcon {
+      margin-left: 8px;
     }
   }
 

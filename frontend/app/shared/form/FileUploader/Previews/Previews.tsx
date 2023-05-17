@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import type { TFile } from "~/types";
@@ -8,11 +9,22 @@ import styles from "./Previews.css";
 type TProps = {
   className?: string;
   files?: TFile[];
-  onAddFile?: (file: File) => void;
+  onAddFile?: (file: TFile) => void;
+  onDeleteFile?: (file: TFile) => void;
   onLoad: (file: TFile) => void;
 };
 
-export const Previews: FC<TProps> = ({ className, files, onAddFile, onLoad }) => {
+export const Previews: FC<TProps> = ({ className, files, onAddFile, onDeleteFile, onLoad }) => {
+  const { t } = useTranslation();
+
+  const handleAddFile = (file: TFile) => {
+    onAddFile?.(file);
+  };
+
+  const handleDeleteFile = (file: TFile) => {
+    onDeleteFile?.(file);
+  };
+
   const renderThumbs =
     !isNil(files) &&
     files.map((file) => (
@@ -35,15 +47,23 @@ export const Previews: FC<TProps> = ({ className, files, onAddFile, onLoad }) =>
             </div>
             <div className="Previews-File-Name">{file.name}</div>
           </div>
-          <Tooltip message={"Выбор изображения по умолчанию"}>
-            <div className="Previews-File-IconWrapper">
+
+          <div className="Previews-File-IconWrapper">
+            <Tooltip message={t("pages.admin.product.previews.addDefaultImage")}>
               <Icon
                 className="Previews-File-AddIcon"
-                onClick={() => (onAddFile ? onAddFile(file) : undefined)}
+                onClick={() => handleAddFile(file)}
                 type="AddCircleOutline"
               />
-            </div>
-          </Tooltip>
+            </Tooltip>
+            <Tooltip message={t("pages.admin.product.previews.deleteImage")}>
+              <Icon
+                className="Previews-File-TrashIcon"
+                onClick={() => handleDeleteFile(file)}
+                type="Trash"
+              />
+            </Tooltip>
+          </div>
         </div>
       </div>
     ));

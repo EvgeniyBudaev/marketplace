@@ -68,7 +68,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  max-width: 320px;
+  max-width: 100%;
   width: 100%;
   padding: 8px;
   background-color: rgb(228, 228, 228);
@@ -79,9 +79,10 @@
   align-items: center;
 }
 .Previews-File-IconWrapper {
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  height: 24px;
-  width: 24px;
+  height: inherit;
 }
 .Previews-File-ImageIcon {
   height: 24px;
@@ -94,6 +95,9 @@
   cursor: pointer;
   height: 24px;
   width: 24px;
+}
+.Previews-File-TrashIcon {
+  margin-left: 8px;
 }
 
 /*# sourceMappingURL=Previews.css.map */

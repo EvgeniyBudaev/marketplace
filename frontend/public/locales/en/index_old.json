@@ -280,11 +280,20 @@
       "productAdd": {
         "meta": {
           "title": "Product addition"
+        },
+        "previews": {
+          "addFile": "Select this image as default",
+          "deleteFile": "Remove an image from the list of uploaded files"
         }
       },
       "productEdit": {
         "meta": {
           "title": "Product editing"
+        }
+      },
+      "product": {
+        "previews": {
+          "deleteFile": "Добавь сюда перевод!!!"
         }
       }
     },
@@ -347,6 +356,9 @@
   "form": {
     "comment": {
       "title": "Добавь сюда перевод!!!"
+    },
+    "defaultImage": {
+      "title": "Default image"
     }
   },
   "root": {
