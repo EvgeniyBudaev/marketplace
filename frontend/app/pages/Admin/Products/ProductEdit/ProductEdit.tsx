@@ -151,13 +151,6 @@ export const ProductEdit: FC<TProps> = (props) => {
     handleDeleteDefaultImage(file);
   };
 
-  const handleLoadImage = (file: TFile | string) => {
-    if (typeof file == "string") {
-      return;
-    }
-    return file?.preview ? URL.revokeObjectURL(file.preview) : file;
-  };
-
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     const formattedParams = formattedProductEdit(params);
     const dataFormToDto = mapProductEditToDto(formattedParams, product.id);
@@ -407,16 +400,22 @@ export const ProductEdit: FC<TProps> = (props) => {
             </Typography>
           </div>
           <div className="Previews-Thumb-Inner ProductEdit-DefaultImage">
-            {!isNil(defaultImage) && (
+            {!isNil(defaultImage) && typeof defaultImage !== "string" && (
+              <>
+                {!isNil(defaultImage.preview) && (
+                  <img
+                    alt={defaultImage.name}
+                    className="Previews-Thumb-Image"
+                    src={defaultImage.preview}
+                  />
+                )}
+              </>
+            )}
+            {!isNil(defaultImage) && typeof defaultImage === "string" && (
               <img
-                alt={typeof defaultImage !== "string" ? defaultImage?.name : product.name}
+                alt={product.name}
                 className="Previews-Thumb-Image"
-                src={
-                  typeof defaultImage !== "string"
-                    ? defaultImage?.preview
-                    : formatProxy(defaultImage)
-                }
-                onLoad={() => handleLoadImage(defaultImage)}
+                src={formatProxy(defaultImage)}
               />
             )}
           </div>
