@@ -9,21 +9,13 @@ import styles from "./Previews.css";
 type TProps = {
   className?: string;
   files?: TFile[];
-  onAddFile?: (file: TFile) => void;
-  onDeleteFile?: (file: TFile) => void;
+  onAddFile: (file: TFile) => void;
+  onDeleteFile: (file: TFile) => void;
   onLoad: (file: TFile) => void;
 };
 
 export const Previews: FC<TProps> = ({ className, files, onAddFile, onDeleteFile, onLoad }) => {
   const { t } = useTranslation();
-
-  const handleAddFile = (file: TFile) => {
-    onAddFile?.(file);
-  };
-
-  const handleDeleteFile = (file: TFile) => {
-    onDeleteFile?.(file);
-  };
 
   const renderThumbs =
     !isNil(files) &&
@@ -36,7 +28,7 @@ export const Previews: FC<TProps> = ({ className, files, onAddFile, onDeleteFile
               className="Previews-Thumb-Image"
               src={file.preview}
               // Revoke data uri after image is loaded
-              onLoad={() => onLoad(file)}
+              // onLoad={() => onLoad(file)}
             />
           )}
         </div>
@@ -52,14 +44,14 @@ export const Previews: FC<TProps> = ({ className, files, onAddFile, onDeleteFile
             <Tooltip message={t("pages.admin.product.previews.addDefaultImage")}>
               <Icon
                 className="Previews-File-AddIcon"
-                onClick={() => handleAddFile(file)}
+                onClick={() => onAddFile(file)}
                 type="AddCircleOutline"
               />
             </Tooltip>
             <Tooltip message={t("pages.admin.product.previews.deleteImage")}>
               <Icon
                 className="Previews-File-TrashIcon"
-                onClick={() => handleDeleteFile(file)}
+                onClick={() => onDeleteFile(file)}
                 type="Trash"
               />
             </Tooltip>

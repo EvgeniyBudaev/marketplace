@@ -14,7 +14,7 @@ export type TFileUploaderProps = {
   files?: TFile[];
   Input: ReactElement;
   isLoading?: boolean;
-  onAddFile?: (file: File) => void;
+  onAddFile: (file: File) => void;
   onAddFiles: (acceptedFiles: TFile[], files: TFile[]) => void;
   onDeleteFile: (deletedFile: TFile, files: TFile[]) => void;
 } & TDropzoneProps;
@@ -51,12 +51,12 @@ export const FileUploader: FC<TFileUploaderProps> = ({
     [onDeleteFile, files],
   );
 
-  useEffect(() => {
-    if (isNil(files)) return;
-    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () =>
-      files.forEach((file) => (file?.preview ? URL.revokeObjectURL(file.preview) : file));
-  }, [files]);
+  // useEffect(() => {
+  //   if (isNil(files)) return;
+  //   // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+  //   return () =>
+  //     files.forEach((file) => (file?.preview ? URL.revokeObjectURL(file.preview) : file));
+  // }, [files]);
 
   const handleLoadImage = (file: TFile) => {
     return file?.preview ? URL.revokeObjectURL(file.preview) : file;
