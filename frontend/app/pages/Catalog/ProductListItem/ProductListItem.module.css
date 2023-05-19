@@ -41,9 +41,8 @@
 .ProductListItem {
   min-height: max-content;
   width: 100%;
-  border: 1px solid rgb(228, 228, 228);
+  border: 1px solid transparent;
   border-radius: 8px;
-  padding: 10px;
   transition: all 0.15s;
 }
 .ProductListItem:hover {
@@ -60,18 +59,39 @@
   position: relative;
   transition: all 0.15s;
 }
-.ProductListItem-Content .ProductListItem-ContentImg {
+.ProductListItem-Content .ProductListItem-ContentContainerImage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   height: 200px;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.ProductListItem-Content .ProductListItem-ContentLink {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+}
+.ProductListItem-Content .ProductListItem-ContentImage {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ProductListItem-Content .ProductListItem-ContentDescription {
+  padding: 0 4px;
 }
 .ProductListItem-Content .ProductListItem-ContentDescriptionLine {
   display: none;
 }
 .ProductListItem-Content .ProductListItem-ContentTitle {
-  margin: 8px 0;
+  margin-bottom: 4px;
   text-align: center;
-  min-height: 54px;
   width: 100%;
   color: rgb(51, 51, 51);
 }
@@ -83,13 +103,13 @@
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  min-height: 50px;
+  padding: 0 4px;
 }
 .ProductListItem-FooterPrice {
-  margin: 16px 0;
+  margin-bottom: 4px;
 }
 .ProductListItem-FooterStatus {
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   color: rgb(176, 151, 106);
 }
 .ProductListItem-FooterAddToCart {
@@ -111,7 +131,7 @@
   display: flex;
   flex: 1 0 auto;
 }
-.ProductListItem.ProductListItem__line .ProductListItem-ContentImg {
+.ProductListItem.ProductListItem__line .ProductListItem-ContainerImage {
   height: 100%;
   display: flex;
   align-items: center;
@@ -232,7 +252,7 @@
   }
 }
 @media (max-width: 500px) {
-  .ProductListItem-Content .ProductListItem-ContentImg {
+  .ProductListItem-Content .ProductListItem-ContentContainerImage {
     height: 140px;
   }
   .ProductListItem-ButtonAddToCart, .ProductListItem-ButtonGoAtCart {
