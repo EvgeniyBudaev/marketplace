@@ -34,8 +34,8 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
   });
   const count = Number(product.count);
   const imageProduct = formatProxy(
-    !isNil(product?.images)
-      ? product.images[0]
+    !isNil(product?.defaultImage)
+      ? product.defaultImage
       : "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
   );
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
@@ -104,8 +104,8 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     >
       <div className="ProductListItem-Wrapper">
         <div className="ProductListItem-Content">
-          <div className="ProductListItem-ContentImg">
-            <Link to={ROUTE_PRODUCT_DETAIL}>
+          <div className="ProductListItem-ContentContainerImage">
+            <Link className="ProductListItem-ContentLink" to={ROUTE_PRODUCT_DETAIL}>
               <img
                 className="ProductListItem-ContentImage"
                 alt={product.name}
@@ -117,7 +117,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
           </div>
           <div className="ProductListItem-ContentDescription">
             <Link className="ProductListItem-ContentTitle" to={ROUTE_PRODUCT_DETAIL}>
-              <Typography variant={ETypographyVariant.TextB2Regular}>{product.name}</Typography>
+              <Typography variant={ETypographyVariant.TextB3Regular}>{product.name}</Typography>
             </Link>
           </div>
           <ul className="ProductListItem-ContentDescriptionLine">
@@ -129,7 +129,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
             <li className="ProductListItem-ContentTitleLine">
               <Link to={ROUTE_PRODUCT_DETAIL}>
                 <span className="ProductListItem-ContentTitle">
-                  <Typography variant={ETypographyVariant.TextB2Regular}>{product.name}</Typography>
+                  <Typography variant={ETypographyVariant.TextB3Regular}>{product.name}</Typography>
                 </span>
               </Link>
             </li>
@@ -145,7 +145,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
         </div>
         <div className="ProductListItem-Footer">
           <div className="ProductListItem-FooterPrice">
-            <Typography variant={ETypographyVariant.TextH6Bold}>
+            <Typography variant={ETypographyVariant.TextB2Bold}>
               {formatCurrency(parseInt(product.price))} ₽
             </Typography>
           </div>
