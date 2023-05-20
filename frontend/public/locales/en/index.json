@@ -137,6 +137,11 @@
         "table": {
           "columns": {
             "info": {
+              "tooltip": {
+                "name": "The product's name",
+                "alias": "The product's url",
+                "status": "Show/hide product"
+              },
               "name": "Name",
               "alias": "Alias",
               "status": "Status",
