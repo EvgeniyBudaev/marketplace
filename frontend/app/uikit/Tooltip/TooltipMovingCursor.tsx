@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { FC, ReactElement, ReactNode } from "react";
 import ReactDOM from "react-dom";
 import { usePopper } from "react-popper";
 import { useHydrated } from "remix-utils";
 import clsx from "clsx";
-import { getTooltipOffset } from "~/uikit/Tooltip/utils";
+import { getTooltipOffset, getVirtualReference } from "~/uikit/Tooltip/utils";
 import type { TModifiers, TPlacement } from "./types";
 import styles from "./Tooltip.module.css";
 
@@ -25,9 +25,12 @@ export const Tooltip: FC<TProps> = ({
   message,
   modifiers,
   className = "",
-  placement = "top",
+  placement = "right",
 }) => {
   const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>(null);
+  const [virtualReference, setVirtualReference] = useState<ReturnType<
+    typeof getVirtualReference
+  > | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
@@ -68,47 +71,30 @@ export const Tooltip: FC<TProps> = ({
     popperModifiers = popperModifiers.concat(modifiers);
   }
 
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+  const { styles, attributes } = usePopper(virtualReference, popperElement, {
     modifiers: popperModifiers,
     placement,
   });
 
-  const closeTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-  const onToggle = useCallback(
-    (visible: boolean | ((prevState: boolean) => boolean)) => () => {
-      if (!isManualVisibility) {
-        clearTimeout(closeTimeout.current);
-
-        if (visible) {
-          setVisible(true);
-        } else {
-          closeTimeout.current = setTimeout(() => setVisible(false), 1000);
-        }
-      }
-    },
-    [isManualVisibility],
-  );
+  const onToggle = (visible: boolean | ((prevState: boolean) => boolean)) => () => {
+    if (!isManualVisibility) {
+      setVisible(visible);
+    }
+  };
 
   useEffect(() => {
-    const listener = () => setVisible(false);
+    if (visible) {
+      const listener = ({ clientX, clientY }: MouseEvent) => {
+        setVirtualReference(getVirtualReference(clientX, clientY));
+      };
 
-    document.addEventListener("scroll", listener);
+      document.addEventListener("mousemove", listener);
 
-    return () => document.removeEventListener("scroll", listener);
-  }, [onToggle]);
-
-  useEffect(() => {
-    const listener = (event: Event) => {
-      if (!popperElement?.contains(event.target as Node)) {
-        setVisible(false);
-      }
-    };
-
-    document.addEventListener("click", listener);
-
-    return () => document.removeEventListener("click", listener);
-  });
+      return () => document.removeEventListener("mousemove", listener);
+    } else {
+      setVirtualReference(null);
+    }
+  }, [visible]);
 
   const isHydrated = useHydrated();
 
@@ -125,7 +111,8 @@ export const Tooltip: FC<TProps> = ({
       </div>
 
       {isHydrated &&
-        (visible || isOpen) &&
+        visible &&
+        virtualReference &&
         message &&
         ReactDOM.createPortal(
           <div
@@ -133,10 +120,9 @@ export const Tooltip: FC<TProps> = ({
             ref={setPopperElement}
             style={{
               ...styles.popper,
+              pointerEvents: "none",
             }}
             {...attributes.popper}
-            onMouseOver={onToggle(true)}
-            onMouseOut={onToggle(false)}
           >
             {message}
             <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow} />

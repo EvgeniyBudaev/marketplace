@@ -54,6 +54,9 @@
   overflow-x: auto;
   margin-bottom: 30px;
 }
+.Table-NavigationPanel__top {
+  margin-bottom: 30px;
+}
 .Table-Head {
   display: flex;
   align-items: center;

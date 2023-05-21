@@ -93,6 +93,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
   return (
     <div ref={ref}>
       <NavigationPanel
+        className="Table-NavigationPanel__top"
         currentPage={currentPage}
         defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
         dropdownPosition={ETablePlacement.Bottom}

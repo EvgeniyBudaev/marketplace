@@ -256,7 +256,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
         <div className="ProductAdd-FormFieldGroup">
           <div className="ProductAdd-SubTitle">
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              Добавить новое изображение в галлерею
+              {t("pages.admin.product.previews.addImage")}
             </Typography>
           </div>
           <FileUploader
@@ -278,7 +278,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
         <div className="ProductAdd-FormFieldGroup">
           <div className="ProductAdd-SubTitle">
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              Изображение по умолчанию
+              {t("pages.admin.product.previews.defaultImage")}
             </Typography>
           </div>
           <div className="Previews-Thumb-Inner ProductAdd-DefaultImage">

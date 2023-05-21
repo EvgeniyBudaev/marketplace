@@ -23,7 +23,9 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
         columnHelper.accessor(ETableColumns.Name, {
           id: ETableColumns.Name,
           header: () => (
-            <TableHeader>{t("pages.admin.products.table.columns.info.name")}</TableHeader>
+            <TableHeader info={t("pages.admin.products.table.columns.info.tooltip.name") ?? ""}>
+              {t("pages.admin.products.table.columns.info.name")}
+            </TableHeader>
           ),
           size: 192,
         }),
@@ -31,7 +33,9 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
         columnHelper.accessor(ETableColumns.Alias, {
           id: ETableColumns.Alias,
           header: () => (
-            <TableHeader>{t("pages.admin.products.table.columns.info.alias")}</TableHeader>
+            <TableHeader info={t("pages.admin.products.table.columns.info.tooltip.alias") ?? ""}>
+              {t("pages.admin.products.table.columns.info.alias")}
+            </TableHeader>
           ),
           size: 192,
         }),
@@ -39,7 +43,9 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
         columnHelper.accessor(ETableColumns.Enabled, {
           id: ETableColumns.Enabled,
           header: () => (
-            <TableHeader>{t("pages.admin.products.table.columns.info.status")}</TableHeader>
+            <TableHeader info={t("pages.admin.products.table.columns.info.tooltip.status") ?? ""}>
+              {t("pages.admin.products.table.columns.info.status")}
+            </TableHeader>
           ),
           size: 192,
         }),

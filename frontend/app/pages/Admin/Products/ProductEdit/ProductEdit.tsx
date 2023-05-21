@@ -374,7 +374,7 @@ export const ProductEdit: FC<TProps> = (props) => {
         <div className="ProductEdit-FormFieldGroup">
           <div className="ProductEdit-SubTitle">
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              Добавить новое изображение в галлерею
+              {t("pages.admin.product.previews.addImage")}
             </Typography>
           </div>
           <FileUploader
@@ -396,7 +396,7 @@ export const ProductEdit: FC<TProps> = (props) => {
         <div className="ProductEdit-FormFieldGroup">
           <div className="ProductEdit-SubTitle">
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              Изображение по умолчанию
+              {t("pages.admin.product.previews.defaultImage")}
             </Typography>
           </div>
           <div className="Previews-Thumb-Inner ProductEdit-DefaultImage">
