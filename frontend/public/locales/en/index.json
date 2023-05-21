@@ -127,6 +127,14 @@
       "productAdd": {
         "title": "Product addition"
       },
+      "product": {
+        "previews": {
+          "addImage": "Add new image to gallery",
+          "defaultImage": "Default image",
+          "addDefaultImage": "Select this image as default",
+          "deleteImage": "Delete image"
+        }
+      },
       "productEdit": {
         "title": "Product editing",
         "addDefaultImage": "Select this image as default",
@@ -151,12 +159,6 @@
             }
           },
           "header": "Total products"
-        }
-      },
-      "product": {
-        "previews": {
-          "addDefaultImage": "Select this image as default",
-          "deleteImage": "Delete image"
         }
       }
     },

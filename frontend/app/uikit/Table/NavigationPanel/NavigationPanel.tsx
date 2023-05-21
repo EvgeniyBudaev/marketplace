@@ -1,5 +1,6 @@
 import { memo } from "react";
 import type { FC } from "react";
+import clsx from "clsx";
 import type { ETablePlacement } from "~/uikit/Table/enums";
 import { PageSize, pageSizeLinks } from "~/uikit/Table/PageSize";
 import { Pagination } from "~/uikit";
@@ -7,6 +8,7 @@ import type { ETheme } from "~/uikit";
 import styles from "./NavigationPanel.module.css";
 
 type TProps = {
+  className?: string;
   currentPage?: number;
   defaultPageSize: number;
   dropdownPosition?: ETablePlacement;
@@ -18,6 +20,7 @@ type TProps = {
 };
 
 const Component: FC<TProps> = ({
+  className,
   currentPage,
   defaultPageSize,
   dropdownPosition,
@@ -28,7 +31,7 @@ const Component: FC<TProps> = ({
   theme,
 }) => {
   return (
-    <div className="NavigationPanel">
+    <div className={clsx("NavigationPanel", className)}>
       <PageSize
         defaultPageSize={defaultPageSize}
         dropdownPosition={dropdownPosition}
