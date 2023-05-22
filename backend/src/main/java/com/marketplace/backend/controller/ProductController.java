@@ -169,21 +169,21 @@ public class ProductController {
     }
 
     private ProductFile saveFile(MultipartFile uploadFile,EFileType eFileType,Product product){
+
         if (eFileType.equals(EFileType.IMAGE) && globalProperty.getIsImageDirectoryAvailability()) {
             if (fileUtils.checkImageFile(uploadFile)) {
                 Path imageDir = Path.of(globalProperty.getIMAGE_DIR().toString(), product.getId().toString());
                 if (!fileUtils.createIfNotExistProductDir(imageDir)) {
                     throw new OperationNotAllowedException("Не удалось создать директорию продукта");
                 }
-                    Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
-                if (manageProductDao.saveFileOnFileSystem(uploadFile, filePath)) {
-                    Path relativePath = Path.of(product.getAlias(),uploadFile.getOriginalFilename());
-                    return manageProductDao.saveFileDescription(product, relativePath.toString(), EFileType.IMAGE);
+                Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
+                if (manageProductDao.saveFileOnFileSystem(uploadFile,filePath)) {
+                    return manageProductDao.saveFileDescription(product, uploadFile.getOriginalFilename(), EFileType.IMAGE);
                 } else {
                     throw new OperationNotAllowedException("Не удалось сохранить файл");
                 }
             } else {
-                throw new OperationNotAllowedException("Файл не является изображением");
+                throw new OperationNotAllowedException("Файл не является изображением: " +uploadFile.getOriginalFilename());
             }
         }
         throw new OperationNotAllowedException("Директория для сохранения файла не доступна");

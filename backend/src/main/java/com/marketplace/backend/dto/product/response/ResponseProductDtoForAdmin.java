@@ -78,10 +78,12 @@ public class ResponseProductDtoForAdmin {
                     return null;
                 }
                 if(Objects.equals(productFile.getImageStatus(), EImageStatus.DEFAULT)){
-                    this.defaultImage = FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,baseUrl);
+                    String url = product.getAlias()+"/"+productFile.getUrl();
+                    this.defaultImage = FileUtils.createUrl(url,EFileType.IMAGE,baseUrl);
                     return this.defaultImage;
                 }
-                return FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,baseUrl);
+                String url = product.getAlias()+"/"+productFile.getUrl();
+                return FileUtils.createUrl(url,EFileType.IMAGE,baseUrl);
             }).collect(Collectors.toSet());
         }else {
             this.images=null;
