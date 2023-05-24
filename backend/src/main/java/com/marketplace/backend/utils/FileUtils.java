@@ -2,6 +2,7 @@ package com.marketplace.backend.utils;
 
 import com.marketplace.backend.model.EFileType;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tika.Tika;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -168,11 +169,20 @@ public class FileUtils {
     }
 
     public Boolean checkImageFile(MultipartFile file) {
-        String mimetype = file.getContentType();
+        Tika tika = new Tika();
+        try {
+            String mimeType =  tika.detect(file.getInputStream());
+            String[] type = mimeType.split("/");
+            return type[0].equals("image");
+        }catch (IOException e){
+            return false;
+        }
+
+        /*String mimetype = file.getContentType();
         if (mimetype == null) {
             return false;
         }
         String[] type = mimetype.split("/");
-        return type[0].equals("image");
+        return type[0].equals("image");*/
     }
 }

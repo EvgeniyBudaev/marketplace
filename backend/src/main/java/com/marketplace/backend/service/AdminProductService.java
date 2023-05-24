@@ -157,6 +157,15 @@ public class AdminProductService implements ManageProductDao {
             product.getDoubleValues().add(doubleValue);
             entityManager.persist(doubleValue);
         });
+        TypedQuery<String> query = entityManager.createQuery("SELECT p.alias FROM Product as p where p.id=:id",String.class);
+        query.setParameter("id",dto.getId());
+        String oldAlias = query.getSingleResult();
+        String aliasForUrl;
+        if(oldAlias.equals(product.getAlias())){
+            aliasForUrl= product.getAlias();
+        }else {
+            aliasForUrl = oldAlias;
+        }
         Product finalProduct = entityManager.merge(product);
         finalProduct.setCreatedAt(getCreatedAt(finalProduct));
         Set<ProductFile> images =new HashSet<>(adminFilesService.getImageFilesByProduct(finalProduct));
@@ -164,7 +173,8 @@ public class AdminProductService implements ManageProductDao {
             Iterator<ProductFile> iterator = images.iterator();
             while (iterator.hasNext()){
                 ProductFile x = iterator.next();
-                String url = FileUtils.createUrl(x.getUrl(),EFileType.IMAGE,globalProperty.getBASE_URL());
+
+                String url = FileUtils.createUrl(aliasForUrl+"/"+x.getUrl(),EFileType.IMAGE,globalProperty.getBASE_URL());
                 System.out.println(url);
                 if(!dto.getImages().contains(url)){
                     deleteFileFromFileSystem(x,finalProduct.getId());
