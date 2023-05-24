@@ -1,6 +1,7 @@
 @import "component";
 
 .Tooltip {
+  $this: &;
   display: flex;
   align-items: center;
   
@@ -13,16 +14,23 @@
     display: inline-block;
     max-width: 300px;
     width: 100%;
-    background-color: $color-black;
-    color: #fff;
+    background-color: transparent;
     border-radius: 4px;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 20px;
-    padding: 16px 24px;
+    padding: 4px;
     z-index: 10;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    &Inner {
+      background-color: $color-black;
+      border-radius: 4px;
+      color: #fff;
+      padding: 16px 24px;
+      width: 100%;
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 20px;
+    }
   }
 
   &-Arrow,
@@ -43,19 +51,28 @@
     transform: rotate(45deg);
   }
 
-  &-Element[data-popper-placement^="top"] > &-Arrow {
-    bottom: -4px;
+  &-Element[data-popper-placement^="top"] {
+    #{$this}-Arrow {
+      bottom: 0;
+    }
   }
 
-  &-Element[data-popper-placement^="bottom"] > &-Arrow {
-    top: -4px;
+  &-Element[data-popper-placement^="bottom"] {
+    #{$this}-Arrow {
+      top: 0;
+    }
   }
 
-  &-Element[data-popper-placement^="left"] > &-Arrow {
-    right: -4px;
+  &-Element[data-popper-placement^="left"] {
+    #{$this}-Arrow {
+      right: 0;
+    }
   }
 
-  &-Element[data-popper-placement^="right"] > &-Arrow {
-    left: -4px;
+  &-Element[data-popper-placement^="right"] {
+    #{$this}-Arrow {
+      left: 0;
+    }
   }
+
 }
