@@ -50,16 +50,22 @@
   display: inline-block;
   max-width: 300px;
   width: 100%;
-  background-color: rgb(0, 0, 0);
-  color: #fff;
+  background-color: transparent;
   border-radius: 4px;
+  padding: 4px;
+  z-index: 10;
+}
+.Tooltip-ElementInner {
+  background-color: rgb(0, 0, 0);
+  border-radius: 4px;
+  color: #fff;
+  padding: 16px 24px;
+  width: 100%;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 20px;
-  padding: 16px 24px;
-  z-index: 10;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 .Tooltip-Arrow, .Tooltip-Arrow::before {
   position: absolute;
@@ -75,17 +81,17 @@
   visibility: visible;
   transform: rotate(45deg);
 }
-.Tooltip-Element[data-popper-placement^=top] > .Tooltip-Arrow {
-  bottom: -4px;
+.Tooltip-Element[data-popper-placement^=top] .Tooltip-Arrow {
+  bottom: 0;
 }
-.Tooltip-Element[data-popper-placement^=bottom] > .Tooltip-Arrow {
-  top: -4px;
+.Tooltip-Element[data-popper-placement^=bottom] .Tooltip-Arrow {
+  top: 0;
 }
-.Tooltip-Element[data-popper-placement^=left] > .Tooltip-Arrow {
-  right: -4px;
+.Tooltip-Element[data-popper-placement^=left] .Tooltip-Arrow {
+  right: 0;
 }
-.Tooltip-Element[data-popper-placement^=right] > .Tooltip-Arrow {
-  left: -4px;
+.Tooltip-Element[data-popper-placement^=right] .Tooltip-Arrow {
+  left: 0;
 }
 
 /*# sourceMappingURL=Tooltip.module.css.map */

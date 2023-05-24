@@ -49,7 +49,7 @@ export const ProductEdit: FC<TProps> = (props) => {
   const [catalogs, setCatalogs] = useState(props.catalogs);
   const [product, setProduct] = useState(props.product);
   const [defaultImage, setDefaultImage] = useState<TFile | string | null>(
-    product?.defaultImage ?? null,
+      props.product?.defaultImage ?? null,
   );
   const [images, setImages] = useState<string[]>(product?.images ?? []);
   const [filter, setFilter] = useState<TParams>({ enabled: product.enabled ? [idCheckbox] : [] });
@@ -87,7 +87,9 @@ export const ProductEdit: FC<TProps> = (props) => {
   useEffect(() => {
     setCatalogs(props.catalogs);
     setProduct(props.product);
-  }, [props.product, props.catalogs]);
+    setDefaultImage(props.product.defaultImage ?? null);
+    setImages(props.product.images ?? []);
+  }, [props.product, props.catalogs, product.enabled]);
 
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,

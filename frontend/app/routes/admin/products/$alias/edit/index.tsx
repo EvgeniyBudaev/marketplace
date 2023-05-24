@@ -17,34 +17,35 @@ import { checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { params, request } = args;
-  const { alias } = params;
   const formData = await request.formData();
   const formattedParams = mapProductsToDto({
     ...formData,
   });
   const [t] = await Promise.all([getStoreFixedT({ request })]);
-
+  console.log("[formData]", formData);
   try {
     const productDetailResponse = await editProduct(request, formData);
     const catalogsResponse = await getCatalogs(request, { params: formattedParams });
-
+    console.log("[success]", productDetailResponse.success);
     if (productDetailResponse.success && catalogsResponse.success) {
-      // return redirect(
-      //   createPath({
-      //     route: ERoutes.AdminProductEdit,
-      //     params: { alias: alias ?? productDetailResponse.data.alias },
-      //   }),
-      // );
-      return json({
-        catalogs: catalogsResponse.data,
-        product: productDetailResponse.data,
-        success: true,
-        title: t("routes.titles.productEdit"),
-      });
+      console.log("[data]", productDetailResponse.data);
+      return redirect(
+        createPath({
+          route: ERoutes.AdminProductEdit,
+          params: { alias: productDetailResponse.data.alias },
+        }),
+      );
+      // return json({
+      //   catalogs: catalogsResponse.data,
+      //   product: productDetailResponse.data,
+      //   success: true,
+      //   title: t("routes.titles.productEdit"),
+      // });
     }
 
     return badRequest({ success: false });
   } catch (error) {
+    console.log("ERROR");
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
 

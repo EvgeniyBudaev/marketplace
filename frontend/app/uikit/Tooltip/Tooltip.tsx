@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { FC, ReactElement, ReactNode } from "react";
+import { useEffect, useState } from "react";
+import type { FC, MouseEvent, ReactElement, ReactNode } from "react";
 import ReactDOM from "react-dom";
 import { usePopper } from "react-popper";
 import { useHydrated } from "remix-utils";
@@ -16,6 +16,7 @@ type TProps = {
   message?: string | ReactElement | null;
   modifiers?: TModifiers;
   placement?: TPlacement;
+  timerDelay?: number;
 };
 
 export const Tooltip: FC<TProps> = ({
@@ -26,28 +27,21 @@ export const Tooltip: FC<TProps> = ({
   modifiers,
   className = "",
   placement = "top",
+  timerDelay = 100,
 }) => {
   const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
   const isManualVisibility = typeof isOpen !== "undefined";
+  const [timer, setTimer] = useState<NodeJS.Timeout | undefined>();
 
   let popperModifiers: TModifiers = [
     {
       name: "arrow",
       options: {
         element: arrowElement,
-        padding:
-          popperElement &&
-          referenceElement &&
-          popperElement.offsetWidth / referenceElement.offsetWidth,
-      },
-    },
-    {
-      name: "flip",
-      options: {
-        altBoundary: true,
+        padding: 12,
       },
     },
     {
@@ -73,42 +67,31 @@ export const Tooltip: FC<TProps> = ({
     placement,
   });
 
-  const closeTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-  const onToggle = useCallback(
-    (visible: boolean | ((prevState: boolean) => boolean)) => () => {
-      if (!isManualVisibility) {
-        clearTimeout(closeTimeout.current);
-
-        if (visible) {
-          setVisible(true);
-        } else {
-          closeTimeout.current = setTimeout(() => setVisible(false), 1000);
-        }
-      }
-    },
-    [isManualVisibility],
-  );
+  if (modifiers) {
+    popperModifiers = popperModifiers.concat(modifiers);
+  }
 
   useEffect(() => {
     const listener = () => setVisible(false);
+    document.addEventListener('scroll', listener);
+    return () => document.removeEventListener('scroll', listener);
+  }, []);
 
-    document.addEventListener("scroll", listener);
+  const handleMouseOver = () => {
+    if (!isManualVisibility) {
+      setVisible(true);
+      clearTimeout(timer);
+    }
+  };
 
-    return () => document.removeEventListener("scroll", listener);
-  }, [onToggle]);
+  const handleMouseLeave = () => {
+    const newTimer = setTimeout(() => setVisible(false), timerDelay);
+    setTimer(newTimer);
+  };
 
-  useEffect(() => {
-    const listener = (event: Event) => {
-      if (!popperElement?.contains(event.target as Node)) {
-        setVisible(false);
-      }
-    };
-
-    document.addEventListener("click", listener);
-
-    return () => document.removeEventListener("click", listener);
-  });
+  const handleInnerClick = (event: MouseEvent) => {
+    event.stopPropagation();
+  };
 
   const isHydrated = useHydrated();
 
@@ -117,8 +100,8 @@ export const Tooltip: FC<TProps> = ({
       <div
         className={clsx("Tooltip", className)}
         data-testid="tooltip-ref-element"
-        onMouseOver={onToggle(true)}
-        onMouseOut={onToggle(false)}
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
         ref={setReferenceElement}
       >
         {children}
@@ -128,19 +111,24 @@ export const Tooltip: FC<TProps> = ({
         (visible || isOpen) &&
         message &&
         ReactDOM.createPortal(
-          <div
-            className="Tooltip-Element"
-            ref={setPopperElement}
-            style={{
-              ...styles.popper,
-            }}
-            {...attributes.popper}
-            onMouseOver={onToggle(true)}
-            onMouseOut={onToggle(false)}
-          >
-            {message}
-            <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow} />
-          </div>,
+            <div
+                className="Tooltip-Element"
+                onClick={handleInnerClick}
+                onMouseOver={handleMouseOver}
+                onMouseLeave={handleMouseLeave}
+                ref={setPopperElement}
+                style={{
+                  ...styles.popper,
+                }}
+                {...attributes.popper}
+            >
+              <div
+                  className="Tooltip-ElementInner"
+              >
+                {message}
+                <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow} />
+              </div>
+            </div>,
           document.body,
         )}
     </div>
