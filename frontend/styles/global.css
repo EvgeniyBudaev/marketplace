@@ -67,6 +67,10 @@ button {
     outline: transparent;
 }
 
+.no_image {
+    background-color: #ebebeb;
+}
+
 .theme-dark {
     background-color: rgba(24, 24, 31, 1);
     color: #fff;
@@ -79,4 +83,8 @@ button {
 .theme-dark .icon-dark {
     color: #fff;
     fill: #fff;
+}
+
+.theme-dark .no_image {
+    background-color: #1f2029;
 }

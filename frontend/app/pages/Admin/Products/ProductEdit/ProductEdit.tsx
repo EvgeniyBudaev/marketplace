@@ -29,7 +29,7 @@ import {
   Select,
   useInitForm,
 } from "~/shared/form";
-import type { TFile, TParams } from "~/types";
+import type { TDomainErrors, TFile, TParams } from "~/types";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import { Button, ETypographyVariant, Icon, notify, Tooltip, Typography } from "~/uikit";
 import { createPath, formatProxy } from "~/utils";
@@ -37,7 +37,10 @@ import styles from "./ProductEdit.module.css";
 
 type TProps = {
   catalogs: TCatalogs;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
   product: TAdminProductDetail;
+  success: boolean;
 };
 
 export const ProductEdit: FC<TProps> = (props) => {
@@ -49,7 +52,7 @@ export const ProductEdit: FC<TProps> = (props) => {
   const [catalogs, setCatalogs] = useState(props.catalogs);
   const [product, setProduct] = useState(props.product);
   const [defaultImage, setDefaultImage] = useState<TFile | string | null>(
-      props.product?.defaultImage ?? null,
+    props.product?.defaultImage ?? null,
   );
   const [images, setImages] = useState<string[]>(product?.images ?? []);
   const [filter, setFilter] = useState<TParams>({ enabled: product.enabled ? [idCheckbox] : [] });
@@ -196,18 +199,18 @@ export const ProductEdit: FC<TProps> = (props) => {
   };
 
   useEffect(() => {
-    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
+    if (isDoneType && !props.success && !props.fieldErrors) {
       notify.error({
         title: "Ошибка выполнения",
       });
     }
-    if (isDoneType && fetcher.data?.success && !fetcher.data?.fieldErrors) {
+    if (isDoneType && props.success && !props.fieldErrors) {
       notify.success({
         title: "Обновлено",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetcher.data, fetcher.data?.success, isDoneType]);
+  }, [props.success, isDoneType]);
 
   useEffect(() => {
     fetcherRemix.submit(

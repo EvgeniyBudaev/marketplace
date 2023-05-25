@@ -1,6 +1,6 @@
 @import "component";
 
-$maxWidth: 620px;
+$maxWidth: 420px;
 $heightDropDown: 335px;
 $height: 43px;
 
@@ -59,6 +59,7 @@ $height: 43px;
     right: 15px;
     width: 24px;
     height: 24px;
+
     svg {
       fill: rgba(255, 255, 255, 1);
     }
@@ -74,6 +75,7 @@ $height: 43px;
       &::placeholder {
         background-color: rgba(255, 255, 255, 1);
       }
+
       &:hover {
         background-color: rgba(255, 255, 255, 1);
       }
@@ -110,6 +112,7 @@ $height: 43px;
         &::placeholder {
           background-color: $color-darkness;
         }
+
         &:hover {
           background-color: $color-darkness;
         }
@@ -129,6 +132,7 @@ $height: 43px;
     &-Input {
       height: $height;
     }
+
     &-InputWrapper {
       border: none;
     }

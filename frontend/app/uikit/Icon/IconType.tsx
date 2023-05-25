@@ -34,6 +34,7 @@ import {
   LogoIcon,
   LogoShortIcon,
   MirrorIcon,
+  NoImageIcon,
   RussianLanguageIcon,
   SearchIcon,
   SettingsIcon,
@@ -85,6 +86,7 @@ export type IconType =
   | "Logo"
   | "LogoShort"
   | "Mirror"
+  | "NoImage"
   | "RussianLanguage"
   | "Search"
   | "Settings"
@@ -135,6 +137,7 @@ export const iconTypes = new Map([
   ["Logo", <LogoIcon key="Logo" />],
   ["LogoShort", <LogoShortIcon key="LogoShort" />],
   ["Mirror", <MirrorIcon key="Mirror" />],
+  ["NoImage", <NoImageIcon key="NoImage" />],
   ["RussianLanguage", <RussianLanguageIcon key="RussianLanguage" />],
   ["Search", <SearchIcon key="Search" />],
   ["Settings", <SettingsIcon key="Settings" />],

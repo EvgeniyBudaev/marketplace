@@ -42,7 +42,8 @@
   min-height: max-content;
   width: 100%;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 4px;
+  padding: 4px;
   transition: all 0.15s;
 }
 .ProductListItem:hover {
@@ -70,6 +71,9 @@
   overflow: hidden;
 }
 .ProductListItem-Content .ProductListItem-ContentLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   width: 100%;
   max-width: 100%;

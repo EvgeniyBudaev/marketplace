@@ -3,9 +3,10 @@ import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { ERoutes } from "~/enums";
 import type { TProductByCatalog } from "~/shared/api/products";
-import { ETypographyVariant, Typography } from "~/uikit";
+import { ETypographyVariant, Icon, Typography } from "~/uikit";
 import { createPath, formatCurrency, formatProxy } from "~/utils";
 import styles from "./SearchGlobalListItem.module.css";
+import isNil from "lodash/isNil";
 
 type TProps = {
   index: number;
@@ -34,15 +35,18 @@ export const SearchGlobalListItem: FC<TProps> = ({ index, item, isActive, onMous
               "SearchGlobalListItem-Link__active": isActive,
             })}
           >
-            <div className="SearchListItem-Images">
-              <img
-                src={formatProxy(
-                  "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png?itok=fovz__Gi",
-                )}
-                alt=""
-                width="28"
-                height="28"
-              />
+            <div className="SearchGlobalListItem-Images">
+              {!isNil(item?.defaultImage) ? (
+                <img
+                  className="SearchGlobalListItem-Image"
+                  src={formatProxy(item.defaultImage)}
+                  alt=""
+                  width="28"
+                  height="28"
+                />
+              ) : (
+                <Icon type="NoImage" />
+              )}
             </div>
             <div className="SearchGlobalListItem-Title">
               <Typography variant={ETypographyVariant.TextB3Regular}>{item.name}</Typography>

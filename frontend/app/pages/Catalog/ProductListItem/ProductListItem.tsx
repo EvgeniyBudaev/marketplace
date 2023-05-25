@@ -10,7 +10,7 @@ import type { TCart } from "~/shared/api/cart";
 import type { TCatalogDetail } from "~/shared/api/catalogs";
 import type { TProductByCatalog } from "~/shared/api/products";
 import { EFormMethods } from "~/shared/form";
-import { Button, ETypographyVariant, Typography } from "~/uikit";
+import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
 import { createPath, formatProxy, formatCurrency } from "~/utils";
 import { AttributeItem } from "../AttributeItem";
 import styles from "./ProductListItem.module.css";
@@ -33,11 +33,6 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     params: { alias: product.alias },
   });
   const count = Number(product.count);
-  const imageProduct = formatProxy(
-    !isNil(product?.defaultImage)
-      ? product.defaultImage
-      : "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
-  );
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
 
   const imageResponsiveSizeWidth = () => {
@@ -104,15 +99,23 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
     >
       <div className="ProductListItem-Wrapper">
         <div className="ProductListItem-Content">
-          <div className="ProductListItem-ContentContainerImage">
+          <div
+            className={clsx("ProductListItem-ContentContainerImage", {
+              no_image: isNil(product?.defaultImage),
+            })}
+          >
             <Link className="ProductListItem-ContentLink" to={ROUTE_PRODUCT_DETAIL}>
-              <img
-                className="ProductListItem-ContentImage"
-                alt={product.name}
-                src={imageProduct}
-                width={imageResponsiveSizeWidth()}
-                height={imageResponsiveSizeHeight()}
-              />
+              {!isNil(product?.defaultImage) ? (
+                <img
+                  className="ProductListItem-ContentImage"
+                  alt={product.name}
+                  src={formatProxy(product.defaultImage)}
+                  width={imageResponsiveSizeWidth()}
+                  height={imageResponsiveSizeHeight()}
+                />
+              ) : (
+                <Icon type="NoImage" />
+              )}
             </Link>
           </div>
           <div className="ProductListItem-ContentDescription">

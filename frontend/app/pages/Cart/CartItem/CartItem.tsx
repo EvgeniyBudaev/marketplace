@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
+import { DEFAULT_IMAGE } from "~/constants";
 import { ERoutes } from "~/enums";
 import type { TCartItem } from "~/shared/api/cart";
 import { EFormMethods } from "~/shared/form";
@@ -26,9 +27,7 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
   }, [cartItem.quantity]);
 
   const imageProduct = formatProxy(
-    !isNil(cartItem?.product.images)
-      ? cartItem.product.images[0]
-      : "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
+    !isNil(cartItem?.product.images) ? cartItem.product.images[0] : DEFAULT_IMAGE,
   );
 
   const handleDecrement = () => {

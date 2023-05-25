@@ -41,6 +41,12 @@
 .Settings-Title {
   margin-bottom: 30px;
 }
+.Settings-SubTitle {
+  margin-bottom: 16px;
+}
+.Settings-Block {
+  margin-bottom: 24px;
+}
 .Settings-Select {
   max-width: 220px;
   width: 100%;

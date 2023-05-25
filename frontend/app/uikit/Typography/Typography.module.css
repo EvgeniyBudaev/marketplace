@@ -38,129 +38,65 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
-.Typography-text-h1 {
+.Typography {
   font-family: "Roboto", sans-serif;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography.text-h1 {
   font-size: 32px;
-  font-style: normal;
-  line-height: 1.25;
 }
-.Typography-text-h1__bold {
-  font-weight: 700;
-}
-.Typography-text-h1__bold {
-  font-weight: 500;
-}
-.Typography-text-h2 {
-  font-family: "Roboto", sans-serif;
+.Typography.text-h2 {
   font-size: 28px;
-  font-style: normal;
-  line-height: 1.25;
 }
-.Typography-text-h2__medium {
-  font-weight: 500;
-}
-.Typography-text-h3 {
-  font-family: "Roboto", sans-serif;
+.Typography.text-h3 {
   font-size: 26px;
-  font-style: normal;
-  line-height: 1.25;
 }
-.Typography-text-h3__medium {
-  font-weight: 500;
-}
-.Typography-text-h4 {
-  font-family: "Roboto", sans-serif;
+.Typography.text-h4 {
   font-size: 24px;
-  font-style: normal;
-  line-height: 1.25;
 }
-.Typography-text-h4__medium {
-  font-weight: 500;
-}
-.Typography-text-h5 {
-  font-family: "Roboto", sans-serif;
+.Typography.text-h5 {
   font-size: 22px;
-  font-style: normal;
-  line-height: 1.25;
 }
-.Typography-text-h5__medium {
-  font-weight: 500;
-}
-.Typography-text-h5__bold {
-  font-weight: 700;
-}
-.Typography-text-h6 {
-  font-family: "Roboto", sans-serif;
+.Typography.text-h6 {
   font-size: 20px;
-  font-style: normal;
-  line-height: 1.25;
 }
-.Typography-text-h6__bold {
-  font-weight: 700;
-}
-.Typography-text-b2 {
-  font-family: "Roboto", sans-serif;
+.Typography.text-b2 {
   font-size: 16px;
-  font-style: normal;
-  line-height: 1.25;
 }
-.Typography-text-b2__bold {
-  font-weight: 700;
-}
-.Typography-text-b2__medium {
-  font-weight: 500;
-}
-.Typography-text-b2__regular {
-  font-weight: 400;
-}
-.Typography-text-b3 {
-  font-family: "Roboto", sans-serif;
+.Typography.text-b3 {
   font-size: 14px;
-  font-style: normal;
-  line-height: 1.25;
 }
-.Typography-text-b3__bold {
-  font-weight: 700;
-}
-.Typography-text-b3__medium {
-  font-weight: 500;
-}
-.Typography-text-b3__regular {
-  font-weight: 400;
-}
-.Typography-text-b4 {
-  font-family: "Roboto", sans-serif;
+.Typography.text-b4 {
   font-size: 12px;
-  font-style: normal;
-  line-height: 1.25;
 }
-.Typography-text-b4__bold {
+.Typography.text-bold {
   font-weight: 700;
 }
-.Typography-text-b4__medium {
+.Typography.text-medium {
   font-weight: 500;
 }
-.Typography-text-b4__regular {
+.Typography.text-regular {
   font-weight: 400;
 }
 
 @media (max-width: 768px) {
-  .Typography-text-h1 {
+  .Typography.text-h1 {
     font-size: 22px;
   }
-  .Typography-text-h2 {
+  .Typography.text-h2 {
     font-size: 20px;
   }
-  .Typography-text-h3 {
+  .Typography.text-h3 {
     font-size: 18px;
   }
-  .Typography-text-h4 {
+  .Typography.text-h4 {
     font-size: 18px;
   }
-  .Typography-text-h5 {
+  .Typography.text-h5 {
     font-size: 16px;
   }
-  .Typography-text-h6 {
+  .Typography.text-h6 {
     font-size: 16px;
   }
 }

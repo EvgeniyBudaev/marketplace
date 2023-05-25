@@ -1,9 +1,10 @@
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import type { FC } from "react";
 import type { OnChangeValue } from "react-select";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
+import { ThemeSwitcher } from "~/components";
 import { useLanguage, useTheme } from "~/hooks";
 import {
   SettingSelectControl,
@@ -13,7 +14,7 @@ import {
   SettingSelectOption,
   settingSelectOptionLinks,
 } from "~/pages/Settings/SettingSelectOption";
-import {SocketContext} from "~/shared/context";
+import { SocketContext } from "~/shared/context";
 import { ELanguages, ETypographyVariant, Icon, Select, Typography } from "~/uikit";
 import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import styles from "./Settings.css";
@@ -75,7 +76,12 @@ export const Settings: FC = () => {
       <h1 className="Settings-Title">
         <Typography variant={ETypographyVariant.TextH1Bold}>{t("pages.settings.title")}</Typography>
       </h1>
-      <div>
+      <div className="Settings-SubTitle">
+        <Typography variant={ETypographyVariant.TextH6Medium}>
+          {t("pages.settings.languageSwitcher")}
+        </Typography>
+      </div>
+      <div className="Settings-Block">
         <Select
           className={clsx("Settings-Select", {
             "Settings-Select__active": isSelectOpened,
@@ -89,6 +95,14 @@ export const Settings: FC = () => {
           theme={theme}
           value={options.find((option) => option.value === language)!}
         />
+      </div>
+      <div className="Settings-SubTitle">
+        <Typography variant={ETypographyVariant.TextH6Medium}>
+          {t("pages.settings.themeSwitcher")}
+        </Typography>
+      </div>
+      <div className="Settings-Block">
+        <ThemeSwitcher />
       </div>
     </section>
   );

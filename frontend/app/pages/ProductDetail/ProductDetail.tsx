@@ -4,6 +4,7 @@ import { Link, useFetcher } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 
+import { DEFAULT_IMAGE } from "~/constants";
 import { ERoutes } from "~/enums";
 import type { TCart } from "~/shared/api/cart";
 import type { TProductDetail } from "~/shared/api/products";
@@ -22,16 +23,8 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
   console.log("product: ", product);
   // console.log("cart: ", cart);
 
-  const imageProduct = formatProxy(
-    !isNil(product?.images)
-      ? product.images[0]
-      : "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
-  );
-  const sliderImages = formatListProxy(
-    !isNil(product?.images)
-      ? product.images
-      : ["https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png"],
-  );
+  const imageProduct = formatProxy(!isNil(product?.images) ? product.images[0] : DEFAULT_IMAGE);
+  const sliderImages = formatListProxy(!isNil(product?.images) ? product.images : [DEFAULT_IMAGE]);
   const isMobileScreen = false;
 
   const ROUTE_PRODUCT_DETAIL = createPath({
