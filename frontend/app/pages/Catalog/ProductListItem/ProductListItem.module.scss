@@ -6,7 +6,8 @@
   width: 100%;
   border: 1px solid transparent;
   //border: 1px solid $color-light-gray;
-  border-radius: 8px;
+  border-radius: $border-radius;
+  padding: 4px;
   //background: linear-gradient(40deg, rgba(116, 129, 168, 0.16), rgba(232, 232, 232, 0.1) 16%),
   //  linear-gradient(210deg, rgba(116, 129, 168, 0.5), rgba(232, 232, 232, 0.1) 20%);
   transition: all $transition;
@@ -39,6 +40,9 @@
     }
 
     #{$this}-ContentLink {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 100%;
       width: 100%;
       max-width: 100%;

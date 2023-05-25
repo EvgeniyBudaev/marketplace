@@ -14,27 +14,39 @@ import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { getStoreFixedT } from "~/shared/store";
 import { checkRequestPermission, createPath } from "~/utils";
+import { commitSession, getSession } from "~/shared/session";
 
 export const action = async (args: ActionArgs) => {
   const { params, request } = args;
+  const { alias } = params;
   const formData = await request.formData();
   const formattedParams = mapProductsToDto({
     ...formData,
   });
   const [t] = await Promise.all([getStoreFixedT({ request })]);
-  console.log("[formData]", formData);
+
   try {
     const productDetailResponse = await editProduct(request, formData);
     const catalogsResponse = await getCatalogs(request, { params: formattedParams });
-    console.log("[success]", productDetailResponse.success);
+    const session = await getSession(request.headers.get("Cookie"));
+
     if (productDetailResponse.success && catalogsResponse.success) {
-      console.log("[data]", productDetailResponse.data);
+      session.flash("FamilyMart_ProductEdit", {
+        success: true,
+      });
+
       return redirect(
         createPath({
           route: ERoutes.AdminProductEdit,
           params: { alias: productDetailResponse.data.alias },
         }),
+        {
+          headers: {
+            "Set-Cookie": await commitSession(session),
+          },
+        },
       );
+
       // return json({
       //   catalogs: catalogsResponse.data,
       //   product: productDetailResponse.data,
@@ -42,14 +54,43 @@ export const action = async (args: ActionArgs) => {
       //   title: t("routes.titles.productEdit"),
       // });
     }
+    session.flash("FamilyMart_ProductEdit", {
+      success: false,
+    });
 
-    return badRequest({ success: false });
+    const path = alias
+      ? createPath({
+          route: ERoutes.AdminProductEdit,
+          params: { alias },
+        })
+      : ERoutes.AdminProducts;
+
+    return redirect(path, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
   } catch (error) {
-    console.log("ERROR");
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+    const session = await getSession(request.headers.get("Cookie"));
+    session.flash("FamilyMart_ProductEdit", {
+      success: false,
+      formError,
+      fieldErrors,
+    });
+    const path = alias
+      ? createPath({
+          route: ERoutes.AdminProductEdit,
+          params: { alias },
+        })
+      : ERoutes.AdminProducts;
 
-    return badRequest({ success: false, formError, fieldErrors });
+    return redirect(path, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
   }
 };
 
@@ -74,14 +115,25 @@ export const loader = async (args: LoaderArgs) => {
   try {
     const productDetailResponse = await getAdminProductDetail(request, { alias });
     const catalogsResponse = await getCatalogs(request, { params: formattedParams });
+    const session = await getSession(request.headers.get("Cookie"));
+    const cookieData = session.get("FamilyMart_ProductEdit") || {
+      success: true,
+    };
 
     if (productDetailResponse.success && catalogsResponse.success) {
-      return json({
-        catalogs: catalogsResponse.data,
-        product: productDetailResponse.data,
-        success: true,
-        title: t("routes.titles.productEdit"),
-      });
+      return json(
+        {
+          catalogs: catalogsResponse.data,
+          product: productDetailResponse.data,
+          ...cookieData,
+          title: t("routes.titles.productEdit"),
+        },
+        {
+          headers: {
+            "Set-Cookie": await commitSession(session),
+          },
+        },
+      );
     }
 
     const fieldErrors = getInputErrors<keyof TForm>(
@@ -109,8 +161,16 @@ export const meta: MetaFunction = ({ data }) => {
 
 export default function ProductEditRoute() {
   const data = useLoaderData<typeof loader>();
-
-  return <ProductEdit catalogs={data.catalogs} product={data.product} />;
+  console.log("data: ", data);
+  return (
+    <ProductEdit
+      catalogs={data.catalogs}
+      fieldErrors={data.fieldErrors}
+      formError={data.formError}
+      product={data.product}
+      success={data.success}
+    />
+  );
 }
 
 export function links() {

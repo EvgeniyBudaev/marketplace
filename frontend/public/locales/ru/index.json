@@ -226,6 +226,8 @@
         }
       },
       "title": "Настройки",
+      "languageSwitcher": "Выбор языка",
+      "themeSwitcher": "Выбор темы",
       "meta": {
         "title": "Настройки"
       }

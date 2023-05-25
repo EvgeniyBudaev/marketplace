@@ -226,6 +226,8 @@
         }
       },
       "title": "Settings",
+      "languageSwitcher": "Language switcher",
+      "themeSwitcher": "Theme switcher",
       "meta": {
         "title": "Settings"
       }

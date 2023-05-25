@@ -31,6 +31,7 @@ export * from "./LightModeIcon";
 export * from "./LogoIcon";
 export * from "./LogoShortIcon";
 export * from "./MirrorIcon";
+export * from "./NoImageIcon";
 export * from "./RussianLanguageIcon";
 export * from "./SearchIcon";
 export * from "./SettingsIcon";

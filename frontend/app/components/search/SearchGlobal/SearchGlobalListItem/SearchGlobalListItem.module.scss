@@ -26,7 +26,20 @@
   }
 
   &-Images {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     height: 28px;
+    width: 28px;
+    overflow: hidden;
+  }
+
+  &-Image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   &-Title {

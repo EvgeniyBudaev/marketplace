@@ -1,12 +1,13 @@
 import type { FC } from "react";
 import { useNavigate } from "@remix-run/react";
-import type { TCatalogsItem } from "~/shared/api/catalogs";
+// import type { TCatalogsItem } from "~/shared/api/catalogs";
 import styles from "./CatalogListItem.module.css";
 import { createPath, formatProxy } from "~/utils";
 import { ERoutes } from "~/enums";
+import { DEFAULT_IMAGE } from "~/constants";
 
 type TProps = {
-  catalog: TCatalogsItem;
+  catalog: any;
   onClose: () => void;
 };
 
@@ -25,13 +26,7 @@ export const CatalogListItem: FC<TProps> = ({ catalog, onClose }) => {
 
   return (
     <li className="CatalogListItem" onClick={handleRouteTo}>
-      <img
-        className="CatalogListItem-Image"
-        alt={catalog.name}
-        src={formatProxy(
-          "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png?itok=fovz__Gi",
-        )}
-      />
+      <img className="CatalogListItem-Image" alt={catalog.name} src={formatProxy(DEFAULT_IMAGE)} />
       <div className="CatalogListItem-Title">{catalog.name}</div>
     </li>
   );

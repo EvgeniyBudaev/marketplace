@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Link } from "@remix-run/react";
 import isNil from "lodash/isNil";
+import { DEFAULT_IMAGE } from "~/constants";
 import type { TCartItem } from "~/shared/api/cart";
 import { formatCurrency, formatProxy } from "~/utils";
 import styles from "./OrderProductListItem.css";
@@ -11,9 +12,7 @@ type TProps = {
 
 export const OrderProductListItem: FC<TProps> = ({ cartItem }) => {
   const imageProduct = formatProxy(
-    !isNil(cartItem?.product.images)
-      ? cartItem.product.images[0]
-      : "https://www.semashko.com/sites/default/files/styles/250x375/public/no_photo_33.png",
+    !isNil(cartItem?.product.images) ? cartItem.product.images[0] : DEFAULT_IMAGE,
   );
 
   return (

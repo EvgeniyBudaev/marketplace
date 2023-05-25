@@ -5,12 +5,11 @@ import { Link, useFetcher, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
-import { ThemeSwitcher } from "~/components";
 import { ERoutes } from "~/enums";
 import { useUser } from "~/hooks";
 import type { TCart } from "~/shared/api/cart";
 import { EFormMethods } from "~/shared/form";
-import { Avatar, DropDown, ESwitcherVariant, ETypographyVariant, Icon, Typography } from "~/uikit";
+import { Avatar, DropDown, ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./HeaderIconsList.module.css";
 
 type TProps = {
@@ -69,9 +68,6 @@ export const HeaderIconsList: FC<TProps> = ({ cart, className }) => {
 
   return (
     <div className="HeaderIconsList">
-      <div className="HeaderIconsList-Item">
-        <ThemeSwitcher variant={ESwitcherVariant.Header} />
-      </div>
       <div className="HeaderIconsList-Item">
         <Link
           className="HeaderIconsList-IconLink"
