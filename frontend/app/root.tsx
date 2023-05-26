@@ -29,7 +29,7 @@ import slickThemeStyles from "slick-carousel/slick/slick-theme.css";
 import { Layout, links as componentsLinks } from "~/components";
 import { Environment } from "~/environment.server";
 import type { EnvironmentType } from "~/environment.server";
-import { useInitDayjs, useInitLanguage, useLanguageStore } from "~/hooks";
+import { useInitDayjs, useInitLanguage } from "~/hooks";
 import { links as sharedLinks } from "~/shared";
 import { setApiLanguage } from "~/shared/api";
 import { getUserSession } from "~/shared/api/auth";
@@ -47,7 +47,6 @@ import {
   useStore,
 } from "~/shared/store";
 import { ETheme, links as uikitLinks, ToastContainer } from "~/uikit";
-import type { ELanguages } from "~/uikit";
 import { createBoundaries, internalError } from "~/utils";
 import styles from "../styles/app.css";
 
@@ -161,16 +160,15 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
   const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
 
   const lastLanguage = useRef<string | null>(null);
+
   useEffect(() => {
     const languageSwitchChannel = new BroadcastChannel("language");
-
     languageSwitchChannel.addEventListener("message", (event) => {
       if (lastLanguage.current !== event.data) {
         lastLanguage.current = event.data;
         i18n.changeLanguage(event.data);
       }
     });
-
     i18n.on("languageChanged", (language) => {
       if (language !== lastLanguage.current) {
         lastLanguage.current = language;

@@ -19,7 +19,10 @@ const io = new Server(httpServer);
 
 io.on("connection", (socket) => {
   socket.on("socket_send_language", (data) => {
-    socket.emit("socket_receive_language", data);
+    socket.broadcast.emit("socket_receive_language", data);
+  });
+  socket.on("socket_send_theme", (data) => {
+    socket.broadcast.emit("socket_receive_theme", data);
   });
 });
 
