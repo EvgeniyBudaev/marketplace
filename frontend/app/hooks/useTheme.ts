@@ -24,7 +24,7 @@ export const useTheme = () => {
         },
       );
     },
-    [fetcher, settings],
+    [fetcher, settings.uuid],
   );
 
   return {

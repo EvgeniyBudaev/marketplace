@@ -1,6 +1,9 @@
+import { useContext, useEffect } from "react";
 import type { FC } from "react";
 import clsx from "clsx";
+import { SOCKET_RECEIVE_THEME, SOCKET_SEND_THEME } from "~/constants";
 import { useTheme } from "~/hooks";
+import { SocketContext } from "~/shared/context";
 import { ESwitcherVariant, ETheme, IconButton, Switcher, SWITCHER_THEMES } from "~/uikit";
 
 type TProps = {
@@ -9,12 +12,21 @@ type TProps = {
 };
 
 export const ThemeSwitcher: FC<TProps> = ({ className, variant = ESwitcherVariant.Default }) => {
+  const socket = useContext(SocketContext);
   const currentTheme = SWITCHER_THEMES()[variant];
   const { theme, onChangeTheme } = useTheme();
   const isLight = theme !== ETheme.Dark;
 
+  useEffect(() => {
+    if (!socket) return;
+    socket.on(SOCKET_RECEIVE_THEME, (data) => {
+      onChangeTheme?.(data);
+    });
+  }, [onChangeTheme, socket]);
+
   const handleClick = (theme: ETheme) => () => {
     onChangeTheme(theme);
+    socket && socket.emit(SOCKET_SEND_THEME, theme);
   };
 
   const handleSwitchToDark = handleClick(ETheme.Dark);

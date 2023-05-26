@@ -4,7 +4,9 @@ import type { OnChangeValue } from "react-select";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
+
 import { ThemeSwitcher } from "~/components";
+import { SOCKET_RECEIVE_LANGUAGE, SOCKET_SEND_LANGUAGE } from "~/constants";
 import { useLanguage, useTheme } from "~/hooks";
 import {
   SettingSelectControl,
@@ -20,8 +22,6 @@ import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import styles from "./Settings.css";
 
 export const Settings: FC = () => {
-  const SOCKET_SEND_LANGUAGE = "socket_send_language";
-  const SOCKET_RECEIVE_LANGUAGE = "socket_receive_language";
   const { language, onChangeLanguage } = useLanguage();
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -33,10 +33,10 @@ export const Settings: FC = () => {
     if (!socket) return;
     // console.log("Settings socket: ", socket);
     socket.on(SOCKET_RECEIVE_LANGUAGE, (data) => {
-      // console.log("socket_receive_language: ", data);
+      console.log("socket_receive_language: ", data);
       onChangeLanguage?.(data);
     });
-  }, [socket]);
+  }, [onChangeLanguage, socket]);
 
   const options = [
     {
