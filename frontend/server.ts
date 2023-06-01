@@ -4,6 +4,12 @@ import helmet from "helmet";
 import { createServer } from "http";
 import path from "path";
 import { createRequestHandler } from "@remix-run/express";
+import {
+  SOCKET_RECEIVE_LANGUAGE,
+  SOCKET_RECEIVE_THEME,
+  SOCKET_SEND_LANGUAGE,
+  SOCKET_SEND_THEME,
+} from "./app/constants/socket";
 import { registerAccessTokenRefresh } from "./app/shared/http";
 import { sessionStorage } from "./app/shared/session";
 import { Server } from "socket.io";
@@ -18,11 +24,11 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 io.on("connection", (socket) => {
-  socket.on("socket_send_language", (data) => {
-    socket.broadcast.emit("socket_receive_language", data);
+  socket.on(SOCKET_SEND_LANGUAGE, (data) => {
+    socket.broadcast.emit(SOCKET_RECEIVE_LANGUAGE, data);
   });
-  socket.on("socket_send_theme", (data) => {
-    socket.broadcast.emit("socket_receive_theme", data);
+  socket.on(SOCKET_SEND_THEME, (data) => {
+    socket.broadcast.emit(SOCKET_RECEIVE_THEME, data);
   });
 });
 

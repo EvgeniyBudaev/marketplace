@@ -62,16 +62,26 @@ interface RootLoaderData {
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const csrfSession = await getCsrfSession(request);
-  const csrfToken = createAuthenticityToken(csrfSession);
+
+  const [cartSession, csrfSession, userSession] = await Promise.all([
+    getCartSession(request),
+    getCsrfSession(request),
+    getUserSession(request),
+  ]);
+
+  let csrfToken: string;
+  if (csrfSession.get("csrf")) {
+    csrfToken = csrfSession.get("csrf");
+  } else {
+    csrfToken = createAuthenticityToken(csrfSession);
+  }
+
   const cspScriptNonce = await cryptoRandomStringAsync({ length: 41 });
 
   // Get user
-  const userSession = await getUserSession(request);
   const user = JSON.parse(userSession || "{}");
 
   // Get cart
-  const cartSession = await getCartSession(request);
   const cart = JSON.parse(cartSession || "{}");
   let cartResponse;
   if (isEmpty(cart)) {
@@ -83,16 +93,20 @@ export const loader = async (args: LoaderArgs) => {
     throw internalError();
   }
 
-  const updatedCartSession = await createCartSession(cartResponse.data);
+  const [settingsResponse, updatedCartSession] = await Promise.all([
+    getSettings(request, { uuid: cartResponse.data.uuid }),
+    createCartSession(cartResponse.data),
+  ]);
 
   // Get settings
-  const settingsResponse = await getSettings(request, { uuid: cartResponse.data.uuid });
   if (!settingsResponse.success) {
     throw internalError();
   }
   setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
-  const updatedSettingsSession = await createSettingsSession(settingsResponse.data);
-  const [t] = await Promise.all([getStoreFixedT({ request, uuid: cartResponse.data.uuid })]);
+  const [t, updatedSettingsSession] = await Promise.all([
+    getStoreFixedT({ request, uuid: cartResponse.data.uuid }),
+    createSettingsSession(settingsResponse.data),
+  ]);
 
   const data: RootLoaderData = {
     cart: cartResponse.data,
