@@ -9,13 +9,22 @@ import { LOGIN_FORM_KEYS } from "~/pages/Auth/Login/constants";
 import { createUserSession, login } from "~/shared/api/auth";
 import { getUser } from "~/shared/api/users/domain.server";
 import { getInputErrors } from "~/shared/domain";
-import { commitSession, getSession } from "~/shared/session";
+import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import { createBoundaries, getResponseError } from "~/utils";
+import { checkCSRFToken, createBoundaries, getResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
-  const formValues = await inputFromForm(request);
+
+  const [csrfSession, formValues, t] = await Promise.all([
+    getCsrfSession(request),
+    inputFromForm(request),
+    getStoreFixedT({ request }),
+  ]);
+
+  const csrfToken = formValues.csrf;
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
+  if (checkCsrf?.error) return checkCsrf.error;
 
   let errored = false;
   const session = await getSession(request.headers.get("Cookie"));
@@ -40,7 +49,12 @@ export const action = async (args: ActionArgs) => {
   }
 
   try {
-    const loginResponse = await login(request, formValues);
+    const formattedData = {
+      email: formValues.email,
+      password: formValues.password,
+    };
+
+    const loginResponse = await login(request, formattedData);
 
     if (!loginResponse.success) {
       const fieldErrors = getInputErrors(loginResponse, Object.values(LOGIN_FORM_KEYS));

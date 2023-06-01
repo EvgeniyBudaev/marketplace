@@ -1,4 +1,7 @@
+import type { Session } from "@remix-run/node";
 import { Environment } from "~/environment.server";
+import type { TCheckCSRFToken } from "~/types";
+import { parseResponseError } from "~/utils/parseResponseError.server";
 
 export const getContentSecurityPolicy = (nonce?: string): string => {
   let script_src: string;
@@ -35,4 +38,28 @@ export const getContentSecurityPolicy = (nonce?: string): string => {
     "worker-src 'self' blob:; " +
     "upgrade-insecure-requests"
   );
+};
+
+export const validateCSRFToken = (csrf: string, session: Session, errorMessage: string) => {
+  if (!session.has("csrf")) throw new Error(errorMessage);
+  if (!csrf) throw new Error(errorMessage);
+  if (csrf !== session.get("csrf")) throw new Error(errorMessage);
+};
+
+export const checkCSRFToken: TCheckCSRFToken = ({ csrfToken, session, t }) => {
+  const errorMessage = t("errorBoundary.common.unexpectedError");
+  // csrf должен быть только string
+  if (typeof csrfToken !== "string") throw new Error(errorMessage);
+
+  try {
+    if (!csrfToken) throw new Error(errorMessage);
+
+    validateCSRFToken(csrfToken, session, errorMessage);
+
+    return { success: true };
+  } catch (error) {
+    if (error instanceof Error) session.flash("error", error.message);
+
+    return { success: false, error: parseResponseError(error) };
+  }
 };
