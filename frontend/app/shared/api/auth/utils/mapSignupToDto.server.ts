@@ -1,5 +1,7 @@
-import type { TForm } from "~/pages/Auth/Signup/types";
+import type { TParams } from "~/types";
 
-export const mapSignupToDto = ({ rePassword, ...form }: TForm) => {
+type TMapSignupToDto = (params: TParams) => TParams;
+
+export const mapSignupToDto: TMapSignupToDto = ({ csrf, rePassword, ...form }) => {
   return form;
 };

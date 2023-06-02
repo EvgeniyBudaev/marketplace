@@ -8,7 +8,7 @@ export type TCheckCSRFTokenResponse = {
 };
 
 export type TCheckCSRFTokenParams = {
-  csrfToken?: string | ParsedQs | string[] | ParsedQs[];
+  csrfToken?: string | ParsedQs | string[] | ParsedQs[] | null;
   session: Session;
   t: TFunction<"translation", undefined, "translation">;
 };

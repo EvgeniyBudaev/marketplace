@@ -13,22 +13,33 @@ import { editProduct, getAdminProductDetail } from "~/shared/api/products";
 import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission, createPath } from "~/utils";
-import { commitSession, getSession } from "~/shared/session";
+import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
+import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 
 export const action = async (args: ActionArgs) => {
   const { params, request } = args;
   const { alias } = params;
-  const formData = await request.formData();
+
+  const [csrfSession, formData, t] = await Promise.all([
+    getCsrfSession(request),
+    request.formData(),
+    getStoreFixedT({ request }),
+  ]);
+
+  const csrfToken = formData.get("csrf") as string | null;
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
+  if (checkCsrf?.error) return checkCsrf.error;
+
   const formattedParams = mapProductsToDto({
     ...formData,
   });
-  const [t] = await Promise.all([getStoreFixedT({ request })]);
 
   try {
-    const productDetailResponse = await editProduct(request, formData);
-    const catalogsResponse = await getCatalogs(request, { params: formattedParams });
-    const session = await getSession(request.headers.get("Cookie"));
+    const [productDetailResponse, catalogsResponse, session] = await Promise.all([
+      editProduct(request, formData),
+      getCatalogs(request, { params: formattedParams }),
+      getSession(request.headers.get("Cookie")),
+    ]);
 
     if (productDetailResponse.success && catalogsResponse.success) {
       session.flash("FamilyMart_ProductEdit", {
@@ -113,9 +124,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 
   try {
-    const productDetailResponse = await getAdminProductDetail(request, { alias });
-    const catalogsResponse = await getCatalogs(request, { params: formattedParams });
-    const session = await getSession(request.headers.get("Cookie"));
+    const [productDetailResponse, catalogsResponse, session] = await Promise.all([
+      getAdminProductDetail(request, { alias }),
+      getCatalogs(request, { params: formattedParams }),
+      getSession(request.headers.get("Cookie")),
+    ]);
+
     const cookieData = session.get("FamilyMart_ProductEdit") || {
       success: true,
     };
@@ -150,12 +164,10 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-let hydration = 0;
 export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined" && hydration) {
+  if (typeof window !== "undefined") {
     return { title: i18next.t("routes.titles.productEdit") || "Product editing" };
   }
-  hydration++;
   return { title: data?.title || "Product editing" };
 };
 

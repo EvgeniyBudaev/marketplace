@@ -98,12 +98,10 @@ export const loader = async (args: LoaderArgs) => {
   );
 };
 
-let hydration = 0;
 export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined" && hydration) {
+  if (typeof window !== "undefined") {
     return { title: i18next.t("routes.titles.login") || "Login" };
   }
-  hydration++;
   return { title: data?.title || "Login" };
 };
 

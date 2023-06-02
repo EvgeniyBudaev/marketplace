@@ -27,13 +27,23 @@ import {
   mapParamsEditAttributeToDto,
   mapParamsEditSelectableValueToDto,
 } from "~/shared/api/attributes/utils";
+import { getCsrfSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission, createPath } from "~/utils";
+import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
-  const formValues = await inputFromForm(request);
-  console.log("formValues: ", formValues);
+
+  const [csrfSession, formValues, t] = await Promise.all([
+    getCsrfSession(request),
+    inputFromForm(request),
+    getStoreFixedT({ request }),
+  ]);
+
+  const csrfToken = formValues.csrf;
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
+  if (checkCsrf?.error) return checkCsrf.error;
+
   const _method = formValues?._method ?? "";
 
   try {
@@ -41,8 +51,8 @@ export const action = async (args: ActionArgs) => {
       const { _method, ...data } = formValues;
       const formData = mapParamsAddSelectableValueToDto(data);
       const response = await addSelectableValue(request, formData);
+
       if (response.success) {
-        console.log("value add response.data: ", response.data);
         return { success: true };
       }
 
@@ -53,8 +63,8 @@ export const action = async (args: ActionArgs) => {
       const { _method, ...data } = formValues;
       const formData = mapParamsDeleteSelectableValueToDto(data);
       const response = await deleteSelectableValue(request, formData);
+
       if (response.success) {
-        console.log("value delete response.data: ", response.data);
         return { success: true };
       }
 
@@ -64,11 +74,9 @@ export const action = async (args: ActionArgs) => {
     if (_method === ESelectableValueAction.EditSelectableValue) {
       const { _method, ...data } = formValues;
       const formData = mapParamsEditSelectableValueToDto(data);
-      console.log("value formData: ", formData);
       const response = await editSelectableValue(request, formData);
-      console.log("[value response.success]", response.success);
+
       if (response.success) {
-        console.log("value response.data: ", response.data);
         return { success: true };
       }
 
@@ -78,12 +86,9 @@ export const action = async (args: ActionArgs) => {
     if (_method === EAttributeAction.EditAttribute) {
       const { _method, ...data } = formValues;
       const formData = mapParamsEditAttributeToDto(data);
-      console.log("formData: ", formData);
       const response = await editAttribute(request, formData);
-      console.log("[response.success]", response.success);
 
       if (response.success) {
-        console.log("[OK]");
         return redirect(
           createPath({
             route: ERoutes.AdminAttributes,
@@ -92,17 +97,12 @@ export const action = async (args: ActionArgs) => {
       }
 
       const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
-      console.log("[BAD]");
-      console.log("[fieldErrors] ", fieldErrors);
 
       return badRequest({ fieldErrors, success: false });
     }
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
 
     return badRequest({ success: false, formError, fieldErrors });
   }
@@ -110,6 +110,7 @@ export const action = async (args: ActionArgs) => {
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
+
   const [t, isPermissions] = await Promise.all([
     getStoreFixedT({ request }),
     checkRequestPermission(request, [EPermissions.Administrator]),
@@ -125,7 +126,6 @@ export const loader = async (args: LoaderArgs) => {
     const response = await getAttributeDetail(request, { alias });
 
     if (response.success) {
-      console.log("[OK]");
       return json({
         attribute: response.data,
         success: true,
@@ -134,27 +134,20 @@ export const loader = async (args: LoaderArgs) => {
     }
 
     const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
-    console.log("[BAD]");
-    console.log("[fieldErrors] ", fieldErrors);
 
     return badRequest({ fieldErrors, success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
 
     return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
-let hydration = 0;
 export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined" && hydration) {
+  if (typeof window !== "undefined") {
     return { title: i18next.t("routes.titles.attributeEdit") || "Editing an Attribute" };
   }
-  hydration++;
   return { title: data?.title || "Editing an Attribute" };
 };
 

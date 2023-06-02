@@ -24,7 +24,7 @@ const Component = <T extends FieldValues>({
   action,
 }: TFormComponentProps<T>) => {
   const isHydrated = useHydrated();
-  //const csrf = useAuthenticityToken();
+  const csrf = useAuthenticityToken();
   useSetFieldErrors(form);
 
   const { fetcher } = form;
@@ -39,6 +39,7 @@ const Component = <T extends FieldValues>({
       let preparedData = {
         ...omitEmptyFields(form.methods.getValues()),
         ...omitEmptyFields(data),
+        csrf,
       };
 
       // if (authenticity) {

@@ -1,4 +1,4 @@
-import { inputFromSearch } from "remix-domains";
+import { inputFromForm, inputFromSearch } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
@@ -10,12 +10,22 @@ import { getCatalogs } from "~/shared/api/catalogs";
 import { addProduct } from "~/shared/api/products";
 import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getResponseError } from "~/shared/domain";
+import { getCsrfSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission, createPath, internalError } from "~/utils";
+import { checkCSRFToken, checkRequestPermission, createPath, internalError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
-  const formData = await request.formData();
+
+  const [csrfSession, formData, t] = await Promise.all([
+    getCsrfSession(request),
+    request.formData(),
+    getStoreFixedT({ request }),
+  ]);
+
+  const csrfToken = formData.get("csrf") as string | null;
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
+  if (checkCsrf?.error) return checkCsrf.error;
 
   try {
     const response = await addProduct(request, formData);
@@ -62,12 +72,10 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-let hydration = 0;
 export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined" && hydration) {
+  if (typeof window !== "undefined") {
     return { title: i18next.t("routes.titles.productAdd") || "Product addition" };
   }
-  hydration++;
   return { title: data?.title || "Product addition" };
 };
 
