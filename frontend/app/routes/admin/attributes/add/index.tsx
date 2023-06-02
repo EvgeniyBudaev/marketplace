@@ -12,13 +12,23 @@ import {
 import type { TForm } from "~/pages/Admin/Attributes/AttributeAdd";
 import { addAttribute } from "~/shared/api/attributes";
 import { getInputErrors, getResponseError } from "~/shared/domain";
+import { getCsrfSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission, createPath } from "~/utils";
+import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
-  const formValues = await inputFromForm(request);
-  console.log("formValues: ", formValues);
+
+  const [csrfSession, formValues, t] = await Promise.all([
+    getCsrfSession(request),
+    inputFromForm(request),
+    getStoreFixedT({ request }),
+  ]);
+
+  const csrfToken = formValues.csrf;
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
+  if (checkCsrf?.error) return checkCsrf.error;
+
   const formData = {
     ...formValues,
     selectable:
@@ -26,14 +36,11 @@ export const action = async (args: ActionArgs) => {
         ? JSON.parse(formValues.selectable.trim())
         : formValues.selectable,
   };
-  console.log("formData: ", formData);
 
   try {
     const response = await addAttribute(request, formData);
-    console.log("[response.success]", response.success);
 
     if (response.success) {
-      console.log("[OK]");
       return redirect(
         createPath({
           route: ERoutes.AdminAttributes,
@@ -42,16 +49,11 @@ export const action = async (args: ActionArgs) => {
     }
 
     const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
-    console.log("[BAD]");
-    console.log("[fieldErrors] ", fieldErrors);
 
     return badRequest({ fieldErrors, success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
 
     return badRequest({ success: false, formError, fieldErrors });
   }
@@ -73,12 +75,10 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-let hydration = 0;
 export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined" && hydration) {
+  if (typeof window !== "undefined") {
     return { title: i18next.t("routes.titles.attributeAdd") || "Adding an attribute" };
   }
-  hydration++;
   return { title: data?.title || "Adding an attribute" };
 };
 

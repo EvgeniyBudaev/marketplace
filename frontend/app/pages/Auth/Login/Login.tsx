@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
-import { useAuthenticityToken } from "remix-utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Transition } from "history";
 
@@ -19,7 +18,6 @@ import { createPath } from "~/utils";
 import styles from "./Login.module.css";
 
 export const Login: FC = () => {
-  const csrf = useAuthenticityToken();
   const { t } = useTranslation();
   const resolver = useTranslatedResolver(zodResolver(formSchema));
   const [isOpen, setIsOpen] = useState(false);
@@ -32,8 +30,7 @@ export const Login: FC = () => {
   );
 
   const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
-    const resultData = { ...params, csrf };
-    fetcher.submit(resultData, {
+    fetcher.submit(params, {
       method: EFormMethods.Post,
       action: createPath({
         route: ERoutes.Login,

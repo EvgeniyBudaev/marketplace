@@ -11,21 +11,29 @@ import { addCatalog, CatalogsApi } from "~/shared/api/catalogs";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getAttributes } from "~/shared/api/attributes";
+import { getCsrfSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission, createPath } from "~/utils";
+import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
-  const formValues = await inputFromForm(request);
+
+  const [csrfSession, formValues, t] = await Promise.all([
+    getCsrfSession(request),
+    inputFromForm(request),
+    getStoreFixedT({ request }),
+  ]);
+
+  const csrfToken = formValues.csrf;
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
+  if (checkCsrf?.error) return checkCsrf.error;
+
   const formattedParams = CatalogsApi.mapAddCatalogToDto(formValues);
-  console.log("[catalog add formattedParams] ", formattedParams);
 
   try {
     const response = await addCatalog(request, formattedParams);
-    console.log("[response.success]", response.success);
 
     if (response.success) {
-      console.log("[OK]");
       return redirect(
         createPath({
           route: ERoutes.AdminCatalogs,
@@ -34,16 +42,11 @@ export const action = async (args: ActionArgs) => {
     }
 
     const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
-    console.log("[BAD]");
-    console.log("[fieldErrors] ", fieldErrors);
 
     return badRequest({ fieldErrors, success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
 
     return badRequest({ success: false, formError, fieldErrors });
   }
@@ -86,12 +89,10 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-let hydration = 0;
 export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined" && hydration) {
+  if (typeof window !== "undefined") {
     return { title: i18next.t("routes.titles.catalogAdd") || "Adding a catalog" };
   }
-  hydration++;
   return { title: data?.title || "Adding a catalog" };
 };
 

@@ -11,23 +11,29 @@ import { getAttributes, getAttributesByCatalog } from "~/shared/api/attributes";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { editCatalog, CatalogsApi, getCatalogDetail } from "~/shared/api/catalogs";
+import { getCsrfSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission, createPath } from "~/utils";
+import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
-  const formValues = await inputFromForm(request);
-  console.log("[formValues]", formValues);
+
+  const [csrfSession, formValues, t] = await Promise.all([
+    getCsrfSession(request),
+    inputFromForm(request),
+    getStoreFixedT({ request }),
+  ]);
+
+  const csrfToken = formValues.csrf;
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
+  if (checkCsrf?.error) return checkCsrf.error;
+
   const formattedParams = CatalogsApi.mapEditCatalogToDto(formValues);
-  console.log("[formattedParams]", formattedParams);
 
   try {
     const response = await editCatalog(request, formattedParams);
-    console.log("[response.success]", response.success);
 
     if (response.success) {
-      console.log("[OK]");
-      console.log("[response.data]", response.data);
       return redirect(
         createPath({
           route: ERoutes.AdminCatalogs,
@@ -36,16 +42,11 @@ export const action = async (args: ActionArgs) => {
     }
 
     const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
-    console.log("[BAD]");
-    console.log("[fieldErrors] ", fieldErrors);
 
     return badRequest({ fieldErrors, success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
 
     return badRequest({ success: false, formError, fieldErrors });
   }
@@ -70,9 +71,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 
   try {
-    const attributesResponse = await getAttributes(request, { params: formattedParams });
-    const attributesByCatalogResponse = await getAttributesByCatalog(request, { alias });
-    const catalogDetailResponse = await getCatalogDetail(request, { alias });
+    const [attributesResponse, attributesByCatalogResponse, catalogDetailResponse] =
+      await Promise.all([
+        getAttributes(request, { params: formattedParams }),
+        getAttributesByCatalog(request, { alias }),
+        getCatalogDetail(request, { alias }),
+      ]);
 
     if (
       attributesResponse.success &&
@@ -92,26 +96,20 @@ export const loader = async (args: LoaderArgs) => {
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    console.log("[ERROR] ", error);
-    console.log("[fieldErrors] ", fieldErrors);
-    console.log("[formError] ", formError);
 
     return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
-let hydration = 0;
 export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined" && hydration) {
+  if (typeof window !== "undefined") {
     return { title: i18next.t("routes.titles.catalogEdit") || "Catalog editing" };
   }
-  hydration++;
   return { title: data?.title || "Catalog editing" };
 };
 
 export default function CatalogEditRoute() {
   const data = useLoaderData<typeof loader>();
-  console.log("data.catalog: ", data.catalog);
 
   return (
     <CatalogEdit

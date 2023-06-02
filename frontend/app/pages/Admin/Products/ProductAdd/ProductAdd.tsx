@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import type { OnChangeValue } from "react-select";
 import { useTranslation } from "react-i18next";
+import { useAuthenticityToken } from "remix-utils";
 import { useFetcher } from "@remix-run/react";
 import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
@@ -40,6 +41,7 @@ type TProps = {
 };
 
 export const ProductAdd: FC<TProps> = ({ catalogs }) => {
+  const csrf = useAuthenticityToken();
   const { t } = useTranslation();
   const fetcherRemix = useFetcher();
   const { theme } = useTheme();
@@ -148,6 +150,7 @@ export const ProductAdd: FC<TProps> = ({ catalogs }) => {
       dataFormToDto.selectableValues.forEach((item) =>
         formData.append("selectableValues[]", item.toString()),
       );
+    formData.append("csrf", csrf);
 
     fetcher.submit(formData, {
       method: EFormMethods.Post,

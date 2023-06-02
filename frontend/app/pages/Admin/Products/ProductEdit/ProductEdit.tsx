@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import type { OnChangeValue } from "react-select";
 import { useTranslation } from "react-i18next";
+import { useAuthenticityToken } from "remix-utils";
 import { useFetcher } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import isNil from "lodash/isNil";
@@ -44,6 +45,7 @@ type TProps = {
 };
 
 export const ProductEdit: FC<TProps> = (props) => {
+  const csrf = useAuthenticityToken();
   const { t } = useTranslation();
   const fetcherRemix = useFetcher();
   const { theme } = useTheme();
@@ -187,6 +189,7 @@ export const ProductEdit: FC<TProps> = (props) => {
       dataFormToDto.selectableValues.forEach((item) =>
         formData.append("selectableValues[]", item.toString()),
       );
+    formData.append("csrf", csrf);
 
     fetcher.submit(formData, {
       method: EFormMethods.Put,
