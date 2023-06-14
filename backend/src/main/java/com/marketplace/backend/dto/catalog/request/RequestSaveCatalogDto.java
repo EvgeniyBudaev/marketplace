@@ -16,7 +16,5 @@ public class RequestSaveCatalogDto {
     @NotNull
     @Size(min = 2, max = 250)
     private String alias;
-    @Size(max = 250)
-    private String image;
     private List<String> attributeAlias;
 }

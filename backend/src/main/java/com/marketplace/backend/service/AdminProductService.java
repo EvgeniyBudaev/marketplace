@@ -73,13 +73,13 @@ public class AdminProductService implements ManageProductDao {
         query.setParameter("p",productFile);
         query.executeUpdate();
         String filename = Path.of(productFile.getUrl()).getFileName().toString();
-        Path path = Path.of(globalProperty.getIMAGE_DIR().toString(),productId.toString(),filename);
+        Path path = Path.of(globalProperty.getPRODUCT_IMAGE_DIR().toString(),productId.toString(),filename);
         return adminFilesService.deleteFileFromFileSystem(path);
     }
 
     @Override
     public ProductFile saveFileDescription(Product product, String url, EFileType type) {
-        return adminFilesService.saveEntity(product,url,type);
+        return adminFilesService.saveProductEntity(product,url,type);
     }
 
     @Override
@@ -174,7 +174,7 @@ public class AdminProductService implements ManageProductDao {
             while (iterator.hasNext()){
                 ProductFile x = iterator.next();
 
-                String url = FileUtils.createUrl(aliasForUrl+"/"+x.getUrl(),EFileType.IMAGE,globalProperty.getBASE_URL());
+                String url = FileUtils.createUrl(aliasForUrl+"/"+x.getUrl(),EFileType.IMAGE,globalProperty.getPRODUCT_BASE_URL());
                 System.out.println(url);
                 if(!dto.getImages().contains(url)){
                     deleteFileFromFileSystem(x,finalProduct.getId());

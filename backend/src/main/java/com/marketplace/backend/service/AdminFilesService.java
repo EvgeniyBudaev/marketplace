@@ -55,7 +55,7 @@ public class AdminFilesService {
         return false;
     }
     @Transactional
-    public ProductFile saveEntity(Product product, String url, EFileType type) {
+    public ProductFile saveProductEntity(Product product, String url, EFileType type) {
         TypedQuery<ProductFile> query = entityManager
                 .createQuery("SELECT file FROM ProductFile as file where file.url=:url and file.product =:product", ProductFile.class);
         query.setParameter("url", url);

@@ -23,6 +23,7 @@ public interface CatalogMapper {
 
     ResponseSingleCatalogDto entityToSingleCatalogDto(Catalog catalog);
 
+    @Mapping(target = "image", ignore = true)
     Catalog dtoToEntity(RequestSaveCatalogDto dto);
 
     Catalog dtoToEntity(RequestUpdateCatalogDto dto);

@@ -16,12 +16,12 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/v1/products/files")
 @Slf4j
-public class AdminFilesController {
+public class AdminProductFilesController {
     private final GlobalProperty globalProperty;
     private final AdminFilesService filesService;
 
 
-    public AdminFilesController(GlobalProperty globalProperty, AdminFilesService filesService) {
+    public AdminProductFilesController(GlobalProperty globalProperty, AdminFilesService filesService) {
         this.globalProperty = globalProperty;
         this.filesService = filesService;
     }
@@ -32,7 +32,7 @@ public class AdminFilesController {
     public ResponseEntity<?> getImageByUrl(@PathVariable String productAlias,
                                            @PathVariable String fileName) {
         Long productId = filesService.findProductIdByAlias(productAlias);
-        Path path = globalProperty.getIMAGE_DIR().resolve(Path.of(productId.toString(), fileName));
+        Path path = globalProperty.getPRODUCT_IMAGE_DIR().resolve(Path.of(productId.toString(), fileName));
         if (!Files.exists(path)) {
             return new ResponseEntity<>("Файл отсутствует", HttpStatus.NOT_FOUND);
         }

@@ -80,7 +80,7 @@ public class ProductService implements ProductDao {
         productTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         List<Product> resultProductList = productTypedQuery.getResultList();
         result.setContent(resultProductList
-                .stream().map(x -> new ResponseProductDto(x, queryParam.getCatalogAlias(),globalProperty.getBASE_URL())).collect(Collectors.toList()));
+                .stream().map(x -> new ResponseProductDto(x, queryParam.getCatalogAlias(),globalProperty.getPRODUCT_BASE_URL())).toList());
         return result;
     }
 
@@ -124,8 +124,8 @@ public class ProductService implements ProductDao {
         resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         dtoPaging.setContent(resultQuery
                 .getResultList().stream()
-                .map(x -> new ResponseProductDto(x, x.getCatalog().getAlias(),globalProperty.getBASE_URL()))
-                .collect(Collectors.toList()));
+                .map(x -> new ResponseProductDto(x, x.getCatalog().getAlias(),globalProperty.getPRODUCT_BASE_URL()))
+                .toList());
         return dtoPaging;
     }
 
@@ -145,7 +145,7 @@ public class ProductService implements ProductDao {
         resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
         resultQuery.setMaxResults(result.getPageSize());
         List<Product> products = resultQuery.getResultList();
-        result.setContent(products.stream().map(x->new ResponseProductGetAllDto(x,globalProperty)).collect(Collectors.toList()));
+        result.setContent(products.stream().map(x->new ResponseProductGetAllDto(x,globalProperty)).toList());
         return result;
     }
 

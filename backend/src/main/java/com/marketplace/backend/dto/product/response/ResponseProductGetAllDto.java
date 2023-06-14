@@ -31,7 +31,7 @@ public class ResponseProductGetAllDto {
             if (productFile.getFileType().equals(EFileType.DOCUMENT)){
                 return "";
             }
-            return FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,globalProperty.getBASE_URL());
+            return FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,globalProperty.getPRODUCT_BASE_URL());
         }).collect(Collectors.toSet());
         if(this.images.isEmpty()){
             this.images=null;

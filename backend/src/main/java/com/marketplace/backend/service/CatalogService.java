@@ -9,18 +9,20 @@ import com.marketplace.backend.dto.catalog.response.single.NumberAttributeDto;
 import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.mappers.CatalogMapper;
-import com.marketplace.backend.model.Attribute;
-import com.marketplace.backend.model.Catalog;
-import com.marketplace.backend.model.Paging;
+import com.marketplace.backend.model.*;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.utils.queryes.QueryParam;
 import com.marketplace.backend.service.utils.queryes.processor.QueryProcessor;
 import com.marketplace.backend.service.utils.queryes.processor.QueryProcessorImpl;
+import com.marketplace.backend.utils.FileUtils;
+import com.marketplace.properties.model.properties.GlobalProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
@@ -31,21 +33,27 @@ public class CatalogService {
     private final CatalogMapper catalogMapper;
     private final AttributeValueService attributeValueService;
     private final AttributeService attributeService;
+    private final GlobalProperty globalProperty;
+    private final FileUtils fileUtils;
+    private final AdminFilesService adminFilesService;
 
     @PersistenceContext
     private final EntityManager entityManager;
 
     @Autowired
-    public CatalogService(CatalogMapper catalogMapper, AttributeValueService attributeValueService, AttributeService attributeService, EntityManager entityManager) {
+    public CatalogService(CatalogMapper catalogMapper, AttributeValueService attributeValueService, AttributeService attributeService, GlobalProperty globalProperty, FileUtils fileUtils, AdminFilesService adminFilesService, EntityManager entityManager) {
         this.catalogMapper = catalogMapper;
         this.attributeValueService = attributeValueService;
         this.attributeService = attributeService;
+        this.globalProperty = globalProperty;
+        this.fileUtils = fileUtils;
+        this.adminFilesService = adminFilesService;
         this.entityManager = entityManager;
     }
 
 
-    @Transactional
-    public Catalog saveNewCatalog(RequestSaveCatalogDto dto) {
+    @Transactional(rollbackFor = {OperationNotAllowedException.class})
+    public Catalog saveNewCatalog(RequestSaveCatalogDto dto, MultipartFile image) {
         Catalog catalog = catalogMapper.dtoToEntity(dto);
         Set<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         catalog.setAttributes(attributeList);
@@ -54,7 +62,13 @@ public class CatalogService {
         catalog.setCreatedAt(LocalDateTime.now());
         catalog.setModifyDate(LocalDateTime.now());
         entityManager.persist(catalog);
+        if(image!=null){
+            saveFile(image,EFileType.IMAGE,catalog);
+        }
         entityManager.flush();
+        entityManager.detach(catalog);
+        String imageUrl = catalog.getAlias()+"/"+catalog.getImage();
+        catalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
         return catalog;
     }
 
@@ -126,7 +140,7 @@ public class CatalogService {
         resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
         resultQuery.setMaxResults(result.getPageSize());
         result.setContent(resultQuery.getResultStream()
-                .map(catalogMapper::entityToSimpleCatalogDto).collect(Collectors.toList()));
+                .map(catalogMapper::entityToSimpleCatalogDto).toList());
         return result;
     }
 
@@ -162,5 +176,26 @@ public class CatalogService {
             return optionalCatalog.get();
         }
         throw new ResourceNotFoundException("Не найден каталог с псевдонимом: " + alias);
+    }
+
+    private void saveFile(MultipartFile uploadFile, EFileType eFileType, Catalog catalog){
+        if (eFileType.equals(EFileType.IMAGE) && Boolean.TRUE.equals(globalProperty.getIsCatalogImageDirectoryAvailability())) {
+            if (Boolean.TRUE.equals(fileUtils.checkImageFile(uploadFile))) {
+                Path imageDir = Path.of(globalProperty.getCATALOG_IMAGE_DIR().toString(), catalog.getId().toString());
+                if (!fileUtils.createIfNotExistProductDir(imageDir)) {
+                    throw new OperationNotAllowedException("Не удалось создать директорию каталога");
+                }
+                Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
+                if (Boolean.TRUE.equals(adminFilesService.saveFileOnFileSystem(uploadFile,filePath))) {
+                    catalog.setImage(uploadFile.getOriginalFilename());
+                    return;
+                } else {
+                    throw new OperationNotAllowedException("Не удалось сохранить файл");
+                }
+            } else {
+                throw new OperationNotAllowedException("Файл не является изображением: " +uploadFile.getOriginalFilename());
+            }
+        }
+        throw new OperationNotAllowedException("Директория для сохранения файла не доступна");
     }
 }

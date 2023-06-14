@@ -63,7 +63,7 @@ public class ProductController {
 
     @GetMapping("/by_alias")
     public ResponseProductDto getProductByAlias(@RequestParam(value = "alias") String alias) {
-        return new ResponseProductDto(productDao.findProductByAlias(alias), alias,globalProperty.getBASE_URL());
+        return new ResponseProductDto(productDao.findProductByAlias(alias), alias,globalProperty.getPRODUCT_BASE_URL());
 
     }
 
@@ -107,7 +107,7 @@ public class ProductController {
             product.getProductFiles().add(saveFile(defaultImage, EFileType.IMAGE, product));
             manageProductDao.setDefaultFile(product.getProductFiles(),defaultImage.getOriginalFilename());
         }
-        return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
+        return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getPRODUCT_BASE_URL());
     }
     @PutMapping("/put")
     public ResponseProductDto updateProduct(@Valid RequestUpdateWithImageProductDto productDto, @RequestParam(name = "defaultImage",required = false) Object defaultImage, @RequestParam(name = "files",required = false)MultipartFile[] files) {
@@ -136,7 +136,7 @@ public class ProductController {
             }
 
         }
-        return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getBASE_URL());
+        return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getPRODUCT_BASE_URL());
     }
 
     @DeleteMapping("delete/{alias}")
@@ -152,7 +152,7 @@ public class ProductController {
     @GetMapping("/admin/by_alias")
     public ResponseProductDtoForAdmin getProductByAliasForAdmin(@RequestParam(value = "alias") String alias) {
         Product product = productDao.findProductByAlias(alias);
-        ResponseProductDtoForAdmin dto = new ResponseProductDtoForAdmin(product,product.getCatalog().getAlias(),globalProperty.getBASE_URL());
+        ResponseProductDtoForAdmin dto = new ResponseProductDtoForAdmin(product,product.getCatalog().getAlias(),globalProperty.getPRODUCT_BASE_URL());
         if (product.getDoubleValues() != null) {
             dto.setAttributeValuesSet(productMapper.numValuesToDtoForAdmin(product.getDoubleValues()));
         }
@@ -169,15 +169,14 @@ public class ProductController {
     }
 
     private ProductFile saveFile(MultipartFile uploadFile,EFileType eFileType,Product product){
-
-        if (eFileType.equals(EFileType.IMAGE) && globalProperty.getIsImageDirectoryAvailability()) {
-            if (fileUtils.checkImageFile(uploadFile)) {
-                Path imageDir = Path.of(globalProperty.getIMAGE_DIR().toString(), product.getId().toString());
+        if (eFileType.equals(EFileType.IMAGE) && Boolean.TRUE.equals(globalProperty.getIsProductImageDirectoryAvailability())) {
+            if (Boolean.TRUE.equals(fileUtils.checkImageFile(uploadFile))) {
+                Path imageDir = Path.of(globalProperty.getPRODUCT_IMAGE_DIR().toString(), product.getId().toString());
                 if (!fileUtils.createIfNotExistProductDir(imageDir)) {
                     throw new OperationNotAllowedException("Не удалось создать директорию продукта");
                 }
                 Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
-                if (manageProductDao.saveFileOnFileSystem(uploadFile,filePath)) {
+                if (Boolean.TRUE.equals(manageProductDao.saveFileOnFileSystem(uploadFile,filePath))) {
                     return manageProductDao.saveFileDescription(product, uploadFile.getOriginalFilename(), EFileType.IMAGE);
                 } else {
                     throw new OperationNotAllowedException("Не удалось сохранить файл");
