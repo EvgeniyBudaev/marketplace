@@ -31,7 +31,15 @@ import java.util.Set;
                 @NamedAttributeNode("filter"),
                 @NamedAttributeNode("type"),
                 @NamedAttributeNode("name"),
+                @NamedAttributeNode(value = "singleSelectableValue",subgraph = "single"),
+                @NamedAttributeNode(value = "doubleValues",subgraph = "double"),
         }),
+                @NamedSubgraph(name = "single",attributeNodes = {
+                        @NamedAttributeNode("value")
+                }),
+                @NamedSubgraph(name = "double",attributeNodes = {
+                        @NamedAttributeNode("value")
+                }),
         })
 public class Catalog {
     @Id
