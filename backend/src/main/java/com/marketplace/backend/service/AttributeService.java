@@ -10,6 +10,7 @@ import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.mappers.AttributeMapper;
 import com.marketplace.backend.mappers.SelectableValueMapper;
 import com.marketplace.backend.model.Attribute;
+import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.EAttributeType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
@@ -23,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -85,6 +83,19 @@ public class AttributeService implements AttributeDao {
         });
     }
 
+    public Set<Attribute> findAttributesWithValuesByCatalog(Catalog catalog){
+       TypedQuery<Attribute> catalogQuery = entityManager
+               .createQuery("SELECT a FROM Attribute as a JOIN a.catalog as c  where c=:catalog", Attribute.class);
+       catalogQuery.setParameter("catalog",catalog);
+       List<Attribute> attributeList = catalogQuery.getResultList();
+       if(attributeList.isEmpty()){
+           return Collections.EMPTY_SET;
+       }
+       TypedQuery<Attribute> attributeQuery = entityManager
+               .createQuery("SELECT a FROM Attribute as a JOIN FETCH SelectableValue JOIN FETCH DoubleValue where a in (:attributes)", Attribute.class);
+       attributeQuery.setParameter("attributes",attributeList);
+       return attributeQuery.getResultStream().collect(Collectors.toSet());
+    }
     @Transactional
     public Attribute putAttribute(RequestPutAttributeDto dto) {
         Attribute newAttribute = attributeMapper.dtoToEntity(dto);
@@ -193,7 +204,18 @@ public class AttributeService implements AttributeDao {
         return attributeSet;
     }
 
-
+    public Set<Attribute> getListAttributeByAliasesWithValue(List<String> aliases) {
+        TypedQuery<Attribute> querySelValue = entityManager.
+                createQuery("SELECT a FROM Attribute as a LEFT JOIN FETCH a.singleSelectableValue where a.alias in (:aliases) and a.enabled=true ", Attribute.class);
+        querySelValue.setParameter("aliases", aliases);
+        Set<Attribute> resultSet = new HashSet<>();
+        querySelValue.getResultStream().forEach(resultSet::add);
+        TypedQuery<Attribute> queryDoubleValue = entityManager.
+                createQuery("SELECT a FROM Attribute as a LEFT JOIN FETCH a.singleSelectableValue where a.alias in (:aliases) and a.enabled=true ", Attribute.class);
+        queryDoubleValue.setParameter("aliases", aliases);
+        queryDoubleValue.getResultStream().forEach(resultSet::add);
+        return resultSet;
+    }
     public Set<Attribute> attributesAliasBySelValueIds(List<Long> selValueIds) {
         TypedQuery<Attribute> query = entityManager.createQuery("SELECT distinct a FROM SelectableValue as sv  join sv.attribute as a where sv.id in (:ids)", Attribute.class);
         query.setParameter("ids", selValueIds);

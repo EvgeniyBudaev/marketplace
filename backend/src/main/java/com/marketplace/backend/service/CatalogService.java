@@ -55,13 +55,13 @@ public class CatalogService {
     @Transactional(rollbackFor = {OperationNotAllowedException.class})
     public Catalog saveNewCatalog(RequestSaveCatalogDto dto, MultipartFile image) {
         Catalog catalog = catalogMapper.dtoToEntity(dto);
-        Set<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
+        entityManager.persist(catalog);
+        Set<Attribute> attributeList = attributeService.getListAttributeByAliasesWithValue(dto.getAttributeAlias());
         catalog.setAttributes(attributeList);
         attributeList.forEach(x -> x.getCatalog().add(catalog));
         catalog.setEnabled(true);
         catalog.setCreatedAt(LocalDateTime.now());
         catalog.setModifyDate(LocalDateTime.now());
-        entityManager.persist(catalog);
         if(image!=null){
             saveFile(image,EFileType.IMAGE,catalog);
         }
