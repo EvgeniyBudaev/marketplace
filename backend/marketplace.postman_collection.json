@@ -438,13 +438,29 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"alias\": \"tv\",\n    \"enabled\": true,\n    \"image\": \"default.jpg\",\n    \"name\": \"зеркала\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "alias",
+											"value": "tv3",
+											"type": "text"
+										},
+										{
+											"key": "enabled",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Телевизоры2",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/ArrowRightSlider.svg"
 										}
-									}
+									]
 								},
 								"url": {
 									"raw": "http://localhost:8080/api/v1/catalogs/save",
@@ -744,7 +760,7 @@
 									"formdata": [
 										{
 											"key": "alias",
-											"value": "venetian-mirror389",
+											"value": "venetian-mirror17",
 											"type": "text"
 										},
 										{
@@ -830,8 +846,7 @@
 										{
 											"key": "defaultImage",
 											"type": "file",
-											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/Attention.svg",
-											"disabled": true
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/Attention.svg"
 										}
 									]
 								},
@@ -938,13 +953,12 @@
 										{
 											"key": "files",
 											"type": "file",
-											"src": [],
-											"disabled": true
+											"src": []
 										},
 										{
 											"key": "files",
 											"type": "file",
-											"src": "/Volumes/Работа/Репозитории/marketplace/frontend/public/assets/images/btn-hover.svg"
+											"src": []
 										},
 										{
 											"key": "id",
@@ -953,23 +967,34 @@
 										},
 										{
 											"key": "images[]",
-											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror38/ArrowLeft.svg",
+											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror17/ArrowBack.svg",
 											"type": "text"
 										},
 										{
 											"key": "images[]",
-											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror38/ArrowBack.svg",
+											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror17/Attention.svg",
 											"type": "text"
 										},
 										{
 											"key": "defaultImage",
-											"value": "ArrowBack.svg",
-											"type": "text"
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/Cart.svg"
 										},
 										{
 											"key": "files",
 											"type": "file",
-											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/Attention.svg"
+											"src": [],
+											"disabled": true
+										},
+										{
+											"key": "images[]",
+											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror17/ArrowDown.svg",
+											"type": "text"
+										},
+										{
+											"key": "images",
+											"value": "http://localhost:8080/api/v1/products/files/images/venetian-mirror17/Attention.svg",
+											"type": "text"
 										}
 									]
 								},
@@ -1043,7 +1068,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/v1/products/admin/by_alias?alias=venetian-mirror-bernard",
+									"raw": "http://localhost:8080/api/v1/products/admin/by_alias?alias=venetian-mirror180",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1059,7 +1084,7 @@
 									"query": [
 										{
 											"key": "alias",
-											"value": "venetian-mirror-bernard"
+											"value": "venetian-mirror180"
 										}
 									]
 								}

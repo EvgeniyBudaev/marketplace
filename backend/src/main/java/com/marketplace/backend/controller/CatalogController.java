@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -55,7 +56,6 @@ public class CatalogController {
         }
         UrlResolver resolver = new UrlResolverImpl();
         QueryParam param = resolver.resolveQueryString(queryString);
-        System.out.println(param);
         return catalogService.findAll(param);
     }
 
@@ -101,8 +101,8 @@ public class CatalogController {
     }
 
     @PostMapping("/save")
-    public ResponseSingleAfterSaveCatalogDto saveCatalog(@Valid @RequestBody RequestSaveCatalogDto dto) {
-        Catalog catalog = catalogService.saveNewCatalog(dto);
+    public ResponseSingleAfterSaveCatalogDto saveCatalog(@Valid RequestSaveCatalogDto dto, @RequestParam(name = "image",required = false) MultipartFile image) {
+        Catalog catalog = catalogService.saveNewCatalog(dto,image);
         return getResponseSingleAfterSaveCatalogDto(catalog);
     }
 
