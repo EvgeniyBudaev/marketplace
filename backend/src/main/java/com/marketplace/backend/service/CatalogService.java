@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -140,7 +141,14 @@ public class CatalogService {
         resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
         resultQuery.setMaxResults(result.getPageSize());
         result.setContent(resultQuery.getResultStream()
-                .map(catalogMapper::entityToSimpleCatalogDto).toList());
+                .map(x->{
+                    ResponseSimpleCatalogDto dto = catalogMapper.entityToSimpleCatalogDto(x);
+                    if(dto.getImage()!=null){
+                        String imageUrl = dto.getAlias()+"/"+dto.getImage();
+                        dto.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+                    }
+                    return dto;
+                }).toList());
         return result;
     }
 
@@ -177,7 +185,24 @@ public class CatalogService {
         }
         throw new ResourceNotFoundException("Не найден каталог с псевдонимом: " + alias);
     }
-
+    public Catalog catalogByAlias(String alias) {
+        TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c  where c.enabled=true and c.alias=:alias", Catalog.class);
+        resultQuery.setParameter("alias", alias);
+        Optional<Catalog> optionalCatalog = resultQuery.getResultStream().findFirst();
+        if (optionalCatalog.isEmpty()) {
+            throw new ResourceNotFoundException("Не найден каталог с псевдонимом: " + alias);
+        }
+        Catalog catalog = optionalCatalog.get();
+        List<String> attributeAliases = catalog.getAttributes().stream().map(Attribute::getAlias).toList();
+        Set<Attribute> attributes = attributeService.getListAttributeByAliasesWithValue(attributeAliases);
+        entityManager.detach(catalog);
+        catalog.setAttributes(attributes);
+        if(catalog.getImage()!=null){
+            String imageUrl = catalog.getAlias()+"/"+catalog.getImage();
+            catalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+        }
+        return catalog;
+    }
     private void saveFile(MultipartFile uploadFile, EFileType eFileType, Catalog catalog){
         if (eFileType.equals(EFileType.IMAGE) && Boolean.TRUE.equals(globalProperty.getIsCatalogImageDirectoryAvailability())) {
             if (Boolean.TRUE.equals(fileUtils.checkImageFile(uploadFile))) {
