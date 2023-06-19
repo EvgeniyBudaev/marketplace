@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,13 +56,13 @@ public class CatalogService {
     @Transactional(rollbackFor = {OperationNotAllowedException.class})
     public Catalog saveNewCatalog(RequestSaveCatalogDto dto, MultipartFile image) {
         Catalog catalog = catalogMapper.dtoToEntity(dto);
-        Set<Attribute> attributeList = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
+        entityManager.persist(catalog);
+        Set<Attribute> attributeList = attributeService.getListAttributeByAliasesWithValue(dto.getAttributeAlias());
         catalog.setAttributes(attributeList);
         attributeList.forEach(x -> x.getCatalog().add(catalog));
         catalog.setEnabled(true);
         catalog.setCreatedAt(LocalDateTime.now());
         catalog.setModifyDate(LocalDateTime.now());
-        entityManager.persist(catalog);
         if(image!=null){
             saveFile(image,EFileType.IMAGE,catalog);
         }
@@ -73,13 +74,12 @@ public class CatalogService {
     }
 
     @Transactional
-    public Catalog putCatalog(RequestPutCatalogDto dto) {
+    public Catalog putCatalog(RequestPutCatalogDto dto, MultipartFile image) {
         Set<Attribute> newAttributes = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         Query updateQuery = entityManager
-                .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true ,c.image = :image, c.modifyDate = :modify where c.id=:id");
+                .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true, c.modifyDate = :modify where c.id=:id");
         updateQuery.setParameter("alias", dto.getAlias());
         updateQuery.setParameter("name", dto.getName());
-        updateQuery.setParameter("image", dto.getImage());
         updateQuery.setParameter("id", dto.getId());
         updateQuery.setParameter("modify", LocalDateTime.now());
         updateQuery.executeUpdate();
@@ -93,6 +93,15 @@ public class CatalogService {
         for (Attribute attribute : attributesForAdd) {
             catalog.addAttribute(attribute);
         }
+        if(image!=null){
+            saveFile(image,EFileType.IMAGE,catalog);
+        }
+        entityManager.flush();
+        entityManager.detach(catalog);
+        Set<Attribute> attributeList = attributeService.getListAttributeByAliasesWithValue(dto.getAttributeAlias());
+        catalog.setAttributes(attributeList);
+        String imageUrl = catalog.getAlias()+"/"+catalog.getImage();
+        catalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
         return catalog;
     }
 
@@ -101,7 +110,12 @@ public class CatalogService {
         Catalog catalog = catalogMapper.dtoToEntity(dto);
         catalog.setModifyDate(LocalDateTime.now());
         entityManager.merge(catalog);
-        return catalog;
+        entityManager.detach(catalog);
+        Catalog newCatalog = findCatalogByAliasWithFullAttributes(dto.getAlias());
+        entityManager.detach(newCatalog);
+        String imageUrl = newCatalog.getAlias()+"/"+newCatalog.getImage();
+        newCatalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+        return newCatalog;
     }
 
     public Catalog findCatalogByAliasWithFullAttributes(String alias) {
@@ -140,7 +154,14 @@ public class CatalogService {
         resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
         resultQuery.setMaxResults(result.getPageSize());
         result.setContent(resultQuery.getResultStream()
-                .map(catalogMapper::entityToSimpleCatalogDto).toList());
+                .map(x->{
+                    ResponseSimpleCatalogDto dto = catalogMapper.entityToSimpleCatalogDto(x);
+                    if(dto.getImage()!=null){
+                        String imageUrl = dto.getAlias()+"/"+dto.getImage();
+                        dto.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+                    }
+                    return dto;
+                }).toList());
         return result;
     }
 
@@ -177,7 +198,24 @@ public class CatalogService {
         }
         throw new ResourceNotFoundException("Не найден каталог с псевдонимом: " + alias);
     }
-
+    public Catalog catalogByAlias(String alias) {
+        TypedQuery<Catalog> resultQuery = entityManager.createQuery("select c from Catalog  as c  where c.enabled=true and c.alias=:alias", Catalog.class);
+        resultQuery.setParameter("alias", alias);
+        Optional<Catalog> optionalCatalog = resultQuery.getResultStream().findFirst();
+        if (optionalCatalog.isEmpty()) {
+            throw new ResourceNotFoundException("Не найден каталог с псевдонимом: " + alias);
+        }
+        Catalog catalog = optionalCatalog.get();
+        List<String> attributeAliases = catalog.getAttributes().stream().map(Attribute::getAlias).toList();
+        Set<Attribute> attributes = attributeService.getListAttributeByAliasesWithValue(attributeAliases);
+        entityManager.detach(catalog);
+        catalog.setAttributes(attributes);
+        if(catalog.getImage()!=null){
+            String imageUrl = catalog.getAlias()+"/"+catalog.getImage();
+            catalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+        }
+        return catalog;
+    }
     private void saveFile(MultipartFile uploadFile, EFileType eFileType, Catalog catalog){
         if (eFileType.equals(EFileType.IMAGE) && Boolean.TRUE.equals(globalProperty.getIsCatalogImageDirectoryAvailability())) {
             if (Boolean.TRUE.equals(fileUtils.checkImageFile(uploadFile))) {

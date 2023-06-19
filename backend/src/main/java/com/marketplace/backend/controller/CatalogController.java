@@ -56,12 +56,13 @@ public class CatalogController {
         }
         UrlResolver resolver = new UrlResolverImpl();
         QueryParam param = resolver.resolveQueryString(queryString);
+
         return catalogService.findAll(param);
     }
 
     @GetMapping("/by_alias/{alias}")
     public ResponseSingleCatalogDto getCatalogByAlias(@PathVariable String alias) {
-        Catalog catalog = catalogService.findCatalogByAliasWithFullAttributes(alias);
+        Catalog catalog = catalogService.catalogByAlias(alias);
         ResponseSingleCatalogDto dto = mapper.entityToSingleCatalogDto(catalog);
         if (catalog.getAttributes() == null) {
             return dto;
@@ -118,14 +119,14 @@ public class CatalogController {
     }
 
     @PatchMapping("/patch")
-    public ResponseSingleAfterSaveCatalogDto updateCatalog(@RequestBody @Valid RequestUpdateCatalogDto dto) {
+    public ResponseSingleAfterSaveCatalogDto updateCatalog(@Valid RequestUpdateCatalogDto dto,@RequestParam(name = "image",required = false) MultipartFile image) {
         Catalog catalog = catalogService.updateCatalog(dto);
         return getResponseSingleAfterSaveCatalogDto(catalog);
     }
 
     @PutMapping("/put")
-    public ResponseSingleAfterSaveCatalogDto putCatalog(@RequestBody @Valid RequestPutCatalogDto dto) {
-        Catalog catalog = catalogService.putCatalog(dto);
+    public ResponseSingleAfterSaveCatalogDto putCatalog(@Valid RequestPutCatalogDto dto,@RequestParam(name = "image",required = false) MultipartFile image) {
+        Catalog catalog = catalogService.putCatalog(dto,image);
         return getResponseSingleAfterSaveCatalogDto(catalog);
     }
 
