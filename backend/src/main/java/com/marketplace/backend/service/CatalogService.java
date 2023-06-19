@@ -74,13 +74,12 @@ public class CatalogService {
     }
 
     @Transactional
-    public Catalog putCatalog(RequestPutCatalogDto dto) {
+    public Catalog putCatalog(RequestPutCatalogDto dto, MultipartFile image) {
         Set<Attribute> newAttributes = attributeService.getListAttributeByAliases(dto.getAttributeAlias());
         Query updateQuery = entityManager
-                .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true ,c.image = :image, c.modifyDate = :modify where c.id=:id");
+                .createQuery("UPDATE Catalog as c set c.alias = :alias,c.name = :name,c.enabled=true, c.modifyDate = :modify where c.id=:id");
         updateQuery.setParameter("alias", dto.getAlias());
         updateQuery.setParameter("name", dto.getName());
-        updateQuery.setParameter("image", dto.getImage());
         updateQuery.setParameter("id", dto.getId());
         updateQuery.setParameter("modify", LocalDateTime.now());
         updateQuery.executeUpdate();
@@ -94,6 +93,15 @@ public class CatalogService {
         for (Attribute attribute : attributesForAdd) {
             catalog.addAttribute(attribute);
         }
+        if(image!=null){
+            saveFile(image,EFileType.IMAGE,catalog);
+        }
+        entityManager.flush();
+        entityManager.detach(catalog);
+        Set<Attribute> attributeList = attributeService.getListAttributeByAliasesWithValue(dto.getAttributeAlias());
+        catalog.setAttributes(attributeList);
+        String imageUrl = catalog.getAlias()+"/"+catalog.getImage();
+        catalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
         return catalog;
     }
 
@@ -102,7 +110,12 @@ public class CatalogService {
         Catalog catalog = catalogMapper.dtoToEntity(dto);
         catalog.setModifyDate(LocalDateTime.now());
         entityManager.merge(catalog);
-        return catalog;
+        entityManager.detach(catalog);
+        Catalog newCatalog = findCatalogByAliasWithFullAttributes(dto.getAlias());
+        entityManager.detach(newCatalog);
+        String imageUrl = newCatalog.getAlias()+"/"+newCatalog.getImage();
+        newCatalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+        return newCatalog;
     }
 
     public Catalog findCatalogByAliasWithFullAttributes(String alias) {
