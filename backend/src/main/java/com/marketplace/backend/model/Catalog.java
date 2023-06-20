@@ -30,8 +30,8 @@ import java.util.Set;
                 @NamedAttributeNode("enabled"),
                 @NamedAttributeNode("filter"),
                 @NamedAttributeNode("type"),
-                @NamedAttributeNode("name"),
-        }),
+                @NamedAttributeNode("name")
+        })
         })
 public class Catalog {
     @Id

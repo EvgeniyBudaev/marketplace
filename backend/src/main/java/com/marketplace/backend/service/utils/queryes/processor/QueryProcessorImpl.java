@@ -47,9 +47,7 @@ public class QueryProcessorImpl implements QueryProcessor {
         }
         queryString.append("order by ");
         if (paramMap.isEmpty()) {
-            String query = queryString.append("name asc").toString();
-            System.out.println(query);
-            return query;
+            return queryString.append("name asc").toString();
         }
         paramMap.forEach((x, y) -> {
             if (x == null) {
@@ -60,8 +58,6 @@ public class QueryProcessorImpl implements QueryProcessor {
             }
             queryString.append(x.getFiled()).append(" ").append(y.getDirection()).append(",");
         });
-        String finalQueryString = queryString.substring(0, queryString.length() - 1);
-        System.out.println(finalQueryString);
-        return finalQueryString;
+        return queryString.substring(0, queryString.length() - 1);
     }
 }

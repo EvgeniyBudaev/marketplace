@@ -572,13 +572,39 @@
 								"method": "PUT",
 								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"зеркала\",\r\n    \"alias\": \"Zerkala567\",\r\n    \"image\": \"default.jpg\",\r\n        \"attributeAlias\":[\r\n        \"width\",\r\n        \"form\"\r\n    ]\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "компы",
+											"type": "text"
+										},
+										{
+											"key": "alias",
+											"value": "computers",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/C:/Users/winte/IdeaProjects/marketplace/frontend/public/assets/icons/Attention.svg"
+										},
+										{
+											"key": "attributeAlias[]",
+											"value": "width",
+											"type": "text"
+										},
+										{
+											"key": "attributeAlias[]",
+											"value": "form",
+											"type": "text"
 										}
-									}
+									]
 								},
 								"url": {
 									"raw": "http://localhost:8080/api/v1/catalogs/put",
@@ -646,7 +672,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/catalogs/by_alias/tv",
+							"raw": "http://localhost:8080/api/v1/catalogs/by_alias/computers",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -657,7 +683,7 @@
 								"v1",
 								"catalogs",
 								"by_alias",
-								"tv"
+								"computers"
 							]
 						}
 					},
