@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
-import type { FC, ChangeEvent } from "react";
-import type { OnChangeValue } from "react-select";
-import { useTranslation } from "react-i18next";
-import { useAuthenticityToken } from "remix-utils";
-import { useFetcher } from "@remix-run/react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {useEffect, useState} from "react";
+import type {FC, ChangeEvent} from "react";
+import type {OnChangeValue} from "react-select";
+import {useTranslation} from "react-i18next";
+import {useAuthenticityToken} from "remix-utils";
+import {useFetcher} from "@remix-run/react";
+import {zodResolver} from "@hookform/resolvers/zod";
 import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
-import { ERoutes } from "~/enums";
-import { useTheme } from "~/hooks";
-import { useFiles, useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
+import {ERoutes} from "~/enums";
+import {useTheme} from "~/hooks";
+import {useFiles, useGetCatalogAlias} from "~/pages/Admin/Products/hooks";
 import {
   EFormFields,
   formattedProductEdit,
   formSchema,
   mapProductEditToDto,
 } from "~/pages/Admin/Products/ProductEdit";
-import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductEdit";
-import { getSelectableAttributeOptions } from "~/pages/Admin/Products/utils";
-import type { TAttributesByCatalog } from "~/shared/api/attributes";
-import type { TCatalogs } from "~/shared/api/catalogs";
-import type { TAdminProductDetail } from "~/shared/api/products";
+import type {TForm, TOptionsSubmitForm} from "~/pages/Admin/Products/ProductEdit";
+import {getSelectableAttributeOptions} from "~/pages/Admin/Products/utils";
+import type {TAttributesByCatalog} from "~/shared/api/attributes";
+import type {TCatalogs} from "~/shared/api/catalogs";
+import type {TAdminProductDetail} from "~/shared/api/products";
 import {
   Checkbox,
   EFormMethods,
@@ -30,10 +30,10 @@ import {
   Select,
   useInitForm,
 } from "~/shared/form";
-import type { TDomainErrors, TFile, TParams } from "~/types";
-import type { isSelectMultiType, TSelectOption } from "~/uikit";
-import { Button, ETypographyVariant, Icon, notify, Tooltip, Typography } from "~/uikit";
-import { createPath, formatProxy } from "~/utils";
+import type {TDomainErrors, TFile, TParams} from "~/types";
+import type {isSelectMultiType, TSelectOption} from "~/uikit";
+import {Button, ETypographyVariant, Icon, notify, Tooltip, Typography} from "~/uikit";
+import {createPath, formatProxy} from "~/utils";
 import styles from "./ProductEdit.module.css";
 
 type TProps = {
@@ -46,9 +46,9 @@ type TProps = {
 
 export const ProductEdit: FC<TProps> = (props) => {
   const csrf = useAuthenticityToken();
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const fetcherRemix = useFetcher();
-  const { theme } = useTheme();
+  const {theme} = useTheme();
   const idCheckbox = "enabled";
 
   const [catalogs, setCatalogs] = useState(props.catalogs);
@@ -57,9 +57,9 @@ export const ProductEdit: FC<TProps> = (props) => {
     props.product?.defaultImage ?? null,
   );
   const [images, setImages] = useState<string[]>(product?.images ?? []);
-  const [filter, setFilter] = useState<TParams>({ enabled: product.enabled ? [idCheckbox] : [] });
+  const [filter, setFilter] = useState<TParams>({enabled: product.enabled ? [idCheckbox] : []});
 
-  const { catalogAliasesTypeOptions } = useGetCatalogAlias({ catalogs });
+  const {catalogAliasesTypeOptions} = useGetCatalogAlias({catalogs});
   const defaultCatalogAlias = catalogAliasesTypeOptions.find(
     (item) => item.value === product.catalogAlias,
   );
@@ -79,11 +79,10 @@ export const ProductEdit: FC<TProps> = (props) => {
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
-  const fetcher = form.fetcher;
-  const { setValue, watch } = form.methods;
+  const {setValue, watch} = form.methods;
 
   const watchFiles = watch(EFormFields.Files);
-  const { onAddFiles, onDeleteFile, fetcherFilesLoading } = useFiles({
+  const {onAddFiles, onDeleteFile, fetcherFilesLoading} = useFiles({
     fieldName: EFormFields.Files,
     files: watchFiles,
     setValue,
@@ -102,7 +101,7 @@ export const ProductEdit: FC<TProps> = (props) => {
     nameGroup: string,
   ) => {
     const {
-      target: { checked, value },
+      target: {checked, value},
     } = event;
 
     if (checked) {
@@ -158,7 +157,7 @@ export const ProductEdit: FC<TProps> = (props) => {
     handleDeleteDefaultImage(file);
   };
 
-  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
     const formattedParams = formattedProductEdit(params);
     const dataFormToDto = mapProductEditToDto(formattedParams, product.id);
     const formData = new FormData();
@@ -186,16 +185,16 @@ export const ProductEdit: FC<TProps> = (props) => {
     }
     dataFormToDto.price && formData.append("price", dataFormToDto.price);
     dataFormToDto.selectableValues &&
-      dataFormToDto.selectableValues.forEach((item) =>
-        formData.append("selectableValues[]", item.toString()),
-      );
+    dataFormToDto.selectableValues.forEach((item) =>
+      formData.append("selectableValues[]", item.toString()),
+    );
     formData.append("csrf", csrf);
 
     fetcher.submit(formData, {
       method: EFormMethods.Put,
       action: createPath({
         route: ERoutes.AdminProductEdit,
-        params: { alias: product.alias },
+        params: {alias: product.alias},
       }),
       encType: "multipart/form-data",
     });
@@ -222,7 +221,7 @@ export const ProductEdit: FC<TProps> = (props) => {
         method: EFormMethods.Post,
         action: createPath({
           route: ERoutes.ResourcesAttributesByCatalog,
-          params: { alias: catalogAlias.value },
+          params: {alias: catalogAlias.value},
         }),
       },
     );
@@ -297,7 +296,7 @@ export const ProductEdit: FC<TProps> = (props) => {
             attributesByCatalog.selectableAttribute &&
             productSelectableAttributeList &&
             attributesByCatalog.selectableAttribute.map((item) => {
-              const { selectableAttributeOptions } = getSelectableAttributeOptions({
+              const {selectableAttributeOptions} = getSelectableAttributeOptions({
                 values: item.values ?? [],
               });
               return (
@@ -339,12 +338,12 @@ export const ProductEdit: FC<TProps> = (props) => {
               images.map((image, index) => (
                 <div className="Previews-Thumb" key={`${image}-${index}`}>
                   <div className="Previews-Thumb-Inner">
-                    <img alt={image} className="Previews-Thumb-Image" src={formatProxy(image)} />
+                    <img alt={image} className="Previews-Thumb-Image" src={formatProxy(image)}/>
                   </div>
                   <div className="Previews-File">
                     <div className="Previews-File-Inner">
                       <div className="Previews-File-IconWrapper">
-                        <Icon className="Previews-File-ImageIcon" type="Image" />
+                        <Icon className="Previews-File-ImageIcon" type="Image"/>
                       </div>
                       <div className="Previews-File-Name">{image}</div>
                     </div>
@@ -391,7 +390,7 @@ export const ProductEdit: FC<TProps> = (props) => {
               "image/png": [".png"],
             }}
             files={watchFiles}
-            Input={<input hidden name={EFormFields.Files} type="file" />}
+            Input={<input hidden name={EFormFields.Files} type="file"/>}
             isLoading={fetcherFilesLoading}
             maxSize={1024 * 1024}
             multiple={false}
@@ -430,7 +429,7 @@ export const ProductEdit: FC<TProps> = (props) => {
           <div className="Previews-File">
             <div className="Previews-File-Inner">
               <div className="Previews-File-IconWrapper">
-                <Icon className="Previews-File-ImageIcon" type="Image" />
+                <Icon className="Previews-File-ImageIcon" type="Image"/>
               </div>
               <div className="Previews-File-Name">
                 {typeof defaultImage !== "string" ? defaultImage?.name : defaultImage}
@@ -450,5 +449,5 @@ export const ProductEdit: FC<TProps> = (props) => {
 };
 
 export function productEditLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import type { FC, ReactNode } from "react";
-import { useDropzone } from "react-dropzone";
-import type { DropzoneOptions } from "react-dropzone";
+import type {FC, ReactNode} from "react";
+import {useDropzone} from "react-dropzone";
+import type {DropzoneOptions} from "react-dropzone";
 import styles from "./Dropzone.css";
 
 export type TDropzoneProps = {
@@ -9,8 +9,8 @@ export type TDropzoneProps = {
   className?: string;
 } & DropzoneOptions;
 
-export const Dropzone: FC<TDropzoneProps> = ({ onDrop, children, className, ...rest }) => {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, ...rest });
+export const Dropzone: FC<TDropzoneProps> = ({onDrop, children, className, ...rest}) => {
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, ...rest});
 
   return (
     <div
@@ -24,5 +24,5 @@ export const Dropzone: FC<TDropzoneProps> = ({ onDrop, children, className, ...r
 };
 
 export function dropzoneLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

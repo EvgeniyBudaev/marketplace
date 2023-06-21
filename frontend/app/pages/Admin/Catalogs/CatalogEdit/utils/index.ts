@@ -1,1 +1,1 @@
-export * from "./mapCatalogEditFormDataToDto";
+export * from "./mapCatalogEditToDto";
