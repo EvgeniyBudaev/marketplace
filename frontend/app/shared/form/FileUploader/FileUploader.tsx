@@ -1,43 +1,48 @@
 import clsx from "clsx";
-import { useCallback, useEffect } from "react";
-import type { FC, ReactElement } from "react";
-import { useTranslation } from "react-i18next";
+import {useCallback, useEffect, useState} from "react";
+import type {FC, ReactElement} from "react";
+import {useTranslation} from "react-i18next";
 import isNil from "lodash/isNil";
-import { Previews, previewsLinks } from "~/shared/form/FileUploader/Previews";
-import { filterDuplicatedFiles, getTypes } from "~/shared/form/FileUploader/utils";
-import type { TFile } from "~/types";
-import { Button, Dropzone, ETypographyVariant, Typography } from "~/uikit";
-import type { TDropzoneProps } from "~/uikit";
+import {Previews, previewsLinks} from "~/shared/form/FileUploader/Previews";
+import {filterDuplicatedFiles, getTypes} from "~/shared/form/FileUploader/utils";
+import type {TFile} from "~/types";
+import {Button, Dropzone, ETypographyVariant, Typography} from "~/uikit";
+import type {TDropzoneProps} from "~/uikit";
 import styles from "./FileUploader.css";
 
 export type TFileUploaderProps = {
   files?: TFile[];
   Input: ReactElement;
   isLoading?: boolean;
+  maxFiles?: number;
   onAddFile: (file: File) => void;
   onAddFiles: (acceptedFiles: TFile[], files: TFile[]) => void;
   onDeleteFile: (deletedFile: TFile, files: TFile[]) => void;
 } & TDropzoneProps;
 
 export const FileUploader: FC<TFileUploaderProps> = ({
-  accept,
-  files,
-  Input,
-  isLoading,
-  onAddFile,
-  onAddFiles,
-  onDeleteFile,
-  ...rest
-}) => {
-  const { t } = useTranslation();
+                                                       accept,
+                                                       files,
+                                                       Input,
+                                                       isLoading,
+                                                       maxFiles,
+                                                       onAddFile,
+                                                       onAddFiles,
+                                                       onDeleteFile,
+                                                       ...rest
+                                                     }) => {
+  const {t} = useTranslation();
   const types = getTypes(accept);
+  const [countFiles, setCountFiles] = useState(1);
 
   const onDrop = useCallback(
     (addedFiles: File[]) => {
-      const { acceptedFiles, newFiles } = filterDuplicatedFiles(addedFiles, files);
+      if (maxFiles && countFiles > maxFiles) return;
+      const {acceptedFiles, newFiles} = filterDuplicatedFiles(addedFiles, files);
       onAddFiles(acceptedFiles, newFiles);
+      setCountFiles(prevState => prevState + 1);
     },
-    [onAddFiles, files],
+    [countFiles, files, maxFiles, onAddFiles],
   );
 
   const onDelete = useCallback(
@@ -46,6 +51,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
         let newFiles = [...files];
         newFiles = newFiles.filter((file) => file !== deletedFile);
         onDeleteFile(deletedFile, newFiles);
+        setCountFiles(prevState => prevState - 1);
       }
     },
     [onDeleteFile, files],
@@ -68,7 +74,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
         onDrop={onDrop}
         accept={accept}
         disabled={isLoading}
-        className={clsx("FileUploader-Dropzone", { "FileUploader-Dropzone__isLoading": isLoading })}
+        className={clsx("FileUploader-Dropzone", {"FileUploader-Dropzone__isLoading": isLoading})}
         {...rest}
       >
         <div className="FileUploader-Dropzone-Inner">
@@ -78,7 +84,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
           </Typography>
           {types && (
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              {t("fileUploader.subTitle", { types })}
+              {t("fileUploader.subTitle", {types})}
             </Typography>
           )}
           <Button className="FileUploader-Dropzone-Button">{t("fileUploader.action")}</Button>
@@ -96,5 +102,5 @@ export const FileUploader: FC<TFileUploaderProps> = ({
 };
 
 export function fileUploaderLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...previewsLinks()];
+  return [{rel: "stylesheet", href: styles}, ...previewsLinks()];
 }

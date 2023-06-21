@@ -1,7 +1,8 @@
-import { forwardRef } from "react";
-import type { ForwardedRef } from "react";
-import { flexRender } from "@tanstack/react-table";
-import type { Row } from "@tanstack/react-table";
+import {forwardRef} from "react";
+import type {ForwardedRef} from "react";
+import {flexRender} from "@tanstack/react-table";
+import type {Row} from "@tanstack/react-table";
+import {DEFAULT_COLUMN_MIN_SIZE} from "~/uikit/Table/constants";
 import styles from "./TableBody.module.css";
 
 type TProps<TColumn extends object> = {
@@ -9,32 +10,31 @@ type TProps<TColumn extends object> = {
 };
 
 const TableBodyComponent = <T extends object>(
-  { rows }: TProps<T>,
+  {rows}: TProps<T>,
   ref: ForwardedRef<HTMLTableSectionElement>,
 ) => {
   return (
     <tbody className="TableBody-TBody" ref={ref}>
-      {rows.map((row) => {
-        return (
-          <tr className="TableBody-TR" key={row.id}>
-            {row.getVisibleCells().map((cell) => {
-              return (
-                <td
-                  className="TableBody-TD"
-                  key={cell.id}
-                  style={{
-                    width: cell.column.getSize(),
-                    minWidth: cell.column.getSize(),
-                    maxWidth: cell.column.getSize(),
-                  }}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              );
-            })}
-          </tr>
-        );
-      })}
+    {rows.map((row) => {
+      return (
+        <tr className="TableBody-TR" key={row.id}>
+          {row.getVisibleCells().map((cell) => {
+            return (
+              <td
+                className="TableBody-TD"
+                key={cell.id}
+                style={{
+                  minWidth: cell.column.columnDef?.minSize ?? DEFAULT_COLUMN_MIN_SIZE,
+                  maxWidth: cell.column.columnDef?.maxSize,
+                }}
+              >
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </td>
+            );
+          })}
+        </tr>
+      );
+    })}
     </tbody>
   );
 };
@@ -42,5 +42,5 @@ const TableBodyComponent = <T extends object>(
 export const TableBody = forwardRef(TableBodyComponent);
 
 export function tableBodyLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

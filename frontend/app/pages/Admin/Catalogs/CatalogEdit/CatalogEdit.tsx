@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
-import type { FC, ChangeEvent } from "react";
-import { useTranslation } from "react-i18next";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes } from "~/enums";
-import { useTheme } from "~/hooks";
+import isNil from "lodash/isNil";
+import {useEffect, useState} from "react";
+import type {FC, ChangeEvent} from "react";
+import {useTranslation} from "react-i18next";
+import {useAuthenticityToken} from "remix-utils";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {ERoutes} from "~/enums";
+import {useTheme} from "~/hooks";
 import {
   useGetAttributeByCatalogOptions,
   useGetAttributeOptions,
@@ -11,62 +13,73 @@ import {
 import {
   EFormFields,
   formSchema,
-  mapCatalogEditFormDataToDto,
+  mapCatalogEditToDto,
 } from "~/pages/Admin/Catalogs/CatalogEdit";
-import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogEdit";
-import type { TAttributes, TAttributesByCatalog } from "~/shared/api/attributes";
-import type { TCatalogDetail } from "~/shared/api/catalogs";
-import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
-import type { TParams } from "~/types";
-import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
-import { createPath } from "~/utils";
+import type {TForm, TOptionsSubmitForm} from "~/pages/Admin/Catalogs/CatalogEdit";
+import {useFiles} from "~/pages/Admin/Products/hooks";
+import type {TAttributes, TAttributesByCatalog} from "~/shared/api/attributes";
+import type {TCatalogDetail} from "~/shared/api/catalogs";
+import {Checkbox, EFormMethods, FileUploader, Form, Input, Select, useInitForm} from "~/shared/form";
+import type {TDomainErrors, TFile, TParams} from "~/types";
+import {Button, ETypographyVariant, Icon, notify, Typography} from "~/uikit";
+import {createPath, formatProxy} from "~/utils";
 import styles from "./CatalogEdit.module.css";
 
 type TProps = {
   attributes: TAttributes;
   attributesByCatalog: TAttributesByCatalog;
   catalog: TCatalogDetail;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  success: boolean;
 };
 
-export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catalog }) => {
-  const { t } = useTranslation();
-  const { theme } = useTheme();
+export const CatalogEdit: FC<TProps> = (props) => {
+  const csrf = useAuthenticityToken();
+  const {t} = useTranslation();
+  const {theme} = useTheme();
 
   const idCheckbox = "enabled";
-  const [filter, setFilter] = useState<TParams>({ enabled: catalog.enabled ? [idCheckbox] : [] });
 
-  const { attributeOptions } = useGetAttributeOptions({ attributes });
-  console.log("attributeOptions: ", attributeOptions);
-  const { attributeByCatalogOptions } = useGetAttributeByCatalogOptions({ attributesByCatalog });
+  const [attributes, setAttributes] = useState(props.attributes);
+  const [attributesByCatalog, setAttributesByCatalog] = useState(props.attributesByCatalog);
+  const [catalog, setCatalog] = useState(props.catalog);
+  const [defaultImage, setDefaultImage] = useState<TFile | string | null>(
+    props.catalog?.image ?? null,
+  );
+  const [filter, setFilter] = useState<TParams>({enabled: props.catalog.enabled ? [idCheckbox] : []});
+
+  const {attributeOptions} = useGetAttributeOptions({attributes});
+  // console.log("attributeOptions: ", attributeOptions);
+  const {attributeByCatalogOptions} = useGetAttributeByCatalogOptions({attributesByCatalog});
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
-  const fetcher = form.fetcher;
+  const {setValue, watch} = form.methods;
+
+  const watchFiles = watch(EFormFields.Image);
+  const {onAddFiles, onDeleteFile, fetcherFilesLoading} = useFiles({
+    fieldName: EFormFields.Image,
+    files: watchFiles,
+    setValue,
+  });
 
   useEffect(() => {
-    if (isDoneType && fetcher.data?.success) {
-      notify.success({
-        title: "Каталог добавлен",
-      });
-    }
+    setAttributes(props.attributes);
+    setAttributesByCatalog(props.attributesByCatalog);
+    setCatalog(props.catalog);
+    setDefaultImage(props.catalog.image ?? null);
+  }, [props.attributes, props.attributesByCatalog, props.catalog]);
 
-    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
-      notify.error({
-        title: "Не удалось добавить каталог",
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetcher.data, fetcher.data?.success, isDoneType]);
-
-  const onChangeCheckedBox = (
+  const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
     id: string,
     nameGroup: string,
   ) => {
     const {
-      target: { checked, value },
+      target: {checked, value},
     } = event;
 
     if (checked) {
@@ -82,22 +95,55 @@ export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catal
     }
   };
 
-  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
-    console.log("Form params: ", params);
-    const formattedParams = mapCatalogEditFormDataToDto({
-      ...params,
-      id: catalog.id,
-      attributeAlias: params.attributeAlias,
-    });
-
-    fetcher.submit(formattedParams, {
-      method: EFormMethods.Post,
-      action: createPath({
-        route: ERoutes.AdminCatalogEdit,
-        params: { alias: catalog.alias },
-      }),
-    });
+  const handleAddFileToDefaultImage = (value: TFile | string) => {
+    setDefaultImage(value);
   };
+
+  const handleDeleteFile = (file: TFile, files: TFile[]) => {
+    if (typeof defaultImage === "string") {
+      return;
+    }
+    onDeleteFile(file, files);
+  };
+
+  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+    console.log("Form params: ", params);
+    const dataFormToDto = mapCatalogEditToDto(params, catalog.id);
+    const formData = new FormData();
+    dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
+    dataFormToDto.attributeAlias &&
+    dataFormToDto.attributeAlias.forEach((item) =>
+      formData.append("attributeAlias[]", item.value),
+    );
+    dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
+    dataFormToDto.id && formData.append("id", dataFormToDto.id);
+    defaultImage && formData.append("image", defaultImage);
+    dataFormToDto.name && formData.append("name", dataFormToDto.name);
+    formData.append("csrf", csrf);
+
+    // fetcher.submit(formData, {
+    //   method: EFormMethods.Put,
+    //   action: createPath({
+    //     route: ERoutes.AdminCatalogEdit,
+    //     params: {alias: catalog.alias},
+    //   }),
+    //   encType: "multipart/form-data",
+    // });
+  };
+
+  useEffect(() => {
+    if (isDoneType && !props.success && !props.fieldErrors) {
+      notify.error({
+        title: "Ошибка выполнения",
+      });
+    }
+    if (isDoneType && props.success && !props.fieldErrors) {
+      notify.success({
+        title: "Обновлено",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.success, isDoneType]);
 
   return (
     <section>
@@ -120,15 +166,9 @@ export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catal
             label={t("form.enabled.title") ?? "Enabled"}
             name={EFormFields.Enabled}
             nameGroup={"enabled"}
-            onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
+            onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
-        <Input
-          defaultValue={catalog?.image ?? ""}
-          label={t("form.image.title") ?? "Image"}
-          name={EFormFields.Image}
-          type="text"
-        />
         <Input
           defaultValue={catalog.name}
           label={t("form.name.title") ?? "Name"}
@@ -144,6 +184,67 @@ export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catal
             theme={theme}
           />
         </div>
+        <div className="CatalogEdit-FormFieldGroup">
+          <div className="CatalogEdit-SubTitle">
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              {t("pages.admin.product.previews.addImage")}
+            </Typography>
+          </div>
+          <FileUploader
+            accept={{
+              "image/jpeg": [".jpeg"],
+              "image/png": [".png"],
+            }}
+            files={watchFiles}
+            Input={<input hidden name={EFormFields.Image} type="file"/>}
+            isLoading={fetcherFilesLoading}
+            maxFiles={1}
+            maxSize={1024 * 1024}
+            multiple={false}
+            onAddFile={handleAddFileToDefaultImage}
+            onAddFiles={onAddFiles}
+            onDeleteFile={handleDeleteFile}
+          />
+        </div>
+
+        <div className="CatalogEdit-FormFieldGroup">
+          <div className="CatalogEdit-SubTitle">
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              {t("pages.admin.product.previews.defaultImage")}
+            </Typography>
+          </div>
+          <div className="Previews-Thumb-Inner ProductEdit-DefaultImage">
+            {!isNil(defaultImage) && typeof defaultImage !== "string" && (
+              <>
+                {!isNil(defaultImage.preview) && (
+                  <img
+                    alt={defaultImage.name}
+                    className="Previews-Thumb-Image"
+                    src={defaultImage.preview}
+                  />
+                )}
+              </>
+            )}
+            {!isNil(defaultImage) && typeof defaultImage === "string" && (
+              <img
+                alt={catalog.name}
+                className="Previews-Thumb-Image"
+                src={formatProxy(defaultImage)}
+              />
+            )}
+          </div>
+          <div className="Previews-File">
+            <div className="Previews-File-Inner">
+              <div className="Previews-File-IconWrapper">
+                <Icon className="Previews-File-ImageIcon" type="Image"/>
+              </div>
+              <div className="Previews-File-Name">
+                {typeof defaultImage !== "string" ? defaultImage?.name : defaultImage}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="CatalogEdit-Control">
           <Button className="CatalogEdit-Button" type="submit">
             {t("common.actions.save")}
@@ -155,5 +256,5 @@ export const CatalogEdit: FC<TProps> = ({ attributes, attributesByCatalog, catal
 };
 
 export function catalogEditLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

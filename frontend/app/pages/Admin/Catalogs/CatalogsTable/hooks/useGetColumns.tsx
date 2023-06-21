@@ -1,13 +1,13 @@
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "@remix-run/react";
-import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
-import { TableHeader } from "~/components";
-import { ERoutes } from "~/enums";
-import { ETableColumns } from "~/pages/Admin/Catalogs/CatalogsTable";
-import type { TCatalog } from "~/shared/api/catalogs";
-import { DateTime, Icon, IconButton } from "~/uikit";
-import { createPath } from "~/utils";
+import {useMemo} from "react";
+import {useTranslation} from "react-i18next";
+import {Link} from "@remix-run/react";
+import type {ColumnDef, ColumnHelper} from "@tanstack/react-table";
+import {TableCellImage, TableHeader} from "~/components";
+import {ERoutes} from "~/enums";
+import {ETableColumns} from "~/pages/Admin/Catalogs/CatalogsTable";
+import type {TCatalog} from "~/shared/api/catalogs";
+import {DateTime, Icon, IconButton} from "~/uikit";
+import {createPath} from "~/utils";
 
 type TUseGetColumns = (
   columnHelper: ColumnHelper<TCatalog>,
@@ -15,7 +15,7 @@ type TUseGetColumns = (
 ) => ColumnDef<TCatalog>[];
 
 export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   return useMemo(
     () =>
@@ -25,6 +25,11 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           header: () => (
             <TableHeader>{t("pages.admin.catalogs.table.columns.info.image")}</TableHeader>
           ),
+          cell: (data) => {
+            const value = data.getValue();
+            return <TableCellImage image={value}/>;
+          },
+          minSize: 192,
         }),
 
         columnHelper.accessor(ETableColumns.Name, {
@@ -32,7 +37,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           header: () => (
             <TableHeader>{t("pages.admin.catalogs.table.columns.info.name")}</TableHeader>
           ),
-          size: 192,
+          minSize: 192,
         }),
 
         columnHelper.accessor(ETableColumns.Alias, {
@@ -40,7 +45,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           header: () => (
             <TableHeader>{t("pages.admin.catalogs.table.columns.info.alias")}</TableHeader>
           ),
-          size: 192,
+          minSize: 192,
         }),
 
         columnHelper.accessor(ETableColumns.Enabled, {
@@ -48,7 +53,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           header: () => (
             <TableHeader>{t("pages.admin.catalogs.table.columns.info.status")}</TableHeader>
           ),
-          size: 192,
+          minSize: 192,
         }),
 
         columnHelper.accessor(ETableColumns.CreatedAt, {
@@ -58,9 +63,9 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           ),
           cell: (data) => {
             const value = data.getValue();
-            return <DateTime value={value} />;
+            return <DateTime value={value}/>;
           },
-          size: 192,
+          minSize: 192,
         }),
 
         columnHelper.accessor(ETableColumns.ModifyDate, {
@@ -70,9 +75,9 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           ),
           cell: (data) => {
             const value = data.getValue();
-            return <DateTime value={value} />;
+            return <DateTime value={value}/>;
           },
-          size: 192,
+          minSize: 192,
         }),
 
         columnHelper.display({
@@ -80,18 +85,18 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           header: () => (
             <TableHeader>{t("pages.admin.catalogs.table.columns.info.actions")}</TableHeader>
           ),
-          cell: ({ row }) => (
+          cell: ({row}) => (
             <div className="CatalogsTable-Actions">
               <Link
                 className="CatalogsTable-ActionsEdit"
                 to={createPath({
                   route: ERoutes.AdminCatalogEdit,
-                  params: { alias: row.original.alias },
+                  params: {alias: row.original.alias},
                 })}
               >
-                <Icon type="Edit" />
+                <Icon type="Edit"/>
               </Link>
-              <IconButton typeIcon="Trash" onClick={() => onDelete(row.original.alias)} />
+              <IconButton typeIcon="Trash" onClick={() => onDelete(row.original.alias)}/>
             </div>
           ),
         }),

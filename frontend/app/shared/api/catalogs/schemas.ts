@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { paginationSchema } from "../commons";
+import {z} from "zod";
+import {paginationSchema} from "../commons";
 
 const catalogAttributeValueItemSchema = z.object({
   id: z.number(),
@@ -92,14 +92,7 @@ export const catalogDeleteParamsSchema = z.object({
 
 export const catalogDeleteSchema = z.any();
 
-export const catalogEditParamsSchema = z.object({
-  alias: z.string(),
-  attributeAlias: z.string().array(),
-  enabled: z.boolean(),
-  id: z.number(),
-  image: z.string(),
-  name: z.string(),
-});
+export const catalogEditParamsSchema = z.any();
 
 export const catalogEditSchema = z.object({
   alias: z.string(),
