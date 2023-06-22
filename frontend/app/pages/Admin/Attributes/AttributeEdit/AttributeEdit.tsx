@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import type { FC, ChangeEvent } from "react";
-import { useTranslation } from "react-i18next";
-import { useFetcher } from "@remix-run/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes } from "~/enums";
-import { useTheme } from "~/hooks";
+import {useEffect, useState} from "react";
+import type {FC, ChangeEvent} from "react";
+import {useTranslation} from "react-i18next";
+import {useFetcher} from "@remix-run/react";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {ERoutes} from "~/enums";
+import {useTheme} from "~/hooks";
 import {
   EFormFields,
   formSchema,
@@ -16,14 +16,14 @@ import type {
   TForm,
   TOptionsSubmitForm,
 } from "~/pages/Admin/Attributes/AttributeEdit";
-import { SelectableAddModal } from "~/pages/Admin/Attributes/SelectableAddModal";
-import { SelectableTable } from "~/pages/Admin/Attributes/SelectableTable";
-import { EAttributeAction, ESelectableValueAction } from "~/shared/api/attributes";
-import type { TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
-import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
-import type { TParams } from "~/types";
-import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
-import { createPath } from "~/utils";
+import {SelectableAddModal} from "~/pages/Admin/Attributes/SelectableAddModal";
+import {SelectableTable} from "~/pages/Admin/Attributes/SelectableTable";
+import {EAttributeAction, ESelectableValueAction} from "~/shared/api/attributes";
+import type {TAttributeDetail, TSelectableItem} from "~/shared/api/attributes";
+import {Checkbox, EFormMethods, Form, Input, Select, useInitForm} from "~/shared/form";
+import type {TParams} from "~/types";
+import {Button, ETypographyVariant, notify, Typography} from "~/uikit";
+import {createPath} from "~/utils";
 import styles from "./AttributeEdit.module.css";
 
 type TProps = {
@@ -31,20 +31,20 @@ type TProps = {
 };
 
 export const AttributeEdit: FC<TProps> = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const fetcherRemix = useFetcher();
   const attribute: TAttributeDetail = fetcherRemix.data?.attribute ?? props.attribute;
 
-  const { theme } = useTheme();
+  const {theme} = useTheme();
 
   const idCheckbox = "checkbox";
-  const [filter, setFilter] = useState<TParams>({ filter: [attribute.filter ? [idCheckbox] : []] });
+  const [filter, setFilter] = useState<TParams>({filter: [attribute.filter ? [idCheckbox] : []]});
 
-  const [addModal, setAddModal] = useState<TAddModalState>({ isOpen: false });
+  const [addModal, setAddModal] = useState<TAddModalState>({isOpen: false});
 
   // console.log("attribute: ", attribute);
 
-  const { defaultTypeOptions, typeOptions } = useGetTypeOptions(attribute.type);
+  const {defaultTypeOptions, typeOptions} = useGetTypeOptions(attribute.type);
 
   const [selectable] = useState<TSelectableItem[]>(attribute?.selectable ?? []);
   // console.log("selectable: ", selectable);
@@ -75,7 +75,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     nameGroup: string,
   ) => {
     const {
-      target: { checked, value },
+      target: {checked, value},
     } = event;
 
     if (checked) {
@@ -91,7 +91,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     }
   };
 
-  const handleChangeSelectableValue = ({ id, value }: { id: number; value: string }) => {
+  const handleChangeSelectableValue = ({id, value}: { id: number; value: string }) => {
     const form = new FormData();
     form.append("id", `${id}`);
     form.append("value", `${value}`);
@@ -100,18 +100,18 @@ export const AttributeEdit: FC<TProps> = (props) => {
       method: EFormMethods.Patch,
       action: createPath({
         route: ERoutes.AdminAttributeEdit,
-        params: { alias: attribute.alias },
+        params: {alias: attribute.alias},
         withIndex: true,
       }),
     });
   };
 
   const handleCloseAddModal = () => {
-    setAddModal((prev) => ({ ...prev, isOpen: false }));
+    setAddModal((prev) => ({...prev, isOpen: false}));
   };
 
   const handleOpenAddModal = () => {
-    setAddModal((prev) => ({ ...prev, isOpen: true }));
+    setAddModal((prev) => ({...prev, isOpen: true}));
   };
 
   const handleAdd = (value: string) => {
@@ -119,41 +119,42 @@ export const AttributeEdit: FC<TProps> = (props) => {
     form.append("attributeAlias", `${attribute.alias}`);
     form.append("value", `${value}`);
     form.append("_method", ESelectableValueAction.AddSelectableValue);
+
     fetcher.submit(form, {
       method: EFormMethods.Post,
       action: createPath({
         route: ERoutes.AdminAttributeEdit,
-        params: { alias: attribute.alias },
+        params: {alias: attribute.alias},
         withIndex: true,
       }),
     });
   };
 
-  const handleSubmitAddModal = ({ value }: { value: string }) => {
-    if (value) {
-      handleAdd(value);
-      handleCloseAddModal();
-    }
-  };
-
-  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
-    // console.log("Form params: ", params);
+  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+    console.log("Form params: ", params);
     const formattedParams = mapFormDataToDto({
       ...params,
       id: attribute.id,
       selectable,
       _method: EAttributeAction.EditAttribute,
     });
-    // console.log("formattedParams: ", formattedParams);
+    console.log("formattedParams: ", formattedParams);
 
     fetcher.submit(formattedParams, {
       method: EFormMethods.Put,
       action: createPath({
         route: ERoutes.AdminAttributeEdit,
-        params: { alias: attribute.alias },
+        params: {alias: attribute.alias},
         withIndex: true,
       }),
     });
+  };
+
+  const handleSubmitAddModal = ({value}: { value: string }) => {
+    if (value) {
+      handleAdd(value);
+      handleCloseAddModal();
+    }
   };
 
   return (
@@ -224,5 +225,5 @@ export const AttributeEdit: FC<TProps> = (props) => {
 };
 
 export function attributeEditLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

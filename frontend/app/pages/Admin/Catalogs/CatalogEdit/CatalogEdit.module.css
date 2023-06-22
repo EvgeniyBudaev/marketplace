@@ -1,8 +1,14 @@
 .CatalogEdit-Title {
   margin-bottom: 30px;
 }
+.CatalogEdit-SubTitle {
+  margin-bottom: 16px;
+}
 .CatalogEdit-FormFieldGroup {
   margin-bottom: 30px;
+}
+.CatalogEdit-DefaultImage {
+  margin-bottom: 16px;
 }
 
 /*# sourceMappingURL=CatalogEdit.module.css.map */

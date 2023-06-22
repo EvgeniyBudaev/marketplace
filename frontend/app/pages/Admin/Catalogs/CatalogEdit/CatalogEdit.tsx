@@ -99,11 +99,25 @@ export const CatalogEdit: FC<TProps> = (props) => {
     setDefaultImage(value);
   };
 
+  const handleDeleteDefaultImage = (value: TFile | string) => {
+    if (typeof defaultImage !== "string" && typeof value !== "string") {
+      if (value.name === defaultImage?.name) {
+        setDefaultImage(null);
+      }
+    }
+    if (typeof defaultImage === "string" && typeof value === "string") {
+      if (value === defaultImage) {
+        setDefaultImage(null);
+      }
+    }
+  };
+
   const handleDeleteFile = (file: TFile, files: TFile[]) => {
     if (typeof defaultImage === "string") {
       return;
     }
     onDeleteFile(file, files);
+    handleDeleteDefaultImage(file);
   };
 
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
@@ -121,14 +135,14 @@ export const CatalogEdit: FC<TProps> = (props) => {
     dataFormToDto.name && formData.append("name", dataFormToDto.name);
     formData.append("csrf", csrf);
 
-    // fetcher.submit(formData, {
-    //   method: EFormMethods.Put,
-    //   action: createPath({
-    //     route: ERoutes.AdminCatalogEdit,
-    //     params: {alias: catalog.alias},
-    //   }),
-    //   encType: "multipart/form-data",
-    // });
+    fetcher.submit(formData, {
+      method: EFormMethods.Put,
+      action: createPath({
+        route: ERoutes.AdminCatalogEdit,
+        params: {alias: catalog.alias},
+      }),
+      encType: "multipart/form-data",
+    });
   };
 
   useEffect(() => {
@@ -213,7 +227,7 @@ export const CatalogEdit: FC<TProps> = (props) => {
               {t("pages.admin.product.previews.defaultImage")}
             </Typography>
           </div>
-          <div className="Previews-Thumb-Inner ProductEdit-DefaultImage">
+          <div className="Previews-Thumb-Inner CatalogEdit-DefaultImage">
             {!isNil(defaultImage) && typeof defaultImage !== "string" && (
               <>
                 {!isNil(defaultImage.preview) && (
