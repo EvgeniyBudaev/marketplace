@@ -1,28 +1,28 @@
-import { useEffect } from "react";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { useFetcher } from "@remix-run/react";
-import { SearchingPanel } from "~/components/search";
-import { ERoutes } from "~/enums";
-import { useTable } from "~/hooks";
+import {useEffect} from "react";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {useFetcher} from "@remix-run/react";
+import {SearchingPanel} from "~/components/search";
+import {ERoutes} from "~/enums";
+import {useTable} from "~/hooks";
 import {
   CatalogsTable,
   catalogsTableLinks,
   ETableColumns,
 } from "~/pages/Admin/Catalogs/CatalogsTable";
-import { ECatalogAction } from "~/shared/api/catalogs";
-import type { TCatalogs } from "~/shared/api/catalogs";
-import { EFormMethods } from "~/shared/form";
-import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
-import { createPath } from "~/utils";
-import styles from "./Catalogs.module.css";
+import {ECatalogAction} from "~/shared/api/catalogs";
+import type {TCatalogs} from "~/shared/api/catalogs";
+import {EFormMethods} from "~/shared/form";
+import {ETypographyVariant, LinkButton, notify, Typography} from "~/uikit";
+import {createPath} from "~/utils";
+import styles from "./Catalogs.css";
 
 type TProps = {
   catalogs: TCatalogs;
 };
 
 export const Catalogs: FC<TProps> = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const fetcher = useFetcher();
   const catalogs = fetcher.data?.catalogs ?? props.catalogs;
 
@@ -32,7 +32,7 @@ export const Catalogs: FC<TProps> = (props) => {
     form.append("_method", ECatalogAction.DeleteCatalog);
     fetcher.submit(form, {
       method: EFormMethods.Delete,
-      action: createPath({ route: ERoutes.AdminCatalogs, withIndex: true }),
+      action: createPath({route: ERoutes.AdminCatalogs, withIndex: true}),
     });
   };
 
@@ -122,5 +122,5 @@ export const Catalogs: FC<TProps> = (props) => {
 };
 
 export function catalogsLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...catalogsTableLinks()];
+  return [{rel: "stylesheet", href: styles}, ...catalogsTableLinks()];
 }

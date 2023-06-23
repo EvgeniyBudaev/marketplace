@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import type { FC, ReactNode } from "react";
-import styles from "./FadeIn.module.css";
+import {useEffect, useState} from "react";
+import type {FC, ReactNode} from "react";
+import styles from "./FadeIn.css";
 
 type TProps = {
   children?: ReactNode;
 };
 
-export const FadeIn: FC<TProps> = ({ children }) => {
+export const FadeIn: FC<TProps> = ({children}) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -20,5 +20,5 @@ export const FadeIn: FC<TProps> = ({ children }) => {
 };
 
 export function fadeInLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

@@ -1,7 +1,7 @@
-import { memo } from "react";
-import type { FC, MouseEvent } from "react";
+import {memo} from "react";
+import type {FC, MouseEvent} from "react";
 import clsx from "clsx";
-import styles from "./Hamburger.module.css";
+import styles from "./Hamburger.css";
 
 enum HamburgerColor {
   BLACK = "black",
@@ -19,12 +19,12 @@ type TProps = {
 };
 
 const HamburgerComponent: FC<TProps> = ({
-  className,
-  color = HamburgerColor.BLACK,
-  isActive = false,
-  isHomePage,
-  onClick,
-}) => {
+                                          className,
+                                          color = HamburgerColor.BLACK,
+                                          isActive = false,
+                                          isHomePage,
+                                          onClick,
+                                        }) => {
   return (
     <div className={clsx("Hamburger", className)} onClick={onClick}>
       <div
@@ -42,5 +42,5 @@ const HamburgerComponent: FC<TProps> = ({
 export const Hamburger = memo(HamburgerComponent);
 
 export function hamburgerLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

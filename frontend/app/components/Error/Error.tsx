@@ -1,8 +1,8 @@
-import type { FC } from "react";
-import type { ThrownResponse } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
-import { Icon } from "~/uikit";
-import styles from "./Error.module.css";
+import type {FC} from "react";
+import type {ThrownResponse} from "@remix-run/react";
+import {useTranslation} from "react-i18next";
+import {Icon} from "~/uikit";
+import styles from "./Error.css";
 
 type TProps = {
   caught?: ThrownResponse<number, any>;
@@ -12,8 +12,8 @@ type TProps = {
 
 const JSON_FORMAT_SPACE_COUNT = 4;
 
-export const Error: FC<TProps> = ({ message, caught, error }) => {
-  const { t } = useTranslation();
+export const Error: FC<TProps> = ({message, caught, error}) => {
+  const {t} = useTranslation();
   const isDev = process.env.NODE_ENV === "development";
   const errorMessage = message || error?.message || t("errorBoundary.common.unexpectedError");
   let formattedCaughtData: string | null = null;
@@ -33,7 +33,7 @@ export const Error: FC<TProps> = ({ message, caught, error }) => {
       <div className="Error-Inner">
         <div className="Error-Content">
           <div className="Error-IconBox">
-            <Icon className="Error-Icon" type="Attention" />
+            <Icon className="Error-Icon" type="Attention"/>
           </div>
           <div className="Error-Message">
             {isDev ? (
@@ -59,5 +59,5 @@ export const Error: FC<TProps> = ({ message, caught, error }) => {
 };
 
 export function errorLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

@@ -1,15 +1,16 @@
-import { useEffect } from "react";
-import type { FC } from "react";
+import {useEffect} from "react";
+import type {FC} from "react";
 import clsx from "clsx";
-import styles from "./Marker.module.css";
+import styles from "./Marker.css";
 
 type TProps = {
   className?: string;
   isDragging?: boolean;
 };
 
-export const Marker: FC<TProps> = ({ className, isDragging }) => {
-  useEffect(() => {}, []);
+export const Marker: FC<TProps> = ({className, isDragging}) => {
+  useEffect(() => {
+  }, []);
 
   return (
     <div
@@ -26,5 +27,5 @@ export const Marker: FC<TProps> = ({ className, isDragging }) => {
 };
 
 export function markerLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

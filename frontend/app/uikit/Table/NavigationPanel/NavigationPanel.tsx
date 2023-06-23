@@ -1,11 +1,11 @@
-import { memo } from "react";
-import type { FC } from "react";
+import {memo} from "react";
+import type {FC} from "react";
 import clsx from "clsx";
-import type { ETablePlacement } from "~/uikit/Table/enums";
-import { PageSize, pageSizeLinks } from "~/uikit/Table/PageSize";
-import { Pagination } from "~/uikit";
-import type { ETheme } from "~/uikit";
-import styles from "./NavigationPanel.module.css";
+import type {ETablePlacement} from "~/uikit/Table/enums";
+import {PageSize, pageSizeLinks} from "~/uikit/Table/PageSize";
+import {Pagination} from "~/uikit";
+import type {ETheme} from "~/uikit";
+import styles from "./NavigationPanel.css";
 
 type TProps = {
   className?: string;
@@ -13,23 +13,23 @@ type TProps = {
   defaultPageSize: number;
   dropdownPosition?: ETablePlacement;
   onChangePageSize: (pageSize: number) => void;
-  onPageChange?: ({ selected }: { selected: number }) => void;
+  onPageChange?: ({selected}: { selected: number }) => void;
   pagesCount?: number;
   pageSizeOptions: number[];
   theme?: ETheme;
 };
 
 const Component: FC<TProps> = ({
-  className,
-  currentPage,
-  defaultPageSize,
-  dropdownPosition,
-  onChangePageSize,
-  onPageChange,
-  pagesCount,
-  pageSizeOptions,
-  theme,
-}) => {
+                                 className,
+                                 currentPage,
+                                 defaultPageSize,
+                                 dropdownPosition,
+                                 onChangePageSize,
+                                 onPageChange,
+                                 pagesCount,
+                                 pageSizeOptions,
+                                 theme,
+                               }) => {
   return (
     <div className={clsx("NavigationPanel", className)}>
       <PageSize
@@ -47,7 +47,7 @@ const Component: FC<TProps> = ({
           theme={theme}
         />
       )}
-      <div />
+      <div/>
     </div>
   );
 };
@@ -55,5 +55,5 @@ const Component: FC<TProps> = ({
 export const NavigationPanel = memo(Component);
 
 export function navigationPanelLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...pageSizeLinks()];
+  return [{rel: "stylesheet", href: styles}, ...pageSizeLinks()];
 }

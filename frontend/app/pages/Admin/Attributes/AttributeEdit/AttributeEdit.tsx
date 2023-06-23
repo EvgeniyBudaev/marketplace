@@ -25,7 +25,7 @@ import {Checkbox, EFormMethods, Form, Input, Select, useInitForm} from "~/shared
 import type {TParams} from "~/types";
 import {Button, ETypographyVariant, notify, Typography} from "~/uikit";
 import {createPath} from "~/utils";
-import styles from "./AttributeEdit.module.css";
+import styles from "./AttributeEdit.css";
 
 type TProps = {
   attribute: TAttributeDetail;

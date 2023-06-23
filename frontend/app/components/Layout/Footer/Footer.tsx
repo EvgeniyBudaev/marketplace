@@ -1,11 +1,11 @@
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { NavLink } from "~/components";
-import { ETypographyVariant, Typography } from "~/uikit";
-import styles from "./Footer.module.css";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {NavLink} from "~/components";
+import {ETypographyVariant, Typography} from "~/uikit";
+import styles from "./Footer.css";
 
 export const Footer: FC = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   return (
     <footer className="Footer">
@@ -39,5 +39,5 @@ export const Footer: FC = () => {
 };
 
 export function footerLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

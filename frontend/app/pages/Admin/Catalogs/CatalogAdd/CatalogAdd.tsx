@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react";
-import type { FC, ChangeEvent } from "react";
-import { useTranslation } from "react-i18next";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {useEffect, useState} from "react";
+import type {FC, ChangeEvent} from "react";
+import {useTranslation} from "react-i18next";
+import {zodResolver} from "@hookform/resolvers/zod";
 
-import { ERoutes } from "~/enums";
-import { useTheme } from "~/hooks";
-import { useGetAttributeOptions } from "~/pages/Admin/Catalogs/hooks";
+import {ERoutes} from "~/enums";
+import {useTheme} from "~/hooks";
+import {useGetAttributeOptions} from "~/pages/Admin/Catalogs/hooks";
 import {
   EFormFields,
   formSchema,
   mapCatalogAddFormDataToDto,
 } from "~/pages/Admin/Catalogs/CatalogAdd";
-import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogAdd";
-import type { TAttributes } from "~/shared/api/attributes";
-import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
-import type { TParams } from "~/types";
-import { Button, ETypographyVariant, notify, Typography } from "~/uikit";
-import { createPath } from "~/utils";
-import styles from "./CatalogAdd.module.css";
+import type {TForm, TOptionsSubmitForm} from "~/pages/Admin/Catalogs/CatalogAdd";
+import type {TAttributes} from "~/shared/api/attributes";
+import {Checkbox, EFormMethods, Form, Input, Select, useInitForm} from "~/shared/form";
+import type {TParams} from "~/types";
+import {Button, ETypographyVariant, notify, Typography} from "~/uikit";
+import {createPath} from "~/utils";
+import styles from "./CatalogAdd.css";
 
 type TProps = {
   attributes: TAttributes;
 };
 
-export const CatalogAdd: FC<TProps> = ({ attributes }) => {
-  const { t } = useTranslation();
-  const { theme } = useTheme();
+export const CatalogAdd: FC<TProps> = ({attributes}) => {
+  const {t} = useTranslation();
+  const {theme} = useTheme();
 
   const idCheckbox = "checkbox";
-  const [filter, setFilter] = useState<TParams>({ enabled: [] });
+  const [filter, setFilter] = useState<TParams>({enabled: []});
 
-  const { attributeOptions } = useGetAttributeOptions({ attributes });
+  const {attributeOptions} = useGetAttributeOptions({attributes});
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
@@ -60,7 +60,7 @@ export const CatalogAdd: FC<TProps> = ({ attributes }) => {
     nameGroup: string,
   ) => {
     const {
-      target: { checked, value },
+      target: {checked, value},
     } = event;
 
     if (checked) {
@@ -76,7 +76,7 @@ export const CatalogAdd: FC<TProps> = ({ attributes }) => {
     }
   };
 
-  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
     const formattedParams = mapCatalogAddFormDataToDto({
       ...params,
@@ -98,7 +98,7 @@ export const CatalogAdd: FC<TProps> = ({ attributes }) => {
         </Typography>
       </h1>
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
-        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text" />
+        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text"/>
         <div className="CatalogAdd-FormFieldGroup">
           <Checkbox
             checked={filter && filter[EFormFields.Enabled].includes(idCheckbox)}
@@ -109,8 +109,8 @@ export const CatalogAdd: FC<TProps> = ({ attributes }) => {
             onChange={(event, id, nameGroup) => onChangeCheckedBox(event, id, nameGroup)}
           />
         </div>
-        <Input label={t("form.image.title") ?? "Image"} name={EFormFields.Image} type="text" />
-        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text" />
+        <Input label={t("form.image.title") ?? "Image"} name={EFormFields.Image} type="text"/>
+        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text"/>
         <div className="CatalogAdd-FormFieldGroup">
           <Select
             defaultValue={attributeOptions[0]}
@@ -131,5 +131,5 @@ export const CatalogAdd: FC<TProps> = ({ attributes }) => {
 };
 
 export function catalogAddLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

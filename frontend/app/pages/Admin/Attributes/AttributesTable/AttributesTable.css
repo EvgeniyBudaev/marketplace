@@ -1,0 +1,12 @@
+.AttributesTable-Actions {
+  display: flex;
+  align-items: center;
+}
+.AttributesTable-ActionsEdit {
+  margin-right: 16px;
+}
+.AttributesTable-Action {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=AttributesTable.css.map */

@@ -1,12 +1,12 @@
-import { useState } from "react";
-import type { FC, ReactNode } from "react";
-import { YMaps } from "@pbe/react-yandex-maps";
-import { Shipping } from "~/pages";
-import { mapInputLinks } from "~/pages/Shipping/YMap/MapInput";
-import { markerLinks } from "~/pages/Shipping/YMap/Marker";
-import { emptyMapSearchState, geoSearchLinks } from "~/pages";
-import type { TPickMapState } from "~/pages";
-import styles from "./YMap.module.css";
+import {useState} from "react";
+import type {FC, ReactNode} from "react";
+import {YMaps} from "@pbe/react-yandex-maps";
+import {Shipping} from "~/pages";
+import {mapInputLinks} from "~/pages/Shipping/YMap/MapInput";
+import {markerLinks} from "~/pages/Shipping/YMap/Marker";
+import {emptyMapSearchState, geoSearchLinks} from "~/pages";
+import type {TPickMapState} from "~/pages";
+import styles from "./YMap.css";
 
 type TProps = {
   onSearchAddress?: (addressYMap: string) => void;
@@ -41,7 +41,7 @@ export const YMap: FC<TProps> = () => {
 
 export function yMapLinks() {
   return [
-    { rel: "stylesheet", href: styles },
+    {rel: "stylesheet", href: styles},
     ...geoSearchLinks(),
     ...mapInputLinks(),
     ...markerLinks(),

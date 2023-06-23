@@ -1,11 +1,11 @@
-import type { FC, MouseEvent } from "react";
-import { Link } from "@remix-run/react";
+import type {FC, MouseEvent} from "react";
+import {Link} from "@remix-run/react";
 import clsx from "clsx";
-import { ERoutes } from "~/enums";
-import type { TProductByCatalog } from "~/shared/api/products";
-import { ETypographyVariant, Icon, Typography } from "~/uikit";
-import { createPath, formatCurrency, formatProxy } from "~/utils";
-import styles from "./SearchGlobalListItem.module.css";
+import {ERoutes} from "~/enums";
+import type {TProductByCatalog} from "~/shared/api/products";
+import {ETypographyVariant, Icon, Typography} from "~/uikit";
+import {createPath, formatCurrency, formatProxy} from "~/utils";
+import styles from "./SearchGlobalListItem.css";
 import isNil from "lodash/isNil";
 
 type TProps = {
@@ -15,10 +15,10 @@ type TProps = {
   onMouseOver: (event: MouseEvent<HTMLLIElement>, index: number) => void;
 };
 
-export const SearchGlobalListItem: FC<TProps> = ({ index, item, isActive, onMouseOver }) => {
+export const SearchGlobalListItem: FC<TProps> = ({index, item, isActive, onMouseOver}) => {
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.ProductDetail,
-    params: { alias: item.alias },
+    params: {alias: item.alias},
   });
 
   const handleMouseOver = (event: MouseEvent<HTMLLIElement>) => {
@@ -45,7 +45,7 @@ export const SearchGlobalListItem: FC<TProps> = ({ index, item, isActive, onMous
                   height="28"
                 />
               ) : (
-                <Icon type="NoImage" />
+                <Icon type="NoImage"/>
               )}
             </div>
             <div className="SearchGlobalListItem-Title">
@@ -64,5 +64,5 @@ export const SearchGlobalListItem: FC<TProps> = ({ index, item, isActive, onMous
 };
 
 export function searchGlobalListItemLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

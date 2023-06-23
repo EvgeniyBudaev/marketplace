@@ -3,7 +3,7 @@ import type {ForwardedRef} from "react";
 import {flexRender} from "@tanstack/react-table";
 import type {Row} from "@tanstack/react-table";
 import {DEFAULT_COLUMN_MIN_SIZE} from "~/uikit/Table/constants";
-import styles from "./TableBody.module.css";
+import styles from "./TableBody.css";
 
 type TProps<TColumn extends object> = {
   rows: Row<TColumn>[];

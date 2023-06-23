@@ -1,9 +1,9 @@
-import type { FC } from "react";
+import type {FC} from "react";
 import clsx from "clsx";
-import { Sorting } from "~/pages/Catalog/Sorting";
-import type { TSorting } from "~/types";
-import { IconButton, Switcher } from "~/uikit";
-import styles from "./Panel.module.css";
+import {Sorting} from "~/pages/Catalog/Sorting";
+import type {TSorting} from "~/types";
+import {IconButton, Switcher} from "~/uikit";
+import styles from "./Panel.css";
 
 type TProps = {
   isCardsLine: boolean;
@@ -12,11 +12,11 @@ type TProps = {
   sorting: TSorting["value"];
 };
 
-export const Panel: FC<TProps> = ({ isCardsLine, onCardsSwitcher, onSortingChange, sorting }) => {
+export const Panel: FC<TProps> = ({isCardsLine, onCardsSwitcher, onSortingChange, sorting}) => {
   return (
     <div className="Panel">
       <div className="Panel-Inner">
-        <Sorting onSortingChange={onSortingChange} sorting={sorting} />
+        <Sorting onSortingChange={onSortingChange} sorting={sorting}/>
         <Switcher isChecked={isCardsLine}>
           <IconButton
             className={clsx("Panel-Switcher-DisplayButton", {
@@ -39,5 +39,5 @@ export const Panel: FC<TProps> = ({ isCardsLine, onCardsSwitcher, onSortingChang
 };
 
 export function panelLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

@@ -1,30 +1,30 @@
-import { useEffect } from "react";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { useFetcher } from "@remix-run/react";
-import { SearchingPanel } from "~/components/search";
-import { ERoutes } from "~/enums";
-import { useTable } from "~/hooks";
-import { attributeAddLinks } from "~/pages/Admin/Attributes/AttributeAdd";
-import { attributeEditLinks } from "~/pages/Admin/Attributes/AttributeEdit";
+import {useEffect} from "react";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {useFetcher} from "@remix-run/react";
+import {SearchingPanel} from "~/components/search";
+import {ERoutes} from "~/enums";
+import {useTable} from "~/hooks";
+import {attributeAddLinks} from "~/pages/Admin/Attributes/AttributeAdd";
+import {attributeEditLinks} from "~/pages/Admin/Attributes/AttributeEdit";
 import {
   AttributesTable,
   attributesTableLinks,
   ETableColumns,
 } from "~/pages/Admin/Attributes/AttributesTable";
-import { EAttributeAction } from "~/shared/api/attributes";
-import type { TAttributes } from "~/shared/api/attributes";
-import { EFormMethods } from "~/shared/form";
-import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
-import { createPath } from "~/utils";
-import styles from "./Attributes.module.css";
+import {EAttributeAction} from "~/shared/api/attributes";
+import type {TAttributes} from "~/shared/api/attributes";
+import {EFormMethods} from "~/shared/form";
+import {ETypographyVariant, LinkButton, notify, Typography} from "~/uikit";
+import {createPath} from "~/utils";
+import styles from "./Attributes.css";
 
 type TProps = {
   attributes: TAttributes;
 };
 
 export const Attributes: FC<TProps> = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const fetcher = useFetcher();
   const attributes = fetcher.data?.attributes ?? props.attributes;
 
@@ -34,7 +34,7 @@ export const Attributes: FC<TProps> = (props) => {
     form.append("_method", EAttributeAction.DeleteAttribute);
     fetcher.submit(form, {
       method: EFormMethods.Delete,
-      action: createPath({ route: ERoutes.AdminAttributes, withIndex: true }),
+      action: createPath({route: ERoutes.AdminAttributes, withIndex: true}),
     });
   };
 
@@ -114,7 +114,7 @@ export const Attributes: FC<TProps> = (props) => {
 
 export function attributesLinks() {
   return [
-    { rel: "stylesheet", href: styles },
+    {rel: "stylesheet", href: styles},
     ...attributeAddLinks(),
     ...attributeEditLinks(),
     ...attributesTableLinks(),

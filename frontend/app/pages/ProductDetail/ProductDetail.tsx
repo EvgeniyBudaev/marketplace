@@ -1,25 +1,25 @@
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { Link, useFetcher } from "@remix-run/react";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {Link, useFetcher} from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 
-import { DEFAULT_IMAGE } from "~/constants";
-import { ERoutes } from "~/enums";
-import type { TCart } from "~/shared/api/cart";
-import type { TProductDetail } from "~/shared/api/products";
-import { Button, ETypographyVariant, SliderSimple, SliderSyncing, Typography } from "~/uikit";
-import { createPath, formatCurrency, formatListProxy, formatProxy } from "~/utils";
-import styles from "./ProductDetail.module.css";
+import {DEFAULT_IMAGE} from "~/constants";
+import {ERoutes} from "~/enums";
+import type {TCart} from "~/shared/api/cart";
+import type {TProductDetail} from "~/shared/api/products";
+import {Button, ETypographyVariant, SliderSimple, SliderSyncing, Typography} from "~/uikit";
+import {createPath, formatCurrency, formatListProxy, formatProxy} from "~/utils";
+import styles from "./ProductDetail.css";
 
 type TProps = {
   cart: TCart;
   product: TProductDetail;
 };
 
-export const ProductDetail: FC<TProps> = ({ cart, product }) => {
+export const ProductDetail: FC<TProps> = ({cart, product}) => {
   const fetcher = useFetcher();
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   console.log("product: ", product);
   // console.log("cart: ", cart);
 
@@ -29,7 +29,7 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
 
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.ProductDetail,
-    params: { alias: product.alias },
+    params: {alias: product.alias},
   });
   const count = Number(product.count);
 
@@ -150,5 +150,5 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
 };
 
 export function productDetailLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

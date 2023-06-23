@@ -1,13 +1,13 @@
-import type { ChangeEvent, FC } from "react";
-import { useTranslation } from "react-i18next";
-import { Form } from "@remix-run/react";
+import type {ChangeEvent, FC} from "react";
+import {useTranslation} from "react-i18next";
+import {Form} from "@remix-run/react";
 import isNil from "lodash/isNil";
-import { TRANSITION } from "~/constants";
-import type { TCatalogDetail, TCatalogSelectAttributeItem } from "~/shared/api/catalogs";
-import { EFormMethods } from "~/shared/form";
-import type { TParams } from "~/types";
-import { Accordion, Button, Checkbox, ETypographyVariant, Overlay, Typography } from "~/uikit";
-import styles from "./Filter.module.css";
+import {TRANSITION} from "~/constants";
+import type {TCatalogDetail, TCatalogSelectAttributeItem} from "~/shared/api/catalogs";
+import {EFormMethods} from "~/shared/form";
+import type {TParams} from "~/types";
+import {Accordion, Button, Checkbox, ETypographyVariant, Overlay, Typography} from "~/uikit";
+import styles from "./Filter.css";
 
 type TValue = {
   [key: string]: string[];
@@ -32,7 +32,7 @@ export const getDefaultFilter = (
     }
     return attributes.reduce((acc, item) => {
       const all = searchParams.getAll(item.alias);
-      return { ...acc, [item.alias]: all.length > 0 ? all : [] };
+      return {...acc, [item.alias]: all.length > 0 ? all : []};
     }, {});
   };
 
@@ -44,8 +44,8 @@ export const getDefaultFilter = (
   return mapToInitialState(attributes);
 };
 
-export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, filter }) => {
-  const { t } = useTranslation();
+export const Filter: FC<TProps> = ({catalog, onFilterChange, onFilterSubmit, filter}) => {
+  const {t} = useTranslation();
   const attributes =
     catalog.selectAttribute &&
     catalog.selectAttribute.filter((attribute) =>
@@ -58,7 +58,7 @@ export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, fi
     nameGroup: string,
   ) => {
     const {
-      target: { checked, value },
+      target: {checked, value},
     } = event;
 
     if (checked) {
@@ -80,7 +80,8 @@ export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, fi
 
   return (
     <aside className="Filter">
-      <Overlay timeout={TRANSITION} onClick={() => {}} isActive={false} />
+      <Overlay timeout={TRANSITION} onClick={() => {
+      }} isActive={false}/>
       <Form className="Filter-AsideFilterDesktop" method={EFormMethods.Get} onSubmit={handleSubmit}>
         {attributes &&
           attributes.map((item) => (
@@ -113,5 +114,5 @@ export const Filter: FC<TProps> = ({ catalog, onFilterChange, onFilterSubmit, fi
 };
 
 export function filterLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

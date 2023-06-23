@@ -1,0 +1,104 @@
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Typography {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  line-height: 1.25;
+}
+.Typography.text-h1 {
+  font-size: 32px;
+}
+.Typography.text-h2 {
+  font-size: 28px;
+}
+.Typography.text-h3 {
+  font-size: 26px;
+}
+.Typography.text-h4 {
+  font-size: 24px;
+}
+.Typography.text-h5 {
+  font-size: 22px;
+}
+.Typography.text-h6 {
+  font-size: 20px;
+}
+.Typography.text-b2 {
+  font-size: 16px;
+}
+.Typography.text-b3 {
+  font-size: 14px;
+}
+.Typography.text-b4 {
+  font-size: 12px;
+}
+.Typography.text-bold {
+  font-weight: 700;
+}
+.Typography.text-medium {
+  font-weight: 500;
+}
+.Typography.text-regular {
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .Typography.text-h1 {
+    font-size: 22px;
+  }
+  .Typography.text-h2 {
+    font-size: 20px;
+  }
+  .Typography.text-h3 {
+    font-size: 18px;
+  }
+  .Typography.text-h4 {
+    font-size: 18px;
+  }
+  .Typography.text-h5 {
+    font-size: 16px;
+  }
+  .Typography.text-h6 {
+    font-size: 16px;
+  }
+}
+
+/*# sourceMappingURL=Typography.css.map */

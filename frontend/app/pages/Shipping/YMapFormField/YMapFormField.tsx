@@ -1,12 +1,12 @@
-import { useCallback, useEffect } from "react";
-import type { Dispatch, FC, FocusEvent, SetStateAction } from "react";
-import { useController, useFormContext } from "react-hook-form";
+import {useCallback, useEffect} from "react";
+import type {Dispatch, FC, FocusEvent, SetStateAction} from "react";
+import {useController, useFormContext} from "react-hook-form";
 import clsx from "clsx";
 import GeoSearch from "~/pages/Shipping/YMap/GeoSearch/GeoSearch";
-import type { TGeoSearchSuggestion } from "~/pages/Shipping/YMap/GeoSearch";
-import type { TPickMapState } from "~/pages/Shipping/YMap/PickMap";
-import { ETypographyVariant, Typography } from "~/uikit";
-import styles from "./YMapFormField.module.css";
+import type {TGeoSearchSuggestion} from "~/pages/Shipping/YMap/GeoSearch";
+import type {TPickMapState} from "~/pages/Shipping/YMap/PickMap";
+import {ETypographyVariant, Typography} from "~/uikit";
+import styles from "./YMapFormField.css";
 
 type FormFieldYMapType = "text";
 
@@ -36,22 +36,22 @@ type TProps = {
 };
 
 export const YMapFormField: FC<TProps> = ({
-  className,
-  defaultValue = "",
-  label,
-  name,
-  searchState,
-  type,
-  isFocused,
-  onBlur,
-  onFocus,
-  onStateChange,
-  onSearch,
-}) => {
-  const { control } = useFormContext();
+                                            className,
+                                            defaultValue = "",
+                                            label,
+                                            name,
+                                            searchState,
+                                            type,
+                                            isFocused,
+                                            onBlur,
+                                            onFocus,
+                                            onStateChange,
+                                            onSearch,
+                                          }) => {
+  const {control} = useFormContext();
   const {
     field,
-    fieldState: { error },
+    fieldState: {error},
   } = useController({
     name,
     control,
@@ -107,5 +107,5 @@ export const YMapFormField: FC<TProps> = ({
 };
 
 export function yMapFormFieldLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

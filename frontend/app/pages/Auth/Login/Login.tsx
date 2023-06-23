@@ -1,24 +1,24 @@
-import { useCallback, useState } from "react";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "@remix-run/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { Transition } from "history";
+import {useCallback, useState} from "react";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {Link} from "@remix-run/react";
+import {zodResolver} from "@hookform/resolvers/zod";
+import type {Transition} from "history";
 
-import { FormErrors } from "~/components";
-import { ERoutes } from "~/enums";
-import { useBlocker, useTranslatedForm, useTranslatedResolver } from "~/hooks";
-import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
-import { EFormFields } from "~/pages/Auth/Login/enums";
-import { formSchema } from "~/pages/Auth/Login/schemas";
-import type { TForm, TOptionsSubmitForm } from "~/pages/Auth/Login/types";
-import type { TParams } from "~/types";
-import { Button, ETypographyVariant, Modal, Typography } from "~/uikit";
-import { createPath } from "~/utils";
-import styles from "./Login.module.css";
+import {FormErrors} from "~/components";
+import {ERoutes} from "~/enums";
+import {useBlocker, useTranslatedForm, useTranslatedResolver} from "~/hooks";
+import {EFormMethods, Form, Input, useInitForm} from "~/shared/form";
+import {EFormFields} from "~/pages/Auth/Login/enums";
+import {formSchema} from "~/pages/Auth/Login/schemas";
+import type {TForm, TOptionsSubmitForm} from "~/pages/Auth/Login/types";
+import type {TParams} from "~/types";
+import {Button, ETypographyVariant, Modal, Typography} from "~/uikit";
+import {createPath} from "~/utils";
+import styles from "./Login.css";
 
 export const Login: FC = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const resolver = useTranslatedResolver(zodResolver(formSchema));
   const [isOpen, setIsOpen] = useState(false);
   const [hasChanges, setHasChanges] = useState(true);
@@ -29,7 +29,7 @@ export const Login: FC = () => {
     }),
   );
 
-  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
     fetcher.submit(params, {
       method: EFormMethods.Post,
       action: createPath({
@@ -76,7 +76,7 @@ export const Login: FC = () => {
                 name={EFormFields.Password}
                 type="text"
               />
-              <FormErrors fetcher={form.fetcher} />
+              <FormErrors fetcher={form.fetcher}/>
             </div>
             <div className="Login-Control">
               <Button className="Login-Button" type="submit">
@@ -116,5 +116,5 @@ export const Login: FC = () => {
 };
 
 export function loginLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

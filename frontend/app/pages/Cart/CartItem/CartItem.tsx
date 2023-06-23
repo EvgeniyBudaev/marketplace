@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import type { ChangeEvent, FC, KeyboardEvent } from "react";
-import { useTranslation } from "react-i18next";
-import type { FetcherWithComponents } from "@remix-run/react";
+import {useEffect, useState} from "react";
+import type {ChangeEvent, FC, KeyboardEvent} from "react";
+import {useTranslation} from "react-i18next";
+import type {FetcherWithComponents} from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
-import { DEFAULT_IMAGE } from "~/constants";
-import { ERoutes } from "~/enums";
-import type { TCartItem } from "~/shared/api/cart";
-import { EFormMethods } from "~/shared/form";
-import { ETypographyVariant, IconButton, Typography } from "~/uikit";
-import { createPath, formatCurrency, formatProxy } from "~/utils";
-import styles from "./CartItem.module.css";
+import {DEFAULT_IMAGE} from "~/constants";
+import {ERoutes} from "~/enums";
+import type {TCartItem} from "~/shared/api/cart";
+import {EFormMethods} from "~/shared/form";
+import {ETypographyVariant, IconButton, Typography} from "~/uikit";
+import {createPath, formatCurrency, formatProxy} from "~/utils";
+import styles from "./CartItem.css";
 
 type TProps = {
   cartItem: TCartItem;
@@ -18,8 +18,8 @@ type TProps = {
   fetcher: FetcherWithComponents<any>;
 };
 
-export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
-  const { t } = useTranslation();
+export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
+  const {t} = useTranslation();
   const [quantity, setQuantity] = useState(cartItem.quantity);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
 
   const handleDecrement = () => {
     fetcher.submit(
-      { productAlias: cartItem.product.alias, type: "decrement", uuid: cartUuid },
+      {productAlias: cartItem.product.alias, type: "decrement", uuid: cartUuid},
       {
         method: EFormMethods.Post,
         action: createPath({
@@ -44,7 +44,7 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
 
   const handleIncrement = () => {
     fetcher.submit(
-      { productAlias: cartItem.product.alias, type: "increment", uuid: cartUuid },
+      {productAlias: cartItem.product.alias, type: "increment", uuid: cartUuid},
       {
         method: EFormMethods.Post,
         action: createPath({
@@ -102,7 +102,7 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
 
   const handleDelete = () => {
     fetcher.submit(
-      { productAlias: cartItem.product.alias, type: "remove", uuid: cartUuid },
+      {productAlias: cartItem.product.alias, type: "remove", uuid: cartUuid},
       {
         method: EFormMethods.Post,
         action: createPath({
@@ -115,7 +115,7 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
   return (
     <div className="CartItem">
       <div className="CartItem-Product">
-        <img className="CartItem-ProductImage" src={imageProduct} alt={cartItem.product.name} />
+        <img className="CartItem-ProductImage" src={imageProduct} alt={cartItem.product.name}/>
         <div className="CartItem-ProductContent">
           <div className="CartItem-ProductHeader">
             <div className="CartItem-ProductTitle">
@@ -182,5 +182,5 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
 };
 
 export function cartItemLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

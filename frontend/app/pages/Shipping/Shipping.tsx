@@ -1,26 +1,26 @@
-import { useCallback, useEffect, useState } from "react";
-import type { Dispatch, FC, SetStateAction } from "react";
-import { useTranslation } from "react-i18next";
-import { FullscreenControl, GeolocationControl, ZoomControl } from "@pbe/react-yandex-maps";
-import { Link, useNavigate } from "@remix-run/react";
+import {useCallback, useEffect, useState} from "react";
+import type {Dispatch, FC, SetStateAction} from "react";
+import {useTranslation} from "react-i18next";
+import {FullscreenControl, GeolocationControl, ZoomControl} from "@pbe/react-yandex-maps";
+import {Link, useNavigate} from "@remix-run/react";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes } from "~/enums";
-import { EFormFields } from "~/pages/Shipping/enums";
-import type { TForm } from "~/pages/Shipping/types";
-import { formSchema } from "~/pages/Shipping/schemas";
-import type { TGeoSearchSuggestion } from "~/pages/Shipping/YMap/GeoSearch";
-import type { TPickMapState } from "~/pages/Shipping/YMap/PickMap";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {ERoutes} from "~/enums";
+import {EFormFields} from "~/pages/Shipping/enums";
+import type {TForm} from "~/pages/Shipping/types";
+import {formSchema} from "~/pages/Shipping/schemas";
+import type {TGeoSearchSuggestion} from "~/pages/Shipping/YMap/GeoSearch";
+import type {TPickMapState} from "~/pages/Shipping/YMap/PickMap";
 import PickMap from "~/pages/Shipping/YMap/PickMap/PickMap";
-import { YMapFormField, yMapFormFieldLinks } from "~/pages/Shipping/YMapFormField";
-import { Marker } from "~/pages/Shipping/YMap/Marker";
-import { yMapLinks } from "~/pages/Shipping/YMap/YMap";
-import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
-import type { TParams } from "~/types";
-import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
-import styles from "./Shipping.module.css";
-import { useUser } from "~/hooks";
+import {YMapFormField, yMapFormFieldLinks} from "~/pages/Shipping/YMapFormField";
+import {Marker} from "~/pages/Shipping/YMap/Marker";
+import {yMapLinks} from "~/pages/Shipping/YMap/YMap";
+import {EFormMethods, Form, Input, useInitForm} from "~/shared/form";
+import type {TParams} from "~/types";
+import {Button, ETypographyVariant, Icon, Typography} from "~/uikit";
+import styles from "./Shipping.css";
+import {useUser} from "~/hooks";
 
 type TProps = {
   searchState: {
@@ -39,8 +39,8 @@ type TProps = {
   setMapState: Dispatch<SetStateAction<TPickMapState>>;
 };
 
-export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, setMapState }) => {
-  const { t } = useTranslation();
+export const Shipping: FC<TProps> = ({searchState, setSearchState, mapState, setMapState}) => {
+  const {t} = useTranslation();
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
@@ -48,7 +48,7 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
   const [address, setAddress] = useState(searchState?.value ?? "");
   const [isDragging, setDragging] = useState(false);
   const navigate = useNavigate();
-  const { user } = useUser();
+  const {user} = useUser();
   console.log("user: ", user);
   const isUser = isEmpty(user);
 
@@ -97,8 +97,10 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
               searchState={searchState}
               type="text"
               isFocused={true}
-              onBlur={() => {}}
-              onFocus={() => {}}
+              onBlur={() => {
+              }}
+              onFocus={() => {
+              }}
               onStateChange={setSearchState}
               onSearch={setMapState}
             />
@@ -130,7 +132,7 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
         <div className="Shipping-FormFooter">
           <div className="Shipping-Controls">
             <Link className="Shipping-ControlsLink" to={ERoutes.Cart}>
-              <Icon type="ArrowBack" />
+              <Icon type="ArrowBack"/>
               <div className="Shipping-ControlsText">
                 <Typography variant={ETypographyVariant.TextB3Regular}>
                   {t("common.actions.addToCart")}
@@ -168,11 +170,11 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           searchZoom={15}
-          marker={<Marker isDragging={isDragging} />}
+          marker={<Marker isDragging={isDragging}/>}
         >
-          <FullscreenControl options={{ float: "left" }} />
-          <GeolocationControl options={{ float: "left" }} />
-          <ZoomControl />
+          <FullscreenControl options={{float: "left"}}/>
+          <GeolocationControl options={{float: "left"}}/>
+          <ZoomControl/>
         </PickMap>
       </div>
     </section>
@@ -180,5 +182,5 @@ export const Shipping: FC<TProps> = ({ searchState, setSearchState, mapState, se
 };
 
 export function shippingLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...yMapLinks(), ...yMapFormFieldLinks()];
+  return [{rel: "stylesheet", href: styles}, ...yMapLinks(), ...yMapFormFieldLinks()];
 }

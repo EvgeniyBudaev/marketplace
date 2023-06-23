@@ -1,8 +1,8 @@
-import type { FC, MouseEvent } from "react";
+import type {FC, MouseEvent} from "react";
 import clsx from "clsx";
-import type { IButtonProps, IconType } from "~/uikit";
-import { Button, Icon } from "~/uikit";
-import styles from "./IconButton.module.css";
+import type {IButtonProps, IconType} from "~/uikit";
+import {Button, Icon} from "~/uikit";
+import styles from "./IconButton.css";
 
 interface IProps extends IButtonProps {
   className?: string;
@@ -12,12 +12,12 @@ interface IProps extends IButtonProps {
 }
 
 export const IconButton: FC<IProps> = ({
-  className,
-  typeIcon,
-  isDisabled = false,
-  onClick,
-  ...rest
-}) => {
+                                         className,
+                                         typeIcon,
+                                         isDisabled = false,
+                                         onClick,
+                                         ...rest
+                                       }) => {
   return (
     <Button
       className={clsx("IconButton", className)}
@@ -25,11 +25,11 @@ export const IconButton: FC<IProps> = ({
       onClick={onClick}
       {...rest}
     >
-      <Icon type={typeIcon} />
+      <Icon type={typeIcon}/>
     </Button>
   );
 };
 
 export function iconButtonLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

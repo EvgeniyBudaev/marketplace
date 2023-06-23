@@ -1,20 +1,20 @@
-import { forwardRef, memo, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { ModalDelete } from "~/components/modal";
-import { useTheme } from "~/hooks";
-import { useGetColumns } from "~/pages/Admin/Attributes/AttributesTable";
-import type { TAttributes, TAttribute } from "~/shared/api/attributes";
-import { createColumnHelper, Table as UiTable } from "~/uikit";
-import type { TTableSortingProps } from "~/uikit";
-import styles from "./AttributesTable.module.css";
+import {forwardRef, memo, useMemo, useState} from "react";
+import {useTranslation} from "react-i18next";
+import type {FetcherWithComponents} from "@remix-run/react";
+import {ModalDelete} from "~/components/modal";
+import {useTheme} from "~/hooks";
+import {useGetColumns} from "~/pages/Admin/Attributes/AttributesTable";
+import type {TAttributes, TAttribute} from "~/shared/api/attributes";
+import {createColumnHelper, Table as UiTable} from "~/uikit";
+import type {TTableSortingProps} from "~/uikit";
+import styles from "./AttributesTable.css";
 
 type TProps = {
   attributes: TAttributes;
   fetcher: FetcherWithComponents<any>;
   fieldsSortState: TTableSortingProps;
   isOpenDeleteModal: boolean;
-  onChangePage: ({ selected }: { selected: number }) => void;
+  onChangePage: ({selected}: { selected: number }) => void;
   onChangePageSize: (pageSize: number) => void;
   onClickDeleteIcon: (alias: string) => void;
   onCloseModal: () => void;
@@ -36,13 +36,13 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     },
     ref,
   ) => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const columnHelper = createColumnHelper<TAttribute>();
     const columns = useGetColumns(columnHelper, onClickDeleteIcon);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
-    const { theme } = useTheme();
+    const {theme} = useTheme();
 
-    const { content, countOfPage, countOfResult, currentPage, pageSize } = attributes;
+    const {content, countOfPage, countOfResult, currentPage, pageSize} = attributes;
 
     const settingsProps = useMemo(
       () => ({
@@ -81,7 +81,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           totalItems={countOfResult}
           totalItemsTitle={t("pages.admin.attributes.table.header") ?? "Total attributes"}
         />
-        <ModalDelete isOpen={isOpenDeleteModal} onClose={onCloseModal} onSubmit={onSubmitDelete} />
+        <ModalDelete isOpen={isOpenDeleteModal} onClose={onCloseModal} onSubmit={onSubmitDelete}/>
       </div>
     );
   },
@@ -92,5 +92,5 @@ TableComponent.displayName = "AttributesTableComponent";
 export const AttributesTable = memo(TableComponent);
 
 export function attributesTableLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }
