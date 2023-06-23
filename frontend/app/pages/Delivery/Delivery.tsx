@@ -1,6 +1,6 @@
-import type { FC } from "react";
-import styles from "./Delivery.module.css";
-import { ETypographyVariant, Typography } from "~/uikit";
+import type {FC} from "react";
+import styles from "./Delivery.css";
+import {ETypographyVariant, Typography} from "~/uikit";
 
 export const Delivery: FC = () => {
   return (
@@ -59,5 +59,5 @@ export const Delivery: FC = () => {
 };
 
 export function deliveryLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

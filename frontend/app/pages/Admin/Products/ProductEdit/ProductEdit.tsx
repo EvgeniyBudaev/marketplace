@@ -34,7 +34,7 @@ import type {TDomainErrors, TFile, TParams} from "~/types";
 import type {isSelectMultiType, TSelectOption} from "~/uikit";
 import {Button, ETypographyVariant, Icon, notify, Tooltip, Typography} from "~/uikit";
 import {createPath, formatProxy} from "~/utils";
-import styles from "./ProductEdit.module.css";
+import styles from "./ProductEdit.css";
 
 type TProps = {
   catalogs: TCatalogs;

@@ -1,6 +1,6 @@
-import { memo } from "react";
-import type { FC, FocusEventHandler } from "react";
-import { default as ReactSelect } from "react-select";
+import {memo} from "react";
+import type {FC, FocusEventHandler} from "react";
+import {default as ReactSelect} from "react-select";
 import type {
   ActionMeta,
   GroupBase,
@@ -12,13 +12,13 @@ import type {
   MenuPosition,
   MenuPlacement,
 } from "react-select";
-import type { SelectComponents } from "react-select/dist/declarations/src/components";
-import { useHydrated } from "remix-utils";
+import type {SelectComponents} from "react-select/dist/declarations/src/components";
+import {useHydrated} from "remix-utils";
 import clsx from "clsx";
-import { selectStyles, ETheme } from "~/uikit";
-import type { TSelectOption, isSelectMultiType } from "~/uikit";
-import { generateUUID } from "~/utils";
-import styles from "./Select.module.css";
+import {selectStyles, ETheme} from "~/uikit";
+import type {TSelectOption, isSelectMultiType} from "~/uikit";
+import {generateUUID} from "~/utils";
+import styles from "./Select.css";
 
 export type TSelectProps = {
   className?: string;
@@ -44,24 +44,24 @@ export type TSelectProps = {
 };
 
 const SelectComponent: FC<TSelectProps> = ({
-  className,
-  components,
-  defaultValue,
-  getOptionLabel,
-  id,
-  instanceId,
-  isMulti = false,
-  menuPlacement,
-  menuPosition,
-  name,
-  onBlur,
-  onChange,
-  onFocus,
-  options,
-  styles,
-  theme = ETheme.Light,
-  value,
-}) => {
+                                             className,
+                                             components,
+                                             defaultValue,
+                                             getOptionLabel,
+                                             id,
+                                             instanceId,
+                                             isMulti = false,
+                                             menuPlacement,
+                                             menuPosition,
+                                             name,
+                                             onBlur,
+                                             onChange,
+                                             onFocus,
+                                             options,
+                                             styles,
+                                             theme = ETheme.Light,
+                                             value,
+                                           }) => {
   const uuid = generateUUID();
 
   const isHydrated = useHydrated();
@@ -90,5 +90,5 @@ const SelectComponent: FC<TSelectProps> = ({
 export const Select = memo(SelectComponent);
 
 export function selectLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

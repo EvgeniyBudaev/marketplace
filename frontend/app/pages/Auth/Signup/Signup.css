@@ -1,0 +1,94 @@
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Signup {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+.Signup-Inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  flex-direction: column;
+  max-width: 470px;
+  width: 100%;
+}
+.Signup-Content {
+  padding: 24px;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 1px 20px rgba(4, 6, 28, 0.1);
+}
+.Signup-Title {
+  margin-bottom: 25px;
+  text-align: center;
+}
+.Signup-FormFieldGroup {
+  position: relative;
+  margin-bottom: 50px;
+}
+.Signup-Control {
+  display: flex;
+  justify-content: center;
+}
+.Signup-Button {
+  margin-bottom: 20px;
+}
+.Signup-Registration {
+  display: flex;
+  justify-content: center;
+}
+.Signup-Registration span {
+  margin-right: 10px;
+}
+.Signup-Registration a,
+.Signup-Registration a span {
+  color: rgb(176, 151, 106);
+  transition: all 0.15s;
+}
+.Signup-Registration a:hover,
+.Signup-Registration a span:hover {
+  color: rgb(95, 79, 25);
+}
+
+/*# sourceMappingURL=Signup.css.map */

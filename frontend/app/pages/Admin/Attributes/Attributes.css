@@ -1,0 +1,32 @@
+.Attributes-Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.Attributes-HeaderControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Attributes-Column {
+  width: 50px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #000;
+  padding: 8px;
+}
+.Attributes-SearchingPanel {
+  margin-right: 16px;
+}
+.Attributes-LinkButton {
+  height: 42px;
+}
+.Attributes-LinkButton span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/*# sourceMappingURL=Attributes.css.map */

@@ -1,8 +1,8 @@
-import { memo, useRef } from "react";
-import type { FC, ReactNode } from "react";
-import { CSSTransition } from "react-transition-group";
-import { TRANSITION } from "~/constants";
-import styles from "./DropDown.module.css";
+import {memo, useRef} from "react";
+import type {FC, ReactNode} from "react";
+import {CSSTransition} from "react-transition-group";
+import {TRANSITION} from "~/constants";
+import styles from "./DropDown.css";
 
 type TProps = {
   className?: string;
@@ -11,7 +11,7 @@ type TProps = {
   transition?: number;
 };
 
-const DropDownComponent: FC<TProps> = ({ className, children, isOpen, transition }: TProps) => {
+const DropDownComponent: FC<TProps> = ({className, children, isOpen, transition}: TProps) => {
   const nodeRef = useRef(null);
 
   return (
@@ -32,5 +32,5 @@ const DropDownComponent: FC<TProps> = ({ className, children, isOpen, transition
 export const DropDown = memo(DropDownComponent);
 
 export function dropDownLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

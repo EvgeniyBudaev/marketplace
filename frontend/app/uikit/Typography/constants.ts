@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import { EColorType } from "~/uikit";
-import type { TColor } from "~/uikit";
-import { ETypographyVariant } from "~/uikit/Typography";
-import styles from "./Typography.module.css";
+import {EColorType} from "~/uikit";
+import type {TColor} from "~/uikit";
+import {ETypographyVariant} from "~/uikit/Typography";
+import styles from "./Typography.css";
 
 type TThemesOptions = {
   color: TColor;
@@ -43,5 +43,5 @@ export const TYPOGRAPHY_THEMES = (options: TThemesOptions) => {
 };
 
 export function typographyLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

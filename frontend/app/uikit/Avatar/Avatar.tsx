@@ -1,8 +1,8 @@
-import { memo, useEffect, useRef, useState } from "react";
-import type { FC, MouseEvent } from "react";
+import {memo, useEffect, useRef, useState} from "react";
+import type {FC, MouseEvent} from "react";
 import clsx from "clsx";
-import styles from "./Avatar.module.css";
-import { formatToStringWithPx, getInitial } from "~/uikit/utils";
+import styles from "./Avatar.css";
+import {formatToStringWithPx, getInitial} from "~/uikit/utils";
 
 type TProps = {
   className?: string;
@@ -16,15 +16,15 @@ type TProps = {
 };
 
 const AvatarComponent: FC<TProps> = ({
-  className,
-  altImage = "",
-  backgroundColor = "#E9E9ED",
-  color = "#0A0A0B",
-  image = "",
-  size = 24,
-  user = "",
-  onClick,
-}) => {
+                                       className,
+                                       altImage = "",
+                                       backgroundColor = "#E9E9ED",
+                                       color = "#0A0A0B",
+                                       image = "",
+                                       size = 24,
+                                       user = "",
+                                       onClick,
+                                     }) => {
   const [imageAvatar, setImageAvatar] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
   const sizeInner = size;
@@ -62,7 +62,7 @@ const AvatarComponent: FC<TProps> = ({
       );
     } else {
       return (
-        <img src="/assets/images/avatar.png" alt="аватар" height={sizeInner} width={sizeInner} />
+        <img src="/assets/images/avatar.png" alt="аватар" height={sizeInner} width={sizeInner}/>
       );
     }
   };
@@ -77,5 +77,5 @@ const AvatarComponent: FC<TProps> = ({
 export const Avatar = memo(AvatarComponent);
 
 export function avatarLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

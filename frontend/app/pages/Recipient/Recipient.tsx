@@ -1,24 +1,24 @@
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "@remix-run/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ERoutes } from "~/enums";
-import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
-import type { TParams } from "~/types";
-import { EFormFields } from "~/pages/Recipient/enums";
-import { formSchema } from "~/pages/Recipient/schemas";
-import type { TForm } from "~/pages/Recipient/types";
-import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
-import styles from "./Recipient.module.css";
-import { useUser } from "~/hooks";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {Link, useNavigate} from "@remix-run/react";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {ERoutes} from "~/enums";
+import {EFormMethods, Form, Input, useInitForm} from "~/shared/form";
+import type {TParams} from "~/types";
+import {EFormFields} from "~/pages/Recipient/enums";
+import {formSchema} from "~/pages/Recipient/schemas";
+import type {TForm} from "~/pages/Recipient/types";
+import {Button, ETypographyVariant, Icon, Typography} from "~/uikit";
+import styles from "./Recipient.css";
+import {useUser} from "~/hooks";
 
 export const Recipient: FC = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
   const navigate = useNavigate();
-  const { user } = useUser();
+  const {user} = useUser();
   console.log("Recipient user: ", user);
 
   const handleSubmit = (params: TParams) => {
@@ -74,7 +74,7 @@ export const Recipient: FC = () => {
           <div className="Recipient-FormFooter">
             <div className="Recipient-Controls">
               <Link className="Recipient-ControlsLink" to={ERoutes.Shipping}>
-                <Icon type="ArrowBack" />
+                <Icon type="ArrowBack"/>
                 <div className="Recipient-ControlsText">
                   <Typography variant={ETypographyVariant.TextB3Regular}>
                     {t("common.actions.back")}
@@ -90,13 +90,13 @@ export const Recipient: FC = () => {
           </div>
         </Form>
         <div className="Recipient-Info">
-          <Icon className="Recipient-InfoIcon" type="Attention" />
+          <Icon className="Recipient-InfoIcon" type="Attention"/>
           <div className="Recipient-InfoText">
             <div className="Recipient-InfoTitle">
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.specify")}
               </Typography>
-              <br />
+              <br/>
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.realData")}
               </Typography>
@@ -105,7 +105,7 @@ export const Recipient: FC = () => {
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.passport")}
               </Typography>
-              <br />
+              <br/>
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.order")}
               </Typography>
@@ -118,5 +118,5 @@ export const Recipient: FC = () => {
 };
 
 export function recipientLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

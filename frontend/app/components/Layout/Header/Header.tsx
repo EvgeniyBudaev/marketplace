@@ -1,17 +1,17 @@
-import { useState, useRef } from "react";
-import type { FC } from "react";
-import { CSSTransition } from "react-transition-group";
+import {useState, useRef} from "react";
+import type {FC} from "react";
+import {CSSTransition} from "react-transition-group";
 import clsx from "clsx";
 //import useWindowScroll from "hooks/useWindowScroll";
-import { TRANSITION } from "~/constants";
-import type { TCart } from "~/shared/api/cart";
-import { Overlay } from "~/uikit";
-import type { ETheme } from "~/uikit";
-import { CatalogDropDown, catalogDropDownLinks } from "./CatalogDropDown";
-import { HeaderBottom } from "./HeaderBottom";
-import { headerBottomLinks } from "~/components/Layout/Header/HeaderBottom";
-import { headerIconListLinks } from "~/components/Layout/Header/HeaderIconsList";
-import styles from "./Header.module.css";
+import {TRANSITION} from "~/constants";
+import type {TCart} from "~/shared/api/cart";
+import {Overlay} from "~/uikit";
+import type {ETheme} from "~/uikit";
+import {CatalogDropDown, catalogDropDownLinks} from "./CatalogDropDown";
+import {HeaderBottom} from "./HeaderBottom";
+import {headerBottomLinks} from "~/components/Layout/Header/HeaderBottom";
+import {headerIconListLinks} from "~/components/Layout/Header/HeaderIconsList";
+import styles from "./Header.css";
 
 type TProps = {
   cart?: TCart;
@@ -19,7 +19,7 @@ type TProps = {
   theme: ETheme;
 };
 
-export const Header: FC<TProps> = ({ cart, theme }) => {
+export const Header: FC<TProps> = ({cart, theme}) => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const nodeRef = useRef(null);
   const headerRef = useRef(null);
@@ -44,7 +44,7 @@ export const Header: FC<TProps> = ({ cart, theme }) => {
         })}
       >
         <header className="Header" ref={headerRef}>
-          <HeaderBottom isCatalogOpen={isCatalogOpen} onCatalogToggle={onCatalogToggle} />
+          <HeaderBottom isCatalogOpen={isCatalogOpen} onCatalogToggle={onCatalogToggle}/>
         </header>
       </div>
       <CSSTransition
@@ -54,16 +54,16 @@ export const Header: FC<TProps> = ({ cart, theme }) => {
         timeout={TRANSITION}
         unmountOnExit
       >
-        <CatalogDropDown ref={nodeRef} isOpen={isCatalogOpen} onClose={onCatalogClose} />
+        <CatalogDropDown ref={nodeRef} isOpen={isCatalogOpen} onClose={onCatalogClose}/>
       </CSSTransition>
-      <Overlay timeout={TRANSITION} onClick={onCatalogClose} isActive={isCatalogOpen} />
+      <Overlay timeout={TRANSITION} onClick={onCatalogClose} isActive={isCatalogOpen}/>
     </>
   );
 };
 
 export function headerLinks() {
   return [
-    { rel: "stylesheet", href: styles },
+    {rel: "stylesheet", href: styles},
     ...catalogDropDownLinks(),
     ...headerBottomLinks(),
     ...headerIconListLinks(),

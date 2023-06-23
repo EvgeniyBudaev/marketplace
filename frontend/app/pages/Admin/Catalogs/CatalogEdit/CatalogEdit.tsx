@@ -23,7 +23,7 @@ import {Checkbox, EFormMethods, FileUploader, Form, Input, Select, useInitForm} 
 import type {TDomainErrors, TFile, TParams} from "~/types";
 import {Button, ETypographyVariant, Icon, notify, Typography} from "~/uikit";
 import {createPath, formatProxy} from "~/utils";
-import styles from "./CatalogEdit.module.css";
+import styles from "./CatalogEdit.css";
 
 type TProps = {
   attributes: TAttributes;

@@ -1,8 +1,8 @@
-import { memo } from "react";
-import type { ChangeEvent, FC, ReactNode } from "react";
+import {memo} from "react";
+import type {ChangeEvent, FC, ReactNode} from "react";
 import clsx from "clsx";
-import { ETypographyVariant, Icon, Typography } from "~/uikit";
-import styles from "./Checkbox.module.css";
+import {ETypographyVariant, Icon, Typography} from "~/uikit";
+import styles from "./Checkbox.css";
 
 export type TCheckboxProps = {
   checked?: boolean;
@@ -17,16 +17,16 @@ export type TCheckboxProps = {
 };
 
 export const CheckboxComponent: FC<TCheckboxProps> = ({
-  checked,
-  children,
-  className,
-  defaultChecked,
-  id,
-  label,
-  name,
-  nameGroup,
-  onChange,
-}) => {
+                                                        checked,
+                                                        children,
+                                                        className,
+                                                        defaultChecked,
+                                                        id,
+                                                        label,
+                                                        name,
+                                                        nameGroup,
+                                                        onChange,
+                                                      }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange?.(event, id, nameGroup);
   };
@@ -45,7 +45,7 @@ export const CheckboxComponent: FC<TCheckboxProps> = ({
       />
       {label && (
         <label className="Checkbox-Label" htmlFor={id}>
-          <Icon className="Checkbox-Icon" type="Checkbox" />
+          <Icon className="Checkbox-Icon" type="Checkbox"/>
           <Typography variant={ETypographyVariant.TextB3Regular}>{label}</Typography>
         </label>
       )}
@@ -57,5 +57,5 @@ export const CheckboxComponent: FC<TCheckboxProps> = ({
 export const Checkbox = memo(CheckboxComponent);
 
 export function checkboxLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

@@ -1,10 +1,10 @@
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { LinkButton } from "~/uikit";
-import styles from "./Home.module.css";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {LinkButton} from "~/uikit";
+import styles from "././Home.css";
 
 export const Home: FC = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   return (
     <div className="Home">
@@ -20,5 +20,5 @@ export const Home: FC = () => {
 };
 
 export function homeLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

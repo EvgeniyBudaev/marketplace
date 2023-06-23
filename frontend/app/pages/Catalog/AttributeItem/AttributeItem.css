@@ -1,0 +1,57 @@
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.AttributeItem-RowLine {
+  display: flex;
+}
+.AttributeItem-RowLine + .AttributeItem-RowLine {
+  margin-top: 8px;
+}
+.AttributeItem-LabelLine {
+  margin-right: 8px;
+  font-size: 13px;
+  color: rgb(142, 142, 147);
+  white-space: nowrap;
+}
+.AttributeItem-ValueLine {
+  font-size: 13px;
+}
+
+/*# sourceMappingURL=AttributeItem.css.map */

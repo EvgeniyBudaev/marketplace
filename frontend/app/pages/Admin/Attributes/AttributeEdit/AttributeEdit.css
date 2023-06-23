@@ -1,0 +1,20 @@
+.AttributeEdit-Title {
+  margin-bottom: 30px;
+}
+.AttributeEdit-Form {
+  max-width: 590px;
+  width: 100%;
+}
+.AttributeEdit-FormFieldGroup {
+  margin-bottom: 30px;
+}
+.AttributeEdit-FormControl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  max-width: 590px;
+  width: 100%;
+}
+
+/*# sourceMappingURL=AttributeEdit.css.map */

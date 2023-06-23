@@ -5,7 +5,7 @@ import {DEFAULT_COLUMN_MIN_SIZE} from "~/uikit/Table/constants";
 import {TableHeaderItem} from "~/uikit/Table/TableHeaderItem";
 import {getInitialSortingColumnState} from "~/uikit/Table/TableHeader/utils";
 import type {TSortingColumnStateWithReset} from "~/uikit/Table/TableHeader";
-import styles from "./TableHeader.module.css";
+import styles from "./TableHeader.css";
 
 type TProps<TColumn extends object> = {
   headerGroups: HeaderGroup<TColumn>[];

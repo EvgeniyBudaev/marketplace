@@ -1,37 +1,37 @@
-import { useEffect, useRef } from "react";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { useFetcher } from "@remix-run/react";
-import { SearchingPanel } from "~/components/search";
-import { ERoutes } from "~/enums";
-import { useScrollToTable, useTable } from "~/hooks";
-import { productAddLinks } from "~/pages/Admin/Products/ProductAdd";
-import { productEditLinks } from "~/pages/Admin/Products/ProductEdit";
+import {useEffect, useRef} from "react";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {useFetcher} from "@remix-run/react";
+import {SearchingPanel} from "~/components/search";
+import {ERoutes} from "~/enums";
+import {useScrollToTable, useTable} from "~/hooks";
+import {productAddLinks} from "~/pages/Admin/Products/ProductAdd";
+import {productEditLinks} from "~/pages/Admin/Products/ProductEdit";
 import {
   ETableColumns,
   ProductsTable,
   productsTableLinks,
 } from "~/pages/Admin/Products/ProductsTable";
-import { EProductAction } from "~/shared/api/products";
-import type { TProducts } from "~/shared/api/products";
-import { getFetcherOptions } from "~/shared/fetcher";
-import { EFormMethods } from "~/shared/form";
-import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
-import { createPath } from "~/utils";
-import styles from "./Products.module.css";
+import {EProductAction} from "~/shared/api/products";
+import type {TProducts} from "~/shared/api/products";
+import {getFetcherOptions} from "~/shared/fetcher";
+import {EFormMethods} from "~/shared/form";
+import {ETypographyVariant, LinkButton, notify, Typography} from "~/uikit";
+import {createPath} from "~/utils";
+import styles from "./Products.css";
 
 type TProps = {
   products: TProducts;
 };
 
 export const Products: FC<TProps> = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const fetcher = useFetcher();
-  const { isLoading } = getFetcherOptions(fetcher);
+  const {isLoading} = getFetcherOptions(fetcher);
   const products = fetcher.data?.products ?? props.products;
   const tableRef = useRef<HTMLDivElement>(null);
 
-  useScrollToTable({ ref: tableRef, content: products.content });
+  useScrollToTable({ref: tableRef, content: products.content});
 
   const onDeleteProduct = (alias: string) => {
     const form = new FormData();
@@ -39,7 +39,7 @@ export const Products: FC<TProps> = (props) => {
     form.append("_method", EProductAction.DeleteProduct);
     fetcher.submit(form, {
       method: EFormMethods.Delete,
-      action: createPath({ route: ERoutes.AdminProducts, withIndex: true }),
+      action: createPath({route: ERoutes.AdminProducts, withIndex: true}),
     });
   };
 
@@ -131,7 +131,7 @@ export const Products: FC<TProps> = (props) => {
 
 export function productsLinks() {
   return [
-    { rel: "stylesheet", href: styles },
+    {rel: "stylesheet", href: styles},
     ...productAddLinks(),
     ...productEditLinks(),
     ...productsTableLinks(),

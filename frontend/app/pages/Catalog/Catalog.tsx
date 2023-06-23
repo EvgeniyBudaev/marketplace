@@ -1,25 +1,25 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { FC } from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
+import type {FC} from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useTranslation } from "react-i18next";
-import { useLocation, useSearchParams } from "@remix-run/react";
-import { createBrowserHistory } from "history";
-import { DEFAULT_PAGE_SIZE } from "~/constants";
-import { attributeItemLinks } from "~/pages/Catalog/AttributeItem";
-import { filterLinks, getDefaultFilter } from "~/pages/Catalog/Filter";
-import { panelLinks } from "~/pages/Catalog/Panel";
-import { productListLinks } from "~/pages/Catalog/ProductList";
-import { productListItemLinks } from "~/pages/Catalog/ProductListItem";
-import { sortingLinks } from "~/pages/Catalog/Sorting";
-import type { TCart } from "~/shared/api/cart";
-import type { TCatalogDetail } from "~/shared/api/catalogs";
-import type { TProductByCatalog, TProductsByCatalog } from "~/shared/api/products";
-import type { TParams, TSorting } from "~/types";
-import { ETypographyVariant, Typography } from "~/uikit";
-import { Filter } from "./Filter";
-import { Panel } from "./Panel";
-import { ProductList } from "./ProductList";
-import styles from "./Catalog.module.css";
+import {useTranslation} from "react-i18next";
+import {useLocation, useSearchParams} from "@remix-run/react";
+import {createBrowserHistory} from "history";
+import {DEFAULT_PAGE_SIZE} from "~/constants";
+import {attributeItemLinks} from "~/pages/Catalog/AttributeItem";
+import {filterLinks, getDefaultFilter} from "~/pages/Catalog/Filter";
+import {panelLinks} from "~/pages/Catalog/Panel";
+import {productListLinks} from "~/pages/Catalog/ProductList";
+import {productListItemLinks} from "~/pages/Catalog/ProductListItem";
+import {sortingLinks} from "~/pages/Catalog/Sorting";
+import type {TCart} from "~/shared/api/cart";
+import type {TCatalogDetail} from "~/shared/api/catalogs";
+import type {TProductByCatalog, TProductsByCatalog} from "~/shared/api/products";
+import type {TParams, TSorting} from "~/types";
+import {ETypographyVariant, Typography} from "~/uikit";
+import {Filter} from "./Filter";
+import {Panel} from "./Panel";
+import {ProductList} from "./ProductList";
+import styles from "./Catalog.css";
 
 type TProductRange = {
   startProduct: number;
@@ -48,7 +48,7 @@ const PLACEHOLDER_PRODUCT: TProductByCatalog = {
 const history = typeof document !== "undefined" ? createBrowserHistory() : null;
 
 export const Catalog: FC<TProps> = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -110,7 +110,7 @@ export const Catalog: FC<TProps> = (props) => {
       }
 
       if (pages[page - 1] === undefined || isFiltersDirty) {
-        setSearchParams(new URLSearchParams(getFormData() as any), { preventScrollReset: true });
+        setSearchParams(new URLSearchParams(getFormData() as any), {preventScrollReset: true});
       } else {
         history?.push({
           ...location,
@@ -157,7 +157,7 @@ export const Catalog: FC<TProps> = (props) => {
   };
 
   useEffect(() => {
-    const { countOfResult: totalItemsCount, currentPage } = products;
+    const {countOfResult: totalItemsCount, currentPage} = products;
     const pageItemsCount = products.content.length;
 
     setProductRange({
@@ -205,7 +205,7 @@ export const Catalog: FC<TProps> = (props) => {
             hasMore={getRenderedProductsCount() < products.countOfResult}
             loader={<h4>Loading...</h4>}
             endMessage={
-              <p style={{ textAlign: "center" }}>
+              <p style={{textAlign: "center"}}>
                 <b>Yay! You have seen it all</b>
               </p>
             }
@@ -230,7 +230,7 @@ export const Catalog: FC<TProps> = (props) => {
 
 export function catalogLinks() {
   return [
-    { rel: "stylesheet", href: styles },
+    {rel: "stylesheet", href: styles},
     ...attributeItemLinks(),
     ...filterLinks(),
     ...panelLinks(),

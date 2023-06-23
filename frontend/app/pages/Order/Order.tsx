@@ -1,38 +1,40 @@
-import { useState } from "react";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "@remix-run/react";
+import {useState} from "react";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {Link} from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 
-import { ERoutes } from "~/enums";
-import { useUser } from "~/hooks";
-import type { TCart } from "~/shared/api/cart";
-import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
-import { formatCurrency } from "~/utils";
+import {ERoutes} from "~/enums";
+import {useUser} from "~/hooks";
+import type {TCart} from "~/shared/api/cart";
+import {Button, ETypographyVariant, Icon, Typography} from "~/uikit";
+import {formatCurrency} from "~/utils";
 
 import {
   OrderProductListItem,
   orderProductListItemLinks,
 } from "~/pages/Order/OrderProductListItem";
-import styles from "./Order.module.css";
+import styles from "./Order.css";
 
 type TProps = {
   cart: TCart;
 };
 
-export const Order: FC<TProps> = ({ cart }) => {
-  const { t } = useTranslation();
+export const Order: FC<TProps> = ({cart}) => {
+  const {t} = useTranslation();
   const CARD = "card";
   const CASH = "cash";
   const CARD_TEXT = t("pages.order.payWithCard");
   const CASH_TEXT = t("pages.order.payWithCash");
-  const { user } = useUser();
+  const {user} = useUser();
   const [paymentMethod, setPaymentMethod] = useState(CARD);
 
-  const handleOpenModal = () => {};
+  const handleOpenModal = () => {
+  };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+  };
 
   return (
     <section className="Order">
@@ -55,7 +57,7 @@ export const Order: FC<TProps> = ({ cart }) => {
               </Link>
             </div>
             <div className="Order-Address">
-              <Icon className="Order-AddressIcon" type="House" />
+              <Icon className="Order-AddressIcon" type="House"/>
               <div className="Order-AddressInfo">
                 {/*<div className="Order-AddressInfoTitle">*/}
                 {/*    {shippingAddress && shippingAddress.address}*/}
@@ -111,7 +113,7 @@ export const Order: FC<TProps> = ({ cart }) => {
             ) : (
               <div>
                 {cart.items.map((item) => (
-                  <OrderProductListItem key={item.id} cartItem={item} />
+                  <OrderProductListItem key={item.id} cartItem={item}/>
                 ))}
               </div>
             )}
@@ -130,7 +132,7 @@ export const Order: FC<TProps> = ({ cart }) => {
               </Link>
             </div>
             <div className="Order-RecipientInfo">
-              <Icon className="Order-RecipientInfoIcon" type="User" />
+              <Icon className="Order-RecipientInfoIcon" type="User"/>
               <div className="Order-RecipientInfoText">
                 <div className="Order-RecipientInfoTitle">
                   {/*{user*/}
@@ -145,7 +147,7 @@ export const Order: FC<TProps> = ({ cart }) => {
                   email: {/*{user*/}
                   {/*    ? user.email*/}
                   {/*    : order_user && order_user.email}*/}
-                  <> , </>
+                  <> ,</>
                   моб.: {/*{user*/}
                   {/*    ? user.phone*/}
                   {/*    : order_user && order_user.phone}*/}
@@ -198,7 +200,7 @@ export const Order: FC<TProps> = ({ cart }) => {
               <div className="Order-PaymentInfo">
                 {paymentMethod === CARD ? (
                   <>
-                    <Icon className="Order-PaymentIcon" type="Card" />
+                    <Icon className="Order-PaymentIcon" type="Card"/>
                     <div>
                       <Typography variant={ETypographyVariant.TextB3Regular}>
                         {CARD_TEXT}
@@ -207,7 +209,7 @@ export const Order: FC<TProps> = ({ cart }) => {
                   </>
                 ) : (
                   <>
-                    <Icon className="Order-PaymentIcon" type="Cash" />
+                    <Icon className="Order-PaymentIcon" type="Cash"/>
                     <div>
                       <Typography variant={ETypographyVariant.TextB3Regular}>
                         {CASH_TEXT}
@@ -236,5 +238,5 @@ export const Order: FC<TProps> = ({ cart }) => {
 };
 
 export function orderLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...orderProductListItemLinks()];
+  return [{rel: "stylesheet", href: styles}, ...orderProductListItemLinks()];
 }

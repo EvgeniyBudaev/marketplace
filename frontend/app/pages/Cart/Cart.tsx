@@ -1,20 +1,20 @@
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { Link, useFetcher, useNavigate } from "@remix-run/react";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {Link, useFetcher, useNavigate} from "@remix-run/react";
 import isNil from "lodash/isNil";
-import { ERoutes } from "~/enums";
-import type { TCart } from "~/shared/api/cart";
-import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
-import { formatCurrency } from "~/utils";
-import { CartItem, cartItemLinks } from "./CartItem";
-import styles from "./Cart.module.css";
+import {ERoutes} from "~/enums";
+import type {TCart} from "~/shared/api/cart";
+import {Button, ETypographyVariant, Icon, Typography} from "~/uikit";
+import {formatCurrency} from "~/utils";
+import {CartItem, cartItemLinks} from "./CartItem";
+import styles from "./Cart.css";
 
 type TProps = {
   cart: TCart;
 };
 
 export const Cart: FC<TProps> = (props) => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const isAuthenticated = true;
   const navigate = useNavigate();
   const fetcher = useFetcher();
@@ -53,7 +53,7 @@ export const Cart: FC<TProps> = (props) => {
                 <div className="Cart-CostLineText">
                   <Typography variant={ETypographyVariant.TextB3Regular}>
                     {t("common.info.inCart")} <> </>
-                    {t("pages.cart.products", { items: cart.countProducts })}
+                    {t("pages.cart.products", {items: cart.countProducts})}
                   </Typography>
                 </div>
                 <div className="Cart-CostLinePrice">
@@ -82,7 +82,7 @@ export const Cart: FC<TProps> = (props) => {
             {isAuthenticated ? (
               <div className="Cart-OrdersList">
                 <div className="Cart-Inner">
-                  <Icon className="Cart-IconLogoShort" type="LogoShort" />
+                  <Icon className="Cart-IconLogoShort" type="LogoShort"/>
                   <div>
                     <Typography variant={ETypographyVariant.TextB3Regular}>
                       - {formatCurrency(parseInt("500"))}
@@ -95,7 +95,7 @@ export const Cart: FC<TProps> = (props) => {
             ) : (
               <div className="OrdersList">
                 <div className="Cart-Inner">
-                  <Icon className="Cart-IconEnter" type="Enter" />
+                  <Icon className="Cart-IconEnter" type="Enter"/>
                   <Link className="Cart-TextEnter" to={ERoutes.Login}>
                     <Typography variant={ETypographyVariant.TextB3Regular}>
                       {t("pages.cart.discountForAuth")}
@@ -104,7 +104,8 @@ export const Cart: FC<TProps> = (props) => {
                 </div>
               </div>
             )}
-            <div className="Cart-BackToShopping" onClick={() => {}}>
+            <div className="Cart-BackToShopping" onClick={() => {
+            }}>
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.cart.backToShopping")}
               </Typography>
@@ -117,5 +118,5 @@ export const Cart: FC<TProps> = (props) => {
 };
 
 export function cartLinks() {
-  return [{ rel: "stylesheet", href: styles }, ...cartItemLinks()];
+  return [{rel: "stylesheet", href: styles}, ...cartItemLinks()];
 }

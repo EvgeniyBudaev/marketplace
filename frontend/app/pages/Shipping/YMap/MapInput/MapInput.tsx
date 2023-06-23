@@ -1,7 +1,7 @@
-import type { CSSProperties } from "react";
-import type { ChangeEventHandler, FC, FocusEvent } from "react";
+import type {CSSProperties} from "react";
+import type {ChangeEventHandler, FC, FocusEvent} from "react";
 import clsx from "clsx";
-import styles from "./MapInput.module.css";
+import styles from "./MapInput.css";
 
 type TProps = {
   className?: string;
@@ -16,17 +16,17 @@ type TProps = {
 };
 
 export const MapInput: FC<TProps> = ({
-  className,
-  error,
-  name,
-  style,
-  type,
-  value,
-  onBlur,
-  onChange,
-  onFocus,
-  ...inputProps
-}) => {
+                                       className,
+                                       error,
+                                       name,
+                                       style,
+                                       type,
+                                       value,
+                                       onBlur,
+                                       onChange,
+                                       onFocus,
+                                       ...inputProps
+                                     }) => {
   return (
     <>
       <input
@@ -48,5 +48,5 @@ export const MapInput: FC<TProps> = ({
 };
 
 export function mapInputLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

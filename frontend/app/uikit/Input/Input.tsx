@@ -1,8 +1,8 @@
-import { forwardRef, memo, useState } from "react";
-import type { DetailedHTMLProps, ForwardedRef, HTMLAttributes, FocusEvent } from "react";
+import {forwardRef, memo, useState} from "react";
+import type {DetailedHTMLProps, ForwardedRef, HTMLAttributes, FocusEvent} from "react";
 import clsx from "clsx";
-import { ETypographyVariant, FadeIn, Typography } from "~/uikit";
-import styles from "./Input.module.css";
+import {ETypographyVariant, FadeIn, Typography} from "~/uikit";
+import styles from "./Input.css";
 
 export interface IInputProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
@@ -118,5 +118,5 @@ InputComponent.displayName = "InputComponent";
 export const Input = memo(InputComponent);
 
 export function inputLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

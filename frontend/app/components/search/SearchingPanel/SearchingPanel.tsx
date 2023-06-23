@@ -1,14 +1,14 @@
-import { memo } from "react";
-import type { FC, ChangeEvent, KeyboardEvent, MouseEvent } from "react";
-import { useTranslation } from "react-i18next";
+import {memo} from "react";
+import type {FC, ChangeEvent, KeyboardEvent, MouseEvent} from "react";
+import {useTranslation} from "react-i18next";
 import clsx from "clsx";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {zodResolver} from "@hookform/resolvers/zod";
 
-import { EFormFields, formSchema } from "~/components/search";
-import type { TForm } from "~/components/search";
-import { EFormMethods, Form, useInitForm } from "~/shared/form";
-import { Icon } from "~/uikit";
-import styles from "./SearchingPanel.module.css";
+import {EFormFields, formSchema} from "~/components/search";
+import type {TForm} from "~/components/search";
+import {EFormMethods, Form, useInitForm} from "~/shared/form";
+import {Icon} from "~/uikit";
+import styles from "./SearchingPanel.css";
 
 type TProps = {
   className?: string;
@@ -22,16 +22,16 @@ type TProps = {
 };
 
 const Component: FC<TProps> = ({
-  className,
-  defaultSearch,
-  isActive,
-  onBlur,
-  onClick,
-  onFocus,
-  onKeyDown,
-  onSubmit,
-}) => {
-  const { t } = useTranslation();
+                                 className,
+                                 defaultSearch,
+                                 isActive,
+                                 onBlur,
+                                 onClick,
+                                 onFocus,
+                                 onKeyDown,
+                                 onSubmit,
+                               }) => {
+  const {t} = useTranslation();
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
@@ -62,7 +62,7 @@ const Component: FC<TProps> = ({
             onKeyDown={onKeyDown}
           />
         </div>
-        <Icon className="SearchingPanel-Icon" type="Search" />
+        <Icon className="SearchingPanel-Icon" type="Search"/>
       </Form>
     </div>
   );
@@ -71,5 +71,5 @@ const Component: FC<TProps> = ({
 export const SearchingPanel = memo(Component);
 
 export function searchingPanelLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }
