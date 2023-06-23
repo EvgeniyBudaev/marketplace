@@ -1,6 +1,6 @@
 import {useEffect, useMemo} from "react";
 import type {FC, PropsWithChildren} from "react";
-import {useFetchers, useLocation, useTransition} from "@remix-run/react";
+import {useFetchers, useLocation, useNavigation} from "@remix-run/react";
 import clsx from "clsx";
 import NProgress from "nprogress";
 import {ERoutes} from "~/enums";
@@ -23,21 +23,21 @@ export const Layout: FC<TProps> = ({cart, className, children, is404, theme = ET
   const isScroll = false;
   const {pathname} = useLocation();
   const fetchers = useFetchers();
-  const transition = useTransition();
+  const navigation = useNavigation();
 
   let state = useMemo<"idle" | "loading">(
     function getGlobalState() {
-      let states = [transition.state, ...fetchers.map((fetcher) => fetcher.state)];
+      let states = [navigation.state, ...fetchers.map((fetcher) => fetcher.state)];
       if (states.every((state) => state === "idle")) return "idle";
       return "loading";
     },
-    [transition.state, fetchers],
+    [navigation.state, fetchers],
   );
 
   useEffect(() => {
     if (state === "loading") NProgress.start();
     if (state === "idle") NProgress.done();
-  }, [state, transition.state]);
+  }, [state, navigation.state]);
 
   return (
     <div className={clsx("Layout", className)}>

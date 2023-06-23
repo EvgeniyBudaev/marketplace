@@ -21,6 +21,7 @@ type TProps = {
 export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
   const {t} = useTranslation();
   const [quantity, setQuantity] = useState(cartItem.quantity);
+  //console.log("cartItem: ", cartItem);
 
   useEffect(() => {
     setQuantity(cartItem.quantity);

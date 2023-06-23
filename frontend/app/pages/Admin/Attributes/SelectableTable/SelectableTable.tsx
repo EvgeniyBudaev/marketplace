@@ -2,15 +2,11 @@ import {forwardRef, memo, useCallback, useState} from "react";
 import {useTranslation} from "react-i18next";
 import type {FetcherWithComponents} from "@remix-run/react";
 import {ModalDelete} from "~/components/modal";
-import {ERoutes} from "~/enums";
 import {SelectableEditModal} from "~/pages/Admin/Attributes/SelectableEditModal";
 import type {TDeleteModalState, TEditModalState} from "~/pages/Admin/Attributes/SelectableTable";
 import {useGetColumns} from "~/pages/Admin/Attributes/SelectableTable";
 import type {TAttributeDetail, TSelectableItem} from "~/shared/api/attributes";
-import {ESelectableValueAction} from "~/shared/api/attributes";
-import {EFormMethods} from "~/shared/form";
 import {createColumnHelper, Table as UiTable} from "~/uikit";
-import {createPath} from "~/utils";
 
 type TProps = {
   attribute: TAttributeDetail;
@@ -18,10 +14,12 @@ type TProps = {
   fetcher: FetcherWithComponents<any>;
   items: TSelectableItem[];
   onChangePage?: ({selected}: { selected: number }) => void;
+  onDeleteSelectableValue?: (id: number) => void;
+  onEditSelectableValue?: ({id, value}: { id: number; value: string }) => void;
 };
 
 const TableComponent = forwardRef<HTMLDivElement, TProps>(
-  ({attribute, csrf, fetcher, items, onChangePage}, ref) => {
+  ({attribute, csrf, fetcher, items, onChangePage, onDeleteSelectableValue, onEditSelectableValue}, ref) => {
     const {t} = useTranslation();
     const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({isOpen: false});
     const [editModal, setEditModal] = useState<TEditModalState>({isOpen: false});
@@ -65,39 +63,14 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
 
     const handleSubmitDeleteModal = () => {
       if (deleteModal.id) {
-        const formattedParams = {
-          id: deleteModal.id.toString(),
-          csrf,
-          _method: ESelectableValueAction.DeleteSelectableValue
-        }
-        fetcher.submit(formattedParams, {
-          method: EFormMethods.Delete,
-          action: createPath({
-            route: ERoutes.AdminAttributeEdit,
-            params: {alias: attribute.alias},
-            withIndex: true,
-          }),
-        });
+        onDeleteSelectableValue?.(deleteModal.id);
         handleCloseDeleteModal();
       }
     };
 
     const handleSubmitEditModal = ({id, value}: { id: number; value: string }) => {
-      const formattedParams = {
-        id: id.toString(),
-        value,
-        _method: ESelectableValueAction.EditSelectableValue,
-        csrf
-      }
-      fetcher.submit(formattedParams, {
-        method: EFormMethods.Patch,
-        action: createPath({
-          route: ERoutes.AdminAttributeEdit,
-          params: {alias: attribute.alias},
-          withIndex: true,
-        }),
-      });
-      handleCloseDeleteModal();
+      onEditSelectableValue?.({id, value})
+      handleCloseEditModal();
     }
 
     return (

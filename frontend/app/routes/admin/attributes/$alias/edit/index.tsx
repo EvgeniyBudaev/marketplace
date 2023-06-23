@@ -29,7 +29,7 @@ import {
 } from "~/shared/api/attributes/utils";
 import {getCsrfSession} from "~/shared/session";
 import {getStoreFixedT} from "~/shared/store";
-import {checkCSRFToken, checkRequestPermission, createPath} from "~/utils";
+import {checkCSRFToken, checkRequestPermission} from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const {request} = args;
@@ -92,11 +92,7 @@ export const action = async (args: ActionArgs) => {
       const response = await editAttribute(request, formData);
 
       if (response.success) {
-        return redirect(
-          createPath({
-            route: ERoutes.AdminAttributes,
-          }),
-        );
+        return {success: true};
       }
 
       const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));

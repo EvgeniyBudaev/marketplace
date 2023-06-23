@@ -36,12 +36,12 @@ export const AttributeEdit: FC<TProps> = (props) => {
   const {t} = useTranslation();
   const fetcherRemix = useFetcher();
   const attribute: TAttributeDetail = fetcherRemix.data?.attribute ?? props.attribute;
+  console.log("attribute: ", attribute);
 
   const {theme} = useTheme();
 
   const idCheckbox = "checkbox";
-  const [filter, setFilter] = useState<TParams>({filter: [attribute.filter ? [idCheckbox] : []]});
-
+  const [filter, setFilter] = useState<TParams>({filter: [attribute.filter ? idCheckbox : []]});
   const [addModal, setAddModal] = useState<TAddModalState>({isOpen: false});
 
   // console.log("attribute: ", attribute);
@@ -108,7 +108,6 @@ export const AttributeEdit: FC<TProps> = (props) => {
       _method: ESelectableValueAction.AddSelectableValue,
       csrf
     }
-
     fetcher.submit(formattedParams, {
       method: EFormMethods.Post,
       action: createPath({
@@ -125,6 +124,39 @@ export const AttributeEdit: FC<TProps> = (props) => {
       handleCloseAddModal();
     }
   };
+
+  const handleSubmitDeleteSelectableValue = (id: number) => {
+    const formattedParams = {
+      id: id.toString(),
+      csrf,
+      _method: ESelectableValueAction.DeleteSelectableValue
+    }
+    fetcher.submit(formattedParams, {
+      method: EFormMethods.Delete,
+      action: createPath({
+        route: ERoutes.AdminAttributeEdit,
+        params: {alias: attribute.alias},
+        withIndex: true,
+      }),
+    });
+  }
+
+  const handleSubmitEditSelectableValue = ({id, value}: { id: number; value: string }) => {
+    const formattedParams = {
+      id: id.toString(),
+      value,
+      _method: ESelectableValueAction.EditSelectableValue,
+      csrf
+    }
+    fetcher.submit(formattedParams, {
+      method: EFormMethods.Patch,
+      action: createPath({
+        route: ERoutes.AdminAttributeEdit,
+        params: {alias: attribute.alias},
+        withIndex: true,
+      }),
+    });
+  }
 
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
     // console.log("Form params: ", params);
@@ -198,6 +230,8 @@ export const AttributeEdit: FC<TProps> = (props) => {
           csrf={csrf}
           fetcher={fetcherRemix}
           items={attribute.selectable ?? []}
+          onDeleteSelectableValue={handleSubmitDeleteSelectableValue}
+          onEditSelectableValue={handleSubmitEditSelectableValue}
         />
         <div className="AttributeEdit-FormControl">
           <Button className="AttributeEdit-Button" type="submit">
