@@ -1,30 +1,22 @@
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
-import { ETableColumns } from "~/pages/Admin/Attributes/SelectableTable";
-import type { TSelectableItem } from "~/shared/api/attributes";
-import { Icon, IconButton } from "~/uikit";
-import { SelectableEditModal } from "~/pages/Admin/Attributes/SelectableEditModal";
+import {useMemo} from "react";
+import {useTranslation} from "react-i18next";
+import type {ColumnDef, ColumnHelper} from "@tanstack/react-table";
+import {ETableColumns} from "~/pages/Admin/Attributes/SelectableTable";
+import type {TSelectableItem} from "~/shared/api/attributes";
+import {Icon, IconButton} from "~/uikit";
 
-type TUseGetColumns = (
+type TProps = {
   columnHelper: ColumnHelper<TSelectableItem>,
-  onChangeSelectableValue: ({ id, value }: { id: number; value: string }) => void,
-  onDelete: (id: number) => void,
-) => ColumnDef<TSelectableItem>[];
+  onEdit?: (id: number, defaultValue: string) => void,
+  onDelete?: (id: number) => void,
+}
 
-export const useGetColumns: TUseGetColumns = (columnHelper, onChangeSelectableValue, onDelete) => {
-  const { t } = useTranslation();
-  const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
+type TUseGetColumns = (props: TProps) => ColumnDef<TSelectableItem>[];
 
-  const handleModalEditOpen = () => {
-    setIsOpenModalEdit(true);
-  };
+export const useGetColumns: TUseGetColumns = ({columnHelper, onDelete, onEdit}) => {
+  const {t} = useTranslation();
 
-  const handleModalEditClose = () => {
-    setIsOpenModalEdit(false);
-  };
-
-  const columns = useMemo(
+  return useMemo(
     () =>
       [
         columnHelper.accessor(ETableColumns.Id, {
@@ -40,34 +32,21 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onChangeSelectableVa
         columnHelper.display({
           id: "edit",
           header: () => t("pages.admin.attributeEdit.table.columns.info.edit"),
-          cell: ({ row }) => {
+          cell: ({row}) => {
             const defaultValue = row.original.value;
             const id = row.original.id;
-            return (
-              <>
-                <Icon type="Edit" onClick={handleModalEditOpen} />
-                <SelectableEditModal
-                  defaultValue={defaultValue}
-                  id={id}
-                  isOpenModal={isOpenModalEdit}
-                  onModalClose={handleModalEditClose}
-                  onSubmit={onChangeSelectableValue}
-                />
-              </>
-            );
+            return <Icon type="Edit" onClick={() => onEdit?.(id, defaultValue)}/>;
           },
         }),
 
         columnHelper.display({
           id: "delete",
           header: () => t("pages.admin.attributeEdit.table.columns.info.delete"),
-          cell: ({ row }) => (
-            <IconButton typeIcon="Trash" onClick={() => onDelete(row.original.id)} />
+          cell: ({row}) => (
+            <IconButton typeIcon="Trash" onClick={() => onDelete?.(row.original.id)}/>
           ),
         }),
       ].filter(Boolean) as ColumnDef<TSelectableItem>[],
-    [columnHelper, isOpenModalEdit, onChangeSelectableValue, onDelete, t],
+    [columnHelper, onDelete, onEdit, t],
   );
-
-  return columns;
 };

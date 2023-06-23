@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import type {FC, ChangeEvent} from "react";
 import {useTranslation} from "react-i18next";
 import {useFetcher} from "@remix-run/react";
+import {useAuthenticityToken} from "remix-utils";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ERoutes} from "~/enums";
 import {useTheme} from "~/hooks";
@@ -31,6 +32,7 @@ type TProps = {
 };
 
 export const AttributeEdit: FC<TProps> = (props) => {
+  const csrf = useAuthenticityToken();
   const {t} = useTranslation();
   const fetcherRemix = useFetcher();
   const attribute: TAttributeDetail = fetcherRemix.data?.attribute ?? props.attribute;
@@ -91,21 +93,6 @@ export const AttributeEdit: FC<TProps> = (props) => {
     }
   };
 
-  const handleChangeSelectableValue = ({id, value}: { id: number; value: string }) => {
-    const form = new FormData();
-    form.append("id", `${id}`);
-    form.append("value", `${value}`);
-    form.append("_method", ESelectableValueAction.EditSelectableValue);
-    fetcher.submit(form, {
-      method: EFormMethods.Patch,
-      action: createPath({
-        route: ERoutes.AdminAttributeEdit,
-        params: {alias: attribute.alias},
-        withIndex: true,
-      }),
-    });
-  };
-
   const handleCloseAddModal = () => {
     setAddModal((prev) => ({...prev, isOpen: false}));
   };
@@ -115,33 +102,15 @@ export const AttributeEdit: FC<TProps> = (props) => {
   };
 
   const handleAdd = (value: string) => {
-    const form = new FormData();
-    form.append("attributeAlias", `${attribute.alias}`);
-    form.append("value", `${value}`);
-    form.append("_method", ESelectableValueAction.AddSelectableValue);
-
-    fetcher.submit(form, {
-      method: EFormMethods.Post,
-      action: createPath({
-        route: ERoutes.AdminAttributeEdit,
-        params: {alias: attribute.alias},
-        withIndex: true,
-      }),
-    });
-  };
-
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
-    console.log("Form params: ", params);
-    const formattedParams = mapFormDataToDto({
-      ...params,
-      id: attribute.id,
-      selectable,
-      _method: EAttributeAction.EditAttribute,
-    });
-    console.log("formattedParams: ", formattedParams);
+    const formattedParams = {
+      attributeAlias: attribute.alias,
+      value,
+      _method: ESelectableValueAction.AddSelectableValue,
+      csrf
+    }
 
     fetcher.submit(formattedParams, {
-      method: EFormMethods.Put,
+      method: EFormMethods.Post,
       action: createPath({
         route: ERoutes.AdminAttributeEdit,
         params: {alias: attribute.alias},
@@ -155,6 +124,27 @@ export const AttributeEdit: FC<TProps> = (props) => {
       handleAdd(value);
       handleCloseAddModal();
     }
+  };
+
+  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+    // console.log("Form params: ", params);
+    const formattedParams = mapFormDataToDto({
+      ...params,
+      id: attribute.id,
+      selectable,
+      _method: EAttributeAction.EditAttribute,
+      csrf
+    });
+    // console.log("formattedParams: ", formattedParams);
+
+    fetcher.submit(formattedParams, {
+      method: EFormMethods.Put,
+      action: createPath({
+        route: ERoutes.AdminAttributeEdit,
+        params: {alias: attribute.alias},
+        withIndex: true,
+      }),
+    });
   };
 
   return (
@@ -205,9 +195,9 @@ export const AttributeEdit: FC<TProps> = (props) => {
         </div>
         <SelectableTable
           attribute={attribute}
+          csrf={csrf}
           fetcher={fetcherRemix}
           items={attribute.selectable ?? []}
-          onChangeSelectableValue={handleChangeSelectableValue}
         />
         <div className="AttributeEdit-FormControl">
           <Button className="AttributeEdit-Button" type="submit">

@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { paginationSchema } from "../commons";
+import {z} from "zod";
+import {paginationSchema} from "../commons";
 import {
   catalogNumberAttributeItemSchema,
   catalogSelectAttributeItemSchema,
@@ -87,11 +87,11 @@ export const attributeDetailSchema = z.object({
 });
 
 export const selectableValueEditParamsSchema = z.object({
-  id: z.number(),
+  attributeAlias: z.number(),
   value: z.string(),
 });
 
-export const selectableValueEditSchema = z.any();
+export const selectableValueEditSchema = selectableItemSchema.array();
 
 export const selectableValueDeleteParamsSchema = z.object({
   id: z.number(),

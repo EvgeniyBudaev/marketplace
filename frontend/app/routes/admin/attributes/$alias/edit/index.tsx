@@ -41,7 +41,6 @@ export const action = async (args: ActionArgs) => {
   ]);
 
   const csrfToken = formValues.csrf;
-  console.log("[csrfToken] ", csrfToken);
   const checkCsrf = checkCSRFToken({csrfToken, session: csrfSession, t});
   if (checkCsrf?.error) return checkCsrf.error;
 
@@ -49,7 +48,7 @@ export const action = async (args: ActionArgs) => {
 
   try {
     if (_method === ESelectableValueAction.AddSelectableValue) {
-      const {_method, ...data} = formValues;
+      const {csrf, _method, ...data} = formValues;
       const formData = mapParamsAddSelectableValueToDto(data);
       const response = await addSelectableValue(request, formData);
 
@@ -57,11 +56,12 @@ export const action = async (args: ActionArgs) => {
         return {success: true};
       }
 
-      return badRequest({success: false});
+      const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
+      return badRequest({fieldErrors, success: false});
     }
 
     if (_method === ESelectableValueAction.DeleteSelectableValue) {
-      const {_method, ...data} = formValues;
+      const {csrf, _method, ...data} = formValues;
       const formData = mapParamsDeleteSelectableValueToDto(data);
       const response = await deleteSelectableValue(request, formData);
 
@@ -69,11 +69,12 @@ export const action = async (args: ActionArgs) => {
         return {success: true};
       }
 
-      return badRequest({success: false});
+      const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
+      return badRequest({fieldErrors, success: false});
     }
 
     if (_method === ESelectableValueAction.EditSelectableValue) {
-      const {_method, ...data} = formValues;
+      const {csrf, _method, ...data} = formValues;
       const formData = mapParamsEditSelectableValueToDto(data);
       const response = await editSelectableValue(request, formData);
 
@@ -81,11 +82,12 @@ export const action = async (args: ActionArgs) => {
         return {success: true};
       }
 
-      return badRequest({success: false});
+      const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
+      return badRequest({fieldErrors, success: false});
     }
 
     if (_method === EAttributeAction.EditAttribute) {
-      const {_method, ...data} = formValues;
+      const {csrf, _method, ...data} = formValues;
       const formData = mapParamsEditAttributeToDto(data);
       const response = await editAttribute(request, formData);
 
@@ -98,13 +100,11 @@ export const action = async (args: ActionArgs) => {
       }
 
       const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
-
       return badRequest({fieldErrors, success: false});
     }
   } catch (error) {
     const errorResponse = error as Response;
     const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
-
     return badRequest({success: false, formError, fieldErrors});
   }
 };
@@ -135,12 +135,10 @@ export const loader = async (args: LoaderArgs) => {
     }
 
     const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
-
     return badRequest({fieldErrors, success: false});
   } catch (error) {
     const errorResponse = error as Response;
     const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
-
     return badRequest({success: false, formError, fieldErrors});
   }
 };

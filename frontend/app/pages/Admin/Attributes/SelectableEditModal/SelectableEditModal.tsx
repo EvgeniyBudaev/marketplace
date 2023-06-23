@@ -1,24 +1,28 @@
-import { useState } from "react";
-import type { ChangeEvent, FC } from "react";
-import { EFormFields } from "~/pages/Admin/Attributes/SelectableTable";
-import { Button, Input, Modal } from "~/uikit";
+import {useEffect, useState} from "react";
+import type {ChangeEvent, FC} from "react";
+import {EFormFields} from "~/pages/Admin/Attributes/SelectableTable";
+import {Button, Input, Modal} from "~/uikit";
 
 type TProps = {
-  defaultValue: string;
-  id: number;
+  defaultValue?: string;
+  id?: number;
   isOpenModal: boolean;
   onModalClose: () => void;
-  onSubmit: ({ id, value }: { id: number; value: string }) => void;
+  onSubmit: ({id, value}: { id: number; value: string }) => void;
 };
 
 export const SelectableEditModal: FC<TProps> = ({
-  defaultValue,
-  id,
-  isOpenModal,
-  onModalClose,
-  onSubmit,
-}) => {
-  const [value, setValue] = useState(defaultValue);
+                                                  defaultValue,
+                                                  id,
+                                                  isOpenModal,
+                                                  onModalClose,
+                                                  onSubmit,
+                                                }) => {
+  const [value, setValue] = useState(defaultValue ?? "");
+
+  useEffect(() => {
+    setValue(defaultValue ?? "");
+  }, [defaultValue])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -26,8 +30,10 @@ export const SelectableEditModal: FC<TProps> = ({
 
   const handleSubmit = () => {
     console.log("Form value: ", value);
-    onModalClose();
-    onSubmit({ id, value });
+    if (id && value) {
+      onModalClose();
+      onSubmit({id, value});
+    }
   };
 
   return (
