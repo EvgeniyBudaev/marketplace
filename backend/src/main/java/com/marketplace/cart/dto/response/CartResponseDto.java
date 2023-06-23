@@ -2,10 +2,14 @@ package com.marketplace.cart.dto.response;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.marketplace.backend.model.EFileType;
+import com.marketplace.backend.model.EImageStatus;
 import com.marketplace.backend.model.Product;
+import com.marketplace.backend.model.ProductFile;
 import com.marketplace.backend.model.values.BooleanValue;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
+import com.marketplace.backend.utils.FileUtils;
 import com.marketplace.cart.model.Cart;
 import com.marketplace.cart.model.CartItem;
 import lombok.Getter;
@@ -15,6 +19,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,7 +33,7 @@ public class CartResponseDto {
     private String cartAmount;
     private String countProducts;
 
-    public CartResponseDto(Cart cart) {
+    public CartResponseDto(Cart cart, String productBaseUrl) {
         this.uuid = cart.getSessionId().getUuid();
         this.createdAt = cart.getCreatedAt();
         this.modifyDate = cart.getModifyDate();
@@ -39,7 +44,7 @@ public class CartResponseDto {
             return;
         }
         this.items = entityItems.stream()
-                .map(CartItemDto::new).collect(Collectors.toUnmodifiableSet());
+                .map(x->new CartItemDto(x,productBaseUrl)).collect(Collectors.toUnmodifiableSet());
         reCalculateAmount();
     }
 
@@ -66,10 +71,10 @@ public class CartResponseDto {
         @JsonIgnore
         private BigDecimal amountForCalculate;
 
-        public CartItemDto(CartItem item) {
+        public CartItemDto(CartItem item, String productBaseUrl) {
             this.id = item.getId();
             Product entityProduct = item.getProduct();
-            this.product = new ProductDto(entityProduct);
+            this.product = new ProductDto(entityProduct,productBaseUrl);
             this.quantity = item.getQuantity();
             this.price = entityProduct.getPrice().toString();
             this.amountForCalculate = entityProduct.getPrice().multiply(BigDecimal.valueOf(quantity));
@@ -91,6 +96,7 @@ public class CartResponseDto {
         private String price;
         private String count;
         private LocalDateTime createdAt;
+        private String defaultImage;
         private Set<AttributeValueDto> attributes = new HashSet<>();
 
         @Getter
@@ -100,7 +106,7 @@ public class CartResponseDto {
             private String value;
         }
 
-        public ProductDto(Product product) {
+        public ProductDto(Product product, String productBaseUrl) {
             this.setCatalogAlias(product.getCatalog().getAlias());
             this.setId(product.getId());
             this.setName(product.getName());
@@ -111,6 +117,13 @@ public class CartResponseDto {
             this.setCreatedAt(product.getCreatedAt());
             this.setDescription(product.getDescription());
             this.setRating(product.getRating());
+            Optional<ProductFile> defaultImage = product.getProductFiles().stream().filter(x->x.getImageStatus().equals(EImageStatus.DEFAULT)).findFirst();
+            if(defaultImage.isPresent()){
+                String url = product.getAlias()+"/"+defaultImage.get().getUrl();
+                this.setDefaultImage(FileUtils.createUrl(url, EFileType.IMAGE,productBaseUrl));
+            }else {
+                this.setDefaultImage(null);
+            }
             this.getAttributes().addAll(convertDoubleValueToDto(product.getDoubleValues()));
             this.getAttributes().addAll(convertIntegerValueToDto(product.getBooleanValues()));
             this.getAttributes().addAll(convertSelectValueToDto(product.getSelectableValues()));
