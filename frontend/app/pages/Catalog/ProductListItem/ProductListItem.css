@@ -134,12 +134,14 @@
 .ProductListItem.ProductListItem__line .ProductListItem-Content {
   display: flex;
   flex: 1 0 auto;
-}
-.ProductListItem.ProductListItem__line .ProductListItem-ContainerImage {
-  height: 100%;
-  display: flex;
   align-items: center;
-  margin-left: 50px;
+}
+.ProductListItem.ProductListItem__line .ProductListItem-ContentContainerImage {
+  margin-bottom: 0;
+  height: max-content;
+  min-height: 200px;
+  width: 100%;
+  max-width: 200px;
 }
 .ProductListItem.ProductListItem__line .ProductListItem-ContentTitleLine {
   min-height: max-content;

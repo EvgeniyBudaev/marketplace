@@ -1,8 +1,21 @@
 import type { TParams } from "~/types";
+import type {TFile} from "~/types";
 
-export const mapCatalogAddFormDataToDto = (params: TParams) => {
+type TResponse = {
+  alias: string | null;
+  attributeAlias: { value: string, label: string }[] | null;
+  enabled: string | null;
+  image: TFile[];
+  name: string | null;
+};
+
+export const mapCatalogAddFormDataToDto = (params: TParams): TResponse => {
   return {
     ...params,
-    attributeAlias: JSON.stringify(params.attributeAlias),
+    alias: params?.alias ? params.alias : null,
+    attributeAlias: params?.attributeAlias ? params.attributeAlias : null,
+    enabled: params?.enabled ? JSON.stringify(params.enabled) : null,
+    image: params?.image ? params.image : null,
+    name: params?.name ? params.name : null,
   };
 };

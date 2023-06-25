@@ -16,7 +16,7 @@ type TProps = {
 
 export const Previews: FC<TProps> = ({ className, files, onAddFile, onDeleteFile, onLoad }) => {
   const { t } = useTranslation();
-
+  // console.log("files: ", files);
   const renderThumbs =
     !isNil(files) &&
     files.map((file) => (

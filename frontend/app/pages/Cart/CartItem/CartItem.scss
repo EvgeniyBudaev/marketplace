@@ -20,8 +20,9 @@
     display: flex;
   }
 
-  &-ProductImage {
-    height: 100px;
+  &-ProductContentImage {
+    height: max-content;
+    min-height: 100px;
     width: 100px;
   }
 
