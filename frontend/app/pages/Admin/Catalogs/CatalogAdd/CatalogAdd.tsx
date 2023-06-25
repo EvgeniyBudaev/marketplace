@@ -123,7 +123,7 @@ export const CatalogAdd: FC<TProps> = (props) => {
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.attributeAlias &&
     dataFormToDto.attributeAlias.forEach((item) =>
-      formData.append("attributeAlias[]", item.value),
+      formData.append("attributeAlias", item.value),
     );
     dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
     defaultImage && formData.append("image", defaultImage);

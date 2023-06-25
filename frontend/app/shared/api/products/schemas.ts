@@ -80,7 +80,8 @@ const numericValuesSchema = z.object({
 
 export const productAddParamsSchema = z.any();
 
-export const productAddSchema = productDetailSchema;
+export const productAddSchema = z.any();
+// export const productAddSchema = productDetailSchema;
 
 export const productDeleteParamsSchema = z.object({
   alias: z.string(),

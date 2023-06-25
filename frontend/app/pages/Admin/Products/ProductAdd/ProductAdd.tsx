@@ -30,7 +30,7 @@ import {
   Select,
   useInitForm,
 } from "~/shared/form";
-import type {TFile, TParams} from "~/types";
+import type {TDomainErrors, TFile, TParams} from "~/types";
 import {Button, ETypographyVariant, Icon, notify, Typography} from "~/uikit";
 import type {isSelectMultiType, TSelectOption} from "~/uikit";
 import {createPath} from "~/utils";
@@ -38,9 +38,13 @@ import styles from "./ProductAdd.css";
 
 type TProps = {
   catalogs: TCatalogs;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  success: boolean;
 };
 
-export const ProductAdd: FC<TProps> = ({catalogs}) => {
+export const ProductAdd: FC<TProps> = (props) => {
+  const {catalogs} = props;
   const csrf = useAuthenticityToken();
   const {t} = useTranslation();
   const fetcherRemix = useFetcher();
@@ -58,7 +62,6 @@ export const ProductAdd: FC<TProps> = ({catalogs}) => {
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
-  const fetcher = form.fetcher;
   const {setValue, watch} = form.methods;
 
   const watchFiles = watch(EFormFields.Files);
@@ -77,13 +80,18 @@ export const ProductAdd: FC<TProps> = ({catalogs}) => {
   }, [defaultImage]);
 
   useEffect(() => {
-    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
+    if (isDoneType && !props.success && !props.fieldErrors) {
       notify.error({
         title: "Ошибка выполнения",
       });
     }
+    if (isDoneType && props.success && !props.fieldErrors) {
+      notify.success({
+        title: "Обновлено",
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetcher.data, fetcher.data?.success, isDoneType]);
+  }, [props.success, isDoneType]);
 
   useEffect(() => {
     fetcherRemix.submit(
