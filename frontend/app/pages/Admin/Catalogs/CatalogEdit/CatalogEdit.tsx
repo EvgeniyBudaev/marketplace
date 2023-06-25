@@ -50,7 +50,6 @@ export const CatalogEdit: FC<TProps> = (props) => {
   const [filter, setFilter] = useState<TParams>({enabled: props.catalog.enabled ? [idCheckbox] : []});
 
   const {attributeOptions} = useGetAttributeOptions({attributes});
-  // console.log("attributeOptions: ", attributeOptions);
   const {attributeByCatalogOptions} = useGetAttributeByCatalogOptions({attributesByCatalog});
 
   const form = useInitForm<TForm>({
@@ -72,6 +71,20 @@ export const CatalogEdit: FC<TProps> = (props) => {
     setCatalog(props.catalog);
     setDefaultImage(props.catalog.image ?? null);
   }, [props.attributes, props.attributesByCatalog, props.catalog]);
+
+  useEffect(() => {
+    if (isDoneType && !props.success && !props.fieldErrors) {
+      notify.error({
+        title: "Ошибка выполнения",
+      });
+    }
+    if (isDoneType && props.success && !props.fieldErrors) {
+      notify.success({
+        title: "Обновлено",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.success, isDoneType]);
 
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
@@ -106,8 +119,11 @@ export const CatalogEdit: FC<TProps> = (props) => {
     onDeleteFile(file, files);
   };
 
+  const handleLoadImage = (file: TFile) => {
+    return file?.preview ? URL.revokeObjectURL(file.preview) : file;
+  };
+
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
-    console.log("Form params: ", params);
     const dataFormToDto = mapCatalogEditToDto(params, catalog.id);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
@@ -121,29 +137,15 @@ export const CatalogEdit: FC<TProps> = (props) => {
     dataFormToDto.name && formData.append("name", dataFormToDto.name);
     formData.append("csrf", csrf);
 
-    // fetcher.submit(formData, {
-    //   method: EFormMethods.Put,
-    //   action: createPath({
-    //     route: ERoutes.AdminCatalogEdit,
-    //     params: {alias: catalog.alias},
-    //   }),
-    //   encType: "multipart/form-data",
-    // });
+    fetcher.submit(formData, {
+      method: EFormMethods.Put,
+      action: createPath({
+        route: ERoutes.AdminCatalogEdit,
+        params: {alias: catalog.alias},
+      }),
+      encType: "multipart/form-data",
+    });
   };
-
-  useEffect(() => {
-    if (isDoneType && !props.success && !props.fieldErrors) {
-      notify.error({
-        title: "Ошибка выполнения",
-      });
-    }
-    if (isDoneType && props.success && !props.fieldErrors) {
-      notify.success({
-        title: "Обновлено",
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.success, isDoneType]);
 
   return (
     <section>
@@ -165,7 +167,7 @@ export const CatalogEdit: FC<TProps> = (props) => {
             id={idCheckbox}
             label={t("form.enabled.title") ?? "Enabled"}
             name={EFormFields.Enabled}
-            nameGroup={"enabled"}
+            nameGroup="enabled"
             onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
@@ -221,6 +223,7 @@ export const CatalogEdit: FC<TProps> = (props) => {
                     alt={defaultImage.name}
                     className="Previews-Thumb-Image"
                     src={defaultImage.preview}
+                    onLoad={() => handleLoadImage(defaultImage)}
                   />
                 )}
               </>

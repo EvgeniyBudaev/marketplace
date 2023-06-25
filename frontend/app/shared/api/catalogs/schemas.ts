@@ -1,5 +1,7 @@
 import {z} from "zod";
+import {fileSchema, filesSchema} from "~/shared/api/upload";
 import {paginationSchema} from "../commons";
+import {EMPTY_FIELD_ERROR_MESSAGE} from "~/shared/validation";
 
 const catalogAttributeValueItemSchema = z.object({
   id: z.number(),
@@ -60,12 +62,7 @@ export const catalogsSchema = paginationSchema.extend({
 
 export const catalogsParamsSchema = z.any();
 
-export const catalogAddParamsSchema = z.object({
-  alias: z.string(),
-  enabled: z.boolean(),
-  image: z.string(),
-  name: z.string(),
-});
+export const catalogAddParamsSchema = z.any();
 
 export const catalogAddSchema = z.object({
   id: z.number(),

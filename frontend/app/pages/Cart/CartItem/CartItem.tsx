@@ -1,14 +1,15 @@
 import {useEffect, useState} from "react";
 import type {ChangeEvent, FC, KeyboardEvent} from "react";
 import {useTranslation} from "react-i18next";
+import {useMediaQuery} from "react-responsive";
+import {Link} from "@remix-run/react";
 import type {FetcherWithComponents} from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
-import {DEFAULT_IMAGE} from "~/constants";
 import {ERoutes} from "~/enums";
 import type {TCartItem} from "~/shared/api/cart";
 import {EFormMethods} from "~/shared/form";
-import {ETypographyVariant, IconButton, Typography} from "~/uikit";
+import {ETypographyVariant, Icon, IconButton, Typography} from "~/uikit";
 import {createPath, formatCurrency, formatProxy} from "~/utils";
 import styles from "./CartItem.css";
 
@@ -21,14 +22,32 @@ type TProps = {
 export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
   const {t} = useTranslation();
   const [quantity, setQuantity] = useState(cartItem.quantity);
+  const isMobileScreen = useMediaQuery({query: "(max-width: 500px)"});
+  const ROUTE_PRODUCT_DETAIL = createPath({
+    route: ERoutes.ProductDetail,
+    params: {alias: cartItem.product.alias},
+  });
+  console.log("cartItem: ", cartItem);
+
+  const imageResponsiveSizeWidth = () => {
+    if (isMobileScreen) {
+      return 100;
+    } else {
+      return 200;
+    }
+  };
+
+  const imageResponsiveSizeHeight = () => {
+    if (isMobileScreen) {
+      return 100;
+    } else {
+      return 200;
+    }
+  };
 
   useEffect(() => {
     setQuantity(cartItem.quantity);
   }, [cartItem.quantity]);
-
-  const imageProduct = formatProxy(
-    !isNil(cartItem?.product.images) ? cartItem.product.images[0] : DEFAULT_IMAGE,
-  );
 
   const handleDecrement = () => {
     fetcher.submit(
@@ -115,7 +134,27 @@ export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
   return (
     <div className="CartItem">
       <div className="CartItem-Product">
-        <img className="CartItem-ProductImage" src={imageProduct} alt={cartItem.product.name}/>
+
+        <div
+          className={clsx("CartItem-ProductContentContainerImage", {
+            no_image: isNil(cartItem.product.defaultImage),
+          })}
+        >
+          <Link className="CartItem-ProductContentLink" to={ROUTE_PRODUCT_DETAIL}>
+            {!isNil(cartItem.product.defaultImage) ? (
+              <img
+                className="CartItem-ProductContentImage"
+                alt={cartItem.product.name}
+                src={formatProxy(cartItem.product.defaultImage)}
+                width={imageResponsiveSizeWidth()}
+                height={imageResponsiveSizeHeight()}
+              />
+            ) : (
+              <Icon type="NoImage"/>
+            )}
+          </Link>
+        </div>
+
         <div className="CartItem-ProductContent">
           <div className="CartItem-ProductHeader">
             <div className="CartItem-ProductTitle">

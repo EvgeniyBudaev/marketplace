@@ -310,7 +310,9 @@
     "cart": {
       "meta": {
         "title": "My cart"
-      }
+      },
+      "rublesPerOrder": "rubles per order",
+      "discountForAuth": "Log in / register to get 3% of the order value"
     },
     "catalog": {
       "meta": {
@@ -359,6 +361,9 @@
     },
     "defaultImage": {
       "title": "Default image"
+    },
+    "image": {
+      "title": "Image"
     }
   },
   "root": {

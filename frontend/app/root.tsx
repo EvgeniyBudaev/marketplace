@@ -84,6 +84,8 @@ export const loader = async (args: LoaderArgs) => {
 
   // Get cart
   const cart = JSON.parse(cartSession || "{}");
+  // console.log("[user.uuid] ", user.uuid);
+  // console.log("[cart.uuid] ", cart.uuid);
   let cartResponse;
   if (isEmpty(cart)) {
     cartResponse = await getCart(request, {uuid: null});

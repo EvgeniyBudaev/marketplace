@@ -25,49 +25,23 @@
   }
 
   &-Text {
-    margin-left: 32px;
-    text-align: center;
-    color: $color-white;
-
-    &:first-child {
-      margin-left: 0;
-    }
-  }
-
-  &-Link {
-    color: $color-white;
-    transition: all 0.15s;
-
-    &:hover {
-      color: $color-hover;
-    }
-  }
-
-  &-Text {
     display: flex;
     align-items: center;
     white-space: nowrap;
-    margin-left: 25px;
-    transition: all 0.15s;
-
-    & span {
-      transition: all 0.15s;
-
-      &:hover {
-        color: $color-primary-hover;
-      }
-    }
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all $transition;
 
     &__noHover {
       color: inherit;
     }
 
     &__isActive {
-      color: $color-primary-hover;
+      color: $color-white;
     }
 
     &:hover {
-      color: $color-primary-hover;
+      color: $color-white;
     }
   }
 }

@@ -87,7 +87,7 @@ export const attributeDetailSchema = z.object({
 });
 
 export const selectableValueEditParamsSchema = z.object({
-  attributeAlias: z.number(),
+  id: z.number(),
   value: z.string(),
 });
 

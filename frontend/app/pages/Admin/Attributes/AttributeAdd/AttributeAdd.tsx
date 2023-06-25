@@ -104,9 +104,9 @@ export const AttributeAdd: FC = () => {
   };
 
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
-    console.log("Form params: ", params);
+    // console.log("Form params: ", params);
     const formattedParams = mapFormDataToDto({...params, selectable});
-    console.log("formattedParams: ", formattedParams);
+    // console.log("formattedParams: ", formattedParams);
 
     fetcher.submit(formattedParams, {
       method: EFormMethods.Post,

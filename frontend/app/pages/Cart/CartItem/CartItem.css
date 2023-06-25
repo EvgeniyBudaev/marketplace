@@ -55,8 +55,9 @@
 .CartItem-Product {
   display: flex;
 }
-.CartItem-ProductImage {
-  height: 100px;
+.CartItem-ProductContentImage {
+  height: max-content;
+  min-height: 100px;
   width: 100px;
 }
 .CartItem-ProductContent {

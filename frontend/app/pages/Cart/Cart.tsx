@@ -1,10 +1,10 @@
 import type {FC} from "react";
 import {useTranslation} from "react-i18next";
-import {Link, useFetcher, useNavigate} from "@remix-run/react";
+import {useFetcher, useNavigate} from "@remix-run/react";
 import isNil from "lodash/isNil";
 import {ERoutes} from "~/enums";
-import type {TCart} from "~/shared/api/cart";
-import {Button, ETypographyVariant, Icon, Typography} from "~/uikit";
+import type {TCart, TCartItem} from "~/shared/api/cart";
+import {Button, ETypographyVariant, Typography} from "~/uikit";
 import {formatCurrency} from "~/utils";
 import {CartItem, cartItemLinks} from "./CartItem";
 import styles from "./Cart.css";
@@ -15,10 +15,10 @@ type TProps = {
 
 export const Cart: FC<TProps> = (props) => {
   const {t} = useTranslation();
-  const isAuthenticated = true;
   const navigate = useNavigate();
   const fetcher = useFetcher();
-  const cart: TCart = fetcher.data ?? props.cart;
+  const cart = fetcher.data ?? props.cart as TCart;
+  console.log("cart: ", cart);
 
   const handleProceedToCheckout = () => {
     navigate(ERoutes.Shipping);
@@ -32,7 +32,7 @@ export const Cart: FC<TProps> = (props) => {
       <div className="Cart-Inner">
         <div className="Cart-List">
           {cart && !isNil(cart.items) ? (
-            cart.items.map((cartItem) => (
+            cart.items.map((cartItem: TCartItem) => (
               <CartItem
                 key={cartItem.id}
                 cartItem={cartItem}
@@ -57,14 +57,14 @@ export const Cart: FC<TProps> = (props) => {
                   </Typography>
                 </div>
                 <div className="Cart-CostLinePrice">
-                  <div className="Cart-CostLineSubTotalPrice">
+                  {/* <div className="Cart-CostLineSubTotalPrice">
                     <Typography variant={ETypographyVariant.TextB3Regular}>
                       {formatCurrency(parseInt("1500"))}&nbsp;₽
                     </Typography>
-                  </div>
+                  </div> */}
                   <div className="Cart-CostLinePriceWithDiscount">
                     <Typography variant={ETypographyVariant.TextH5Bold}>
-                      {formatCurrency(parseInt("1000"))}&nbsp;₽
+                      {formatCurrency(parseInt(cart.cartAmount))}&nbsp;₽
                     </Typography>
                   </div>
                 </div>
@@ -79,7 +79,7 @@ export const Cart: FC<TProps> = (props) => {
                 </Typography>
               </Button>
             </div>
-            {isAuthenticated ? (
+            {/* {isAuthenticated ? (
               <div className="Cart-OrdersList">
                 <div className="Cart-Inner">
                   <Icon className="Cart-IconLogoShort" type="LogoShort"/>
@@ -103,7 +103,7 @@ export const Cart: FC<TProps> = (props) => {
                   </Link>
                 </div>
               </div>
-            )}
+            )} */}
             <div className="Cart-BackToShopping" onClick={() => {
             }}>
               <Typography variant={ETypographyVariant.TextB3Regular}>

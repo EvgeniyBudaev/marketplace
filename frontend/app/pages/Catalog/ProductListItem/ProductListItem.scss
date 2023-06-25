@@ -128,13 +128,15 @@
     #{$this}-Content {
       display: flex;
       flex: 1 0 auto;
+      align-items: center;
     }
 
-    #{$this}-ContainerImage {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      margin-left: 50px;
+    #{$this}-ContentContainerImage {
+      margin-bottom: 0;
+      height: max-content;
+      min-height: 200px;
+      width: 100%;
+      max-width: 200px;
     }
 
     #{$this}-ContentTitleLine {

@@ -57,7 +57,12 @@
       "empty": "Field cannot be empty",
       "onlyLetters": "Allowed characters: letters only",
       "passwordNotMatch": "Password mismatch",
-      "wrongCharacter": "Allowed characters: 0-9, \"-\", \" \", \"+\", \"(\", \")\""
+      "wrongCharacter": "Allowed characters: 0-9, \"-\", \" \", \"+\", \"(\", \")\"",
+      "file": {
+        "expectedFile": "You can only attach a file",
+        "maxSize": "Maximum size 200mb",
+        "maxAmount": "Maximum number of files 50"
+      }
     }
   },
   "pages": {
@@ -104,6 +109,14 @@
       "catalogAdd": {
         "title": "Adding a catalog"
       },
+      "product": {
+        "previews": {
+          "addImage": "Add new image to gallery",
+          "defaultImage": "Default image",
+          "addDefaultImage": "Select this image as default",
+          "deleteImage": "Delete image"
+        }
+      },
       "catalogEdit": {
         "title": "Catalog editing"
       },
@@ -126,14 +139,6 @@
       },
       "productAdd": {
         "title": "Product addition"
-      },
-      "product": {
-        "previews": {
-          "addImage": "Add new image to gallery",
-          "defaultImage": "Default image",
-          "addDefaultImage": "Select this image as default",
-          "deleteImage": "Delete image"
-        }
       },
       "productEdit": {
         "title": "Product editing",
@@ -179,8 +184,6 @@
       "noItemInCart": "There are no items in the cart",
       "products": "{items, plural, one {# product} few {# products} other {# products}}",
       "goToCheckout": "Go to checkout",
-      "rublesPerOrder": "rubles per order",
-      "discountForAuth": "Log in / register to get 3% of the order value",
       "backToShopping": "Back to shopping"
     },
     "catalog": {
@@ -252,9 +255,6 @@
     },
     "enabled": {
       "title": "Enabled"
-    },
-    "image": {
-      "title": "Image"
     },
     "description": {
       "title": "Description"

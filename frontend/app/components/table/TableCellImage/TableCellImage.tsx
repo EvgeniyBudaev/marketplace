@@ -1,4 +1,6 @@
+import isNil from "lodash/isNil";
 import type {FC} from "react";
+import {Icon} from "~/uikit";
 import {formatProxy} from "~/utils";
 import styles from "./TableCellImage.css";
 
@@ -9,7 +11,14 @@ type TProps = {
 export const TableCellImage: FC<TProps> = ({image}) => {
   return (
     <>
-      <img className="TableCellImage" src={formatProxy(image ?? '')} alt={image ?? ''}/>
+      {!isNil(image) ? (
+        <img
+          className="TableCellImage"
+          alt=""
+          src={formatProxy(image)}
+        />
+      ) : <Icon type="NoImage"/>
+      }
     </>
   )
 }

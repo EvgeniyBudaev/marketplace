@@ -1,11 +1,11 @@
+import isNil from "lodash/isNil";
+import isNull from "lodash/isNull";
 import {useEffect, useState} from "react";
 import type {FC, ChangeEvent} from "react";
 import type {OnChangeValue} from "react-select";
 import {useTranslation} from "react-i18next";
 import {useAuthenticityToken} from "remix-utils";
 import {useFetcher} from "@remix-run/react";
-import isNil from "lodash/isNil";
-import isNull from "lodash/isNull";
 import {zodResolver} from "@hookform/resolvers/zod";
 
 import {ERoutes} from "~/enums";
@@ -68,6 +68,37 @@ export const ProductAdd: FC<TProps> = ({catalogs}) => {
     setValue,
   });
 
+  useEffect(() => {
+    if (!isNil(defaultImage) && !isNil(defaultImage.preview)) {
+      if (typeof defaultImage.preview === "string") {
+        URL.revokeObjectURL(defaultImage.preview);
+      }
+    }
+  }, [defaultImage]);
+
+  useEffect(() => {
+    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
+      notify.error({
+        title: "Ошибка выполнения",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetcher.data, fetcher.data?.success, isDoneType]);
+
+  useEffect(() => {
+    fetcherRemix.submit(
+      {},
+      {
+        method: EFormMethods.Post,
+        action: createPath({
+          route: ERoutes.ResourcesAttributesByCatalog,
+          params: {alias: catalogAlias.value},
+        }),
+      },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalogAlias]);
+
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
     id: string,
@@ -112,14 +143,6 @@ export const ProductAdd: FC<TProps> = ({catalogs}) => {
     return file?.preview ? URL.revokeObjectURL(file.preview) : file;
   };
 
-  useEffect(() => {
-    if (!isNil(defaultImage) && !isNil(defaultImage.preview)) {
-      if (typeof defaultImage.preview === "string") {
-        URL.revokeObjectURL(defaultImage.preview);
-      }
-    }
-  }, [defaultImage]);
-
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
     const formattedParams = formattedProductAdd(params);
@@ -161,29 +184,6 @@ export const ProductAdd: FC<TProps> = ({catalogs}) => {
       encType: "multipart/form-data",
     });
   };
-
-  useEffect(() => {
-    if (isDoneType && !fetcher.data?.success && !fetcher.data?.fieldErrors) {
-      notify.error({
-        title: "Ошибка выполнения",
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetcher.data, fetcher.data?.success, isDoneType]);
-
-  useEffect(() => {
-    fetcherRemix.submit(
-      {},
-      {
-        method: EFormMethods.Post,
-        action: createPath({
-          route: ERoutes.ResourcesAttributesByCatalog,
-          params: {alias: catalogAlias.value},
-        }),
-      },
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [catalogAlias]);
 
   return (
     <section>
