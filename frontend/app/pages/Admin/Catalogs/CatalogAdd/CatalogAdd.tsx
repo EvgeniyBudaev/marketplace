@@ -35,9 +35,10 @@ export const CatalogAdd: FC<TProps> = (props) => {
   const {t} = useTranslation();
   const {theme} = useTheme();
 
-  const idCheckbox = "checkbox";
   const [defaultImage, setDefaultImage] = useState<TFile | null>(null);
+  const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({enabled: [idCheckbox]});
+  const enabled: boolean = filter[EFormFields.Enabled].includes(idCheckbox);
 
   const {attributeOptions} = useGetAttributeOptions({attributes});
 
@@ -115,21 +116,17 @@ export const CatalogAdd: FC<TProps> = (props) => {
   };
 
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
-    const dataFormToDto = mapCatalogAddFormDataToDto({
-      ...params,
-      attributeAlias: params.attributeAlias,
-    });
+    const dataFormToDto = mapCatalogAddFormDataToDto(params, enabled);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.attributeAlias &&
     dataFormToDto.attributeAlias.forEach((item) =>
-      formData.append("attributeAlias[]", item.value),
+      formData.append("attributeAlias", item.value),
     );
     dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
     defaultImage && formData.append("image", defaultImage);
     dataFormToDto.name && formData.append("name", dataFormToDto.name);
     formData.append("csrf", csrf);
-    // console.log("dataFormToDto: ", dataFormToDto);
     fetcher.submit(formData, {
       method: EFormMethods.Post,
       action: createPath({

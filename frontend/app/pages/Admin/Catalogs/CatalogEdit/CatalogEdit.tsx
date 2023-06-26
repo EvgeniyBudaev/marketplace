@@ -38,16 +38,16 @@ export const CatalogEdit: FC<TProps> = (props) => {
   const csrf = useAuthenticityToken();
   const {t} = useTranslation();
   const {theme} = useTheme();
-
-  const idCheckbox = "enabled";
-
+  
   const [attributes, setAttributes] = useState(props.attributes);
   const [attributesByCatalog, setAttributesByCatalog] = useState(props.attributesByCatalog);
   const [catalog, setCatalog] = useState(props.catalog);
   const [defaultImage, setDefaultImage] = useState<TFile | string | null>(
     props.catalog?.image ?? null,
   );
+  const idCheckbox = "enabled";
   const [filter, setFilter] = useState<TParams>({enabled: props.catalog.enabled ? [idCheckbox] : []});
+  const enabled: boolean = filter[EFormFields.Enabled].includes(idCheckbox);
 
   const {attributeOptions} = useGetAttributeOptions({attributes});
   const {attributeByCatalogOptions} = useGetAttributeByCatalogOptions({attributesByCatalog});
@@ -124,19 +124,18 @@ export const CatalogEdit: FC<TProps> = (props) => {
   };
 
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
-    const dataFormToDto = mapCatalogEditToDto(params, catalog.id);
+    const dataFormToDto = mapCatalogEditToDto(params, catalog.id, enabled);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.attributeAlias &&
     dataFormToDto.attributeAlias.forEach((item) =>
-      formData.append("attributeAlias[]", item.value),
+      formData.append("attributeAlias", item.value),
     );
     dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
     dataFormToDto.id && formData.append("id", dataFormToDto.id);
     defaultImage && formData.append("image", defaultImage);
     dataFormToDto.name && formData.append("name", dataFormToDto.name);
     formData.append("csrf", csrf);
-
     fetcher.submit(formData, {
       method: EFormMethods.Put,
       action: createPath({
