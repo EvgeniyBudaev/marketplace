@@ -50,9 +50,10 @@ export const ProductAdd: FC<TProps> = (props) => {
   const fetcherRemix = useFetcher();
   const {theme} = useTheme();
 
-  const idCheckbox = "checkbox";
   const [defaultImage, setDefaultImage] = useState<TFile | null>(null);
+  const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({enabled: [idCheckbox]});
+  const enabled: boolean = filter[EFormFields.Enabled].includes(idCheckbox);
 
   const {catalogAliasesTypeOptions} = useGetCatalogAlias({catalogs});
   const [catalogAlias, setCatalogAlias] = useState<TSelectOption>(catalogAliasesTypeOptions[0]);
@@ -154,7 +155,7 @@ export const ProductAdd: FC<TProps> = (props) => {
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
     const formattedParams = formattedProductAdd(params);
-    const dataFormToDto = mapProductAddToDto(formattedParams);
+    const dataFormToDto = mapProductAddToDto(formattedParams, enabled);
     console.log("dataFormToDto: ", dataFormToDto);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
@@ -180,7 +181,7 @@ export const ProductAdd: FC<TProps> = (props) => {
     dataFormToDto.price && formData.append("price", dataFormToDto.price);
     dataFormToDto.selectableValues &&
     dataFormToDto.selectableValues.forEach((item) =>
-      formData.append("selectableValues[]", item.toString()),
+      formData.append("selectableValues", item.toString()),
     );
     formData.append("csrf", csrf);
 

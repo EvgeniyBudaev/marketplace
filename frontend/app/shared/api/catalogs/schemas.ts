@@ -65,8 +65,8 @@ export const catalogsParamsSchema = z.any();
 export const catalogAddParamsSchema = zfd.formData({
   alias: zfd.text(),
   attributeAlias: zfd.text().or(zfd.text().array()),
-  enabled: zfd.text(),
-  image: fileSchema.or(fileSchema.array()),
+  enabled: zfd.text().nullish(),
+  image: fileSchema.or(fileSchema.array()).nullish(),
   name: zfd.text(),
 });
 
@@ -95,7 +95,14 @@ export const catalogDeleteParamsSchema = z.object({
 
 export const catalogDeleteSchema = z.any();
 
-export const catalogEditParamsSchema = z.any();
+export const catalogEditParamsSchema = zfd.formData({
+  alias: zfd.text(),
+  attributeAlias: zfd.text().or(zfd.text().array()),
+  enabled: zfd.text().nullish(),
+  id: zfd.text(),
+  image: fileSchema.or(fileSchema.array()).or(zfd.text()).nullish(),
+  name: zfd.text(),
+});
 
 export const catalogEditSchema = z.object({
   alias: z.string(),
