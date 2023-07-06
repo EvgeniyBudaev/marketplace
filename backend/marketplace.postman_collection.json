@@ -1901,6 +1901,66 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "ShippingAddress",
+			"item": [
+				{
+					"name": "Get address",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/shipping/address/a8562aac-32a6-4309-a88b-b3115e84d0f6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipping",
+								"address",
+								"a8562aac-32a6-4309-a88b-b3115e84d0f6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Putch address",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\": \"a8562aac-32a6-4309-a88b-b3115e84d0f6\",\r\n    \"address\" : \"Вся Россия\",\r\n    \"flat\": \"158\",\r\n    \"floor\": \"18\",\r\n    \"comment\": \"Не звонить\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/shipping/address/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipping",
+								"address",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
