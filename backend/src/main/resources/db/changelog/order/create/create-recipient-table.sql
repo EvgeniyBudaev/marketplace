@@ -1,4 +1,4 @@
-CREATE TABLE recipients
+CREATE TABLE recipient
 (
     id         BIGINT PRIMARY KEY AUTO_INCREMENT,
     session    BIGINT not null,

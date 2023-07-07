@@ -9,10 +9,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "recipients")
+@Table(name = "recipient")
 @Getter
 @Setter
-public class Recipients {
+public class Recipient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
