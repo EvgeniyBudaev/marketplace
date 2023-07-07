@@ -11,5 +11,7 @@ databaseChangeLog:
       file: db/changelog/users/user_settings.yaml
   - include:
       file: db/changelog/users/user_session.yaml
+  - include:
+      file: db/changelog/order/order.yaml
 
 

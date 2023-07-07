@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/order/create/create-shipping_address-table.sql
+  - include:
+      file: db/changelog/order/create/create-recipient-table.sql
+  - include:
+      file: db/changelog/order/create/add-foreign-key-shipping_address-sessions.sql
+  - include:
+      file: db/changelog/order/create/add-foreign-key-recipient-session.sql
