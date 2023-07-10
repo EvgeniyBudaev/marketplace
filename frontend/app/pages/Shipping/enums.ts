@@ -1,6 +1,6 @@
 export enum EFormFields {
   Address = "address",
-  Apartment = "apartment",
   Comment = "comment",
+  Flat = "flat",
   Floor = "floor",
 }

@@ -1,16 +1,16 @@
-import {useEffect, useState} from "react";
-import type {ChangeEvent, FC, KeyboardEvent} from "react";
-import {useTranslation} from "react-i18next";
-import {useMediaQuery} from "react-responsive";
-import {Link} from "@remix-run/react";
-import type {FetcherWithComponents} from "@remix-run/react";
+import { useEffect, useState } from "react";
+import type { ChangeEvent, FC, KeyboardEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "react-responsive";
+import { Link } from "@remix-run/react";
+import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
-import {ERoutes} from "~/enums";
-import type {TCartItem} from "~/shared/api/cart";
-import {EFormMethods} from "~/shared/form";
-import {ETypographyVariant, Icon, IconButton, Typography} from "~/uikit";
-import {createPath, formatCurrency, formatProxy} from "~/utils";
+import { ERoutes } from "~/enums";
+import type { TCartItem } from "~/shared/api/cart";
+import { EFormMethods } from "~/shared/form";
+import { ETypographyVariant, Icon, IconButton, Typography } from "~/uikit";
+import { createPath, formatCurrency, formatProxy } from "~/utils";
 import styles from "./CartItem.css";
 
 type TProps = {
@@ -19,15 +19,15 @@ type TProps = {
   fetcher: FetcherWithComponents<any>;
 };
 
-export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
-  const {t} = useTranslation();
+export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
+  const { t } = useTranslation();
   const [quantity, setQuantity] = useState(cartItem.quantity);
-  const isMobileScreen = useMediaQuery({query: "(max-width: 500px)"});
+  const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.ProductDetail,
-    params: {alias: cartItem.product.alias},
+    params: { alias: cartItem.product.alias },
   });
-  console.log("cartItem: ", cartItem);
+  // console.log("cartItem: ", cartItem);
 
   const imageResponsiveSizeWidth = () => {
     if (isMobileScreen) {
@@ -51,7 +51,7 @@ export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
 
   const handleDecrement = () => {
     fetcher.submit(
-      {productAlias: cartItem.product.alias, type: "decrement", uuid: cartUuid},
+      { productAlias: cartItem.product.alias, type: "decrement", uuid: cartUuid },
       {
         method: EFormMethods.Post,
         action: createPath({
@@ -63,7 +63,7 @@ export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
 
   const handleIncrement = () => {
     fetcher.submit(
-      {productAlias: cartItem.product.alias, type: "increment", uuid: cartUuid},
+      { productAlias: cartItem.product.alias, type: "increment", uuid: cartUuid },
       {
         method: EFormMethods.Post,
         action: createPath({
@@ -121,7 +121,7 @@ export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
 
   const handleDelete = () => {
     fetcher.submit(
-      {productAlias: cartItem.product.alias, type: "remove", uuid: cartUuid},
+      { productAlias: cartItem.product.alias, type: "remove", uuid: cartUuid },
       {
         method: EFormMethods.Post,
         action: createPath({
@@ -134,7 +134,6 @@ export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
   return (
     <div className="CartItem">
       <div className="CartItem-Product">
-
         <div
           className={clsx("CartItem-ProductContentContainerImage", {
             no_image: isNil(cartItem.product.defaultImage),
@@ -150,7 +149,7 @@ export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
                 height={imageResponsiveSizeHeight()}
               />
             ) : (
-              <Icon type="NoImage"/>
+              <Icon type="NoImage" />
             )}
           </Link>
         </div>
@@ -221,5 +220,5 @@ export const CartItem: FC<TProps> = ({cartItem, cartUuid, fetcher}) => {
 };
 
 export function cartItemLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

@@ -1,12 +1,12 @@
-import type {FC} from "react";
-import {useTranslation} from "react-i18next";
-import {useFetcher, useNavigate} from "@remix-run/react";
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { useFetcher, useNavigate } from "@remix-run/react";
 import isNil from "lodash/isNil";
-import {ERoutes} from "~/enums";
-import type {TCart, TCartItem} from "~/shared/api/cart";
-import {Button, ETypographyVariant, Typography} from "~/uikit";
-import {formatCurrency} from "~/utils";
-import {CartItem, cartItemLinks} from "./CartItem";
+import { ERoutes } from "~/enums";
+import type { TCart, TCartItem } from "~/shared/api/cart";
+import { Button, ETypographyVariant, Typography } from "~/uikit";
+import { formatCurrency } from "~/utils";
+import { CartItem, cartItemLinks } from "./CartItem";
 import styles from "./Cart.css";
 
 type TProps = {
@@ -14,11 +14,11 @@ type TProps = {
 };
 
 export const Cart: FC<TProps> = (props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const fetcher = useFetcher();
-  const cart = fetcher.data ?? props.cart as TCart;
-  console.log("cart: ", cart);
+  const cart = fetcher.data ?? (props.cart as TCart);
+  // console.log("cart: ", cart);
 
   const handleProceedToCheckout = () => {
     navigate(ERoutes.Shipping);
@@ -53,7 +53,7 @@ export const Cart: FC<TProps> = (props) => {
                 <div className="Cart-CostLineText">
                   <Typography variant={ETypographyVariant.TextB3Regular}>
                     {t("common.info.inCart")} <> </>
-                    {t("pages.cart.products", {items: cart.countProducts})}
+                    {t("pages.cart.products", { items: cart.countProducts })}
                   </Typography>
                 </div>
                 <div className="Cart-CostLinePrice">
@@ -104,8 +104,7 @@ export const Cart: FC<TProps> = (props) => {
                 </div>
               </div>
             )} */}
-            <div className="Cart-BackToShopping" onClick={() => {
-            }}>
+            <div className="Cart-BackToShopping" onClick={() => {}}>
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.cart.backToShopping")}
               </Typography>
@@ -118,5 +117,5 @@ export const Cart: FC<TProps> = (props) => {
 };
 
 export function cartLinks() {
-  return [{rel: "stylesheet", href: styles}, ...cartItemLinks()];
+  return [{ rel: "stylesheet", href: styles }, ...cartItemLinks()];
 }
