@@ -9,8 +9,8 @@ import {
 } from "~/shared/validation";
 
 export const formSchema = z.object({
-  [EFormFields.FirstName]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-  [EFormFields.LastName]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+  [EFormFields.Name]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+  [EFormFields.Surname]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
   [EFormFields.Phone]: z.string().trim().min(11, EMPTY_FIELD_ERROR_MESSAGE),
   [EFormFields.Email]: z
     .string()

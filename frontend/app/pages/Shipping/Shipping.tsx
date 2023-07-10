@@ -75,7 +75,6 @@ export const Shipping: FC<TProps> = (props) => {
         }),
       },
     );
-    // navigate(ERoutes.Recipient);
   };
 
   const handleDragStart = useCallback(() => {
@@ -99,7 +98,7 @@ export const Shipping: FC<TProps> = (props) => {
     }
     if (isDoneType && props.success && !props.fieldErrors) {
       notify.success({
-        title: "Обновлено",
+        title: "Сохранено",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
