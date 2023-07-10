@@ -1,8 +1,10 @@
 import type {FC} from "react";
 import {useTranslation} from "react-i18next";
-import {Link, useNavigate} from "@remix-run/react";
+import {Link} from "@remix-run/react";
+import {useAuthenticityToken} from "remix-utils";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ERoutes} from "~/enums";
+import {useUser} from "~/hooks";
 import {EFormMethods, Form, Input, useInitForm} from "~/shared/form";
 import type {TParams} from "~/types";
 import {EFormFields} from "~/pages/Recipient/enums";
@@ -10,20 +12,19 @@ import {formSchema} from "~/pages/Recipient/schemas";
 import type {TForm} from "~/pages/Recipient/types";
 import {Button, ETypographyVariant, Icon, Typography} from "~/uikit";
 import styles from "./Recipient.css";
-import {useUser} from "~/hooks";
 
 export const Recipient: FC = () => {
+  const csrf = useAuthenticityToken();
   const {t} = useTranslation();
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
-  const navigate = useNavigate();
+  const isDoneType = form.isDoneType;
   const {user} = useUser();
   console.log("Recipient user: ", user);
 
   const handleSubmit = (params: TParams) => {
     console.log("Form params: ", params);
-    navigate(ERoutes.Order);
   };
 
   return (

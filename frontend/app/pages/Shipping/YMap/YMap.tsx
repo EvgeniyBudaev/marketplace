@@ -1,20 +1,27 @@
-import {useState} from "react";
-import type {FC, ReactNode} from "react";
-import {YMaps} from "@pbe/react-yandex-maps";
-import {Shipping} from "~/pages";
-import {mapInputLinks} from "~/pages/Shipping/YMap/MapInput";
-import {markerLinks} from "~/pages/Shipping/YMap/Marker";
-import {emptyMapSearchState, geoSearchLinks} from "~/pages";
-import type {TPickMapState} from "~/pages";
+import { useState } from "react";
+import type { FC, ReactNode } from "react";
+import { YMaps } from "@pbe/react-yandex-maps";
+import { Shipping } from "~/pages";
+import { mapInputLinks } from "~/pages/Shipping/YMap/MapInput";
+import { markerLinks } from "~/pages/Shipping/YMap/Marker";
+import { emptyMapSearchState, geoSearchLinks } from "~/pages";
+import type { TPickMapState } from "~/pages";
+import type { TShipping } from "~/shared/api/shipping";
+import type { TDomainErrors } from "~/types";
 import styles from "./YMap.css";
 
 type TProps = {
-  onSearchAddress?: (addressYMap: string) => void;
   children?: ReactNode;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  onSearchAddress?: (addressYMap: string) => void;
+  shipping?: TShipping;
+  success: boolean;
+  uuid: string;
 };
 
-export const YMap: FC<TProps> = () => {
-  const query = "Москва, Россия";
+export const YMap: FC<TProps> = ({ fieldErrors, formError, shipping, success, uuid }) => {
+  const query = shipping?.address ?? "Москва, Россия";
   const [searchState, setSearchState] = useState({
     ...emptyMapSearchState(),
     value: query,
@@ -30,10 +37,15 @@ export const YMap: FC<TProps> = () => {
       }}
     >
       <Shipping
-        searchState={searchState}
-        setSearchState={setSearchState}
+        fieldErrors={fieldErrors}
+        formError={formError}
         mapState={mapState}
+        searchState={searchState}
         setMapState={setMapState}
+        setSearchState={setSearchState}
+        shipping={shipping}
+        success={success}
+        uuid={uuid}
       />
     </YMaps>
   );
@@ -41,7 +53,7 @@ export const YMap: FC<TProps> = () => {
 
 export function yMapLinks() {
   return [
-    {rel: "stylesheet", href: styles},
+    { rel: "stylesheet", href: styles },
     ...geoSearchLinks(),
     ...mapInputLinks(),
     ...markerLinks(),
