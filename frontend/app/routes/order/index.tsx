@@ -1,36 +1,64 @@
-import { json } from "@remix-run/node";
+import i18next from "i18next";
+import { json, redirect } from "@remix-run/node";
 import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
-import isEmpty from "lodash/isEmpty";
-import i18next from "i18next";
+
+import { ERoutes } from "~/enums";
 import { Order, orderLinks } from "~/pages";
 import { getCart, getCartSession } from "~/shared/api/cart";
+import { getShipping } from "~/shared/api/shipping";
+import { getRecipient } from "~/shared/api/recipient/domain.server";
 import { getResponseError } from "~/shared/domain";
+import { commitSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
+import { createPath } from "~/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
-  const [t] = await Promise.all([getStoreFixedT({ request })]);
-  const cartSession = await getCartSession(request);
-  const cart = JSON.parse(cartSession || "{}");
 
   try {
-    if (isEmpty(cart)) {
-      return badRequest({ success: false });
-    } else {
-      const response = await getCart(request, { uuid: cart.uuid });
+    const [t, cartSession, session] = await Promise.all([
+      getStoreFixedT({ request }),
+      getCartSession(request),
+      getSession(request.headers.get("Cookie")),
+    ]);
 
-      if (response.success) {
-        return json({
-          cart: response.data,
-          success: true,
-          title: t("routes.titles.order"),
-        });
-      }
+    const cart = JSON.parse(cartSession || "{}");
+    const uuid = cart?.uuid;
 
-      return badRequest({ success: false });
+    if (!uuid) {
+      return redirect(
+        createPath({
+          route: ERoutes.Cart,
+        }),
+      );
     }
+
+    const [shippingResponse, recipientResponse, cartResponse] = await Promise.all([
+      getShipping(request, { uuid }),
+      getRecipient(request, { uuid }),
+      getCart(request, { uuid }),
+    ]);
+
+    if (shippingResponse.success && recipientResponse.success && cartResponse.success) {
+      return json(
+        {
+          cart: cartResponse.data,
+          recipient: recipientResponse.data,
+          shipping: shippingResponse.data,
+          title: t("routes.titles.order"),
+          uuid: uuid as string,
+        },
+        {
+          headers: {
+            "Set-Cookie": await commitSession(session),
+          },
+        },
+      );
+    }
+
+    return badRequest({ success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
@@ -47,8 +75,19 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export default function OrderRoute() {
-  const { cart } = useLoaderData<typeof loader>();
-  return <Order cart={cart} />;
+  const data = useLoaderData<typeof loader>();
+
+  return (
+    <Order
+      cart={data.cart}
+      fieldErrors={data.fieldErrors}
+      formError={data.formError}
+      shipping={data.shipping}
+      success={data.success}
+      recipient={data.recipient}
+      uuid={data.uuid}
+    />
+  );
 }
 
 export function links() {

@@ -2,10 +2,15 @@ import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
 import { ERoutes } from "~/enums";
+import type { TShipping } from "~/shared/api/shipping";
 import { ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./OrderShipping.css";
 
-export const OrderShipping: FC = () => {
+type TProps = {
+  shipping?: TShipping;
+};
+
+export const OrderShipping: FC<TProps> = ({ shipping }) => {
   const { t } = useTranslation();
 
   return (
@@ -25,35 +30,15 @@ export const OrderShipping: FC = () => {
       <div className="OrderShipping-Address">
         <Icon className="OrderShipping-AddressIcon" type="House" />
         <div className="OrderShippingAddressInfo">
-          {/*<div className="OrderShipping-AddressInfoTitle">*/}
-          {/*    {shippingAddress && shippingAddress.address}*/}
-          {/*</div>*/}
-          {/*<div className="OrderShipping-AddressInfoSubTitle">*/}
-          {/*    {shippingAddress &&*/}
-          {/*        (shippingAddress.apartment*/}
-          {/*            ? "квартира: " + shippingAddress.apartment*/}
-          {/*            : null)}*/}
-          {/*    <> </>*/}
-          {/*    {shippingAddress &&*/}
-          {/*        (shippingAddress.entrance*/}
-          {/*            ? "подъезд: " + shippingAddress.entrance*/}
-          {/*            : null)}*/}
-          {/*    <> </>*/}
-          {/*    {shippingAddress &&*/}
-          {/*        (shippingAddress.floor*/}
-          {/*            ? "этаж: " + shippingAddress.floor*/}
-          {/*            : null)}*/}
-          {/*    <> </>*/}
-          {/*    {shippingAddress &&*/}
-          {/*        (shippingAddress.floor*/}
-          {/*            ? "домофон: " + shippingAddress.intercom*/}
-          {/*            : null)}*/}
-          {/*    <> </>*/}
-          {/*    {shippingAddress &&*/}
-          {/*        shippingAddress.comment &&*/}
-          {/*        "комментарий: " + shippingAddress.comment}*/}
-          {/*    <> </>*/}
-          {/*</div>*/}
+          <div className="OrderShipping-AddressInfoTitle">{shipping?.address}</div>
+          <div className="OrderShipping-AddressInfoSubTitle">
+            {`квартира: ${shipping?.flat}`}
+            <> </>
+            {`этаж: ${shipping?.floor}`}
+            <> </>
+            {`комментарий: ${shipping?.comment}`}
+            <> </>
+          </div>
         </div>
       </div>
     </div>

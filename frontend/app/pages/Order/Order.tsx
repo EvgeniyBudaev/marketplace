@@ -7,22 +7,31 @@ import { Link } from "@remix-run/react";
 
 import { ERoutes } from "~/enums";
 import { useUser } from "~/hooks";
-import type { TCart } from "~/shared/api/cart";
-import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
-import { formatCurrency } from "~/utils";
-
 import {
   OrderProductListItem,
   orderProductListItemLinks,
 } from "~/pages/Order/OrderProductListItem";
 import { OrderShipping, orderShippingLinks } from "~/pages/Order/OrderShipping";
+import type { TCart } from "~/shared/api/cart";
+import type { TRecipient } from "~/shared/api/recipient";
+import type { TShipping } from "~/shared/api/shipping";
+import type { TDomainErrors } from "~/types";
+import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
+import { formatCurrency } from "~/utils";
 import styles from "./Order.css";
 
 type TProps = {
-  cart: TCart;
+  cart?: TCart;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  recipient?: TRecipient;
+  shipping?: TShipping;
+  success: boolean;
+  uuid: string;
 };
 
-export const Order: FC<TProps> = ({ cart }) => {
+export const Order: FC<TProps> = (props) => {
+  const { cart, recipient, shipping, uuid } = props;
   const { t } = useTranslation();
   const CARD = "card";
   const CASH = "cash";
@@ -42,7 +51,7 @@ export const Order: FC<TProps> = ({ cart }) => {
       </h1>
       <div className={clsx("Order-Inner", "Order-InnerMobile")}>
         <div className="Order-BlockLeft">
-          <OrderShipping />
+          <OrderShipping shipping={shipping} />
 
           <div className="Order-Products">
             <div className="Order-Inner">
@@ -57,7 +66,7 @@ export const Order: FC<TProps> = ({ cart }) => {
                 </Typography>
               </Link>
             </div>
-            {isNil(cart.items) ? (
+            {isNil(cart?.items) ? (
               <p>
                 <Typography variant={ETypographyVariant.TextB3Regular}>
                   {t("pages.order.cartEmpty")}
@@ -65,7 +74,7 @@ export const Order: FC<TProps> = ({ cart }) => {
               </p>
             ) : (
               <div>
-                {cart.items.map((item) => (
+                {cart?.items.map((item) => (
                   <OrderProductListItem key={item.id} cartItem={item} />
                 ))}
               </div>
