@@ -11,8 +11,6 @@ type TProps = {
 
 export const OrderTotal: FC<TProps> = ({ cart }) => {
   const { t } = useTranslation();
-  const DELIVERY_PRICE = 300;
-  const totalAmount = Number(cart?.cartAmount ?? 0) + DELIVERY_PRICE;
 
   return (
     <div className="OrderTotal">
@@ -22,7 +20,7 @@ export const OrderTotal: FC<TProps> = ({ cart }) => {
         </h5>
         <h5 className="OrderTotal-SubTitle">
           <Typography variant={ETypographyVariant.TextH5Bold}>
-            {formatCurrency(totalAmount)} ₽
+            {formatCurrency(cart?.cartAmount ?? "-")} ₽
           </Typography>
         </h5>
       </div>
@@ -38,18 +36,18 @@ export const OrderTotal: FC<TProps> = ({ cart }) => {
           </Typography>
         </div>
       </div>
-      <div className="OrderTotal-Inner">
-        <div>
-          <Typography variant={ETypographyVariant.TextB3Regular}>
-            {t("pages.order.delivery")}
-          </Typography>
-        </div>
-        <div>
-          <Typography variant={ETypographyVariant.TextB3Regular}>
-            {formatCurrency(300)} ₽
-          </Typography>
-        </div>
-      </div>
+      {/*<div className="OrderTotal-Inner">*/}
+      {/*  <div>*/}
+      {/*    <Typography variant={ETypographyVariant.TextB3Regular}>*/}
+      {/*      {t("pages.order.delivery")}*/}
+      {/*    </Typography>*/}
+      {/*  </div>*/}
+      {/*  <div>*/}
+      {/*    <Typography variant={ETypographyVariant.TextB3Regular}>*/}
+      {/*      {formatCurrency(DELIVERY_PRICE)} ₽*/}
+      {/*    </Typography>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </div>
   );
 };
