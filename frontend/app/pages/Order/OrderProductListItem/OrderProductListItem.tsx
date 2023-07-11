@@ -12,7 +12,7 @@ type TProps = {
 
 export const OrderProductListItem: FC<TProps> = ({ cartItem }) => {
   const imageProduct = formatProxy(
-    !isNil(cartItem?.product.images) ? cartItem.product.images[0] : DEFAULT_IMAGE,
+    !isNil(cartItem?.product.defaultImage) ? cartItem.product.defaultImage : DEFAULT_IMAGE,
   );
 
   return (

@@ -1,0 +1,62 @@
+/* #b0976a */
+/* #997e4d */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.OrderCart {
+  margin-bottom: 24px;
+  padding: 24px;
+  border: 1px solid rgb(228, 228, 228);
+  border-radius: 4px;
+}
+.OrderCart-Inner {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.OrderCart-Link {
+  display: flex;
+  align-items: center;
+  color: rgb(176, 151, 106);
+  transition: all 0.15s;
+}
+.OrderCart-Link:hover {
+  color: rgb(95, 79, 25);
+}
+
+/*# sourceMappingURL=OrderCart.css.map */
