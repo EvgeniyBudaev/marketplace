@@ -1,40 +1,48 @@
-import {useState} from "react";
-import type {FC} from "react";
-import {useTranslation} from "react-i18next";
-import {Link} from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
+import { useState } from "react";
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "@remix-run/react";
 
-import {ERoutes} from "~/enums";
-import {useUser} from "~/hooks";
-import type {TCart} from "~/shared/api/cart";
-import {Button, ETypographyVariant, Icon, Typography} from "~/uikit";
-import {formatCurrency} from "~/utils";
-
+import { ERoutes } from "~/enums";
+import { useUser } from "~/hooks";
 import {
   OrderProductListItem,
   orderProductListItemLinks,
 } from "~/pages/Order/OrderProductListItem";
+import { OrderShipping, orderShippingLinks } from "~/pages/Order/OrderShipping";
+import type { TCart } from "~/shared/api/cart";
+import type { TRecipient } from "~/shared/api/recipient";
+import type { TShipping } from "~/shared/api/shipping";
+import type { TDomainErrors } from "~/types";
+import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
+import { formatCurrency } from "~/utils";
 import styles from "./Order.css";
 
 type TProps = {
-  cart: TCart;
+  cart?: TCart;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  recipient?: TRecipient;
+  shipping?: TShipping;
+  success: boolean;
+  uuid: string;
 };
 
-export const Order: FC<TProps> = ({cart}) => {
-  const {t} = useTranslation();
+export const Order: FC<TProps> = (props) => {
+  const { cart, recipient, shipping, uuid } = props;
+  const { t } = useTranslation();
   const CARD = "card";
   const CASH = "cash";
   const CARD_TEXT = t("pages.order.payWithCard");
   const CASH_TEXT = t("pages.order.payWithCash");
-  const {user} = useUser();
+  const { user } = useUser();
   const [paymentMethod, setPaymentMethod] = useState(CARD);
 
-  const handleOpenModal = () => {
-  };
+  const handleOpenModal = () => {};
 
-  const handleSubmit = () => {
-  };
+  const handleSubmit = () => {};
 
   return (
     <section className="Order">
@@ -43,54 +51,8 @@ export const Order: FC<TProps> = ({cart}) => {
       </h1>
       <div className={clsx("Order-Inner", "Order-InnerMobile")}>
         <div className="Order-BlockLeft">
-          <div className="Order-Shipping">
-            <div className="Order-Inner">
-              <h5 className="Order-SubTitle">
-                <Typography variant={ETypographyVariant.TextH5Bold}>
-                  {t("pages.order.courierDelivery")}
-                </Typography>
-              </h5>
-              <Link className="Order-Link" to={ERoutes.Shipping}>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {t("common.actions.change")}
-                </Typography>
-              </Link>
-            </div>
-            <div className="Order-Address">
-              <Icon className="Order-AddressIcon" type="House"/>
-              <div className="Order-AddressInfo">
-                {/*<div className="Order-AddressInfoTitle">*/}
-                {/*    {shippingAddress && shippingAddress.address}*/}
-                {/*</div>*/}
-                {/*<div className="Order-AddressInfoSubTitle">*/}
-                {/*    {shippingAddress &&*/}
-                {/*        (shippingAddress.apartment*/}
-                {/*            ? "квартира: " + shippingAddress.apartment*/}
-                {/*            : null)}*/}
-                {/*    <> </>*/}
-                {/*    {shippingAddress &&*/}
-                {/*        (shippingAddress.entrance*/}
-                {/*            ? "подъезд: " + shippingAddress.entrance*/}
-                {/*            : null)}*/}
-                {/*    <> </>*/}
-                {/*    {shippingAddress &&*/}
-                {/*        (shippingAddress.floor*/}
-                {/*            ? "этаж: " + shippingAddress.floor*/}
-                {/*            : null)}*/}
-                {/*    <> </>*/}
-                {/*    {shippingAddress &&*/}
-                {/*        (shippingAddress.floor*/}
-                {/*            ? "домофон: " + shippingAddress.intercom*/}
-                {/*            : null)}*/}
-                {/*    <> </>*/}
-                {/*    {shippingAddress &&*/}
-                {/*        shippingAddress.comment &&*/}
-                {/*        "комментарий: " + shippingAddress.comment}*/}
-                {/*    <> </>*/}
-                {/*</div>*/}
-              </div>
-            </div>
-          </div>
+          <OrderShipping shipping={shipping} />
+
           <div className="Order-Products">
             <div className="Order-Inner">
               <h5 className="Order-SubTitle">
@@ -104,7 +66,7 @@ export const Order: FC<TProps> = ({cart}) => {
                 </Typography>
               </Link>
             </div>
-            {isNil(cart.items) ? (
+            {isNil(cart?.items) ? (
               <p>
                 <Typography variant={ETypographyVariant.TextB3Regular}>
                   {t("pages.order.cartEmpty")}
@@ -112,12 +74,13 @@ export const Order: FC<TProps> = ({cart}) => {
               </p>
             ) : (
               <div>
-                {cart.items.map((item) => (
-                  <OrderProductListItem key={item.id} cartItem={item}/>
+                {cart?.items.map((item) => (
+                  <OrderProductListItem key={item.id} cartItem={item} />
                 ))}
               </div>
             )}
           </div>
+
           <div className="Order-Recipient">
             <div className="Order-Inner">
               <h5 className="Order-SubTitle">
@@ -132,7 +95,7 @@ export const Order: FC<TProps> = ({cart}) => {
               </Link>
             </div>
             <div className="Order-RecipientInfo">
-              <Icon className="Order-RecipientInfoIcon" type="User"/>
+              <Icon className="Order-RecipientInfoIcon" type="User" />
               <div className="Order-RecipientInfoText">
                 <div className="Order-RecipientInfoTitle">
                   {/*{user*/}
@@ -200,7 +163,7 @@ export const Order: FC<TProps> = ({cart}) => {
               <div className="Order-PaymentInfo">
                 {paymentMethod === CARD ? (
                   <>
-                    <Icon className="Order-PaymentIcon" type="Card"/>
+                    <Icon className="Order-PaymentIcon" type="Card" />
                     <div>
                       <Typography variant={ETypographyVariant.TextB3Regular}>
                         {CARD_TEXT}
@@ -209,7 +172,7 @@ export const Order: FC<TProps> = ({cart}) => {
                   </>
                 ) : (
                   <>
-                    <Icon className="Order-PaymentIcon" type="Cash"/>
+                    <Icon className="Order-PaymentIcon" type="Cash" />
                     <div>
                       <Typography variant={ETypographyVariant.TextB3Regular}>
                         {CASH_TEXT}
@@ -238,5 +201,9 @@ export const Order: FC<TProps> = ({cart}) => {
 };
 
 export function orderLinks() {
-  return [{rel: "stylesheet", href: styles}, ...orderProductListItemLinks()];
+  return [
+    { rel: "stylesheet", href: styles },
+    ...orderProductListItemLinks(),
+    ...orderShippingLinks(),
+  ];
 }

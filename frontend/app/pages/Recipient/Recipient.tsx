@@ -1,31 +1,67 @@
-import type {FC} from "react";
-import {useTranslation} from "react-i18next";
-import {Link} from "@remix-run/react";
-import {useAuthenticityToken} from "remix-utils";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {ERoutes} from "~/enums";
-import {useUser} from "~/hooks";
-import {EFormMethods, Form, Input, useInitForm} from "~/shared/form";
-import type {TParams} from "~/types";
-import {EFormFields} from "~/pages/Recipient/enums";
-import {formSchema} from "~/pages/Recipient/schemas";
-import type {TForm} from "~/pages/Recipient/types";
-import {Button, ETypographyVariant, Icon, Typography} from "~/uikit";
+import { useEffect } from "react";
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useFetcher } from "@remix-run/react";
+import { useAuthenticityToken } from "remix-utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ERoutes } from "~/enums";
+import type { TOptionsSubmitForm } from "~/pages";
+import { EFormFields } from "~/pages/Recipient/enums";
+import { formSchema } from "~/pages/Recipient/schemas";
+import type { TForm } from "~/pages/Recipient/types";
+import type { TRecipient } from "~/shared/api/recipient";
+import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
+import type { TDomainErrors, TParams } from "~/types";
+import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
+import { createPath } from "~/utils";
 import styles from "./Recipient.css";
 
-export const Recipient: FC = () => {
+type TProps = {
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  recipient?: TRecipient;
+  success: boolean;
+  uuid: string;
+};
+
+export const Recipient: FC<TProps> = (props) => {
+  const { uuid } = props;
   const csrf = useAuthenticityToken();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
-  const {user} = useUser();
-  console.log("Recipient user: ", user);
+  const fetcherRemix = useFetcher();
+  const recipient: TRecipient = fetcherRemix.data?.recipient ?? props.recipient;
 
-  const handleSubmit = (params: TParams) => {
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
+    fetcher.submit(
+      { ...params, csrf, uuid },
+      {
+        method: EFormMethods.Patch,
+        action: createPath({
+          route: ERoutes.Recipient,
+          withIndex: true,
+        }),
+      },
+    );
   };
+
+  useEffect(() => {
+    if (isDoneType && !props.success && !props.fieldErrors) {
+      notify.error({
+        title: "Ошибка выполнения",
+      });
+    }
+    if (isDoneType && props.success && !props.fieldErrors) {
+      notify.success({
+        title: "Сохранено",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.success, isDoneType]);
 
   return (
     <section className="Recipient">
@@ -48,25 +84,25 @@ export const Recipient: FC = () => {
         >
           <div className="Recipient-FormContent">
             <Input
-              defaultValue={user?.firstName ?? ""}
+              defaultValue={recipient?.name ?? ""}
               label={t("form.firstName.title") ?? "First name"}
-              name={EFormFields.FirstName}
+              name={EFormFields.Name}
               type="text"
             />
             <Input
-              defaultValue={user?.lastName ?? ""}
+              defaultValue={recipient?.surname ?? ""}
               label={t("form.lastName.title") ?? "Last name"}
-              name={EFormFields.LastName}
+              name={EFormFields.Surname}
               type="text"
             />
             <Input
-              defaultValue={user?.phone ?? ""}
+              defaultValue={recipient?.phone ?? ""}
               label={t("form.mobilePhone.title") ?? "Mobile phone"}
               name={EFormFields.Phone}
               type="text"
             />
             <Input
-              defaultValue={user?.email ?? ""}
+              defaultValue={recipient?.email ?? ""}
               label={t("form.email.title") ?? "Email"}
               name={EFormFields.Email}
               type="text"
@@ -75,7 +111,7 @@ export const Recipient: FC = () => {
           <div className="Recipient-FormFooter">
             <div className="Recipient-Controls">
               <Link className="Recipient-ControlsLink" to={ERoutes.Shipping}>
-                <Icon type="ArrowBack"/>
+                <Icon type="ArrowBack" />
                 <div className="Recipient-ControlsText">
                   <Typography variant={ETypographyVariant.TextB3Regular}>
                     {t("common.actions.back")}
@@ -91,13 +127,13 @@ export const Recipient: FC = () => {
           </div>
         </Form>
         <div className="Recipient-Info">
-          <Icon className="Recipient-InfoIcon" type="Attention"/>
+          <Icon className="Recipient-InfoIcon" type="Attention" />
           <div className="Recipient-InfoText">
             <div className="Recipient-InfoTitle">
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.specify")}
               </Typography>
-              <br/>
+              <br />
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.realData")}
               </Typography>
@@ -106,7 +142,7 @@ export const Recipient: FC = () => {
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.passport")}
               </Typography>
-              <br/>
+              <br />
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.order")}
               </Typography>
@@ -119,5 +155,5 @@ export const Recipient: FC = () => {
 };
 
 export function recipientLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

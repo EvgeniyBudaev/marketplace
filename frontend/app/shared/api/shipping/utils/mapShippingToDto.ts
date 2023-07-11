@@ -1,5 +1,5 @@
 type TProps = {
-  address: string;
+  address?: string;
   comment?: string;
   csrf: string;
   flat?: string;

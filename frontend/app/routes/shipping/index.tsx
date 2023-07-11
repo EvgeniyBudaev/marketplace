@@ -30,10 +30,11 @@ export const action = async (args: ActionArgs) => {
   const csrfToken = formValues.csrf;
   const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
   if (checkCsrf?.error) return checkCsrf.error;
-  const formattedData = mapShippingToDto(formValues as any);
+
+  const formattedParams = mapShippingToDto(formValues as any);
 
   try {
-    const response = await editShipping(formattedData);
+    const response = await editShipping(request, formattedParams);
 
     if (response.success) {
       session.flash("FamilyMart_Shipping", {
@@ -70,6 +71,7 @@ export const action = async (args: ActionArgs) => {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
     const session = await getSession(request.headers.get("Cookie"));
+
     session.flash("FamilyMart_Shipping", {
       success: false,
       formError,

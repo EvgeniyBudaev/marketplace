@@ -1,6 +1,6 @@
 export enum EFormFields {
-  FirstName = "firstName",
-  LastName = "lastName",
-  Phone = "phone",
   Email = "email",
+  Name = "name",
+  Phone = "phone",
+  Surname = "surname",
 }
