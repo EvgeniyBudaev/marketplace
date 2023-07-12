@@ -29,6 +29,7 @@
       "apply": "Apply",
       "addToCart": "Add to cart",
       "sort": "Sort",
+      "choose": "Choose",
       "change": "Change",
       "back": "Back",
       "continue": "Continue"
@@ -200,13 +201,13 @@
     "order": {
       "payWithCard": "Pay by card upon receipt",
       "payWithCash": "Pay in cash upon receipt",
+      "fullReturn": "Full refund if you don't receive the item",
       "title": "Checkout",
-      "courierDelivery": "Courier delivery",
       "goods": "Goods",
       "cartEmpty": "Your basket is empty",
+      "checkout": "Checkout",
       "recipient": "Recipient",
-      "delivery": "Delivery",
-      "checkout": "Checkout"
+      "courierDelivery": "Courier delivery"
     },
     "productDetail": {
       "description": "Description",

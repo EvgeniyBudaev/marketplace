@@ -2,7 +2,10 @@ import clsx from "clsx";
 import { useState } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { EPaymentMethod } from "~/pages/Order/enums";
+import { ModalPaymentMethod } from "~/pages/Order/ModalPaymentMethod";
 import { OrderCart, orderCartLinks } from "~/pages/Order/OrderCart";
+import { OrderPayment, orderPaymentLinks } from "~/pages/Order/OrderPayment";
 import { OrderRecipient, orderRecipientLinks } from "~/pages/Order/OrderRecipient";
 import { orderProductListItemLinks } from "~/pages/Order/OrderProductListItem";
 import { OrderShipping, orderShippingLinks } from "~/pages/Order/OrderShipping";
@@ -11,7 +14,7 @@ import type { TCart } from "~/shared/api/cart";
 import type { TRecipient } from "~/shared/api/recipient";
 import type { TShipping } from "~/shared/api/shipping";
 import type { TDomainErrors } from "~/types";
-import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
+import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./Order.css";
 
 type TProps = {
@@ -27,15 +30,25 @@ type TProps = {
 export const Order: FC<TProps> = (props) => {
   const { cart, recipient, shipping, uuid } = props;
   const { t } = useTranslation();
-  const CARD = "card";
-  const CASH = "cash";
-  const CARD_TEXT = t("pages.order.payWithCard");
-  const CASH_TEXT = t("pages.order.payWithCash");
-  const [paymentMethod, setPaymentMethod] = useState(CARD);
+  const [isOpenModalPaymentMethod, setIsOpenModalPaymentMethod] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(EPaymentMethod.CARD);
 
-  const handleOpenModal = () => {};
+  const handleOpenModalPaymentMethod = () => {
+    setIsOpenModalPaymentMethod((prevState: boolean) => (prevState ? prevState : true));
+  };
 
-  const handleSubmit = () => {};
+  const handleCloseModalPaymentMethod = () => {
+    setIsOpenModalPaymentMethod((prevState: boolean) => (prevState ? false : prevState));
+  };
+
+  const handleModalPaymentSubmit = (value: EPaymentMethod) => {
+    setPaymentMethod(value);
+    handleCloseModalPaymentMethod();
+  };
+
+  const handleOrderSubmit = () => {
+    console.log("paymentMethod: ", paymentMethod);
+  };
 
   return (
     <section className="Order">
@@ -50,45 +63,19 @@ export const Order: FC<TProps> = (props) => {
         </div>
         <div className="Order-BlockRight">
           <OrderTotal cart={cart} />
-
-          <div className="Order-Payment">
-            <div className="Order-Inner">
-              <div className="Order-PaymentInfo">
-                {paymentMethod === CARD ? (
-                  <>
-                    <Icon className="Order-PaymentIcon" type="Card" />
-                    <div>
-                      <Typography variant={ETypographyVariant.TextB3Regular}>
-                        {CARD_TEXT}
-                      </Typography>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <Icon className="Order-PaymentIcon" type="Cash" />
-                    <div>
-                      <Typography variant={ETypographyVariant.TextB3Regular}>
-                        {CASH_TEXT}
-                      </Typography>
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="Order-PaymentChange" onClick={handleOpenModal}>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {t("common.actions.change")}
-                </Typography>
-              </div>
-            </div>
-            <Button className="Order-PaymentButton" onClick={handleSubmit}>
-              <Typography variant={ETypographyVariant.TextB3Regular}>
-                {t("pages.order.checkout")}
-              </Typography>
-            </Button>
-          </div>
+          <OrderPayment
+            onOpenModalPaymentMethod={handleOpenModalPaymentMethod}
+            onSubmit={handleOrderSubmit}
+            paymentMethod={paymentMethod}
+          />
         </div>
       </div>
       <div className="Order-Controls"></div>
+      <ModalPaymentMethod
+        isOpen={isOpenModalPaymentMethod}
+        onClose={handleCloseModalPaymentMethod}
+        onSubmit={handleModalPaymentSubmit}
+      />
     </section>
   );
 };
@@ -101,5 +88,6 @@ export function orderLinks() {
     ...orderRecipientLinks(),
     ...orderCartLinks(),
     ...orderTotalLinks(),
+    ...orderPaymentLinks(),
   ];
 }

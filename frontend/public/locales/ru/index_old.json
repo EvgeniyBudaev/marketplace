@@ -320,7 +320,8 @@
     "order": {
       "meta": {
         "title": "Добавь сюда перевод!!!"
-      }
+      },
+      "delivery": "Доставка"
     },
     "recipient": {
       "meta": {

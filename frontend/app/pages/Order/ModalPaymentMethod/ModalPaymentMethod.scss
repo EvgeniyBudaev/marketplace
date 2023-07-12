@@ -1,0 +1,28 @@
+@import "component";
+
+.ModalPaymentMethod {
+  &-Inner {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  &-Defence {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+
+    &Icon {
+      margin-right: 8px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      path {
+        fill: $color-text;
+      }
+    }
+  }
+}

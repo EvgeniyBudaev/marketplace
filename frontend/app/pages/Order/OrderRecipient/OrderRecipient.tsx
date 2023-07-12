@@ -36,9 +36,9 @@ export const OrderRecipient: FC<TProps> = ({ recipient }) => {
             {recipient?.name}
           </div>
           <div className="OrderRecipient-InfoSubTitle">
-            email: {recipient?.email}
+            {t("form.email.title")}: {recipient?.email}
             <> ,</>
-            моб.: {recipient?.phone}
+            {t("form.mobilePhone.title")}: {recipient?.phone}
           </div>
         </div>
       </div>
