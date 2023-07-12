@@ -101,7 +101,7 @@
   &-BackToShopping {
     display: inline-block;
     margin-left: 20px;
-    color: $color-blue;
+    color: $color-dark-gray;
     border-bottom: 1px solid rgba(0, 141, 211, 0.3);
     cursor: pointer;
     transition: all $transition;
@@ -112,6 +112,7 @@
 
     &:hover {
       border-bottom: 1px solid $color-primary;
+
       span {
         color: $color-primary;
       }
@@ -123,7 +124,7 @@
   .Cart {
     &-OrdersList {
       background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
-        linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+      linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
       border: 1px solid $color-nightSky;
     }
   }
@@ -154,6 +155,7 @@
 @media (max-width: 500px) {
   .Cart {
     $this: &;
+
     & #{$this}-Checkout {
       max-width: 100%;
     }

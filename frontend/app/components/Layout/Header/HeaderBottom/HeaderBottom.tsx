@@ -1,12 +1,12 @@
-import type {FC} from "react";
-import {Link} from "@remix-run/react";
 import clsx from "clsx";
-import {Container, SearchGlobal} from "~/components";
-import {HeaderIconsList} from "~/components/Layout/Header/HeaderIconsList";
-import {TRANSITION} from "~/constants";
-import {ETypographyVariant, Hamburger, Spacer, Typography} from "~/uikit";
+import type { FC } from "react";
+import { Link } from "@remix-run/react";
+import { Container, SearchGlobal } from "~/components";
+import { HeaderIconsList } from "~/components/Layout/Header/HeaderIconsList";
+import { TRANSITION } from "~/constants";
+import { ERoutes } from "~/enums";
+import { ETypographyVariant, Hamburger, Spacer, Typography } from "~/uikit";
 import styles from "./HeaderBottom.css";
-import {ERoutes} from "~/enums";
 
 type TProps = {
   className?: string;
@@ -14,7 +14,7 @@ type TProps = {
   onCatalogToggle?: () => void;
 };
 
-export const HeaderBottom: FC<TProps> = ({className, isCatalogOpen, onCatalogToggle}) => {
+export const HeaderBottom: FC<TProps> = ({ className, isCatalogOpen, onCatalogToggle }) => {
   return (
     <div
       className={clsx("HeaderBottom", className, {
@@ -41,22 +41,22 @@ export const HeaderBottom: FC<TProps> = ({className, isCatalogOpen, onCatalogTog
                   <Typography variant={ETypographyVariant.TextH1Medium}>FamilyMart</Typography>
                 </Link>
               </div>
-              <Spacer/>
+              <Spacer />
               <SearchGlobal
                 className="HeaderBottom-SearchControlsDesktop"
                 transition={TRANSITION}
               />
-              <Spacer/>
-              <HeaderIconsList/>
+              <Spacer />
+              <HeaderIconsList />
             </div>
           </div>
         </div>
-        <SearchGlobal className="HeaderBottom-SearchControlsMobile" transition={TRANSITION}/>
+        <SearchGlobal className="HeaderBottom-SearchControlsMobile" transition={TRANSITION} />
       </Container>
     </div>
   );
 };
 
 export function headerBottomLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

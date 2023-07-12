@@ -185,7 +185,7 @@
       "noItemInCart": "There are no items in the cart",
       "products": "{items, plural, one {# product} few {# products} other {# products}}",
       "goToCheckout": "Go to checkout",
-      "backToShopping": "Back to shopping"
+      "backToShopping": "Go to back"
     },
     "catalog": {
       "from": "from",

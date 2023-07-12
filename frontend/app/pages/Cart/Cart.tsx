@@ -24,6 +24,10 @@ export const Cart: FC<TProps> = (props) => {
     navigate(ERoutes.Shipping);
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   return (
     <section className="Cart">
       <h1 className="Cart-Title">
@@ -104,7 +108,7 @@ export const Cart: FC<TProps> = (props) => {
                 </div>
               </div>
             )} */}
-            <div className="Cart-BackToShopping" onClick={() => {}}>
+            <div className="Cart-BackToShopping" onClick={handleGoBack}>
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.cart.backToShopping")}
               </Typography>
