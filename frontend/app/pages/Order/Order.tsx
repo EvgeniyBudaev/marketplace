@@ -1,23 +1,20 @@
 import clsx from "clsx";
-import isNil from "lodash/isNil";
 import { useState } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "@remix-run/react";
-
-import { ERoutes } from "~/enums";
-import { useUser } from "~/hooks";
-import {
-  OrderProductListItem,
-  orderProductListItemLinks,
-} from "~/pages/Order/OrderProductListItem";
+import { EPaymentMethod } from "~/pages/Order/enums";
+import { ModalPaymentMethod } from "~/pages/Order/ModalPaymentMethod";
+import { OrderCart, orderCartLinks } from "~/pages/Order/OrderCart";
+import { OrderPayment, orderPaymentLinks } from "~/pages/Order/OrderPayment";
+import { OrderRecipient, orderRecipientLinks } from "~/pages/Order/OrderRecipient";
+import { orderProductListItemLinks } from "~/pages/Order/OrderProductListItem";
 import { OrderShipping, orderShippingLinks } from "~/pages/Order/OrderShipping";
+import { OrderTotal, orderTotalLinks } from "~/pages/Order/OrderTotal";
 import type { TCart } from "~/shared/api/cart";
 import type { TRecipient } from "~/shared/api/recipient";
 import type { TShipping } from "~/shared/api/shipping";
 import type { TDomainErrors } from "~/types";
-import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
-import { formatCurrency } from "~/utils";
+import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./Order.css";
 
 type TProps = {
@@ -33,16 +30,25 @@ type TProps = {
 export const Order: FC<TProps> = (props) => {
   const { cart, recipient, shipping, uuid } = props;
   const { t } = useTranslation();
-  const CARD = "card";
-  const CASH = "cash";
-  const CARD_TEXT = t("pages.order.payWithCard");
-  const CASH_TEXT = t("pages.order.payWithCash");
-  const { user } = useUser();
-  const [paymentMethod, setPaymentMethod] = useState(CARD);
+  const [isOpenModalPaymentMethod, setIsOpenModalPaymentMethod] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(EPaymentMethod.CARD);
 
-  const handleOpenModal = () => {};
+  const handleOpenModalPaymentMethod = () => {
+    setIsOpenModalPaymentMethod((prevState: boolean) => (prevState ? prevState : true));
+  };
 
-  const handleSubmit = () => {};
+  const handleCloseModalPaymentMethod = () => {
+    setIsOpenModalPaymentMethod((prevState: boolean) => (prevState ? false : prevState));
+  };
+
+  const handleModalPaymentSubmit = (value: EPaymentMethod) => {
+    setPaymentMethod(value);
+    handleCloseModalPaymentMethod();
+  };
+
+  const handleOrderSubmit = () => {
+    console.log("paymentMethod: ", paymentMethod);
+  };
 
   return (
     <section className="Order">
@@ -52,150 +58,24 @@ export const Order: FC<TProps> = (props) => {
       <div className={clsx("Order-Inner", "Order-InnerMobile")}>
         <div className="Order-BlockLeft">
           <OrderShipping shipping={shipping} />
-
-          <div className="Order-Products">
-            <div className="Order-Inner">
-              <h5 className="Order-SubTitle">
-                <Typography variant={ETypographyVariant.TextH5Bold}>
-                  {t("pages.order.goods")}
-                </Typography>
-              </h5>
-              <Link className="Order-Link" to={ERoutes.Cart}>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {t("common.actions.change")}
-                </Typography>
-              </Link>
-            </div>
-            {isNil(cart?.items) ? (
-              <p>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {t("pages.order.cartEmpty")}
-                </Typography>
-              </p>
-            ) : (
-              <div>
-                {cart?.items.map((item) => (
-                  <OrderProductListItem key={item.id} cartItem={item} />
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="Order-Recipient">
-            <div className="Order-Inner">
-              <h5 className="Order-SubTitle">
-                <Typography variant={ETypographyVariant.TextH5Bold}>
-                  {t("pages.order.recipient")}
-                </Typography>
-              </h5>
-              <Link className="Order-Link" to={ERoutes.Recipient}>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {t("common.actions.change")}
-                </Typography>
-              </Link>
-            </div>
-            <div className="Order-RecipientInfo">
-              <Icon className="Order-RecipientInfoIcon" type="User" />
-              <div className="Order-RecipientInfoText">
-                <div className="Order-RecipientInfoTitle">
-                  {/*{user*/}
-                  {/*    ? user.lastName*/}
-                  {/*    : order_user && order_user.lastName}*/}
-                  {/*<> </>*/}
-                  {/*{user*/}
-                  {/*    ? user.firstName*/}
-                  {/*    : order_user && order_user.firstName}*/}
-                </div>
-                <div className="Order-RecipientInfoSubTitle">
-                  email: {/*{user*/}
-                  {/*    ? user.email*/}
-                  {/*    : order_user && order_user.email}*/}
-                  <> ,</>
-                  моб.: {/*{user*/}
-                  {/*    ? user.phone*/}
-                  {/*    : order_user && order_user.phone}*/}
-                </div>
-              </div>
-            </div>
-          </div>
+          <OrderCart cart={cart} />
+          <OrderRecipient recipient={recipient} />
         </div>
         <div className="Order-BlockRight">
-          <div className="Order-Total">
-            <div className="Order-Inner">
-              <h5 className="Order-SubTitle">
-                <Typography variant={ETypographyVariant.TextH5Bold}>
-                  {t("common.info.total")}
-                </Typography>
-              </h5>
-              <h5 className="Order-SubTitle">
-                <Typography variant={ETypographyVariant.TextH5Bold}>
-                  {formatCurrency(1000)} ₽
-                </Typography>
-              </h5>
-            </div>
-            <div className="Order-Inner">
-              <div>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {t("pages.order.goods")} - 1 шт.
-                </Typography>
-              </div>
-              <div>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {formatCurrency(1200)} ₽
-                </Typography>
-              </div>
-            </div>
-            <div className="Order-Inner">
-              <div>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {t("pages.order.delivery")}
-                </Typography>
-              </div>
-              <div>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {formatCurrency(300)} ₽
-                </Typography>
-              </div>
-            </div>
-          </div>
-          <div className="Order-Payment">
-            <div className="Order-Inner">
-              <div className="Order-PaymentInfo">
-                {paymentMethod === CARD ? (
-                  <>
-                    <Icon className="Order-PaymentIcon" type="Card" />
-                    <div>
-                      <Typography variant={ETypographyVariant.TextB3Regular}>
-                        {CARD_TEXT}
-                      </Typography>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <Icon className="Order-PaymentIcon" type="Cash" />
-                    <div>
-                      <Typography variant={ETypographyVariant.TextB3Regular}>
-                        {CASH_TEXT}
-                      </Typography>
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="Order-PaymentChange" onClick={handleOpenModal}>
-                <Typography variant={ETypographyVariant.TextB3Regular}>
-                  {t("common.actions.change")}
-                </Typography>
-              </div>
-            </div>
-            <Button className="Order-PaymentButton" onClick={handleSubmit}>
-              <Typography variant={ETypographyVariant.TextB3Regular}>
-                {t("pages.order.checkout")}
-              </Typography>
-            </Button>
-          </div>
+          <OrderTotal cart={cart} />
+          <OrderPayment
+            onOpenModalPaymentMethod={handleOpenModalPaymentMethod}
+            onSubmit={handleOrderSubmit}
+            paymentMethod={paymentMethod}
+          />
         </div>
       </div>
       <div className="Order-Controls"></div>
+      <ModalPaymentMethod
+        isOpen={isOpenModalPaymentMethod}
+        onClose={handleCloseModalPaymentMethod}
+        onSubmit={handleModalPaymentSubmit}
+      />
     </section>
   );
 };
@@ -205,5 +85,9 @@ export function orderLinks() {
     { rel: "stylesheet", href: styles },
     ...orderProductListItemLinks(),
     ...orderShippingLinks(),
+    ...orderRecipientLinks(),
+    ...orderCartLinks(),
+    ...orderTotalLinks(),
+    ...orderPaymentLinks(),
   ];
 }

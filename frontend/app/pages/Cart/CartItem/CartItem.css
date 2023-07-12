@@ -60,18 +60,22 @@
   min-height: 100px;
   width: 100px;
 }
+.CartItem-ProductCommon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+.CartItem-ProductInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 .CartItem-ProductContent {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   margin-left: 20px;
-  max-width: 100%;
-  width: 100%;
-}
-.CartItem-ProductHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 .CartItem-ProductTitle {
   margin-right: 16px;
@@ -80,17 +84,24 @@
   color: rgb(51, 51, 51);
   transition: all 0.15s;
 }
+.CartItem-ProductControls {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 300px;
+  width: 100%;
+  margin-left: 20px;
+}
 .CartItem-ProductActions {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   position: relative;
-  top: 8px;
   margin-right: 16px;
 }
 .CartItem-ProductCounter {
   display: flex;
   align-items: center;
+  margin-bottom: 8px;
 }
 .CartItem-ProductCounterMinus, .CartItem-ProductCounterPlus {
   display: flex;
@@ -141,28 +152,24 @@
   border-color: rgb(235, 235, 235);
 }
 .CartItem-ProductItemPrice {
-  position: relative;
-  top: 8px;
   text-align: center;
 }
-.CartItem-ProductControls {
+.CartItem-ProductItemTotalPrice {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 24px;
+  justify-content: end;
+  min-width: 100px;
 }
 .CartItem-ProductDelete {
   display: inline-flex;
   align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
   color: rgb(185, 181, 181);
-  border-bottom: 1px solid rgb(185, 181, 181);
   transition: all 0.15s;
   cursor: pointer;
 }
 .CartItem-ProductDelete span {
   transition: all 0.15s;
-}
-.CartItem-ProductDelete:hover {
-  border-bottom: 1px solid rgb(176, 151, 106);
 }
 .CartItem-ProductDelete:hover span {
   color: rgb(176, 151, 106);

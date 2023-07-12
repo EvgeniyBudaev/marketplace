@@ -32,11 +32,11 @@ export const OrderShipping: FC<TProps> = ({ shipping }) => {
         <div className="OrderShippingAddressInfo">
           <div className="OrderShipping-AddressInfoTitle">{shipping?.address}</div>
           <div className="OrderShipping-AddressInfoSubTitle">
-            {`квартира: ${shipping?.flat}`}
+            {`${t("form.apartment.title")}: ${shipping?.flat}`}
             <> </>
-            {`этаж: ${shipping?.floor}`}
+            {`${t("form.floor.title")}: ${shipping?.floor}`}
             <> </>
-            {`комментарий: ${shipping?.comment}`}
+            {`${t("form.commentForCourier.title")}: ${shipping?.comment}`}
             <> </>
           </div>
         </div>

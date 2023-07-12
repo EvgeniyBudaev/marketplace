@@ -149,69 +149,73 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
                 height={imageResponsiveSizeHeight()}
               />
             ) : (
-              <Icon type="NoImage" />
+              <Icon className="CartItem-ProductContentImage" type="NoImage" />
             )}
           </Link>
         </div>
 
-        <div className="CartItem-ProductContent">
-          <div className="CartItem-ProductHeader">
-            <div className="CartItem-ProductTitle">
-              <Typography variant={ETypographyVariant.TextB3Regular}>
-                {cartItem.product.name}
-              </Typography>
-            </div>
-            <div className="CartItem-ProductActions">
-              <div className="CartItem-ProductCounter">
-                <button
-                  className={clsx("CartItem-ProductCounterMinus", {
-                    "CartItem-ProductCounter__disabled": cartItem.quantity <= 1,
-                  })}
-                  onClick={handleDecrement}
-                >
-                  <Typography variant={ETypographyVariant.TextH5Bold}>-</Typography>
-                </button>
-                <input
-                  className="CartItem-ProductCounterCount"
-                  type="text"
-                  value={quantity}
-                  onBlur={handleBlurQuantity}
-                  onChange={handleChangeQuantity}
-                  onKeyDown={handleKeyDownQuantity}
-                />
-                <button
-                  className={clsx("CartItem-ProductCounterPlus", {
-                    "CartItem-ProductCounter__disabled":
-                      cartItem.quantity > Number(cartItem.product.count),
-                  })}
-                  onClick={handleIncrement}
-                >
-                  <Typography variant={ETypographyVariant.TextH5Bold}>+</Typography>
-                </button>
-              </div>
-              <div className="CartItem-ProductItemPrice">
-                <Typography variant={ETypographyVariant.TextB3Bold}>
-                  {formatCurrency(parseInt(cartItem.product.price))} ₽/шт
+        <div className="CartItem-ProductCommon">
+          <div className="CartItem-ProductInfo">
+            <div className="CartItem-ProductContent">
+              <div className="CartItem-ProductTitle">
+                <Typography variant={ETypographyVariant.TextB3Regular}>
+                  {cartItem.product.name}
                 </Typography>
               </div>
             </div>
-            <div className="CartItem-ProductItemTotalPrice">
-              <Typography variant={ETypographyVariant.TextB2Bold}>
-                {formatCurrency(cartItem.quantity * parseInt(cartItem.product.price))} ₽
-              </Typography>
+
+            <div className="CartItem-ProductControls">
+              <div className="CartItem-ProductActions">
+                <div className="CartItem-ProductCounter">
+                  <button
+                    className={clsx("CartItem-ProductCounterMinus", {
+                      "CartItem-ProductCounter__disabled": cartItem.quantity <= 1,
+                    })}
+                    onClick={handleDecrement}
+                  >
+                    <Typography variant={ETypographyVariant.TextH5Bold}>-</Typography>
+                  </button>
+                  <input
+                    className="CartItem-ProductCounterCount"
+                    type="text"
+                    value={quantity}
+                    onBlur={handleBlurQuantity}
+                    onChange={handleChangeQuantity}
+                    onKeyDown={handleKeyDownQuantity}
+                  />
+                  <button
+                    className={clsx("CartItem-ProductCounterPlus", {
+                      "CartItem-ProductCounter__disabled":
+                        cartItem.quantity > Number(cartItem.product.count),
+                    })}
+                    onClick={handleIncrement}
+                  >
+                    <Typography variant={ETypographyVariant.TextH5Bold}>+</Typography>
+                  </button>
+                </div>
+                <div className="CartItem-ProductItemPrice">
+                  <Typography variant={ETypographyVariant.TextB3Bold}>
+                    {formatCurrency(parseInt(cartItem.product.price))} ₽/шт
+                  </Typography>
+                </div>
+              </div>
+              <div className="CartItem-ProductItemTotalPrice">
+                <Typography variant={ETypographyVariant.TextB2Bold}>
+                  {formatCurrency(cartItem.quantity * parseInt(cartItem.product.price))} ₽
+                </Typography>
+              </div>
+              <IconButton
+                className="CartItem-ProductDeleteMobile"
+                typeIcon="Trash"
+                onClick={handleDelete}
+              />
             </div>
           </div>
-          <div className="CartItem-ProductControls">
-            <IconButton
-              className="CartItem-ProductDeleteMobile"
-              typeIcon="Trash"
-              onClick={handleDelete}
-            />
-            <div className="CartItem-ProductDelete" onClick={handleDelete}>
-              <Typography variant={ETypographyVariant.TextB3Regular}>
-                {t("common.actions.delete")}
-              </Typography>
-            </div>
+
+          <div className="CartItem-ProductDelete" onClick={handleDelete}>
+            <Typography variant={ETypographyVariant.TextB3Regular}>
+              {t("common.actions.delete")}
+            </Typography>
           </div>
         </div>
       </div>
