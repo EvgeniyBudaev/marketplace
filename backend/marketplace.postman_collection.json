@@ -1971,7 +1971,7 @@
 			"name": "Recipients",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "patch recipient",
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -2001,7 +2001,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request Copy",
+					"name": "get recipient",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2029,6 +2029,42 @@
 								"v1",
 								"recipients",
 								"0f4af747-36dc-4423-b810-5be98c2125c0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "create order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"session\":\"b850600b-5f49-4c8d-95b4-91a94cc0d69e\",\r\n    \"payment\": \"PAYMENT_BY_CARD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/orders/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"create"
 							]
 						}
 					},
