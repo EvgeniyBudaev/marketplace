@@ -1,6 +1,6 @@
 @import "component";
 
-.InputField {
+.TextareaField {
   $this: &;
   position: relative;
   margin-bottom: 30px;
@@ -16,10 +16,6 @@
     color: $color-lighting;
     pointer-events: none;
     transition: all $transition;
-
-    #{$this}-Inner__error {
-      background-color: $color-light-red;
-    }
 
     &Required {
       color: $color-red;
@@ -46,26 +42,21 @@
       border: 1px solid rgba(0, 0, 0, 0.54);
       color: $color-text;
 
-      input:hover,
-      input {
+      textarea:hover,
+      textarea {
         background-color: $color-white;
       }
     }
 
-    input:-webkit-autofill.Input__active,
-    input:-webkit-autofill.Input__active:hover,
-    input:-webkit-autofill.Input__active:focus,
-    input:-webkit-autofill.Input__active:active {
+    textarea:-webkit-autofill.Textarea__active,
+    textarea:-webkit-autofill.Textarea__active:hover,
+    textarea:-webkit-autofill.Textarea__active:focus,
+    textarea:-webkit-autofill.Textarea__active:active {
       -webkit-box-shadow: 0 0 0 30px white inset !important;
     }
 
     & textarea,
     & textarea:hover {
-      background-color: $color-white;
-    }
-
-    #{$this}-Inner__active#{$this}-Inner__error {
-      border: 1px solid $color-red;
       background-color: $color-white;
     }
   }
@@ -87,16 +78,9 @@
       }
     }
   }
-
-  &-ErrorField {
-    display: block;
-    padding-top: 5px;
-    color: $color-red;
-    transition: all 0.3s;
-  }
 }
 
-.Input {
+.Textarea {
   $this: &;
   display: flex;
   align-items: center;
@@ -111,37 +95,28 @@
     background-color: $color-primary-light-hover;
     transition: background-color 0.25s ease;
   }
-
-  &#{$this}__error {
-    background-color: $color-light-red;
-
-    &:hover {
-      background-color: $color-light-red-hover;
-      transition: background-color 0.25s ease;
-    }
-  }
 }
 
 .theme-dark {
-  .InputField {
+  .TextareaField {
     &-Label .text-dark {
       color: $color-lighting;
     }
 
     &__active {
-      .InputField-Inner__active {
+      .TextareaField-Inner__active {
         border: 1px solid $color-primary;
 
-        input:hover,
-        input {
+        textarea:hover,
+        textarea {
           background-color: $color-darkness;
         }
       }
 
-      input:-webkit-autofill.Input__active,
-      input:-webkit-autofill.Input__active:hover,
-      input:-webkit-autofill.Input__active:focus,
-      input:-webkit-autofill.Input__active:active {
+      textarea:-webkit-autofill.Textarea__active,
+      textarea:-webkit-autofill.Textarea__active:hover,
+      textarea:-webkit-autofill.Textarea__active:focus,
+      textarea:-webkit-autofill.Textarea__active:active {
         -webkit-box-shadow: 0 0 0 30px $color-darkness inset !important;
       }
 
@@ -151,38 +126,25 @@
       }
     }
 
-    & .InputField-ErrorField .text-dark {
-      color: $color-red;
-    }
-
     /* -------------------- Fix autocomplete form -------------------- */
-    .InputField-Inner {
+    .TextareaField-Inner {
       &:-webkit-autofill {
         color: red;
 
-        & ~ .InputField-Label {
+        & ~ .TextareaField-Label {
           color: $color-white;
         }
       }
 
-      input:-webkit-autofill {
+      textarea:-webkit-autofill {
         -webkit-text-fill-color: $color-white;
       }
     }
   }
 
-  .Input {
+  .Textarea {
     background-color: $color-darkness;
     border: 1px solid $color-nightSky;
     color: $color-white;
-
-    &.Input__error {
-      background-color: $color-darkness;
-      border: 1px solid $color-red;
-
-      &:hover {
-        background-color: $color-darkness;
-      }
-    }
   }
 }

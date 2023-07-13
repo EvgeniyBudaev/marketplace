@@ -185,7 +185,7 @@
       "noItemInCart": "В корзине нет товаров",
       "products": "{items, plural, one {# товар} few {# товара} other {# товаров}}",
       "goToCheckout": "Перейти к оформлению",
-      "backToShopping": "Вернуться к покупкам"
+      "backToShopping": "Вернуться назад"
     },
     "catalog": {
       "from": "из",

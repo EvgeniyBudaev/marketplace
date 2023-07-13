@@ -7,7 +7,7 @@ import clsx from "clsx";
 import {ERoutes} from "~/enums";
 //import { useMounted } from "hooks/useMounted";
 //import { useSelector } from "hooks";
-import type {TCatalogs} from "~/shared/api/catalogs";
+
 import type {TParams} from "~/types";
 import {CatalogList, catalogListLinks} from "./CatalogList";
 import {catalogListItemLinks} from "./CatalogListItem";
@@ -25,7 +25,6 @@ export const CatalogDropDown = forwardRef(
     const navigate = useNavigate();
     const fetcher = useFetcher();
     const isLoading = fetcher.state !== "idle";
-    const catalogs: TCatalogs = fetcher.data ?? null;
 
     //const { hasMounted } = useMounted();
     //const scroll = useSelector(scrollSelector);
@@ -33,7 +32,7 @@ export const CatalogDropDown = forwardRef(
     const isScroll = false;
 
     useEffect(() => {
-      onLoadCatalogs();
+      // onLoadCatalogs();
     }, []);
 
     const onLoadCatalogs = useCallback(
