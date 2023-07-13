@@ -1,22 +1,25 @@
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
-import { useEffect, useRef, useState } from "react";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { Link, useFetcher } from "@remix-run/react";
-import { ERoutes } from "~/enums";
-import { useCart, useUser } from "~/hooks";
-import { EFormMethods } from "~/shared/form";
-import { Avatar, DropDown, ETypographyVariant, Icon, Typography } from "~/uikit";
+import {useEffect, useRef, useState} from "react";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {Link, useFetcher, useNavigate} from "@remix-run/react";
+import {EPermissions, ERoutes} from "~/enums";
+import {useCart, useUser} from "~/hooks";
+import {EFormMethods} from "~/shared/form";
+import {Avatar, DropDown, ETypographyVariant, Icon, Typography} from "~/uikit";
+import {checkPermission} from "~/utils";
 import styles from "./HeaderIconsList.css";
 
 export const HeaderIconsList: FC = () => {
-  const { cart } = useCart();
-  const { t } = useTranslation();
-  const { user } = useUser();
+  const {cart} = useCart();
+  const {t} = useTranslation();
+  const {user} = useUser();
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const refToggleDropDown = useRef<any>(null);
   const fetcher = useFetcher();
+  const navigate = useNavigate();
+  const isAdmin = checkPermission(user?.permissions ?? null, [EPermissions.Administrator]);
 
   useEffect(() => {
     window.addEventListener("click", handleClickOutsideDropDown);
@@ -50,6 +53,11 @@ export const HeaderIconsList: FC = () => {
     );
   };
 
+  const handleRedirectAdminPanel = () => {
+    setIsDropDownOpen((prevState: boolean) => (prevState ? false : prevState));
+    navigate(ERoutes.AdminPanel);
+  }
+
   return (
     <div className="HeaderIconsList">
       <div className="HeaderIconsList-Item">
@@ -59,7 +67,7 @@ export const HeaderIconsList: FC = () => {
             pathname: `${ERoutes.Settings}`,
           }}
         >
-          <Icon className="HeaderIconsList-Icon" type="Settings" />
+          <Icon className="HeaderIconsList-Icon" type="Settings"/>
           <div className="HeaderIconsList-IconDescription">
             <Typography variant={ETypographyVariant.TextB3Regular}>
               {t("header.settings")}
@@ -76,7 +84,7 @@ export const HeaderIconsList: FC = () => {
             }}
           >
             <div className="HeaderIconsList-IconCart">
-              <Icon className="HeaderIconsList-Icon" type="Cart" />
+              <Icon className="HeaderIconsList-Icon" type="Cart"/>
               <div className="HeaderIconsList-CartItemsCount">
                 <Typography variant={ETypographyVariant.TextB3Regular}>
                   {cart?.countProducts}
@@ -92,11 +100,21 @@ export const HeaderIconsList: FC = () => {
       <div className={clsx("HeaderIconsList-Item", "HeaderIconsList-ItemDesktop")}>
         {!isEmpty(user) ? (
           <div className="HeaderIconsList-AvatarDropDown" ref={refToggleDropDown}>
-            <Avatar user={user.firstName} size={46} onClick={handleToggleDropDown} />
+            <Avatar user={user.firstName} size={46} onClick={handleToggleDropDown}/>
             <DropDown className="HeaderIconsList-DropDownUser" isOpen={isDropDownOpen}>
               <ul className="HeaderIconsList-AvatarDropDown_Menu">
+                {isAdmin && (
+                  <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleRedirectAdminPanel}>
+                    <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="AdminPanel"/>
+                    <div className="HeaderIconsList-AvatarDropDown_MenuItemText">
+                      <Typography variant={ETypographyVariant.TextB3Regular}>
+                        {t("header.adminPanel")}
+                      </Typography>
+                    </div>
+                  </li>
+                )}
                 <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleLogout}>
-                  <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="Exit" />
+                  <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="Exit"/>
                   <div className="HeaderIconsList-AvatarDropDown_MenuItemText">
                     <Typography variant={ETypographyVariant.TextB3Regular}>
                       {t("header.exit")}
@@ -108,7 +126,7 @@ export const HeaderIconsList: FC = () => {
           </div>
         ) : (
           <Link className="HeaderIconsList-IconLink" to={ERoutes.Login}>
-            <Icon className="HeaderIconsList-Icon" type="User" />
+            <Icon className="HeaderIconsList-Icon" type="User"/>
             <div className="HeaderIconsList-IconDescription">
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("header.enter")}
@@ -122,5 +140,5 @@ export const HeaderIconsList: FC = () => {
 };
 
 export function headerIconListLinks() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{rel: "stylesheet", href: styles}];
 }

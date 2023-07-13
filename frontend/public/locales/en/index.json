@@ -13,6 +13,7 @@
     "settings": "Settings",
     "cart": "Cart",
     "exit": "Exit",
+    "adminPanel": "Admin panel",
     "enter": "Enter"
   },
   "common": {

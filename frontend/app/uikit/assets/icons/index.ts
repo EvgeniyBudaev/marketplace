@@ -1,4 +1,5 @@
 export * from "./AddCircleOutlineIcon";
+export * from "./AdminPanelIcon";
 export * from "./ArrowBackIcon";
 export * from "./ArrowDownIcon";
 export * from "./ArrowDropDownIcon";

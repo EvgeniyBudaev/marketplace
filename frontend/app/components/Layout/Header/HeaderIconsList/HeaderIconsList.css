@@ -126,7 +126,6 @@
 .HeaderIconsList-DropDownUser {
   content: "";
   position: absolute;
-  bottom: -64px;
   right: 0;
   height: max-content;
   width: max-content;

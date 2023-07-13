@@ -1,5 +1,6 @@
 export enum ERoutes {
   Root = "/",
+  AdminPanel = "/admin",
   Login = "/auth/login",
   Signup = "/auth/signup",
 
@@ -17,6 +18,7 @@ export enum ERoutes {
 
   Cart = "/cart",
   CatalogDetail = "/catalog/:alias",
+  CatalogMirrors = "/catalog/mirrors",
   Order = "/order",
   ProductDetail = "/product/:alias",
   Recipient = "/recipient",
