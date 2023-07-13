@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { EFormFields } from "~/pages/Auth/Signup/enums";
+import {z} from "zod";
+import {EFormFields} from "~/pages/Auth/Signup/enums";
 import {
   EMAIL_ERROR_MESSAGE,
   EMAIL_NOT_CYRILLIC_ERROR_MESSAGE,
@@ -26,7 +26,7 @@ export const formSchema = z
       .min(1, EMPTY_FIELD_ERROR_MESSAGE)
       .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
     [EFormFields.MiddleName]: z.string().trim().regex(NAME_REGEXP, NAME_ERROR_MESSAGE).optional(),
-    [EFormFields.Phone]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Phone]: z.string().trim().min(11, EMPTY_FIELD_ERROR_MESSAGE),
     [EFormFields.Email]: z
       .string()
       .trim()
@@ -37,11 +37,11 @@ export const formSchema = z
     [EFormFields.Password]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
     [EFormFields.RePassword]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
   })
-  .refine(({ password, rePassword }) => password === rePassword, {
+  .refine(({password, rePassword}) => password === rePassword, {
     path: [EFormFields.RePassword],
     message: PASSWORD_ERROR_MESSAGE,
   })
-  .refine(({ phone }) => PHONE_REGEXP.test(phone), {
+  .refine(({phone}) => PHONE_REGEXP.test(phone), {
     path: [EFormFields.Phone],
     message: PHONE_ERROR_MESSAGE,
   });

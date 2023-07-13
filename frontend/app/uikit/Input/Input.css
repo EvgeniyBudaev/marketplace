@@ -61,21 +61,6 @@
 .InputField-LabelRequired {
   color: rgb(227, 18, 53);
 }
-.InputField-Visibility {
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 12px;
-  height: 24px;
-  width: 24px;
-  cursor: pointer;
-}
-.InputField-Visibility svg {
-  fill: rgba(0, 0, 0, 0.54);
-  height: 24px;
-  width: 24px;
-}
 .InputField-Inner {
   width: 100%;
   border: 1px solid transparent;

@@ -23,6 +23,7 @@ import { spinnerLinks } from "~/uikit/Spinner";
 import { switcherLinks } from "~/uikit/Switcher";
 import { tableLinks } from "~/uikit/Table";
 import { tagLinks } from "~/uikit/Tag";
+import { textareaLinks } from "~/uikit/Textarea";
 import { tooltipLinks } from "~/uikit/Tooltip";
 import { typographyLinks } from "~/uikit/Typography/constants";
 
@@ -51,6 +52,7 @@ export * from "./Spinner";
 export * from "./Switcher";
 export * from "./Table";
 export * from "./Tag";
+export * from "./Textarea";
 export * from "./Toast";
 export * from "./Tooltip";
 export * from "./Typography";
@@ -84,6 +86,7 @@ export const links = () => {
     ...switcherLinks(),
     ...tableLinks(),
     ...tagLinks(),
+    ...textareaLinks(),
     ...tooltipLinks(),
     ...typographyLinks(),
   ];
