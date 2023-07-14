@@ -28,10 +28,12 @@ const io = new Server(httpServer);
 
 io.on("connection", (socket) => {
   socket.on(SOCKET_SEND_LANGUAGE, (data) => {
-    socket.broadcast.emit(SOCKET_RECEIVE_LANGUAGE, data);
+    // socket.broadcast.emit(SOCKET_RECEIVE_LANGUAGE, data);
+    socket.emit(SOCKET_RECEIVE_LANGUAGE, data);
   });
   socket.on(SOCKET_SEND_THEME, (data) => {
     socket.broadcast.emit(SOCKET_RECEIVE_THEME, data);
+    // socket.emit(SOCKET_RECEIVE_THEME, data);
   });
 });
 
