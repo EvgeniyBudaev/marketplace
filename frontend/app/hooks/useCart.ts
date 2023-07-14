@@ -1,23 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
-import { useFetcher } from "@remix-run/react";
-import { ERoutes } from "~/enums";
-import type { TCart } from "~/shared/api/cart";
+import {useCallback} from "react";
+import {useStoreContext} from "~/shared/store";
 
 export const useCart = () => {
-  const [cart, setCart] = useState<TCart | null>(null);
-  const fetcher = useFetcher();
+  const {cart, setCart} = useStoreContext();
 
-  useEffect(() => {
-    setCart(fetcher.data?.cart);
-  }, [fetcher.data]);
+  const onChangeCart = useCallback(
+    async (value: any) => {
+      await setCart(value);
+    },
+    [setCart],
+  );
 
-  useEffect(() => {
-    onLoadCatalogs();
-  }, []);
-
-  const onLoadCatalogs = useCallback(() => {
-    fetcher.load(ERoutes.Cart);
-  }, [fetcher]);
-
-  return { cart };
+  return {cart, onChangeCart};
 };

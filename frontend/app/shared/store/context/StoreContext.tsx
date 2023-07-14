@@ -1,14 +1,20 @@
-import { createContext } from "react";
-import type { TStore } from "~/shared/store";
+import {createContext} from "react";
+import {TCart} from "~/shared/api/cart";
+import {DEFAULT_CART} from "~/shared/store";
+import type {TStore} from "~/shared/store";
 
 const defaultStore: TStore = {
+  cart: DEFAULT_CART,
+  setCart: (): void => {
+  },
   settings: {
     currency: "",
     language: "",
     theme: "",
     uuid: "",
   },
-  setSettings: (): void => {},
+  setSettings: (): void => {
+  },
   user: {
     id: 0,
     firstName: "",
@@ -22,7 +28,8 @@ const defaultStore: TStore = {
     createdAt: "",
     modifyDate: "",
   },
-  setUser: (): void => {},
+  setUser: (): void => {
+  },
 };
 
 export const StoreContext = createContext<TStore>(defaultStore);
