@@ -4,6 +4,16 @@ databaseChangeLog:
   - include:
       file: db/changelog/order/create/create-recipient-table.sql
   - include:
+      file: db/changelog/order/create/create-order-table.sql
+  - include:
+      file: db/changelog/order/create/create-order-item-table.sql
+  - include:
       file: db/changelog/order/create/add-foreign-key-shipping_address-sessions.sql
   - include:
       file: db/changelog/order/create/add-foreign-key-recipient-session.sql
+  - include:
+      file: db/changelog/order/create/add-foreign-key-order-items-product.sql
+  - include:
+      file: db/changelog/order/create/add-foreign-key-order-order-items.sql
+  - include:
+      file: db/changelog/order/create/add-foreign-key-order-session.sql
