@@ -18,7 +18,7 @@ public class Recipient {
     private Long id;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session")
-    private SessionId sessionId;
+    private SessionId session;
 
     @Column(name = "name", nullable = false)
     private String name;

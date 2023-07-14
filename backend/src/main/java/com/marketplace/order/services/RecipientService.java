@@ -24,7 +24,7 @@ public class RecipientService {
 
     @Transactional
     public Recipient getRecipientBySession(String uuid) {
-        TypedQuery<Recipient> query = entityManager.createQuery("SELECT r FROM Recipient as r INNER JOIN r.sessionId as s where s.uuid=:uuid", Recipient.class);
+        TypedQuery<Recipient> query = entityManager.createQuery("SELECT r FROM Recipient as r INNER JOIN r.session as s where s.uuid=:uuid", Recipient.class);
         query.setParameter("uuid",uuid);
         return query.getResultStream().findFirst().orElse(null);
     }
@@ -53,6 +53,6 @@ public class RecipientService {
         recipient.setPhone(dto.getPhone());
         recipient.setModifyDate(LocalDateTime.now());
         recipient.setPhone(dto.getPhone());
-        recipient.setSessionId(sessionIdService.getSession(dto.getUuid()));
+        recipient.setSession(sessionIdService.getSession(dto.getUuid()));
     }
 }

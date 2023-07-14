@@ -19,15 +19,12 @@ spring:
   jackson:
     serialization:
       write-null-map-values: off
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
 
   liquibase:
     change-log: db/changelog/master.yaml
     enabled: true
-logging:
-  level:
-    org.hibernate.sql: DEBUG
-    org.hibernate.type: TRACE
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

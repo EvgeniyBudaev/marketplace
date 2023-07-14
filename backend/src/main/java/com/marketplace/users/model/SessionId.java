@@ -1,12 +1,14 @@
 package com.marketplace.users.model;
 
 import com.marketplace.cart.model.Cart;
+import com.marketplace.order.models.Order;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "session")
@@ -33,6 +35,9 @@ public class SessionId {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "settings_id", referencedColumnName = "id")
     private UserSettings userSettings;
+
+    @OneToMany(mappedBy = "sessionId")
+    private Set<Order> orders;
 
     @Override
     public boolean equals(Object o) {

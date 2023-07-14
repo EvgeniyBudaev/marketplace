@@ -24,7 +24,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 
 @Service
@@ -155,12 +155,6 @@ public class ProductService implements ProductDao {
         }
     }
 
-    public Product findProductWithCatalogByAlias(String alias) {
-        TypedQuery<Product> query = entityManager
-                .createQuery("SELECT p from Product as p join fetch p.catalog where p.alias=:alias and p.enabled=true", Product.class);
-        query.setParameter("alias", alias);
-        return query.getResultStream().findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
-    }
 
     public Long findProductIdByAlias(String alias){
         TypedQuery<Long> query = entityManager.
@@ -168,5 +162,6 @@ public class ProductService implements ProductDao {
         query.setParameter("alias",alias);
         return query.getResultStream().findFirst().orElseThrow(()->new ResourceNotFoundException("Не найден продукт с псевдонимом " + alias));
     }
+
 
 }

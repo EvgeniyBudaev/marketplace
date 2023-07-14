@@ -27,6 +27,9 @@ public class RecipientController {
     @GetMapping("{uuid}")
     public RecipientResponseDto getRecipientBySession(@PathVariable(required = false) String uuid){
         Recipient recipient = recipientService.getRecipientBySession(uuid);
+        if(recipient==null){
+            recipient = new Recipient();
+        }
         return recipientMappers.entityToDto(recipient);
     }
 
