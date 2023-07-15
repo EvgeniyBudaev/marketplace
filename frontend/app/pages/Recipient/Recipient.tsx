@@ -5,6 +5,7 @@ import {Link, useFetcher} from "@remix-run/react";
 import {useAuthenticityToken} from "remix-utils";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ERoutes} from "~/enums";
+import {useTranslatedResolver} from "~/hooks";
 import type {TOptionsSubmitForm} from "~/pages";
 import {EFormFields} from "~/pages/Recipient/enums";
 import {formSchema} from "~/pages/Recipient/schemas";
@@ -16,7 +17,6 @@ import type {TDomainErrors, TParams} from "~/types";
 import {Button, ETypographyVariant, Icon, notify, Typography} from "~/uikit";
 import {createPath, normalizePhoneNumber} from "~/utils";
 import styles from "./Recipient.css";
-import {useTranslatedResolver} from "~/hooks";
 
 type TProps = {
   fieldErrors?: TDomainErrors<string>;
@@ -41,9 +41,7 @@ export const Recipient: FC<TProps> = (props) => {
   const recipient: TRecipient = fetcherRemix.data?.recipient ?? props.recipient;
 
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
-    console.log("Form params: ", params);
     const formattedParams = {...params, phone: normalizePhoneNumber(params.phone), csrf, uuid};
-    console.log("Form formattedParams: ", formattedParams);
     fetcher.submit(
       {...formattedParams},
       {

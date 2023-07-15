@@ -31,7 +31,7 @@ export const action = async (args: ActionArgs) => {
   if (checkCsrf?.error) return checkCsrf.error;
 
   const formattedParams = mapRecipientToDto(formValues as any);
-  console.log("[formattedParams] ", formattedParams);
+
   try {
     const response = await ediRecipient(request, formattedParams);
 

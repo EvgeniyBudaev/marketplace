@@ -28,12 +28,13 @@ export const attributesParamsSchema = z.any();
 export const attributeAddParamsSchema = z.object({
   alias: z.string(),
   name: z.string(),
+  filter: z.boolean(),
   type: z.string(),
   selectable: z
     .object({
       value: z.string(),
     })
-    .array(),
+    .array().nullish(),
 });
 
 export const attributeAddSchema = z.object({
@@ -42,6 +43,8 @@ export const attributeAddSchema = z.object({
   alias: z.string(),
   type: z.string().nullish(),
   filter: z.boolean(),
+  createdAt: z.string().nullish(),
+  modifyDate: z.string().nullish(),
   selectable: selectableItemSchema.array().nullish(),
 });
 

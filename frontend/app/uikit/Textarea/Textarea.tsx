@@ -1,7 +1,7 @@
+import clsx from "clsx";
 import {forwardRef, memo, useState} from "react";
 import type {DetailedHTMLProps, ForwardedRef, HTMLAttributes, FocusEvent} from "react";
-import clsx from "clsx";
-import {ETypographyVariant, FadeIn, Typography} from "~/uikit";
+import {ETypographyVariant, Typography} from "~/uikit";
 import styles from "./Textarea.css";
 
 export interface ITextareaProps
