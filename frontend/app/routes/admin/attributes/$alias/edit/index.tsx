@@ -27,17 +27,19 @@ import {
   mapParamsEditAttributeToDto,
   mapParamsEditSelectableValueToDto,
 } from "~/shared/api/attributes/utils";
-import {getCsrfSession} from "~/shared/session";
+import {commitSession, getCsrfSession, getSession} from "~/shared/session";
 import {getStoreFixedT} from "~/shared/store";
-import {checkCSRFToken, checkRequestPermission} from "~/utils";
+import {checkCSRFToken, checkRequestPermission, createPath} from "~/utils";
 
 export const action = async (args: ActionArgs) => {
-  const {request} = args;
+  const {params, request} = args;
+  const {alias = ""} = params;
 
-  const [csrfSession, formValues, t] = await Promise.all([
+  const [csrfSession, formValues, t, session] = await Promise.all([
     getCsrfSession(request),
     inputFromForm(request),
     getStoreFixedT({request}),
+    getSession(request.headers.get("Cookie")),
   ]);
 
   const csrfToken = formValues.csrf;
@@ -88,25 +90,70 @@ export const action = async (args: ActionArgs) => {
 
     if (_method === EAttributeAction.EditAttribute) {
       const {csrf, _method, ...data} = formValues;
-      const formData = mapParamsEditAttributeToDto(data);
-      const response = await editAttribute(request, formData);
+      const formattedData = mapParamsEditAttributeToDto(data);
+      const response = await editAttribute(request, formattedData);
 
       if (response.success) {
-        return {success: true};
+        session.flash("FamilyMart_AttributeEdit", {
+          success: true,
+        });
+
+
+        return redirect(
+          createPath({
+            route: ERoutes.AdminAttributeEdit,
+            params: {alias},
+          }),
+          {
+            headers: {
+              "Set-Cookie": await commitSession(session),
+            },
+          },
+        );
       }
 
-      const fieldErrors = getInputErrors<keyof TForm>(response, Object.values(EFormFields));
-      return badRequest({fieldErrors, success: false});
+      session.flash("FamilyMart_AttributeEdit", {
+        success: false,
+      });
+
+      return redirect(
+        createPath({
+          route: ERoutes.AdminAttributeEdit,
+          params: {alias},
+        }),
+        {
+          headers: {
+            "Set-Cookie": await commitSession(session),
+          },
+        });
     }
   } catch (error) {
     const errorResponse = error as Response;
     const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
-    return badRequest({success: false, formError, fieldErrors});
+    const session = await getSession(request.headers.get("Cookie"));
+    session.flash("FamilyMart_AttributeEdit", {
+      success: false,
+      formError,
+      fieldErrors,
+    });
+    const path = alias
+      ? createPath({
+        route: ERoutes.AdminAttributeEdit,
+        params: {alias},
+      })
+      : ERoutes.AdminAttributes;
+
+    return redirect(path, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    });
   }
 };
 
 export const loader = async (args: LoaderArgs) => {
   const {params, request} = args;
+  const {alias} = params;
 
   const [t, isPermissions] = await Promise.all([
     getStoreFixedT({request}),
@@ -116,8 +163,6 @@ export const loader = async (args: LoaderArgs) => {
   if (!isPermissions) {
     return redirect(ERoutes.Login);
   }
-
-  const {alias} = params;
 
   try {
     const response = await getAttributeDetail(request, {alias});
@@ -147,9 +192,14 @@ export const meta: MetaFunction = ({data}) => {
 };
 
 export default function AttributeEditRoute() {
-  const {attribute} = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
 
-  return <AttributeEdit attribute={attribute}/>;
+  return <AttributeEdit
+    attribute={data.attribute}
+    fieldErrors={data.fieldErrors}
+    formError={data.formError}
+    success={data.success}
+  />;
 }
 
 export function links() {

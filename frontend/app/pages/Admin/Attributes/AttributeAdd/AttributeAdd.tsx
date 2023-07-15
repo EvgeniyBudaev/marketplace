@@ -4,6 +4,7 @@ import {useTranslation} from "react-i18next";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ERoutes} from "~/enums";
 import {useTheme} from "~/hooks";
+import {EAttributeType} from "~/pages";
 import {EFormFields, formSchema, mapFormDataToDto} from "~/pages/Admin/Attributes/AttributeAdd";
 import type {TForm, TOptionsSubmitForm} from "~/pages/Admin/Attributes/AttributeAdd";
 import {Checkbox, EFormMethods, Form, Input, Select, useInitForm} from "~/shared/form";
@@ -25,15 +26,13 @@ type TProps = {
 export const AttributeAdd: FC<TProps> = (props) => {
   const {t} = useTranslation();
   const {theme} = useTheme();
-  const DOUBLE = "DOUBLE";
-  const SELECTABLE = "SELECTABLE";
 
   const idCheckbox = "checkbox";
   const [filter, setFilter] = useState<TParams>({filter: [idCheckbox]});
 
   const selectTypeOptions = [
-    {value: SELECTABLE, label: SELECTABLE},
-    {value: DOUBLE, label: DOUBLE},
+    {value: EAttributeType.Selectable, label: EAttributeType.Selectable},
+    {value: EAttributeType.Double, label: EAttributeType.Double},
   ];
 
   const [currentSelectableValue, setCurrentSelectableValue] = useState("");
@@ -45,7 +44,7 @@ export const AttributeAdd: FC<TProps> = (props) => {
   const isDoneType = form.isDoneType;
   const {watch} = form.methods;
   const watchType = watch(EFormFields.Type);
-  const isSelectableType = watchType?.value === SELECTABLE;
+  const isSelectableType = watchType?.value === EAttributeType.Selectable;
 
   useEffect(() => {
     if (isDoneType && !props.success && !props.fieldErrors) {

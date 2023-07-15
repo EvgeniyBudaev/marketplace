@@ -1,6 +1,6 @@
 import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import type {FC, ChangeEvent} from "react";
 import type {OnChangeValue} from "react-select";
 import {useTranslation} from "react-i18next";
@@ -56,14 +56,14 @@ export const ProductAdd: FC<TProps> = (props) => {
   const enabled: boolean = filter[EFormFields.Enabled].includes(idCheckbox);
 
   const {catalogAliasesTypeOptions} = useGetCatalogAlias({catalogs});
-  const [catalogAlias, setCatalogAlias] = useState<TSelectOption>(catalogAliasesTypeOptions[0]);
   const attributesByCatalog: TAttributesByCatalog = fetcherRemix.data?.attributesByCatalog;
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
+  const isLoading = fetcherRemix.state !== 'idle';
   const isDoneType = form.isDoneType;
-  const {setValue, watch} = form.methods;
+  const {reset, setValue, watch} = form.methods;
 
   const watchFiles = watch(EFormFields.Files);
   const {onAddFiles, onDeleteFile, fetcherFilesLoading} = useFiles({
@@ -94,20 +94,6 @@ export const ProductAdd: FC<TProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.success, isDoneType]);
 
-  useEffect(() => {
-    fetcherRemix.submit(
-      {},
-      {
-        method: EFormMethods.Post,
-        action: createPath({
-          route: ERoutes.ResourcesAttributesByCatalog,
-          params: {alias: catalogAlias.value},
-        }),
-      },
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [catalogAlias]);
-
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
     id: string,
@@ -130,12 +116,25 @@ export const ProductAdd: FC<TProps> = (props) => {
     }
   };
 
-  const handleChangeCatalogAlias = (
-    selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>,
-  ) => {
+  const handleChangeCatalogAlias = useCallback((selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>) => {
     if (isNull(selectedOption)) return;
-    setCatalogAlias(selectedOption as TSelectOption);
-  };
+    reset();
+    const option = selectedOption as TSelectOption;
+    const catalogAlias = option.value;
+    const path = createPath({
+      route: ERoutes.ResourcesAttributesByCatalog,
+      params: {alias: catalogAlias},
+    });
+
+    fetcherRemix.submit(
+      {},
+      {
+        method: EFormMethods.Post,
+        action: path,
+      },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleAddFileToDefaultImage = (file: TFile) => {
     setDefaultImage(file);
@@ -155,7 +154,7 @@ export const ProductAdd: FC<TProps> = (props) => {
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
     const formattedParams = formattedProductAdd(params);
-    const dataFormToDto = mapProductAddToDto(formattedParams, enabled);
+    const dataFormToDto = mapProductAddToDto(formattedParams, enabled, attributesByCatalog?.alias);
     console.log("dataFormToDto: ", dataFormToDto);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
@@ -207,10 +206,10 @@ export const ProductAdd: FC<TProps> = (props) => {
 
         <div className="ProductAdd-FormFieldGroup">
           <Select
-            defaultValue={catalogAliasesTypeOptions[0]}
             name={EFormFields.CatalogAlias}
             onChange={handleChangeCatalogAlias}
             options={catalogAliasesTypeOptions}
+            placeholder={t("pages.admin.productAdd.selectCatalog") ?? "Select catalog"}
             theme={theme}
           />
         </div>
@@ -237,7 +236,7 @@ export const ProductAdd: FC<TProps> = (props) => {
         <Input label={t("form.price.title") ?? "Price"} name={EFormFields.Price} type="text"/>
 
         <div className="ProductAdd-FormFieldGroup">
-          {attributesByCatalog &&
+          {!isLoading && attributesByCatalog &&
             attributesByCatalog.selectableAttribute &&
             attributesByCatalog.selectableAttribute.map((item) => {
               const {selectableAttributeOptions} = getSelectableAttributeOptions({

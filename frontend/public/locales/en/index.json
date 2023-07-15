@@ -12,8 +12,8 @@
   "header": {
     "settings": "Settings",
     "cart": "Cart",
-    "exit": "Exit",
     "adminPanel": "Admin panel",
+    "exit": "Exit",
     "enter": "Enter"
   },
   "common": {
@@ -26,6 +26,7 @@
       "search": "Search",
       "create": "Create",
       "add": "Add",
+      "update": "Update",
       "save": "Save",
       "apply": "Apply",
       "addToCart": "Add to cart",
@@ -81,6 +82,9 @@
       },
       "attributeEdit": {
         "title": "Editing an Attribute",
+        "tooltip": {
+          "buttonAdd": "Click the 'Update' button"
+        },
         "addModal": {
           "title": "Adding a new value"
         },
@@ -140,7 +144,8 @@
         }
       },
       "productAdd": {
-        "title": "Product addition"
+        "title": "Product addition",
+        "selectCatalog": "Select catalog"
       },
       "productEdit": {
         "title": "Product editing",
@@ -243,11 +248,11 @@
     }
   },
   "form": {
-    "name": {
-      "title": "Name"
-    },
     "alias": {
       "title": "Alias"
+    },
+    "name": {
+      "title": "Name"
     },
     "filter": {
       "title": "Filter"

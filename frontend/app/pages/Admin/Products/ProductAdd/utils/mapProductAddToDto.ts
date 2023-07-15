@@ -14,11 +14,11 @@ type TResponse = {
   selectableValues: number[] | null;
 };
 
-export const mapProductAddToDto = (params: TParams, enabled: boolean): TResponse => {
+export const mapProductAddToDto = (params: TParams, enabled: boolean, catalogAlias?: string): TResponse => {
   return {
     ...params,
     alias: params?.alias ? params.alias : null,
-    catalogAlias: params?.catalogAlias ? params.catalogAlias.value : null,
+    catalogAlias: catalogAlias ?? null,
     count: params?.count ? params.count : null,
     description: params?.description ? params.description : null,
     enabled: enabled.toString(),

@@ -38,7 +38,8 @@ export const action = async (args: ActionArgs) => {
 
       return redirect(
         createPath({
-          route: ERoutes.AdminProducts,
+          route: ERoutes.AdminProductEdit,
+          params: {alias: response.data.alias},
         }),
         {
           headers: {
@@ -67,11 +68,13 @@ export const action = async (args: ActionArgs) => {
     const errorResponse = error as Response;
     const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
     const session = await getSession(request.headers.get("Cookie"));
+    console.log("[errorResponse] ", errorResponse);
     session.flash("FamilyMart_ProductAdd", {
       success: false,
       formError,
       fieldErrors,
     });
+
     return redirect(
       createPath({
         route: ERoutes.AdminProductAdd,

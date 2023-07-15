@@ -1,19 +1,21 @@
+import i18next from "i18next";
 import {inputFromForm} from "remix-domains";
 import {badRequest} from "remix-utils";
 import {json, redirect} from "@remix-run/node";
 import type {ActionArgs, LoaderArgs, MetaFunction} from "@remix-run/node";
-import i18next from "i18next";
+import {useLoaderData} from "@remix-run/react";
+
 import {EPermissions, ERoutes} from "~/enums";
 import {
   AttributeAdd,
   attributeAddLinks,
 } from "~/pages/Admin/Attributes/AttributeAdd";
 import {addAttribute} from "~/shared/api/attributes";
+import {mapParamsAddAttributeToDto} from "~/shared/api/attributes/utils";
 import {getResponseError} from "~/shared/domain";
 import {commitSession, getCsrfSession, getSession} from "~/shared/session";
 import {getStoreFixedT} from "~/shared/store";
 import {checkCSRFToken, checkRequestPermission, createPath} from "~/utils";
-import {useLoaderData} from "@remix-run/react";
 
 export const action = async (args: ActionArgs) => {
   const {request} = args;
@@ -29,14 +31,8 @@ export const action = async (args: ActionArgs) => {
   const checkCsrf = checkCSRFToken({csrfToken, session: csrfSession, t});
   if (checkCsrf?.error) return checkCsrf.error;
 
-  const {csrf, ...formData} = formValues;
-  const formattedData = {
-    ...formData,
-    filter: Boolean(formData.filter),
-    ...(formData.selectable && typeof formData.selectable === "string"
-      ? {selectable: JSON.parse(formData.selectable.trim())}
-      : {}),
-  };
+  const {csrf, ...data} = formValues;
+  const formattedData = mapParamsAddAttributeToDto(data);
 
   try {
     const response = await addAttribute(request, formattedData);

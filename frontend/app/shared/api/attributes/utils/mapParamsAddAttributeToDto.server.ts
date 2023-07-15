@@ -1,6 +1,6 @@
 import type {TParams} from "~/types";
 
-export const mapParamsEditAttributeToDto = (params: TParams) => {
+export const mapParamsAddAttributeToDto = (params: TParams) => {
   return {
     ...params,
     id: Number(params.id),
