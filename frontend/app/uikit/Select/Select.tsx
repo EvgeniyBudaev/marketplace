@@ -27,6 +27,7 @@ export type TSelectProps = {
   getOptionLabel?: GetOptionLabel<TSelectOption | TSelectOption[]>;
   id?: string;
   instanceId?: string;
+  isDisabled?: boolean;
   isMulti?: isSelectMultiType;
   menuPlacement?: MenuPlacement;
   menuPosition?: MenuPosition;
@@ -51,6 +52,7 @@ const SelectComponent: FC<TSelectProps> = ({
                                              getOptionLabel,
                                              id,
                                              instanceId,
+                                             isDisabled = false,
                                              isMulti = false,
                                              menuPlacement,
                                              menuPosition,
@@ -75,6 +77,7 @@ const SelectComponent: FC<TSelectProps> = ({
       getOptionLabel={getOptionLabel}
       id={id ? id : uuid}
       instanceId={instanceId ? instanceId : uuid}
+      isDisabled={isDisabled}
       isMulti={isMulti}
       menuPlacement={menuPlacement}
       menuPosition={menuPosition}

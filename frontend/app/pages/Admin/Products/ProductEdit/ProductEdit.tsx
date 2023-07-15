@@ -9,6 +9,7 @@ import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
 import {ERoutes} from "~/enums";
 import {useTheme} from "~/hooks";
+import {EAttributeType} from "~/pages";
 import {useFiles, useGetCatalogAlias} from "~/pages/Admin/Products/hooks";
 import {
   EFormFields,
@@ -37,6 +38,7 @@ import {createPath, formatProxy} from "~/utils";
 import styles from "./ProductEdit.css";
 
 type TProps = {
+  attributesByCatalog: TAttributesByCatalog;
   catalogs: TCatalogs;
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
@@ -51,10 +53,12 @@ export const ProductEdit: FC<TProps> = (props) => {
   const {theme} = useTheme();
   const idCheckbox = "enabled";
 
-  const [catalogs, setCatalogs] = useState(props.catalogs);
-  const [product, setProduct] = useState(props.product);
+  const attributesByCatalog: TAttributesByCatalog = fetcherRemix.data?.attributesByCatalog ?? props.attributesByCatalog;
+  const catalogs: TCatalogs = fetcherRemix.data?.catalogs ?? props.catalogs;
+  const product: TAdminProductDetail = fetcherRemix.data?.product ?? props.product;
+
   const [defaultImage, setDefaultImage] = useState<TFile | string | null>(
-    props.product?.defaultImage ?? null,
+    product?.defaultImage ?? null,
   );
   const [images, setImages] = useState<string[]>(product?.images ?? []);
   const [filter, setFilter] = useState<TParams>({enabled: product.enabled ? [idCheckbox] : []});
@@ -63,21 +67,17 @@ export const ProductEdit: FC<TProps> = (props) => {
   const defaultCatalogAlias = catalogAliasesTypeOptions.find(
     (item) => item.value === product.catalogAlias,
   );
-  const [catalogAlias, setCatalogAlias] = useState<TSelectOption>(
-    defaultCatalogAlias ?? catalogAliasesTypeOptions[0],
-  );
-  const attributesByCatalog: TAttributesByCatalog = fetcherRemix.data?.attributesByCatalog;
-
   const productSelectableAttributeList = product.attributeValuesSet.filter(
-    (item) => item.attributeType === "SELECTABLE",
+    (item) => item.attributeType === EAttributeType.Selectable,
   );
   const productNumberAttributeList = product.attributeValuesSet.filter(
-    (item) => item.attributeType === "DOUBLE",
+    (item) => item.attributeType === EAttributeType.Double,
   );
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
+  const isLoading = fetcherRemix.state !== 'idle';
   const isDoneType = form.isDoneType;
   const {setValue, watch} = form.methods;
 
@@ -89,11 +89,9 @@ export const ProductEdit: FC<TProps> = (props) => {
   });
 
   useEffect(() => {
-    setCatalogs(props.catalogs);
-    setProduct(props.product);
-    setDefaultImage(props.product.defaultImage ?? null);
-    setImages(props.product.images ?? []);
-  }, [props.product, props.catalogs, product.enabled]);
+    setDefaultImage(product.defaultImage ?? null);
+    setImages(product.images ?? []);
+  }, [product, catalogs, product.enabled]);
 
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
@@ -121,7 +119,6 @@ export const ProductEdit: FC<TProps> = (props) => {
     selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>,
   ) => {
     if (isNull(selectedOption)) return;
-    setCatalogAlias(selectedOption as TSelectOption);
   };
 
   const handleAddFileToDefaultImage = (value: TFile | string) => {
@@ -159,7 +156,8 @@ export const ProductEdit: FC<TProps> = (props) => {
 
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
     const formattedParams = formattedProductEdit(params);
-    const dataFormToDto = mapProductEditToDto(formattedParams, product.id);
+    const dataFormToDto = mapProductEditToDto(formattedParams, product.id, attributesByCatalog?.alias);
+    console.log("dataFormToDto: ", dataFormToDto);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.catalogAlias && formData.append("catalogAlias", dataFormToDto.catalogAlias);
@@ -214,20 +212,6 @@ export const ProductEdit: FC<TProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.success, isDoneType]);
 
-  useEffect(() => {
-    fetcherRemix.submit(
-      {},
-      {
-        method: EFormMethods.Post,
-        action: createPath({
-          route: ERoutes.ResourcesAttributesByCatalog,
-          params: {alias: catalogAlias.value},
-        }),
-      },
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [catalogAlias]);
-
   return (
     <section>
       <h1 className="ProductEdit-Title">
@@ -247,6 +231,7 @@ export const ProductEdit: FC<TProps> = (props) => {
         <div className="ProductEdit-FormFieldGroup">
           <Select
             defaultValue={defaultCatalogAlias ?? catalogAliasesTypeOptions[0]}
+            isDisabled={true}
             name={EFormFields.CatalogAlias}
             onChange={handleChangeCatalogAlias}
             options={catalogAliasesTypeOptions}
@@ -292,17 +277,20 @@ export const ProductEdit: FC<TProps> = (props) => {
         />
 
         <div className="ProductEdit-FormFieldGroup">
-          {attributesByCatalog &&
+          {!isLoading && attributesByCatalog &&
             attributesByCatalog.selectableAttribute &&
             productSelectableAttributeList &&
             attributesByCatalog.selectableAttribute.map((item) => {
               const {selectableAttributeOptions} = getSelectableAttributeOptions({
                 values: item.values ?? [],
               });
+              const defaultAttribute = productSelectableAttributeList.find(
+                attribute => attribute.attributeAlias === item.alias);
+              const defaultValue = {value: defaultAttribute?.id.toString() ?? "", label: defaultAttribute?.value ?? ""};
               return (
                 <div className="ProductEdit-FormFieldGroup" key={item.id}>
                   <Select
-                    defaultValue={selectableAttributeOptions[0]}
+                    defaultValue={defaultValue}
                     name={item.alias}
                     options={selectableAttributeOptions}
                     theme={theme}
@@ -313,7 +301,7 @@ export const ProductEdit: FC<TProps> = (props) => {
         </div>
 
         <div className="ProductEdit-FormFieldGroup">
-          {productNumberAttributeList &&
+          {!isLoading && productNumberAttributeList &&
             productNumberAttributeList.map((item) => {
               return (
                 <Input
