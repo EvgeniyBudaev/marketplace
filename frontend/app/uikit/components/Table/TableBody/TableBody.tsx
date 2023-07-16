@@ -1,40 +1,24 @@
-import {forwardRef} from "react";
-import type {ForwardedRef} from "react";
-import {flexRender} from "@tanstack/react-table";
-import type {Row} from "@tanstack/react-table";
-import {DEFAULT_COLUMN_MIN_SIZE} from "~/uikit/components/Table/constants";
+import { forwardRef } from "react";
+import type { ForwardedRef } from "react";
+import type { Row } from "@tanstack/react-table";
+import { TableRow, tableRowLinks } from "~/uikit/components/Table/TableRow";
+import type { TTableRowActions } from "~/uikit/components/Table/types";
 import styles from "./TableBody.css";
 
 type TProps<TColumn extends object> = {
+  rowActions?: TTableRowActions<TColumn>;
   rows: Row<TColumn>[];
 };
 
 const TableBodyComponent = <T extends object>(
-  {rows}: TProps<T>,
+  { rowActions, rows }: TProps<T>,
   ref: ForwardedRef<HTMLTableSectionElement>,
 ) => {
   return (
-    <tbody className="TableBody-TBody" ref={ref}>
-    {rows.map((row) => {
-      return (
-        <tr className="TableBody-TR" key={row.id}>
-          {row.getVisibleCells().map((cell) => {
-            return (
-              <td
-                className="TableBody-TD"
-                key={cell.id}
-                style={{
-                  minWidth: cell.column.columnDef?.minSize ?? DEFAULT_COLUMN_MIN_SIZE,
-                  maxWidth: cell.column.columnDef?.maxSize,
-                }}
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            );
-          })}
-        </tr>
-      );
-    })}
+    <tbody className="TableBody" ref={ref}>
+      {rows.map((row) => {
+        return <TableRow key={row.id} rowActions={rowActions} row={row} />;
+      })}
     </tbody>
   );
 };
@@ -42,5 +26,5 @@ const TableBodyComponent = <T extends object>(
 export const TableBody = forwardRef(TableBodyComponent);
 
 export function tableBodyLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }, ...tableRowLinks()];
 }

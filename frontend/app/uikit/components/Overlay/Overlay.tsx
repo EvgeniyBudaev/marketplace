@@ -1,12 +1,13 @@
+import clsx from "clsx";
 import { memo, useRef } from "react";
 import type { FC, MouseEvent } from "react";
 import { CSSTransition } from "react-transition-group";
-import clsx from "clsx";
 import { TRANSITION } from "~/constants";
 import styles from "./Overlay.css";
 
 type TProps = {
   className?: string;
+  dataTestId?: string;
   isActive?: boolean;
   onClick?: (event: MouseEvent) => void;
   timeout?: number;
@@ -14,6 +15,7 @@ type TProps = {
 
 const OverlayComponent: FC<TProps> = ({
   className,
+  dataTestId = "uikit__overlay",
   isActive = false,
   onClick,
   timeout = TRANSITION,
@@ -23,6 +25,7 @@ const OverlayComponent: FC<TProps> = ({
   return (
     <CSSTransition
       className={clsx("Overlay", className)}
+      data-testid={dataTestId}
       in={isActive}
       nodeRef={nodeRef}
       onClick={onClick}

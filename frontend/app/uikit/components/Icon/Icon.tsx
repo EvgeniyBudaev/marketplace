@@ -1,11 +1,11 @@
-import {memo, useEffect, useRef} from "react";
-import type {FC, DOMAttributes} from "react";
+import { memo, useEffect, useRef } from "react";
+import type { FC, DOMAttributes } from "react";
 import clsx from "clsx";
-import {EColorType, ETextColor} from "~/uikit";
-import type {TColor} from "~/uikit";
-import {formatToStringWithPx} from "~/uikit/utils";
-import type {IconType} from "./IconType";
-import {iconTypes} from "./IconType";
+import { EColorType, ETextColor } from "~/uikit";
+import type { TColor } from "~/uikit";
+import { formatToStringWithPx } from "~/uikit/utils";
+import type { IconType } from "./IconType";
+import { iconTypes } from "./IconType";
 import styles from "./Icon.css";
 
 const getIcon = (type: string) => iconTypes.get(type);
@@ -13,6 +13,7 @@ const getIcon = (type: string) => iconTypes.get(type);
 interface IProps extends DOMAttributes<HTMLSpanElement> {
   className?: string;
   color?: TColor;
+  dataTestId?: string;
   height?: number;
   size?: number;
   type: IconType;
@@ -20,14 +21,15 @@ interface IProps extends DOMAttributes<HTMLSpanElement> {
 }
 
 const IconComponent: FC<IProps> = ({
-                                     className,
-                                     color = ETextColor.Dark,
-                                     height,
-                                     width,
-                                     size,
-                                     type,
-                                     ...rest
-                                   }) => {
+  className,
+  color = ETextColor.Dark,
+  dataTestId = "uikit__icon",
+  height,
+  width,
+  size,
+  type,
+  ...rest
+}) => {
   const iconRef = useRef<HTMLDivElement>(null);
   const mainStyles = clsx(`${EColorType.Icon}-${color}`);
 
@@ -44,7 +46,12 @@ const IconComponent: FC<IProps> = ({
   }, [height, size, width]);
 
   return (
-    <div className={clsx("Icon", className, mainStyles)} ref={iconRef} {...rest}>
+    <div
+      className={clsx("Icon", className, mainStyles)}
+      data-testid={dataTestId}
+      ref={iconRef}
+      {...rest}
+    >
       {getIcon(type)}
     </div>
   );
@@ -53,5 +60,5 @@ const IconComponent: FC<IProps> = ({
 export const Icon = memo(IconComponent);
 
 export function iconLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

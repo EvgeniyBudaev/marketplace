@@ -1,23 +1,26 @@
 import clsx from "clsx";
-import type {FC, ReactNode} from "react";
-import {CSSTransition} from "react-transition-group";
-import {TRANSITION} from "~/constants";
-import {DropDownProvider} from "~/uikit/context";
-import type {TDropDownClasses} from "~/uikit/components/DropDown/types";
-import {useDropDown, useDropDownContext} from "~/uikit/components/hooks/useDropDown";
+import type { FC, ReactNode } from "react";
+import { CSSTransition } from "react-transition-group";
+import { TRANSITION } from "~/constants";
+import { DropDownProvider } from "~/uikit/context";
+import type { TDropDownClasses } from "~/uikit/components/DropDown/types";
+import { useDropDown, useDropDownContext } from "~/uikit/components/hooks/useDropDown";
 import styles from "./DropDown.css";
 
 type TProps = {
   children?: ReactNode;
   classes?: TDropDownClasses;
+  dataTestId?: string;
 };
 
-export const DropDown = ({children, classes}: TProps) => {
+export const DropDown = ({ children, classes, dataTestId = "uikit__drop-down" }: TProps) => {
   const dropDownState = useDropDown();
 
   return (
     <DropDownProvider value={dropDownState}>
-      <div className={clsx("DropDown", classes?.dropDown)}>{children}</div>
+      <div className={clsx("DropDown", classes?.dropDown)} data-testid={dataTestId}>
+        {children}
+      </div>
     </DropDownProvider>
   );
 };
@@ -27,7 +30,7 @@ type TDropDownButton = {
   classes?: TDropDownClasses;
 };
 
-const DropDownButton: FC<TDropDownButton> = ({children, classes}) => {
+const DropDownButton: FC<TDropDownButton> = ({ children, classes }) => {
   const dropDownState = useDropDownContext();
 
   return (
@@ -49,7 +52,7 @@ type TDropDownPanel = {
   transition?: number;
 };
 
-const DropDownPanel: FC<TDropDownPanel> = ({children, classes, transition}) => {
+const DropDownPanel: FC<TDropDownPanel> = ({ children, classes, transition }) => {
   const dropDownState = useDropDownContext();
 
   return (
@@ -69,5 +72,5 @@ const DropDownPanel: FC<TDropDownPanel> = ({children, classes, transition}) => {
 DropDown.Panel = DropDownPanel;
 
 export function dropDownLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

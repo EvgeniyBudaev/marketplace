@@ -1,13 +1,14 @@
-import {forwardRef, memo, useState} from "react";
-import type {DetailedHTMLProps, ForwardedRef, HTMLAttributes, FocusEvent} from "react";
+import { forwardRef, memo, useState } from "react";
+import type { DetailedHTMLProps, ForwardedRef, HTMLAttributes, FocusEvent } from "react";
 import clsx from "clsx";
-import {ETypographyVariant, FadeIn, Typography} from "~/uikit";
+import { ETypographyVariant, FadeIn, Typography } from "~/uikit";
 import styles from "./Input.css";
 
 export interface IInputProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   autoComplete?: string;
   className?: string;
+  dataTestId?: string;
   error?: string;
   hidden?: boolean;
   isFocused?: boolean;
@@ -23,6 +24,7 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
     {
       autoComplete,
       className,
+      dataTestId = "uikit__input",
       error,
       hidden,
       isFocused: isInputFocused,
@@ -66,6 +68,7 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
         className={clsx("InputField", className, {
           InputField__active: isFocused,
         })}
+        data-testid={dataTestId}
       >
         <div
           className={clsx("InputField-Inner", {
@@ -118,5 +121,5 @@ InputComponent.displayName = "InputComponent";
 export const Input = memo(InputComponent);
 
 export function inputLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

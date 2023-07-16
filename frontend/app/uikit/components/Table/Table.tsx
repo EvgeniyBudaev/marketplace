@@ -1,19 +1,19 @@
-import React, {forwardRef, useCallback, useEffect, useMemo, useRef} from "react";
-import type {ForwardedRef, ReactElement} from "react";
-import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
-import type {VisibilityState} from "@tanstack/react-table";
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef } from "react";
+import type { ForwardedRef, ReactElement } from "react";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import type { VisibilityState } from "@tanstack/react-table";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
-import {DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST} from "~/constants";
-import {Control} from "~/uikit/components/Table/Control";
-import {ETablePlacement} from "~/uikit/components/Table/enums";
-import {NavigationPanel, navigationPanelLinks} from "~/uikit/components/Table/NavigationPanel";
-import {TableBody, tableBodyLinks} from "~/uikit/components/Table/TableBody";
-import {optionsLinks} from "~/uikit/components/Table/Options";
-import {TableHeader, tableHeaderLinks} from "~/uikit/components/Table/TableHeader";
-import {TableLoader, tableLoaderLinks} from "~/uikit/components/Table/TableLoader";
-import type {TTableProps} from "~/uikit/components/Table/types";
-import {tableHeaderItemLinks} from "./TableHeaderItem";
+import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "~/constants";
+import { Control } from "~/uikit/components/Table/Control";
+import { ETablePlacement } from "~/uikit/components/Table/enums";
+import { NavigationPanel, navigationPanelLinks } from "~/uikit/components/Table/NavigationPanel";
+import { TableBody, tableBodyLinks } from "~/uikit/components/Table/TableBody";
+import { optionsLinks } from "~/uikit/components/Table/Options";
+import { TableHeader, tableHeaderLinks } from "~/uikit/components/Table/TableHeader";
+import { TableLoader, tableLoaderLinks } from "~/uikit/components/Table/TableLoader";
+import type { TTableProps } from "~/uikit/components/Table/types";
+import { tableHeaderItemLinks } from "./TableHeaderItem";
 import styles from "./Table.css";
 
 const TableComponent = <TColumn extends Record<string, any>>(
@@ -25,17 +25,19 @@ const TableComponent = <TColumn extends Record<string, any>>(
     className,
     columns,
     currentPage,
+    dataTestId = "uikit__table",
     debug,
     defaultPageSize,
     isLoading = false,
-    pagesCount,
-    sorting,
     onChangePageSize,
     onPageChange,
     onRowSelectionChange,
+    pagesCount,
     pageSizeOptions,
+    rowActions,
     rowSelection,
     settings,
+    sorting,
     theme,
     totalItems,
     totalItemsTitle,
@@ -91,7 +93,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
   });
 
   return (
-    <div ref={ref}>
+    <div data-testid={dataTestId} ref={ref}>
       <NavigationPanel
         className="Table-NavigationPanel__top"
         currentPage={currentPage}
@@ -108,10 +110,10 @@ const TableComponent = <TColumn extends Record<string, any>>(
           {" "}
           {totalItemsTitle}&nbsp;<span className="Table-HeadCount">{totalItems}</span>
         </div>
-        <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()}/>}</div>
+        <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()} />}</div>
       </div>
       <div className="Table-Scroll">
-        {isLoading && <TableLoader ref={loaderRef}/>}
+        {isLoading && <TableLoader ref={loaderRef} />}
         <table ref={tableRef} className={clsx("Table", className)}>
           <TableHeader<TColumn>
             headerGroups={table.getHeaderGroups()}
@@ -120,7 +122,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
             setHiddenColumns={settings?.options?.setHiddenColumns}
             sorting={sorting}
           />
-          <TableBody rows={table.getRowModel().rows}/>
+          <TableBody rowActions={rowActions} rows={table.getRowModel().rows} />
           {/*<TableBody ref={tableBodyRef} rows={table.getRowModel().rows} />*/}
         </table>
       </div>
@@ -142,7 +144,7 @@ export const Table = forwardRef(TableComponent) as typeof TableComponent;
 
 export function tableLinks() {
   return [
-    {rel: "stylesheet", href: styles},
+    { rel: "stylesheet", href: styles },
     ...navigationPanelLinks(),
     ...optionsLinks(),
     ...tableBodyLinks(),

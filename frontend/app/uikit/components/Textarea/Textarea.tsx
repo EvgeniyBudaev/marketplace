@@ -1,13 +1,14 @@
 import clsx from "clsx";
-import {forwardRef, memo, useState} from "react";
-import type {DetailedHTMLProps, ForwardedRef, HTMLAttributes, FocusEvent} from "react";
-import {ETypographyVariant, Typography} from "~/uikit";
+import { forwardRef, memo, useState } from "react";
+import type { DetailedHTMLProps, ForwardedRef, HTMLAttributes, FocusEvent } from "react";
+import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./Textarea.css";
 
 export interface ITextareaProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
   autoComplete?: string;
   className?: string;
+  dataTestId?: string;
   hidden?: boolean;
   isFocused?: boolean;
   isRequired?: boolean;
@@ -21,6 +22,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, ITextareaProps>(
     {
       autoComplete,
       className,
+      dataTestId = "uikit__textarea",
       hidden,
       isFocused: isTextareaFocused,
       isRequired,
@@ -60,8 +62,9 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, ITextareaProps>(
     return (
       <div
         className={clsx("TextareaField", className, {
-          "TextareaField__active": isFocused,
+          TextareaField__active: isFocused,
         })}
+        data-testid={dataTestId}
       >
         <div
           className={clsx("TextareaField-Inner", {
@@ -103,5 +106,5 @@ TextareaComponent.displayName = "TextareaComponent";
 export const Textarea = memo(TextareaComponent);
 
 export function textareaLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

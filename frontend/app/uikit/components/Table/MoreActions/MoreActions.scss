@@ -1,0 +1,40 @@
+@import "component";
+
+.MoreActions {
+  position: sticky;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 24px;
+  z-index: 10;
+  border-bottom: 1px solid rgb(224, 224, 224);
+
+  &-Icon {
+    flex: none;
+    cursor: pointer;
+    background-color: $color-white;
+
+    svg {
+      fill: $color-text;
+    }
+  }
+
+  // &-List {
+  //   display: flex;
+  //   flex-direction: column;
+  //   width: max-content;
+  //   gap: 0.75rem;
+  // }
+
+  // &-ListItem {
+  //   padding-bottom: 12px;
+  //   border-bottom: 1px solid rgba(226, 232, 240, 1);
+
+  //   &:last-child {
+  //     border-bottom: none;
+  //     padding-bottom: 0;
+  //   }
+  // }
+
+}

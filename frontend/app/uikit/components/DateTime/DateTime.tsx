@@ -1,19 +1,27 @@
-import type {FC} from "react";
-import {memo} from "react";
 import clsx from "clsx";
-import {DATE_FORMAT, TIME_FORMAT, useDayjs} from "~/uikit";
+import type { FC } from "react";
+import { memo } from "react";
+import { DATE_FORMAT, TIME_FORMAT, useDayjs } from "~/uikit";
 import styles from "./DateTime.css";
 
 type TProps = {
   className?: string;
   classes?: { date?: string; time?: string };
+  dataTestId?: string;
   isUtc?: boolean;
   isTime?: boolean;
   value?: Date | string | number | null;
 };
 
-const Component: FC<TProps> = ({className, classes, isUtc = true, isTime = true, value}) => {
-  const {dayjs} = useDayjs();
+const DateTimeComponent: FC<TProps> = ({
+  className,
+  classes,
+  dataTestId = "uikit__date-time",
+  isUtc = true,
+  isTime = true,
+  value,
+}) => {
+  const { dayjs } = useDayjs();
 
   return (
     <div className={clsx("DateTime", className)}>
@@ -29,8 +37,8 @@ const Component: FC<TProps> = ({className, classes, isUtc = true, isTime = true,
   );
 };
 
-export const DateTime = memo(Component);
+export const DateTime = memo(DateTimeComponent);
 
 export function dateTimeLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

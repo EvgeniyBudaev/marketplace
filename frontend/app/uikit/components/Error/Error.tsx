@@ -1,14 +1,20 @@
-import {forwardRef, memo, useEffect, useState} from "react";
+import { forwardRef, memo, useEffect, useState } from "react";
 import clsx from "clsx";
-import {v4 as uuidv4} from "uuid";
-import {ETypographyVariant, FadeIn, Typography} from "~/uikit";
-import {EErrorTheme} from "~/uikit/components/Error/enums";
-import type {TErrorProps} from "~/uikit/components/Error/types";
+import { v4 as uuidv4 } from "uuid";
+import { ETypographyVariant, FadeIn, Typography } from "~/uikit";
+import { EErrorTheme } from "~/uikit/components/Error/enums";
+import type { TErrorProps } from "~/uikit/components/Error/types";
 import styles from "./Error.css";
 
 const ErrorComponent = forwardRef<HTMLDivElement, TErrorProps>(
   (
-    {dataTestId, id, errors = [], role = "alert", theme = EErrorTheme.Error}: TErrorProps,
+    {
+      dataTestId = "uikit__error",
+      id,
+      errors = [],
+      role = "alert",
+      theme = EErrorTheme.Error,
+    }: TErrorProps,
     ref,
   ) => {
     const [length, setLength] = useState(0);
@@ -53,5 +59,5 @@ ErrorComponent.displayName = "ErrorComponent";
 export const Error = memo(ErrorComponent);
 
 export function errorLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

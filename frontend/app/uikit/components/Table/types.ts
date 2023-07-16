@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { Column, ColumnDef, OnChangeFn, RowSelectionState } from "@tanstack/react-table";
 import type { ETableSortDirection, ETheme } from "~/uikit";
 
@@ -24,18 +25,20 @@ export type TTableProps<TColumn extends Record<string, any>> = {
   columns: Array<ColumnDef<TColumn>>;
   currentPage?: number;
   data: TColumn[];
+  dataTestId?: string;
   debug?: boolean;
   defaultPageSize?: number | null;
   getId?: (row: TColumn) => string | number;
   isLoading?: boolean;
-  pagesCount?: number;
-  rowSelection?: RowSelectionState;
-  sorting?: TTableSortingProps;
   onChangePageSize?: (pageSize: number) => void;
   onPageChange?: ({ selected }: { selected: number }) => void;
   onRowSelectionChange?: OnChangeFn<RowSelectionState>;
+  pagesCount?: number;
   pageSizeOptions?: number[] | null;
+  rowActions?: TTableRowActions<TColumn>;
+  rowSelection?: RowSelectionState;
   settings?: TTableSettingsProps<TColumn>;
+  sorting?: TTableSortingProps;
   theme?: ETheme;
   totalItems?: number;
   totalItemsTitle?: string;
@@ -63,3 +66,11 @@ export type TTableSortingHandleChange = {
   shouldReset?: boolean;
   close?: () => void;
 };
+
+export type TTableRowAction<TColumn> = {
+  icon?: ReactNode;
+  title: string;
+  onClick(row: TColumn): void;
+};
+
+export type TTableRowActions<TColumn> = Array<TTableRowAction<TColumn>>;

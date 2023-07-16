@@ -3,6 +3,7 @@ export type TSliderSyncingProps = {
   arrowsFor?: boolean;
   arrowsModal?: boolean;
   arrowsNav?: boolean;
+  dataTestId?: string;
   dots?: boolean;
   fade?: boolean;
   focusOnSelect?: boolean;

@@ -1,12 +1,13 @@
-import {useEffect, useState} from "react";
-import type {FC, ReactNode} from "react";
+import { useEffect, useState } from "react";
+import type { FC, ReactNode } from "react";
 import styles from "./FadeIn.css";
 
 type TProps = {
   children?: ReactNode;
+  dataTestId?: string;
 };
 
-export const FadeIn: FC<TProps> = ({children}) => {
+export const FadeIn: FC<TProps> = ({ children, dataTestId = "uikit__fade-in" }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -16,9 +17,13 @@ export const FadeIn: FC<TProps> = ({children}) => {
     return () => clearTimeout(id);
   }, []);
 
-  return <span date-fade={String(isMounted)}>{children}</span>;
+  return (
+    <span data-testid={dataTestId} date-fade={String(isMounted)}>
+      {children}
+    </span>
+  );
 };
 
 export function fadeInLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

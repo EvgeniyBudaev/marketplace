@@ -1,21 +1,21 @@
+import isEmpty from "lodash/isEmpty";
 import { memo } from "react";
 import type { FC } from "react";
 import Slider from "react-slick";
 import { useMediaQuery } from "react-responsive";
-import isEmpty from "lodash/isEmpty";
 import { SLIDER_SIMPLE_SETTINGS } from "~/uikit";
 import type { TSliderSimpleProps } from "~/uikit";
 import styles from "./SliderSimple.css";
 import sliderStyles from "../Slider.css";
 
 const SliderSimpleComponent: FC<TSliderSimpleProps> = (props) => {
-  const { alt = "", height, images, width } = props;
+  const { alt = "", dataTestId = "uikit__slider-simple", height, images, width } = props;
 
   const settings = SLIDER_SIMPLE_SETTINGS(props).settings;
   const isMobileScreen = useMediaQuery({ query: "(max-width: 100px)" });
 
   return (
-    <Slider {...settings}>
+    <Slider {...settings} data-testid={dataTestId}>
       {!isEmpty(images) &&
         images.map((image, index) => {
           return (

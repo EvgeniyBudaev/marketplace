@@ -38,5 +38,24 @@
 /* #8cb400 */
 /* #008dd3 */
 /* #0044BB */
+.TableRow {
+  width: 100%;
+  background-color: transparent;
+  transition: background-color 0.15s;
+}
+.TableRow .MoreActions-Icon {
+  transition: background-color 0.15s;
+}
+.TableRow:hover {
+  background-color: rgb(146, 126, 92);
+  color: rgb(255, 255, 255);
+  fill: rgb(255, 255, 255);
+}
+.TableRow:hover .MoreActions-Icon {
+  background-color: rgb(146, 126, 92);
+}
+.TableRow:hover .MoreActions-Icon svg {
+  fill: rgb(255, 255, 255);
+}
 
-/*# sourceMappingURL=TableBody.css.map */
+/*# sourceMappingURL=TableRow.css.map */

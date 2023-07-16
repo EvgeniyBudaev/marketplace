@@ -6,6 +6,7 @@ import { ESwitcherVariant, SWITCHER_THEMES } from "~/uikit";
 type TProps = {
   children?: ReactNode;
   className?: string;
+  dataTestId?: string;
   isChecked?: boolean;
   variant?: ESwitcherVariant;
 };
@@ -13,13 +14,14 @@ type TProps = {
 const SwitcherComponent: FC<TProps> = ({
   children,
   className,
+  dataTestId = "uikit__switcher",
   isChecked,
   variant = ESwitcherVariant.Default,
 }) => {
   const currentTheme = SWITCHER_THEMES()[variant];
 
   return (
-    <div className={clsx(currentTheme, className)}>
+    <div className={clsx(currentTheme, className)} data-testid={dataTestId}>
       <div className="Switcher-Inner">
         <div
           className={clsx("Switcher-Pointer", {

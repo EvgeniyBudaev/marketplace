@@ -1,13 +1,14 @@
-import {memo} from "react";
-import type {ChangeEvent, FC, ReactNode} from "react";
 import clsx from "clsx";
-import {ETypographyVariant, Icon, Typography} from "~/uikit";
+import { memo } from "react";
+import type { ChangeEvent, FC, ReactNode } from "react";
+import { ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./Checkbox.css";
 
 export type TCheckboxProps = {
   checked?: boolean;
   children?: ReactNode;
   className?: string;
+  dataTestId?: string;
   defaultChecked?: boolean;
   id: string;
   label: string;
@@ -17,22 +18,23 @@ export type TCheckboxProps = {
 };
 
 export const CheckboxComponent: FC<TCheckboxProps> = ({
-                                                        checked,
-                                                        children,
-                                                        className,
-                                                        defaultChecked,
-                                                        id,
-                                                        label,
-                                                        name,
-                                                        nameGroup,
-                                                        onChange,
-                                                      }) => {
+  checked,
+  children,
+  className,
+  dataTestId = "uikit__checkbox",
+  defaultChecked,
+  id,
+  label,
+  name,
+  nameGroup,
+  onChange,
+}) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange?.(event, id, nameGroup);
   };
 
   return (
-    <div className={clsx("Checkbox-Wrapper", className)}>
+    <div className={clsx("Checkbox-Wrapper", className)} data-testid={dataTestId}>
       <input
         className="Checkbox"
         defaultChecked={defaultChecked}
@@ -45,7 +47,7 @@ export const CheckboxComponent: FC<TCheckboxProps> = ({
       />
       {label && (
         <label className="Checkbox-Label" htmlFor={id}>
-          <Icon className="Checkbox-Icon" type="Checkbox"/>
+          <Icon className="Checkbox-Icon" type="Checkbox" />
           <Typography variant={ETypographyVariant.TextB3Regular}>{label}</Typography>
         </label>
       )}
@@ -57,5 +59,5 @@ export const CheckboxComponent: FC<TCheckboxProps> = ({
 export const Checkbox = memo(CheckboxComponent);
 
 export function checkboxLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

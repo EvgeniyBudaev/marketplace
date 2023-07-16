@@ -1,13 +1,14 @@
+import clsx from "clsx";
 import { forwardRef, memo } from "react";
 import type { MouseEvent, ForwardedRef, ReactNode } from "react";
 import { CSSTransition } from "react-transition-group";
-import clsx from "clsx";
 import { TRANSITION } from "~/constants";
 import { Overlay } from "~/uikit";
 
 type TProps = {
   children?: ReactNode;
   className?: string;
+  dataTestId?: string;
   isActive?: boolean;
   onClose?: (event: MouseEvent) => void;
   ref: ForwardedRef<HTMLDivElement>;
@@ -16,7 +17,14 @@ type TProps = {
 
 const SidebarComponent = forwardRef(
   (
-    { children, className, isActive = false, onClose, transition = TRANSITION }: TProps,
+    {
+      children,
+      className,
+      dataTestId = "uikit__sidebar",
+      isActive = false,
+      onClose,
+      transition = TRANSITION,
+    }: TProps,
     ref: ForwardedRef<HTMLDivElement>,
   ): JSX.Element => {
     return (
@@ -24,6 +32,7 @@ const SidebarComponent = forwardRef(
         <Overlay timeout={transition} onClick={onClose} isActive={isActive} />
         <CSSTransition
           className={clsx("Sidebar", className)}
+          data-testid={dataTestId}
           in={isActive}
           nodeRef={ref}
           timeout={transition}

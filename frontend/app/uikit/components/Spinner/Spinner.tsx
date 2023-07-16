@@ -2,9 +2,13 @@ import type { FC } from "react";
 import { Icon } from "~/uikit";
 import styles from "./Spinner.css";
 
-export const Spinner: FC = () => {
+type TProps = {
+  dataTestId?: string;
+};
+
+export const Spinner: FC<TProps> = ({ dataTestId = "uikit__spinner" }) => {
   return (
-    <div className="Spinner">
+    <div className="Spinner" data-testid={dataTestId}>
       <Icon type="Spinner" />
     </div>
   );

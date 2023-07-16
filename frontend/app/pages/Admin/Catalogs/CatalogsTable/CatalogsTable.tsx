@@ -1,12 +1,17 @@
 import {forwardRef, memo, useMemo, useState} from "react";
 import {useTranslation} from "react-i18next";
 import type {FetcherWithComponents} from "@remix-run/react";
+
 import {ModalDelete} from "~/components/modal";
-import {useTheme} from "~/hooks";
+import {EPermissions} from "~/enums";
+import {useTheme, useUser} from "~/hooks";
 import {useGetColumns} from "~/pages/Admin/Catalogs/CatalogsTable/hooks";
+import type {TTableColumn} from "~/pages/Admin/Catalogs/CatalogsTable/types";
 import type {TCatalogs, TCatalog} from "~/shared/api/catalogs";
+import {createColumnHelper, Icon, Table as UiTable} from "~/uikit";
 import type {TTableSortingProps} from "~/uikit";
-import {createColumnHelper, Table as UiTable} from "~/uikit";
+import type {TTableRowActions} from "~/uikit/components/Table/types";
+import {checkPermission} from "~/utils";
 import styles from "./CatalogsTable.css";
 
 type TProps = {
@@ -37,6 +42,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     ref,
   ) => {
     const {t} = useTranslation();
+    const {user} = useUser();
     const columnHelper = createColumnHelper<TCatalog>();
     const columns = useGetColumns(columnHelper, onClickDeleteIcon);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
@@ -64,6 +70,23 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
       [hiddenColumns, t],
     );
 
+    const rowActions: TTableRowActions<TTableColumn> = [
+      {
+        icon: <Icon type="Trash"/>,
+        title: t("common.actions.delete"),
+        onClick: () => {
+        },
+        permission: [EPermissions.Administrator],
+      },
+      {
+        icon: <Icon type="Edit"/>,
+        title: t("common.actions.edit"),
+        onClick: () => {
+        },
+        permission: [EPermissions.Administrator],
+      },
+    ].filter(({permission}) => checkPermission(user?.permissions ?? null, permission));
+
     return (
       <div ref={ref}>
         <UiTable<TCatalog>
@@ -75,6 +98,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}
+          rowActions={rowActions}
           settings={settingsProps}
           sorting={fieldsSortState}
           theme={theme}

@@ -1,8 +1,8 @@
-import {useState, useEffect} from "react";
-import type {ReactNode} from "react";
-import {default as ReactModal} from "react-responsive-modal";
 import clsx from "clsx";
-import {Icon} from "~/uikit";
+import { useState, useEffect } from "react";
+import type { ReactNode, FC } from "react";
+import { default as ReactModal } from "react-responsive-modal";
+import { Icon } from "~/uikit";
 import styles from "./Modal.css";
 
 type IModalSize = "medium";
@@ -10,18 +10,20 @@ type IModalSize = "medium";
 type TModalProps = {
   className?: string;
   children?: ReactNode;
+  dataTestId?: string;
   size?: IModalSize;
   isOpen: boolean;
   onCloseModal: () => void;
 };
 
 export const Modal = ({
-                        className,
-                        children,
-                        size = "medium",
-                        isOpen,
-                        onCloseModal,
-                      }: TModalProps): JSX.Element => {
+  className,
+  children,
+  dataTestId = "uikit__modal",
+  size = "medium",
+  isOpen,
+  onCloseModal,
+}: TModalProps): JSX.Element => {
   const defaultClassNames = {
     modal: clsx("ModalDefault", className, {
       ModalDefault__medium: size === "medium",
@@ -34,7 +36,7 @@ export const Modal = ({
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     if (isOpen && scrollbarWidth) {
       const _styles = {
-        modal: {marginRight: `${scrollbarWidth + 16}px`},
+        modal: { marginRight: `${scrollbarWidth + 16}px` },
       };
       setStyles(_styles);
       document.body.classList.add("Modal__open");
@@ -52,7 +54,8 @@ export const Modal = ({
     <ReactModal
       classNames={defaultClassNames}
       center
-      closeIcon={<Icon type="Close"/>}
+      closeIcon={<Icon type="Close" />}
+      data-testid={dataTestId}
       onClose={onCloseModal}
       open={isOpen}
       styles={styles}
@@ -68,8 +71,7 @@ type TModalHeaderProps = {
   className?: string;
 };
 
-// eslint-disable-next-line react/display-name
-Modal.Header = ({align, children, className}: TModalHeaderProps): JSX.Element => {
+const ModalHeader: FC<TModalHeaderProps> = ({ align, children, className }) => {
   return (
     <div
       className={clsx("ModalHeader", className, {
@@ -83,26 +85,30 @@ Modal.Header = ({align, children, className}: TModalHeaderProps): JSX.Element =>
   );
 };
 
+Modal.Header = ModalHeader;
+
 type TModalContentProps = {
   children?: ReactNode;
   className?: string;
 };
 
-// eslint-disable-next-line react/display-name
-Modal.Content = ({children, className}: TModalContentProps): JSX.Element => {
+const ModalContent: FC<TModalContentProps> = ({ children, className }) => {
   return <div className={clsx("ModalContent", className)}>{children}</div>;
 };
+
+Modal.Content = ModalContent;
 
 type TModalFooterProps = {
   className?: string;
   children?: ReactNode;
 };
 
-// eslint-disable-next-line react/display-name
-Modal.Footer = ({children, className}: TModalFooterProps): JSX.Element => {
+const ModalFooter: FC<TModalFooterProps> = ({ children, className }) => {
   return <div className={clsx("ModalFooter", className)}>{children}</div>;
 };
 
+Modal.Footer = ModalFooter;
+
 export function modalLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

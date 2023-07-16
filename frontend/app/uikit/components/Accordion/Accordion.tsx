@@ -1,7 +1,7 @@
+import clsx from "clsx";
 import { memo, useEffect, useState, useRef } from "react";
 import type { FC, PropsWithChildren } from "react";
 import { CSSTransition } from "react-transition-group";
-import clsx from "clsx";
 import { TRANSITION } from "~/constants";
 import { ETypographyVariant, Typography } from "~/uikit";
 import { Icon } from "../Icon";
@@ -9,12 +9,14 @@ import styles from "./Accordion.css";
 
 type TProps = {
   className?: string;
+  dataTestId?: string;
   title?: string;
   isActive?: boolean;
 } & PropsWithChildren;
 
 const AccordionComponent: FC<TProps> = ({
   className,
+  dataTestId = "uikit__accordion",
   title = "",
   isActive = false,
   children = null,
@@ -42,6 +44,7 @@ const AccordionComponent: FC<TProps> = ({
       className={clsx("Accordion", className, {
         Accordion__active: isOpen,
       })}
+      data-testid={dataTestId}
     >
       <div className="Accordion-Header" onClick={onToggleAccordion}>
         <div className="Accordion-HeaderTitle">

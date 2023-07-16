@@ -1,24 +1,26 @@
-import {memo, useRef} from "react";
-import type {FC, MouseEvent, DOMAttributes} from "react";
 import clsx from "clsx";
-import type {TButton} from "~/uikit";
+import { memo, useRef } from "react";
+import type { FC, MouseEvent, DOMAttributes } from "react";
+import type { TButton } from "~/uikit";
 import styles from "./Button.css";
 
 export interface IButtonProps extends DOMAttributes<HTMLButtonElement> {
   className?: string;
+  dataTestId?: string;
   type?: TButton;
   isDisabled?: boolean;
   onClick?: (event?: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const ButtonComponent: FC<IButtonProps> = ({
-                                             className,
-                                             children,
-                                             type = "button",
-                                             isDisabled = false,
-                                             onClick,
-                                             ...rest
-                                           }) => {
+  className,
+  children,
+  dataTestId = "uikit__button",
+  type = "button",
+  isDisabled = false,
+  onClick,
+  ...rest
+}) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = (event?: MouseEvent<HTMLButtonElement>) => {
@@ -49,6 +51,7 @@ const ButtonComponent: FC<IButtonProps> = ({
       className={clsx("Button", className, {
         Button__disabled: isDisabled,
       })}
+      data-testid={dataTestId}
       disabled={isDisabled}
       ref={buttonRef}
       type={type}
@@ -63,5 +66,5 @@ const ButtonComponent: FC<IButtonProps> = ({
 export const Button = memo(ButtonComponent);
 
 export function buttonLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

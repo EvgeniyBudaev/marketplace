@@ -9,19 +9,25 @@ export enum EToast {
 
 type TProps = {
   className?: string;
+  dataTestId?: string;
   description?: string;
   title?: string;
   type?: EToast;
   onClose?: () => void;
 };
 
-const Component: FC<TProps> = ({ className, description, title }) => {
+const ToastComponent: FC<TProps> = ({
+  className,
+  dataTestId = "uikit__toast",
+  description,
+  title,
+}) => {
   return (
-    <div className={clsx("Toast", className)}>
+    <div className={clsx("Toast", className)} data-testid={dataTestId}>
       <div className="Toast-Title">{title}</div>
       <div className="Toast-Description">{description}</div>
     </div>
   );
 };
 
-export const Toast = memo(Component);
+export const Toast = memo(ToastComponent);

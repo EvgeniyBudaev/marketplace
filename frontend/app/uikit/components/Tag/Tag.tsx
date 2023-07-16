@@ -1,17 +1,18 @@
-import {memo} from "react";
-import type {FC} from "react";
+import { memo } from "react";
+import type { FC } from "react";
 import clsx from "clsx";
-import {ETypographyVariant, Typography} from "~/uikit";
+import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./Tag.css";
 
 type TProps = {
   className?: string;
+  dataTestId?: string;
   title?: string;
 };
 
-const Component: FC<TProps> = ({className, title}) => {
+const TagComponent: FC<TProps> = ({ className, dataTestId = "uikit__tag", title }) => {
   return (
-    <div className={clsx("Tag", className)}>
+    <div className={clsx("Tag", className)} data-testid={dataTestId}>
       <div className="Tag-Title">
         <Typography variant={ETypographyVariant.TextB4Regular}>{title}</Typography>
       </div>
@@ -19,8 +20,8 @@ const Component: FC<TProps> = ({className, title}) => {
   );
 };
 
-export const Tag = memo(Component);
+export const Tag = memo(TagComponent);
 
 export function tagLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

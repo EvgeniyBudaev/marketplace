@@ -1,12 +1,23 @@
+import clsx from "clsx";
 import {createRef, Fragment, memo, useEffect, useState} from "react";
 import type {FC} from "react";
 import {Popover as UiPopover, Transition} from "@headlessui/react";
-import clsx from "clsx";
-import {POPOVER_POSITION_STYLES, POPOVER_WIDTH} from "~/uikit/components/Popover/HeadlessPopover/index";
-import type {TPopoverPosition, TPopoverProps} from "~/uikit/components/Popover/HeadlessPopover/index";
+import {
+  POPOVER_POSITION_STYLES,
+  POPOVER_WIDTH,
+} from "~/uikit/components/Popover/HeadlessPopover";
+import type {
+  TPopoverPosition,
+  TPopoverProps,
+} from "~/uikit/components/Popover/HeadlessPopover";
 import styles from "./HeadlessPopover.css";
 
-const PopoverComponent: FC<TPopoverProps> = ({children, trigger, position = "center"}) => {
+const PopoverComponent: FC<TPopoverProps> = ({
+                                               children,
+                                               dataTestId = "uikit__headless-popover",
+                                               trigger,
+                                               position = "center",
+                                             }) => {
   const [popoverPosition, setPopoverPosition] = useState<TPopoverPosition>(position);
   const triggerRef = createRef<HTMLDivElement>();
 
@@ -36,7 +47,7 @@ const PopoverComponent: FC<TPopoverProps> = ({children, trigger, position = "cen
   );
 
   return (
-    <UiPopover className="HeadlessPopover">
+    <UiPopover className="HeadlessPopover" data-testid={dataTestId}>
       <UiPopover.Button className="HeadlessPopover-Button">
         <div ref={triggerRef}>{trigger}</div>
       </UiPopover.Button>

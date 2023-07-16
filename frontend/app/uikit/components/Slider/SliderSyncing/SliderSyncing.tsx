@@ -6,7 +6,7 @@ import type { TSliderSyncingProps } from "~/uikit";
 import styles from "./SliderSyncing.css";
 
 const SliderSyncingComponent: FC<TSliderSyncingProps> = (props) => {
-  const { alt = "", heightFor, images, widthFor } = props;
+  const { alt = "", dataTestId = "uikit__slider-syncing", heightFor, images, widthFor } = props;
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -47,6 +47,7 @@ const SliderSyncingComponent: FC<TSliderSyncingProps> = (props) => {
         <Modal.Content>
           <Slider
             asNavFor={nav2}
+            data-testid={dataTestId}
             initialSlide={currentSlide}
             ref={slider1}
             afterChange={handleAfterChange}
