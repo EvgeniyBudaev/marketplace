@@ -1,5 +1,5 @@
 /* #b0976a */
-/* #997e4d */
+/* #927E5CFF */
 /* #efeae1 */
 /* #dfd5c3 */
 /* #333333 */
@@ -56,7 +56,7 @@
   transition: all 0.15s;
 }
 .OrderShipping-Link:hover {
-  color: rgb(95, 79, 25);
+  color: rgb(146, 126, 92);
 }
 .OrderShipping-Address {
   display: flex;

@@ -1,5 +1,5 @@
 /* #b0976a */
-/* #997e4d */
+/* #927E5CFF */
 /* #efeae1 */
 /* #dfd5c3 */
 /* #333333 */
@@ -186,8 +186,8 @@
   transition: all 0.3s;
 }
 .ProductListItem-ButtonGoAtCart:hover {
-  color: rgb(95, 79, 25);
-  border: 1px solid rgb(95, 79, 25);
+  color: rgb(146, 126, 92);
+  border: 1px solid rgb(146, 126, 92);
 }
 .ProductListItem-ButtonAddToCart {
   height: 42px;

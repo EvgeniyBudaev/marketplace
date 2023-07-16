@@ -1,5 +1,5 @@
 /* #b0976a */
-/* #997e4d */
+/* #927E5CFF */
 /* #efeae1 */
 /* #dfd5c3 */
 /* #333333 */
@@ -75,7 +75,7 @@
   transition: all 0.15s;
 }
 .OrderPayment-Change:hover {
-  color: rgb(95, 79, 25);
+  color: rgb(146, 126, 92);
 }
 .OrderPayment-Button {
   width: 100%;

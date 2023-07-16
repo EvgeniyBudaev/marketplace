@@ -1,0 +1,92 @@
+@charset "UTF-8";
+/* #b0976a */
+/* #927E5CFF */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.ModalContent {
+  margin-top: 24px;
+}
+.ModalFooter {
+  margin-top: 32px;
+}
+.ModalDefault {
+  padding: 40px;
+  color: rgb(51, 51, 51);
+  border-radius: 4px;
+}
+.ModalDefault__medium {
+  min-width: 760px;
+  max-width: 760px;
+  width: 100%;
+}
+.ModalDefaultCloseButton {
+  width: 20px;
+  height: 20px;
+}
+.ModalDefaultCloseButton svg {
+  fill: rgb(185, 181, 181);
+  transition: all 0.15s;
+}
+.ModalDefaultCloseButton:hover svg {
+  fill: rgb(142, 142, 147);
+}
+
+.theme-dark .ModalHeader {
+  color: rgb(255, 255, 255);
+}
+.theme-dark .ModalDefault {
+  background: rgb(31, 32, 41);
+  box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px, rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
+}
+
+/* ----- Модальное окно по центру адаптировано ----- */
+.react-responsive-modal-root .react-responsive-modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ----- Fixed Screen Glitch When Close Modal ----- */
+.react-responsive-modal-overlay,
+.react-responsive-modal-container,
+.react-responsive-modal-modal {
+  animation-fill-mode: forwards !important;
+}
+
+/*# sourceMappingURL=Modal.css.map */
