@@ -17,7 +17,7 @@ export const useDropDown: TUseDropDown = () => {
     setIsDropDownOpen((prevState?: boolean) => !prevState);
   }, []);
 
-  const handleClickOutsideDropDown = (event: MouseEvent) => {
+  const handleClickOutsideDropDown = useCallback((event: MouseEvent) => {
     if (
       isDropDownOpen &&
       refButtonDropDown.current &&
@@ -25,13 +25,13 @@ export const useDropDown: TUseDropDown = () => {
       !refButtonDropDown.current.contains(event.target)
     ) {
       if (refPanelDropDown.current && !refPanelDropDown.current.contains(event.target)) {
-        setIsDropDownOpen(false);
+        setIsDropDownOpen((prevState: boolean) => (prevState ? false : prevState));
       }
     }
-  };
+  }, [isDropDownOpen]);
 
   const handleScroll = useCallback(() => {
-    setIsDropDownOpen(false);
+    setIsDropDownOpen((prevState: boolean) => (prevState ? false : prevState));
   }, []);
 
 
