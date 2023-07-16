@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import type {FC} from "react";
 import {useTranslation} from "react-i18next";
 import {Link, useFetcher, useNavigate} from "@remix-run/react";
@@ -16,27 +16,9 @@ export const HeaderIconsList: FC = () => {
   const {t} = useTranslation();
   const {user} = useUser();
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const refToggleDropDown = useRef<any>(null);
   const fetcher = useFetcher();
   const navigate = useNavigate();
   const isAdmin = checkPermission(user?.permissions ?? null, [EPermissions.Administrator]);
-
-  useEffect(() => {
-    window.addEventListener("click", handleClickOutsideDropDown);
-    return () => {
-      window.removeEventListener("click", handleClickOutsideDropDown);
-    };
-  });
-
-  const handleClickOutsideDropDown = (event: MouseEvent) => {
-    if (isDropDownOpen) {
-      if (refToggleDropDown.current) {
-        if (!refToggleDropDown.current.contains(event.target)) {
-          setIsDropDownOpen(false);
-        }
-      }
-    }
-  };
 
   const handleLogout = () => {
     //navigate(ERoutes.Root);
@@ -95,7 +77,7 @@ export const HeaderIconsList: FC = () => {
       </div>
       <div className={clsx("HeaderIconsList-Item", "HeaderIconsList-ItemDesktop")}>
         {!isEmpty(user) ? (
-          <div className="HeaderIconsList-AvatarDropDown" ref={refToggleDropDown}>
+          <div className="HeaderIconsList-AvatarDropDown">
             <DropDown>
               <DropDown.Button classes={{dropDownButton: ""}}>
                 <Avatar

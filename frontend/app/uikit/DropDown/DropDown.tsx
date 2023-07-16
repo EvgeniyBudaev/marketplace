@@ -57,6 +57,7 @@ const DropDownPanel: FC<TDropDownPanel> = ({children, classes, transition}) => {
       className={clsx("DropDown-Panel", classes?.dropDownPanel)}
       in={dropDownState?.isDropDownOpen}
       nodeRef={dropDownState?.refPanelDropDown}
+      onClick={dropDownState?.onClickButtonDropDown}
       timeout={transition ?? TRANSITION}
       unmountOnExit
     >
