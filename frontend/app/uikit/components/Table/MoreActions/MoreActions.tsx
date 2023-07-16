@@ -1,8 +1,8 @@
-import type {ReactElement} from "react";
-import type {Row} from "@tanstack/react-table";
+import type { ReactElement } from "react";
+import type { Row } from "@tanstack/react-table";
 
-import {HeadlessPopover as UiPopover, Icon, Typography} from "~/uikit";
-import type {TTableRowActions} from "../types";
+import { HeadlessPopover as UiPopover, Icon, Typography } from "~/uikit";
+import type { TTableRowActions } from "../types";
 import styles from "./MoreActions.css";
 
 type TProps<TColumn extends object> = {
@@ -11,10 +11,9 @@ type TProps<TColumn extends object> = {
 };
 
 export const MoreActions = <TColumn extends object>({
-                                                      rowActions,
-                                                      row,
-                                                    }: TProps<TColumn>): ReactElement => {
-  console.log("rowActions: ", rowActions);
+  rowActions,
+  row,
+}: TProps<TColumn>): ReactElement => {
   return (
     <td className="MoreActions group-hover:visible">
       <UiPopover
@@ -30,7 +29,7 @@ export const MoreActions = <TColumn extends object>({
         position="left"
       >
         <ul className="MoreActions-List">
-          {rowActions.map(({icon, title, onClick}) => {
+          {rowActions.map(({ icon, title, onClick }) => {
             return (
               <li key={title} className="MoreActions-ListItem">
                 <div
@@ -56,5 +55,5 @@ export const MoreActions = <TColumn extends object>({
 };
 
 export function moreActionsLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }
