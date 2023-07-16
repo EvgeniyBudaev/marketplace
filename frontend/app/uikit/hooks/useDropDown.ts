@@ -13,10 +13,6 @@ export const useDropDown: TUseDropDown = () => {
   const refButtonDropDown = useRef<HTMLDivElement>(null);
   const refPanelDropDown = useRef<HTMLDivElement>(null);
 
-  const handleChangeDropDownOpen = useCallback((isOpen: boolean) => {
-    setIsDropDownOpen(isOpen);
-  }, []);
-
   const handleClickButtonDropDown = useCallback(() => {
     setIsDropDownOpen((prevState?: boolean) => !prevState);
   }, []);
@@ -58,5 +54,5 @@ export const useDropDown: TUseDropDown = () => {
       refButtonDropDown,
       refPanelDropDown,
     };
-  }, [isDropDownOpen, handleChangeDropDownOpen, handleClickButtonDropDown]);
+  }, [isDropDownOpen, handleClickButtonDropDown]);
 };
