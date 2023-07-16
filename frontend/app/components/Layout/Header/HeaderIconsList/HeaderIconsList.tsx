@@ -38,10 +38,6 @@ export const HeaderIconsList: FC = () => {
     }
   };
 
-  const handleToggleDropDown = () => {
-    setIsDropDownOpen((prevState) => !prevState);
-  };
-
   const handleLogout = () => {
     //navigate(ERoutes.Root);
     fetcher.submit(
@@ -100,28 +96,35 @@ export const HeaderIconsList: FC = () => {
       <div className={clsx("HeaderIconsList-Item", "HeaderIconsList-ItemDesktop")}>
         {!isEmpty(user) ? (
           <div className="HeaderIconsList-AvatarDropDown" ref={refToggleDropDown}>
-            <Avatar user={user.firstName} size={46} onClick={handleToggleDropDown}/>
-            <DropDown className="HeaderIconsList-DropDownUser" isOpen={isDropDownOpen}>
-              <ul className="HeaderIconsList-AvatarDropDown_Menu">
-                {isAdmin && (
-                  <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleRedirectAdminPanel}>
-                    <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="AdminPanel"/>
+            <DropDown>
+              <DropDown.Button classes={{dropDownButton: ""}}>
+                <Avatar
+                  size={46}
+                  user={user.firstName}
+                />
+              </DropDown.Button>
+              <DropDown.Panel classes={{dropDownPanel: "HeaderIconsList-DropDownUser"}}>
+                <ul className="HeaderIconsList-AvatarDropDown_Menu">
+                  {isAdmin && (
+                    <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleRedirectAdminPanel}>
+                      <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="AdminPanel"/>
+                      <div className="HeaderIconsList-AvatarDropDown_MenuItemText">
+                        <Typography variant={ETypographyVariant.TextB3Regular}>
+                          {t("header.adminPanel")}
+                        </Typography>
+                      </div>
+                    </li>
+                  )}
+                  <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleLogout}>
+                    <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="Exit"/>
                     <div className="HeaderIconsList-AvatarDropDown_MenuItemText">
                       <Typography variant={ETypographyVariant.TextB3Regular}>
-                        {t("header.adminPanel")}
+                        {t("header.exit")}
                       </Typography>
                     </div>
                   </li>
-                )}
-                <li className="HeaderIconsList-AvatarDropDown_MenuItem" onClick={handleLogout}>
-                  <Icon className="HeaderIconsList-AvatarDropDown_MenuItemIcon" type="Exit"/>
-                  <div className="HeaderIconsList-AvatarDropDown_MenuItemText">
-                    <Typography variant={ETypographyVariant.TextB3Regular}>
-                      {t("header.exit")}
-                    </Typography>
-                  </div>
-                </li>
-              </ul>
+                </ul>
+              </DropDown.Panel>
             </DropDown>
           </div>
         ) : (

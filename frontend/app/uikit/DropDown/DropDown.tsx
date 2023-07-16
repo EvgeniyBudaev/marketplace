@@ -1,35 +1,71 @@
-import {memo, useRef} from "react";
+import clsx from "clsx";
 import type {FC, ReactNode} from "react";
 import {CSSTransition} from "react-transition-group";
 import {TRANSITION} from "~/constants";
+import {DropDownProvider} from "~/uikit/context";
+import type {TDropDownClasses} from "~/uikit/DropDown/types";
+import {useDropDown, useDropDownContext} from "~/uikit/hooks/useDropDown";
 import styles from "./DropDown.css";
 
 type TProps = {
-  className?: string;
   children?: ReactNode;
-  isOpen?: boolean;
+  classes?: TDropDownClasses;
+};
+
+export const DropDown = ({children, classes}: TProps) => {
+  const dropDownState = useDropDown();
+
+  return (
+    <DropDownProvider value={dropDownState}>
+      <div className={clsx("DropDown", classes?.dropDown)}>{children}</div>
+    </DropDownProvider>
+  );
+};
+
+type TDropDownButton = {
+  children?: ReactNode;
+  classes?: TDropDownClasses;
+};
+
+const DropDownButton: FC<TDropDownButton> = ({children, classes}) => {
+  const dropDownState = useDropDownContext();
+
+  return (
+    <div
+      className={clsx("DropDown-Button", classes?.dropDownButton)}
+      onClick={dropDownState?.onClickButtonDropDown}
+      ref={dropDownState?.refButtonDropDown}
+    >
+      {children}
+    </div>
+  );
+};
+
+DropDown.Button = DropDownButton;
+
+type TDropDownPanel = {
+  children?: ReactNode;
+  classes?: TDropDownClasses;
   transition?: number;
 };
 
-const DropDownComponent: FC<TProps> = ({className, children, isOpen, transition}: TProps) => {
-  const nodeRef = useRef(null);
+const DropDownPanel: FC<TDropDownPanel> = ({children, classes, transition}) => {
+  const dropDownState = useDropDownContext();
 
   return (
     <CSSTransition
-      className={className}
-      in={isOpen}
-      nodeRef={nodeRef}
+      className={clsx("DropDown-Panel", classes?.dropDownPanel)}
+      in={dropDownState?.isDropDownOpen}
+      nodeRef={dropDownState?.refPanelDropDown}
       timeout={transition ?? TRANSITION}
       unmountOnExit
     >
-      <div ref={nodeRef}>
-        <div className="DropDown">{children}</div>
-      </div>
+      <div ref={dropDownState?.refPanelDropDown}>{children}</div>
     </CSSTransition>
   );
 };
 
-export const DropDown = memo(DropDownComponent);
+DropDown.Panel = DropDownPanel;
 
 export function dropDownLinks() {
   return [{rel: "stylesheet", href: styles}];
