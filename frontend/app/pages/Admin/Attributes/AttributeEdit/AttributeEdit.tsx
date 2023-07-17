@@ -6,6 +6,7 @@ import {useAuthenticityToken} from "remix-utils";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ERoutes} from "~/enums";
 import {useTheme} from "~/hooks";
+import {EAttributeType} from "~/pages";
 import {
   EFormFields,
   formSchema,
@@ -22,13 +23,16 @@ import {SelectableTable} from "~/pages/Admin/Attributes/SelectableTable";
 import {EAttributeAction, ESelectableValueAction} from "~/shared/api/attributes";
 import type {TAttributeDetail, TSelectableItem} from "~/shared/api/attributes";
 import {Checkbox, EFormMethods, Form, Input, Select, useInitForm} from "~/shared/form";
-import type {TParams} from "~/types";
-import {Button, ETypographyVariant, notify, Typography} from "~/uikit";
+import type {TDomainErrors, TParams} from "~/types";
+import {Button, ETypographyVariant, notify, Tooltip, Typography} from "~/uikit";
 import {createPath} from "~/utils";
 import styles from "./AttributeEdit.css";
 
 type TProps = {
   attribute: TAttributeDetail;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  success: boolean;
 };
 
 export const AttributeEdit: FC<TProps> = (props) => {
@@ -55,21 +59,24 @@ export const AttributeEdit: FC<TProps> = (props) => {
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
+  const {watch} = form.methods;
+  const watchType = watch(EFormFields.Type);
+  const isSelectableType = watchType?.value === EAttributeType.Selectable;
   const fetcher = form.fetcher;
 
   useEffect(() => {
-    if (fetcher.data && fetcher.data?.success) {
-      notify.success({
-        title: "Выполнено",
-      });
-    }
-    if (fetcher.data && !fetcher.data?.success) {
+    if (isDoneType && !props.success && !props.fieldErrors) {
       notify.error({
         title: "Ошибка выполнения",
       });
     }
+    if (isDoneType && props.success && !props.fieldErrors) {
+      notify.success({
+        title: "Обновлено",
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetcher.data, fetcher.data?.success, isDoneType]);
+  }, [props.success, isDoneType]);
 
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
@@ -163,11 +170,11 @@ export const AttributeEdit: FC<TProps> = (props) => {
     const formattedParams = mapFormDataToDto({
       ...params,
       id: attribute.id,
-      selectable,
+      ...(isSelectableType && {selectable}),
       _method: EAttributeAction.EditAttribute,
       csrf
     });
-    // console.log("formattedParams: ", formattedParams);
+    console.log("formattedParams: ", formattedParams);
 
     fetcher.submit(formattedParams, {
       method: EFormMethods.Put,
@@ -193,25 +200,17 @@ export const AttributeEdit: FC<TProps> = (props) => {
         method={EFormMethods.Patch}
       >
         <Input
-          label={t("form.name.title") ?? "Name"}
-          name={EFormFields.Name}
-          type="text"
-          defaultValue={attribute.name}
-        />
-        <Input
           label={t("form.alias.title") ?? "Alias"}
           name={EFormFields.Alias}
           type="text"
           defaultValue={attribute.alias}
         />
-        <div className="AttributeEdit-FormFieldGroup">
-          <Select
-            defaultValue={defaultTypeOptions}
-            name={EFormFields.Type}
-            options={typeOptions}
-            theme={theme}
-          />
-        </div>
+        <Input
+          label={t("form.name.title") ?? "Name"}
+          name={EFormFields.Name}
+          type="text"
+          defaultValue={attribute.name}
+        />
         <div className="AttributeEdit-FormFieldGroup">
           <Checkbox
             checked={filter && filter[EFormFields.Filter].includes(idCheckbox)}
@@ -223,19 +222,34 @@ export const AttributeEdit: FC<TProps> = (props) => {
           />
         </div>
         <div className="AttributeEdit-FormFieldGroup">
-          <Button onClick={handleOpenAddModal}>{t("common.actions.add")}</Button>
+          <Select
+            defaultValue={defaultTypeOptions}
+            name={EFormFields.Type}
+            options={typeOptions}
+            theme={theme}
+          />
         </div>
-        <SelectableTable
-          attribute={attribute}
-          csrf={csrf}
-          fetcher={fetcherRemix}
-          items={attribute.selectable ?? []}
-          onDeleteSelectableValue={handleSubmitDeleteSelectableValue}
-          onEditSelectableValue={handleSubmitEditSelectableValue}
-        />
+        {isSelectableType && (
+          <>
+            <div className="AttributeEdit-FormFieldGroup">
+              <Tooltip message={t("pages.admin.attributeEdit.tooltip.buttonAdd")}>
+                <Button isDisabled={attribute?.type === EAttributeType.Double}
+                        onClick={handleOpenAddModal}>{t("common.actions.add")}</Button>
+              </Tooltip>
+            </div>
+            <SelectableTable
+              attribute={attribute}
+              csrf={csrf}
+              fetcher={fetcherRemix}
+              items={attribute.selectable ?? []}
+              onDeleteSelectableValue={handleSubmitDeleteSelectableValue}
+              onEditSelectableValue={handleSubmitEditSelectableValue}
+            />
+          </>
+        )}
         <div className="AttributeEdit-FormControl">
           <Button className="AttributeEdit-Button" type="submit">
-            {t("common.actions.save")}
+            {attribute?.type === EAttributeType.Double ? t("common.actions.update") : t("common.actions.save")}
           </Button>
         </div>
       </Form>

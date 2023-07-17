@@ -1,12 +1,18 @@
-import {forwardRef, memo, useMemo, useState} from "react";
-import {useTranslation} from "react-i18next";
-import type {FetcherWithComponents} from "@remix-run/react";
-import {ModalDelete} from "~/components/modal";
-import {useTheme} from "~/hooks";
-import {useGetColumns} from "~/pages/Admin/Catalogs/CatalogsTable/hooks";
-import type {TCatalogs, TCatalog} from "~/shared/api/catalogs";
-import type {TTableSortingProps} from "~/uikit";
-import {createColumnHelper, Table as UiTable} from "~/uikit";
+import { forwardRef, memo, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "@remix-run/react";
+import type { FetcherWithComponents } from "@remix-run/react";
+
+import { ModalDelete } from "~/components/modal";
+import { EPermissions, ERoutes } from "~/enums";
+import { useTheme, useUser } from "~/hooks";
+import { useGetColumns } from "~/pages/Admin/Catalogs/CatalogsTable/hooks";
+import type { TTableColumn } from "~/pages/Admin/Catalogs/CatalogsTable/types";
+import type { TCatalogs, TCatalog } from "~/shared/api/catalogs";
+import { createColumnHelper, Icon, Table as UiTable } from "~/uikit";
+import type { TTableSortingProps } from "~/uikit";
+import type { TTableRowActions } from "~/uikit/components/Table/types";
+import { checkPermission, createPath } from "~/utils";
 import styles from "./CatalogsTable.css";
 
 type TProps = {
@@ -14,7 +20,7 @@ type TProps = {
   fetcher: FetcherWithComponents<any>;
   fieldsSortState: TTableSortingProps;
   isOpenDeleteModal: boolean;
-  onChangePage: ({selected}: { selected: number }) => void;
+  onChangePage: ({ selected }: { selected: number }) => void;
   onChangePageSize: (pageSize: number) => void;
   onClickDeleteIcon: (alias: string) => void;
   onCloseModal: () => void;
@@ -36,13 +42,15 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     },
     ref,
   ) => {
-    const {t} = useTranslation();
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+    const { user } = useUser();
     const columnHelper = createColumnHelper<TCatalog>();
     const columns = useGetColumns(columnHelper, onClickDeleteIcon);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
-    const {theme} = useTheme();
+    const { theme } = useTheme();
 
-    const {content, countOfPage, countOfResult, currentPage, pageSize} = catalogs;
+    const { content, countOfPage, countOfResult, currentPage, pageSize } = catalogs;
 
     const settingsProps = useMemo(
       () => ({
@@ -64,6 +72,33 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
       [hiddenColumns, t],
     );
 
+    const handleCatalogEdit = ({ alias }: TTableColumn) => {
+      const path = createPath({
+        route: ERoutes.AdminCatalogEdit,
+        params: { alias },
+      });
+      navigate(path);
+    };
+
+    const handleCatalogDelete = ({ alias }: TTableColumn) => {
+      onClickDeleteIcon(alias);
+    };
+
+    const rowActions: TTableRowActions<TTableColumn> = [
+      {
+        icon: <Icon type="Trash" />,
+        title: t("common.actions.delete"),
+        onClick: handleCatalogDelete,
+        permission: [EPermissions.Administrator],
+      },
+      {
+        icon: <Icon type="Edit" />,
+        title: t("common.actions.edit"),
+        onClick: handleCatalogEdit,
+        permission: [EPermissions.Administrator],
+      },
+    ].filter(({ permission }) => checkPermission(user?.permissions ?? null, permission));
+
     return (
       <div ref={ref}>
         <UiTable<TCatalog>
@@ -75,13 +110,14 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}
+          rowActions={rowActions}
           settings={settingsProps}
           sorting={fieldsSortState}
           theme={theme}
           totalItems={countOfResult}
           totalItemsTitle={t("pages.admin.catalogs.table.header") ?? "Total directories"}
         />
-        <ModalDelete isOpen={isOpenDeleteModal} onClose={onCloseModal} onSubmit={onSubmitDelete}/>
+        <ModalDelete isOpen={isOpenDeleteModal} onClose={onCloseModal} onSubmit={onSubmitDelete} />
       </div>
     );
   },
@@ -92,5 +128,5 @@ TableComponent.displayName = "CatalogsTableComponent";
 export const CatalogsTable = memo(TableComponent);
 
 export function catalogsTableLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

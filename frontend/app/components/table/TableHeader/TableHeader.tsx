@@ -1,8 +1,8 @@
 import type {FC, ReactElement, ReactNode} from "react";
 import clsx from "clsx";
 import {Tooltip} from "~/uikit";
-import {ETablePlacement} from "~/uikit/Table/enums";
-import type {TPlacement} from "~/uikit/Tooltip";
+import {ETablePlacement} from "~/uikit/components/Table/enums";
+import type {TPlacement} from "app/uikit/components/Tooltip";
 import styles from "./TableHeader.css";
 
 type TProps = {

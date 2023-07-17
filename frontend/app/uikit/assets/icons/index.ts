@@ -1,4 +1,5 @@
 export * from "./AddCircleOutlineIcon";
+export * from "./AdminPanelIcon";
 export * from "./ArrowBackIcon";
 export * from "./ArrowDownIcon";
 export * from "./ArrowDropDownIcon";
@@ -31,6 +32,7 @@ export * from "./LightModeIcon";
 export * from "./LogoIcon";
 export * from "./LogoShortIcon";
 export * from "./MirrorIcon";
+export * from "./MoreVerticalIcon";
 export * from "./NoImageIcon";
 export * from "./RussianLanguageIcon";
 export * from "./SearchIcon";

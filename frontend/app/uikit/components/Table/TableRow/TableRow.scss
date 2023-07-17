@@ -1,0 +1,25 @@
+@import "component";
+
+.TableRow {
+  width: 100%;
+  background-color: transparent;
+  transition: background-color $transition;
+
+  .MoreActions-Icon {
+    transition: background-color $transition;
+  }
+
+  &:hover {
+    background-color: $color-primary-hover;
+    color: $color-white;
+    fill: $color-white;
+
+    .MoreActions-Icon {
+      background-color: $color-primary-hover;
+
+      svg {
+        fill: $color-white;
+      }
+    }
+  }
+}

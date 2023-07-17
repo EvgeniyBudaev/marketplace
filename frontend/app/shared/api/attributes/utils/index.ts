@@ -9,5 +9,6 @@ export * from "./getAttributeDetailApi.server";
 export * from "./mapParamsToDto.server";
 export * from "./mapParamsAddSelectableValueToDto.server";
 export * from "./mapParamsDeleteSelectableValueToDto.server";
+export * from "./mapParamsAddAttributeToDto.server";
 export * from "./mapParamsEditAttributeToDto.server";
 export * from "./mapParamsEditSelectableValueToDto.server";

@@ -8,7 +8,6 @@ import {Link, useFetcher} from "@remix-run/react";
 import {useAuthenticityToken} from "remix-utils";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ERoutes} from "~/enums";
-import {useUser} from "~/hooks";
 import {EFormFields} from "~/pages/Shipping/enums";
 import type {TForm, TOptionsSubmitForm} from "~/pages/Shipping/types";
 import {formSchema} from "~/pages/Shipping/schemas";
@@ -60,8 +59,6 @@ export const Shipping: FC<TProps> = (props) => {
 
   const [address, setAddress] = useState(searchState?.value ?? "");
   const [isDragging, setDragging] = useState(false);
-  const {user} = useUser();
-  const isUser = isEmpty(user);
 
   const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
     console.log("Form params: ", params);

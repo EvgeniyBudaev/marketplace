@@ -231,9 +231,10 @@ export default function App() {
   const isMounted = useRef<boolean>(false);
   const changeLanguageState = useState(false);
   const [socket, setSocket] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
-
+  console.log("[root cart uuid] ", cart.uuid);
   const store = useStore();
   const setUser = store.setUser;
+  const setCart = store.setCart;
   const setSettings = store.setSettings;
 
   useEffect(() => {
@@ -247,6 +248,10 @@ export default function App() {
   useEffect(() => {
     setUser(user);
   }, [setUser, user]);
+
+  useEffect(() => {
+    setCart(cart);
+  }, [setCart, cart]);
 
   useEffect(() => {
     setSettings(settings);

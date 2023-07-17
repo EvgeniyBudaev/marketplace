@@ -15,6 +15,7 @@ import {getInputErrors, getResponseError} from "~/shared/domain";
 import {getStoreFixedT} from "~/shared/store";
 import {checkCSRFToken, checkRequestPermission, createPath} from "~/utils";
 import {commitSession, getCsrfSession, getSession} from "~/shared/session";
+import {getAttributesByCatalog} from "~/shared/api/attributes";
 
 export const action = async (args: ActionArgs) => {
   const {params, request} = args;
@@ -46,17 +47,29 @@ export const action = async (args: ActionArgs) => {
         success: true,
       });
 
-      return redirect(
-        createPath({
-          route: ERoutes.AdminProductEdit,
-          params: {alias: productDetailResponse.data.alias},
-        }),
-        {
-          headers: {
-            "Set-Cookie": await commitSession(session),
+      const cookieData = session.get("FamilyMart_ProductEdit") || {
+        success: true,
+      };
+
+      const attributesByCatalogResponse = await getAttributesByCatalog(request, {alias: productDetailResponse.data.catalogAlias});
+
+      if (attributesByCatalogResponse.success) {
+        return json(
+          {
+            attributesByCatalog: attributesByCatalogResponse.data,
+            catalogs: catalogsResponse.data,
+            product: productDetailResponse.data,
+            ...cookieData,
+            title: t("routes.titles.productEdit"),
           },
-        },
-      );
+          {
+            headers: {
+              "Set-Cookie": await commitSession(session),
+            },
+          },
+        );
+      }
+
     }
 
     session.flash("FamilyMart_ProductEdit", {
@@ -129,19 +142,25 @@ export const loader = async (args: LoaderArgs) => {
     };
 
     if (productDetailResponse.success && catalogsResponse.success) {
-      return json(
-        {
-          catalogs: catalogsResponse.data,
-          product: productDetailResponse.data,
-          ...cookieData,
-          title: t("routes.titles.productEdit"),
-        },
-        {
-          headers: {
-            "Set-Cookie": await commitSession(session),
+      const attributesByCatalogResponse = await getAttributesByCatalog(request, {alias: productDetailResponse.data.catalogAlias});
+
+      if (attributesByCatalogResponse.success) {
+        return json(
+          {
+            attributesByCatalog: attributesByCatalogResponse.data,
+            catalogs: catalogsResponse.data,
+            product: productDetailResponse.data,
+            ...cookieData,
+            title: t("routes.titles.productEdit"),
           },
-        },
-      );
+          {
+            headers: {
+              "Set-Cookie": await commitSession(session),
+            },
+          },
+        );
+      }
+
     }
 
     // @ts-ignore
@@ -171,6 +190,7 @@ export default function ProductEditRoute() {
 
   return (
     <ProductEdit
+      attributesByCatalog={data.attributesByCatalog}
       catalogs={data.catalogs}
       fieldErrors={data.fieldErrors}
       formError={data.formError}
