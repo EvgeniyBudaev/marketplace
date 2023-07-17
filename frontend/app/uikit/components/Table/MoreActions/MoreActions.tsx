@@ -1,14 +1,13 @@
+import clsx from "clsx";
+import { Fragment } from "react";
 import type { ReactElement } from "react";
 import type { Row } from "@tanstack/react-table";
 import { Popover as UiPopover, Transition } from "@headlessui/react";
 
-import type { TPopoverPosition } from "~/uikit";
-import { Icon, POPOVER_POSITION_STYLES, POPOVER_WIDTH, Typography } from "~/uikit";
+import { Icon, POPOVER_POSITION_STYLES, Typography } from "~/uikit";
+import { usePopover } from "~/uikit/components/Table/MoreActions/hooks";
 import type { TTableRowActions } from "../types";
 import styles from "./MoreActions.css";
-import { createRef, Fragment, useEffect, useState } from "react";
-import { usePopper } from "react-popper";
-import clsx from "clsx";
 
 type TProps<TColumn extends object> = {
   rowActions: TTableRowActions<TColumn>;
@@ -19,60 +18,8 @@ export const MoreActions = <TColumn extends object>({
   rowActions,
   row,
 }: TProps<TColumn>): ReactElement => {
-  const position = "center";
-  const [popoverPosition, setPopoverPosition] = useState<TPopoverPosition>("center");
-  const triggerRef = createRef<HTMLDivElement>();
-
-  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>();
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    modifiers: [
-      {
-        name: "flip",
-        options: {
-          altBoundary: true,
-        },
-      },
-      {
-        name: "offset",
-        options: {
-          offset: [0, 12],
-        },
-      },
-      {
-        name: "preventOverflow",
-        options: {
-          altBoundary: true,
-          padding: 12,
-        },
-      },
-    ],
-  });
-
-  useEffect(
-    () => {
-      if (triggerRef.current && !position) {
-        const { right, width } = triggerRef.current.getBoundingClientRect();
-        const bodyWidth = document.body.clientWidth;
-        const centerWidth = POPOVER_WIDTH / 2;
-        const triggerCenter = right - width / 2;
-
-        const rightSize = bodyWidth - triggerCenter;
-        const isRight = rightSize < centerWidth;
-        const isLeft = centerWidth > triggerCenter;
-
-        if (isRight) {
-          setPopoverPosition("right");
-        }
-
-        if (isLeft) {
-          setPopoverPosition("left");
-        }
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  const { attributes, popoverPosition, setPopperElement, setReferenceElement, styles, triggerRef } =
+    usePopover();
 
   const renderPopoverContent = (close: any) => {
     return (

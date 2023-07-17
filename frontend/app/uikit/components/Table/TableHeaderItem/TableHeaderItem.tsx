@@ -1,25 +1,24 @@
-import {createRef, Fragment, useCallback, useEffect, useState} from "react";
+import clsx from "clsx";
+import xor from "lodash/xor";
+import {Fragment, useCallback} from "react";
 import type {ReactElement} from "react";
-import {usePopper} from "react-popper";
 import {Popover as UiPopover, Transition} from "@headlessui/react";
 import {flexRender} from "@tanstack/react-table";
 import type {Header} from "@tanstack/react-table";
 import {useSearchParams} from "@remix-run/react";
-import clsx from "clsx";
-import xor from "lodash/xor";
 
 import {
   ETableSortDirection,
   ETypographyVariant,
   Icon,
   Typography,
-  POPOVER_WIDTH,
   POPOVER_POSITION_STYLES,
 } from "~/uikit";
-import type {TTableSortingHandleChange, TPopoverPosition} from "~/uikit";
+import type {TTableSortingHandleChange} from "~/uikit";
 import type {TSortingColumnStateWithReset} from "~/uikit/components/Table/TableHeader";
 import type {TTableOptionsSorting} from "~/uikit/components/Table/Options";
 import styles from "./TableHeaderItem.css";
+import {usePopover} from "~/uikit/components/Table/MoreActions/hooks";
 
 type TProps<T extends object> = {
   className?: string;
@@ -45,9 +44,6 @@ export const TableHeaderItem = <T extends object>({
                                                     setHiddenColumns,
                                                     state,
                                                   }: TProps<T>): ReactElement => {
-  const position = "center";
-  const [popoverPosition, setPopoverPosition] = useState<TPopoverPosition>("center");
-  const triggerRef = createRef<HTMLDivElement>();
   const headerId = header.id;
   const sortingState = multiple
     ? (state as Array<TSortingColumnStateWithReset>).find((item) => item.sortProperty === headerId)
@@ -56,56 +52,8 @@ export const TableHeaderItem = <T extends object>({
   const hasColumnInArray = multiple && !!sortingState;
   const [searchParams] = useSearchParams();
 
-  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>();
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
-  const {styles, attributes} = usePopper(referenceElement, popperElement, {
-    modifiers: [
-      {
-        name: "flip",
-        options: {
-          altBoundary: true,
-        },
-      },
-      {
-        name: "offset",
-        options: {
-          offset: [0, 12],
-        },
-      },
-      {
-        name: "preventOverflow",
-        options: {
-          altBoundary: true,
-          padding: 12,
-        },
-      },
-    ],
-  });
-
-  useEffect(
-    () => {
-      if (triggerRef.current && !position) {
-        const {right, width} = triggerRef.current.getBoundingClientRect();
-        const bodyWidth = document.body.clientWidth;
-        const centerWidth = POPOVER_WIDTH / 2;
-        const triggerCenter = right - width / 2;
-
-        const rightSize = bodyWidth - triggerCenter;
-        const isRight = rightSize < centerWidth;
-        const isLeft = centerWidth > triggerCenter;
-
-        if (isRight) {
-          setPopoverPosition("right");
-        }
-
-        if (isLeft) {
-          setPopoverPosition("left");
-        }
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  const {attributes, popoverPosition, setPopperElement, setReferenceElement, styles, triggerRef} =
+    usePopover();
 
   const checkSortingSearchParams = () => {
     const sort = searchParams.get("sort");
