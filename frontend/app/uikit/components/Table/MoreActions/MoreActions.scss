@@ -7,7 +7,6 @@
   align-items: center;
   height: 100%;
   width: 24px;
-  z-index: 10;
   border-bottom: 1px solid rgb(224, 224, 224);
 
   &-Icon {
@@ -20,21 +19,57 @@
     }
   }
 
-  // &-List {
-  //   display: flex;
-  //   flex-direction: column;
-  //   width: max-content;
-  //   gap: 0.75rem;
-  // }
+  &-DropDownList {
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: $shadow-perimeter;
+    max-width: 200px;
+    width: 100%;
+    color: $color-text;
+  }
 
-  // &-ListItem {
-  //   padding-bottom: 12px;
-  //   border-bottom: 1px solid rgba(226, 232, 240, 1);
+  &-DropDownListItem {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    cursor: pointer;
+    border-bottom: 1px solid $color-light-gray;
+    transition: all $transition;
 
-  //   &:last-child {
-  //     border-bottom: none;
-  //     padding-bottom: 0;
-  //   }
-  // }
+    &-Inner {
+      display: flex;
+      align-items: center;
+    }
 
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &-Icon {
+      display: inline-block;
+      height: 24px;
+      width: 24px;
+      margin-right: 8px;
+
+      svg {
+        fill: $color-text;
+      }
+    }
+
+    &:hover {
+      background-color: $color-primary-hover;
+      color: $color-white;
+    }
+
+    &__active {
+      background-color: $color-primary;
+      color: $color-white;
+      fill: $color-white;
+
+      &:hover {
+        background-color: $color-primary;
+      }
+    }
+  }
 }

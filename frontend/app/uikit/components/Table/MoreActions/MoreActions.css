@@ -45,7 +45,6 @@
   align-items: center;
   height: 100%;
   width: 24px;
-  z-index: 10;
   border-bottom: 1px solid rgb(224, 224, 224);
 }
 .MoreActions-Icon {
@@ -55,6 +54,51 @@
 }
 .MoreActions-Icon svg {
   fill: rgb(51, 51, 51);
+}
+.MoreActions-DropDownList {
+  background-color: white;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  max-width: 200px;
+  width: 100%;
+  color: rgb(51, 51, 51);
+}
+.MoreActions-DropDownListItem {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(228, 228, 228);
+  transition: all 0.15s;
+}
+.MoreActions-DropDownListItem-Inner {
+  display: flex;
+  align-items: center;
+}
+.MoreActions-DropDownListItem:last-child {
+  border-bottom: none;
+}
+.MoreActions-DropDownListItem-Icon {
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  margin-right: 8px;
+}
+.MoreActions-DropDownListItem-Icon svg {
+  fill: rgb(51, 51, 51);
+}
+.MoreActions-DropDownListItem:hover {
+  background-color: rgb(146, 126, 92);
+  color: rgb(255, 255, 255);
+}
+.MoreActions-DropDownListItem__active {
+  background-color: rgb(176, 151, 106);
+  color: rgb(255, 255, 255);
+  fill: rgb(255, 255, 255);
+}
+.MoreActions-DropDownListItem__active:hover {
+  background-color: rgb(176, 151, 106);
 }
 
 /*# sourceMappingURL=MoreActions.css.map */
