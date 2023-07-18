@@ -54,12 +54,17 @@
 
       svg {
         fill: $color-text;
+        transition: all $transition;
       }
     }
 
     &:hover {
       background-color: $color-primary-hover;
       color: $color-white;
+
+      svg {
+        fill: $color-white;
+      }
     }
 
     &__active {

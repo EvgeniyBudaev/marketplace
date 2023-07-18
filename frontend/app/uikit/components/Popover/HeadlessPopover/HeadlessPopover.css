@@ -55,7 +55,8 @@
   margin-top: 12px;
 }
 .HeadlessPopover-Panel__left {
-  left: 0;
+  left: -8px !important;
+  transform: translate(-100%, -50%) !important;
 }
 .HeadlessPopover-Panel__center {
   left: 2px;
