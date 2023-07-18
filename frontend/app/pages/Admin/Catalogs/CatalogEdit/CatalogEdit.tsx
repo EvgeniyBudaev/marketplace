@@ -1,28 +1,32 @@
 import isNil from "lodash/isNil";
-import {useEffect, useState} from "react";
-import type {FC, ChangeEvent} from "react";
-import {useTranslation} from "react-i18next";
-import {useAuthenticityToken} from "remix-utils";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {ERoutes} from "~/enums";
-import {useTheme} from "~/hooks";
+import { useEffect, useState } from "react";
+import type { FC, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { useAuthenticityToken } from "remix-utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ERoutes } from "~/enums";
+import { useTheme } from "~/hooks";
 import {
   useGetAttributeByCatalogOptions,
   useGetAttributeOptions,
 } from "~/pages/Admin/Catalogs/hooks";
+import { EFormFields, formSchema, mapCatalogEditToDto } from "~/pages/Admin/Catalogs/CatalogEdit";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogEdit";
+import { useFiles } from "~/pages/Admin/Products/hooks";
+import type { TAttributes, TAttributesByCatalog } from "~/shared/api/attributes";
+import type { TCatalogDetail } from "~/shared/api/catalogs";
 import {
-  EFormFields,
-  formSchema,
-  mapCatalogEditToDto,
-} from "~/pages/Admin/Catalogs/CatalogEdit";
-import type {TForm, TOptionsSubmitForm} from "~/pages/Admin/Catalogs/CatalogEdit";
-import {useFiles} from "~/pages/Admin/Products/hooks";
-import type {TAttributes, TAttributesByCatalog} from "~/shared/api/attributes";
-import type {TCatalogDetail} from "~/shared/api/catalogs";
-import {Checkbox, EFormMethods, FileUploader, Form, Input, Select, useInitForm} from "~/shared/form";
-import type {TDomainErrors, TFile, TParams} from "~/types";
-import {Button, ETypographyVariant, Icon, notify, Typography} from "~/uikit";
-import {createPath, formatProxy} from "~/utils";
+  Checkbox,
+  EFormMethods,
+  FileUploader,
+  Form,
+  Input,
+  Select,
+  useInitForm,
+} from "~/shared/form";
+import type { TDomainErrors, TFile, TParams } from "~/types";
+import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
+import { createPath, formatProxy } from "~/utils";
 import styles from "./CatalogEdit.css";
 
 type TProps = {
@@ -36,9 +40,9 @@ type TProps = {
 
 export const CatalogEdit: FC<TProps> = (props) => {
   const csrf = useAuthenticityToken();
-  const {t} = useTranslation();
-  const {theme} = useTheme();
-  
+  const { t } = useTranslation();
+  const { theme } = useTheme();
+
   const [attributes, setAttributes] = useState(props.attributes);
   const [attributesByCatalog, setAttributesByCatalog] = useState(props.attributesByCatalog);
   const [catalog, setCatalog] = useState(props.catalog);
@@ -46,20 +50,22 @@ export const CatalogEdit: FC<TProps> = (props) => {
     props.catalog?.image ?? null,
   );
   const idCheckbox = "enabled";
-  const [filter, setFilter] = useState<TParams>({enabled: props.catalog.enabled ? [idCheckbox] : []});
+  const [filter, setFilter] = useState<TParams>({
+    enabled: props.catalog?.enabled ? [idCheckbox] : [],
+  });
   const enabled: boolean = filter[EFormFields.Enabled].includes(idCheckbox);
 
-  const {attributeOptions} = useGetAttributeOptions({attributes});
-  const {attributeByCatalogOptions} = useGetAttributeByCatalogOptions({attributesByCatalog});
+  const { attributeOptions } = useGetAttributeOptions({ attributes });
+  const { attributeByCatalogOptions } = useGetAttributeByCatalogOptions({ attributesByCatalog });
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
-  const {setValue, watch} = form.methods;
+  const { setValue, watch } = form.methods;
 
   const watchFiles = watch(EFormFields.Image);
-  const {onAddFiles, onDeleteFile, fetcherFilesLoading} = useFiles({
+  const { onAddFiles, onDeleteFile, fetcherFilesLoading } = useFiles({
     fieldName: EFormFields.Image,
     files: watchFiles,
     setValue,
@@ -92,7 +98,7 @@ export const CatalogEdit: FC<TProps> = (props) => {
     nameGroup: string,
   ) => {
     const {
-      target: {checked, value},
+      target: { checked, value },
     } = event;
 
     if (checked) {
@@ -123,14 +129,12 @@ export const CatalogEdit: FC<TProps> = (props) => {
     return file?.preview ? URL.revokeObjectURL(file.preview) : file;
   };
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     const dataFormToDto = mapCatalogEditToDto(params, catalog.id, enabled);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.attributeAlias &&
-    dataFormToDto.attributeAlias.forEach((item) =>
-      formData.append("attributeAlias", item.value),
-    );
+      dataFormToDto.attributeAlias.forEach((item) => formData.append("attributeAlias", item.value));
     dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
     dataFormToDto.id && formData.append("id", dataFormToDto.id);
     defaultImage && formData.append("image", defaultImage);
@@ -140,7 +144,7 @@ export const CatalogEdit: FC<TProps> = (props) => {
       method: EFormMethods.Put,
       action: createPath({
         route: ERoutes.AdminCatalogEdit,
-        params: {alias: catalog.alias},
+        params: { alias: catalog.alias },
       }),
       encType: "multipart/form-data",
     });
@@ -197,7 +201,7 @@ export const CatalogEdit: FC<TProps> = (props) => {
               "image/png": [".png"],
             }}
             files={watchFiles}
-            Input={<input hidden name={EFormFields.Image} type="file"/>}
+            Input={<input hidden name={EFormFields.Image} type="file" />}
             isLoading={fetcherFilesLoading}
             maxFiles={1}
             maxSize={1024 * 1024}
@@ -238,7 +242,7 @@ export const CatalogEdit: FC<TProps> = (props) => {
           <div className="Previews-File">
             <div className="Previews-File-Inner">
               <div className="Previews-File-IconWrapper">
-                <Icon className="Previews-File-ImageIcon" type="Image"/>
+                <Icon className="Previews-File-ImageIcon" type="Image" />
               </div>
               <div className="Previews-File-Name">
                 {typeof defaultImage !== "string" ? defaultImage?.name : defaultImage}
@@ -258,5 +262,5 @@ export const CatalogEdit: FC<TProps> = (props) => {
 };
 
 export function catalogEditLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

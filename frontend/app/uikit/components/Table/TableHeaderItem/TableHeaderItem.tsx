@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import xor from "lodash/xor";
-import {Fragment, useCallback} from "react";
-import type {ReactElement} from "react";
-import {Popover as UiPopover, Transition} from "@headlessui/react";
-import {flexRender} from "@tanstack/react-table";
-import type {Header} from "@tanstack/react-table";
-import {useSearchParams} from "@remix-run/react";
+import { Fragment, useCallback } from "react";
+import type { ReactElement } from "react";
+import { Popover as UiPopover, Transition } from "@headlessui/react";
+import { flexRender } from "@tanstack/react-table";
+import type { Header } from "@tanstack/react-table";
+import { useSearchParams } from "@remix-run/react";
 
 import {
   ETableSortDirection,
@@ -14,11 +14,11 @@ import {
   Typography,
   POPOVER_POSITION_STYLES,
 } from "~/uikit";
-import type {TTableSortingHandleChange} from "~/uikit";
-import type {TSortingColumnStateWithReset} from "~/uikit/components/Table/TableHeader";
-import type {TTableOptionsSorting} from "~/uikit/components/Table/Options";
+import type { TTableSortingHandleChange } from "~/uikit";
+import type { TSortingColumnStateWithReset } from "~/uikit/components/Table/TableHeader";
+import type { TTableOptionsSorting } from "~/uikit/components/Table/Options";
+import { usePopover } from "~/uikit/components/Table/TableHeaderItem/hooks";
 import styles from "./TableHeaderItem.css";
-import {usePopover} from "~/uikit/components/Table/MoreActions/hooks";
 
 type TProps<T extends object> = {
   className?: string;
@@ -35,15 +35,15 @@ type TProps<T extends object> = {
 };
 
 export const TableHeaderItem = <T extends object>({
-                                                    hasSorting,
-                                                    header,
-                                                    hiddenColumns,
-                                                    multiple,
-                                                    onChange,
-                                                    optionsSorting,
-                                                    setHiddenColumns,
-                                                    state,
-                                                  }: TProps<T>): ReactElement => {
+  hasSorting,
+  header,
+  hiddenColumns,
+  multiple,
+  onChange,
+  optionsSorting,
+  setHiddenColumns,
+  state,
+}: TProps<T>): ReactElement => {
   const headerId = header.id;
   const sortingState = multiple
     ? (state as Array<TSortingColumnStateWithReset>).find((item) => item.sortProperty === headerId)
@@ -52,7 +52,7 @@ export const TableHeaderItem = <T extends object>({
   const hasColumnInArray = multiple && !!sortingState;
   const [searchParams] = useSearchParams();
 
-  const {attributes, popoverPosition, setPopperElement, setReferenceElement, styles, triggerRef} =
+  const { attributes, popoverPosition, setPopperElement, setReferenceElement, styles, triggerRef } =
     usePopover();
 
   const checkSortingSearchParams = () => {
@@ -74,11 +74,11 @@ export const TableHeaderItem = <T extends object>({
   };
 
   const handleChange = ({
-                          sortProperty,
-                          sortDirection,
-                          shouldReset,
-                          close,
-                        }: TTableSortingHandleChange) => {
+    sortProperty,
+    sortDirection,
+    shouldReset,
+    close,
+  }: TTableSortingHandleChange) => {
     close?.();
     if (sortingState && sortProperty === sortingState.sortProperty && shouldReset) {
       if (multiple) {
@@ -95,18 +95,18 @@ export const TableHeaderItem = <T extends object>({
     }
 
     let preparedSortingParams: TSortingColumnStateWithReset | Array<TSortingColumnStateWithReset> =
-      {sortProperty, sortDirection, shouldReset};
+      { sortProperty, sortDirection, shouldReset };
 
     if (multiple) {
       preparedSortingParams = hasColumnInArray
         ? (state as Array<TSortingColumnStateWithReset>).map((item) =>
-          item.sortProperty === sortProperty
-            ? {sortProperty, sortDirection, shouldReset}
-            : item,
-        )
+            item.sortProperty === sortProperty
+              ? { sortProperty, sortDirection, shouldReset }
+              : item,
+          )
         : (state as Array<TSortingColumnStateWithReset>).concat([
-          {sortDirection, sortProperty, shouldReset},
-        ]);
+            { sortDirection, sortProperty, shouldReset },
+          ]);
     }
 
     onChange(preparedSortingParams);
@@ -128,7 +128,7 @@ export const TableHeaderItem = <T extends object>({
     ) {
       return (
         <div className="TableHeaderItem-IconIndicator">
-          <Icon type="SortUp"/>
+          <Icon type="SortUp" />
         </div>
       );
     } else if (
@@ -138,13 +138,13 @@ export const TableHeaderItem = <T extends object>({
     ) {
       return (
         <div className="TableHeaderItem-IconIndicator">
-          <Icon type="SortDown"/>
+          <Icon type="SortDown" />
         </div>
       );
     } else {
       return (
         <div className="TableHeaderItem-IconIndicator">
-          <Icon type="Sorting"/>
+          <Icon type="Sorting" />
         </div>
       );
     }
@@ -186,7 +186,7 @@ export const TableHeaderItem = <T extends object>({
               }
             >
               <div className="TableHeaderItem-DropDownListItem-Icon">
-                <Icon type="SortUp"/>
+                <Icon type="SortUp" />
               </div>
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {optionsSorting?.ascText ?? ""}
@@ -209,7 +209,7 @@ export const TableHeaderItem = <T extends object>({
               }
             >
               <div className="TableHeaderItem-DropDownListItem-Icon">
-                <Icon type="SortDown"/>
+                <Icon type="SortDown" />
               </div>
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {optionsSorting?.descText ?? ""}
@@ -230,7 +230,7 @@ export const TableHeaderItem = <T extends object>({
               }
             >
               <div className="TableHeaderItem-DropDownListItem-Icon">
-                <Icon type="Sorting"/>
+                <Icon type="Sorting" />
               </div>
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {optionsSorting?.defaultText ?? ""}
@@ -241,7 +241,7 @@ export const TableHeaderItem = <T extends object>({
 
         <li className="TableHeaderItem-DropDownListItem" onClick={() => handleHideColumn(close)}>
           <div className="TableHeaderItem-DropDownListItem-Icon">
-            <Icon type="VisibilityOff"/>
+            <Icon type="VisibilityOff" />
           </div>
           <Typography variant={ETypographyVariant.TextB3Regular}>
             {optionsSorting?.hideColumnText ?? ""}
@@ -266,7 +266,7 @@ export const TableHeaderItem = <T extends object>({
           )}
           {...attributes.popper}
         >
-          {({close}) => (
+          {({ close }) => (
             <Transition.Child
               as={Fragment}
               enter="HeadlessPopover-Transition__enter"
@@ -286,5 +286,5 @@ export const TableHeaderItem = <T extends object>({
 };
 
 export function tableHeaderItemLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

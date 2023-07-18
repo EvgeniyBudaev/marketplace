@@ -18,7 +18,8 @@
     margin-top: 12px;
 
     &__left {
-      left: 0;
+      left: -8px !important;
+      transform: translate(-100%, -50%) !important;
     }
 
     &__center {

@@ -4,9 +4,9 @@ import { POPOVER_WIDTH } from "~/uikit";
 import type { TPopoverPosition } from "~/uikit";
 
 export const usePopover = () => {
-  const position = "center";
+  const position = "left";
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
-  const [popoverPosition, setPopoverPosition] = useState<TPopoverPosition>("center");
+  const [popoverPosition, setPopoverPosition] = useState<TPopoverPosition>(position);
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>();
   const triggerRef = createRef<HTMLDivElement>();
 
