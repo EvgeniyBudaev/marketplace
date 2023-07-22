@@ -1,7 +1,7 @@
-import { memo, useCallback, useEffect, useMemo, useRef } from "react";
-import type { ReactNode, ComponentProps } from "react";
-import { Map, withYMaps } from "@pbe/react-yandex-maps";
-import { useDebounce } from "use-debounce";
+import {memo, useCallback, useEffect, useMemo, useRef} from "react";
+import type {ReactNode, ComponentProps} from "react";
+import {Map, withYMaps} from "@pbe/react-yandex-maps";
+import {useDebounce} from "use-debounce";
 
 type MapProps = ComponentProps<typeof Map>;
 
@@ -87,8 +87,6 @@ export default memo(
           const trimmed = state.trim();
 
           if (trimmed.length && trimmed !== prevAddress.current) {
-            prevAddress.current = trimmed;
-
             ymaps
               .search(trimmed, {
                 options: {
@@ -98,6 +96,8 @@ export default memo(
               .then((response: any) => {
                 if (!cancelled) {
                   const queryCoords = response?.geoObjects?.get(0)?.geometry?.getCoordinates();
+                  prevAddress.current = trimmed;
+
                   if (queryCoords?.length === 2) {
                     map.current?.setCenter(queryCoords);
 
