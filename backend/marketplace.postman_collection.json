@@ -226,6 +226,37 @@
 							"response": []
 						},
 						{
+							"name": "add new attribute double",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"new_attribute667\",\n    \"name\": \"Материал\",\n    \"filter\":true,\n    \"type\": \"DOUBLE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/attributes/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"attributes",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "add new attribute selectable Copy",
 							"request": {
 								"method": "PUT",
@@ -2065,6 +2096,58 @@
 								"v1",
 								"orders",
 								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "actuator",
+			"item": [
+				{
+					"name": "base",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/actuator",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http trace",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "httptrace",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/actuator/httptrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator",
+								"httptrace"
 							]
 						}
 					},
