@@ -17,6 +17,10 @@ export const getStoreFixedT: TGetStoreFixedT = async ({
   namespaces = DEFAULT_NAMESPACE,
   uuid,
 }) => {
-  const language = await getStoreLanguage({request, uuid});
-  return remixI18next.getFixedT(language.toLowerCase() ?? parseAcceptLanguage(request), namespaces);
-}
+  const language = await getStoreLanguage({ request, uuid });
+
+  return remixI18next.getFixedT(
+    language?.toLowerCase() ?? parseAcceptLanguage(request),
+    namespaces,
+  );
+};
