@@ -81,10 +81,8 @@ public class UserSettingsService {
                         createQuery("SELECT s FROM UserSettings as s inner join SessionId as sid on s.id=sid.userSettings.id where sid.uuid=:uuid", UserSettings.class);
         query.setParameter("uuid", uuid);
         Optional<UserSettings> optionalUserSettings = query.getResultStream().findFirst();
-        if (optionalUserSettings.isEmpty()) {
-            return getDefaultSettings(uuid);
-        }
-        return optionalUserSettings.get();
+
+        return optionalUserSettings.orElseGet(() -> getDefaultSettings(uuid));
     }
 
     private UserSettings getSettingsForAuthUser(String email) {
@@ -93,10 +91,7 @@ public class UserSettingsService {
                         createQuery("SELECT s FROM SessionId as sid left join UserSettings as s where sid.user.email=:email", UserSettings.class);
         query.setParameter("email", email);
         Optional<UserSettings> optionalUserSettings = query.getResultStream().findFirst();
-        if (optionalUserSettings.isEmpty()) {
-            return getDefaultSettings(sessionIdService.getSessionIdByUserEmail(email).getUuid());
-        }
-        return optionalUserSettings.get();
+        return optionalUserSettings.orElseGet(() -> getDefaultSettings(sessionIdService.getSessionIdByUserEmail(email).getUuid()));
     }
 
     private UserSettings getDefaultSettings(String uuid) {

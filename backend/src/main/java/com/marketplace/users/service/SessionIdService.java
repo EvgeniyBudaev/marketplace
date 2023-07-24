@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -58,15 +59,16 @@ public class SessionIdService {
         session.setUser(user);
         return session;
     }
-
+    @Transactional
     public SessionId getSession(String uuid) {
         if (uuid == null) {
             return setNewSession();
         }
         Optional<SessionId> sessionId = sessionRepository.getSessionIdByUuid(uuid);
-        return sessionId.orElseGet(this::setNewSession);
+        return sessionId.orElseGet(() -> this.restoreOldSession(uuid));
     }
 
+    @Transactional
     public SessionId getSession(AppUser user) {
         SessionId sessionId;
         TypedQuery<SessionId> sessionIdTypedQuery =
@@ -95,6 +97,7 @@ public class SessionIdService {
 
     }
 
+    @Transactional
     public void updateCartInSession(String uuid, Cart cart) {
         SessionId sessionId = getSession(uuid);
         updateCartInSession(sessionId, cart);
@@ -120,7 +123,8 @@ public class SessionIdService {
         sessionRepository.save(sessionId);
     }
 
-    public SessionId getSessionIdByUserEmail(String email) {
+    @Transactional
+    public SessionId getSessionIdByUserEmail(@NotNull String email) {
         AppUser user = userDetailsService.findUserWithRolesByEmail(email);
         return getSession(user);
     }
@@ -130,6 +134,13 @@ public class SessionIdService {
             return null;
         }
         return userDetailsService.findUserWithRolesByEmail(principal.getName());
+    }
+
+    private SessionId restoreOldSession(String uuid){
+        SessionId session = new SessionId();
+        session.setUuid(uuid);
+        session.setUpdated(LocalDateTime.now());
+        return session;
     }
 
 }
