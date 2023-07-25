@@ -73,7 +73,7 @@ public class CartController {
     }
 
 
-    private Cart findCartByAuthority(Principal principal, CartRequestDto dto) {
+    public Cart findCartByAuthority(Principal principal, CartRequestDto dto) {
         Cart cart;
         if (principal != null) {
             AppUser user = cartService.getUserByEmail(principal);

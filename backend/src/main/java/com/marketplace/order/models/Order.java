@@ -49,5 +49,8 @@ public class Order {
     @Column(name = "updated_at", updatable = false)
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(columnDefinition = "status_id")
+    private OrderStatus status;
 
 }

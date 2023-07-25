@@ -140,6 +140,7 @@ public class SessionIdService {
         SessionId session = new SessionId();
         session.setUuid(uuid);
         session.setUpdated(LocalDateTime.now());
+        sessionRepository.save(session);
         return session;
     }
 

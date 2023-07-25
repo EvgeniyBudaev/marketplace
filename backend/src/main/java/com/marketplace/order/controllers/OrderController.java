@@ -1,12 +1,10 @@
 package com.marketplace.order.controllers;
 
+import com.marketplace.backend.model.Paging;
 import com.marketplace.order.dto.request.CreateOrderRequestDto;
 import com.marketplace.order.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,5 +21,10 @@ public class OrderController {
     @PostMapping("create")
     public boolean createOrder(@RequestBody @Valid CreateOrderRequestDto dto){
         return orderService.createOrder(dto);
+    }
+
+    @GetMapping("all")
+    public Paging<?> getAllOrderByPageAndStatus(){
+        return null;
     }
 }
