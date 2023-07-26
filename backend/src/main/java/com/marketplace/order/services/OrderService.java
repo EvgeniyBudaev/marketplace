@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.lang.module.ResolutionException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -65,5 +67,12 @@ public class OrderService {
         order.setAmount(amount.get().toString());
         order.setStatus(orderStatusService.getStartedStatus());
         return true;
+    }
+    @Transactional
+    public Order getOrderById(Long id) {
+        TypedQuery<Order> query = entityManager.createQuery("SELECT or FROM Order as or JOIN FETCH OrderItem WHERE or.id=:id", Order.class);
+        query.setParameter("id",id);
+        Order order = query.getResultStream().findFirst().orElseThrow(ResolutionException::new);
+        return order;
     }
 }

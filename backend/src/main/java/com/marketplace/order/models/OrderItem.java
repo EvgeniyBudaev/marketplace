@@ -35,7 +35,8 @@ public class OrderItem {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
     public OrderItem (CartItem cartItem, Order order){
         this.order = order;
         Product product = cartItem.getProduct();
