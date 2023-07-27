@@ -11,12 +11,11 @@ import com.marketplace.users.service.SessionIdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -26,19 +25,21 @@ import java.util.Set;
 @Service
 public class CartService {
     private final CartRepository cartRepository;
-    @PersistenceContext
+
     private final EntityManager entityManager;
     private final AppUserDetailsService userDetailsService;
     private final CartItemService cartItemService;
     private final SessionIdService sessionIdService;
+    private final TransactionTemplate transactionTemplate;
 
     @Autowired
-    public CartService(CartRepository cartRepository, EntityManager entityManager, AppUserDetailsService userDetailsService, CartItemService cartItemService, SessionIdService sessionIdService) {
+    public CartService(CartRepository cartRepository, EntityManager entityManager, AppUserDetailsService userDetailsService, CartItemService cartItemService, SessionIdService sessionIdService, TransactionTemplate transactionTemplate) {
         this.cartRepository = cartRepository;
         this.entityManager = entityManager;
         this.userDetailsService = userDetailsService;
         this.cartItemService = cartItemService;
         this.sessionIdService = sessionIdService;
+        this.transactionTemplate = transactionTemplate;
     }
 
     public Cart clearCart(Cart cart) {
@@ -133,19 +134,19 @@ public class CartService {
         return cart;
     }
 
-
-    private Cart emptyCart() {
+    public Cart emptyCart() {
         Cart cart = new Cart();
         cart.setCreatedAt(LocalDateTime.now());
-        save(cart);
+        cart.setModifyDate(LocalDateTime.now());
+        transactionTemplate.execute(transactionStatus->{
+            cartRepository.save(cart);
+            transactionStatus.flush();
+            return cart;
+        });
         return cart;
     }
 
-    @Transactional
-    public Cart save(Cart cart) {
-        cart.setModifyDate(LocalDateTime.now());
-        return cartRepository.save(cart);
-    }
+
 
     public AppUser getUserByEmail(Principal principal) {
         return userDetailsService.findUserWithRolesByEmail(principal.getName());

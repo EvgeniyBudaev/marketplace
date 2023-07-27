@@ -46,8 +46,14 @@ public class Order {
     @OneToMany(mappedBy = "order" )
     private Set<OrderItem> orderItems;
 
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
     @Column(name = "updated_at", updatable = false)
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(columnDefinition = "status_id")
+    private OrderStatus status;
 
 }

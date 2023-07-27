@@ -4,16 +4,15 @@ import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.cart.model.Cart;
 import com.marketplace.cart.service.CartService;
 import com.marketplace.order.dto.request.CreateOrderRequestDto;
-import com.marketplace.order.models.Order;
-import com.marketplace.order.models.OrderItem;
-import com.marketplace.order.models.Recipient;
-import com.marketplace.order.models.ShippingAddress;
+import com.marketplace.order.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.lang.module.ResolutionException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -24,15 +23,17 @@ public class OrderService {
     private final CartService cartService;
     private final RecipientService recipientService;
     private final ShippingAddressService shippingAddressService;
+    private final OrderStatusService orderStatusService;
     @PersistenceContext
     private final EntityManager entityManager;
 
 
     @Autowired
-    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, EntityManager entityManager) {
+    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, EntityManager entityManager) {
         this.cartService = cartService;
         this.recipientService = recipientService;
         this.shippingAddressService = shippingAddressService;
+        this.orderStatusService = orderStatusService;
         this.entityManager = entityManager;
     }
 
@@ -64,6 +65,14 @@ public class OrderService {
             amount.set(BigDecimal.valueOf(cartItem.getQuantity() * cartItem.getProduct().getPrice().longValue()));
         });
         order.setAmount(amount.get().toString());
+        order.setStatus(orderStatusService.getStartedStatus());
         return true;
+    }
+    @Transactional
+    public Order getOrderById(Long id) {
+        TypedQuery<Order> query = entityManager.createQuery("SELECT or FROM Order as or JOIN FETCH OrderItem WHERE or.id=:id", Order.class);
+        query.setParameter("id",id);
+        Order order = query.getResultStream().findFirst().orElseThrow(ResolutionException::new);
+        return order;
     }
 }

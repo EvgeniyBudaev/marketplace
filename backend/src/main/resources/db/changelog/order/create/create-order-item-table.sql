@@ -5,5 +5,6 @@ CREATE TABLE order_items
     product_name VARCHAR(250),
     product_id BIGINT  not null,
     quantity   INTEGER not null,
-    price DECIMAL(19,2) NOT NULL
+    price DECIMAL(19,2) NOT NULL,
+    amount DECIMAL(19,2) NOT NULL
 )

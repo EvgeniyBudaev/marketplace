@@ -9,5 +9,7 @@ CREATE TABLE orders
     comment    VARCHAR(500),
     payment    VARCHAR(20),
     amount     VARCHAR(20),
-    updated_at TIMESTAMP not null default CURRENT_TIMESTAMP
+    status_id BIGINT not null,
+    updated_at TIMESTAMP not null default CURRENT_TIMESTAMP,
+    created_at TIMESTAMP not null default CURRENT_TIMESTAMP
 ) ENGINE = InnoDB;
