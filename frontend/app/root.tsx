@@ -1,11 +1,11 @@
-import {useEffect, useRef, useState} from "react";
-import type {FC, ReactNode} from "react";
-import {useTranslation} from "react-i18next";
+import { useEffect, useRef, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
 import modalStyles from "react-responsive-modal/styles.css";
-import {json} from "@remix-run/node";
-import {cssBundleHref} from "@remix-run/css-bundle";
-import type {LinksFunction, LoaderArgs, MetaFunction} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { cssBundleHref } from "@remix-run/css-bundle";
+import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -15,40 +15,41 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import {AuthenticityTokenProvider, createAuthenticityToken} from "remix-utils";
+import { AuthenticityTokenProvider, createAuthenticityToken } from "remix-utils";
 import clsx from "clsx";
-import {cryptoRandomStringAsync} from "crypto-random-string";
+import { cryptoRandomStringAsync } from "crypto-random-string";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
-import {connect} from "socket.io-client";
-import type {Socket} from "socket.io-client";
-import type {DefaultEventsMap} from "socket.io/dist/typed-events";
+import { connect } from "socket.io-client";
+import type { Socket } from "socket.io-client";
+import type { DefaultEventsMap } from "socket.io/dist/typed-events";
 import i18next from "i18next";
 import slickStyles from "slick-carousel/slick/slick.css";
 import slickThemeStyles from "slick-carousel/slick/slick-theme.css";
 
-import {Layout, links as componentsLinks} from "~/components";
-import {Environment} from "~/environment.server";
-import type {EnvironmentType} from "~/environment.server";
-import {useInitDayjs, useInitLanguage} from "~/hooks";
-import {links as sharedLinks} from "~/shared";
-import {setApiLanguage} from "~/shared/api";
-import {getUserSession} from "~/shared/api/auth";
-import type {TUser} from "~/shared/api/users/types";
-import type {TCart} from "~/shared/api/cart";
-import {createCartSession, getCart, getCartSession} from "~/shared/api/cart";
-import type {TSettings} from "~/shared/api/settings";
-import {createSettingsSession, getSettings} from "~/shared/api/settings";
-import {ChangeLanguageProvider, SocketProvider} from "~/shared/context";
-import {commitCsrfSession, getCsrfSession} from "~/shared/session";
+import { Layout, links as componentsLinks } from "~/components";
+import { DEFAULT_LANGUAGE } from "~/constants";
+import { Environment } from "~/environment.server";
+import type { EnvironmentType } from "~/environment.server";
+import { useInitDayjs, useInitLanguage } from "~/hooks";
+import { links as sharedLinks } from "~/shared";
+import { setApiLanguage } from "~/shared/api";
+import { getUserSession } from "~/shared/api/auth";
+import type { TUser } from "~/shared/api/users/types";
+import type { TCart } from "~/shared/api/cart";
+import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
+import type { TSettings } from "~/shared/api/settings";
+import { createSettingsSession, getSettings } from "~/shared/api/settings";
+import { ChangeLanguageProvider, SocketProvider } from "~/shared/context";
+import { commitCsrfSession, getCsrfSession } from "~/shared/session";
 import {
   getStoreFixedT,
   parseAcceptLanguage,
   StoreContextProvider,
   useStore,
 } from "~/shared/store";
-import {ETheme, links as uikitLinks, ToastContainer} from "~/uikit";
-import {createBoundaries, internalError} from "~/utils";
+import { ETheme, links as uikitLinks, ToastContainer } from "~/uikit";
+import { createBoundaries, internalError } from "~/utils";
 import styles from "../styles/app.css";
 
 interface RootLoaderData {
@@ -62,7 +63,7 @@ interface RootLoaderData {
 }
 
 export const loader = async (args: LoaderArgs) => {
-  const {request} = args;
+  const { request } = args;
 
   const [cartSession, csrfSession, userSession] = await Promise.all([
     getCartSession(request),
@@ -77,7 +78,7 @@ export const loader = async (args: LoaderArgs) => {
     csrfToken = createAuthenticityToken(csrfSession);
   }
 
-  const cspScriptNonce = await cryptoRandomStringAsync({length: 41});
+  const cspScriptNonce = await cryptoRandomStringAsync({ length: 41 });
 
   // Get user
   const user = JSON.parse(userSession || "{}");
@@ -88,16 +89,16 @@ export const loader = async (args: LoaderArgs) => {
   // console.log("[cart.uuid] ", cart.uuid);
   let cartResponse;
   if (isEmpty(cart)) {
-    cartResponse = await getCart(request, {uuid: null});
+    cartResponse = await getCart(request, { uuid: null });
   } else {
-    cartResponse = await getCart(request, {uuid: cart.uuid});
+    cartResponse = await getCart(request, { uuid: cart.uuid });
   }
   if (!cartResponse.success) {
     throw internalError();
   }
 
   const [settingsResponse, updatedCartSession] = await Promise.all([
-    getSettings(request, {uuid: cartResponse.data.uuid}),
+    getSettings(request, { uuid: cartResponse.data.uuid }),
     createCartSession(cartResponse.data),
   ]);
 
@@ -107,7 +108,7 @@ export const loader = async (args: LoaderArgs) => {
   }
   setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
   const [t, updatedSettingsSession] = await Promise.all([
-    getStoreFixedT({request, uuid: cartResponse.data.uuid}),
+    getStoreFixedT({ request, uuid: cartResponse.data.uuid }),
     createSettingsSession(settingsResponse.data),
   ]);
 
@@ -145,12 +146,12 @@ export const meta: MetaFunction = () => ({
 
 export const links: LinksFunction = () => {
   return [
-    ...(cssBundleHref ? [{rel: "stylesheet", href: cssBundleHref}] : []),
-    {rel: "stylesheet", href: styles},
-    {rel: "stylesheet", href: reactToastifyStyles},
-    {rel: "stylesheet", href: modalStyles},
-    {rel: "stylesheet", href: slickStyles},
-    {rel: "stylesheet", href: slickThemeStyles},
+    ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+    { rel: "stylesheet", href: styles },
+    { rel: "stylesheet", href: reactToastifyStyles },
+    { rel: "stylesheet", href: modalStyles },
+    { rel: "stylesheet", href: slickStyles },
+    { rel: "stylesheet", href: slickThemeStyles },
     ...uikitLinks(),
     ...componentsLinks(),
     ...sharedLinks(),
@@ -169,10 +170,10 @@ type TDocumentProps = {
   settings?: TSettings;
 };
 
-const Document: FC<TDocumentProps> = ({cart, children, cspScriptNonce, env, settings}) => {
-  const {i18n} = useTranslation();
+const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, settings }) => {
+  const { i18n } = useTranslation();
   // const { storageLanguage, setStorageLanguage } = useLanguageStore();
-  const language = !isNil(settings) ? settings?.language.toLowerCase() : "ru";
+  const language = !isNil(settings) ? settings?.language?.toLowerCase() : DEFAULT_LANGUAGE;
   useInitLanguage(language);
   useInitDayjs();
   const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
@@ -204,30 +205,30 @@ const Document: FC<TDocumentProps> = ({cart, children, cspScriptNonce, env, sett
 
   return (
     <html lang={i18n.language} dir={i18n.dir()}>
-    <head>
-      <meta charSet="utf-8"/>
-      <meta
-        name="viewport"
-        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes"
-      ></meta>
-      <Meta/>
-      <Links/>
-    </head>
-    <body className={clsx({"theme-dark": theme === ETheme.Dark})}>
-    <Layout cart={cart} theme={theme}>
-      {children}
-    </Layout>
-    <ToastContainer/>
-    <ScrollRestoration nonce={cspScriptNonce}/>
-    <Scripts nonce={cspScriptNonce}/>
-    {env?.IS_PRODUCTION === false && <LiveReload nonce={cspScriptNonce}/>}
-    </body>
+      <head>
+        <meta charSet="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes"
+        ></meta>
+        <Meta />
+        <Links />
+      </head>
+      <body className={clsx({ "theme-dark": theme === ETheme.Dark })}>
+        <Layout cart={cart} theme={theme}>
+          {children}
+        </Layout>
+        <ToastContainer />
+        <ScrollRestoration nonce={cspScriptNonce} />
+        <Scripts nonce={cspScriptNonce} />
+        {env?.IS_PRODUCTION === false && <LiveReload nonce={cspScriptNonce} />}
+      </body>
     </html>
   );
 };
 
 export default function App() {
-  const {cart, csrfToken, cspScriptNonce, ENV, settings, user} = useLoaderData<typeof loader>();
+  const { cart, csrfToken, cspScriptNonce, ENV, settings, user } = useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
   const changeLanguageState = useState(false);
   const [socket, setSocket] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
@@ -270,7 +271,7 @@ export default function App() {
         <AuthenticityTokenProvider token={csrfToken}>
           <ChangeLanguageProvider value={changeLanguageState}>
             <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
-              <Outlet/>
+              <Outlet />
               <script
                 nonce={cspScriptNonce}
                 suppressHydrationWarning
@@ -286,6 +287,6 @@ export default function App() {
   );
 }
 
-export const {ErrorBoundary, CatchBoundary} = createBoundaries({
+export const { ErrorBoundary, CatchBoundary } = createBoundaries({
   Layout: Document,
 });

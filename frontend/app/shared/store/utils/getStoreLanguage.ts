@@ -1,3 +1,4 @@
+import { DEFAULT_LANGUAGE } from "~/constants";
 import { userSettingsStore } from "~/process/store";
 import { EStoreKeys } from "~/shared/enums";
 import type { ELanguages } from "~/uikit";
@@ -9,7 +10,12 @@ type TProps = {
 
 type TGetStoreLanguage = (props: TProps) => Promise<ELanguages>;
 
-export const getStoreLanguage: TGetStoreLanguage = async ({request, uuid}) => {
-  const userSettings = await userSettingsStore.getItem<ELanguages>(request, EStoreKeys.Language, uuid);
-  return userSettings.language.toLowerCase();
+export const getStoreLanguage: TGetStoreLanguage = async ({ request, uuid }) => {
+  const userSettings = await userSettingsStore.getItem<ELanguages>(
+    request,
+    EStoreKeys.Language,
+    uuid,
+  );
+
+  return userSettings.language?.toLowerCase() ?? DEFAULT_LANGUAGE;
 };
