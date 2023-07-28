@@ -2,6 +2,7 @@ package com.marketplace.order.controllers;
 
 import com.marketplace.backend.model.Paging;
 import com.marketplace.order.dto.request.CreateOrderRequestDto;
+import com.marketplace.order.dto.request.GetAllOrderByPageRequestDto;
 import com.marketplace.order.dto.response.OrderResponseDto;
 import com.marketplace.order.models.Order;
 import com.marketplace.order.services.OrderService;
@@ -33,8 +34,8 @@ public class OrderController {
        return new OrderResponseDto(order,globalProperty.getPRODUCT_BASE_URL());
     }
 
-    @GetMapping("all")
-    public Paging<OrderResponseDto> getAllOrderByPageAndStatus(){
-        return null;
+    @PostMapping("all")
+    public Paging<OrderResponseDto> getAllOrderByPageAndStatus(@RequestBody GetAllOrderByPageRequestDto dto){
+        return orderService.getAllByPage(dto.getCurrentPage(),dto.getPageSize(),dto.getOrderStatuses());
     }
 }

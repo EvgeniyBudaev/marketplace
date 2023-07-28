@@ -1,9 +1,11 @@
 package com.marketplace.order.services;
 
 import com.marketplace.backend.exception.ResourceNotFoundException;
+import com.marketplace.backend.model.Paging;
 import com.marketplace.cart.model.Cart;
 import com.marketplace.cart.service.CartService;
 import com.marketplace.order.dto.request.CreateOrderRequestDto;
+import com.marketplace.order.dto.response.OrderResponseDto;
 import com.marketplace.order.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.lang.module.ResolutionException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -74,5 +77,19 @@ public class OrderService {
         query.setParameter("id",id);
         Order order = query.getResultStream().findFirst().orElseThrow(ResolutionException::new);
         return order;
+    }
+
+    public Paging<OrderResponseDto> getAllByPage(Integer currentPage, Integer pageSize, List<String> statuses) {
+        TypedQuery<Long> countOrdersQuery = entityManager.createQuery("SELECT count(o) FROM Order as o where status in (:statuses)", Long.class);
+        countOrdersQuery.setParameter("statuses",statuses);
+        Integer count = Math.toIntExact(countOrdersQuery.getSingleResult());
+        if (count.equals(0)) {
+            throw new ResourceNotFoundException("С данными параметрами результаты не найдены");
+        }
+        Paging<OrderResponseDto> resultDto = new Paging<>(count,pageSize,currentPage);
+        TypedQuery<Order> orderQueryList = entityManager.createQuery("SELECT o FROM Order as o", Order.class);
+        orderQueryList.setFirstResult((currentPage - 1) * pageSize);
+        orderQueryList.setMaxResults(pageSize);
+        return  null;
     }
 }

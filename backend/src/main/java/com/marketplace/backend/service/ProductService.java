@@ -56,7 +56,7 @@ public class ProductService implements ProductDao {
 
         TypedQuery<Long> productQueryCount = entityManager.createQuery(queryProcessorParamCount.query(), Long.class);
         /*Ввиду того что при fetch запросе hibernate сначала выберает весь результат запроса в память а потом в памяти устанавливает границы setFirstResult() setMaxResult()
-         * сначала выбираем с ограничениями id продуктов а вторым запросом пожтягиваем зависимые сущности*/
+         * сначала выбираем с ограничениями id продуктов, а вторым запросом пожтягиваем зависимые сущности*/
         setParamInQuery(productQueryCount, queryProcessorParamCount.param());
         Integer count = Math.toIntExact(productQueryCount.getSingleResult());
         /*Если количество результатов равно нулю тогда кидаем эксепшн*/
