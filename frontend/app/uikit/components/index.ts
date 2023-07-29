@@ -31,6 +31,7 @@ export * from "./Accordion";
 export * from "./Avatar";
 export * from "./Button";
 export * from "./Checkbox";
+export * from "./Chart";
 export * from "./Colors";
 export * from "./DateTime";
 export * from "./DropDown";
@@ -56,6 +57,7 @@ export * from "./Textarea";
 export * from "./Toast";
 export * from "./Tooltip";
 export * from "./Typography";
+export * from "./WordCloud";
 
 export const links = () => {
   return [
