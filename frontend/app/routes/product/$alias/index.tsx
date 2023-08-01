@@ -48,12 +48,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.product") || "Product" };
-  }
-  return { title: data?.title || "Product" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.product") || "Product" };
+//   }
+//   return { title: data?.title || "Product" };
+// };
 
 export default function ProductDetailRoute() {
   const data = useLoaderData<typeof loader>();

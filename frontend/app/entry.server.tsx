@@ -2,67 +2,15 @@ import { PassThrough } from "stream";
 import type { EntryContext } from "@remix-run/node";
 import { Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
-import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { initServerI18Instance, remixI18next } from "~/services";
 import { getContentSecurityPolicy } from "~/utils";
 
 const ABORT_DELAY = 5000;
+const INTERNAL_SERVER_ERROR_STATUS_CODE = 500;
 
-export default function handleRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  remixContext: EntryContext,
-) {
-  return isbot(request.headers.get("user-agent"))
-    ? handleBotRequest(request, responseStatusCode, responseHeaders, remixContext)
-    : handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext);
-}
-
-function handleBotRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  remixContext: EntryContext,
-) {
-  return new Promise((resolve, reject) => {
-    let didError = false;
-
-    const { pipe, abort } = renderToPipeableStream(
-      <RemixServer context={remixContext} url={request.url} />,
-      {
-        onAllReady() {
-          const body = new PassThrough();
-
-          responseHeaders.set("Content-Type", "text/html");
-
-          resolve(
-            new Response(body, {
-              headers: responseHeaders,
-              status: didError ? 500 : responseStatusCode,
-            }),
-          );
-
-          pipe(body);
-        },
-        onShellError(error: unknown) {
-          reject(error);
-        },
-        onError(error: unknown) {
-          didError = true;
-
-          console.error(error);
-        },
-      },
-    );
-
-    setTimeout(abort, ABORT_DELAY);
-  });
-}
-
-async function handleBrowserRequest(
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
@@ -92,7 +40,7 @@ async function handleBrowserRequest(
           resolve(
             new Response(body, {
               headers: responseHeaders,
-              status: didError ? 500 : responseStatusCode,
+              status: didError ? INTERNAL_SERVER_ERROR_STATUS_CODE : responseStatusCode,
             }),
           );
 

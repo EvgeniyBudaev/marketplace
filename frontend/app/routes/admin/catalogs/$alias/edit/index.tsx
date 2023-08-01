@@ -171,12 +171,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({data}) => {
-  if (typeof window !== "undefined") {
-    return {title: i18next.t("routes.titles.catalogEdit") || "Catalog editing"};
-  }
-  return {title: data?.title || "Catalog editing"};
-};
+// export const meta: MetaFunction = ({data}) => {
+//   if (typeof window !== "undefined") {
+//     return {title: i18next.t("routes.titles.catalogEdit") || "Catalog editing"};
+//   }
+//   return {title: data?.title || "Catalog editing"};
+// };
 
 export default function CatalogEditRoute() {
   const data = useLoaderData<typeof loader>();

@@ -146,12 +146,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({data}) => {
-  if (typeof window !== "undefined") {
-    return {title: i18next.t("routes.titles.shipping") || "Shipping"};
-  }
-  return {title: data?.title || "Shipping"};
-};
+// export const meta: MetaFunction = ({data}) => {
+//   if (typeof window !== "undefined") {
+//     return {title: i18next.t("routes.titles.shipping") || "Shipping"};
+//   }
+//   return {title: data?.title || "Shipping"};
+// };
 
 export default function ShippingRoute() {
   const data = useLoaderData<typeof loader>();

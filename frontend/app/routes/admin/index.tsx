@@ -22,12 +22,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.admin") || "Admin panel" };
-  }
-  return { title: data?.title || "Admin panel" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.admin") || "Admin panel" };
+//   }
+//   return { title: data?.title || "Admin panel" };
+// };
 
 export default function AdminRoute() {
   return <Admin />;

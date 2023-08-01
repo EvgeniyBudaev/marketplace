@@ -115,12 +115,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({data}) => {
-  if (typeof window !== "undefined") {
-    return {title: i18next.t("routes.titles.attributeAdd") || "Adding an attribute"};
-  }
-  return {title: data?.title || "Adding an attribute"};
-};
+// export const meta: MetaFunction = ({data}) => {
+//   if (typeof window !== "undefined") {
+//     return {title: i18next.t("routes.titles.attributeAdd") || "Adding an attribute"};
+//   }
+//   return {title: data?.title || "Adding an attribute"};
+// };
 
 export default function AttributeAddRoute() {
   const data = useLoaderData<typeof loader>();

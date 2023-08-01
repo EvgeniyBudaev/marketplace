@@ -178,12 +178,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({data}) => {
-  if (typeof window !== "undefined") {
-    return {title: i18next.t("routes.titles.productEdit") || "Product editing"};
-  }
-  return {title: data?.title || "Product editing"};
-};
+// export const meta: MetaFunction = ({data}) => {
+//   if (typeof window !== "undefined") {
+//     return {title: i18next.t("routes.titles.productEdit") || "Product editing"};
+//   }
+//   return {title: data?.title || "Product editing"};
+// };
 
 export default function ProductEditRoute() {
   const data = useLoaderData<typeof loader>();

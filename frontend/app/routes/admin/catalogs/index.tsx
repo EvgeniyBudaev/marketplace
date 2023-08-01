@@ -64,12 +64,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.catalogs") || "Catalogs" };
-  }
-  return { title: data?.title || "Catalogs" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.catalogs") || "Catalogs" };
+//   }
+//   return { title: data?.title || "Catalogs" };
+// };
 
 export default function CatalogsRoute() {
   const data = useLoaderData<typeof loader>();

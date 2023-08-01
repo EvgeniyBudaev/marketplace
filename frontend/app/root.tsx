@@ -53,6 +53,7 @@ import { createBoundaries, internalError } from "~/utils";
 import styles from "../styles/app.css";
 
 interface RootLoaderData {
+  basename: string | null;
   cart: TCart;
   csrfToken: string;
   cspScriptNonce: string;
@@ -112,7 +113,10 @@ export const loader = async (args: LoaderArgs) => {
     createSettingsSession(settingsResponse.data),
   ]);
 
+  const basename = request.headers.get('x-remix-basename');
+
   const data: RootLoaderData = {
+    basename,
     cart: cartResponse.data,
     csrfToken,
     cspScriptNonce,
@@ -138,11 +142,11 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: i18next.t("routes.titles.root") || "FamilyMart",
-  viewport: "width=device-width,initial-scale=1",
-});
+// export const meta: MetaFunction = () => ({
+//   charset: "utf-8",
+//   title: i18next.t("routes.titles.root") || "FamilyMart",
+//   viewport: "width=device-width,initial-scale=1",
+// });
 
 export const links: LinksFunction = () => {
   return [

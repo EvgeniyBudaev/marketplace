@@ -74,15 +74,15 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
+export const meta = ({ data }: any) => {
   if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.attributes") || "Attributes" };
+    return [{ title: i18next.t("routes.titles.attributes") || "Attributes" }];
   }
-  return { title: data?.title || "Attributes" };
+  return [{ title: data?.title || "Attributes" }];
 };
 
 export default function AttributesRoute() {
-  const { attributes } = useLoaderData<typeof loader>();
+  const { attributes } = useLoaderData<any>();
 
   return <Attributes attributes={attributes} />;
 }

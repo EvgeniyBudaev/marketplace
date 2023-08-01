@@ -124,12 +124,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({data}) => {
-  if (typeof window !== "undefined") {
-    return {title: i18next.t("routes.titles.productAdd") || "Product addition"};
-  }
-  return {title: data?.title || "Product addition"};
-};
+// export const meta: MetaFunction = ({data}) => {
+//   if (typeof window !== "undefined") {
+//     return {title: i18next.t("routes.titles.productAdd") || "Product addition"};
+//   }
+//   return {title: data?.title || "Product addition"};
+// };
 
 export default function ProductAddRoute() {
   const data = useLoaderData<typeof loader>();

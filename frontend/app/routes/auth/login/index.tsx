@@ -98,12 +98,12 @@ export const loader = async (args: LoaderArgs) => {
   );
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.login") || "Login" };
-  }
-  return { title: data?.title || "Login" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.login") || "Login" };
+//   }
+//   return { title: data?.title || "Login" };
+// };
 
 export default function LoginRoute() {
   return <Login />;

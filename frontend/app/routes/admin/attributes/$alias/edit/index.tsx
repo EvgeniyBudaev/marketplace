@@ -184,12 +184,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({data}) => {
-  if (typeof window !== "undefined") {
-    return {title: i18next.t("routes.titles.attributeEdit") || "Editing an Attribute"};
-  }
-  return {title: data?.title || "Editing an Attribute"};
-};
+// export const meta: MetaFunction = ({data}) => {
+//   if (typeof window !== "undefined") {
+//     return {title: i18next.t("routes.titles.attributeEdit") || "Editing an Attribute"};
+//   }
+//   return {title: data?.title || "Editing an Attribute"};
+// };
 
 export default function AttributeEditRoute() {
   const data = useLoaderData<typeof loader>();

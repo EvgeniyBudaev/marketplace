@@ -75,12 +75,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.products") || "Products" };
-  }
-  return { title: data?.title || "Products" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.products") || "Products" };
+//   }
+//   return { title: data?.title || "Products" };
+// };
 
 export default function ProductsRoute() {
   const data = useLoaderData<typeof loader>();
