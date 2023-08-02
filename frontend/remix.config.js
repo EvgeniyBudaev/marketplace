@@ -28,7 +28,8 @@ module.exports = {
     /lodash-es/,
   ],
   // devServerPort: 8002,
-  publicPath: "/pb/build/",
+  publicPath: '/__remix__/build/',
+  assetsBuildDirectory: 'public/__remix__/build/',
   routes: async (defineRoutes) => {
     return flatRoutes('routes', defineRoutes, {
       basePath: BASE_PATH,
