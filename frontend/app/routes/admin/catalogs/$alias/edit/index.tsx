@@ -1,33 +1,33 @@
-import {inputFromSearch} from "remix-domains";
-import {json, redirect} from "@remix-run/node";
-import type {LoaderArgs, ActionArgs, MetaFunction} from "@remix-run/node";
-import {useLoaderData} from "@remix-run/react";
-import {badRequest} from "remix-utils";
+import { inputFromSearch } from "remix-domains";
+import { json, redirect } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs, MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { badRequest } from "remix-utils";
 import i18next from "i18next";
-import {EPermissions, ERoutes} from "~/enums";
-import {CatalogEdit, catalogEditLinks, EFormFields} from "~/pages/Admin/Catalogs/CatalogEdit";
-import type {TForm} from "~/pages/Admin/Catalogs/CatalogEdit";
-import {getAttributes, getAttributesByCatalog} from "~/shared/api/attributes";
-import {mapParamsToDto} from "~/shared/api/attributes/utils";
-import {getInputErrors, getResponseError} from "~/shared/domain";
-import {editCatalog, getCatalogDetail} from "~/shared/api/catalogs";
-import {mapCatalogsToDto} from "~/shared/api/catalogs/utils";
-import {commitSession, getCsrfSession, getSession} from "~/shared/session";
-import {getStoreFixedT} from "~/shared/store";
-import {checkCSRFToken, checkRequestPermission, createPath} from "~/utils";
+import { EPermissions, ERoutes } from "~/enums";
+import { CatalogEdit, catalogEditLinks, EFormFields } from "~/pages/Admin/Catalogs/CatalogEdit";
+import type { TForm } from "~/pages/Admin/Catalogs/CatalogEdit";
+import { getAttributes, getAttributesByCatalog } from "~/shared/api/attributes";
+import { mapParamsToDto } from "~/shared/api/attributes/utils";
+import { getInputErrors, getResponseError } from "~/shared/domain";
+import { editCatalog, getCatalogDetail } from "~/shared/api/catalogs";
+import { mapCatalogsToDto } from "~/shared/api/catalogs/utils";
+import { commitSession, getCsrfSession, getSession } from "~/shared/session";
+import { getStoreFixedT } from "~/shared/store";
+import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
-  const {params, request} = args;
-  const {alias} = params;
+  const { params, request } = args;
+  const { alias } = params;
 
   const [csrfSession, formData, t] = await Promise.all([
     getCsrfSession(request),
     request.formData(),
-    getStoreFixedT({request}),
+    getStoreFixedT({ request }),
   ]);
 
   const csrfToken = formData.get("csrf") as string | null;
-  const checkCsrf = checkCSRFToken({csrfToken, session: csrfSession, t});
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
   if (checkCsrf?.error) return checkCsrf.error;
 
   const formattedParams = mapCatalogsToDto({
@@ -37,8 +37,8 @@ export const action = async (args: ActionArgs) => {
   try {
     const [attributesResponse, attributesByCatalogResponse, catalogDetailResponse, session] =
       await Promise.all([
-        getAttributes(request, {params: formattedParams}),
-        getAttributesByCatalog(request, {alias}),
+        getAttributes(request, { params: formattedParams }),
+        getAttributesByCatalog(request, { alias }),
         editCatalog(request, formData),
         getSession(request.headers.get("Cookie")),
       ]);
@@ -55,7 +55,7 @@ export const action = async (args: ActionArgs) => {
       return redirect(
         createPath({
           route: ERoutes.AdminCatalogEdit,
-          params: {alias: catalogDetailResponse.data.alias},
+          params: { alias: catalogDetailResponse.data.alias },
         }),
         {
           headers: {
@@ -71,10 +71,10 @@ export const action = async (args: ActionArgs) => {
 
     const path = alias
       ? createPath({
-        route: ERoutes.AdminCatalogEdit,
-        params: {alias},
-      })
-      : ERoutes.AdminCatalogs;
+          route: ERoutes.AdminCatalogEdit,
+          params: { alias },
+        })
+      : createPath({ route: ERoutes.AdminCatalogs });
 
     return redirect(path, {
       headers: {
@@ -83,7 +83,7 @@ export const action = async (args: ActionArgs) => {
     });
   } catch (error) {
     const errorResponse = error as Response;
-    const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
     const session = await getSession(request.headers.get("Cookie"));
     session.flash("FamilyMart_CatalogEdit", {
       success: false,
@@ -92,10 +92,10 @@ export const action = async (args: ActionArgs) => {
     });
     const path = alias
       ? createPath({
-        route: ERoutes.AdminCatalogEdit,
-        params: {alias},
-      })
-      : ERoutes.AdminCatalogs;
+          route: ERoutes.AdminCatalogEdit,
+          params: { alias },
+        })
+      : createPath({ route: ERoutes.AdminCatalogs });
 
     return redirect(path, {
       headers: {
@@ -106,17 +106,17 @@ export const action = async (args: ActionArgs) => {
 };
 
 export const loader = async (args: LoaderArgs) => {
-  const {params, request} = args;
+  const { params, request } = args;
   const [t, isPermissions] = await Promise.all([
-    getStoreFixedT({request}),
+    getStoreFixedT({ request }),
     checkRequestPermission(request, [EPermissions.Administrator]),
   ]);
 
   if (!isPermissions) {
-    return redirect(ERoutes.Login);
+    return redirect(createPath({ route: ERoutes.Login }));
   }
 
-  const {alias} = params;
+  const { alias } = params;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
   const formattedParams = mapParamsToDto({
@@ -126,9 +126,9 @@ export const loader = async (args: LoaderArgs) => {
   try {
     const [attributesResponse, attributesByCatalogResponse, catalogDetailResponse, session] =
       await Promise.all([
-        getAttributes(request, {params: formattedParams}),
-        getAttributesByCatalog(request, {alias}),
-        getCatalogDetail(request, {alias}),
+        getAttributes(request, { params: formattedParams }),
+        getAttributesByCatalog(request, { alias }),
+        getCatalogDetail(request, { alias }),
         getSession(request.headers.get("Cookie")),
       ]);
 
@@ -148,7 +148,8 @@ export const loader = async (args: LoaderArgs) => {
           catalog: catalogDetailResponse.data,
           ...cookieData,
           title: t("routes.titles.catalogEdit"),
-        }, {
+        },
+        {
           headers: {
             "Set-Cookie": await commitSession(session),
           },
@@ -162,12 +163,12 @@ export const loader = async (args: LoaderArgs) => {
       Object.values(EFormFields),
     );
 
-    return badRequest({fieldErrors, success: false});
+    return badRequest({ fieldErrors, success: false });
   } catch (error) {
     const errorResponse = error as Response;
-    const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
 
-    return badRequest({success: false, formError, fieldErrors});
+    return badRequest({ success: false, formError, fieldErrors });
   }
 };
 

@@ -5,6 +5,7 @@ import { THeaders, TRefreshAccessTokenReturn } from "./types";
 
 export type TJWTServiceParams = {
   sessionStorage: SessionStorage;
+  baseName?: string | null;
   baseUrl: string;
 };
 
@@ -25,10 +26,12 @@ export type TTokenData = {
 
 export class JWTService {
   private sessionStorage: SessionStorage;
+  private readonly baseName?: string | null;
   private readonly baseUrl: string;
 
-  constructor({ sessionStorage, baseUrl }: TJWTServiceParams) {
+  constructor({ sessionStorage, baseName, baseUrl }: TJWTServiceParams) {
     this.sessionStorage = sessionStorage;
+    this.baseName = baseName;
     this.baseUrl = baseUrl;
   }
 
@@ -122,8 +125,8 @@ export class JWTService {
 
   async logout(request: Request) {
     const headers = await this.getTokenRemoveHeaders(request);
-
-    throw redirect("/", {
+    const redirectUrl = (this.baseName || "") + "/login";
+    throw redirect(redirectUrl, {
       headers,
     });
   }

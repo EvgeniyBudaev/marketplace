@@ -10,7 +10,7 @@ import { deleteProduct, EProductAction, getProducts } from "~/shared/api/product
 import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getResponseError } from "~/shared/domain";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission } from "~/utils";
+import { checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -46,7 +46,7 @@ export const loader = async (args: LoaderArgs) => {
   ]);
 
   if (!isPermissions) {
-    return redirect(ERoutes.Login);
+    return redirect(createPath({ route: ERoutes.Login }));
   }
 
   const url = new URL(request.url);

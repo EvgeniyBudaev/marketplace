@@ -5,6 +5,7 @@ import { Admin, adminLinks } from "~/pages/Admin";
 import { getStoreFixedT } from "~/shared/store";
 import { checkRequestPermission } from "~/utils/permission";
 import i18next from "i18next";
+import { createPath } from "~/utils";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
@@ -14,7 +15,7 @@ export const loader = async (args: LoaderArgs) => {
   ]);
 
   if (!isPermissions) {
-    return redirect(ERoutes.Login);
+    return redirect(createPath({ route: ERoutes.Login }));
   }
 
   return json({

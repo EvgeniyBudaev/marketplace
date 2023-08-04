@@ -57,9 +57,9 @@ interface RootLoaderData {
   cart: TCart;
   csrfToken: string;
   cspScriptNonce: string;
-  title: string;
-  ENV: Pick<EnvironmentType, "IS_PRODUCTION">;
+  ENV: Pick<EnvironmentType, "IS_PRODUCTION" | "ROUTER_PREFIX">;
   settings: TSettings;
+  title: string;
   user: TUser | {};
 }
 
@@ -113,7 +113,7 @@ export const loader = async (args: LoaderArgs) => {
     createSettingsSession(settingsResponse.data),
   ]);
 
-  const basename = request.headers.get('x-remix-basename');
+  const basename = request.headers.get("x-remix-basename");
 
   const data: RootLoaderData = {
     basename,
@@ -123,6 +123,7 @@ export const loader = async (args: LoaderArgs) => {
     title: t("routes.titles.root"),
     ENV: {
       IS_PRODUCTION: Environment.IS_PRODUCTION,
+      ROUTER_PREFIX: Environment.ROUTER_PREFIX,
     },
     settings: settingsResponse.data,
     user,

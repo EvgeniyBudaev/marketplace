@@ -1,37 +1,34 @@
 import i18next from "i18next";
-import {inputFromForm} from "remix-domains";
-import {badRequest} from "remix-utils";
-import {json, redirect} from "@remix-run/node";
-import type {ActionArgs, LoaderArgs, MetaFunction} from "@remix-run/node";
-import {useLoaderData} from "@remix-run/react";
+import { inputFromForm } from "remix-domains";
+import { badRequest } from "remix-utils";
+import { json, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
-import {EPermissions, ERoutes} from "~/enums";
-import {
-  AttributeAdd,
-  attributeAddLinks,
-} from "~/pages/Admin/Attributes/AttributeAdd";
-import {addAttribute} from "~/shared/api/attributes";
-import {mapParamsAddAttributeToDto} from "~/shared/api/attributes/utils";
-import {getResponseError} from "~/shared/domain";
-import {commitSession, getCsrfSession, getSession} from "~/shared/session";
-import {getStoreFixedT} from "~/shared/store";
-import {checkCSRFToken, checkRequestPermission, createPath} from "~/utils";
+import { EPermissions, ERoutes } from "~/enums";
+import { AttributeAdd, attributeAddLinks } from "~/pages/Admin/Attributes/AttributeAdd";
+import { addAttribute } from "~/shared/api/attributes";
+import { mapParamsAddAttributeToDto } from "~/shared/api/attributes/utils";
+import { getResponseError } from "~/shared/domain";
+import { commitSession, getCsrfSession, getSession } from "~/shared/session";
+import { getStoreFixedT } from "~/shared/store";
+import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
-  const {request} = args;
+  const { request } = args;
 
   const [csrfSession, formValues, t, session] = await Promise.all([
     getCsrfSession(request),
     inputFromForm(request),
-    getStoreFixedT({request}),
+    getStoreFixedT({ request }),
     getSession(request.headers.get("Cookie")),
   ]);
 
   const csrfToken = formValues.csrf;
-  const checkCsrf = checkCSRFToken({csrfToken, session: csrfSession, t});
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
   if (checkCsrf?.error) return checkCsrf.error;
 
-  const {csrf, ...data} = formValues;
+  const { csrf, ...data } = formValues;
   const formattedData = mapParamsAddAttributeToDto(data);
 
   try {
@@ -41,7 +38,6 @@ export const action = async (args: ActionArgs) => {
       session.flash("FamilyMart_AttributeAdd", {
         success: true,
       });
-
 
       return redirect(
         createPath({
@@ -61,16 +57,17 @@ export const action = async (args: ActionArgs) => {
 
     return redirect(
       createPath({
-        route: ERoutes.AdminAttributeAdd
+        route: ERoutes.AdminAttributeAdd,
       }),
       {
         headers: {
           "Set-Cookie": await commitSession(session),
         },
-      });
+      },
+    );
   } catch (error) {
     const errorResponse = error as Response;
-    const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
     const session = await getSession(request.headers.get("Cookie"));
     session.flash("FamilyMart_AttributeAdd", {
       success: false,
@@ -86,21 +83,22 @@ export const action = async (args: ActionArgs) => {
         headers: {
           "Set-Cookie": await commitSession(session),
         },
-      });
+      },
+    );
   }
 };
 
 export const loader = async (args: LoaderArgs) => {
-  const {request} = args;
+  const { request } = args;
 
   try {
     const [t, isPermissions] = await Promise.all([
-      getStoreFixedT({request}),
+      getStoreFixedT({ request }),
       checkRequestPermission(request, [EPermissions.Administrator]),
     ]);
 
     if (!isPermissions) {
-      return redirect(ERoutes.Login);
+      return redirect(createPath({ route: ERoutes.Login }));
     }
 
     return json({
@@ -109,9 +107,9 @@ export const loader = async (args: LoaderArgs) => {
     });
   } catch (error) {
     const errorResponse = error as Response;
-    const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
 
-    return badRequest({success: false, formError, fieldErrors});
+    return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
@@ -125,11 +123,13 @@ export const loader = async (args: LoaderArgs) => {
 export default function AttributeAddRoute() {
   const data = useLoaderData<typeof loader>();
 
-  return <AttributeAdd
-    fieldErrors={data.fieldErrors}
-    formError={data.formError}
-    success={data.success}
-  />;
+  return (
+    <AttributeAdd
+      fieldErrors={data.fieldErrors}
+      formError={data.formError}
+      success={data.success}
+    />
+  );
 }
 
 export function links() {

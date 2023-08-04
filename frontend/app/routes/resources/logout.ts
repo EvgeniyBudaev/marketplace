@@ -3,6 +3,7 @@ import type { ActionArgs } from "@remix-run/node";
 import { ERoutes } from "~/enums";
 import { getUserSession } from "~/shared/api/auth";
 import { destroySession, getSession } from "~/shared/session";
+import { createPath } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -10,7 +11,7 @@ export const action = async (args: ActionArgs) => {
   const cookieSession = await getSession(request.headers.get("Cookie"));
   const userSession = await getUserSession(request);
 
-  return redirect(ERoutes.Login, {
+  return redirect(createPath({ route: ERoutes.Login }), {
     headers: {
       "Set-Cookie": await destroySession(cookieSession),
     },
