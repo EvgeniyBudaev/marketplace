@@ -12,12 +12,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.delivery") || "Delivery" };
-  }
-  return { title: data?.title || "Delivery" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.delivery") || "Delivery" };
+//   }
+//   return { title: data?.title || "Delivery" };
+// };
 
 export default function DeliveryRoute() {
   return <Delivery />;

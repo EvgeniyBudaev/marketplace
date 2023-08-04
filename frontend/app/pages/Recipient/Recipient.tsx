@@ -1,21 +1,21 @@
-import {useEffect} from "react";
-import type {FC} from "react";
-import {useTranslation} from "react-i18next";
-import {Link, useFetcher} from "@remix-run/react";
-import {useAuthenticityToken} from "remix-utils";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {ERoutes} from "~/enums";
-import {useTranslatedResolver} from "~/hooks";
-import type {TOptionsSubmitForm} from "~/pages";
-import {EFormFields} from "~/pages/Recipient/enums";
-import {formSchema} from "~/pages/Recipient/schemas";
-import type {TForm} from "~/pages/Recipient/types";
-import type {TRecipient} from "~/shared/api/recipient";
-import {EFormMethods, Form, Input, useInitForm} from "~/shared/form";
-import {PhoneInputMask} from "~/shared/form/PhoneInputMask";
-import type {TDomainErrors, TParams} from "~/types";
-import {Button, ETypographyVariant, Icon, notify, Typography} from "~/uikit";
-import {createPath, normalizePhoneNumber} from "~/utils";
+import { useEffect } from "react";
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useFetcher } from "@remix-run/react";
+import { useAuthenticityToken } from "remix-utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ERoutes } from "~/enums";
+import { useTranslatedResolver } from "~/hooks";
+import type { TOptionsSubmitForm } from "~/pages";
+import { EFormFields } from "~/pages/Recipient/enums";
+import { formSchema } from "~/pages/Recipient/schemas";
+import type { TForm } from "~/pages/Recipient/types";
+import type { TRecipient } from "~/shared/api/recipient";
+import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
+import { PhoneInputMask } from "~/shared/form/PhoneInputMask";
+import type { TDomainErrors, TParams } from "~/types";
+import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
+import { createPath, normalizePhoneNumber } from "~/utils";
 import styles from "./Recipient.css";
 
 type TProps = {
@@ -27,9 +27,9 @@ type TProps = {
 };
 
 export const Recipient: FC<TProps> = (props) => {
-  const {uuid} = props;
+  const { uuid } = props;
   const csrf = useAuthenticityToken();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const resolver = useTranslatedResolver(zodResolver(formSchema));
 
   const form = useInitForm<TForm>({
@@ -40,10 +40,10 @@ export const Recipient: FC<TProps> = (props) => {
   const fetcherRemix = useFetcher();
   const recipient: TRecipient = fetcherRemix.data?.recipient ?? props.recipient;
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
-    const formattedParams = {...params, phone: normalizePhoneNumber(params.phone), csrf, uuid};
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
+    const formattedParams = { ...params, phone: normalizePhoneNumber(params.phone), csrf, uuid };
     fetcher.submit(
-      {...formattedParams},
+      { ...formattedParams },
       {
         method: EFormMethods.Patch,
         action: createPath({
@@ -118,8 +118,13 @@ export const Recipient: FC<TProps> = (props) => {
           </div>
           <div className="Recipient-FormFooter">
             <div className="Recipient-Controls">
-              <Link className="Recipient-ControlsLink" to={ERoutes.Shipping}>
-                <Icon type="ArrowBack"/>
+              <Link
+                className="Recipient-ControlsLink"
+                to={createPath({
+                  route: ERoutes.Shipping,
+                })}
+              >
+                <Icon type="ArrowBack" />
                 <div className="Recipient-ControlsText">
                   <Typography variant={ETypographyVariant.TextB3Regular}>
                     {t("common.actions.back")}
@@ -135,13 +140,13 @@ export const Recipient: FC<TProps> = (props) => {
           </div>
         </Form>
         <div className="Recipient-Info">
-          <Icon className="Recipient-InfoIcon" type="Attention"/>
+          <Icon className="Recipient-InfoIcon" type="Attention" />
           <div className="Recipient-InfoText">
             <div className="Recipient-InfoTitle">
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.specify")}
               </Typography>
-              <br/>
+              <br />
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.realData")}
               </Typography>
@@ -150,7 +155,7 @@ export const Recipient: FC<TProps> = (props) => {
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.passport")}
               </Typography>
-              <br/>
+              <br />
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.recipient.order")}
               </Typography>
@@ -163,5 +168,5 @@ export const Recipient: FC<TProps> = (props) => {
 };
 
 export function recipientLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

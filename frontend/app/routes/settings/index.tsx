@@ -13,12 +13,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.settings") || "Settings" };
-  }
-  return { title: data?.title || "Settings" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.settings") || "Settings" };
+//   }
+//   return { title: data?.title || "Settings" };
+// };
 
 export default function SettingsRoute() {
   return <Settings />;

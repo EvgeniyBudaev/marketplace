@@ -52,12 +52,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.signup") || "Signup" };
-  }
-  return { title: data?.title || "Signup" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.signup") || "Signup" };
+//   }
+//   return { title: data?.title || "Signup" };
+// };
 
 export default function SignupRoute() {
   return <Signup />;

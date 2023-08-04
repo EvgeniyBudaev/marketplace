@@ -12,12 +12,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.contacts") || "Contacts" };
-  }
-  return { title: data?.title || "Contacts" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.contacts") || "Contacts" };
+//   }
+//   return { title: data?.title || "Contacts" };
+// };
 
 export default function ContactsRoute() {
   return <Contacts />;

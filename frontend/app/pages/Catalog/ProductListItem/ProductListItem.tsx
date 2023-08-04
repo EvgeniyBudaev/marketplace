@@ -1,18 +1,19 @@
-import {forwardRef} from "react";
-import {useMediaQuery} from "react-responsive";
-import {useTranslation} from "react-i18next";
-import type {FetcherWithComponents} from "@remix-run/react";
-import {Link} from "@remix-run/react";
+import { forwardRef } from "react";
+import { useMediaQuery } from "react-responsive";
+import { useTranslation } from "react-i18next";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
-import {ERoutes} from "~/enums";
-import type {TCart} from "~/shared/api/cart";
-import type {TCatalogDetail} from "~/shared/api/catalogs";
-import type {TProductByCatalog} from "~/shared/api/products";
-import {EFormMethods} from "~/shared/form";
-import {Button, ETypographyVariant, Icon, Typography} from "~/uikit";
-import {createPath, formatCurrency, formatProxy} from "~/utils";
-import {AttributeItem} from "../AttributeItem";
+import { ERoutes } from "~/enums";
+import { useProxyUrl } from "~/hooks";
+import type { TCart } from "~/shared/api/cart";
+import type { TCatalogDetail } from "~/shared/api/catalogs";
+import type { TProductByCatalog } from "~/shared/api/products";
+import { EFormMethods } from "~/shared/form";
+import { Button, ETypographyVariant, Icon, Typography } from "~/uikit";
+import { createPath, formatCurrency } from "~/utils";
+import { AttributeItem } from "../AttributeItem";
 import styles from "./ProductListItem.css";
 
 type TProps = {
@@ -24,16 +25,17 @@ type TProps = {
 };
 
 export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function ProductListItem(
-  {cart, catalog, product, isCardsLine, fetcher},
+  { cart, catalog, product, isCardsLine, fetcher },
   ref,
 ) {
-  const {t} = useTranslation();
+  const { proxyUrl } = useProxyUrl();
+  const { t } = useTranslation();
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.ProductDetail,
-    params: {alias: product.alias},
+    params: { alias: product.alias },
   });
   const count = Number(product.count);
-  const isMobileScreen = useMediaQuery({query: "(max-width: 500px)"});
+  const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
 
   const imageResponsiveSizeWidth = () => {
     if (isMobileScreen) {
@@ -53,12 +55,12 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
 
   const handleAddToCart = () => {
     fetcher.submit(
-      {productAlias: product.alias, uuid: cart.uuid},
+      { productAlias: product.alias, uuid: cart.uuid },
       {
         method: EFormMethods.Post,
         action: createPath({
           route: ERoutes.CatalogDetail,
-          params: {alias: catalog.alias},
+          params: { alias: catalog.alias },
           withIndex: true,
         }),
       },
@@ -71,7 +73,12 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
 
     return isProductAtCart ? (
       cart && !isNil(cart.items) && (
-        <Link className="ProductListItem-ButtonGoAtCart" to={ERoutes.Cart}>
+        <Link
+          className="ProductListItem-ButtonGoAtCart"
+          to={createPath({
+            route: ERoutes.Cart,
+          })}
+        >
           <Typography variant={ETypographyVariant.TextB3Regular}>
             {t("common.info.inCart")}
           </Typography>
@@ -109,12 +116,12 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
                 <img
                   className="ProductListItem-ContentImage"
                   alt={product.name}
-                  src={formatProxy(product.defaultImage)}
+                  src={`${proxyUrl}${product.defaultImage}`}
                   width={imageResponsiveSizeWidth()}
                   height={imageResponsiveSizeHeight()}
                 />
               ) : (
-                <Icon type="NoImage"/>
+                <Icon type="NoImage" />
               )}
             </Link>
           </div>
@@ -137,7 +144,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
               </Link>
             </li>
             {product.attributes.map((item) => (
-              <AttributeItem key={item.attributeName} attribute={item}/>
+              <AttributeItem key={item.attributeName} attribute={item} />
             ))}
             <li className="ProductListItem-ContentDescriptionLineStatus">
               <Typography variant={ETypographyVariant.TextB3Regular}>
@@ -167,5 +174,5 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
 });
 
 export function productListItemLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

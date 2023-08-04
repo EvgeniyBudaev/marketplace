@@ -53,12 +53,13 @@ import { createBoundaries, internalError } from "~/utils";
 import styles from "../styles/app.css";
 
 interface RootLoaderData {
+  basename: string | null;
   cart: TCart;
   csrfToken: string;
   cspScriptNonce: string;
-  title: string;
-  ENV: Pick<EnvironmentType, "IS_PRODUCTION">;
+  ENV: Pick<EnvironmentType, "IS_PRODUCTION" | "ROUTER_PREFIX">;
   settings: TSettings;
+  title: string;
   user: TUser | {};
 }
 
@@ -112,13 +113,17 @@ export const loader = async (args: LoaderArgs) => {
     createSettingsSession(settingsResponse.data),
   ]);
 
+  const basename = request.headers.get("x-remix-basename");
+
   const data: RootLoaderData = {
+    basename,
     cart: cartResponse.data,
     csrfToken,
     cspScriptNonce,
     title: t("routes.titles.root"),
     ENV: {
       IS_PRODUCTION: Environment.IS_PRODUCTION,
+      ROUTER_PREFIX: Environment.ROUTER_PREFIX,
     },
     settings: settingsResponse.data,
     user,
@@ -138,11 +143,11 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: i18next.t("routes.titles.root") || "FamilyMart",
-  viewport: "width=device-width,initial-scale=1",
-});
+// export const meta: MetaFunction = () => ({
+//   charset: "utf-8",
+//   title: i18next.t("routes.titles.root") || "FamilyMart",
+//   viewport: "width=device-width,initial-scale=1",
+// });
 
 export const links: LinksFunction = () => {
   return [

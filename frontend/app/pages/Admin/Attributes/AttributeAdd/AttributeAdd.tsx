@@ -1,16 +1,16 @@
-import {useEffect, useState} from "react";
-import type {FC, ChangeEvent, MouseEvent} from "react";
-import {useTranslation} from "react-i18next";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {ERoutes} from "~/enums";
-import {useTheme} from "~/hooks";
-import {EAttributeType} from "~/pages";
-import {EFormFields, formSchema, mapFormDataToDto} from "~/pages/Admin/Attributes/AttributeAdd";
-import type {TForm, TOptionsSubmitForm} from "~/pages/Admin/Attributes/AttributeAdd";
-import {Checkbox, EFormMethods, Form, Input, Select, useInitForm} from "~/shared/form";
-import type {TDomainErrors, TParams} from "~/types";
-import {Button, ETypographyVariant, Input as InputUI, notify, Tag, Typography} from "~/uikit";
-import {createPath} from "~/utils";
+import { useEffect, useState } from "react";
+import type { FC, ChangeEvent, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ERoutes } from "~/enums";
+import { useTheme } from "~/hooks";
+import { EAttributeType } from "~/pages";
+import { EFormFields, formSchema, mapFormDataToDto } from "~/pages/Admin/Attributes/AttributeAdd";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Attributes/AttributeAdd";
+import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
+import type { TDomainErrors, TParams } from "~/types";
+import { Button, ETypographyVariant, Input as InputUI, notify, Tag, Typography } from "~/uikit";
+import { createPath } from "~/utils";
 import styles from "./AttributeAdd.css";
 
 type TSelectableItem = {
@@ -20,19 +20,19 @@ type TSelectableItem = {
 type TProps = {
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
-  success: boolean;
-}
+  success?: boolean;
+};
 
 export const AttributeAdd: FC<TProps> = (props) => {
-  const {t} = useTranslation();
-  const {theme} = useTheme();
+  const { t } = useTranslation();
+  const { theme } = useTheme();
 
   const idCheckbox = "checkbox";
-  const [filter, setFilter] = useState<TParams>({filter: [idCheckbox]});
+  const [filter, setFilter] = useState<TParams>({ filter: [idCheckbox] });
 
   const selectTypeOptions = [
-    {value: EAttributeType.Selectable, label: EAttributeType.Selectable},
-    {value: EAttributeType.Double, label: EAttributeType.Double},
+    { value: EAttributeType.Selectable, label: EAttributeType.Selectable },
+    { value: EAttributeType.Double, label: EAttributeType.Double },
   ];
 
   const [currentSelectableValue, setCurrentSelectableValue] = useState("");
@@ -42,7 +42,7 @@ export const AttributeAdd: FC<TProps> = (props) => {
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
-  const {watch} = form.methods;
+  const { watch } = form.methods;
   const watchType = watch(EFormFields.Type);
   const isSelectableType = watchType?.value === EAttributeType.Selectable;
 
@@ -90,7 +90,7 @@ export const AttributeAdd: FC<TProps> = (props) => {
     nameGroup: string,
   ) => {
     const {
-      target: {checked, value},
+      target: { checked, value },
     } = event;
 
     if (checked) {
@@ -106,8 +106,11 @@ export const AttributeAdd: FC<TProps> = (props) => {
     }
   };
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
-    const formattedParams = mapFormDataToDto({...params, ...(isSelectableType && {selectable})});
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
+    const formattedParams = mapFormDataToDto({
+      ...params,
+      ...(isSelectableType && { selectable }),
+    });
     console.log("formattedParams: ", formattedParams);
 
     fetcher.submit(formattedParams, {
@@ -132,8 +135,8 @@ export const AttributeAdd: FC<TProps> = (props) => {
         handleSubmit={handleSubmit}
         method={EFormMethods.Post}
       >
-        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text"/>
-        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text"/>
+        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text" />
+        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text" />
         <div className="AttributeAdd-FormFieldGroup">
           <Checkbox
             checked={filter && filter[EFormFields.Filter].includes(idCheckbox)}
@@ -172,7 +175,11 @@ export const AttributeAdd: FC<TProps> = (props) => {
               value={currentSelectableValue}
               onChange={handleChangeSelectableValue}
             />
-            <Button className="AttributeAdd-Button" type="button" onClick={handleSelectableValueAdd}>
+            <Button
+              className="AttributeAdd-Button"
+              type="button"
+              onClick={handleSelectableValueAdd}
+            >
               {t("pages.admin.attributeAdd.addValue")}
             </Button>
           </>
@@ -188,5 +195,5 @@ export const AttributeAdd: FC<TProps> = (props) => {
 };
 
 export function attributeAddLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

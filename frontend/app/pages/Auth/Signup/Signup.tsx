@@ -1,22 +1,22 @@
-import type {FC} from "react";
-import {useTranslation} from "react-i18next";
-import {Link} from "@remix-run/react";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {FormErrors} from "~/components";
-import {ERoutes} from "~/enums";
-import {useTranslatedForm, useTranslatedResolver} from "~/hooks";
-import {EFormMethods, Form, Input, useInitForm} from "~/shared/form";
-import {EFormFields} from "~/pages/Auth/Signup/enums";
-import {formSchema} from "~/pages/Auth/Signup/schemas";
-import type {TForm, TOptionsSubmitForm} from "~/pages/Auth/Signup/types";
-import {PhoneInputMask} from "~/shared/form/PhoneInputMask";
-import type {TParams} from "~/types";
-import {Button, ETypographyVariant, Typography} from "~/uikit";
-import {createPath, normalizePhoneNumber} from "~/utils";
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "@remix-run/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormErrors } from "~/components";
+import { ERoutes } from "~/enums";
+import { useTranslatedForm, useTranslatedResolver } from "~/hooks";
+import { EFormMethods, Form, Input, useInitForm } from "~/shared/form";
+import { EFormFields } from "~/pages/Auth/Signup/enums";
+import { formSchema } from "~/pages/Auth/Signup/schemas";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Auth/Signup/types";
+import { PhoneInputMask } from "~/shared/form/PhoneInputMask";
+import type { TParams } from "~/types";
+import { Button, ETypographyVariant, Typography } from "~/uikit";
+import { createPath, normalizePhoneNumber } from "~/utils";
 import styles from "./Signup.css";
 
 export const Signup: FC = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const resolver = useTranslatedResolver(zodResolver(formSchema));
 
   const form = useTranslatedForm(
@@ -25,8 +25,8 @@ export const Signup: FC = () => {
     }),
   );
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
-    const formattedParams = {...params, phone: normalizePhoneNumber(params.phone)};
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
+    const formattedParams = { ...params, phone: normalizePhoneNumber(params.phone) };
     fetcher.submit(formattedParams, {
       method: EFormMethods.Post,
       action: createPath({
@@ -86,7 +86,7 @@ export const Signup: FC = () => {
                 name={EFormFields.RePassword}
                 type="text"
               />
-              <FormErrors fetcher={form.fetcher}/>
+              <FormErrors fetcher={form.fetcher} />
             </div>
             <div className="Signup-Control">
               <Button className="Signup-Button" type="submit">
@@ -100,7 +100,11 @@ export const Signup: FC = () => {
             <Typography variant={ETypographyVariant.TextB3Regular}>
               {t("pages.signup.haveAccount")}
             </Typography>
-            <Link to={ERoutes.Login}>
+            <Link
+              to={createPath({
+                route: ERoutes.Login,
+              })}
+            >
               <Typography variant={ETypographyVariant.TextB3Regular}>
                 {t("pages.signup.enter")}
               </Typography>
@@ -113,5 +117,5 @@ export const Signup: FC = () => {
 };
 
 export function signupLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

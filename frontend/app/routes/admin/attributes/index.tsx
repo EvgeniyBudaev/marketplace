@@ -1,16 +1,26 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { Attributes, attributesLinks } from "~/pages/Admin/Attributes";
 import { deleteAttribute, EAttributeAction, getAttributes } from "~/shared/api/attributes";
+import type { TAttributes } from "~/shared/api/attributes";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getResponseError } from "~/shared/domain";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission } from "~/utils";
+import type { TDomainErrors } from "~/types";
+import { checkRequestPermission, createPath } from "~/utils";
+
+type TLoaderData = {
+  attributes?: TAttributes;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  success?: boolean;
+  title?: string;
+};
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -45,7 +55,7 @@ export const loader = async (args: LoaderArgs) => {
   ]);
 
   if (!isPermissions) {
-    return redirect(ERoutes.Login);
+    return redirect(createPath({ route: ERoutes.Login }));
   }
 
   const url = new URL(request.url);
@@ -74,17 +84,17 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
+export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.attributes") || "Attributes" };
+    return [{ title: i18next.t("routes.titles.attributes") || "Attributes" }];
   }
-  return { title: data?.title || "Attributes" };
+  return [{ title: data?.title || "Attributes" }];
 };
 
 export default function AttributesRoute() {
-  const { attributes } = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
-  return <Attributes attributes={attributes} />;
+  return <>{data.attributes ? <Attributes attributes={data.attributes} /> : null}</>;
 }
 
 export function links() {

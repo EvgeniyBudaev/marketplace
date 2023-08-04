@@ -13,6 +13,8 @@ type TRoutes =
   | ERoutes.Recipient
   | ERoutes.ResourcesLanguage
   | ERoutes.ResourcesTheme
+  | ERoutes.Root
+  | ERoutes.Settings
   | ERoutes.Shipping
   | ERoutes.Signup;
 
@@ -29,6 +31,10 @@ type TCreatePathProps =
   | { route: TRoutesWithParams; withIndex?: boolean; params: Record<string, string | number> };
 
 type TCreatePathPropsWithParams = Extract<TCreatePathProps, { route: any; params: any }>;
+
+const ROUTER_PREFIX =
+  // @ts-ignore
+  typeof window !== "undefined" ? window.ENV.ROUTER_PREFIX : process.env.ROUTER_PREFIX;
 
 export function createPath(
   props: TCreatePathProps,
@@ -49,6 +55,10 @@ export function createPath(
 
   if (query && Object.keys(query).length) {
     path = `${path}${path.includes("?") ? "&" : "?"}${new URLSearchParams(query)}`;
+  }
+
+  if (ROUTER_PREFIX) {
+    path = ROUTER_PREFIX + path;
   }
 
   return path;

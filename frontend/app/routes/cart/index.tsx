@@ -82,12 +82,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.cart") || "Cart" };
-  }
-  return { title: data?.title || "Cart" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.cart") || "Cart" };
+//   }
+//   return { title: data?.title || "Cart" };
+// };
 
 export default function CartRoute() {
   const { cart } = useLoaderData<typeof loader>();

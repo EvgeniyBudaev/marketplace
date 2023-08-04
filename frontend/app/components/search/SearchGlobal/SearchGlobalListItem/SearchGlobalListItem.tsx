@@ -1,10 +1,11 @@
-import type {FC, MouseEvent} from "react";
-import {Link} from "@remix-run/react";
+import type { FC, MouseEvent } from "react";
+import { Link } from "@remix-run/react";
 import clsx from "clsx";
-import {ERoutes} from "~/enums";
-import type {TProductByCatalog} from "~/shared/api/products";
-import {ETypographyVariant, Icon, Typography} from "~/uikit";
-import {createPath, formatCurrency, formatProxy} from "~/utils";
+import { ERoutes } from "~/enums";
+import { useProxyUrl } from "~/hooks";
+import type { TProductByCatalog } from "~/shared/api/products";
+import { ETypographyVariant, Icon, Typography } from "~/uikit";
+import { createPath, formatCurrency } from "~/utils";
 import styles from "./SearchGlobalListItem.css";
 import isNil from "lodash/isNil";
 
@@ -15,11 +16,8 @@ type TProps = {
   onMouseOver: (event: MouseEvent<HTMLLIElement>, index: number) => void;
 };
 
-export const SearchGlobalListItem: FC<TProps> = ({index, item, isActive, onMouseOver}) => {
-  const ROUTE_PRODUCT_DETAIL = createPath({
-    route: ERoutes.ProductDetail,
-    params: {alias: item.alias},
-  });
+export const SearchGlobalListItem: FC<TProps> = ({ index, item, isActive, onMouseOver }) => {
+  const { proxyUrl } = useProxyUrl();
 
   const handleMouseOver = (event: MouseEvent<HTMLLIElement>) => {
     onMouseOver(event, index);
@@ -30,7 +28,10 @@ export const SearchGlobalListItem: FC<TProps> = ({index, item, isActive, onMouse
       {"catalogAlias" in item && (
         <li className="SearchGlobalListItem" onMouseOver={handleMouseOver}>
           <Link
-            to={ROUTE_PRODUCT_DETAIL}
+            to={createPath({
+              route: ERoutes.ProductDetail,
+              params: { alias: item.alias },
+            })}
             className={clsx("SearchGlobalListItem-Link", {
               "SearchGlobalListItem-Link__active": isActive,
             })}
@@ -39,13 +40,13 @@ export const SearchGlobalListItem: FC<TProps> = ({index, item, isActive, onMouse
               {!isNil(item?.defaultImage) ? (
                 <img
                   className="SearchGlobalListItem-Image"
-                  src={formatProxy(item.defaultImage)}
+                  src={`${proxyUrl}${item.defaultImage}`}
                   alt=""
                   width="28"
                   height="28"
                 />
               ) : (
-                <Icon type="NoImage"/>
+                <Icon type="NoImage" />
               )}
             </div>
             <div className="SearchGlobalListItem-Title">
@@ -64,5 +65,5 @@ export const SearchGlobalListItem: FC<TProps> = ({index, item, isActive, onMouse
 };
 
 export function searchGlobalListItemLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

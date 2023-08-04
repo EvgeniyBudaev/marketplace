@@ -147,12 +147,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({data}) => {
-  if (typeof window !== "undefined") {
-    return {title: i18next.t("routes.titles.recipient") || "Recipient"};
-  }
-  return {title: data?.title || "Recipient"};
-};
+// export const meta: MetaFunction = ({data}) => {
+//   if (typeof window !== "undefined") {
+//     return {title: i18next.t("routes.titles.recipient") || "Recipient"};
+//   }
+//   return {title: data?.title || "Recipient"};
+// };
 
 export default function RecipientRoute() {
   const data = useLoaderData<typeof loader>();

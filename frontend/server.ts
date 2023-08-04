@@ -1,19 +1,20 @@
 import compression from "compression";
+import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
-import {createServer} from "http";
+import { createServer } from "http";
 import path from "path";
-import {createRequestHandler} from "@remix-run/express";
-import {installGlobals} from "@remix-run/node";
+import { createRequestHandler } from "@remix-run/express";
+import { installGlobals } from "@remix-run/node";
 import {
   SOCKET_RECEIVE_LANGUAGE,
   SOCKET_RECEIVE_THEME,
   SOCKET_SEND_LANGUAGE,
   SOCKET_SEND_THEME,
 } from "./app/constants/socket";
-import {registerAccessTokenRefresh} from "./app/shared/http";
-import {sessionStorage} from "./app/shared/session";
-import {Server} from "socket.io";
+import { registerAccessTokenRefresh } from "./app/shared/http";
+import { sessionStorage } from "./app/shared/session";
+import { Server } from "socket.io";
 
 installGlobals();
 
@@ -88,11 +89,11 @@ app.use(compression());
 app.disable("x-powered-by");
 
 // Remix fingerprints its assets so we can cache forever.
-app.use("/build", express.static("public/build", {immutable: true, maxAge: "1y"}));
+app.use("/build", express.static("public/build", { immutable: true, maxAge: "1y" }));
 
 // Everything else (like favicon.ico) is cached for an hour. You may want to be
 // more aggressive with this caching.
-app.use(express.static("public", {maxAge: "1h"}));
+app.use(express.static("public", { maxAge: "1h" }));
 
 function loadBuild() {
   let build = require(BUILD_DIR);
@@ -100,6 +101,7 @@ function loadBuild() {
     build,
     {
       sessionStorage: sessionStorage,
+      baseName: process.env.ROUTER_PREFIX,
       baseUrl: process.env.API_URL ?? "",
     },
     ["routes/"],
@@ -112,16 +114,16 @@ app.all(
   "*",
   isProduction
     ? createRequestHandler({
-      build: loadBuild(),
-    })
-    : (...args) => {
-      purgeRequireCache();
-      const requestHandler = createRequestHandler({
         build: loadBuild(),
-        mode: MODE,
-      });
-      return requestHandler(...args);
-    },
+      })
+    : (...args) => {
+        purgeRequireCache();
+        const requestHandler = createRequestHandler({
+          build: loadBuild(),
+          mode: MODE,
+        });
+        return requestHandler(...args);
+      },
 );
 
 const port = process.env.PORT || 3000;

@@ -1,27 +1,27 @@
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
-import {useCallback, useEffect, useState} from "react";
-import type {Dispatch, FC, SetStateAction} from "react";
-import {useTranslation} from "react-i18next";
-import {FullscreenControl, GeolocationControl, ZoomControl} from "@pbe/react-yandex-maps";
-import {Link, useFetcher} from "@remix-run/react";
-import {useAuthenticityToken} from "remix-utils";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {ERoutes} from "~/enums";
-import {EFormFields} from "~/pages/Shipping/enums";
-import type {TForm, TOptionsSubmitForm} from "~/pages/Shipping/types";
-import {formSchema} from "~/pages/Shipping/schemas";
-import type {TGeoSearchSuggestion} from "~/pages/Shipping/YMap/GeoSearch";
-import type {TPickMapState} from "~/pages/Shipping/YMap/PickMap";
+import { useCallback, useEffect, useState } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
+import { FullscreenControl, GeolocationControl, ZoomControl } from "@pbe/react-yandex-maps";
+import { Link, useFetcher } from "@remix-run/react";
+import { useAuthenticityToken } from "remix-utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ERoutes } from "~/enums";
+import { EFormFields } from "~/pages/Shipping/enums";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Shipping/types";
+import { formSchema } from "~/pages/Shipping/schemas";
+import type { TGeoSearchSuggestion } from "~/pages/Shipping/YMap/GeoSearch";
+import type { TPickMapState } from "~/pages/Shipping/YMap/PickMap";
 import PickMap from "~/pages/Shipping/YMap/PickMap/PickMap";
-import {YMapFormField, yMapFormFieldLinks} from "~/pages/Shipping/YMapFormField";
-import {Marker} from "~/pages/Shipping/YMap/Marker";
-import {yMapLinks} from "~/pages/Shipping/YMap/YMap";
-import type {TShipping} from "~/shared/api/shipping";
-import {EFormMethods, Form, Input, Textarea, useInitForm} from "~/shared/form";
-import type {TDomainErrors, TParams} from "~/types";
-import {Button, ETypographyVariant, Icon, notify, Typography} from "~/uikit";
-import {createPath} from "~/utils";
+import { YMapFormField, yMapFormFieldLinks } from "~/pages/Shipping/YMapFormField";
+import { Marker } from "~/pages/Shipping/YMap/Marker";
+import { yMapLinks } from "~/pages/Shipping/YMap/YMap";
+import type { TShipping } from "~/shared/api/shipping";
+import { EFormMethods, Form, Input, Textarea, useInitForm } from "~/shared/form";
+import type { TDomainErrors, TParams } from "~/types";
+import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
+import { createPath } from "~/utils";
 import styles from "./Shipping.css";
 
 type TProps = {
@@ -47,9 +47,9 @@ type TProps = {
 };
 
 export const Shipping: FC<TProps> = (props) => {
-  const {searchState, setSearchState, mapState, setMapState, uuid} = props;
+  const { searchState, setSearchState, mapState, setMapState, uuid } = props;
   const csrf = useAuthenticityToken();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
@@ -60,10 +60,10 @@ export const Shipping: FC<TProps> = (props) => {
   const [address, setAddress] = useState(searchState?.value ?? "");
   const [isDragging, setDragging] = useState(false);
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
     fetcher.submit(
-      {...params, csrf, uuid},
+      { ...params, csrf, uuid },
       {
         method: EFormMethods.Patch,
         action: createPath({
@@ -128,10 +128,8 @@ export const Shipping: FC<TProps> = (props) => {
               searchState={searchState}
               type="text"
               isFocused={true}
-              onBlur={() => {
-              }}
-              onFocus={() => {
-              }}
+              onBlur={() => {}}
+              onFocus={() => {}}
               onStateChange={setSearchState}
               onSearch={setMapState}
             />
@@ -163,8 +161,13 @@ export const Shipping: FC<TProps> = (props) => {
         </div>
         <div className="Shipping-FormFooter">
           <div className="Shipping-Controls">
-            <Link className="Shipping-ControlsLink" to={ERoutes.Cart}>
-              <Icon type="ArrowBack"/>
+            <Link
+              className="Shipping-ControlsLink"
+              to={createPath({
+                route: ERoutes.Cart,
+              })}
+            >
+              <Icon type="ArrowBack" />
               <div className="Shipping-ControlsText">
                 <Typography variant={ETypographyVariant.TextB3Regular}>
                   {t("common.actions.addToCart")}
@@ -202,11 +205,11 @@ export const Shipping: FC<TProps> = (props) => {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           searchZoom={15}
-          marker={<Marker isDragging={isDragging}/>}
+          marker={<Marker isDragging={isDragging} />}
         >
-          <FullscreenControl options={{float: "left"}}/>
-          <GeolocationControl options={{float: "left"}}/>
-          <ZoomControl/>
+          <FullscreenControl options={{ float: "left" }} />
+          <GeolocationControl options={{ float: "left" }} />
+          <ZoomControl />
         </PickMap>
       </div>
     </section>
@@ -214,5 +217,5 @@ export const Shipping: FC<TProps> = (props) => {
 };
 
 export function shippingLinks() {
-  return [{rel: "stylesheet", href: styles}, ...yMapLinks(), ...yMapFormFieldLinks()];
+  return [{ rel: "stylesheet", href: styles }, ...yMapLinks(), ...yMapFormFieldLinks()];
 }

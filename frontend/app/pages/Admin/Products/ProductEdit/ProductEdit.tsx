@@ -1,27 +1,27 @@
-import {useEffect, useState} from "react";
-import type {FC, ChangeEvent} from "react";
-import type {OnChangeValue} from "react-select";
-import {useTranslation} from "react-i18next";
-import {useAuthenticityToken} from "remix-utils";
-import {useFetcher} from "@remix-run/react";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import type { FC, ChangeEvent } from "react";
+import type { OnChangeValue } from "react-select";
+import { useTranslation } from "react-i18next";
+import { useAuthenticityToken } from "remix-utils";
+import { useFetcher } from "@remix-run/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
-import {ERoutes} from "~/enums";
-import {useTheme} from "~/hooks";
-import {EAttributeType} from "~/pages";
-import {useFiles, useGetCatalogAlias} from "~/pages/Admin/Products/hooks";
+import { ERoutes } from "~/enums";
+import { useProxyUrl, useTheme } from "~/hooks";
+import { EAttributeType } from "~/pages";
+import { useFiles, useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
 import {
   EFormFields,
   formattedProductEdit,
   formSchema,
   mapProductEditToDto,
 } from "~/pages/Admin/Products/ProductEdit";
-import type {TForm, TOptionsSubmitForm} from "~/pages/Admin/Products/ProductEdit";
-import {getSelectableAttributeOptions} from "~/pages/Admin/Products/utils";
-import type {TAttributesByCatalog} from "~/shared/api/attributes";
-import type {TCatalogs} from "~/shared/api/catalogs";
-import type {TAdminProductDetail} from "~/shared/api/products";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductEdit";
+import { getSelectableAttributeOptions } from "~/pages/Admin/Products/utils";
+import type { TAttributesByCatalog } from "~/shared/api/attributes";
+import type { TCatalogs } from "~/shared/api/catalogs";
+import type { TAdminProductDetail } from "~/shared/api/products";
 import {
   Checkbox,
   EFormMethods,
@@ -31,10 +31,10 @@ import {
   Select,
   useInitForm,
 } from "~/shared/form";
-import type {TDomainErrors, TFile, TParams} from "~/types";
-import type {isSelectMultiType, TSelectOption} from "~/uikit";
-import {Button, ETypographyVariant, Icon, notify, Tooltip, Typography} from "~/uikit";
-import {createPath, formatProxy} from "~/utils";
+import type { TDomainErrors, TFile, TParams } from "~/types";
+import type { isSelectMultiType, TSelectOption } from "~/uikit";
+import { Button, ETypographyVariant, Icon, notify, Tooltip, Typography } from "~/uikit";
+import { createPath } from "~/utils";
 import styles from "./ProductEdit.css";
 
 type TProps = {
@@ -43,17 +43,19 @@ type TProps = {
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
   product: TAdminProductDetail;
-  success: boolean;
+  success?: boolean;
 };
 
 export const ProductEdit: FC<TProps> = (props) => {
   const csrf = useAuthenticityToken();
-  const {t} = useTranslation();
+  const { proxyUrl } = useProxyUrl();
+  const { t } = useTranslation();
   const fetcherRemix = useFetcher();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const idCheckbox = "enabled";
 
-  const attributesByCatalog: TAttributesByCatalog = fetcherRemix.data?.attributesByCatalog ?? props.attributesByCatalog;
+  const attributesByCatalog: TAttributesByCatalog =
+    fetcherRemix.data?.attributesByCatalog ?? props.attributesByCatalog;
   const catalogs: TCatalogs = fetcherRemix.data?.catalogs ?? props.catalogs;
   const product: TAdminProductDetail = fetcherRemix.data?.product ?? props.product;
 
@@ -61,9 +63,9 @@ export const ProductEdit: FC<TProps> = (props) => {
     product?.defaultImage ?? null,
   );
   const [images, setImages] = useState<string[]>(product?.images ?? []);
-  const [filter, setFilter] = useState<TParams>({enabled: product.enabled ? [idCheckbox] : []});
+  const [filter, setFilter] = useState<TParams>({ enabled: product.enabled ? [idCheckbox] : [] });
 
-  const {catalogAliasesTypeOptions} = useGetCatalogAlias({catalogs});
+  const { catalogAliasesTypeOptions } = useGetCatalogAlias({ catalogs });
   const defaultCatalogAlias = catalogAliasesTypeOptions.find(
     (item) => item.value === product.catalogAlias,
   );
@@ -77,12 +79,12 @@ export const ProductEdit: FC<TProps> = (props) => {
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
-  const isLoading = fetcherRemix.state !== 'idle';
+  const isLoading = fetcherRemix.state !== "idle";
   const isDoneType = form.isDoneType;
-  const {setValue, watch} = form.methods;
+  const { setValue, watch } = form.methods;
 
   const watchFiles = watch(EFormFields.Files);
-  const {onAddFiles, onDeleteFile, fetcherFilesLoading} = useFiles({
+  const { onAddFiles, onDeleteFile, fetcherFilesLoading } = useFiles({
     fieldName: EFormFields.Files,
     files: watchFiles,
     setValue,
@@ -99,7 +101,7 @@ export const ProductEdit: FC<TProps> = (props) => {
     nameGroup: string,
   ) => {
     const {
-      target: {checked, value},
+      target: { checked, value },
     } = event;
 
     if (checked) {
@@ -154,9 +156,13 @@ export const ProductEdit: FC<TProps> = (props) => {
     handleDeleteDefaultImage(file);
   };
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     const formattedParams = formattedProductEdit(params);
-    const dataFormToDto = mapProductEditToDto(formattedParams, product.id, attributesByCatalog?.alias);
+    const dataFormToDto = mapProductEditToDto(
+      formattedParams,
+      product.id,
+      attributesByCatalog?.alias,
+    );
     console.log("dataFormToDto: ", dataFormToDto);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
@@ -183,16 +189,16 @@ export const ProductEdit: FC<TProps> = (props) => {
     }
     dataFormToDto.price && formData.append("price", dataFormToDto.price);
     dataFormToDto.selectableValues &&
-    dataFormToDto.selectableValues.forEach((item) =>
-      formData.append("selectableValues[]", item.toString()),
-    );
+      dataFormToDto.selectableValues.forEach((item) =>
+        formData.append("selectableValues[]", item.toString()),
+      );
     formData.append("csrf", csrf);
 
     fetcher.submit(formData, {
       method: EFormMethods.Put,
       action: createPath({
         route: ERoutes.AdminProductEdit,
-        params: {alias: product.alias},
+        params: { alias: product.alias },
       }),
       encType: "multipart/form-data",
     });
@@ -277,16 +283,21 @@ export const ProductEdit: FC<TProps> = (props) => {
         />
 
         <div className="ProductEdit-FormFieldGroup">
-          {!isLoading && attributesByCatalog &&
+          {!isLoading &&
+            attributesByCatalog &&
             attributesByCatalog.selectableAttribute &&
             productSelectableAttributeList &&
             attributesByCatalog.selectableAttribute.map((item) => {
-              const {selectableAttributeOptions} = getSelectableAttributeOptions({
+              const { selectableAttributeOptions } = getSelectableAttributeOptions({
                 values: item.values ?? [],
               });
               const defaultAttribute = productSelectableAttributeList.find(
-                attribute => attribute.attributeAlias === item.alias);
-              const defaultValue = {value: defaultAttribute?.id.toString() ?? "", label: defaultAttribute?.value ?? ""};
+                (attribute) => attribute.attributeAlias === item.alias,
+              );
+              const defaultValue = {
+                value: defaultAttribute?.id.toString() ?? "",
+                label: defaultAttribute?.value ?? "",
+              };
               return (
                 <div className="ProductEdit-FormFieldGroup" key={item.id}>
                   <Select
@@ -301,7 +312,8 @@ export const ProductEdit: FC<TProps> = (props) => {
         </div>
 
         <div className="ProductEdit-FormFieldGroup">
-          {!isLoading && productNumberAttributeList &&
+          {!isLoading &&
+            productNumberAttributeList &&
             productNumberAttributeList.map((item) => {
               return (
                 <Input
@@ -326,12 +338,12 @@ export const ProductEdit: FC<TProps> = (props) => {
               images.map((image, index) => (
                 <div className="Previews-Thumb" key={`${image}-${index}`}>
                   <div className="Previews-Thumb-Inner">
-                    <img alt={image} className="Previews-Thumb-Image" src={formatProxy(image)}/>
+                    <img alt={image} className="Previews-Thumb-Image" src={`${proxyUrl}${image}`} />
                   </div>
                   <div className="Previews-File">
                     <div className="Previews-File-Inner">
                       <div className="Previews-File-IconWrapper">
-                        <Icon className="Previews-File-ImageIcon" type="Image"/>
+                        <Icon className="Previews-File-ImageIcon" type="Image" />
                       </div>
                       <div className="Previews-File-Name">{image}</div>
                     </div>
@@ -378,7 +390,7 @@ export const ProductEdit: FC<TProps> = (props) => {
               "image/png": [".png"],
             }}
             files={watchFiles}
-            Input={<input hidden name={EFormFields.Files} type="file"/>}
+            Input={<input hidden name={EFormFields.Files} type="file" />}
             isLoading={fetcherFilesLoading}
             maxSize={1024 * 1024}
             multiple={false}
@@ -410,14 +422,14 @@ export const ProductEdit: FC<TProps> = (props) => {
               <img
                 alt={product.name}
                 className="Previews-Thumb-Image"
-                src={formatProxy(defaultImage)}
+                src={`${proxyUrl}${defaultImage}`}
               />
             )}
           </div>
           <div className="Previews-File">
             <div className="Previews-File-Inner">
               <div className="Previews-File-IconWrapper">
-                <Icon className="Previews-File-ImageIcon" type="Image"/>
+                <Icon className="Previews-File-ImageIcon" type="Image" />
               </div>
               <div className="Previews-File-Name">
                 {typeof defaultImage !== "string" ? defaultImage?.name : defaultImage}
@@ -437,5 +449,5 @@ export const ProductEdit: FC<TProps> = (props) => {
 };
 
 export function productEditLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

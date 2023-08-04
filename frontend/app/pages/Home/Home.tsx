@@ -1,9 +1,7 @@
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Chart, EChartVariants, LinkButton, WordCloud } from "~/uikit";
+import { LinkButton } from "~/uikit";
 import styles from "././Home.css";
-import { dataClouds } from "~/uikit/components/WordCloud/mockData";
-import { chartData } from "~/uikit/components/Chart/mockData";
 
 export const Home: FC = () => {
   const { t } = useTranslation();
@@ -17,10 +15,6 @@ export const Home: FC = () => {
       <div className="Home-Block">
         <LinkButton href="/admin">Админка</LinkButton>
       </div>
-      <h2>WordCloud</h2>
-      <WordCloud data={dataClouds} />
-      <h2>Chart</h2>
-      <Chart data={chartData} variantChart={EChartVariants.Variant2} />
     </div>
   );
 };

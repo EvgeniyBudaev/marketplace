@@ -7,10 +7,11 @@ import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { ERoutes } from "~/enums";
+import { useProxyUrl } from "~/hooks";
 import type { TCartItem } from "~/shared/api/cart";
 import { EFormMethods } from "~/shared/form";
 import { ETypographyVariant, Icon, IconButton, Typography } from "~/uikit";
-import { createPath, formatCurrency, formatProxy } from "~/utils";
+import { createPath, formatCurrency } from "~/utils";
 import styles from "./CartItem.css";
 
 type TProps = {
@@ -20,13 +21,10 @@ type TProps = {
 };
 
 export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
+  const { proxyUrl } = useProxyUrl();
   const { t } = useTranslation();
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
-  const ROUTE_PRODUCT_DETAIL = createPath({
-    route: ERoutes.ProductDetail,
-    params: { alias: cartItem.product.alias },
-  });
   // console.log("cartItem: ", cartItem);
 
   const imageResponsiveSizeWidth = () => {
@@ -139,12 +137,18 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
             no_image: isNil(cartItem.product.defaultImage),
           })}
         >
-          <Link className="CartItem-ProductContentLink" to={ROUTE_PRODUCT_DETAIL}>
+          <Link
+            className="CartItem-ProductContentLink"
+            to={createPath({
+              route: ERoutes.ProductDetail,
+              params: { alias: cartItem.product.alias },
+            })}
+          >
             {!isNil(cartItem.product.defaultImage) ? (
               <img
                 className="CartItem-ProductContentImage"
                 alt={cartItem.product.name}
-                src={formatProxy(cartItem.product.defaultImage)}
+                src={`${proxyUrl}${cartItem.product.defaultImage}`}
                 width={imageResponsiveSizeWidth()}
                 height={imageResponsiveSizeHeight()}
               />

@@ -1,16 +1,26 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, ActionArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { Products, productsLinks } from "~/pages/Admin/Products";
 import { deleteProduct, EProductAction, getProducts } from "~/shared/api/products";
+import type { TProducts } from "~/shared/api/products";
 import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getResponseError } from "~/shared/domain";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission } from "~/utils";
+import type { TDomainErrors } from "~/types";
+import { checkRequestPermission, createPath } from "~/utils";
+
+type TLoaderData = {
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  products: TProducts;
+  success?: boolean;
+  title?: string;
+};
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -46,7 +56,7 @@ export const loader = async (args: LoaderArgs) => {
   ]);
 
   if (!isPermissions) {
-    return redirect(ERoutes.Login);
+    return redirect(createPath({ route: ERoutes.Login }));
   }
 
   const url = new URL(request.url);
@@ -75,17 +85,17 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
+export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.products") || "Products" };
+    return [{ title: i18next.t("routes.titles.products") || "Products" }];
   }
-  return { title: data?.title || "Products" };
+  return [{ title: data?.title || "Products" }];
 };
 
 export default function ProductsRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
-  return <Products products={data.products} />;
+  return <>{data.products ? <Products products={data.products} /> : null}</>;
 }
 
 export function links() {

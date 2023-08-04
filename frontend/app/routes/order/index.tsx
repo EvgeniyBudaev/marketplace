@@ -67,12 +67,12 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.order") || "Order" };
-  }
-  return { title: data?.title || "Order" };
-};
+// export const meta: MetaFunction = ({ data }) => {
+//   if (typeof window !== "undefined") {
+//     return { title: i18next.t("routes.titles.order") || "Order" };
+//   }
+//   return { title: data?.title || "Order" };
+// };
 
 export default function OrderRoute() {
   const data = useLoaderData<typeof loader>();
