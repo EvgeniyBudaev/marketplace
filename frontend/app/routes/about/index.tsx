@@ -13,8 +13,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta = ({data}: any) => {
-  console.log("data: ", data);
+export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.about") || "About" }];
   }

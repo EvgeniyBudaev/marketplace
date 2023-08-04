@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useAuthenticityToken } from "remix-utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
-import { useTheme } from "~/hooks";
+import { useProxyUrl, useTheme } from "~/hooks";
 import {
   useGetAttributeByCatalogOptions,
   useGetAttributeOptions,
@@ -26,7 +26,7 @@ import {
 } from "~/shared/form";
 import type { TDomainErrors, TFile, TParams } from "~/types";
 import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
-import { createPath, formatProxy } from "~/utils";
+import { createPath } from "~/utils";
 import styles from "./CatalogEdit.css";
 
 type TProps = {
@@ -35,11 +35,12 @@ type TProps = {
   catalog: TCatalogDetail;
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
-  success: boolean;
+  success?: boolean;
 };
 
 export const CatalogEdit: FC<TProps> = (props) => {
   const csrf = useAuthenticityToken();
+  const { proxyUrl } = useProxyUrl();
   const { t } = useTranslation();
   const { theme } = useTheme();
 
@@ -225,7 +226,7 @@ export const CatalogEdit: FC<TProps> = (props) => {
                   <img
                     alt={defaultImage.name}
                     className="Previews-Thumb-Image"
-                    src={defaultImage.preview}
+                    src={`${proxyUrl}${defaultImage.preview}`}
                     onLoad={() => handleLoadImage(defaultImage)}
                   />
                 )}
@@ -235,7 +236,7 @@ export const CatalogEdit: FC<TProps> = (props) => {
               <img
                 alt={catalog.name}
                 className="Previews-Thumb-Image"
-                src={formatProxy(defaultImage)}
+                src={`${proxyUrl}${defaultImage}`}
               />
             )}
           </div>

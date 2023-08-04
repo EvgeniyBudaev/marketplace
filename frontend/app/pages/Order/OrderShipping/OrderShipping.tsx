@@ -5,6 +5,7 @@ import { ERoutes } from "~/enums";
 import type { TShipping } from "~/shared/api/shipping";
 import { ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./OrderShipping.css";
+import { createPath } from "~/utils";
 
 type TProps = {
   shipping?: TShipping;
@@ -21,7 +22,12 @@ export const OrderShipping: FC<TProps> = ({ shipping }) => {
             {t("pages.order.courierDelivery")}
           </Typography>
         </h5>
-        <Link className="OrderShipping-Link" to={ERoutes.Shipping}>
+        <Link
+          className="OrderShipping-Link"
+          to={createPath({
+            route: ERoutes.Shipping,
+          })}
+        >
           <Typography variant={ETypographyVariant.TextB3Regular}>
             {t("common.actions.change")}
           </Typography>

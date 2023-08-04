@@ -2,8 +2,9 @@ import type { FC } from "react";
 import { Link } from "@remix-run/react";
 import isNil from "lodash/isNil";
 import { DEFAULT_IMAGE } from "~/constants";
+import { useProxyUrl } from "~/hooks";
 import type { TCartItem } from "~/shared/api/cart";
-import { formatCurrency, formatProxy } from "~/utils";
+import { createPath, formatCurrency } from "~/utils";
 import styles from "./OrderProductListItem.css";
 
 type TProps = {
@@ -11,16 +12,20 @@ type TProps = {
 };
 
 export const OrderProductListItem: FC<TProps> = ({ cartItem }) => {
-  const imageProduct = formatProxy(
-    !isNil(cartItem?.product.defaultImage) ? cartItem.product.defaultImage : DEFAULT_IMAGE,
-  );
+  const { proxyUrl } = useProxyUrl();
+
+  const imageProduct = !isNil(cartItem?.product.defaultImage)
+    ? `${proxyUrl}${cartItem.product.defaultImage}`
+    : `${proxyUrl}${DEFAULT_IMAGE}`;
 
   return (
     <div className="OrderProductListItem">
       <div className="OrderProductListItem-Info">
         <Link
           className="OrderProductListItem-Link"
-          to={`/${cartItem.product.catalogAlias}/${cartItem.product.alias}`}
+          to={createPath({
+            route: `/${cartItem.product.catalogAlias}/${cartItem.product.alias}` as any,
+          })}
         >
           <img
             className="OrderProductListItem-Image"

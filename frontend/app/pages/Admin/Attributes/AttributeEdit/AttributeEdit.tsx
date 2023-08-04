@@ -1,12 +1,12 @@
-import {useEffect, useState} from "react";
-import type {FC, ChangeEvent} from "react";
-import {useTranslation} from "react-i18next";
-import {useFetcher} from "@remix-run/react";
-import {useAuthenticityToken} from "remix-utils";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {ERoutes} from "~/enums";
-import {useTheme} from "~/hooks";
-import {EAttributeType} from "~/pages";
+import { useEffect, useState } from "react";
+import type { FC, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { useFetcher } from "@remix-run/react";
+import { useAuthenticityToken } from "remix-utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ERoutes } from "~/enums";
+import { useTheme } from "~/hooks";
+import { EAttributeType } from "~/pages";
 import {
   EFormFields,
   formSchema,
@@ -18,39 +18,39 @@ import type {
   TForm,
   TOptionsSubmitForm,
 } from "~/pages/Admin/Attributes/AttributeEdit";
-import {SelectableAddModal} from "~/pages/Admin/Attributes/SelectableAddModal";
-import {SelectableTable} from "~/pages/Admin/Attributes/SelectableTable";
-import {EAttributeAction, ESelectableValueAction} from "~/shared/api/attributes";
-import type {TAttributeDetail, TSelectableItem} from "~/shared/api/attributes";
-import {Checkbox, EFormMethods, Form, Input, Select, useInitForm} from "~/shared/form";
-import type {TDomainErrors, TParams} from "~/types";
-import {Button, ETypographyVariant, notify, Tooltip, Typography} from "~/uikit";
-import {createPath} from "~/utils";
+import { SelectableAddModal } from "~/pages/Admin/Attributes/SelectableAddModal";
+import { SelectableTable } from "~/pages/Admin/Attributes/SelectableTable";
+import { EAttributeAction, ESelectableValueAction } from "~/shared/api/attributes";
+import type { TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
+import { Checkbox, EFormMethods, Form, Input, Select, useInitForm } from "~/shared/form";
+import type { TDomainErrors, TParams } from "~/types";
+import { Button, ETypographyVariant, notify, Tooltip, Typography } from "~/uikit";
+import { createPath } from "~/utils";
 import styles from "./AttributeEdit.css";
 
 type TProps = {
   attribute: TAttributeDetail;
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
-  success: boolean;
+  success?: boolean;
 };
 
 export const AttributeEdit: FC<TProps> = (props) => {
   const csrf = useAuthenticityToken();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const fetcherRemix = useFetcher();
   const attribute: TAttributeDetail = fetcherRemix.data?.attribute ?? props.attribute;
   console.log("attribute: ", attribute);
 
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   const idCheckbox = "checkbox";
-  const [filter, setFilter] = useState<TParams>({filter: [attribute.filter ? idCheckbox : []]});
-  const [addModal, setAddModal] = useState<TAddModalState>({isOpen: false});
+  const [filter, setFilter] = useState<TParams>({ filter: [attribute.filter ? idCheckbox : []] });
+  const [addModal, setAddModal] = useState<TAddModalState>({ isOpen: false });
 
   // console.log("attribute: ", attribute);
 
-  const {defaultTypeOptions, typeOptions} = useGetTypeOptions(attribute.type);
+  const { defaultTypeOptions, typeOptions } = useGetTypeOptions(attribute.type);
 
   const [selectable] = useState<TSelectableItem[]>(attribute?.selectable ?? []);
   // console.log("selectable: ", selectable);
@@ -59,7 +59,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
-  const {watch} = form.methods;
+  const { watch } = form.methods;
   const watchType = watch(EFormFields.Type);
   const isSelectableType = watchType?.value === EAttributeType.Selectable;
   const fetcher = form.fetcher;
@@ -84,7 +84,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
     nameGroup: string,
   ) => {
     const {
-      target: {checked, value},
+      target: { checked, value },
     } = event;
 
     if (checked) {
@@ -101,11 +101,11 @@ export const AttributeEdit: FC<TProps> = (props) => {
   };
 
   const handleCloseAddModal = () => {
-    setAddModal((prev) => ({...prev, isOpen: false}));
+    setAddModal((prev) => ({ ...prev, isOpen: false }));
   };
 
   const handleOpenAddModal = () => {
-    setAddModal((prev) => ({...prev, isOpen: true}));
+    setAddModal((prev) => ({ ...prev, isOpen: true }));
   };
 
   const handleAdd = (value: string) => {
@@ -113,19 +113,19 @@ export const AttributeEdit: FC<TProps> = (props) => {
       attributeAlias: attribute.alias,
       value,
       _method: ESelectableValueAction.AddSelectableValue,
-      csrf
-    }
+      csrf,
+    };
     fetcher.submit(formattedParams, {
       method: EFormMethods.Post,
       action: createPath({
         route: ERoutes.AdminAttributeEdit,
-        params: {alias: attribute.alias},
+        params: { alias: attribute.alias },
         withIndex: true,
       }),
     });
   };
 
-  const handleSubmitAddModal = ({value}: { value: string }) => {
+  const handleSubmitAddModal = ({ value }: { value: string }) => {
     if (value) {
       handleAdd(value);
       handleCloseAddModal();
@@ -136,43 +136,43 @@ export const AttributeEdit: FC<TProps> = (props) => {
     const formattedParams = {
       id: id.toString(),
       csrf,
-      _method: ESelectableValueAction.DeleteSelectableValue
-    }
+      _method: ESelectableValueAction.DeleteSelectableValue,
+    };
     fetcher.submit(formattedParams, {
       method: EFormMethods.Delete,
       action: createPath({
         route: ERoutes.AdminAttributeEdit,
-        params: {alias: attribute.alias},
+        params: { alias: attribute.alias },
         withIndex: true,
       }),
     });
-  }
+  };
 
-  const handleSubmitEditSelectableValue = ({id, value}: { id: number; value: string }) => {
+  const handleSubmitEditSelectableValue = ({ id, value }: { id: number; value: string }) => {
     const formattedParams = {
       id: id.toString(),
       value,
       _method: ESelectableValueAction.EditSelectableValue,
-      csrf
-    }
+      csrf,
+    };
     fetcher.submit(formattedParams, {
       method: EFormMethods.Patch,
       action: createPath({
         route: ERoutes.AdminAttributeEdit,
-        params: {alias: attribute.alias},
+        params: { alias: attribute.alias },
         withIndex: true,
       }),
     });
-  }
+  };
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     // console.log("Form params: ", params);
     const formattedParams = mapFormDataToDto({
       ...params,
       id: attribute.id,
-      ...(isSelectableType && {selectable}),
+      ...(isSelectableType && { selectable }),
       _method: EAttributeAction.EditAttribute,
-      csrf
+      csrf,
     });
     console.log("formattedParams: ", formattedParams);
 
@@ -180,7 +180,7 @@ export const AttributeEdit: FC<TProps> = (props) => {
       method: EFormMethods.Put,
       action: createPath({
         route: ERoutes.AdminAttributeEdit,
-        params: {alias: attribute.alias},
+        params: { alias: attribute.alias },
         withIndex: true,
       }),
     });
@@ -233,8 +233,12 @@ export const AttributeEdit: FC<TProps> = (props) => {
           <>
             <div className="AttributeEdit-FormFieldGroup">
               <Tooltip message={t("pages.admin.attributeEdit.tooltip.buttonAdd")}>
-                <Button isDisabled={attribute?.type === EAttributeType.Double}
-                        onClick={handleOpenAddModal}>{t("common.actions.add")}</Button>
+                <Button
+                  isDisabled={attribute?.type === EAttributeType.Double}
+                  onClick={handleOpenAddModal}
+                >
+                  {t("common.actions.add")}
+                </Button>
               </Tooltip>
             </div>
             <SelectableTable
@@ -249,7 +253,9 @@ export const AttributeEdit: FC<TProps> = (props) => {
         )}
         <div className="AttributeEdit-FormControl">
           <Button className="AttributeEdit-Button" type="submit">
-            {attribute?.type === EAttributeType.Double ? t("common.actions.update") : t("common.actions.save")}
+            {attribute?.type === EAttributeType.Double
+              ? t("common.actions.update")
+              : t("common.actions.save")}
           </Button>
         </div>
       </Form>
@@ -263,5 +269,5 @@ export const AttributeEdit: FC<TProps> = (props) => {
 };
 
 export function attributeEditLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

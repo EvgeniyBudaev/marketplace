@@ -1,15 +1,16 @@
-import type {FC} from "react";
-import {useTranslation} from "react-i18next";
-import {Link, useFetcher} from "@remix-run/react";
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useFetcher } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 
-import {DEFAULT_IMAGE} from "~/constants";
-import {ERoutes} from "~/enums";
-import type {TCart} from "~/shared/api/cart";
-import type {TProductDetail} from "~/shared/api/products";
-import {Button, ETypographyVariant, SliderSimple, SliderSyncing, Typography} from "~/uikit";
-import {createPath, formatCurrency, formatListProxy, formatProxy} from "~/utils";
+import { DEFAULT_IMAGE } from "~/constants";
+import { ERoutes } from "~/enums";
+import { useProxyUrl } from "~/hooks";
+import type { TCart } from "~/shared/api/cart";
+import type { TProductDetail } from "~/shared/api/products";
+import { Button, ETypographyVariant, SliderSimple, SliderSyncing, Typography } from "~/uikit";
+import { createPath, formatCurrency } from "~/utils";
 import styles from "./ProductDetail.css";
 
 type TProps = {
@@ -17,19 +18,24 @@ type TProps = {
   product: TProductDetail;
 };
 
-export const ProductDetail: FC<TProps> = ({cart, product}) => {
+export const ProductDetail: FC<TProps> = ({ cart, product }) => {
   const fetcher = useFetcher();
-  const {t} = useTranslation();
+  const { proxyUrl } = useProxyUrl();
+  const { t } = useTranslation();
   console.log("product: ", product);
   // console.log("cart: ", cart);
 
-  const imageProduct = formatProxy(!isNil(product?.images) ? product.images[0] : DEFAULT_IMAGE);
-  const sliderImages = formatListProxy(!isNil(product?.images) ? product.images : [DEFAULT_IMAGE]);
+  const imageProduct = !isNil(product?.images)
+    ? `${proxyUrl}${product.images[0]}`
+    : `${proxyUrl}${DEFAULT_IMAGE}`;
+  const sliderImages = !isNil(product?.images)
+    ? product.images.map((image) => `${proxyUrl}${image}`)
+    : [`${proxyUrl}${DEFAULT_IMAGE}`];
   const isMobileScreen = false;
 
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.ProductDetail,
-    params: {alias: product.alias},
+    params: { alias: product.alias },
   });
   const count = Number(product.count);
 
@@ -150,5 +156,5 @@ export const ProductDetail: FC<TProps> = ({cart, product}) => {
 };
 
 export function productDetailLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

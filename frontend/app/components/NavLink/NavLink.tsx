@@ -2,6 +2,8 @@ import { cloneElement } from "react";
 import type { FC } from "react";
 import { Link, useLocation } from "@remix-run/react";
 import type { ReactElementLike } from "prop-types";
+import { createPath } from "~/utils";
+import { ERoutes } from "~/enums";
 
 type TProps = {
   activeClassName?: string;
@@ -18,5 +20,13 @@ export const NavLink: FC<TProps> = ({ activeClassName = "isActive", href, childr
     className = `${className} ${activeClassName}`;
   }
 
-  return <Link to={href}>{cloneElement(children, { className })}</Link>;
+  return (
+    <Link
+      to={createPath({
+        route: href as any,
+      })}
+    >
+      {cloneElement(children, { className })}
+    </Link>
+  );
 };

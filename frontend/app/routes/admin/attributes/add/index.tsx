@@ -2,7 +2,7 @@ import i18next from "i18next";
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
 import { json, redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import { EPermissions, ERoutes } from "~/enums";
@@ -12,7 +12,15 @@ import { mapParamsAddAttributeToDto } from "~/shared/api/attributes/utils";
 import { getResponseError } from "~/shared/domain";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
 import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
+
+type TLoaderData = {
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  success?: boolean;
+  title?: string;
+};
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -113,15 +121,15 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-// export const meta: MetaFunction = ({data}) => {
-//   if (typeof window !== "undefined") {
-//     return {title: i18next.t("routes.titles.attributeAdd") || "Adding an attribute"};
-//   }
-//   return {title: data?.title || "Adding an attribute"};
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.attributeAdd") || "Adding an attribute" }];
+  }
+  return [{ title: data?.title || "Adding an attribute" }];
+};
 
 export default function AttributeAddRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
   return (
     <AttributeAdd

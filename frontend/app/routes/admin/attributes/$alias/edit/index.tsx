@@ -1,6 +1,6 @@
 import { inputFromForm } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import i18next from "i18next";
@@ -20,6 +20,7 @@ import {
   ESelectableValueAction,
   getAttributeDetail,
 } from "~/shared/api/attributes";
+import type { TAttributeDetail } from "~/shared/api/attributes";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import {
   mapParamsAddSelectableValueToDto,
@@ -29,7 +30,16 @@ import {
 } from "~/shared/api/attributes/utils";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
 import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
+
+type TLoaderData = {
+  attribute: TAttributeDetail;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  success?: boolean;
+  title?: string;
+};
 
 export const action = async (args: ActionArgs) => {
   const { params, request } = args;
@@ -184,23 +194,27 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-// export const meta: MetaFunction = ({data}) => {
-//   if (typeof window !== "undefined") {
-//     return {title: i18next.t("routes.titles.attributeEdit") || "Editing an Attribute"};
-//   }
-//   return {title: data?.title || "Editing an Attribute"};
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.attributeEdit") || "Editing an Attribute" }];
+  }
+  return [{ title: data?.title || "Editing an Attribute" }];
+};
 
 export default function AttributeEditRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
   return (
-    <AttributeEdit
-      attribute={data.attribute}
-      fieldErrors={data.fieldErrors}
-      formError={data.formError}
-      success={data.success}
-    />
+    <>
+      {data.attribute ? (
+        <AttributeEdit
+          attribute={data.attribute}
+          fieldErrors={data.fieldErrors}
+          formError={data.formError}
+          success={data.success}
+        />
+      ) : null}
+    </>
   );
 }
 

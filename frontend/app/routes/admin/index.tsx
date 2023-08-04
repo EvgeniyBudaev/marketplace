@@ -1,11 +1,11 @@
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { Admin, adminLinks } from "~/pages/Admin";
 import { getStoreFixedT } from "~/shared/store";
-import { checkRequestPermission } from "~/utils/permission";
-import i18next from "i18next";
 import { createPath } from "~/utils";
+import { checkRequestPermission } from "~/utils/permission";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
@@ -23,12 +23,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-// export const meta: MetaFunction = ({ data }) => {
-//   if (typeof window !== "undefined") {
-//     return { title: i18next.t("routes.titles.admin") || "Admin panel" };
-//   }
-//   return { title: data?.title || "Admin panel" };
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.admin") || "Admin panel" }];
+  }
+  return [{ title: data?.title || "Admin panel" }];
+};
 
 export default function AdminRoute() {
   return <Admin />;

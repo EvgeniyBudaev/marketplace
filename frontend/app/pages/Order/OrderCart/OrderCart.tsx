@@ -7,6 +7,7 @@ import { OrderProductListItem } from "~/pages/Order/OrderProductListItem";
 import type { TCart } from "~/shared/api/cart";
 import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./OrderCart.css";
+import { createPath } from "~/utils";
 
 type TProps = {
   cart?: TCart;
@@ -21,7 +22,12 @@ export const OrderCart: FC<TProps> = ({ cart }) => {
         <h5 className="OrderCart-SubTitle">
           <Typography variant={ETypographyVariant.TextH5Bold}>{t("pages.order.goods")}</Typography>
         </h5>
-        <Link className="OrderCart-Link" to={ERoutes.Cart}>
+        <Link
+          className="OrderCart-Link"
+          to={createPath({
+            route: ERoutes.Cart,
+          })}
+        >
           <Typography variant={ETypographyVariant.TextB3Regular}>
             {t("common.actions.change")}
           </Typography>

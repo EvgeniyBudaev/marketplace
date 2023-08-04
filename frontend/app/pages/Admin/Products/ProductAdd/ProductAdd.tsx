@@ -1,26 +1,26 @@
 import isNil from "lodash/isNil";
 import isNull from "lodash/isNull";
-import {useCallback, useEffect, useState} from "react";
-import type {FC, ChangeEvent} from "react";
-import type {OnChangeValue} from "react-select";
-import {useTranslation} from "react-i18next";
-import {useAuthenticityToken} from "remix-utils";
-import {useFetcher} from "@remix-run/react";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { useCallback, useEffect, useState } from "react";
+import type { FC, ChangeEvent } from "react";
+import type { OnChangeValue } from "react-select";
+import { useTranslation } from "react-i18next";
+import { useAuthenticityToken } from "remix-utils";
+import { useFetcher } from "@remix-run/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import {ERoutes} from "~/enums";
-import {useTheme} from "~/hooks";
-import {useFiles, useGetCatalogAlias} from "~/pages/Admin/Products/hooks";
+import { ERoutes } from "~/enums";
+import { useTheme } from "~/hooks";
+import { useFiles, useGetCatalogAlias } from "~/pages/Admin/Products/hooks";
 import {
   EFormFields,
   formattedProductAdd,
   formSchema,
   mapProductAddToDto,
 } from "~/pages/Admin/Products/ProductAdd";
-import type {TForm, TOptionsSubmitForm} from "~/pages/Admin/Products/ProductAdd";
-import {getSelectableAttributeOptions} from "~/pages/Admin/Products/utils";
-import type {TAttributesByCatalog} from "~/shared/api/attributes";
-import type {TCatalogs} from "~/shared/api/catalogs";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Products/ProductAdd";
+import { getSelectableAttributeOptions } from "~/pages/Admin/Products/utils";
+import type { TAttributesByCatalog } from "~/shared/api/attributes";
+import type { TCatalogs } from "~/shared/api/catalogs";
 import {
   Checkbox,
   EFormMethods,
@@ -30,43 +30,43 @@ import {
   Select,
   useInitForm,
 } from "~/shared/form";
-import type {TDomainErrors, TFile, TParams} from "~/types";
-import {Button, ETypographyVariant, Icon, notify, Typography} from "~/uikit";
-import type {isSelectMultiType, TSelectOption} from "~/uikit";
-import {createPath} from "~/utils";
+import type { TDomainErrors, TFile, TParams } from "~/types";
+import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
+import type { isSelectMultiType, TSelectOption } from "~/uikit";
+import { createPath } from "~/utils";
 import styles from "./ProductAdd.css";
 
 type TProps = {
   catalogs: TCatalogs;
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
-  success: boolean;
+  success?: boolean;
 };
 
 export const ProductAdd: FC<TProps> = (props) => {
-  const {catalogs} = props;
+  const { catalogs } = props;
   const csrf = useAuthenticityToken();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const fetcherRemix = useFetcher();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   const [defaultImage, setDefaultImage] = useState<TFile | null>(null);
   const idCheckbox = "checkbox";
-  const [filter, setFilter] = useState<TParams>({enabled: [idCheckbox]});
+  const [filter, setFilter] = useState<TParams>({ enabled: [idCheckbox] });
   const enabled: boolean = filter[EFormFields.Enabled].includes(idCheckbox);
 
-  const {catalogAliasesTypeOptions} = useGetCatalogAlias({catalogs});
+  const { catalogAliasesTypeOptions } = useGetCatalogAlias({ catalogs });
   const attributesByCatalog: TAttributesByCatalog = fetcherRemix.data?.attributesByCatalog;
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
-  const isLoading = fetcherRemix.state !== 'idle';
+  const isLoading = fetcherRemix.state !== "idle";
   const isDoneType = form.isDoneType;
-  const {reset, setValue, watch} = form.methods;
+  const { reset, setValue, watch } = form.methods;
 
   const watchFiles = watch(EFormFields.Files);
-  const {onAddFiles, onDeleteFile, fetcherFilesLoading} = useFiles({
+  const { onAddFiles, onDeleteFile, fetcherFilesLoading } = useFiles({
     fieldName: EFormFields.Files,
     files: watchFiles,
     setValue,
@@ -100,7 +100,7 @@ export const ProductAdd: FC<TProps> = (props) => {
     nameGroup: string,
   ) => {
     const {
-      target: {checked, value},
+      target: { checked, value },
     } = event;
 
     if (checked) {
@@ -116,25 +116,28 @@ export const ProductAdd: FC<TProps> = (props) => {
     }
   };
 
-  const handleChangeCatalogAlias = useCallback((selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>) => {
-    if (isNull(selectedOption)) return;
-    reset();
-    const option = selectedOption as TSelectOption;
-    const catalogAlias = option.value;
-    const path = createPath({
-      route: ERoutes.ResourcesAttributesByCatalog,
-      params: {alias: catalogAlias},
-    });
+  const handleChangeCatalogAlias = useCallback(
+    (selectedOption: OnChangeValue<TSelectOption, isSelectMultiType>) => {
+      if (isNull(selectedOption)) return;
+      reset();
+      const option = selectedOption as TSelectOption;
+      const catalogAlias = option.value;
+      const path = createPath({
+        route: ERoutes.ResourcesAttributesByCatalog,
+        params: { alias: catalogAlias },
+      });
 
-    fetcherRemix.submit(
-      {},
-      {
-        method: EFormMethods.Post,
-        action: path,
-      },
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      fetcherRemix.submit(
+        {},
+        {
+          method: EFormMethods.Post,
+          action: path,
+        },
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [],
+  );
 
   const handleAddFileToDefaultImage = (file: TFile) => {
     setDefaultImage(file);
@@ -151,7 +154,7 @@ export const ProductAdd: FC<TProps> = (props) => {
     return file?.preview ? URL.revokeObjectURL(file.preview) : file;
   };
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     console.log("Form params: ", params);
     const formattedParams = formattedProductAdd(params);
     const dataFormToDto = mapProductAddToDto(formattedParams, enabled, attributesByCatalog?.alias);
@@ -179,9 +182,9 @@ export const ProductAdd: FC<TProps> = (props) => {
     }
     dataFormToDto.price && formData.append("price", dataFormToDto.price);
     dataFormToDto.selectableValues &&
-    dataFormToDto.selectableValues.forEach((item) =>
-      formData.append("selectableValues", item.toString()),
-    );
+      dataFormToDto.selectableValues.forEach((item) =>
+        formData.append("selectableValues", item.toString()),
+      );
     formData.append("csrf", csrf);
 
     fetcher.submit(formData, {
@@ -202,7 +205,7 @@ export const ProductAdd: FC<TProps> = (props) => {
       </h1>
 
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
-        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text"/>
+        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text" />
 
         <div className="ProductAdd-FormFieldGroup">
           <Select
@@ -231,15 +234,16 @@ export const ProductAdd: FC<TProps> = (props) => {
           />
         </div>
 
-        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text"/>
-        <Input label={t("form.count.title") ?? "Count"} name={EFormFields.Count} type="text"/>
-        <Input label={t("form.price.title") ?? "Price"} name={EFormFields.Price} type="text"/>
+        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text" />
+        <Input label={t("form.count.title") ?? "Count"} name={EFormFields.Count} type="text" />
+        <Input label={t("form.price.title") ?? "Price"} name={EFormFields.Price} type="text" />
 
         <div className="ProductAdd-FormFieldGroup">
-          {!isLoading && attributesByCatalog &&
+          {!isLoading &&
+            attributesByCatalog &&
             attributesByCatalog.selectableAttribute &&
             attributesByCatalog.selectableAttribute.map((item) => {
-              const {selectableAttributeOptions} = getSelectableAttributeOptions({
+              const { selectableAttributeOptions } = getSelectableAttributeOptions({
                 values: item.values ?? [],
               });
               return (
@@ -260,7 +264,7 @@ export const ProductAdd: FC<TProps> = (props) => {
             attributesByCatalog.numberAttribute &&
             attributesByCatalog.numberAttribute.map((item) => {
               return (
-                <Input key={item.id} label={item.name} name={item.attributeAlias} type="number"/>
+                <Input key={item.id} label={item.name} name={item.attributeAlias} type="number" />
               );
             })}
         </div>
@@ -277,7 +281,7 @@ export const ProductAdd: FC<TProps> = (props) => {
               "image/png": [".png"],
             }}
             files={watchFiles}
-            Input={<input hidden name={EFormFields.Files} type="file"/>}
+            Input={<input hidden name={EFormFields.Files} type="file" />}
             isLoading={fetcherFilesLoading}
             maxSize={1024 * 1024}
             multiple={false}
@@ -306,7 +310,7 @@ export const ProductAdd: FC<TProps> = (props) => {
           <div className="Previews-File">
             <div className="Previews-File-Inner">
               <div className="Previews-File-IconWrapper">
-                <Icon className="Previews-File-ImageIcon" type="Image"/>
+                <Icon className="Previews-File-ImageIcon" type="Image" />
               </div>
               <div className="Previews-File-Name">{defaultImage?.name}</div>
             </div>
@@ -324,5 +328,5 @@ export const ProductAdd: FC<TProps> = (props) => {
 };
 
 export function productAddLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

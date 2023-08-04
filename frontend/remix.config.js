@@ -21,8 +21,8 @@ module.exports = {
         basePath: BASE_PATH,
       });
     },
-    future: {
-      v2_meta: true,
-    },
   }),
+  future: {
+    v2_meta: true,
+  },
 };

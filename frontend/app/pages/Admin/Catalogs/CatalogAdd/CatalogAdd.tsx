@@ -1,55 +1,63 @@
 import isNil from "lodash/isNil";
-import {useEffect, useState} from "react";
-import type {FC, ChangeEvent} from "react";
-import {useTranslation} from "react-i18next";
-import {useAuthenticityToken} from "remix-utils";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import type { FC, ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { useAuthenticityToken } from "remix-utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import {ERoutes} from "~/enums";
-import {useTheme} from "~/hooks";
-import {useGetAttributeOptions} from "~/pages/Admin/Catalogs/hooks";
+import { ERoutes } from "~/enums";
+import { useTheme } from "~/hooks";
+import { useGetAttributeOptions } from "~/pages/Admin/Catalogs/hooks";
 import {
   EFormFields,
   formSchema,
   mapCatalogAddFormDataToDto,
 } from "~/pages/Admin/Catalogs/CatalogAdd";
-import type {TForm, TOptionsSubmitForm} from "~/pages/Admin/Catalogs/CatalogAdd";
-import {useFiles} from "~/pages/Admin/Products/hooks";
-import type {TAttributes} from "~/shared/api/attributes";
-import {Checkbox, EFormMethods, FileUploader, Form, Input, Select, useInitForm} from "~/shared/form";
-import type {TDomainErrors, TFile, TParams} from "~/types";
-import {Button, ETypographyVariant, Icon, notify, Typography} from "~/uikit";
-import {createPath} from "~/utils";
+import type { TForm, TOptionsSubmitForm } from "~/pages/Admin/Catalogs/CatalogAdd";
+import { useFiles } from "~/pages/Admin/Products/hooks";
+import type { TAttributes } from "~/shared/api/attributes";
+import {
+  Checkbox,
+  EFormMethods,
+  FileUploader,
+  Form,
+  Input,
+  Select,
+  useInitForm,
+} from "~/shared/form";
+import type { TDomainErrors, TFile, TParams } from "~/types";
+import { Button, ETypographyVariant, Icon, notify, Typography } from "~/uikit";
+import { createPath } from "~/utils";
 import styles from "./CatalogAdd.css";
 
 type TProps = {
   attributes: TAttributes;
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
-  success: boolean;
+  success?: boolean;
 };
 
 export const CatalogAdd: FC<TProps> = (props) => {
-  const {attributes} = props;
+  const { attributes } = props;
   const csrf = useAuthenticityToken();
-  const {t} = useTranslation();
-  const {theme} = useTheme();
+  const { t } = useTranslation();
+  const { theme } = useTheme();
 
   const [defaultImage, setDefaultImage] = useState<TFile | null>(null);
   const idCheckbox = "checkbox";
-  const [filter, setFilter] = useState<TParams>({enabled: [idCheckbox]});
+  const [filter, setFilter] = useState<TParams>({ enabled: [idCheckbox] });
   const enabled: boolean = filter[EFormFields.Enabled].includes(idCheckbox);
 
-  const {attributeOptions} = useGetAttributeOptions({attributes});
+  const { attributeOptions } = useGetAttributeOptions({ attributes });
 
   const form = useInitForm<TForm>({
     resolver: zodResolver(formSchema),
   });
   const isDoneType = form.isDoneType;
-  const {setValue, watch} = form.methods;
+  const { setValue, watch } = form.methods;
 
   const watchFiles = watch(EFormFields.Image);
-  const {onAddFiles, onDeleteFile, fetcherFilesLoading} = useFiles({
+  const { onAddFiles, onDeleteFile, fetcherFilesLoading } = useFiles({
     fieldName: EFormFields.Image,
     files: watchFiles,
     setValue,
@@ -77,14 +85,13 @@ export const CatalogAdd: FC<TProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.success, isDoneType]);
 
-
   const handleChangeEnabled = (
     event: ChangeEvent<HTMLInputElement>,
     id: string,
     nameGroup: string,
   ) => {
     const {
-      target: {checked, value},
+      target: { checked, value },
     } = event;
 
     if (checked) {
@@ -115,14 +122,12 @@ export const CatalogAdd: FC<TProps> = (props) => {
     return file?.preview ? URL.revokeObjectURL(file.preview) : file;
   };
 
-  const handleSubmit = (params: TParams, {fetcher}: TOptionsSubmitForm) => {
+  const handleSubmit = (params: TParams, { fetcher }: TOptionsSubmitForm) => {
     const dataFormToDto = mapCatalogAddFormDataToDto(params, enabled);
     const formData = new FormData();
     dataFormToDto.alias && formData.append("alias", dataFormToDto.alias);
     dataFormToDto.attributeAlias &&
-    dataFormToDto.attributeAlias.forEach((item) =>
-      formData.append("attributeAlias", item.value),
-    );
+      dataFormToDto.attributeAlias.forEach((item) => formData.append("attributeAlias", item.value));
     dataFormToDto.enabled && formData.append("enabled", dataFormToDto.enabled);
     defaultImage && formData.append("image", defaultImage);
     dataFormToDto.name && formData.append("name", dataFormToDto.name);
@@ -144,7 +149,7 @@ export const CatalogAdd: FC<TProps> = (props) => {
         </Typography>
       </h1>
       <Form<TForm> form={form} handleSubmit={handleSubmit} method={EFormMethods.Post}>
-        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text"/>
+        <Input label={t("form.alias.title") ?? "Alias"} name={EFormFields.Alias} type="text" />
         <div className="CatalogAdd-FormFieldGroup">
           <Checkbox
             checked={filter && filter[EFormFields.Enabled].includes(idCheckbox)}
@@ -155,7 +160,7 @@ export const CatalogAdd: FC<TProps> = (props) => {
             onChange={(event, id, nameGroup) => handleChangeEnabled(event, id, nameGroup)}
           />
         </div>
-        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text"/>
+        <Input label={t("form.name.title") ?? "Name"} name={EFormFields.Name} type="text" />
         <div className="CatalogAdd-FormFieldGroup">
           <Select
             defaultValue={[attributeOptions[0]]}
@@ -178,7 +183,7 @@ export const CatalogAdd: FC<TProps> = (props) => {
               "image/png": [".png"],
             }}
             files={watchFiles}
-            Input={<input hidden name={EFormFields.Image} type="file"/>}
+            Input={<input hidden name={EFormFields.Image} type="file" />}
             isLoading={fetcherFilesLoading}
             maxFiles={1}
             maxSize={1024 * 1024}
@@ -208,7 +213,7 @@ export const CatalogAdd: FC<TProps> = (props) => {
           <div className="Previews-File">
             <div className="Previews-File-Inner">
               <div className="Previews-File-IconWrapper">
-                <Icon className="Previews-File-ImageIcon" type="Image"/>
+                <Icon className="Previews-File-ImageIcon" type="Image" />
               </div>
               <div className="Previews-File-Name">{defaultImage?.name}</div>
             </div>
@@ -226,5 +231,5 @@ export const CatalogAdd: FC<TProps> = (props) => {
 };
 
 export function catalogAddLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

@@ -1,6 +1,6 @@
 import { inputFromSearch } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, ActionArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import i18next from "i18next";
@@ -8,13 +8,26 @@ import { EPermissions, ERoutes } from "~/enums";
 import { CatalogEdit, catalogEditLinks, EFormFields } from "~/pages/Admin/Catalogs/CatalogEdit";
 import type { TForm } from "~/pages/Admin/Catalogs/CatalogEdit";
 import { getAttributes, getAttributesByCatalog } from "~/shared/api/attributes";
+import type { TAttributes, TAttributesByCatalog } from "~/shared/api/attributes";
 import { mapParamsToDto } from "~/shared/api/attributes/utils";
 import { getInputErrors, getResponseError } from "~/shared/domain";
 import { editCatalog, getCatalogDetail } from "~/shared/api/catalogs";
+import type { TCatalogDetail } from "~/shared/api/catalogs";
 import { mapCatalogsToDto } from "~/shared/api/catalogs/utils";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
 import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
+
+type TLoaderData = {
+  attributes?: TAttributes;
+  attributesByCatalog?: TAttributesByCatalog;
+  catalog?: TCatalogDetail;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  success?: boolean;
+  title?: string;
+};
 
 export const action = async (args: ActionArgs) => {
   const { params, request } = args;
@@ -172,25 +185,29 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-// export const meta: MetaFunction = ({data}) => {
-//   if (typeof window !== "undefined") {
-//     return {title: i18next.t("routes.titles.catalogEdit") || "Catalog editing"};
-//   }
-//   return {title: data?.title || "Catalog editing"};
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.catalogEdit") || "Catalog editing" }];
+  }
+  return [{ title: data?.title || "Catalog editing" }];
+};
 
 export default function CatalogEditRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
   return (
-    <CatalogEdit
-      attributes={data.attributes}
-      attributesByCatalog={data.attributesByCatalog}
-      catalog={data.catalog}
-      fieldErrors={data.fieldErrors}
-      formError={data.formError}
-      success={data.success}
-    />
+    <>
+      {data.attributes && data.attributesByCatalog && data.catalog ? (
+        <CatalogEdit
+          attributes={data.attributes}
+          attributesByCatalog={data.attributesByCatalog}
+          catalog={data.catalog}
+          fieldErrors={data.fieldErrors}
+          formError={data.formError}
+          success={data.success}
+        />
+      ) : null}
+    </>
   );
 }
 

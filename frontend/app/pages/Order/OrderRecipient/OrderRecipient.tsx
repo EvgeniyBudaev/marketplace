@@ -5,6 +5,7 @@ import { ERoutes } from "~/enums";
 import type { TRecipient } from "~/shared/api/recipient";
 import { ETypographyVariant, Icon, Typography } from "~/uikit";
 import styles from "./OrderRecipient.css";
+import { createPath } from "~/utils";
 
 type TProps = {
   recipient?: TRecipient;
@@ -21,7 +22,12 @@ export const OrderRecipient: FC<TProps> = ({ recipient }) => {
             {t("pages.order.recipient")}
           </Typography>
         </h5>
-        <Link className="OrderRecipient-Link" to={ERoutes.Recipient}>
+        <Link
+          className="OrderRecipient-Link"
+          to={createPath({
+            route: ERoutes.Recipient,
+          })}
+        >
           <Typography variant={ETypographyVariant.TextB3Regular}>
             {t("common.actions.change")}
           </Typography>

@@ -13,6 +13,8 @@ type TRoutes =
   | ERoutes.Recipient
   | ERoutes.ResourcesLanguage
   | ERoutes.ResourcesTheme
+  | ERoutes.Root
+  | ERoutes.Settings
   | ERoutes.Shipping
   | ERoutes.Signup;
 

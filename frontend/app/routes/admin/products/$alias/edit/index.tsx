@@ -1,21 +1,34 @@
 import { inputFromSearch } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
-import { EFormFields } from "~/pages/Admin/Products/ProductEdit";
+import { EFormFields, ProductEdit, productEditLinks } from "~/pages/Admin/Products/ProductEdit";
 import type { TForm } from "~/pages/Admin/Products/ProductEdit";
-import { ProductEdit, productEditLinks } from "~/pages/Admin/Products/ProductEdit";
+import { getAttributesByCatalog } from "~/shared/api/attributes";
+import type { TAttributesByCatalog } from "~/shared/api/attributes";
 import { getCatalogs } from "~/shared/api/catalogs";
+import type { TCatalogs } from "~/shared/api/catalogs";
 import { editProduct, getAdminProductDetail } from "~/shared/api/products";
+import type { TAdminProductDetail } from "~/shared/api/products";
 import { mapProductsToDto } from "~/shared/api/products/utils";
 import { getInputErrors, getResponseError } from "~/shared/domain";
-import { getStoreFixedT } from "~/shared/store";
-import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
-import { getAttributesByCatalog } from "~/shared/api/attributes";
+import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
+import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
+
+type TLoaderData = {
+  attributesByCatalog: TAttributesByCatalog;
+  catalogs: TCatalogs;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  product: TAdminProductDetail;
+  success?: boolean;
+  title?: string;
+};
 
 export const action = async (args: ActionArgs) => {
   const { params, request } = args;
@@ -180,25 +193,29 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-// export const meta: MetaFunction = ({data}) => {
-//   if (typeof window !== "undefined") {
-//     return {title: i18next.t("routes.titles.productEdit") || "Product editing"};
-//   }
-//   return {title: data?.title || "Product editing"};
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.productEdit") || "Product editing" }];
+  }
+  return [{ title: data?.title || "Product editing" }];
+};
 
 export default function ProductEditRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
   return (
-    <ProductEdit
-      attributesByCatalog={data.attributesByCatalog}
-      catalogs={data.catalogs}
-      fieldErrors={data.fieldErrors}
-      formError={data.formError}
-      product={data.product}
-      success={data.success}
-    />
+    <>
+      {data.attributesByCatalog && data.catalogs && data.product ? (
+        <ProductEdit
+          attributesByCatalog={data.attributesByCatalog}
+          catalogs={data.catalogs}
+          fieldErrors={data.fieldErrors}
+          formError={data.formError}
+          product={data.product}
+          success={data.success}
+        />
+      ) : null}
+    </>
   );
 }
 

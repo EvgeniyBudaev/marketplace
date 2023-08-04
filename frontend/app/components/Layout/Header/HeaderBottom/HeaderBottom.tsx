@@ -7,6 +7,7 @@ import { TRANSITION } from "~/constants";
 import { ERoutes } from "~/enums";
 import { ETypographyVariant, Hamburger, Spacer, Typography } from "~/uikit";
 import styles from "./HeaderBottom.css";
+import { createPath } from "~/utils";
 
 type TProps = {
   className?: string;
@@ -34,9 +35,9 @@ export const HeaderBottom: FC<TProps> = ({ className, isCatalogOpen, onCatalogTo
                 />
                 <Link
                   className="HeaderBottom-Title"
-                  to={{
-                    pathname: `${ERoutes.Root}`,
-                  }}
+                  to={createPath({
+                    route: ERoutes.Root,
+                  })}
                 >
                   <Typography variant={ETypographyVariant.TextH1Medium}>FamilyMart</Typography>
                 </Link>

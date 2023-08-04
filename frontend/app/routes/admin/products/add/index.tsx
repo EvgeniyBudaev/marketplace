@@ -1,31 +1,41 @@
-import {inputFromSearch} from "remix-domains";
-import {json, redirect} from "@remix-run/node";
-import type {ActionArgs, LoaderArgs, MetaFunction} from "@remix-run/node";
-import {useLoaderData} from "@remix-run/react";
-import {badRequest} from "remix-utils";
+import { inputFromSearch } from "remix-domains";
+import { json, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { badRequest } from "remix-utils";
 import i18next from "i18next";
-import {EPermissions, ERoutes} from "~/enums";
-import {ProductAdd, productAddLinks} from "~/pages/Admin/Products/ProductAdd";
-import {getCatalogs} from "~/shared/api/catalogs";
-import {addProduct} from "~/shared/api/products";
-import {mapProductsToDto} from "~/shared/api/products/utils";
-import {getResponseError} from "~/shared/domain";
-import {commitSession, getCsrfSession, getSession} from "~/shared/session";
-import {getStoreFixedT} from "~/shared/store";
-import {checkCSRFToken, checkRequestPermission, createPath} from "~/utils";
+import { EPermissions, ERoutes } from "~/enums";
+import { ProductAdd, productAddLinks } from "~/pages/Admin/Products/ProductAdd";
+import { getCatalogs } from "~/shared/api/catalogs";
+import type { TCatalogs } from "~/shared/api/catalogs";
+import { addProduct } from "~/shared/api/products";
+import { mapProductsToDto } from "~/shared/api/products/utils";
+import { getResponseError } from "~/shared/domain";
+import { commitSession, getCsrfSession, getSession } from "~/shared/session";
+import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
+import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
+
+type TLoaderData = {
+  catalogs: TCatalogs;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  success?: boolean;
+  title?: string;
+};
 
 export const action = async (args: ActionArgs) => {
-  const {request} = args;
+  const { request } = args;
 
   const [csrfSession, formData, t, session] = await Promise.all([
     getCsrfSession(request),
     request.formData(),
-    getStoreFixedT({request}),
+    getStoreFixedT({ request }),
     getSession(request.headers.get("Cookie")),
   ]);
 
   const csrfToken = formData.get("csrf") as string | null;
-  const checkCsrf = checkCSRFToken({csrfToken, session: csrfSession, t});
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
   if (checkCsrf?.error) return checkCsrf.error;
 
   try {
@@ -39,7 +49,7 @@ export const action = async (args: ActionArgs) => {
       return redirect(
         createPath({
           route: ERoutes.AdminProductEdit,
-          params: {alias: response.data.alias},
+          params: { alias: response.data.alias },
         }),
         {
           headers: {
@@ -53,7 +63,6 @@ export const action = async (args: ActionArgs) => {
       success: false,
     });
 
-
     return redirect(
       createPath({
         route: ERoutes.AdminProductAdd,
@@ -66,7 +75,7 @@ export const action = async (args: ActionArgs) => {
     );
   } catch (error) {
     const errorResponse = error as Response;
-    const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
     const session = await getSession(request.headers.get("Cookie"));
     console.log("[errorResponse] ", errorResponse);
     session.flash("FamilyMart_ProductAdd", {
@@ -89,9 +98,9 @@ export const action = async (args: ActionArgs) => {
 };
 
 export const loader = async (args: LoaderArgs) => {
-  const {request} = args;
+  const { request } = args;
   const [t, isPermissions] = await Promise.all([
-    getStoreFixedT({request}),
+    getStoreFixedT({ request }),
     checkRequestPermission(request, [EPermissions.Administrator]),
   ]);
 
@@ -105,7 +114,7 @@ export const loader = async (args: LoaderArgs) => {
     ...formValues,
   });
   try {
-    const catalogsResponse = await getCatalogs(request, {params: formattedParams});
+    const catalogsResponse = await getCatalogs(request, { params: formattedParams });
 
     if (catalogsResponse.success) {
       return json({
@@ -115,31 +124,37 @@ export const loader = async (args: LoaderArgs) => {
       });
     }
 
-    return badRequest({success: false});
+    return badRequest({ success: false });
   } catch (error) {
     const errorResponse = error as Response;
-    const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
 
-    return badRequest({success: false, formError, fieldErrors})
+    return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
-// export const meta: MetaFunction = ({data}) => {
-//   if (typeof window !== "undefined") {
-//     return {title: i18next.t("routes.titles.productAdd") || "Product addition"};
-//   }
-//   return {title: data?.title || "Product addition"};
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.productAdd") || "Product addition" }];
+  }
+  return [{ title: data?.title || "Product addition" }];
+};
 
 export default function ProductAddRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
-  return <ProductAdd
-    catalogs={data.catalogs}
-    fieldErrors={data.fieldErrors}
-    formError={data.formError}
-    success={data.success}
-  />;
+  return (
+    <>
+      {data.catalogs ? (
+        <ProductAdd
+          catalogs={data.catalogs}
+          fieldErrors={data.fieldErrors}
+          formError={data.formError}
+          success={data.success}
+        />
+      ) : null}
+    </>
+  );
 }
 
 export function links() {
