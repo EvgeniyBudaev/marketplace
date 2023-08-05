@@ -1,6 +1,6 @@
 import { inputFromForm } from "remix-domains";
 import { json } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import i18next from "i18next";
 import isEmpty from "lodash/isEmpty";
@@ -14,9 +14,19 @@ import {
   removeCartItem,
   setQuantityCartItem,
 } from "~/shared/api/cart";
+import type { TCart } from "~/shared/api/cart";
 import { mapCartActionToDto, mapCartSetQuantityToDto } from "~/shared/api/cart/utils";
 import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
 import { internalError, parseResponseError } from "~/utils";
+
+type TLoaderData = {
+  cart: TCart;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  success?: boolean;
+  title?: string;
+};
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -82,16 +92,17 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-// export const meta: MetaFunction = ({ data }) => {
-//   if (typeof window !== "undefined") {
-//     return { title: i18next.t("routes.titles.cart") || "Cart" };
-//   }
-//   return { title: data?.title || "Cart" };
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.cart") || "Cart" }];
+  }
+  return [{ title: data?.title || "Cart" }];
+};
 
 export default function CartRoute() {
-  const { cart } = useLoaderData<typeof loader>();
-  return <Cart cart={cart} />;
+  const data = useLoaderData<TLoaderData>();
+
+  return <Cart cart={data.cart} />;
 }
 
 export function links() {

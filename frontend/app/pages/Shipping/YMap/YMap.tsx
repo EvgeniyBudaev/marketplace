@@ -1,10 +1,9 @@
 import { useState } from "react";
 import type { FC, ReactNode } from "react";
 import { YMaps } from "@pbe/react-yandex-maps";
-import { Shipping } from "~/pages";
+import { Shipping, emptyMapSearchState, geoSearchLinks } from "~/pages";
 import { mapInputLinks } from "~/pages/Shipping/YMap/MapInput";
 import { markerLinks } from "~/pages/Shipping/YMap/Marker";
-import { emptyMapSearchState, geoSearchLinks } from "~/pages";
 import type { TPickMapState } from "~/pages";
 import type { TShipping } from "~/shared/api/shipping";
 import type { TDomainErrors } from "~/types";

@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, MetaFunction, ActionArgs } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction, ActionArgs } from "@remix-run/node";
 import { inputFromForm } from "remix-domains";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
@@ -10,11 +10,22 @@ import type { TForm } from "~/pages/Shipping";
 import { YMap } from "~/pages/Shipping/YMap";
 import { getCartSession } from "~/shared/api/cart";
 import { editShipping, getShipping } from "~/shared/api/shipping";
+import type { TShipping } from "~/shared/api/shipping";
 import { mapShippingToDto } from "~/shared/api/shipping/utils";
 import { getInputErrors } from "~/shared/domain";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
 import { checkCSRFToken, createPath, getResponseError } from "~/utils";
+
+type TLoaderData = {
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  shipping: TShipping;
+  success: boolean;
+  title?: string;
+  uuid: string;
+};
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -145,15 +156,15 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-// export const meta: MetaFunction = ({data}) => {
-//   if (typeof window !== "undefined") {
-//     return {title: i18next.t("routes.titles.shipping") || "Shipping"};
-//   }
-//   return {title: data?.title || "Shipping"};
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.shipping") || "Shipping" }];
+  }
+  return [{ title: data?.title || "Shipping" }];
+};
 
 export default function ShippingRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
   return (
     <YMap

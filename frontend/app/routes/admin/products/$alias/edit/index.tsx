@@ -204,18 +204,14 @@ export default function ProductEditRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return (
-    <>
-      {data.attributesByCatalog && data.catalogs && data.product ? (
-        <ProductEdit
-          attributesByCatalog={data.attributesByCatalog}
-          catalogs={data.catalogs}
-          fieldErrors={data.fieldErrors}
-          formError={data.formError}
-          product={data.product}
-          success={data.success}
-        />
-      ) : null}
-    </>
+    <ProductEdit
+      attributesByCatalog={data.attributesByCatalog}
+      catalogs={data.catalogs}
+      fieldErrors={data.fieldErrors}
+      formError={data.formError}
+      product={data.product}
+      success={data.success}
+    />
   );
 }
 

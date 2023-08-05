@@ -18,17 +18,17 @@ import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./Order.css";
 
 type TProps = {
-  cart?: TCart;
+  cart: TCart;
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
-  recipient?: TRecipient;
-  shipping?: TShipping;
-  success: boolean;
+  recipient: TRecipient;
+  shipping: TShipping;
+  success?: boolean;
   uuid: string;
 };
 
 export const Order: FC<TProps> = (props) => {
-  const { cart, recipient, shipping, uuid } = props;
+  const { cart, recipient, shipping } = props;
   const { t } = useTranslation();
   const [isOpenModalPaymentMethod, setIsOpenModalPaymentMethod] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(EPaymentMethod.CARD);

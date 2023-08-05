@@ -1,13 +1,25 @@
 import { json } from "@remix-run/node";
-import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import i18next from "i18next";
 import { ProductDetail, productDetailLinks } from "~/pages";
 import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
+import type { TCart } from "~/shared/api/cart";
 import { getProductDetail } from "~/shared/api/products";
+import type { TProductDetail } from "~/shared/api/products";
 import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
 import { internalError } from "~/utils";
+
+type TLoaderData = {
+  cart: TCart;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  product: TProductDetail;
+  success?: boolean;
+  title?: string;
+};
 
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
@@ -48,15 +60,15 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-// export const meta: MetaFunction = ({ data }) => {
-//   if (typeof window !== "undefined") {
-//     return { title: i18next.t("routes.titles.product") || "Product" };
-//   }
-//   return { title: data?.title || "Product" };
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.product") || "Product" }];
+  }
+  return [{ title: data?.title || "Product" }];
+};
 
 export default function ProductDetailRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
   return <ProductDetail cart={data.cart} product={data.product} />;
 }

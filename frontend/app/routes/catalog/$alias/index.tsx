@@ -1,16 +1,30 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
 import { json } from "@remix-run/node";
-import type { LoaderArgs, ActionArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import i18next from "i18next";
 import { Catalog, catalogLinks } from "~/pages";
 import { createCartSession, getCart, getCartSession, incrementCartItem } from "~/shared/api/cart";
+import type { TCart } from "~/shared/api/cart";
 import { getCatalogDetail } from "~/shared/api/catalogs";
+import type { TCatalogDetail } from "~/shared/api/catalogs";
 import { getProductsByCatalog } from "~/shared/api/products";
+import type { TProductsByCatalog } from "~/shared/api/products";
 import { mapParamsToDto } from "~/shared/api/products/utils";
 import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
 import { internalError, parseResponseError } from "~/utils";
+
+type TLoaderData = {
+  cart: TCart;
+  catalog: TCatalogDetail;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  products: TProductsByCatalog;
+  success?: boolean;
+  title?: string;
+};
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -76,15 +90,15 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => {
+export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return { title: i18next.t("routes.titles.catalog") || "Catalog" };
+    return [{ title: i18next.t("routes.titles.catalog") || "Catalog" }];
   }
-  return { title: data?.title || "Catalog" };
+  return [{ title: data?.title || "Catalog" }];
 };
 
 export default function CatalogDetailRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
   return <Catalog cart={data.cart} catalog={data.catalog} products={data.products} />;
 }

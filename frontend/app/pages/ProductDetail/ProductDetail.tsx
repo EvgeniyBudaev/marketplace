@@ -1,6 +1,9 @@
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useFetcher } from "@remix-run/react";
+import {
+  Link,
+  // useFetcher
+} from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 
@@ -9,7 +12,13 @@ import { ERoutes } from "~/enums";
 import { useProxyUrl } from "~/hooks";
 import type { TCart } from "~/shared/api/cart";
 import type { TProductDetail } from "~/shared/api/products";
-import { Button, ETypographyVariant, SliderSimple, SliderSyncing, Typography } from "~/uikit";
+import {
+  Button,
+  ETypographyVariant,
+  // SliderSimple,
+  SliderSyncing,
+  Typography,
+} from "~/uikit";
 import { createPath, formatCurrency } from "~/utils";
 import styles from "./ProductDetail.css";
 
@@ -19,7 +28,7 @@ type TProps = {
 };
 
 export const ProductDetail: FC<TProps> = ({ cart, product }) => {
-  const fetcher = useFetcher();
+  // const fetcher = useFetcher();
   const { proxyUrl } = useProxyUrl();
   const { t } = useTranslation();
   console.log("product: ", product);

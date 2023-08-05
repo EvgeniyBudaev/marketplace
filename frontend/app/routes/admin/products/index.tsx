@@ -95,7 +95,7 @@ export const meta: V2_MetaFunction = ({ data }) => {
 export default function ProductsRoute() {
   const data = useLoaderData<TLoaderData>();
 
-  return <>{data.products ? <Products products={data.products} /> : null}</>;
+  return <Products products={data.products} />;
 }
 
 export function links() {

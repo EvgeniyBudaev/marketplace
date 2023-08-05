@@ -15,7 +15,7 @@ import type { TDomainErrors } from "~/types";
 import { checkRequestPermission, createPath } from "~/utils";
 
 type TLoaderData = {
-  attributes?: TAttributes;
+  attributes: TAttributes;
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
   success?: boolean;
@@ -94,7 +94,7 @@ export const meta: V2_MetaFunction = ({ data }) => {
 export default function AttributesRoute() {
   const data = useLoaderData<TLoaderData>();
 
-  return <>{data.attributes ? <Attributes attributes={data.attributes} /> : null}</>;
+  return <Attributes attributes={data.attributes} />;
 }
 
 export function links() {

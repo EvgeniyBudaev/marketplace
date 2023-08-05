@@ -143,16 +143,12 @@ export default function CatalogAddRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return (
-    <>
-      {data.attributes ? (
-        <CatalogAdd
-          attributes={data.attributes}
-          fieldErrors={data.fieldErrors}
-          formError={data.formError}
-          success={data.success}
-        />
-      ) : null}
-    </>
+    <CatalogAdd
+      attributes={data.attributes}
+      fieldErrors={data.fieldErrors}
+      formError={data.formError}
+      success={data.success}
+    />
   );
 }
 
