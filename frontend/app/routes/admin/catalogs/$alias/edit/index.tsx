@@ -20,9 +20,9 @@ import type { TDomainErrors } from "~/types";
 import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
 
 type TLoaderData = {
-  attributes?: TAttributes;
-  attributesByCatalog?: TAttributesByCatalog;
-  catalog?: TCatalogDetail;
+  attributes: TAttributes;
+  attributesByCatalog: TAttributesByCatalog;
+  catalog: TCatalogDetail;
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
   success?: boolean;
@@ -196,18 +196,14 @@ export default function CatalogEditRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return (
-    <>
-      {data.attributes && data.attributesByCatalog && data.catalog ? (
-        <CatalogEdit
-          attributes={data.attributes}
-          attributesByCatalog={data.attributesByCatalog}
-          catalog={data.catalog}
-          fieldErrors={data.fieldErrors}
-          formError={data.formError}
-          success={data.success}
-        />
-      ) : null}
-    </>
+    <CatalogEdit
+      attributes={data.attributes}
+      attributesByCatalog={data.attributesByCatalog}
+      catalog={data.catalog}
+      fieldErrors={data.fieldErrors}
+      formError={data.formError}
+      success={data.success}
+    />
   );
 }
 

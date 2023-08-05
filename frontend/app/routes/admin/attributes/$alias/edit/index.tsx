@@ -205,16 +205,12 @@ export default function AttributeEditRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return (
-    <>
-      {data.attribute ? (
-        <AttributeEdit
-          attribute={data.attribute}
-          fieldErrors={data.fieldErrors}
-          formError={data.formError}
-          success={data.success}
-        />
-      ) : null}
-    </>
+    <AttributeEdit
+      attribute={data.attribute}
+      fieldErrors={data.fieldErrors}
+      formError={data.formError}
+      success={data.success}
+    />
   );
 }
 

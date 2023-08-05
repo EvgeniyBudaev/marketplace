@@ -21,8 +21,8 @@ import styles from "./Recipient.css";
 type TProps = {
   fieldErrors?: TDomainErrors<string>;
   formError?: string;
-  recipient?: TRecipient;
-  success: boolean;
+  recipient: TRecipient;
+  success?: boolean;
   uuid: string;
 };
 

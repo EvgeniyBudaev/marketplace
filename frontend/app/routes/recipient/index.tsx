@@ -1,33 +1,44 @@
 import i18next from "i18next";
-import {json, redirect} from "@remix-run/node";
-import {useLoaderData} from "@remix-run/react";
-import {inputFromForm} from "remix-domains";
-import {badRequest} from "remix-utils";
-import type {LoaderArgs, MetaFunction, ActionArgs} from "@remix-run/node";
-import {ERoutes} from "~/enums";
-import {EFormFields, Recipient, recipientLinks} from "~/pages";
-import type {TForm} from "~/pages";
-import {getUserSession} from "~/shared/api/auth";
-import {getCartSession} from "~/shared/api/cart";
-import {ediRecipient, getRecipient} from "~/shared/api/recipient/domain.server";
-import {mapRecipientToDto} from "~/shared/api/recipient/utils";
-import {getInputErrors} from "~/shared/domain";
-import {commitSession, getCsrfSession, getSession} from "~/shared/session";
-import {getStoreFixedT} from "~/shared/store";
-import {checkCSRFToken, createPath, getResponseError} from "~/utils";
+import { json, redirect } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { inputFromForm } from "remix-domains";
+import { badRequest } from "remix-utils";
+import type { LoaderArgs, V2_MetaFunction, ActionArgs } from "@remix-run/node";
+import { ERoutes } from "~/enums";
+import { EFormFields, Recipient, recipientLinks } from "~/pages";
+import type { TForm } from "~/pages";
+import { getUserSession } from "~/shared/api/auth";
+import { getCartSession } from "~/shared/api/cart";
+import type { TRecipient } from "~/shared/api/recipient";
+import { ediRecipient, getRecipient } from "~/shared/api/recipient/domain.server";
+import { mapRecipientToDto } from "~/shared/api/recipient/utils";
+import { getInputErrors } from "~/shared/domain";
+import { commitSession, getCsrfSession, getSession } from "~/shared/session";
+import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
+import { checkCSRFToken, createPath, getResponseError } from "~/utils";
+
+type TLoaderData = {
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  recipient: TRecipient;
+  success?: boolean;
+  title?: string;
+  uuid: string;
+};
 
 export const action = async (args: ActionArgs) => {
-  const {request} = args;
+  const { request } = args;
 
   const [csrfSession, formValues, t, session] = await Promise.all([
     getCsrfSession(request),
     inputFromForm(request),
-    getStoreFixedT({request}),
+    getStoreFixedT({ request }),
     getSession(request.headers.get("Cookie")),
   ]);
 
   const csrfToken = formValues.csrf;
-  const checkCsrf = checkCSRFToken({csrfToken, session: csrfSession, t});
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
   if (checkCsrf?.error) return checkCsrf.error;
 
   const formattedParams = mapRecipientToDto(formValues as any);
@@ -68,7 +79,7 @@ export const action = async (args: ActionArgs) => {
     );
   } catch (error) {
     const errorResponse = error as Response;
-    const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
     const session = await getSession(request.headers.get("Cookie"));
     session.flash("FamilyMart_Recipient", {
       success: false,
@@ -90,11 +101,11 @@ export const action = async (args: ActionArgs) => {
 };
 
 export const loader = async (args: LoaderArgs) => {
-  const {request} = args;
+  const { request } = args;
 
   try {
     const [t, session, userSession, cartSession] = await Promise.all([
-      getStoreFixedT({request}),
+      getStoreFixedT({ request }),
       getSession(request.headers.get("Cookie")),
       getUserSession(request),
       getCartSession(request),
@@ -112,7 +123,7 @@ export const loader = async (args: LoaderArgs) => {
       );
     }
 
-    const recipientResponse = await getRecipient(request, {uuid});
+    const recipientResponse = await getRecipient(request, { uuid });
 
     const cookieData = session.get("FamilyMart_Recipient") || {
       success: true,
@@ -138,24 +149,24 @@ export const loader = async (args: LoaderArgs) => {
     // @ts-ignore
     const fieldErrors = getInputErrors<keyof TForm>(shippingResponse, Object.values(EFormFields));
 
-    return badRequest({fieldErrors, success: false});
+    return badRequest({ fieldErrors, success: false });
   } catch (error) {
     const errorResponse = error as Response;
-    const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
 
-    return badRequest({success: false, formError, fieldErrors});
+    return badRequest({ success: false, formError, fieldErrors });
   }
 };
 
-// export const meta: MetaFunction = ({data}) => {
-//   if (typeof window !== "undefined") {
-//     return {title: i18next.t("routes.titles.recipient") || "Recipient"};
-//   }
-//   return {title: data?.title || "Recipient"};
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.recipient") || "Recipient" }];
+  }
+  return [{ title: data?.title || "Recipient" }];
+};
 
 export default function RecipientRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
   return (
     <Recipient

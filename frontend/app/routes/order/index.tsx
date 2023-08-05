@@ -1,18 +1,33 @@
 import i18next from "i18next";
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 
 import { ERoutes } from "~/enums";
 import { Order, orderLinks } from "~/pages";
 import { getCart, getCartSession } from "~/shared/api/cart";
+import type { TCart } from "~/shared/api/cart";
 import { getShipping } from "~/shared/api/shipping";
+import type { TRecipient } from "~/shared/api/recipient";
 import { getRecipient } from "~/shared/api/recipient/domain.server";
+import type { TShipping } from "~/shared/api/shipping";
 import { getResponseError } from "~/shared/domain";
 import { commitSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
+import type { TDomainErrors } from "~/types";
 import { createPath } from "~/utils";
+
+type TLoaderData = {
+  cart: TCart;
+  fieldErrors?: TDomainErrors<string>;
+  formError?: string;
+  recipient: TRecipient;
+  shipping: TShipping;
+  success?: boolean;
+  title?: string;
+  uuid: string;
+};
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
@@ -67,15 +82,15 @@ export const loader = async (args: LoaderArgs) => {
   }
 };
 
-// export const meta: MetaFunction = ({ data }) => {
-//   if (typeof window !== "undefined") {
-//     return { title: i18next.t("routes.titles.order") || "Order" };
-//   }
-//   return { title: data?.title || "Order" };
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.order") || "Order" }];
+  }
+  return [{ title: data?.title || "Order" }];
+};
 
 export default function OrderRoute() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<TLoaderData>();
 
   return (
     <Order

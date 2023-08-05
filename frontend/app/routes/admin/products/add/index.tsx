@@ -144,16 +144,12 @@ export default function ProductAddRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return (
-    <>
-      {data.catalogs ? (
-        <ProductAdd
-          catalogs={data.catalogs}
-          fieldErrors={data.fieldErrors}
-          formError={data.formError}
-          success={data.success}
-        />
-      ) : null}
-    </>
+    <ProductAdd
+      catalogs={data.catalogs}
+      fieldErrors={data.fieldErrors}
+      formError={data.formError}
+      success={data.success}
+    />
   );
 }
 

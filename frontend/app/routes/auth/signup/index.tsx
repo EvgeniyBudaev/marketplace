@@ -1,16 +1,16 @@
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
 import { json } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import i18next from "i18next";
 import { Signup, signupLinks } from "~/pages/Auth/Signup";
 import { SIGNUP_FORM_KEYS } from "~/pages/Auth/Signup/constants";
 import { createUserSession, signup } from "~/shared/api/auth";
 import { mapSignupToDto } from "~/shared/api/auth/utils";
 import { getInputErrors } from "~/shared/domain";
+import { getCsrfSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
 import { checkCSRFToken, getResponseError } from "~/utils";
-import { getCsrfSession } from "~/shared/session";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -52,12 +52,12 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-// export const meta: MetaFunction = ({ data }) => {
-//   if (typeof window !== "undefined") {
-//     return { title: i18next.t("routes.titles.signup") || "Signup" };
-//   }
-//   return { title: data?.title || "Signup" };
-// };
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (typeof window !== "undefined") {
+    return [{ title: i18next.t("routes.titles.signup") || "Signup" }];
+  }
+  return [{ title: data?.title || "Signup" }];
+};
 
 export default function SignupRoute() {
   return <Signup />;

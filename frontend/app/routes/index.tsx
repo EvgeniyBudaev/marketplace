@@ -1,6 +1,6 @@
-import { redirect } from "@remix-run/node";
+// import { redirect } from "@remix-run/node";
 import type { LoaderArgs } from "@remix-run/node";
-import { ERoutes } from "~/enums";
+// import { ERoutes } from "~/enums";
 import { Home, homeLinks } from "~/pages/Home";
 
 export const loader = async (args: LoaderArgs) => {
