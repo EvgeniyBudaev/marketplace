@@ -143,11 +143,13 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-// export const meta: V2_MetaFunction = () => ({
-//   charset: "utf-8",
-//   title: i18next.t("routes.titles.root") || "FamilyMart",
-//   viewport: "width=device-width,initial-scale=1",
-// });
+export const meta: V2_MetaFunction = () => [
+  {
+    charset: "utf-8",
+    title: i18next.t("routes.titles.root") || "FamilyMart",
+    viewport: "width=device-width,initial-scale=1",
+  },
+];
 
 export const links: LinksFunction = () => {
   return [
