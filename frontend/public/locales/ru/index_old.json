@@ -111,6 +111,13 @@
         "whiteBG": "\u001b[47mКаталоги\u001b[49m",
         "meta": {
           "title": "Каталоги"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "actions": "Действия"
+            }
+          }
         }
       },
       "products": {
@@ -182,6 +189,13 @@
         "whiteBG": "\u001b[47mПродукты\u001b[49m",
         "meta": {
           "title": "Продукты"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "actions": "Действия"
+            }
+          }
         }
       },
       "attributes": {
@@ -253,6 +267,13 @@
         "whiteBG": "\u001b[47mАтрибуты\u001b[49m",
         "meta": {
           "title": "Атрибуты"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "actions": "Действия"
+            }
+          }
         }
       },
       "attributeAdd": {

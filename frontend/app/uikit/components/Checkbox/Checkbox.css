@@ -42,7 +42,7 @@
 .Checkbox-Wrapper {
   display: flex;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Checkbox-Wrapper .Checkbox {
   position: absolute;
@@ -77,7 +77,7 @@
   border: 1px solid rgba(186, 185, 185, 0.5);
   border-radius: 4px;
   margin-right: 15px;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Checkbox-Wrapper .Checkbox:checked + label svg {
   transform: translateY(0);
@@ -103,7 +103,7 @@
 .Checkbox-Wrapper .Checkbox-Label, .Checkbox-Wrapper .Checkbox-Description {
   position: relative;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Checkbox-Wrapper .Checkbox-Icon {
   position: absolute;
@@ -117,7 +117,7 @@
 }
 
 .theme-dark .Checkbox-Wrapper .Checkbox-Label .text-dark, .theme-dark .Checkbox-Wrapper .Checkbox-Description .text-dark {
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .theme-dark .Checkbox-Wrapper:hover .Checkbox {
   border: 1px solid rgb(176, 151, 106);

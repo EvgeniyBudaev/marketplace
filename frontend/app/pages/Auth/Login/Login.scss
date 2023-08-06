@@ -52,7 +52,7 @@
     a,
     a span {
       color: $color-primary;
-      transition: all 0.15s;
+      transition: all $transition;
 
       &:hover {
         color: $color-primary-hover;

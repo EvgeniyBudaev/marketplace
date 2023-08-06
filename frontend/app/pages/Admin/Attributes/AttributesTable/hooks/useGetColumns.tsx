@@ -1,20 +1,13 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "@remix-run/react";
 import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { TableHeader } from "~/components";
-import { ERoutes } from "~/enums";
 import { ETableColumns } from "~/pages/Admin/Attributes/AttributesTable/enums";
 import type { TAttribute } from "~/shared/api/attributes";
-import { Icon } from "~/uikit";
-import { createPath } from "~/utils";
 
-type TUseGetColumns = (
-  columnHelper: ColumnHelper<TAttribute>,
-  onDelete: (alias: string) => void,
-) => ColumnDef<TAttribute>[];
+type TUseGetColumns = (columnHelper: ColumnHelper<TAttribute>) => ColumnDef<TAttribute>[];
 
-export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
+export const useGetColumns: TUseGetColumns = (columnHelper) => {
   const { t } = useTranslation();
 
   return useMemo(
@@ -25,6 +18,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           header: () => (
             <TableHeader>{t("pages.admin.attributes.table.columns.info.name")}</TableHeader>
           ),
+          minSize: 192,
         }),
 
         columnHelper.accessor(ETableColumns.Alias, {
@@ -32,33 +26,9 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           header: () => (
             <TableHeader>{t("pages.admin.attributes.table.columns.info.alias")}</TableHeader>
           ),
-        }),
-
-        columnHelper.display({
-          id: "actions",
-          header: () => (
-            <TableHeader>{t("pages.admin.attributes.table.columns.info.actions")}</TableHeader>
-          ),
-          cell: ({ row }) => (
-            <div className="AttributesTable-Actions">
-              <Link
-                className="AttributesTable-Action AttributesTable-ActionsEdit"
-                to={createPath({
-                  route: ERoutes.AdminAttributeEdit,
-                  params: { alias: row.original.alias },
-                })}
-              >
-                <Icon type="Edit" />
-              </Link>
-              <Icon
-                className="AttributesTable-Action"
-                type="Trash"
-                onClick={() => onDelete(row.original.alias)}
-              />
-            </div>
-          ),
+          minSize: 192,
         }),
       ].filter(Boolean) as ColumnDef<TAttribute>[],
-    [columnHelper, onDelete, t],
+    [columnHelper, t],
   );
 };

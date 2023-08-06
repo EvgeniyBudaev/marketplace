@@ -10,7 +10,7 @@
   border: 2px solid $color-light-gray;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all $transition;
 
   &:hover {
     border: 2px solid $color-dark-gray;

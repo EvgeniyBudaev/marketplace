@@ -44,7 +44,7 @@
   border: 1px solid transparent;
   border-radius: 4px;
   padding: 4px;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .ProductListItem:hover {
   border: 1px solid rgb(176, 151, 106);
@@ -58,7 +58,7 @@
 }
 .ProductListItem-Content {
   position: relative;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .ProductListItem-Content .ProductListItem-ContentContainerImage {
   position: relative;
@@ -66,7 +66,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 200px;
+  min-height: 200px;
   margin-bottom: 8px;
   overflow: hidden;
 }

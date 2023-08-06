@@ -1,10 +1,7 @@
 import { forwardRef, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "@remix-run/react";
-import type { FetcherWithComponents } from "@remix-run/react";
 
-import { ModalDelete } from "~/components/modal";
-import { EPermissions, ERoutes } from "~/enums";
+import { EPermissions } from "~/enums";
 import { useTheme, useUser } from "~/hooks";
 import { useGetColumns } from "~/pages/Admin/Catalogs/CatalogsTable/hooks";
 import type { TTableColumn } from "~/pages/Admin/Catalogs/CatalogsTable/types";
@@ -12,41 +9,36 @@ import type { TCatalogs, TCatalog } from "~/shared/api/catalogs";
 import { createColumnHelper, Icon, Table as UiTable } from "~/uikit";
 import type { TTableSortingProps } from "~/uikit";
 import type { TTableRowActions } from "~/uikit/components/Table/types";
-import { checkPermission, createPath } from "~/utils";
+import { checkPermission } from "~/utils";
 import styles from "./CatalogsTable.css";
 
 type TProps = {
   catalogs: TCatalogs;
-  fetcher: FetcherWithComponents<any>;
   fieldsSortState: TTableSortingProps;
-  isOpenDeleteModal: boolean;
+  isLoading?: boolean;
+  onCatalogDelete?: (alias: string) => void;
+  onCatalogEdit?: (alias: string) => void;
   onChangePage: ({ selected }: { selected: number }) => void;
   onChangePageSize: (pageSize: number) => void;
-  onClickDeleteIcon: (alias: string) => void;
-  onCloseModal: () => void;
-  onSubmitDelete: () => void;
 };
 
 const TableComponent = forwardRef<HTMLDivElement, TProps>(
   (
     {
       catalogs,
-      fetcher,
       fieldsSortState,
-      isOpenDeleteModal,
+      isLoading,
+      onCatalogDelete,
+      onCatalogEdit,
       onChangePage,
       onChangePageSize,
-      onCloseModal,
-      onClickDeleteIcon,
-      onSubmitDelete,
     },
     ref,
   ) => {
-    const navigate = useNavigate();
     const { t } = useTranslation();
     const { user } = useUser();
     const columnHelper = createColumnHelper<TCatalog>();
-    const columns = useGetColumns(columnHelper, onClickDeleteIcon);
+    const columns = useGetColumns(columnHelper);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
     const { theme } = useTheme();
 
@@ -73,15 +65,11 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     );
 
     const handleCatalogEdit = ({ alias }: TTableColumn) => {
-      const path = createPath({
-        route: ERoutes.AdminCatalogEdit,
-        params: { alias },
-      });
-      navigate(path);
+      onCatalogEdit?.(alias);
     };
 
     const handleCatalogDelete = ({ alias }: TTableColumn) => {
-      onClickDeleteIcon(alias);
+      onCatalogDelete?.(alias);
     };
 
     const rowActions: TTableRowActions<TTableColumn> = [
@@ -107,17 +95,19 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           data={content}
           defaultPageSize={pageSize}
           getId={(row) => row.alias}
+          isLoading={isLoading}
+          messages={{ notFound: t("common.info.noData") }}
           onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}
           rowActions={rowActions}
           settings={settingsProps}
           sorting={fieldsSortState}
+          sticky={true}
           theme={theme}
           totalItems={countOfResult}
           totalItemsTitle={t("pages.admin.catalogs.table.header") ?? "Total directories"}
         />
-        <ModalDelete isOpen={isOpenDeleteModal} onClose={onCloseModal} onSubmit={onSubmitDelete} />
       </div>
     );
   },

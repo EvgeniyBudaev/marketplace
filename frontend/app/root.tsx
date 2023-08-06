@@ -5,7 +5,7 @@ import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
 import modalStyles from "react-responsive-modal/styles.css";
 import { json } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -143,11 +143,13 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-// export const meta: MetaFunction = () => ({
-//   charset: "utf-8",
-//   title: i18next.t("routes.titles.root") || "FamilyMart",
-//   viewport: "width=device-width,initial-scale=1",
-// });
+export const meta: V2_MetaFunction = () => [
+  {
+    charset: "utf-8",
+    title: i18next.t("routes.titles.root") || "FamilyMart",
+    viewport: "width=device-width,initial-scale=1",
+  },
+];
 
 export const links: LinksFunction = () => {
   return [

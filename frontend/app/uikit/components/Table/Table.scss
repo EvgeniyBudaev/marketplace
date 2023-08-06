@@ -2,8 +2,6 @@
 
 .Table {
   $this: &;
-  height: 100%;
-  width: 100%;
   border-left: 1px solid rgba(226, 232, 240, 1);
   border-right: 1px solid rgba(226, 232, 240, 1);
   border-top: 1px solid rgba(226, 232, 240, 1);
@@ -11,11 +9,17 @@
   border-collapse: separate;
   border-spacing: 0;
 
-  &-Scroll {
+  &-Root {
     position: relative;
-    max-width: 100%;
-    overflow-x: auto;
     margin-bottom: 30px;
+  }
+
+  &-Wrapper {
+    overflow-x: auto;
+  }
+
+  &-Table {
+    width: 100%;
   }
 
   &-NavigationPanel {
@@ -39,6 +43,27 @@
 
     &Count {
       color: $color-primary;
+    }
+  }
+
+  &-NoData {
+    position: relative;
+
+    &_Info {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background-color: rgba(254, 242, 242, 1);
+      color: rgba(153, 27, 27, 1);
+    }
+
+    &_Info-Icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      width: 24px;
+      margin-right: 8px;
     }
   }
 }

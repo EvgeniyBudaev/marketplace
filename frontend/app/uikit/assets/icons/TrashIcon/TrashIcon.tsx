@@ -10,6 +10,7 @@ type TProps = TIconProps & {
 const IconComponent: FC<TProps> = ({ className, height = 24, width = 24, onClick, ...props }) => (
   <svg
     className={className}
+    fill="currentColor"
     width={width}
     height={height}
     viewBox="0 0 16 16"

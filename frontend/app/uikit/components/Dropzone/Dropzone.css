@@ -43,7 +43,7 @@
   border: 1px dashed rgb(0, 0, 0);
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Dropzone__isDragActive {
   border: 1px dashed rgb(176, 151, 106);

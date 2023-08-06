@@ -54,7 +54,7 @@
 }
 .Sorting-Select svg {
   fill: rgb(0, 0, 0);
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Sorting-Select__active svg {
   transform: rotate(180deg);

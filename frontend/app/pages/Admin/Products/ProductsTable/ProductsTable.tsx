@@ -1,50 +1,47 @@
-import {forwardRef, memo, useMemo, useState} from "react";
-import {useTranslation} from "react-i18next";
-import type {FetcherWithComponents} from "@remix-run/react";
-import {ModalDelete} from "~/components/modal";
-import {useTheme} from "~/hooks";
-import {useGetColumns} from "~/pages/Admin/Products/ProductsTable/hooks";
-import type {TProducts, TProduct} from "~/shared/api/products";
-import {createColumnHelper, Table as UiTable} from "~/uikit";
-import type {TTableSortingProps} from "~/uikit";
+import { forwardRef, memo, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { EPermissions } from "~/enums";
+import { useTheme, useUser } from "~/hooks";
+import type { TTableColumn } from "~/pages/Admin/Products/ProductsTable/types";
+import { useGetColumns } from "~/pages/Admin/Products/ProductsTable/hooks";
+import type { TProducts, TProduct } from "~/shared/api/products";
+import { createColumnHelper, Icon, Table as UiTable } from "~/uikit";
+import type { TTableSortingProps } from "~/uikit";
+import type { TTableRowActions } from "~/uikit/components/Table/types";
+import { checkPermission } from "~/utils";
 import styles from "./ProductsTable.css";
 
 type TProps = {
-  fetcher: FetcherWithComponents<any>;
   fieldsSortState: TTableSortingProps;
   isLoading?: boolean;
-  isOpenDeleteModal: boolean;
   products: TProducts;
-  onChangePage: ({selected}: { selected: number }) => void;
+  onChangePage: ({ selected }: { selected: number }) => void;
   onChangePageSize: (pageSize: number) => void;
-  onClickDeleteIcon: (alias: string) => void;
-  onCloseModal: () => void;
-  onSubmitDelete: () => void;
+  onProductDelete?: (alias: string) => void;
+  onProductEdit?: (alias: string) => void;
 };
 
 const TableComponent = forwardRef<HTMLDivElement, TProps>(
   (
     {
-      fetcher,
       fieldsSortState,
       isLoading,
-      isOpenDeleteModal,
       products,
       onChangePage,
       onChangePageSize,
-      onCloseModal,
-      onClickDeleteIcon,
-      onSubmitDelete,
+      onProductDelete,
+      onProductEdit,
     },
     ref,
   ) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
+    const { user } = useUser();
     const columnHelper = createColumnHelper<TProduct>();
-    const columns = useGetColumns(columnHelper, onClickDeleteIcon);
+    const columns = useGetColumns(columnHelper);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
-    const {theme} = useTheme();
+    const { theme } = useTheme();
 
-    const {content, countOfPage, countOfResult, currentPage, pageSize} = products;
+    const { content, countOfPage, countOfResult, currentPage, pageSize } = products;
 
     const settingsProps = useMemo(
       () => ({
@@ -66,6 +63,29 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
       [hiddenColumns, t],
     );
 
+    const handleProductEdit = ({ alias }: TTableColumn) => {
+      onProductEdit?.(alias);
+    };
+
+    const handleProductDelete = ({ alias }: TTableColumn) => {
+      onProductDelete?.(alias);
+    };
+
+    const rowActions: TTableRowActions<TTableColumn> = [
+      {
+        icon: <Icon type="Trash" />,
+        title: t("common.actions.delete"),
+        onClick: handleProductDelete,
+        permission: [EPermissions.Administrator],
+      },
+      {
+        icon: <Icon type="Edit" />,
+        title: t("common.actions.edit"),
+        onClick: handleProductEdit,
+        permission: [EPermissions.Administrator],
+      },
+    ].filter(({ permission }) => checkPermission(user?.permissions ?? null, permission));
+
     return (
       <div ref={ref}>
         <UiTable<TProduct>
@@ -75,16 +95,18 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           defaultPageSize={pageSize}
           getId={(row) => row.alias}
           isLoading={isLoading}
+          messages={{ notFound: t("common.info.noData") }}
           onChangePageSize={onChangePageSize}
           onPageChange={onChangePage}
           pagesCount={countOfPage}
+          rowActions={rowActions}
           settings={settingsProps}
           sorting={fieldsSortState}
+          sticky={true}
           theme={theme}
           totalItems={countOfResult}
           totalItemsTitle={t("pages.admin.products.table.header") ?? "Total products"}
         />
-        <ModalDelete isOpen={isOpenDeleteModal} onClose={onCloseModal} onSubmit={onSubmitDelete}/>
       </div>
     );
   },
@@ -95,5 +117,5 @@ TableComponent.displayName = "ProductsTableComponent";
 export const ProductsTable = memo(TableComponent);
 
 export function productsTableLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

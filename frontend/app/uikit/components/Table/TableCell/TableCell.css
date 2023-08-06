@@ -39,6 +39,7 @@
 /* #008dd3 */
 /* #0044BB */
 .TableCell {
+  flex-grow: 1;
   padding: 20px;
   border-bottom: 1px solid rgb(224, 224, 224);
   width: 100%;

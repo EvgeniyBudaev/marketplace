@@ -61,13 +61,13 @@
   background-color: #000;
   opacity: 0.6;
   visibility: visible;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Overlay.exit {
   background-color: #000;
   opacity: 0.6;
   visibility: visible;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Overlay.exit-active {
   background: transparent;

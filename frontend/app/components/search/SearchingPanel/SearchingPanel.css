@@ -72,7 +72,7 @@
   border-radius: 4px;
   background-color: rgb(255, 255, 255);
   outline: transparent;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .SearchingPanel-Input::placeholder {
   background-color: transparent;

@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   color: rgb(176, 151, 106);
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .OrderRecipient-Link:hover {
   color: rgb(146, 126, 92);

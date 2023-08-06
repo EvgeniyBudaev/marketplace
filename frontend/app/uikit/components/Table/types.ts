@@ -20,6 +20,10 @@ type TSettingsProps<T extends object> = {
 
 type TTableSettingsProps<TColumn extends object> = Omit<TSettingsProps<TColumn>, "columns">;
 
+type TTableMessages = {
+  notFound?: string;
+};
+
 export type TTableProps<TColumn extends Record<string, any>> = {
   className?: string;
   columns: Array<ColumnDef<TColumn>>;
@@ -30,6 +34,7 @@ export type TTableProps<TColumn extends Record<string, any>> = {
   defaultPageSize?: number | null;
   getId?: (row: TColumn) => string | number;
   isLoading?: boolean;
+  messages?: TTableMessages;
   onChangePageSize?: (pageSize: number) => void;
   onPageChange?: ({ selected }: { selected: number }) => void;
   onRowSelectionChange?: OnChangeFn<RowSelectionState>;
@@ -39,6 +44,7 @@ export type TTableProps<TColumn extends Record<string, any>> = {
   rowSelection?: RowSelectionState;
   settings?: TTableSettingsProps<TColumn>;
   sorting?: TTableSortingProps;
+  sticky?: boolean;
   theme?: ETheme;
   totalItems?: number;
   totalItemsTitle?: string;

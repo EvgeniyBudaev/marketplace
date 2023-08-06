@@ -7,7 +7,7 @@
 
     svg {
       fill: black;
-      transition: all 0.15s;
+      transition: all $transition;
     }
 
     &__active {

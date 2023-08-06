@@ -1,21 +1,15 @@
-import {useMemo} from "react";
-import {useTranslation} from "react-i18next";
-import {Link} from "@remix-run/react";
-import type {ColumnDef, ColumnHelper} from "@tanstack/react-table";
-import {TableHeader} from "~/components";
-import {ERoutes} from "~/enums";
-import {ETableColumns} from "~/pages/Admin/Products/ProductsTable";
-import type {TProduct} from "~/shared/api/products";
-import {DateTime, Icon, IconButton} from "~/uikit";
-import {createPath} from "~/utils";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
+import { TableHeader } from "~/components";
+import { ETableColumns } from "~/pages/Admin/Products/ProductsTable";
+import type { TProduct } from "~/shared/api/products";
+import { DateTime } from "~/uikit";
 
-type TUseGetColumns = (
-  columnHelper: ColumnHelper<TProduct>,
-  onDelete: (alias: string) => void,
-) => ColumnDef<TProduct>[];
+type TUseGetColumns = (columnHelper: ColumnHelper<TProduct>) => ColumnDef<TProduct>[];
 
-export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
-  const {t} = useTranslation();
+export const useGetColumns: TUseGetColumns = (columnHelper) => {
+  const { t } = useTranslation();
 
   return useMemo(
     () =>
@@ -47,7 +41,6 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
               {t("pages.admin.products.table.columns.info.status")}
             </TableHeader>
           ),
-          minSize: 192,
         }),
 
         columnHelper.accessor(ETableColumns.CreatedAt, {
@@ -57,7 +50,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           ),
           cell: (data) => {
             const value = data.getValue();
-            return <DateTime value={value}/>;
+            return <DateTime value={value} />;
           },
           minSize: 192,
         }),
@@ -69,32 +62,11 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           ),
           cell: (data) => {
             const value = data.getValue();
-            return <DateTime value={value}/>;
+            return <DateTime value={value} />;
           },
           minSize: 192,
         }),
-
-        columnHelper.display({
-          id: "actions",
-          header: () => (
-            <TableHeader>{t("pages.admin.products.table.columns.info.actions")}</TableHeader>
-          ),
-          cell: ({row}) => (
-            <div className="ProductsTable-Actions">
-              <Link
-                className="ProductsTable-ActionsEdit"
-                to={createPath({
-                  route: ERoutes.AdminProductEdit,
-                  params: {alias: row.original.alias},
-                })}
-              >
-                <Icon type="Edit"/>
-              </Link>
-              <IconButton typeIcon="Trash" onClick={() => onDelete(row.original.alias)}/>
-            </div>
-          ),
-        }),
       ].filter(Boolean) as ColumnDef<TProduct>[],
-    [columnHelper, onDelete, t],
+    [columnHelper, t],
   );
 };

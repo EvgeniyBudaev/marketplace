@@ -53,7 +53,7 @@
   z-index: 1;
   color: rgb(138, 143, 160);
   pointer-events: none;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .InputField-Label .InputField-Inner__error {
   background-color: rgb(251, 228, 227);

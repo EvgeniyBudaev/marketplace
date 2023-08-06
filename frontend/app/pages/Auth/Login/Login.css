@@ -83,7 +83,7 @@
 .Login-Signup a,
 .Login-Signup a span {
   color: rgb(176, 151, 106);
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Login-Signup a:hover,
 .Login-Signup a span:hover {

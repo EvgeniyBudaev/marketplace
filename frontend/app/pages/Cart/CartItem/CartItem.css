@@ -43,7 +43,7 @@
   margin-bottom: 24px;
   border: 1px solid rgb(228, 228, 228);
   border-radius: 4px;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .CartItem:hover {
   border: 1px solid rgb(176, 151, 106);
@@ -111,7 +111,7 @@
   height: 30px;
   background-color: transparent;
   border: 2px solid rgb(235, 235, 235);
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .CartItem-ProductCounterMinus:hover, .CartItem-ProductCounterPlus:hover {
   background-color: transparent;
@@ -133,7 +133,7 @@
   background-color: transparent;
   border: 2px solid rgb(235, 235, 235);
   outline: transparent;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .CartItem-ProductCounterCount:hover {
   border-color: rgb(176, 151, 106);
@@ -165,11 +165,11 @@
   justify-content: flex-end;
   width: 100%;
   color: rgb(185, 181, 181);
-  transition: all 0.15s;
+  transition: all 0s;
   cursor: pointer;
 }
 .CartItem-ProductDelete span {
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .CartItem-ProductDelete:hover span {
   color: rgb(176, 151, 106);

@@ -7,9 +7,9 @@ const COLOR_GRAY = "#e4e4e4";
 const CURRENT_COLOR = "currentColor";
 const BORDER_RADIUS = "4px";
 const CURSOR = "pointer";
-const TRANSITION = "all 0.15s";
+const TRANSITION = "all 0s";
 const TRANSPARENT = "transparent";
-const Z_INDEX = 10;
+const Z_INDEX = 200;
 
 export const VARIANTS: { [key in ETheme]: TSelectVariantStyle } = {
   // Dark theme
