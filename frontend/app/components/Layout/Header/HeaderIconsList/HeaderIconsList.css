@@ -67,7 +67,7 @@
 }
 .HeaderIconsList-IconLink .HeaderIconsList-IconDescription {
   color: rgba(255, 255, 255, 0.6);
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .HeaderIconsList-IconLink:hover {
   color: rgb(255, 255, 255);
@@ -111,7 +111,7 @@
   min-height: 44px;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .HeaderIconsList-AvatarDropDown_MenuItem:hover {
   background-color: rgb(223, 213, 195);
@@ -140,15 +140,15 @@
 }
 .HeaderIconsList-DropDownUser.enter-active {
   opacity: 1;
-  transition: opacity 0.15s;
+  transition: opacity 0s;
 }
 .HeaderIconsList-DropDownUser.exit {
   opacity: 1;
-  transition: opacity 0.15s;
+  transition: opacity 0s;
 }
 .HeaderIconsList-DropDownUser.exit-active {
   opacity: 0;
-  transition: opacity 0.15s;
+  transition: opacity 0s;
 }
 
 .theme-dark .HeaderIconsList {

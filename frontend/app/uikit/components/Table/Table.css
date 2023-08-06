@@ -48,11 +48,13 @@
   border-collapse: separate;
   border-spacing: 0;
 }
-.Table-Scroll {
+.Table-Root {
   position: relative;
-  max-width: 100%;
-  overflow-x: auto;
   margin-bottom: 30px;
+}
+.Table-Wrapper {
+  overflow-x: auto;
+  max-height: 75vh;
 }
 .Table-NavigationPanel__top {
   margin-bottom: 30px;

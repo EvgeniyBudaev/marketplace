@@ -50,7 +50,7 @@
   color: rgb(255, 255, 255);
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .TableHeaderItem-Button svg {
   fill: rgb(255, 255, 255);
@@ -76,7 +76,7 @@
   padding: 4px;
   cursor: pointer;
   border-bottom: 1px solid rgb(228, 228, 228);
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .TableHeaderItem-DropDownListItem:last-child {
   border-bottom: none;

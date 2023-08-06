@@ -11,11 +11,14 @@
   border-collapse: separate;
   border-spacing: 0;
 
-  &-Scroll {
+  &-Root {
     position: relative;
-    max-width: 100%;
-    overflow-x: auto;
     margin-bottom: 30px;
+  }
+
+  &-Wrapper {
+    overflow-x: auto;
+    max-height: 75vh;
   }
 
   &-NavigationPanel {

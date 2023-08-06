@@ -16,6 +16,7 @@ export const TableCell = <TColumn extends object>({
       className="TableCell"
       key={cell.id}
       style={{
+        width: cell.column.getSize(),
         minWidth: cell.column.columnDef?.minSize ?? DEFAULT_COLUMN_MIN_SIZE,
         maxWidth: cell.column.columnDef?.maxSize,
       }}

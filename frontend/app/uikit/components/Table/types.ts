@@ -39,6 +39,7 @@ export type TTableProps<TColumn extends Record<string, any>> = {
   rowSelection?: RowSelectionState;
   settings?: TTableSettingsProps<TColumn>;
   sorting?: TTableSortingProps;
+  sticky?: boolean;
   theme?: ETheme;
   totalItems?: number;
   totalItemsTitle?: string;

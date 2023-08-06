@@ -39,6 +39,10 @@
 /* #008dd3 */
 /* #0044BB */
 .TableHeader-THead {
+  position: sticky;
+  top: 0;
+  display: block;
+  z-index: 100;
   background-color: rgb(176, 151, 106);
 }
 .TableHeader-TR {
@@ -46,6 +50,7 @@
 }
 .TableHeader-TH {
   position: relative;
+  flex-grow: 1;
   padding: 20px;
   text-align: start;
   border-bottom: 1px solid rgb(224, 224, 224);

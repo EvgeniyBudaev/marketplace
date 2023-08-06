@@ -43,14 +43,14 @@
   background-color: transparent;
   border: 0;
   box-shadow: none;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .IconButton::before {
   height: 0;
   width: 0;
 }
 .IconButton svg {
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .IconButton:hover {
   background-color: transparent;

@@ -4,6 +4,10 @@
   $this: &;
 
   &-THead {
+    position: sticky;
+    top: 0;
+    display: block;
+    z-index: 100;
     background-color: $color-primary;
   }
 
@@ -13,6 +17,7 @@
 
   &-TH {
     position: relative;
+    flex-grow: 1;
     padding: 20px;
     text-align: start;
     border-bottom: 1px solid rgba(224, 224, 224, 1);

@@ -1,20 +1,14 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "@remix-run/react";
 import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { TableCellImage, TableHeader } from "~/components";
-import { ERoutes } from "~/enums";
 import { ETableColumns } from "~/pages/Admin/Catalogs/CatalogsTable";
 import type { TCatalog } from "~/shared/api/catalogs";
-import { DateTime, Icon, IconButton } from "~/uikit";
-import { createPath } from "~/utils";
+import { DateTime } from "~/uikit";
 
-type TUseGetColumns = (
-  columnHelper: ColumnHelper<TCatalog>,
-  onDelete: (alias: string) => void,
-) => ColumnDef<TCatalog>[];
+type TUseGetColumns = (columnHelper: ColumnHelper<TCatalog>) => ColumnDef<TCatalog>[];
 
-export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
+export const useGetColumns: TUseGetColumns = (columnHelper) => {
   const { t } = useTranslation();
 
   return useMemo(
@@ -53,7 +47,6 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           header: () => (
             <TableHeader>{t("pages.admin.catalogs.table.columns.info.status")}</TableHeader>
           ),
-          minSize: 192,
         }),
 
         columnHelper.accessor(ETableColumns.CreatedAt, {
@@ -80,6 +73,6 @@ export const useGetColumns: TUseGetColumns = (columnHelper, onDelete) => {
           minSize: 192,
         }),
       ].filter(Boolean) as ColumnDef<TCatalog>[],
-    [columnHelper, onDelete, t],
+    [columnHelper, t],
   );
 };

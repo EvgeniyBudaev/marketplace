@@ -83,7 +83,7 @@
 .Login-Signup a,
 .Login-Signup a span {
   color: rgb(176, 151, 106);
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Login-Signup a:hover,
 .Login-Signup a span:hover {
@@ -91,7 +91,8 @@
 }
 
 .theme-dark .Login-CenterContent {
-  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%), linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
+  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%),
+    linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
   border: 1px solid rgb(35, 40, 56);
 }
 

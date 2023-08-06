@@ -46,7 +46,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
     const { t } = useTranslation();
     const { user } = useUser();
     const columnHelper = createColumnHelper<TCatalog>();
-    const columns = useGetColumns(columnHelper, onClickDeleteIcon);
+    const columns = useGetColumns(columnHelper);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
     const { theme } = useTheme();
 
@@ -113,6 +113,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
           rowActions={rowActions}
           settings={settingsProps}
           sorting={fieldsSortState}
+          sticky={true}
           theme={theme}
           totalItems={countOfResult}
           totalItemsTitle={t("pages.admin.catalogs.table.header") ?? "Total directories"}

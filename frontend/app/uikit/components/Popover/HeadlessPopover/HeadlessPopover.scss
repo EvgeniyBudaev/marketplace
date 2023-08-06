@@ -40,7 +40,7 @@
 
   &-Transition {
     &__enter {
-      transition: all 0.15s ease-out;
+      transition: all $transition ease-out;
     }
 
     &__enterFrom {
@@ -54,7 +54,7 @@
     }
 
     &__leave {
-      transition: all 0.15s ease-in;
+      transition: all $transition ease-in;
     }
 
     &__leaveFrom {

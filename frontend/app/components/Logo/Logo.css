@@ -49,10 +49,10 @@
   width: 50px;
   height: 50px;
   opacity: 0.9;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Logo svg path {
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Logo svg:hover {
   fill: rgb(176, 151, 106);

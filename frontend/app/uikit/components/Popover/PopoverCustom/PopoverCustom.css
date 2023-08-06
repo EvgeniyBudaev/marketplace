@@ -65,15 +65,15 @@
 }
 .PopoverCustom-Panel.enter-active {
   opacity: 1;
-  transition: opacity 0.15s;
+  transition: opacity 0s;
 }
 .PopoverCustom-Panel.exit {
   opacity: 1;
-  transition: opacity 0.15s;
+  transition: opacity 0s;
 }
 .PopoverCustom-Panel.exit-active {
   opacity: 0;
-  transition: opacity 0.15s;
+  transition: opacity 0s;
 }
 
 /*# sourceMappingURL=PopoverCustom.css.map */

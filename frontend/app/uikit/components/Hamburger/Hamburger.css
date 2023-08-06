@@ -56,28 +56,31 @@
   width: 28px;
   height: 4px;
   border-radius: 4px;
-  transition: all 0.15s ease-in-out;
+  transition: all 0s ease-in-out;
 }
 .Hamburger-Burger__black {
   background-color: rgb(51, 51, 51);
 }
-.Hamburger-Burger__black::before, .Hamburger-Burger__black::after {
+.Hamburger-Burger__black::before,
+.Hamburger-Burger__black::after {
   background-color: rgb(51, 51, 51);
 }
 .Hamburger-Burger__white {
   background-color: rgb(255, 255, 255);
 }
-.Hamburger-Burger__white::before, .Hamburger-Burger__white::after {
+.Hamburger-Burger__white::before,
+.Hamburger-Burger__white::after {
   background-color: rgb(255, 255, 255);
 }
-.Hamburger-Burger::before, .Hamburger-Burger::after {
+.Hamburger-Burger::before,
+.Hamburger-Burger::after {
   content: "";
   position: absolute;
   left: 0;
   width: 100%;
   height: 100%;
   border-radius: 4px;
-  transition: all 0.15s ease-in-out;
+  transition: all 0s ease-in-out;
 }
 .Hamburger-Burger::before {
   top: -10px;
@@ -104,7 +107,8 @@
   .Hamburger-Burger {
     width: 16px;
   }
-  .Hamburger-Burger::before, .Hamburger-Burger::after {
+  .Hamburger-Burger::before,
+  .Hamburger-Burger::after {
     width: 16px;
   }
 }

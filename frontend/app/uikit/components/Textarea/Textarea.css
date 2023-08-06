@@ -53,7 +53,7 @@
   z-index: 1;
   color: rgb(138, 143, 160);
   pointer-events: none;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .TextareaField-LabelRequired {
   color: rgb(227, 18, 53);
@@ -86,7 +86,8 @@
 .TextareaField__active textarea:-webkit-autofill.Textarea__active:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-.TextareaField__active textarea, .TextareaField__active textarea:hover {
+.TextareaField__active textarea,
+.TextareaField__active textarea:hover {
   background-color: rgb(255, 255, 255);
 }
 .TextareaField .TextareaField-Inner:-webkit-autofill {
@@ -136,7 +137,8 @@
 .theme-dark .TextareaField__active textarea:-webkit-autofill.Textarea__active:active {
   -webkit-box-shadow: 0 0 0 30px rgb(31, 32, 41) inset !important;
 }
-.theme-dark .TextareaField__active textarea, .theme-dark .TextareaField__active textarea:hover {
+.theme-dark .TextareaField__active textarea,
+.theme-dark .TextareaField__active textarea:hover {
   background-color: rgb(31, 32, 41);
 }
 .theme-dark .TextareaField .TextareaField-Inner:-webkit-autofill {

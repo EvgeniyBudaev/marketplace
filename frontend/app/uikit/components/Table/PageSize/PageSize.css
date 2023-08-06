@@ -44,7 +44,7 @@
 }
 .PageSize-Select svg {
   fill: black;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .PageSize-Select__active svg {
   transform: rotate(180deg);

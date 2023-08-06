@@ -61,7 +61,7 @@
 }
 .ModalDefaultCloseButton svg {
   fill: rgb(185, 181, 181);
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .ModalDefaultCloseButton:hover svg {
   fill: rgb(142, 142, 147);

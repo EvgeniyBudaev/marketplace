@@ -71,7 +71,7 @@
   width: max-content;
 }
 .HeadlessPopover-Transition__enter {
-  transition: all 0.15s ease-out;
+  transition: all 0s ease-out;
 }
 .HeadlessPopover-Transition__enterFrom {
   opacity: 0;
@@ -82,7 +82,7 @@
   transform: translateY(0);
 }
 .HeadlessPopover-Transition__leave {
-  transition: all 0.15s ease-in;
+  transition: all 0s ease-in;
 }
 .HeadlessPopover-Transition__leaveFrom {
   opacity: 1;

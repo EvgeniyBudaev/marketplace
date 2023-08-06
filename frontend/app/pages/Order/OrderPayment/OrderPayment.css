@@ -72,7 +72,7 @@
 .OrderPayment-Change {
   color: rgb(176, 151, 106);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .OrderPayment-Change:hover {
   color: rgb(146, 126, 92);

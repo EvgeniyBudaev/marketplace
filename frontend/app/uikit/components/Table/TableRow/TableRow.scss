@@ -1,6 +1,7 @@
 @import "component";
 
 .TableRow {
+  display: flex;
   width: 100%;
   background-color: transparent;
   transition: background-color $transition;
@@ -14,11 +15,16 @@
     color: $color-white;
     fill: $color-white;
 
-    .MoreActions-Icon {
-      background-color: $color-primary-hover;
+    .MoreActions {
+      background: linear-gradient(270deg, rgb(146, 126, 92) 69.02%, rgba(146, 126, 92, 0) 100%);
+      transition: all $transition;
 
-      svg {
-        fill: $color-white;
+      &-Icon {
+        background: linear-gradient(270deg, rgb(146, 126, 92) 69.02%, rgba(146, 126, 92, 0) 100%);
+
+        path {
+          stroke: $color-white;
+        }
       }
     }
   }

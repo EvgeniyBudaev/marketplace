@@ -1,3 +1,5 @@
+@import "component";
+
 .Avatar {
   display: flex;
   align-items: center;
@@ -27,6 +29,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 50%;
-    transition: all 0.15s ease-out;
+    transition: all $transition ease-out;
   }
 }

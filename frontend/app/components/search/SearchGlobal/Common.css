@@ -57,15 +57,15 @@
 }
 .SearchGlobalDropDownWindow.enter-active {
   opacity: 1;
-  transition: opacity 0.15s;
+  transition: opacity 0s;
 }
 .SearchGlobalDropDownWindow.exit {
   opacity: 1;
-  transition: opacity 0.15s;
+  transition: opacity 0s;
 }
 .SearchGlobalDropDownWindow.exit-active {
   opacity: 0;
-  transition: opacity 0.15s;
+  transition: opacity 0s;
 }
 
 .theme-dark .SearchGlobalDropDownWindow {

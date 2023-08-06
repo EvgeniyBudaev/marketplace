@@ -84,7 +84,7 @@
 .Signup-Registration a,
 .Signup-Registration a span {
   color: rgb(176, 151, 106);
-  transition: all 0.15s;
+  transition: all 0s;
 }
 .Signup-Registration a:hover,
 .Signup-Registration a span:hover {

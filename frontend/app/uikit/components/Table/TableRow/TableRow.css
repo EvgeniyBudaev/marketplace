@@ -39,23 +39,28 @@
 /* #008dd3 */
 /* #0044BB */
 .TableRow {
+  display: flex;
   width: 100%;
   background-color: transparent;
-  transition: background-color 0.15s;
+  transition: background-color 0s;
 }
 .TableRow .MoreActions-Icon {
-  transition: background-color 0.15s;
+  transition: background-color 0s;
 }
 .TableRow:hover {
   background-color: rgb(146, 126, 92);
   color: rgb(255, 255, 255);
   fill: rgb(255, 255, 255);
 }
-.TableRow:hover .MoreActions-Icon {
-  background-color: rgb(146, 126, 92);
+.TableRow:hover .MoreActions {
+  background: linear-gradient(270deg, rgb(146, 126, 92) 69.02%, rgba(146, 126, 92, 0) 100%);
+  transition: all 0s;
 }
-.TableRow:hover .MoreActions-Icon svg {
-  fill: rgb(255, 255, 255);
+.TableRow:hover .MoreActions-Icon {
+  background: linear-gradient(270deg, rgb(146, 126, 92) 69.02%, rgba(146, 126, 92, 0) 100%);
+}
+.TableRow:hover .MoreActions-Icon path {
+  stroke: rgb(255, 255, 255);
 }
 
 /*# sourceMappingURL=TableRow.css.map */

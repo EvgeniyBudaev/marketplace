@@ -5,7 +5,7 @@
   background-color: transparent;
   border: 0;
   box-shadow: none;
-  transition: all 0.15s;
+  transition: all $transition;
 
   &::before {
     height: 0;
@@ -13,7 +13,7 @@
   }
 
   & svg {
-    transition: all 0.15s;
+    transition: all $transition;
   }
 
   &:hover {
