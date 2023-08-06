@@ -1,0 +1,52 @@
+import clsx from "clsx";
+import { memo } from "react";
+import type { FC, ReactNode } from "react";
+import { Link } from "react-router-dom";
+import type { BreadcrumbMatch } from "use-react-router-breadcrumbs";
+import { Icon } from "~/uikit";
+import styles from "./Crumb.css";
+
+type TProps = {
+  breadcrumb: ReactNode;
+  className?: string;
+  isFirstCrumb: boolean;
+  isLastCrumb: boolean;
+  isShowArrow: boolean;
+  match: BreadcrumbMatch<string>;
+};
+
+const CrumbComponent: FC<TProps> = ({
+  breadcrumb,
+  className,
+  isFirstCrumb,
+  isLastCrumb,
+  isShowArrow,
+  match,
+}) => {
+  const renderTitle = (crumb: ReactNode) => {
+    if (isFirstCrumb) {
+      return (
+        <Link className="Crumb-Link" to={match.pathname || ""}>
+          <Icon className="Crumb-Icon__home" type="Home" />
+        </Link>
+      );
+    } else if (isLastCrumb) {
+      return <span>{crumb}</span>;
+    } else {
+      return <Link className="Crumb-Link" to={match.pathname || ""}>{crumb}</Link>;
+    }
+  };
+
+  return (
+    <span className={clsx("Crumb", className)}>
+      {renderTitle(breadcrumb)}
+      {isShowArrow && <Icon className="Crumb-Icon__arrow" type="ArrowRight" />}
+    </span>
+  );
+};
+
+export const Crumb = memo(CrumbComponent);
+
+export function crumbsLinks() {
+  return [{ rel: "stylesheet", href: styles }];
+}

@@ -7,7 +7,7 @@ export const Home: FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="Home">
+    <section className="Home">
       <h1>{t("pages.home.title")}</h1>
       <div className="Home-Block">
         <LinkButton href="/catalog/mirrors">Каталог зеркал</LinkButton>
@@ -15,7 +15,7 @@ export const Home: FC = () => {
       <div className="Home-Block">
         <LinkButton href="/admin">Админка</LinkButton>
       </div>
-    </div>
+    </section>
   );
 };
 
