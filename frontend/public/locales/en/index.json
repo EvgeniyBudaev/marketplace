@@ -50,6 +50,7 @@
       }
     },
     "info": {
+      "noData": "No data",
       "inCart": "In the cart",
       "inStock": "In stock",
       "itemOutOfStock": "Item out of stock",
@@ -107,8 +108,7 @@
           "columns": {
             "info": {
               "name": "Name",
-              "alias": "Alias",
-              "actions": "Actions"
+              "alias": "Alias"
             }
           }
         }
@@ -138,8 +138,7 @@
               "alias": "Alias",
               "status": "Status",
               "dateAdded": "Date added",
-              "dateOfChange": "Date of change",
-              "actions": "Actions"
+              "dateOfChange": "Date of change"
             }
           }
         }
@@ -167,8 +166,7 @@
               "alias": "Alias",
               "status": "Status",
               "dateAdded": "Date added",
-              "dateOfChange": "Date of change",
-              "actions": "Actions"
+              "dateOfChange": "Date of change"
             }
           },
           "header": "Total products"

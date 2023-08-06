@@ -111,6 +111,13 @@
         "whiteBG": "\u001b[47mCatalogs\u001b[49m",
         "meta": {
           "title": "Catalogs"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "actions": "Actions"
+            }
+          }
         }
       },
       "products": {
@@ -182,6 +189,13 @@
         "whiteBG": "\u001b[47mProducts\u001b[49m",
         "meta": {
           "title": "Products"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "actions": "Actions"
+            }
+          }
         }
       },
       "attributes": {
@@ -255,6 +269,13 @@
         "whiteBG": "\u001b[47mAttributes\u001b[49m",
         "meta": {
           "title": "Attributes"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "actions": "Actions"
+            }
+          }
         }
       },
       "attributeAdd": {

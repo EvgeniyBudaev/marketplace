@@ -54,7 +54,6 @@
 }
 .Table-Wrapper {
   overflow-x: auto;
-  max-height: 75vh;
 }
 .Table-NavigationPanel__top {
   margin-bottom: 30px;
@@ -74,6 +73,24 @@
 }
 .Table-HeadCount {
   color: rgb(176, 151, 106);
+}
+.Table-NoData {
+  position: relative;
+}
+.Table-NoData_Info {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: rgb(254, 242, 242);
+  color: rgb(153, 27, 27);
+}
+.Table-NoData_Info-Icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
+  margin-right: 8px;
 }
 
 /*# sourceMappingURL=Table.css.map */

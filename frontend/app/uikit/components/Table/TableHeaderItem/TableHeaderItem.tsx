@@ -254,7 +254,9 @@ export const TableHeaderItem = <T extends object>({
   return (
     <UiPopover className="HeadlessPopover">
       <UiPopover.Button ref={setReferenceElement} className="HeadlessPopover-Button">
-        <div ref={triggerRef}>{renderPopoverTrigger()}</div>
+        <div className="HeadlessPopover-Trigger" ref={triggerRef}>
+          {renderPopoverTrigger()}
+        </div>
       </UiPopover.Button>
       <Transition as={Fragment}>
         <UiPopover.Panel

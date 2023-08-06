@@ -5,6 +5,7 @@ import type { VisibilityState } from "@tanstack/react-table";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "~/constants";
+import { Icon, Typography } from "~/uikit";
 import { Control } from "~/uikit/components/Table/Control";
 import { ETablePlacement } from "~/uikit/components/Table/enums";
 import { NavigationPanel, navigationPanelLinks } from "~/uikit/components/Table/NavigationPanel";
@@ -29,6 +30,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
     debug,
     defaultPageSize,
     isLoading = false,
+    messages,
     onChangePageSize,
     onPageChange,
     onRowSelectionChange,
@@ -43,6 +45,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
     totalItems,
     totalItemsTitle,
   } = props;
+  const hasData = !!data.length;
   const hiddenColumns = settings?.options?.hiddenColumns;
   const tableRef = useRef<HTMLTableElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -122,27 +125,42 @@ const TableComponent = <TColumn extends Record<string, any>>(
       <div className="Table-Head">
         <div>
           {" "}
-          {totalItemsTitle}&nbsp;<span className="Table-HeadCount">{totalItems}</span>
+          {totalItemsTitle}&nbsp;<span className="Table-HeadCount">{hasData ? totalItems: 0}</span>
         </div>
         <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()} />}</div>
       </div>
 
-      <div className="Table-Root">
-        <div className="Table-Wrapper" ref={wrapperRef}>
-          {isLoading && <TableLoader ref={loaderRef} />}
-          <table ref={tableRef} className={clsx("Table", className)}>
-            <TableHeader<TColumn>
-              headerGroups={table.getHeaderGroups()}
-              hiddenColumns={settings?.options?.hiddenColumns}
-              optionsSorting={settings?.options?.optionsSorting}
-              setHiddenColumns={settings?.options?.setHiddenColumns}
-              sorting={sorting}
-            />
-            <TableBody rowActions={rowActions} rows={table.getRowModel().rows} />
-            {/*<TableBody ref={tableBodyRef} rows={table.getRowModel().rows} />*/}
-          </table>
+      {hasData ? (
+        <div className="Table-Root" ref={ref}>
+          <div className="Table-Wrapper" ref={wrapperRef}>
+            {isLoading && <TableLoader ref={loaderRef} />}
+            <table ref={tableRef} className={clsx("Table", className)}>
+              <TableHeader<TColumn>
+                headerGroups={table.getHeaderGroups()}
+                hiddenColumns={settings?.options?.hiddenColumns}
+                optionsSorting={settings?.options?.optionsSorting}
+                setHiddenColumns={settings?.options?.setHiddenColumns}
+                sorting={sorting}
+              />
+              <TableBody rowActions={rowActions} rows={table.getRowModel().rows} />
+            </table>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="Table-NoData">
+          <div className="Table-NoData_Info">
+            <div className="Table-NoData_Info-Icon">
+              <Icon type="Info" />
+            </div>
+            <div>
+              <Typography>{messages?.notFound}</Typography>
+            </div>
+          </div>
+          <div className="Table-Root" ref={ref}>
+            <div className="Table-Wrapper">{isLoading && <TableLoader ref={loaderRef} />}</div>
+          </div>
+        </div>
+      )}
 
       <NavigationPanel
         currentPage={currentPage}

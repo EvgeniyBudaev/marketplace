@@ -47,6 +47,8 @@
 }
 .TableHeader-TR {
   position: relative;
+  display: flex;
+  width: 100%;
 }
 .TableHeader-TH {
   position: relative;

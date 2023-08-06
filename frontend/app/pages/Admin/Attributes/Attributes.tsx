@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useNavigate } from "@remix-run/react";
+
+import { ModalDelete } from "~/components/modal";
 import { SearchingPanel } from "~/components/search";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
 import { ERoutes } from "~/enums";
@@ -15,6 +17,7 @@ import {
 } from "~/pages/Admin/Attributes/AttributesTable";
 import { EAttributeAction } from "~/shared/api/attributes";
 import type { TAttributes } from "~/shared/api/attributes";
+import { getFetcherOptions } from "~/shared/fetcher";
 import { EFormMethods } from "~/shared/form";
 import { ETypographyVariant, LinkButton, notify, Typography } from "~/uikit";
 import { createPath } from "~/utils";
@@ -25,11 +28,13 @@ type TProps = {
 };
 
 export const Attributes: FC<TProps> = (props) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const fetcher = useFetcher();
-  const attributes: TAttributes | undefined = fetcher.data?.attributes ?? props.attributes;
+  const { isLoading } = getFetcherOptions(fetcher);
+  const attributes: TAttributes = fetcher.data?.attributes ?? props.attributes;
 
-  const onDeleteAttribute = (alias: string) => {
+  const handleAttributeDelete = (alias: string) => {
     const form = new FormData();
     form.append("alias", `${alias}`);
     form.append("_method", EAttributeAction.DeleteAttribute);
@@ -37,6 +42,14 @@ export const Attributes: FC<TProps> = (props) => {
       method: EFormMethods.Delete,
       action: createPath({ route: ERoutes.AdminAttributes, withIndex: true }),
     });
+  };
+
+  const handleAttributeEdit = (alias: string) => {
+    const path = createPath({
+      route: ERoutes.AdminAttributeEdit,
+      params: { alias },
+    });
+    navigate(path);
   };
 
   const {
@@ -54,7 +67,7 @@ export const Attributes: FC<TProps> = (props) => {
     onSearchKeyDown,
     onSortTableByProperty,
   } = useTable({
-    onDelete: onDeleteAttribute,
+    onDelete: handleAttributeDelete,
     pageOption: attributes?.currentPage ?? DEFAULT_PAGE,
     sizeOption: attributes?.pageSize ?? DEFAULT_PAGE_SIZE,
   });
@@ -94,23 +107,24 @@ export const Attributes: FC<TProps> = (props) => {
           </LinkButton>
         </div>
       </div>
-      {attributes && (
-        <AttributesTable
-          attributes={attributes}
-          fetcher={fetcher}
-          fieldsSortState={{
-            columns: [ETableColumns.Alias, ETableColumns.Name],
-            multiple: true,
-            onChangeSorting: onSortTableByProperty,
-          }}
-          isOpenDeleteModal={deleteModal.isOpen}
-          onChangePage={onChangePage}
-          onChangePageSize={onChangeSize}
-          onCloseModal={onCloseDeleteModal}
-          onClickDeleteIcon={onClickDeleteIcon}
-          onSubmitDelete={onDeleteSubmit}
-        />
-      )}
+      <AttributesTable
+        attributes={attributes}
+        fieldsSortState={{
+          columns: [ETableColumns.Alias, ETableColumns.Name],
+          multiple: true,
+          onChangeSorting: onSortTableByProperty,
+        }}
+        isLoading={isLoading}
+        onAttributeDelete={onClickDeleteIcon}
+        onAttributeEdit={handleAttributeEdit}
+        onChangePage={onChangePage}
+        onChangePageSize={onChangeSize}
+      />
+      <ModalDelete
+        isOpen={deleteModal.isOpen}
+        onClose={onCloseDeleteModal}
+        onSubmit={onDeleteSubmit}
+      />
     </section>
   );
 };

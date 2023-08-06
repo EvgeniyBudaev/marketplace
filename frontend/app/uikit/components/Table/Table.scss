@@ -18,7 +18,6 @@
 
   &-Wrapper {
     overflow-x: auto;
-    max-height: 75vh;
   }
 
   &-NavigationPanel {
@@ -42,6 +41,27 @@
 
     &Count {
       color: $color-primary;
+    }
+  }
+
+  &-NoData {
+    position: relative;
+
+    &_Info {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background-color: rgba(254, 242, 242, 1);
+      color: rgba(153, 27, 27, 1);
+    }
+
+    &_Info-Icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      width: 24px;
+      margin-right: 8px;
     }
   }
 }
