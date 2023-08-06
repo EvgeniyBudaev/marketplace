@@ -2,8 +2,6 @@
 
 .Table {
   $this: &;
-  height: 100%;
-  width: 100%;
   border-left: 1px solid rgba(226, 232, 240, 1);
   border-right: 1px solid rgba(226, 232, 240, 1);
   border-top: 1px solid rgba(226, 232, 240, 1);
@@ -18,6 +16,10 @@
 
   &-Wrapper {
     overflow-x: auto;
+  }
+
+  &-Table {
+    width: 100%;
   }
 
   &-NavigationPanel {

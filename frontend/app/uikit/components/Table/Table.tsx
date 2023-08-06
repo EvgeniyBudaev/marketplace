@@ -125,7 +125,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
       <div className="Table-Head">
         <div>
           {" "}
-          {totalItemsTitle}&nbsp;<span className="Table-HeadCount">{hasData ? totalItems: 0}</span>
+          {totalItemsTitle}&nbsp;<span className="Table-HeadCount">{hasData ? totalItems : 0}</span>
         </div>
         <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()} />}</div>
       </div>
@@ -134,7 +134,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
         <div className="Table-Root" ref={ref}>
           <div className="Table-Wrapper" ref={wrapperRef}>
             {isLoading && <TableLoader ref={loaderRef} />}
-            <table ref={tableRef} className={clsx("Table", className)}>
+            <table ref={tableRef} className={clsx("Table-Table", className)}>
               <TableHeader<TColumn>
                 headerGroups={table.getHeaderGroups()}
                 hiddenColumns={settings?.options?.hiddenColumns}

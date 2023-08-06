@@ -39,8 +39,6 @@
 /* #008dd3 */
 /* #0044BB */
 .Table {
-  height: 100%;
-  width: 100%;
   border-left: 1px solid rgb(226, 232, 240);
   border-right: 1px solid rgb(226, 232, 240);
   border-top: 1px solid rgb(226, 232, 240);
@@ -54,6 +52,9 @@
 }
 .Table-Wrapper {
   overflow-x: auto;
+}
+.Table-Table {
+  width: 100%;
 }
 .Table-NavigationPanel__top {
   margin-bottom: 30px;
