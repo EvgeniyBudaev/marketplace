@@ -212,7 +212,7 @@ export const ProductAdd: FC<TProps> = (props) => {
             name={EFormFields.CatalogAlias}
             onChange={handleChangeCatalogAlias}
             options={catalogAliasesTypeOptions}
-            placeholder={t("pages.admin.productAdd.selectCatalog") ?? "Select catalog"}
+            placeholder={t("pages.admin.productAdd.selectCatalog") ?? "Select catalogs"}
             theme={theme}
           />
         </div>

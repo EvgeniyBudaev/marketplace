@@ -47,7 +47,7 @@ export const loader = async (args: LoaderArgs) => {
   const [t] = await Promise.all([getStoreFixedT({ request })]);
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);
-  const { alias } = params as { alias: string };
+  const { aliasCatalog } = params as { aliasCatalog: string };
   const formattedParams = mapParamsToDto({
     ...formValues,
     sort: formValues.sort ?? "price_asc",
@@ -69,8 +69,8 @@ export const loader = async (args: LoaderArgs) => {
 
   const updatedCartSession = await createCartSession(cartResponse.data);
 
-  const catalogResponse = await getCatalogDetail(request, { alias });
-  const productsResponse = await getProductsByCatalog(request, { alias, params: formattedParams });
+  const catalogResponse = await getCatalogDetail(request, { alias: aliasCatalog });
+  const productsResponse = await getProductsByCatalog(request, { alias: aliasCatalog, params: formattedParams });
 
   if (!cartResponse.success || !catalogResponse.success || !productsResponse.success) {
     throw internalError();
@@ -86,13 +86,13 @@ export const loader = async (args: LoaderArgs) => {
     catalog: catalogResponse.data,
     products: productsResponse.data,
     headers,
-    title: t("routes.titles.catalog"),
+    title: t("routes.titles.catalogs"),
   });
 };
 
 export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return [{ title: i18next.t("routes.titles.catalog") || "Catalog" }];
+    return [{ title: i18next.t("routes.titles.catalogs") || "Catalog" }];
   }
   return [{ title: data?.title || "Catalog" }];
 };

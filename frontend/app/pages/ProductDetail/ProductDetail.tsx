@@ -71,7 +71,7 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
     //       method: EFormMethods.Post,
     //       action: createPath({
     //         route: ERoutes.CatalogDetail,
-    //         params: { alias: catalog.alias },
+    //         params: { alias: catalogs.alias },
     //         withIndex: true,
     //       }),
     //     },

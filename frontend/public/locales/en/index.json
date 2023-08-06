@@ -192,7 +192,7 @@
       "goToCheckout": "Go to checkout",
       "backToShopping": "Go to back"
     },
-    "catalog": {
+    "catalogs": {
       "from": "from",
       "goods": "goods",
       "sorting": {
@@ -322,11 +322,10 @@
       "login": "SignIn",
       "signup": "SignUp!",
       "cart": "Cart",
-      "catalog": "Catalog",
+      "product": "Product",
       "contacts": "Contacts",
       "delivery": "Delivery",
       "order": "Order",
-      "product": "Product",
       "recipient": "Recipient",
       "settings": "Settings",
       "shipping": "Shipping"

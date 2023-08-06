@@ -192,7 +192,7 @@
       "goToCheckout": "Перейти к оформлению",
       "backToShopping": "Вернуться назад"
     },
-    "catalog": {
+    "catalogs": {
       "from": "из",
       "goods": "товаров",
       "sorting": {
@@ -322,11 +322,10 @@
       "login": "Авторизация",
       "signup": "Регистрация",
       "cart": "Корзина",
-      "catalog": "Каталог",
+      "product": "Продукт",
       "contacts": "Контакты",
       "delivery": "Доставка",
       "order": "Заказ",
-      "product": "Продукт",
       "recipient": "Получатель",
       "settings": "Настройки",
       "shipping": "Доставка"

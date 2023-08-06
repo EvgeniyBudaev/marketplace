@@ -10,7 +10,6 @@ type TProps = {
 
 const BreadcrumbsComponent: FC<TProps> = ({ dataTestId = "uikit__breadcrumbs" }) => {
   const breadcrumbs = useBreadcrumbs();
-  console.log("breadcrumbs: ", breadcrumbs);
 
   return (
     <nav className="Breadcrumbs" data-testid={dataTestId}>

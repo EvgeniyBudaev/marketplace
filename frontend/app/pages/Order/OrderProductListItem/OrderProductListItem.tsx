@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { Link } from "@remix-run/react";
 import isNil from "lodash/isNil";
 import { DEFAULT_IMAGE } from "~/constants";
+import {ERoutes} from "~/enums";
 import { useProxyUrl } from "~/hooks";
 import type { TCartItem } from "~/shared/api/cart";
 import { createPath, formatCurrency } from "~/utils";
@@ -24,7 +25,8 @@ export const OrderProductListItem: FC<TProps> = ({ cartItem }) => {
         <Link
           className="OrderProductListItem-Link"
           to={createPath({
-            route: `/${cartItem.product.catalogAlias}/${cartItem.product.alias}` as any,
+            route: ERoutes.ProductDetail,
+            params: { aliasCatalog: cartItem.product.catalogAlias, aliasProduct: cartItem.product.alias },
           })}
         >
           <img
