@@ -15,7 +15,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -41,10 +43,12 @@ public class CartService {
         this.sessionIdService = sessionIdService;
         this.transactionTemplate = transactionTemplate;
     }
-
+    @Transactional
     public Cart clearCart(Cart cart) {
-        cart.getItems().clear();
-        cartRepository.save(cart);
+        Query query = entityManager.createQuery("DELETE FROM CartItem WHERE cart=:cart");
+        query.setParameter("cart", cart);
+        query.executeUpdate();
+        cart.setItems(new HashSet<>());
         return cart;
     }
 
@@ -151,6 +155,7 @@ public class CartService {
     public AppUser getUserByEmail(Principal principal) {
         return userDetailsService.findUserWithRolesByEmail(principal.getName());
     }
+
 
 
 }

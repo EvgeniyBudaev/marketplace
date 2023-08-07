@@ -4,7 +4,7 @@ import com.marketplace.order.dto.request.ShippingAddressSaveRequestDto;
 import com.marketplace.order.dto.response.ShippingAddressResponseDto;
 import com.marketplace.order.mappers.ShippingAddressMappers;
 import com.marketplace.order.models.ShippingAddress;
-import com.marketplace.order.services.ShippingAddressService;
+import com.marketplace.order.services.impl.ShippingAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

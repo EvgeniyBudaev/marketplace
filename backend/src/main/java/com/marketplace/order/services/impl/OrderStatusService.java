@@ -1,4 +1,4 @@
-package com.marketplace.order.services;
+package com.marketplace.order.services.impl;
 
 import com.marketplace.order.models.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;

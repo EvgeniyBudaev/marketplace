@@ -4,7 +4,7 @@ import com.marketplace.order.dto.request.RecipientSaveRequestDto;
 import com.marketplace.order.dto.response.RecipientResponseDto;
 import com.marketplace.order.mappers.RecipientMappers;
 import com.marketplace.order.models.Recipient;
-import com.marketplace.order.services.RecipientService;
+import com.marketplace.order.services.impl.RecipientService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

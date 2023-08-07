@@ -110,8 +110,8 @@ public class ProductService implements ProductDao {
             throw new ResourceNotFoundException("С данными параметрами результаты не найдены");
         }
         Paging<ResponseProductDto> dtoPaging = new Paging<>(count, pageSize, page);
-        /*Ввиду того что при fetch запросе hibernate сначала выберает весь результат запроса в память а потом в памяти устанавливает границы setFirstResult() setMaxResult()
-         * сначала выбираем с ограничениями id продуктов а вторым запросом пожтягиваем зависимые сущности*/
+        /*Ввиду того что при fetch запросе hibernate сначала выберет весь результат запроса в память а потом в памяти устанавливает границы setFirstResult() setMaxResult()
+         * сначала выбираем с ограничениями id продуктов, а вторым запросом подтягиваем зависимые сущности*/
         TypedQuery<Long> productIdQuery = entityManager.createQuery("SELECT p.id from Product as p where lower(p.name) like lower(:find) or p.description like lower(:find) and p.enabled=true", Long.class);
         productIdQuery.setParameter("find", find);
         productIdQuery.setFirstResult((dtoPaging.getCurrentPage() - 1) * dtoPaging.getPageSize());

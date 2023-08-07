@@ -1,11 +1,11 @@
-package com.marketplace.order.services;
+package com.marketplace.order.services.impl;
 
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.cart.model.Cart;
 import com.marketplace.cart.service.CartService;
 import com.marketplace.order.dto.request.CreateOrderRequestDto;
-import com.marketplace.order.dto.response.OrderResponseDto;
+import com.marketplace.order.dto.response.SimpleOrderResponseDto;
 import com.marketplace.order.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,8 +45,12 @@ public class OrderService {
         Cart cart = cartService.getFullCartByUUIDForNonAuthUser(dto.getSession());
         Order order = new Order();
         order.setSessionId(cart.getSessionId());
-        order.setUpdatedAt(LocalDateTime.now());
+        LocalDateTime createTime = LocalDateTime.now();
+        order.setUpdatedAt(createTime);
+        order.setCreatedAt(createTime);
         order.setPaymentVariant(dto.getPayment());
+        order.setAmount("");
+        order.setStatus(orderStatusService.getStartedStatus());
         ShippingAddress shippingAddress = shippingAddressService.getShippingAddressBySession(dto.getSession());
         if(shippingAddress==null){
             throw new ResourceNotFoundException("Не найден адрес доставки");
@@ -68,28 +72,47 @@ public class OrderService {
             amount.set(BigDecimal.valueOf(cartItem.getQuantity() * cartItem.getProduct().getPrice().longValue()));
         });
         order.setAmount(amount.get().toString());
-        order.setStatus(orderStatusService.getStartedStatus());
+        cartService.clearCart(cart);
         return true;
     }
     @Transactional
     public Order getOrderById(Long id) {
-        TypedQuery<Order> query = entityManager.createQuery("SELECT or FROM Order as or JOIN FETCH OrderItem WHERE or.id=:id", Order.class);
+        TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order as o JOIN FETCH o.orderItems WHERE o.id=:id", Order.class);
         query.setParameter("id",id);
         Order order = query.getResultStream().findFirst().orElseThrow(ResolutionException::new);
         return order;
     }
 
-    public Paging<OrderResponseDto> getAllByPage(Integer currentPage, Integer pageSize, List<String> statuses) {
-        TypedQuery<Long> countOrdersQuery = entityManager.createQuery("SELECT count(o) FROM Order as o where status in (:statuses)", Long.class);
-        countOrdersQuery.setParameter("statuses",statuses);
+    @Transactional
+    public Paging<SimpleOrderResponseDto> getAllByPage(Integer currentPage, Integer pageSize, List<String> statuses) {
+        String queryCount;
+        String queryList;
+        if(statuses==null){
+            queryCount = "SELECT count(o) FROM Order as o inner join o.status as os ";
+            queryList = "SELECT o FROM Order as o  inner join fetch o.status as os";
+
+        }else {
+            queryCount = "SELECT count(o) FROM Order as o inner join o.status as os where os.status in (:statuses)";
+            queryList = "SELECT o FROM Order as o  inner join fetch o.status as os where os.status in (:statuses)";
+        }
+        TypedQuery<Long> countOrdersQuery = entityManager.createQuery(queryCount, Long.class);
+        if (statuses!=null){
+            countOrdersQuery.setParameter("statuses",statuses);
+        }
         Integer count = Math.toIntExact(countOrdersQuery.getSingleResult());
         if (count.equals(0)) {
             throw new ResourceNotFoundException("С данными параметрами результаты не найдены");
         }
-        Paging<OrderResponseDto> resultDto = new Paging<>(count,pageSize,currentPage);
-        TypedQuery<Order> orderQueryList = entityManager.createQuery("SELECT o FROM Order as o", Order.class);
+        Paging<SimpleOrderResponseDto> resultDto = new Paging<>(count,pageSize,currentPage);
+        TypedQuery<Order> orderQueryList = entityManager.createQuery(queryList, Order.class);
+        if(statuses!=null){
+            orderQueryList.setParameter("statuses",statuses);
+        }
         orderQueryList.setFirstResult((currentPage - 1) * pageSize);
         orderQueryList.setMaxResults(pageSize);
-        return  null;
+        List<Order> orders = orderQueryList.getResultList();
+        System.out.println(orders);
+        resultDto.setContent(orders.stream().map(SimpleOrderResponseDto::new).toList());
+        return  resultDto;
     }
 }
