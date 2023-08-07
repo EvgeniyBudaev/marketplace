@@ -325,10 +325,10 @@
       "product": "Продукт",
       "contacts": "Контакты",
       "delivery": "Доставка",
-      "order": "Заказ",
-      "recipient": "Получатель",
       "settings": "Настройки",
-      "shipping": "Доставка"
+      "shipping": "Доставка",
+      "recipient": "Получатель",
+      "order": "Заказ"
     }
   },
   "fileUploader": {
