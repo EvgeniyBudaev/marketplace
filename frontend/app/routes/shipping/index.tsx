@@ -2,7 +2,7 @@ import i18next from "i18next";
 import { json, redirect } from "@remix-run/node";
 import type { LoaderArgs, V2_MetaFunction, ActionArgs } from "@remix-run/node";
 import { inputFromForm } from "remix-domains";
-import { useLoaderData } from "@remix-run/react";
+import {Link, useLoaderData} from "@remix-run/react";
 import { badRequest } from "remix-utils";
 import { ERoutes } from "~/enums";
 import { EFormFields, shippingLinks } from "~/pages/Shipping";
@@ -161,6 +161,10 @@ export const meta: V2_MetaFunction = ({ data }) => {
     return [{ title: i18next.t("routes.titles.shipping") || "Shipping" }];
   }
   return [{ title: data?.title || "Shipping" }];
+};
+
+export const handle = {
+  breadcrumb: () => <Link to="/shipping">{ i18next.t("routes.titles.shipping") ?? "Shipping" }</Link>,
 };
 
 export default function ShippingRoute() {

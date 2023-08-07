@@ -5,7 +5,7 @@ import clsx from "clsx";
 import NProgress from "nprogress";
 import {ERoutes} from "~/enums";
 import type {TCart} from "~/shared/api/cart";
-import {ETheme} from "~/uikit";
+import {Breadcrumbs, ETheme} from "~/uikit";
 
 import {Footer} from "./Footer";
 import {Header} from "./Header";
@@ -50,13 +50,17 @@ export const Layout: FC<TProps> = ({cart, className, children, is404, theme = ET
             })}
           >
             {pathname === ERoutes.Root ? (
-              <div className="Layout-ContainerHomePage">{children}</div>
+              <div className="Layout-ContainerHomePage">
+                <Breadcrumbs />
+                {children}
+              </div>
             ) : (
               <div
                 className={clsx("Layout-Container", {
                   "Layout-Container__is404": is404,
                 })}
               >
+                <Breadcrumbs />
                 {children}
               </div>
             )}

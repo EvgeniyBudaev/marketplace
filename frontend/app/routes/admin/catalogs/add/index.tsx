@@ -134,9 +134,9 @@ export const loader = async (args: LoaderArgs) => {
 
 export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return [{ title: i18next.t("routes.titles.catalogAdd") || "Adding a catalog" }];
+    return [{ title: i18next.t("routes.titles.catalogAdd") || "Adding a catalogs" }];
   }
-  return [{ title: data?.title || "Adding a catalog" }];
+  return [{ title: data?.title || "Adding a catalogs" }];
 };
 
 export default function CatalogAddRoute() {

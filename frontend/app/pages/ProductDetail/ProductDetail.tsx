@@ -71,7 +71,7 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
     //       method: EFormMethods.Post,
     //       action: createPath({
     //         route: ERoutes.CatalogDetail,
-    //         params: { alias: catalog.alias },
+    //         params: { alias: catalogs.alias },
     //         withIndex: true,
     //       }),
     //     },
@@ -104,7 +104,7 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
   };
 
   return (
-    <div className="ProductDetail">
+    <section className="ProductDetail">
       <h1 className="ProductDetail-Title">{product.name}</h1>
       <div className="ProductDetail-Navigation"></div>
       <div className="ProductDetail-Info">
@@ -160,7 +160,7 @@ export const ProductDetail: FC<TProps> = ({ cart, product }) => {
           {count > 0 && <div className="ProductDetail-AddToCart">{renderButton(product)}</div>}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

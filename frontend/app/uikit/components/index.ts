@@ -1,5 +1,6 @@
 import { accordionLinks } from "app/uikit/components/Accordion";
 import { avatarLinks } from "app/uikit/components/Avatar";
+import { breadcrumbsLinks } from "~/uikit/components/Breadcrumbs";
 import { buttonLinks } from "~/uikit/components/Button/Button";
 import { dateTimeLinks } from "app/uikit/components/DateTime";
 import { dropzoneLinks } from "app/uikit/components/Dropzone";
@@ -29,6 +30,7 @@ import { typographyLinks } from "~/uikit/components/Typography/constants";
 
 export * from "./Accordion";
 export * from "./Avatar";
+export * from "./Breadcrumbs";
 export * from "./Button";
 export * from "./Checkbox";
 export * from "./Colors";
@@ -61,6 +63,7 @@ export const links = () => {
   return [
     ...accordionLinks(),
     ...avatarLinks(),
+    ...breadcrumbsLinks(),
     ...buttonLinks(),
     ...dateTimeLinks(),
     ...dropzoneLinks(),

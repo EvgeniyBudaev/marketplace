@@ -17,11 +17,11 @@ export enum ERoutes {
   AdminProductEdit = "/admin/products/:alias/edit",
 
   Cart = "/cart",
-  CatalogDetail = "/catalog/:alias",
-  CatalogMirrors = "/catalog/mirrors",
-  Order = "/order",
-  ProductDetail = "/product/:alias",
-  Recipient = "/recipient",
+  CatalogDetail = "/catalogs/:aliasCatalog",
+  CatalogMirrors = "/catalogs/mirrors",
+  Order = "/shipping/recipient/order",
+  ProductDetail = "/catalogs/:aliasCatalog/:aliasProduct",
+  Recipient = "/shipping/recipient",
   Settings = "/settings",
   Shipping = "/shipping",
 

@@ -141,7 +141,7 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
             className="CartItem-ProductContentLink"
             to={createPath({
               route: ERoutes.ProductDetail,
-              params: { alias: cartItem.product.alias },
+              params: { aliasCatalog: cartItem.product.catalogAlias, aliasProduct: cartItem.product.alias },
             })}
           >
             {!isNil(cartItem.product.defaultImage) ? (

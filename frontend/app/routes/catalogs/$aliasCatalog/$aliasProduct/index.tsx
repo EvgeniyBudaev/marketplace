@@ -24,7 +24,8 @@ type TLoaderData = {
 export const loader = async (args: LoaderArgs) => {
   const { params, request } = args;
   const [t] = await Promise.all([getStoreFixedT({ request })]);
-  const { alias } = params as { alias: string };
+  const { aliasProduct } = params as { aliasProduct: string };
+  console.log("[aliasProduct] ", aliasProduct);
 
   const cartSession = await getCartSession(request);
   const cart = JSON.parse(cartSession || "{}");
@@ -42,7 +43,7 @@ export const loader = async (args: LoaderArgs) => {
 
   const updatedCartSession = await createCartSession(cartResponse.data);
 
-  const productDetailResponse = await getProductDetail(request, { alias });
+  const productDetailResponse = await getProductDetail(request, { alias: aliasProduct });
 
   if (!cartResponse.success || !productDetailResponse.success) {
     throw internalError();

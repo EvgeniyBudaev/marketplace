@@ -338,6 +338,12 @@
     "catalog": {
       "meta": {
         "title": "Catalog"
+      },
+      "from": "from",
+      "goods": "goods",
+      "sorting": {
+        "asc": "ascending price",
+        "desc": "descending price"
       }
     },
     "order": {
@@ -390,5 +396,10 @@
   },
   "root": {
     "title": "Добавь сюда перевод!!!"
+  },
+  "routes": {
+    "titles": {
+      "catalog": "Catalog"
+    }
   }
 }

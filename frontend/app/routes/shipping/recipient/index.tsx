@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import { json, redirect } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import {Link, useLoaderData} from "@remix-run/react";
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
 import type { LoaderArgs, V2_MetaFunction, ActionArgs } from "@remix-run/node";
@@ -160,9 +160,13 @@ export const loader = async (args: LoaderArgs) => {
 
 export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return [{ title: i18next.t("routes.titles.recipient") || "Recipient" }];
+    return [{ title: i18next.t("routes.titles.recipient") ?? "Recipient1" }];
   }
-  return [{ title: data?.title || "Recipient" }];
+  return [{ title: data?.title || "Recipient1" }];
+};
+
+export const handle = {
+  breadcrumb: () => <Link to="/shipping/recipient">{ i18next.t("routes.titles.recipient") ?? "Recipient" }</Link>,
 };
 
 export default function RecipientRoute() {

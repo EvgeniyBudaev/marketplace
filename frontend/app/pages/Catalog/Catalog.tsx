@@ -178,8 +178,8 @@ export const Catalog: FC<TProps> = (props) => {
           <Typography variant={ETypographyVariant.TextH1Bold}>{catalog?.name}</Typography>
         </h1>
         <Typography variant={ETypographyVariant.TextB3Regular}>
-          {productRange.endProduct} {t("pages.catalog.from")} {products.countOfResult}{" "}
-          {t("pages.catalog.goods")}
+          {productRange.endProduct} {t("pages.catalogs.from")} {products.countOfResult}{" "}
+          {t("pages.catalogs.goods")}
         </Typography>
       </div>
       <div className="Catalog-Inner">

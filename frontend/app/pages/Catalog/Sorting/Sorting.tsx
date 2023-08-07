@@ -20,8 +20,8 @@ type TProps = {
 
 export const Sorting: FC<TProps> = ({ onSortingChange, sorting }) => {
   const { t } = useTranslation();
-  const PRICE_UP = t("pages.catalog.sorting.asc");
-  const PRICE_DOWN = t("pages.catalog.sorting.desc");
+  const PRICE_UP = t("pages.catalogs.sorting.asc");
+  const PRICE_DOWN = t("pages.catalogs.sorting.desc");
 
   const options = [
     { value: "price_asc", label: PRICE_UP },

@@ -32,7 +32,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
   const { t } = useTranslation();
   const ROUTE_PRODUCT_DETAIL = createPath({
     route: ERoutes.ProductDetail,
-    params: { alias: product.alias },
+    params: { aliasCatalog: product.catalogAlias, aliasProduct: product.alias },
   });
   const count = Number(product.count);
   const isMobileScreen = useMediaQuery({ query: "(max-width: 500px)" });
