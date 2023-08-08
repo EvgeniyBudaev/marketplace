@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction, ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { badRequest } from "remix-utils";
 
@@ -13,10 +13,13 @@ import type { TRecipient } from "~/shared/api/recipient";
 import { getRecipient } from "~/shared/api/recipient/domain.server";
 import type { TShipping } from "~/shared/api/shipping";
 import { getResponseError } from "~/shared/domain";
-import { commitSession, getSession } from "~/shared/session";
+import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
 import type { TDomainErrors } from "~/types";
-import { createPath } from "~/utils";
+import { checkCSRFToken, createPath } from "~/utils";
+import { inputFromForm } from "remix-domains";
+import { createOrder } from "~/shared/api/order";
+import { mapOrderToDto } from "~/shared/api/order/utils";
 
 type TLoaderData = {
   cart: TCart;
@@ -27,6 +30,80 @@ type TLoaderData = {
   success?: boolean;
   title?: string;
   uuid: string;
+};
+
+export const action = async (args: ActionArgs) => {
+  const { request } = args;
+
+  const [csrfSession, formValues, t, session] = await Promise.all([
+    getCsrfSession(request),
+    inputFromForm(request),
+    getStoreFixedT({ request }),
+    getSession(request.headers.get("Cookie")),
+  ]);
+
+  const csrfToken = formValues.csrf;
+  const checkCsrf = checkCSRFToken({ csrfToken, session: csrfSession, t });
+  if (checkCsrf?.error) return checkCsrf.error;
+
+  const formattedParams = mapOrderToDto(formValues as any);
+
+  try {
+    const orderResponse = await createOrder(request, formattedParams);
+
+    if (orderResponse.success) {
+      session.flash("FamilyMart_Order", {
+        success: true,
+      });
+
+      return redirect(
+        createPath({
+          route: ERoutes.Root,
+        }),
+        {
+          headers: {
+            "Set-Cookie": await commitSession(session),
+          },
+        },
+      );
+    }
+
+    session.flash("FamilyMart_Order", {
+      success: false,
+    });
+
+    return redirect(
+      createPath({
+        route: ERoutes.Order,
+      }),
+      {
+        headers: {
+          "Set-Cookie": await commitSession(session),
+        },
+      },
+    );
+  } catch (error) {
+    const errorResponse = error as Response;
+    const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
+    const session = await getSession(request.headers.get("Cookie"));
+    console.log("[errorResponse] ", errorResponse);
+    session.flash("FamilyMart_Order", {
+      success: false,
+      formError,
+      fieldErrors,
+    });
+
+    return redirect(
+      createPath({
+        route: ERoutes.Order,
+      }),
+      {
+        headers: {
+          "Set-Cookie": await commitSession(session),
+        },
+      },
+    );
+  }
 };
 
 export const loader = async (args: LoaderArgs) => {

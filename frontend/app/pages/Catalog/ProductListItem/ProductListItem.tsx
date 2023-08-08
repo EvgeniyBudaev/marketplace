@@ -60,7 +60,7 @@ export const ProductListItem = forwardRef<HTMLLIElement, TProps>(function Produc
         method: EFormMethods.Post,
         action: createPath({
           route: ERoutes.CatalogDetail,
-          params: { alias: catalog.alias },
+          params: { aliasCatalog: catalog.alias },
           withIndex: true,
         }),
       },

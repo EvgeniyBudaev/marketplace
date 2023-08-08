@@ -325,10 +325,10 @@
       "product": "Product",
       "contacts": "Contacts",
       "delivery": "Delivery",
-      "order": "Order",
-      "recipient": "Recipient",
       "settings": "Settings",
-      "shipping": "Shipping"
+      "shipping": "Shipping",
+      "recipient": "Recipient",
+      "order": "Order"
     }
   },
   "fileUploader": {

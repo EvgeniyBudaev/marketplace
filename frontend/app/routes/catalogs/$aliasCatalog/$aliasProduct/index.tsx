@@ -68,7 +68,7 @@ export const meta: V2_MetaFunction = ({ data }) => {
   return [{ title: data?.title || "Product" }];
 };
 
-export default function ProductDetailRoute() {
+export default function ProductDetailIndexRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return <ProductDetail cart={data.cart} product={data.product} />;
