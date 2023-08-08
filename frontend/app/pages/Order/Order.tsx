@@ -2,6 +2,10 @@ import clsx from "clsx";
 import { useState } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { useFetcher } from "@remix-run/react";
+import { useAuthenticityToken } from "remix-utils";
+
+import { ERoutes } from "~/enums";
 import { EPaymentMethod } from "~/pages/Order/enums";
 import { ModalPaymentMethod } from "~/pages/Order/ModalPaymentMethod";
 import { OrderCart, orderCartLinks } from "~/pages/Order/OrderCart";
@@ -13,8 +17,10 @@ import { OrderTotal, orderTotalLinks } from "~/pages/Order/OrderTotal";
 import type { TCart } from "~/shared/api/cart";
 import type { TRecipient } from "~/shared/api/recipient";
 import type { TShipping } from "~/shared/api/shipping";
+import { EFormMethods } from "~/shared/form";
 import type { TDomainErrors } from "~/types";
 import { ETypographyVariant, Typography } from "~/uikit";
+import { createPath } from "~/utils";
 import styles from "./Order.css";
 
 type TProps = {
@@ -28,10 +34,12 @@ type TProps = {
 };
 
 export const Order: FC<TProps> = (props) => {
-  const { cart, recipient, shipping } = props;
+  const { cart, recipient, shipping, uuid } = props;
+  const csrf = useAuthenticityToken();
+  const fetcher = useFetcher();
   const { t } = useTranslation();
   const [isOpenModalPaymentMethod, setIsOpenModalPaymentMethod] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState(EPaymentMethod.CARD);
+  const [payment, setPayment] = useState(EPaymentMethod.CARD);
 
   const handleOpenModalPaymentMethod = () => {
     setIsOpenModalPaymentMethod((prevState: boolean) => (prevState ? prevState : true));
@@ -42,12 +50,22 @@ export const Order: FC<TProps> = (props) => {
   };
 
   const handleModalPaymentSubmit = (value: EPaymentMethod) => {
-    setPaymentMethod(value);
+    setPayment(value);
     handleCloseModalPaymentMethod();
   };
 
   const handleOrderSubmit = () => {
-    console.log("paymentMethod: ", paymentMethod);
+    const formattedParams = { payment, csrf, uuid };
+    fetcher.submit(
+      { ...formattedParams },
+      {
+        method: EFormMethods.Post,
+        action: createPath({
+          route: ERoutes.Order,
+          withIndex: true,
+        }),
+      },
+    );
   };
 
   return (
@@ -66,7 +84,7 @@ export const Order: FC<TProps> = (props) => {
           <OrderPayment
             onOpenModalPaymentMethod={handleOpenModalPaymentMethod}
             onSubmit={handleOrderSubmit}
-            paymentMethod={paymentMethod}
+            paymentMethod={payment}
           />
         </div>
       </div>

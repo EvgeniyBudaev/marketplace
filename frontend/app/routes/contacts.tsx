@@ -3,6 +3,7 @@ import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import i18next from "i18next";
 import { Contacts, contactsLinks } from "~/pages/Contacts";
 import { getStoreFixedT } from "~/shared/store";
+import type { TBaseRouteHandle } from "~/types/routes";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
@@ -17,6 +18,12 @@ export const meta: V2_MetaFunction = ({ data }) => {
     return [{ title: i18next.t("routes.titles.contacts") || "Contacts" }];
   }
   return [{ title: data?.title || "Contacts" }];
+};
+
+export const handle: TBaseRouteHandle = {
+  breadcrumb: {
+    title: (t) => t("routes.titles.contacts"),
+  },
 };
 
 export default function ContactsRoute() {

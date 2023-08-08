@@ -70,7 +70,10 @@ export const loader = async (args: LoaderArgs) => {
   const updatedCartSession = await createCartSession(cartResponse.data);
 
   const catalogResponse = await getCatalogDetail(request, { alias: aliasCatalog });
-  const productsResponse = await getProductsByCatalog(request, { alias: aliasCatalog, params: formattedParams });
+  const productsResponse = await getProductsByCatalog(request, {
+    alias: aliasCatalog,
+    params: formattedParams,
+  });
 
   if (!cartResponse.success || !catalogResponse.success || !productsResponse.success) {
     throw internalError();
@@ -97,7 +100,7 @@ export const meta: V2_MetaFunction = ({ data }) => {
   return [{ title: data?.title || "Catalog" }];
 };
 
-export default function CatalogDetailRoute() {
+export default function CatalogDetailIndexRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return <Catalog cart={data.cart} catalog={data.catalog} products={data.products} />;

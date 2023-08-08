@@ -1,29 +1,37 @@
 import { json } from "@remix-run/node";
 import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import i18next from "i18next";
-import { Settings, settingsLinks } from "~/pages";
+import { About, aboutLinks } from "~/pages/About";
 import { getStoreFixedT } from "~/shared/store";
+import type { TBaseRouteHandle } from "~/types/routes";
 
 export const loader = async (args: LoaderArgs) => {
   const { request } = args;
   const [t] = await Promise.all([getStoreFixedT({ request })]);
 
   return json({
-    title: t("pages.settings.meta.title"),
+    title: t("routes.titles.about"),
   });
 };
 
 export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return [{ title: i18next.t("routes.titles.settings") || "Settings" }];
+    return [{ title: i18next.t("routes.titles.about") || "About" }];
   }
-  return [{ title: data?.title || "Settings" }];
+
+  return [{ title: data?.title || "About" }];
 };
 
-export default function SettingsRoute() {
-  return <Settings />;
+export const handle: TBaseRouteHandle = {
+  breadcrumb: {
+    title: (t) => t("routes.titles.about"),
+  },
+};
+
+export default function AboutRoute() {
+  return <About />;
 }
 
 export function links() {
-  return [...settingsLinks()];
+  return [...aboutLinks()];
 }

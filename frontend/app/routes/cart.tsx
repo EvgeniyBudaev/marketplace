@@ -18,6 +18,7 @@ import type { TCart } from "~/shared/api/cart";
 import { mapCartActionToDto, mapCartSetQuantityToDto } from "~/shared/api/cart/utils";
 import { getStoreFixedT } from "~/shared/store";
 import type { TDomainErrors } from "~/types";
+import type { TBaseRouteHandle } from "~/types/routes";
 import { internalError, parseResponseError } from "~/utils";
 
 type TLoaderData = {
@@ -97,6 +98,12 @@ export const meta: V2_MetaFunction = ({ data }) => {
     return [{ title: i18next.t("routes.titles.cart") || "Cart" }];
   }
   return [{ title: data?.title || "Cart" }];
+};
+
+export const handle: TBaseRouteHandle = {
+  breadcrumb: {
+    title: (t) => t("routes.titles.cart"),
+  },
 };
 
 export default function CartRoute() {
