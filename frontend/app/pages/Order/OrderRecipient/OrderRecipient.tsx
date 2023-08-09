@@ -19,7 +19,7 @@ export const OrderRecipient: FC<TProps> = ({ recipient }) => {
       <div className="OrderRecipient-Inner">
         <h5 className="OrderRecipient-SubTitle">
           <Typography variant={ETypographyVariant.TextH5Bold}>
-            {t("pages.order.recipient")}
+            {t("pages.orders.recipient")}
           </Typography>
         </h5>
         <Link

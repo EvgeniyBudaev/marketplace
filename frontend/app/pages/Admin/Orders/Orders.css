@@ -1,0 +1,32 @@
+.Orders-Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.Orders-HeaderControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Orders-Column {
+  width: 50px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #000;
+  padding: 8px;
+}
+.Orders-SearchingPanel {
+  margin-right: 16px;
+}
+.Orders-LinkButton {
+  height: 42px;
+}
+.Orders-LinkButton span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/*# sourceMappingURL=Orders.css.map */

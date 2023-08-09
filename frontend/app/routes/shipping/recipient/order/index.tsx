@@ -18,8 +18,8 @@ import { getStoreFixedT } from "~/shared/store";
 import type { TDomainErrors } from "~/types";
 import { checkCSRFToken, createPath } from "~/utils";
 import { inputFromForm } from "remix-domains";
-import { createOrder } from "~/shared/api/order";
-import { mapOrderToDto } from "~/shared/api/order/utils";
+import { createOrder } from "app/shared/api/orders";
+import { mapOrderToDto } from "~/shared/api/orders/utils";
 
 type TLoaderData = {
   cart: TCart;
@@ -139,7 +139,7 @@ export const loader = async (args: LoaderArgs) => {
           cart: cartResponse.data,
           recipient: recipientResponse.data,
           shipping: shippingResponse.data,
-          title: t("routes.titles.order"),
+          title: t("routes.titles.orders"),
           uuid: uuid as string,
         },
         {
@@ -161,7 +161,7 @@ export const loader = async (args: LoaderArgs) => {
 
 export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return [{ title: i18next.t("routes.titles.order") || "Order" }];
+    return [{ title: i18next.t("routes.titles.orders") || "Order" }];
   }
   return [{ title: data?.title || "Order" }];
 };

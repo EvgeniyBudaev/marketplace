@@ -1,0 +1,9 @@
+.OrdersTable-Actions {
+  display: flex;
+  align-items: center;
+}
+.OrdersTable-ActionsEdit {
+  margin-right: 16px;
+}
+
+/*# sourceMappingURL=OrdersTable.css.map */

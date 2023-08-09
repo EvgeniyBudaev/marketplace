@@ -27,7 +27,7 @@ export const OrderTotal: FC<TProps> = ({ cart }) => {
       <div className="OrderTotal-Inner">
         <div>
           <Typography variant={ETypographyVariant.TextB3Regular}>
-            {t("pages.order.goods")} - {cart?.countProducts} шт.
+            {t("pages.orders.goods")} - {cart?.countProducts} шт.
           </Typography>
         </div>
         <div>
@@ -39,7 +39,7 @@ export const OrderTotal: FC<TProps> = ({ cart }) => {
       {/*<div className="OrderTotal-Inner">*/}
       {/*  <div>*/}
       {/*    <Typography variant={ETypographyVariant.TextB3Regular}>*/}
-      {/*      {t("pages.order.delivery")}*/}
+      {/*      {t("pages.orders.delivery")}*/}
       {/*    </Typography>*/}
       {/*  </div>*/}
       {/*  <div>*/}

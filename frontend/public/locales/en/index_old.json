@@ -350,12 +350,22 @@
       "meta": {
         "title": "Добавь сюда перевод!!!"
       },
-      "delivery": "Delivery"
+      "delivery": "Delivery",
+      "payWithCard": "Pay by card upon receipt",
+      "payWithCash": "Pay in cash upon receipt",
+      "fullReturn": "Full refund if you don't receive the item",
+      "title": "Checkout",
+      "goods": "Goods",
+      "cartEmpty": "Your basket is empty",
+      "checkout": "Checkout",
+      "recipient": "Recipient",
+      "courierDelivery": "Courier delivery"
     },
     "recipient": {
       "meta": {
         "title": "Recipient"
-      }
+      },
+      "order": "before handing over the paid order"
     },
     "shipping": {
       "meta": {
@@ -399,7 +409,8 @@
   },
   "routes": {
     "titles": {
-      "catalog": "Catalog"
+      "catalog": "Catalog",
+      "order": "Order"
     }
   }
 }

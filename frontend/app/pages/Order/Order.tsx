@@ -71,7 +71,7 @@ export const Order: FC<TProps> = (props) => {
   return (
     <section className="Order">
       <h1 className="Order-Title">
-        <Typography variant={ETypographyVariant.TextH1Bold}>{t("pages.order.title")}</Typography>
+        <Typography variant={ETypographyVariant.TextH1Bold}>{t("pages.orders.title")}</Typography>
       </h1>
       <div className={clsx("Order-Inner", "Order-InnerMobile")}>
         <div className="Order-BlockLeft">
