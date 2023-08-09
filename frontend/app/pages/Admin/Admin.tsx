@@ -1,11 +1,11 @@
-import type {FC} from "react";
-import {useTranslation} from "react-i18next";
-import {catalogsLinks} from "~/pages/Admin/Catalogs";
-import {ETypographyVariant, LinkButton, Typography} from "~/uikit";
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { catalogsLinks } from "~/pages/Admin/Catalogs";
+import { ETypographyVariant, LinkButton, Typography } from "~/uikit";
 import styles from "./Admin.css";
 
 export const Admin: FC = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <section>
@@ -21,10 +21,13 @@ export const Admin: FC = () => {
       <div>
         <LinkButton href="/admin/attributes">{t("pages.admin.link.attributes")}</LinkButton>
       </div>
+      <div>
+        <LinkButton href="/admin/orders">{t("pages.admin.link.orders")}</LinkButton>
+      </div>
     </section>
   );
 };
 
 export function adminLinks() {
-  return [{rel: "stylesheet", href: styles}, ...catalogsLinks()];
+  return [{ rel: "stylesheet", href: styles }, ...catalogsLinks()];
 }

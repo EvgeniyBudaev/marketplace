@@ -91,7 +91,7 @@ export const meta: V2_MetaFunction = ({ data }) => {
   return [{ title: data?.title || "Attributes" }];
 };
 
-export default function AttributesRoute() {
+export default function AttributesIndexRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return <Attributes attributes={data.attributes} />;

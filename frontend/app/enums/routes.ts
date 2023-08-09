@@ -1,8 +1,8 @@
 export enum ERoutes {
   Root = "/",
   AdminPanel = "/admin",
-  Login = "/auth/login",
-  Signup = "/auth/signup",
+  Login = "/login",
+  Signup = "/signup",
 
   AdminAttributes = "/admin/attributes",
   AdminAttributeAdd = "/admin/attributes/add",
@@ -15,6 +15,9 @@ export enum ERoutes {
   AdminProducts = "/admin/products",
   AdminProductAdd = "/admin/products/add",
   AdminProductEdit = "/admin/products/:alias/edit",
+
+  AdminOrders = "/admin/orders",
+  AdminOrderEdit = "/admin/orders/:id/edit",
 
   Cart = "/cart",
   CatalogDetail = "/catalogs/:aliasCatalog",

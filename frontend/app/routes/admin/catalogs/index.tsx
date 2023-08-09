@@ -81,7 +81,7 @@ export const meta: V2_MetaFunction = ({ data }) => {
   return [{ title: data?.title || "Catalogs" }];
 };
 
-export default function CatalogsRoute() {
+export default function CatalogsIndexRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return <Catalogs catalogs={data.catalogs} />;

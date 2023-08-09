@@ -76,7 +76,8 @@
       "link": {
         "catalogs": "Каталоги",
         "products": "Продукты",
-        "attributes": "Атрибуты"
+        "attributes": "Атрибуты",
+        "orders": "Заказы"
       },
       "attributeAdd": {
         "title": "Добавление атрибута",
@@ -141,6 +142,18 @@
               "dateOfChange": "Дата изменения"
             }
           }
+        }
+      },
+      "orders": {
+        "title": "Заказы",
+        "table": {
+          "columns": {
+            "info": {
+              "dateAdded": "Дата добавления",
+              "dateOfChange": "Дата изменения"
+            }
+          },
+          "header": "Заказы"
         }
       },
       "productAdd": {
@@ -309,26 +322,26 @@
     "titles": {
       "root": "FamilyMart",
       "about": "О нас",
+      "admin": "Админ панель",
+      "attributes": "Атрибуты",
       "attributeEdit": "Редактирование атрибута",
       "attributeAdd": "Добавление атрибута",
-      "attributes": "Атрибуты",
+      "catalogs": "Каталоги",
       "catalogEdit": "Редактирование каталога",
       "catalogAdd": "Добавление каталога",
-      "catalogs": "Каталоги",
-      "admin": "Админ панель",
+      "orders": "Заказы",
+      "products": "Продукты",
       "productEdit": "Редактирование продукта",
       "productAdd": "Добавление продукта",
-      "products": "Продукты",
-      "login": "Авторизация",
-      "signup": "Регистрация",
       "cart": "Корзина",
       "product": "Продукт",
       "contacts": "Контакты",
       "delivery": "Доставка",
+      "login": "Авторизация",
       "settings": "Настройки",
       "shipping": "Доставка",
       "recipient": "Получатель",
-      "order": "Заказ"
+      "signup": "Регистрация"
     }
   },
   "fileUploader": {

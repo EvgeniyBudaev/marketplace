@@ -92,7 +92,7 @@ export const meta: V2_MetaFunction = ({ data }) => {
   return [{ title: data?.title || "Products" }];
 };
 
-export default function ProductsRoute() {
+export default function ProductsIndexRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return <Products products={data.products} />;

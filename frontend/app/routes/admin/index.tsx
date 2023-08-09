@@ -30,7 +30,7 @@ export const meta: V2_MetaFunction = ({ data }) => {
   return [{ title: data?.title || "Admin panel" }];
 };
 
-export default function AdminRoute() {
+export default function AdminIndexRoute() {
   return <Admin />;
 }
 
