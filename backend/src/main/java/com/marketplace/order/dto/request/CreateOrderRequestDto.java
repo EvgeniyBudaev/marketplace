@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class CreateOrderRequestDto {
-    private String session;
+    private String uuid;
     private EPaymentVariants payment;
 }

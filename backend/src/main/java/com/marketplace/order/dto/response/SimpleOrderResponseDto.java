@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class SimpleOrderResponseDto {
     private Long id;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime modifyDate;
     private String orderAmount;
     private String recipientEmail;
     private String status;
@@ -19,7 +19,7 @@ public class SimpleOrderResponseDto {
     public SimpleOrderResponseDto (Order order){
         this.id = order.getId();
         this.createdAt = order.getCreatedAt();
-        this.updatedAt = order.getUpdatedAt();
+        this.modifyDate = order.getUpdatedAt();
         this.orderAmount = order.getAmount();
         this.recipientEmail = order.getRecipientEmail();
         this.status = order.getStatus().getStatus();

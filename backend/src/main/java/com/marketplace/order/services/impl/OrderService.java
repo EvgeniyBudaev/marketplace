@@ -42,7 +42,7 @@ public class OrderService {
 
     @Transactional
     public boolean createOrder(CreateOrderRequestDto dto) {
-        Cart cart = cartService.getFullCartByUUIDForNonAuthUser(dto.getSession());
+        Cart cart = cartService.getFullCartByUUIDForNonAuthUser(dto.getUuid());
         Order order = new Order();
         order.setSessionId(cart.getSessionId());
         LocalDateTime createTime = LocalDateTime.now();
@@ -51,14 +51,14 @@ public class OrderService {
         order.setPaymentVariant(dto.getPayment());
         order.setAmount("");
         order.setStatus(orderStatusService.getStartedStatus());
-        ShippingAddress shippingAddress = shippingAddressService.getShippingAddressBySession(dto.getSession());
+        ShippingAddress shippingAddress = shippingAddressService.getShippingAddressBySession(dto.getUuid());
         if(shippingAddress==null){
             throw new ResourceNotFoundException("Не найден адрес доставки");
         }
         String address = shippingAddress.getAddress()+" этаж: "+ shippingAddress.getFloor()+" квартира: "+ shippingAddress.getFlat();
         order.setShippingAddress(address);
         order.setComment(shippingAddress.getComment());
-        Recipient recipient = recipientService.getRecipientBySession(dto.getSession());
+        Recipient recipient = recipientService.getRecipientBySession(dto.getUuid());
         order.setRecipientPhone(recipient.getPhone());
         order.setRecipientEmail(recipient.getEmail());
         order.setRecipientName(recipient.getName()+" "+ recipient.getSurname());
