@@ -149,6 +149,10 @@
         "table": {
           "columns": {
             "info": {
+              "id": "Номер заказа",
+              "status": "Статус",
+              "orderAmount": "Сумма заказа",
+              "recipientEmail": "Email получателя",
               "dateAdded": "Дата добавления",
               "dateOfChange": "Дата изменения"
             }

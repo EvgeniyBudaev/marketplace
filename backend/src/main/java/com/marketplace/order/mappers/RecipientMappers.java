@@ -7,6 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RecipientMappers {
-    @Mapping(target = "session", source = "session.uuid")
+    @Mapping(target = "uuid", source = "session.uuid")
     RecipientResponseDto entityToDto(Recipient recipient);
 }

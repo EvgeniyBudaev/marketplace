@@ -34,7 +34,7 @@ export const ModalPaymentMethod: FC<TProps> = ({ isOpen, onClose, onSubmit }) =>
         <h2>Способы оплаты</h2>
         <div className="ModalPaymentMethod-Defence">
           <Icon className="ModalPaymentMethod-DefenceIcon" type="Defence" />
-          <Typography>{t("pages.orders.fullReturn")}</Typography>
+          <Typography>{t("pages.order.fullReturn")}</Typography>
         </div>
       </Modal.Header>
       <Modal.Content>

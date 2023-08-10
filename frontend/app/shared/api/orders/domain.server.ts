@@ -1,4 +1,9 @@
-import { orderListParamsSchema, orderParamsSchema, orderSchema } from "~/shared/api/orders/schemas";
+import {
+  orderListParamsSchema,
+  orderListSchema,
+  orderParamsSchema,
+  orderSchema,
+} from "~/shared/api/orders/schemas";
 import { createOrderApi, getOrderListApi } from "~/shared/api/orders/utils";
 import { apiDomainFunction } from "~/utils";
 
@@ -6,5 +11,5 @@ export const createOrder = apiDomainFunction(orderParamsSchema, orderSchema)(cre
 
 export const getOrderList = apiDomainFunction(
   orderListParamsSchema,
-  orderListParamsSchema,
+  orderListSchema,
 )(getOrderListApi);

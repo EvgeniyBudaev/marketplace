@@ -8,3 +8,8 @@ export const paginationSchema = z.object({
   countOfResult: z.number(),
   countOfPage: z.number(),
 });
+
+export const paginationParamsSchema = z.object({
+  page: z.string(),
+  size: z.string(),
+});

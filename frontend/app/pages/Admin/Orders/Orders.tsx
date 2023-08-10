@@ -62,8 +62,8 @@ export const Orders: FC<TProps> = (props) => {
     onSortTableByProperty,
   } = useTable({
     // onDelete: handleOrderDelete,
-    pageOption: orders.currentPage ?? DEFAULT_PAGE,
-    sizeOption: orders.pageSize ?? DEFAULT_PAGE_SIZE,
+    pageOption: orders?.currentPage ?? DEFAULT_PAGE,
+    sizeOption: orders?.pageSize ?? DEFAULT_PAGE_SIZE,
   });
 
   useEffect(() => {
@@ -110,10 +110,10 @@ export const Orders: FC<TProps> = (props) => {
           columns: [
             ETableColumns.CreatedAt,
             ETableColumns.Id,
+            ETableColumns.ModifyDate,
             ETableColumns.OrderAmount,
             ETableColumns.RecipientEmail,
             ETableColumns.Status,
-            ETableColumns.UpdateDate,
           ],
           multiple: true,
           onChangeSorting: onSortTableByProperty,
