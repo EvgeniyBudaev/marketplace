@@ -149,6 +149,10 @@
         "table": {
           "columns": {
             "info": {
+              "id": "Order number",
+              "status": "Status",
+              "orderAmount": "Order amount",
+              "recipientEmail": "Recipient email",
               "dateAdded": "Date added",
               "dateOfChange": "Date of change"
             }

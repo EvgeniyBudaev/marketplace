@@ -20,7 +20,7 @@ export const OrderCart: FC<TProps> = ({ cart }) => {
     <div className="OrderCart">
       <div className="OrderCart-Inner">
         <h5 className="OrderCart-SubTitle">
-          <Typography variant={ETypographyVariant.TextH5Bold}>{t("pages.orders.goods")}</Typography>
+          <Typography variant={ETypographyVariant.TextH5Bold}>{t("pages.order.goods")}</Typography>
         </h5>
         <Link
           className="OrderCart-Link"
@@ -36,7 +36,7 @@ export const OrderCart: FC<TProps> = ({ cart }) => {
       {isNil(cart?.items) ? (
         <p>
           <Typography variant={ETypographyVariant.TextB3Regular}>
-            {t("pages.orders.cartEmpty")}
+            {t("pages.order.cartEmpty")}
           </Typography>
         </p>
       ) : (

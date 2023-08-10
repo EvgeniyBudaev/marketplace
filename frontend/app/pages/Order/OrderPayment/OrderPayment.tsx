@@ -13,8 +13,8 @@ type TProps = {
 
 export const OrderPayment: FC<TProps> = ({ onOpenModalPaymentMethod, onSubmit, paymentMethod }) => {
   const { t } = useTranslation();
-  const CARD_TEXT = t("pages.orders.payWithCard");
-  const CASH_TEXT = t("pages.orders.payWithCash");
+  const CARD_TEXT = t("pages.order.payWithCard");
+  const CASH_TEXT = t("pages.order.payWithCash");
 
   return (
     <div className="OrderPayment">
@@ -44,7 +44,7 @@ export const OrderPayment: FC<TProps> = ({ onOpenModalPaymentMethod, onSubmit, p
       </div>
       <Button className="OrderPayment-Button" onClick={onSubmit}>
         <Typography variant={ETypographyVariant.TextB3Regular}>
-          {t("pages.orders.checkout")}
+          {t("pages.order.checkout")}
         </Typography>
       </Button>
     </div>

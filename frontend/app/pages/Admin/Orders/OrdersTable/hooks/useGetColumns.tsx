@@ -14,6 +14,35 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
   return useMemo(
     () =>
       [
+        columnHelper.accessor(ETableColumns.Id, {
+          id: ETableColumns.Id,
+          header: () => <TableHeader>{t("pages.admin.orders.table.columns.info.id")}</TableHeader>,
+        }),
+
+        columnHelper.accessor(ETableColumns.Status, {
+          id: ETableColumns.Status,
+          header: () => (
+            <TableHeader>{t("pages.admin.orders.table.columns.info.status")}</TableHeader>
+          ),
+          minSize: 192,
+        }),
+
+        columnHelper.accessor(ETableColumns.OrderAmount, {
+          id: ETableColumns.OrderAmount,
+          header: () => (
+            <TableHeader>{t("pages.admin.orders.table.columns.info.orderAmount")}</TableHeader>
+          ),
+          minSize: 192,
+        }),
+
+        columnHelper.accessor(ETableColumns.RecipientEmail, {
+          id: ETableColumns.RecipientEmail,
+          header: () => (
+            <TableHeader>{t("pages.admin.orders.table.columns.info.recipientEmail")}</TableHeader>
+          ),
+          minSize: 192,
+        }),
+
         columnHelper.accessor(ETableColumns.CreatedAt, {
           id: ETableColumns.CreatedAt,
           header: () => (
@@ -26,8 +55,8 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           minSize: 192,
         }),
 
-        columnHelper.accessor(ETableColumns.UpdateAt, {
-          id: ETableColumns.UpdateAt,
+        columnHelper.accessor(ETableColumns.ModifyDate, {
+          id: ETableColumns.ModifyDate,
           header: () => (
             <TableHeader>{t("pages.admin.orders.table.columns.info.dateOfChange")}</TableHeader>
           ),

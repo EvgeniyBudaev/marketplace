@@ -19,7 +19,7 @@ export const OrderShipping: FC<TProps> = ({ shipping }) => {
       <div className="OrderShipping-Inner">
         <h5 className="OrderShipping-SubTitle">
           <Typography variant={ETypographyVariant.TextH5Bold}>
-            {t("pages.orders.courierDelivery")}
+            {t("pages.order.courierDelivery")}
           </Typography>
         </h5>
         <Link

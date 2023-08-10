@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { paginationSchema } from "~/shared/api/commons";
+import { paginationParamsSchema, paginationSchema } from "~/shared/api/commons";
 
 export const orderParamsSchema = z.object({
   payment: z.string(),
@@ -8,18 +8,17 @@ export const orderParamsSchema = z.object({
 
 export const orderSchema = z.any();
 
-export const orderListParamsSchema = z.object({
-  payment: z.string(),
-  session: z.string(),
+export const orderListParamsSchema = paginationParamsSchema.extend({
+  statuses: z.string().nullish(),
 });
 
 export const orderListItemSchema = z.object({
   createdAt: z.string(),
   id: z.number(),
+  modifyDate: z.string(),
   orderAmount: z.string(),
   recipientEmail: z.string(),
   status: z.string(),
-  updatedAt: z.string(),
 });
 
 export const orderListSchema = paginationSchema.extend({
