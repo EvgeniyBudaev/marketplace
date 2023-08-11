@@ -23,7 +23,7 @@ const CrumbComponent: FC<TProps> = ({
 }) => {
   const renderTitle = () => {
     if (isLastCrumb) {
-      return <span>{breadcrumb?.title ?? ""}</span>;
+      return <span className="Crumb-Title__last">{breadcrumb?.title ?? ""}</span>;
     } else {
       return (
         <Link className="Crumb-Link" to={breadcrumb.to}>

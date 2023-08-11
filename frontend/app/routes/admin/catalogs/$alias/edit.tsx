@@ -16,9 +16,8 @@ import type { TCatalogDetail } from "~/shared/api/catalogs";
 import { mapCatalogsToDto } from "~/shared/api/catalogs/utils";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import type { TDomainErrors } from "~/types";
+import type { TBaseRouteHandle, TDomainErrors } from "~/types";
 import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
-import { TBaseRouteHandle } from "~/types";
 
 type TLoaderData = {
   attributes: TAttributes;

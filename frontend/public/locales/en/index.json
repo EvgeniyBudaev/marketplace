@@ -144,6 +144,21 @@
           }
         }
       },
+      "orderEdit": {
+        "title": "Edit order",
+        "table": {
+          "columns": {
+            "info": {
+              "id": "ID",
+              "name": "Name",
+              "quantity": "Quantity",
+              "price": "Price",
+              "amount": "Amount"
+            }
+          },
+          "header": "Edit products"
+        }
+      },
       "orders": {
         "title": "Orders",
         "table": {
@@ -334,6 +349,7 @@
       "catalogEdit": "Edit catalog",
       "catalogAdd": "Add catalog",
       "orders": "Orders",
+      "orderEdit": "Edit order",
       "products": "Products",
       "productEdit": "Edit product",
       "productAdd": "Add product",
