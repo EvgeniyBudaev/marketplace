@@ -1,4 +1,4 @@
-package com.marketplace.order.services;
+package com.marketplace.order.services.impl;
 
 import com.marketplace.order.dto.request.RecipientSaveRequestDto;
 import com.marketplace.order.models.Recipient;

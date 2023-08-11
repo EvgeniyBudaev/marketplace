@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 @Entity
 @Table(name = "order_items")
@@ -44,5 +46,7 @@ public class OrderItem {
         this.productId = product.getId();
         this.price = product.getPrice();
         this.quantity = cartItem.getQuantity();
+        BigDecimal bgQuantity = new BigDecimal(quantity,new MathContext(2, RoundingMode.HALF_UP));
+        this.amount = product.getPrice().multiply(bgQuantity);
     }
 }

@@ -3,13 +3,20 @@ package com.marketplace.order.controllers;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.order.dto.request.CreateOrderRequestDto;
 import com.marketplace.order.dto.response.OrderResponseDto;
+import com.marketplace.order.dto.response.SimpleOrderResponseDto;
 import com.marketplace.order.models.Order;
-import com.marketplace.order.services.OrderService;
+import com.marketplace.order.services.OrderQueryParam;
+import com.marketplace.order.services.impl.OrderService;
+import com.marketplace.order.services.OrderUrlResolver;
+import com.marketplace.order.services.impl.OrderUrlResolverImpl;
 import com.marketplace.properties.model.properties.GlobalProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -34,7 +41,14 @@ public class OrderController {
     }
 
     @GetMapping("all")
-    public Paging<OrderResponseDto> getAllOrderByPageAndStatus(){
-        return null;
+    public Paging<SimpleOrderResponseDto> getAllOrderByPageAndStatus(HttpServletRequest request){
+        OrderUrlResolver urlResolver = new OrderUrlResolverImpl();
+        String rawQueryString = request.getQueryString();
+        String queryString =null;
+        if(rawQueryString!=null){
+           queryString = URLDecoder.decode(rawQueryString, StandardCharsets.UTF_8);
+        }
+        OrderQueryParam queryParam = urlResolver.resolveQuery(queryString);
+        return orderService.getAllByPage(queryParam.getCurrentPage(),queryParam.getPageSize(),queryParam.getStatuses());
     }
 }

@@ -2077,7 +2077,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"session\":\"b850600b-5f49-4c8d-95b4-91a94cc0d69e\",\r\n    \"payment\": \"PAYMENT_BY_CARD\"\r\n}",
+							"raw": "{\r\n    \"session\":\"cba464d3-96b3-4b14-8258-56a72c5541b1\",\r\n    \"payment\": \"PAYMENT_BY_CARD\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2096,6 +2096,90 @@
 								"v1",
 								"orders",
 								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"session\":\"b850600b-5f49-4c8d-95b4-91a94cc0d69e\",\r\n    \"payment\": \"PAYMENT_BY_CARD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/orders/all/?page=1&size=10&statuses=Заказ создан",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"all",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "statuses",
+									"value": "Заказ создан"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"session\":\"b850600b-5f49-4c8d-95b4-91a94cc0d69e\",\r\n    \"payment\": \"PAYMENT_BY_CARD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/orders/order/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"order",
+								"8"
 							]
 						}
 					},
