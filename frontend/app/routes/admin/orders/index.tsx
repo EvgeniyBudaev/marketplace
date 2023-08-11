@@ -36,7 +36,7 @@ export const loader = async (args: LoaderArgs) => {
   const formattedParams = mapOrderListToDto({
     ...formValues,
   });
-  console.log("[formattedParams] ", formattedParams);
+
   const response = await getOrderList(request, formattedParams);
 
   if (!response.success) {

@@ -42,7 +42,6 @@ export const action = async (args: ActionArgs) => {
   if (checkCsrf?.error) return checkCsrf.error;
 
   const formattedParams = mapShippingToDto(formValues as any);
-  console.log("[formattedParams] ", formattedParams);
 
   try {
     const response = await editShipping(request, formattedParams);

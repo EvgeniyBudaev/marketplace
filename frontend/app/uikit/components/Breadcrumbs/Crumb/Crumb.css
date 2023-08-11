@@ -67,5 +67,8 @@
   fill: #919191;
   transition: 0s;
 }
+.Crumb-Title__last {
+  color: rgb(142, 142, 147);
+}
 
 /*# sourceMappingURL=Crumb.css.map */

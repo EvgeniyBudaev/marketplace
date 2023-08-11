@@ -24,3 +24,24 @@ export const orderListItemSchema = z.object({
 export const orderListSchema = paginationSchema.extend({
   content: orderListItemSchema.array(),
 });
+
+export const orderDetailParamsSchema = z.object({
+  id: z.string(),
+});
+
+export const orderDetailListItemSchema = z.object({
+  amount: z.string(),
+  id: z.number(),
+  image: z.string().nullish(),
+  name: z.string(),
+  price: z.string(),
+  quantity: z.number(),
+});
+
+export const orderDetailSchema = z.object({
+  countProducts: z.number(),
+  createdAt: z.string(),
+  items: orderDetailListItemSchema.array(),
+  modifyDate: z.string(),
+  orderAmount: z.string(),
+});

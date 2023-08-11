@@ -111,17 +111,19 @@ const TableComponent = <TColumn extends Record<string, any>>(
 
   return (
     <div data-testid={dataTestId} ref={ref}>
-      <NavigationPanel
-        className="Table-NavigationPanel__top"
-        currentPage={currentPage}
-        defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
-        dropdownPosition={ETablePlacement.Bottom}
-        onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
-        onPageChange={onPageChange}
-        pagesCount={pagesCount}
-        pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
-        theme={theme}
-      />
+      {pagesCount && (
+        <NavigationPanel
+          className="Table-NavigationPanel__top"
+          currentPage={currentPage}
+          defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
+          dropdownPosition={ETablePlacement.Bottom}
+          onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
+          onPageChange={onPageChange}
+          pagesCount={pagesCount}
+          pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
+          theme={theme}
+        />
+      )}
       <div className="Table-Head">
         <div>
           {" "}
@@ -161,17 +163,18 @@ const TableComponent = <TColumn extends Record<string, any>>(
           </div>
         </div>
       )}
-
-      <NavigationPanel
-        currentPage={currentPage}
-        defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
-        dropdownPosition={ETablePlacement.Top}
-        onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
-        onPageChange={onPageChange}
-        pagesCount={pagesCount}
-        pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
-        theme={theme}
-      />
+      {pagesCount && (
+        <NavigationPanel
+          currentPage={currentPage}
+          defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}
+          dropdownPosition={ETablePlacement.Top}
+          onChangePageSize={(pageSize: number) => onChangePageSize?.(pageSize)}
+          onPageChange={onPageChange}
+          pagesCount={pagesCount}
+          pageSizeOptions={!isNil(pageSizeOptions) ? pageSizeOptions : DEFAULT_PAGE_SIZE_LIST}
+          theme={theme}
+        />
+      )}
     </div>
   );
 };
