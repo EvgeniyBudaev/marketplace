@@ -3,8 +3,10 @@ package com.marketplace.order.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 import com.marketplace.order.models.Order;
 import com.marketplace.order.models.OrderItem;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +23,28 @@ public class OrderResponseDto {
     private Set<OrderItemDto> items;
     private String orderAmount;
     private Integer countProducts;
+    private RecipientDto recipient;
+    private ShippingAddressDto shippingAddress;
 
     public OrderResponseDto(Order order, String productBaseUrl) {
         this.createdAt = order.getCreatedAt();
         this.modifyDate = order.getUpdatedAt();
         this.orderAmount = order.getAmount();
+        this.recipient = new RecipientDto();
+        this.recipient.setEmail(order.getRecipientEmail());
+        this.recipient.setPhone(order.getRecipientPhone());
+        if(order.getRecipientName().contains(" ")){
+            String[] name = order.getRecipientName().split(" ");
+            this.recipient.setName(name[1]);
+            this.recipient.setSurname(name[0]);
+        }else {
+            this.recipient.setName(order.getRecipientName());
+        }
+        this.shippingAddress = new ShippingAddressDto();
+        this.shippingAddress.setComment(order.getComment());
+        this.shippingAddress.setAddress(order.getAddress());
+        this.shippingAddress.setFlat(order.getFlat());
+        this.shippingAddress.setFloor(order.getFloor());
         this.items = new HashSet<>(order.getOrderItems().size());
         final int[] count = {0};
         order.getOrderItems().forEach(x->{
@@ -57,6 +76,21 @@ public class OrderResponseDto {
             this.amount = item.getAmount().toString();
             this.name = item.getProductName();
         }
+    }
+    @Data
+    public static class RecipientDto {
+        private String name;
+        private String surname;
+        private String phone;
+        private String email;
+    }
+
+    @Data
+    public static class ShippingAddressDto {
+        private String address;
+        private String flat;
+        private String floor;
+        private String comment;
     }
 
 

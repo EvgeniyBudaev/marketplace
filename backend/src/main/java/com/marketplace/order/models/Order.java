@@ -21,8 +21,14 @@ public class Order {
     @JoinColumn(name = "session")
     private SessionId sessionId;
 
-    @Column(name = "shipping_address")
-    private String shippingAddress;
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "flat")
+    private String flat;
+
+    @Column(name = "floor")
+    private String floor;
 
     @Column(name = "recipient_phone")
     private String recipientPhone;

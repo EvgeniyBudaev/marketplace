@@ -1,0 +1,40 @@
+package com.marketplace.order.dto.request;
+
+
+
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@Data
+public class PatchOrderRequestDto {
+    private Long id;
+    private RecipientDto recipient;
+    private ShippingAddressDto shippingAddress;
+    private String status;
+    private List<OrderItemDto> items;
+
+    @Data
+    public static class OrderItemDto{
+        private Long productId;
+        private BigDecimal price;
+        private Integer quantity;
+        private String productName;
+    }
+    @Data
+    public static class RecipientDto {
+        private String name;
+        private String surname;
+        private String phone;
+        private String email;
+    }
+
+    @Data
+    public static class ShippingAddressDto {
+        private String address;
+        private String flat;
+        private String floor;
+        private String comment;
+    }
+}
