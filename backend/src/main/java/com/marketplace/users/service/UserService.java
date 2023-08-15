@@ -1,7 +1,7 @@
 package com.marketplace.users.service;
 
 import com.marketplace.users.dto.user.request.RegisterUserRequestDto;
-import com.marketplace.users.dto.user.response.UserInfoResponseDto;
+
 import com.marketplace.users.events.RegistrationUserCompleteEvent;
 import com.marketplace.users.model.AppRole;
 import com.marketplace.users.model.AppUser;
@@ -37,12 +37,14 @@ public class UserService {
         this.sessionIdService = sessionIdService;
     }
 
-    public UserInfoResponseDto registerNewUser(RegisterUserRequestDto dto) {
+    @Transactional
+    public AppUser registerNewUser(RegisterUserRequestDto dto) {
         AppUser user = saveNewUser(dto);
         String reference = "http://localhost:3000/auth/activate/" + tokenService.generateToken(user);
         this.eventPublisher.multicastEvent(new RegistrationUserCompleteEvent(user, reference));
-        return new UserInfoResponseDto(user);
+        return user;
     }
+
 
     public AppUser saveNewUser(RegisterUserRequestDto dto) {
         AppUser user = dto.convertToUser();
@@ -63,14 +65,14 @@ public class UserService {
                 .findByEmailAndEnabledTrue(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Не найден пользователь с email " + email));
     }
-
+    @Transactional
     public void activateUserByEmail(String token) {
         AppUser user = tokenService.checkEmailToken(token);
         user.setIsEmailVerified(true);
         saveUser(user);
     }
 
-    @Transactional
+
     public AppUser saveUser(AppUser user) {
         user.setSessionId(setNewSessionByNewUser(user));
         userRepository.save(user);
