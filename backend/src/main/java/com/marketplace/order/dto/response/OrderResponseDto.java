@@ -4,6 +4,7 @@ package com.marketplace.order.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
+import com.marketplace.order.models.EPaymentVariants;
 import com.marketplace.order.models.Order;
 import com.marketplace.order.models.OrderItem;
 import lombok.Data;
@@ -25,9 +26,12 @@ public class OrderResponseDto {
     private Integer countProducts;
     private RecipientDto recipient;
     private ShippingAddressDto shippingAddress;
+    private EPaymentVariants paymentVariant;
+    private String status;
 
     public OrderResponseDto(Order order, String productBaseUrl) {
         this.createdAt = order.getCreatedAt();
+        this.paymentVariant = order.getPaymentVariant();
         this.modifyDate = order.getUpdatedAt();
         this.orderAmount = order.getAmount();
         this.recipient = new RecipientDto();
@@ -35,8 +39,8 @@ public class OrderResponseDto {
         this.recipient.setPhone(order.getRecipientPhone());
         if(order.getRecipientName().contains(" ")){
             String[] name = order.getRecipientName().split(" ");
-            this.recipient.setName(name[1]);
-            this.recipient.setSurname(name[0]);
+            this.recipient.setName(name[0]);
+            this.recipient.setSurname(name[1]);
         }else {
             this.recipient.setName(order.getRecipientName());
         }
@@ -51,6 +55,7 @@ public class OrderResponseDto {
             count[0] = count[0] +1;
             this.items.add(new OrderItemDto(x,productBaseUrl));
         });
+        this.status = order.getStatus().getStatus();
         this.countProducts = count[0];
     }
 
@@ -60,6 +65,7 @@ public class OrderResponseDto {
     @Setter
     private static class OrderItemDto {
         private Long id;
+        private Long productId;
         private Integer quantity;
         private String name;
         private String image;
@@ -71,6 +77,7 @@ public class OrderResponseDto {
 
         public OrderItemDto(OrderItem item, String productBaseUrl) {
             this.id = item.getId();
+            this.productId = item.getProductId();
             this.quantity = item.getQuantity();
             this.price =item.getPrice().toString();
             this.amount = item.getAmount().toString();

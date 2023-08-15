@@ -49,7 +49,7 @@ public class Order {
     @Column(name = "amount")
     private String amount;
 
-    @OneToMany(mappedBy = "order" )
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
 
     @Column(name = "created_at", updatable = false)

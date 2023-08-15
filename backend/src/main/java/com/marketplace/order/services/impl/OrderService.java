@@ -8,6 +8,7 @@ import com.marketplace.order.dto.request.CreateOrderRequestDto;
 import com.marketplace.order.dto.request.PatchOrderRequestDto;
 import com.marketplace.order.dto.response.OrderResponseDto;
 import com.marketplace.order.dto.response.SimpleOrderResponseDto;
+import com.marketplace.order.mappers.OrderMappers;
 import com.marketplace.order.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.lang.module.ResolutionException;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -29,16 +33,18 @@ public class OrderService {
     private final RecipientService recipientService;
     private final ShippingAddressService shippingAddressService;
     private final OrderStatusService orderStatusService;
+    private final OrderMappers orderMappers;
     @PersistenceContext
     private final EntityManager entityManager;
 
 
     @Autowired
-    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, EntityManager entityManager) {
+    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, OrderMappers orderMappers, EntityManager entityManager) {
         this.cartService = cartService;
         this.recipientService = recipientService;
         this.shippingAddressService = shippingAddressService;
         this.orderStatusService = orderStatusService;
+        this.orderMappers = orderMappers;
         this.entityManager = entityManager;
     }
 
@@ -117,7 +123,32 @@ public class OrderService {
         return  resultDto;
     }
 
-    public OrderResponseDto patchOrder(PatchOrderRequestDto dto) {
-        return null;
+    @Transactional
+    public OrderResponseDto patchOrder(PatchOrderRequestDto dto, String productBaseUrl) {
+        TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order as o where o.id=:id", Order.class);
+        query.setParameter("id",dto.getId());
+        Order oldOrder = query.getResultStream().findFirst().orElseThrow(()-> new ResourceNotFoundException("Не найден ордер с id: "+dto.getId()));
+        entityManager.detach(oldOrder);
+        Order order = orderMappers.orderDtoToEntity(dto);
+        OrderStatus status = orderStatusService.getOrderStatus(dto.getStatus());
+        if (status==null){
+            throw new ResourceNotFoundException("Не найден статус ордера: "+dto.getStatus());
+        }
+        order.setSessionId(oldOrder.getSessionId());
+        order.setCreatedAt(oldOrder.getCreatedAt());
+        order.setUpdatedAt(LocalDateTime.now());
+        order.setStatus(status);
+        order.setRecipientName(dto.getRecipient().getName()+" "+ dto.getRecipient().getSurname());
+        Set<OrderItem> orderItems = order.getOrderItems();
+        final long[] amount = new long[1];
+        orderItems.forEach(x->{
+            BigDecimal bgQuantity = new BigDecimal(x.getQuantity(),new MathContext(2, RoundingMode.HALF_UP));
+            x.setAmount(x.getPrice().multiply(bgQuantity));
+            x.setOrder(order);
+            amount[0] = x.getAmount().longValue()+ amount[0];
+        });
+        order.setAmount(String.valueOf(amount[0]));
+        entityManager.merge(order);
+        return new OrderResponseDto(order,productBaseUrl);
     }
 }

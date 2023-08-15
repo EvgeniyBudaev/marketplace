@@ -56,8 +56,8 @@ public class OrderController {
         return orderService.getAllByPage(queryParam.getCurrentPage(),queryParam.getPageSize(),queryParam.getStatuses());
     }
 
-    @PatchMapping("order")
+    @PatchMapping("patch")
     public OrderResponseDto patchOrder(@RequestBody PatchOrderRequestDto dto){
-        return orderService.patchOrder(dto);
+        return orderService.patchOrder(dto, globalProperty.getPRODUCT_BASE_URL());
     }
 }

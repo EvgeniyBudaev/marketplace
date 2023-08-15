@@ -2,6 +2,7 @@ package com.marketplace.order.dto.request;
 
 
 
+import com.marketplace.order.models.EPaymentVariants;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,14 +14,17 @@ public class PatchOrderRequestDto {
     private RecipientDto recipient;
     private ShippingAddressDto shippingAddress;
     private String status;
+    private EPaymentVariants paymentVariant;
     private List<OrderItemDto> items;
+
 
     @Data
     public static class OrderItemDto{
+        private Long id;
         private Long productId;
+        private String name;
         private BigDecimal price;
         private Integer quantity;
-        private String productName;
     }
     @Data
     public static class RecipientDto {

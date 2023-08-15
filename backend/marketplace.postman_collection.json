@@ -2008,7 +2008,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"uuid\": \"0f4af747-36dc-4423-b810-5be98c2125c0\",\r\n    \"name\" : \"Вся Россия\",\r\n    \"surname\": \"158\",\r\n    \"phone\": \"18\",\r\n    \"email\": \"Не звонить\"\r\n}",
+							"raw": "{\r\n    \"uuid\": \"04eedf2e-3b61-4d27-8e4b-39b7e762fe7d\",\r\n    \"name\" : \"Вся Россия\",\r\n    \"surname\": \"158\",\r\n    \"phone\": \"18\",\r\n    \"email\": \"Не звонить\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2033,23 +2033,11 @@
 				},
 				{
 					"name": "get recipient",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"uuid\": \"0f4af747-36dc-4423-b810-5be98c2125c0\",\r\n    \"name\" : \"Вся Россия\",\r\n    \"surname\": \"158\",\r\n    \"phone\": \"18\",\r\n    \"email\": \"Не звонить\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/recipients/0f4af747-36dc-4423-b810-5be98c2125c0",
+							"raw": "http://localhost:8080/api/v1/recipients/04eedf2e-3b61-4d27-8e4b-39b7e762fe7d",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2059,7 +2047,7 @@
 								"api",
 								"v1",
 								"recipients",
-								"0f4af747-36dc-4423-b810-5be98c2125c0"
+								"04eedf2e-3b61-4d27-8e4b-39b7e762fe7d"
 							]
 						}
 					},
@@ -2103,21 +2091,9 @@
 				},
 				{
 					"name": "get all",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"session\":\"b850600b-5f49-4c8d-95b4-91a94cc0d69e\",\r\n    \"payment\": \"PAYMENT_BY_CARD\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "http://localhost:8080/api/v1/orders/all/?page=1&size=10&statuses=Заказ создан",
 							"protocol": "http",
@@ -2184,6 +2160,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Patch order",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"status\": \"Сформирован на складе\",\r\n    \"paymentVariant\": \"PAYMENT_BY_CASH\",\r\n    \"items\": [\r\n        {\r\n            \"id\": 5,\r\n            \"productId\": 9,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало в полный рост Франко Фло\",\r\n            \"price\": \"12345.90\",\r\n            \"amount\": \"12345.90\"\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"productId\": 33,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало-солнце Звезда Серебро\",\r\n            \"price\": \"19500.00\",\r\n            \"amount\": \"19500.00\"\r\n        },\r\n        {\r\n            \"id\": 7,\r\n            \"productId\": 32,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало-солнце Звезда Золото\",\r\n            \"price\": \"19500.00\",\r\n            \"amount\": \"19500.00\"\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"productId\": 22,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало-солнце Рэй Золото\",\r\n            \"price\": \"22500.00\",\r\n            \"amount\": \"22500.00\"\r\n        }\r\n    ],\r\n    \"recipient\": {\r\n        \"name\": \"Gritsenko\",\r\n        \"surname\": \"Alexey\",\r\n        \"phone\": \"+79219516997\",\r\n        \"email\": \"winterom@gmail.com\"\r\n    },\r\n    \"shippingAddress\": {\r\n        \"address\": \"Москва, Девяткин переулок, 5с3\",\r\n        \"flat\": \"145\",\r\n        \"floor\": \"3\",\r\n        \"comment\": \"Gev gehev\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/orders/patch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"patch"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -2213,7 +2220,19 @@
 					"name": "http trace",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/actuator/httpexchanges",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator",
+								"httpexchanges"
+							]
+						}
 					},
 					"response": []
 				},
