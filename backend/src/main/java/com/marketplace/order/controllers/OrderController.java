@@ -2,6 +2,8 @@ package com.marketplace.order.controllers;
 
 import com.marketplace.backend.model.Paging;
 import com.marketplace.order.dto.request.CreateOrderRequestDto;
+import com.marketplace.order.dto.request.PatchOrderRequestDto;
+import com.marketplace.order.dto.response.CreateOrderResponseDto;
 import com.marketplace.order.dto.response.OrderResponseDto;
 import com.marketplace.order.dto.response.SimpleOrderResponseDto;
 import com.marketplace.order.models.Order;
@@ -31,8 +33,10 @@ public class OrderController {
     }
 
     @PostMapping("create")
-    public boolean createOrder(@RequestBody @Valid CreateOrderRequestDto dto){
-        return orderService.createOrder(dto);
+    public CreateOrderResponseDto createOrder(@RequestBody @Valid CreateOrderRequestDto dto){
+        CreateOrderResponseDto responseDto = new CreateOrderResponseDto();
+        responseDto.setSuccess(orderService.createOrder(dto));
+        return responseDto;
     }
     @GetMapping("order/{id}")
     public OrderResponseDto getOrderById(@PathVariable Long id){
@@ -50,5 +54,10 @@ public class OrderController {
         }
         OrderQueryParam queryParam = urlResolver.resolveQuery(queryString);
         return orderService.getAllByPage(queryParam.getCurrentPage(),queryParam.getPageSize(),queryParam.getStatuses());
+    }
+
+    @PatchMapping("patch")
+    public OrderResponseDto patchOrder(@RequestBody PatchOrderRequestDto dto){
+        return orderService.patchOrder(dto, globalProperty.getPRODUCT_BASE_URL());
     }
 }

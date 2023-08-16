@@ -22,4 +22,13 @@ public class OrderStatusService {
        TypedQuery<OrderStatus> query= entityManager.createQuery("SELECT s FROM OrderStatus as s where path='1'", OrderStatus.class);
        return query.getSingleResult();
     }
+
+    public OrderStatus getOrderStatus(String status) {
+        if(status==null){
+            return null;
+        }
+        TypedQuery<OrderStatus> query= entityManager.createQuery("SELECT s FROM OrderStatus as s where status=: status", OrderStatus.class);
+        query.setParameter("status",status);
+        return query.getResultStream().findFirst().orElse(null);
+    }
 }

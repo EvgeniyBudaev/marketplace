@@ -2,7 +2,9 @@ CREATE TABLE orders
 (
     id      BIGINT PRIMARY KEY AUTO_INCREMENT,
     session BIGINT not null,
-    shipping_address VARCHAR(400),
+    address    VARCHAR(256),
+    flat       VARCHAR(10),
+    floor      VARCHAR(10),
     recipient_name    VARCHAR(50),
     recipient_phone   VARCHAR(15),
     recipient_email   VARCHAR(50),

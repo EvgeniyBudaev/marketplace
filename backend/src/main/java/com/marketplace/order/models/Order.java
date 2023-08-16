@@ -21,8 +21,14 @@ public class Order {
     @JoinColumn(name = "session")
     private SessionId sessionId;
 
-    @Column(name = "shipping_address")
-    private String shippingAddress;
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "flat")
+    private String flat;
+
+    @Column(name = "floor")
+    private String floor;
 
     @Column(name = "recipient_phone")
     private String recipientPhone;
@@ -43,7 +49,7 @@ public class Order {
     @Column(name = "amount")
     private String amount;
 
-    @OneToMany(mappedBy = "order" )
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
 
     @Column(name = "created_at", updatable = false)
