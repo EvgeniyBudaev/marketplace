@@ -96,6 +96,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
 
   useEffect(() => {
     if (!sticky) return;
+
     function handleScroll() {
       if (!wrapperRef.current) return;
       const bbox = wrapperRef.current.getBoundingClientRect();
@@ -111,7 +112,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
 
   return (
     <div data-testid={dataTestId} ref={ref}>
-      {pagesCount && (
+      {hasData && pagesCount && (
         <NavigationPanel
           className="Table-NavigationPanel__top"
           currentPage={currentPage}
@@ -163,7 +164,7 @@ const TableComponent = <TColumn extends Record<string, any>>(
           </div>
         </div>
       )}
-      {pagesCount && (
+      {hasData && pagesCount && (
         <NavigationPanel
           currentPage={currentPage}
           defaultPageSize={!isNil(defaultPageSize) ? defaultPageSize : DEFAULT_PAGE_SIZE}

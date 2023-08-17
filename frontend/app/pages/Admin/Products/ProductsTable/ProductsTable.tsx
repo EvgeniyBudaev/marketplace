@@ -91,7 +91,7 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
         <UiTable<TProduct>
           columns={columns}
           currentPage={currentPage}
-          data={content}
+          data={content ?? []}
           defaultPageSize={pageSize}
           getId={(row) => row.alias}
           isLoading={isLoading}

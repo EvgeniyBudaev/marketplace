@@ -22,7 +22,7 @@ export const orderListItemSchema = z.object({
 });
 
 export const orderListSchema = paginationSchema.extend({
-  content: orderListItemSchema.array(),
+  content: orderListItemSchema.array().nullish(),
 });
 
 export const orderDetailParamsSchema = z.object({

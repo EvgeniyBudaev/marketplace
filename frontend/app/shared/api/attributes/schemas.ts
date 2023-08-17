@@ -1,5 +1,5 @@
-import {z} from "zod";
-import {paginationSchema} from "../commons";
+import { z } from "zod";
+import { paginationSchema } from "../commons";
 import {
   catalogNumberAttributeItemSchema,
   catalogSelectAttributeItemSchema,
@@ -20,7 +20,7 @@ export const attributesItemSchema = z.object({
 });
 
 export const attributesSchema = paginationSchema.extend({
-  content: attributesItemSchema.array(),
+  content: attributesItemSchema.array().nullish(),
 });
 
 export const attributesParamsSchema = z.any();
@@ -34,7 +34,8 @@ export const attributeAddParamsSchema = z.object({
     .object({
       value: z.string(),
     })
-    .array().nullish(),
+    .array()
+    .nullish(),
 });
 
 export const attributeAddSchema = z.object({
