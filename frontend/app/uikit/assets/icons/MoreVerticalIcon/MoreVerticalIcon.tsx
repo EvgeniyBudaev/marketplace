@@ -3,14 +3,12 @@ import type { FC } from "react";
 import type { TIconProps } from "../types";
 
 export const MoreVerticalIconComponent: FC<TIconProps> = ({
-  dataTestId,
   width = 24,
   height = 24,
   viewBox = "0 0 24 24",
   ...props
 }) => (
   <svg
-    data-testid={dataTestId}
     width={width}
     height={height}
     viewBox="0 0 24 24"
