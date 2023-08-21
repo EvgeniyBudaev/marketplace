@@ -10,6 +10,7 @@ import com.marketplace.order.dto.response.OrderResponseDto;
 import com.marketplace.order.dto.response.SimpleOrderResponseDto;
 import com.marketplace.order.mappers.OrderMappers;
 import com.marketplace.order.models.*;
+import com.marketplace.order.services.PaymentVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,17 +34,20 @@ public class OrderService {
     private final RecipientService recipientService;
     private final ShippingAddressService shippingAddressService;
     private final OrderStatusService orderStatusService;
+
+    private final PaymentVariantService paymentVariantService;
     private final OrderMappers orderMappers;
     @PersistenceContext
     private final EntityManager entityManager;
 
 
     @Autowired
-    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, OrderMappers orderMappers, EntityManager entityManager) {
+    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, PaymentVariantService paymentVariantService, OrderMappers orderMappers, EntityManager entityManager) {
         this.cartService = cartService;
         this.recipientService = recipientService;
         this.shippingAddressService = shippingAddressService;
         this.orderStatusService = orderStatusService;
+        this.paymentVariantService = paymentVariantService;
         this.orderMappers = orderMappers;
         this.entityManager = entityManager;
     }
@@ -56,7 +60,7 @@ public class OrderService {
         LocalDateTime createTime = LocalDateTime.now();
         order.setUpdatedAt(createTime);
         order.setCreatedAt(createTime);
-        order.setPaymentVariant(dto.getPayment());
+        order.setPaymentVariant(this.paymentVariantService.getVariantById(dto.getPaymentVariantId()));
         order.setAmount("");
         order.setStatus(orderStatusService.getStartedStatus());
         ShippingAddress shippingAddress = shippingAddressService.getShippingAddressBySession(dto.getUuid());
@@ -109,7 +113,7 @@ public class OrderService {
         }
         Integer count = Math.toIntExact(countOrdersQuery.getSingleResult());
         if (count.equals(0)) {
-            throw new ResourceNotFoundException("С данными параметрами результаты не найдены");
+            return new Paging<>(0,pageSize,1);
         }
         Paging<SimpleOrderResponseDto> resultDto = new Paging<>(count,pageSize,currentPage);
         TypedQuery<Order> orderQueryList = entityManager.createQuery(queryList, Order.class);
@@ -134,6 +138,7 @@ public class OrderService {
         if (status==null){
             throw new ResourceNotFoundException("Не найден статус ордера: "+dto.getStatus());
         }
+        order.setPaymentVariant(this.paymentVariantService.getVariantById(dto.getPaymentVariantId()));
         order.setSessionId(oldOrder.getSessionId());
         order.setCreatedAt(oldOrder.getCreatedAt());
         order.setUpdatedAt(LocalDateTime.now());

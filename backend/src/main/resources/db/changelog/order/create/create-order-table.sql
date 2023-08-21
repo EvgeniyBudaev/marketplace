@@ -9,7 +9,7 @@ CREATE TABLE orders
     recipient_phone   VARCHAR(15),
     recipient_email   VARCHAR(50),
     comment    VARCHAR(500),
-    payment    VARCHAR(20),
+    payment    BIGINT not null ,
     amount     VARCHAR(20),
     status_id BIGINT not null,
     updated_at TIMESTAMP not null default CURRENT_TIMESTAMP,

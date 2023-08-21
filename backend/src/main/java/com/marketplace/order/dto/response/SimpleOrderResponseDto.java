@@ -24,6 +24,21 @@ public class SimpleOrderResponseDto {
         this.modifyDate = order.getUpdatedAt();
         this.orderAmount = order.getAmount();
         this.status = order.getStatus().getStatus();
+        this.shippingAddress = new ShippingAddressDto();
+        this.shippingAddress.address = order.getAddress();
+        this.shippingAddress.flat = order.getFlat();
+        this.shippingAddress.floor = order.getFloor();
+        this.shippingAddress.comment = order.getComment();
+        this.recipient = new RecipientDto();
+        if(order.getRecipientName().contains(" ")){
+            String[] name = order.getRecipientName().split(" ");
+            this.recipient.setName(name[0]);
+            this.recipient.setSurname(name[1]);
+        }else {
+            this.recipient.setName(order.getRecipientName());
+        }
+        this.recipient.email = order.getRecipientEmail();
+        this.recipient.phone = order.getRecipientPhone();
     }
     @Data
     public static class RecipientDto {

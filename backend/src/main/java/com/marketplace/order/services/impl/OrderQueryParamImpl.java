@@ -4,7 +4,9 @@ import com.marketplace.order.services.OrderQueryParam;
 import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderQueryParamImpl implements OrderQueryParam {
     private final MultiValueMap<String, String> param;
@@ -12,6 +14,7 @@ public class OrderQueryParamImpl implements OrderQueryParam {
     private final Integer pageSize;
     @Nullable
     private final List<String> orderStatuses;
+    private final Map<String, String> searchParam;
     public OrderQueryParamImpl (MultiValueMap<String, String> param){
         this.param = param;
         List<String> pageList = param.remove("page");
@@ -28,8 +31,22 @@ public class OrderQueryParamImpl implements OrderQueryParam {
             int pageSize = Integer.parseInt(pageSizeList.get(0));
             this.pageSize = Math.max(pageSize, 5);
         }
+        this.searchParam = new HashMap<>();
         this.orderStatuses = param.remove("statuses");
-
+        List<String> rawSearchParam = param.remove("search");
+        if(rawSearchParam != null && !rawSearchParam.isEmpty()){
+            String rawParamString = rawSearchParam.get(0);
+            if (rawParamString.contains(",")){
+               String[] rawElementsParam = rawParamString.split(",");
+               for(String parameter : rawElementsParam){
+                   if(parameter.contains(":")){
+                       String[] concrete = parameter.split(":");
+                       this.searchParam.put(concrete[0],concrete[1]);
+                   }
+               }
+            }
+        }
+        System.out.println(this.searchParam);
     }
     @Override
     public MultiValueMap<String, String> getRawAttribute() {
@@ -49,5 +66,10 @@ public class OrderQueryParamImpl implements OrderQueryParam {
     @Override
     public List<String> getStatuses() {
         return this.orderStatuses;
+    }
+
+    @Override
+    public Map<String, String> getSearchParam() {
+        return this.searchParam;
     }
 }

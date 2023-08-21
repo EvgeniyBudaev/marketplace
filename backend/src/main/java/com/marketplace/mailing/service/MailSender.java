@@ -48,7 +48,7 @@ public class MailSender implements
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         EmailProperty property = (EmailProperty) this.appProperties.getProperty(EPropertiesType.EMAIL);
         updateMailProperty(property);
     }

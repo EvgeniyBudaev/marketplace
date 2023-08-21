@@ -4,7 +4,6 @@ package com.marketplace.order.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
-import com.marketplace.order.models.EPaymentVariants;
 import com.marketplace.order.models.Order;
 import com.marketplace.order.models.OrderItem;
 import lombok.Data;
@@ -26,12 +25,12 @@ public class OrderResponseDto {
     private Integer countProducts;
     private RecipientDto recipient;
     private ShippingAddressDto shippingAddress;
-    private EPaymentVariants paymentVariant;
+    private String paymentVariant;
     private String status;
 
     public OrderResponseDto(Order order, String productBaseUrl) {
         this.createdAt = order.getCreatedAt();
-        this.paymentVariant = order.getPaymentVariant();
+        this.paymentVariant = order.getPaymentVariant().getName();
         this.modifyDate = order.getUpdatedAt();
         this.orderAmount = order.getAmount();
         this.recipient = new RecipientDto();

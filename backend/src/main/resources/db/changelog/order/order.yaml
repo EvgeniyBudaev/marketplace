@@ -10,6 +10,8 @@ databaseChangeLog:
   - include:
       file: db/changelog/order/create/create-order_status-table.sql
   - include:
+      file: db/changelog/order/create/create-payment-variants-table.sql
+  - include:
       file: db/changelog/order/create/add-foreign-key-shipping_address-sessions.sql
   - include:
       file: db/changelog/order/create/add-foreign-key-recipient-session.sql
@@ -21,3 +23,5 @@ databaseChangeLog:
       file: db/changelog/order/create/add-foreign-key-order-session.sql
   - include:
       file: db/changelog/order/complete/complete-order_status-table.sql
+  - include:
+      file: db/changelog/order/complete/complete-payment-variant-table.sql

@@ -1,0 +1,1 @@
+INSERT INTO payment_variants (name) VALUES ('Оплатить картой при получении'),('Оплатить наличными при получении')

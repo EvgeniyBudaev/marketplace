@@ -20,6 +20,6 @@ public interface OrderMappers {
     Order orderDtoToEntity(PatchOrderRequestDto dto);
 
     @Mapping(target = "productName", source = "name")
-    OrderItem orderItemDtoToEntity(PatchOrderRequestDto.OrderItemDto dtos);
+    OrderItem orderItemDtoToEntity(PatchOrderRequestDto.OrderItemDto dto);
 
 }
