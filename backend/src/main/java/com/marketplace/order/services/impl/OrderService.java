@@ -10,6 +10,8 @@ import com.marketplace.order.dto.response.OrderResponseDto;
 import com.marketplace.order.dto.response.SimpleOrderResponseDto;
 import com.marketplace.order.mappers.OrderMappers;
 import com.marketplace.order.models.*;
+import com.marketplace.order.services.OrderQueryParam;
+import com.marketplace.order.services.OrderQueryProcessor;
 import com.marketplace.order.services.PaymentVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -96,32 +98,17 @@ public class OrderService {
     }
 
     @Transactional
-    public Paging<SimpleOrderResponseDto> getAllByPage(Integer currentPage, Integer pageSize, List<String> statuses) {
-        String queryCount;
-        String queryList;
-        if(statuses==null){
-            queryCount = "SELECT count(o) FROM Order as o inner join o.status as os ";
-            queryList = "SELECT o FROM Order as o  inner join fetch o.status as os";
-
-        }else {
-            queryCount = "SELECT count(o) FROM Order as o inner join o.status as os where os.status in (:statuses)";
-            queryList = "SELECT o FROM Order as o  inner join fetch o.status as os where os.status in (:statuses)";
-        }
-        TypedQuery<Long> countOrdersQuery = entityManager.createQuery(queryCount, Long.class);
-        if (statuses!=null){
-            countOrdersQuery.setParameter("statuses",statuses);
-        }
+    public Paging<SimpleOrderResponseDto> getAllByPage(OrderQueryParam queryParam) {
+        OrderQueryProcessor queryProcessor = new OrderQueryProcessorImpl(queryParam);
+        TypedQuery<Long> countOrdersQuery = entityManager.createQuery(queryProcessor.getCountQuery(), Long.class);
+        queryProcessor.setCountQueryParameters(countOrdersQuery);
         Integer count = Math.toIntExact(countOrdersQuery.getSingleResult());
         if (count.equals(0)) {
-            return new Paging<>(0,pageSize,1);
+            return new Paging<>(0, queryParam.getPageSize(), 1);
         }
-        Paging<SimpleOrderResponseDto> resultDto = new Paging<>(count,pageSize,currentPage);
-        TypedQuery<Order> orderQueryList = entityManager.createQuery(queryList, Order.class);
-        if(statuses!=null){
-            orderQueryList.setParameter("statuses",statuses);
-        }
-        orderQueryList.setFirstResult((currentPage - 1) * pageSize);
-        orderQueryList.setMaxResults(pageSize);
+        Paging<SimpleOrderResponseDto> resultDto = new Paging<>(count,queryParam.getPageSize(), queryParam.getCurrentPage());
+        TypedQuery<Order> orderQueryList = entityManager.createQuery(queryProcessor.getMainQuery(), Order.class);
+        queryProcessor.setMainQueryParameters(orderQueryList);
         List<Order> orders = orderQueryList.getResultList();
         resultDto.setContent(orders.stream().map(SimpleOrderResponseDto::new).toList());
         return  resultDto;

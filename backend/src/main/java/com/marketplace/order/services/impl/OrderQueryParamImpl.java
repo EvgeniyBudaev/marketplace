@@ -1,12 +1,11 @@
 package com.marketplace.order.services.impl;
 
+import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.order.services.OrderQueryParam;
 import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OrderQueryParamImpl implements OrderQueryParam {
     private final MultiValueMap<String, String> param;
@@ -15,39 +14,48 @@ public class OrderQueryParamImpl implements OrderQueryParam {
     @Nullable
     private final List<String> orderStatuses;
     private final Map<String, String> searchParam;
-    public OrderQueryParamImpl (MultiValueMap<String, String> param){
-        this.param = param;
-        List<String> pageList = param.remove("page");
+    private static final Map<String, String> searchFields ;
+    static {
+        Map<String, String> aMap = new HashMap<>();
+        aMap.put("email","recipientEmail");
+        aMap.put("phone","recipientPhone");
+        searchFields = Collections.unmodifiableMap(aMap);
+    }
+
+    public OrderQueryParamImpl(MultiValueMap<String, String> paramValue) {
+        this.param = paramValue;
+        List<String> pageList = paramValue.remove("page");
         if (pageList == null || pageList.isEmpty()) {
-            this.currentPage=1;
+            this.currentPage = 1;
         } else {
             int currentPage = Integer.parseInt(pageList.get(0));
             this.currentPage = Math.max(currentPage, 1);
         }
-        List<String> pageSizeList = param.remove("size");
+        List<String> pageSizeList = paramValue.remove("size");
         if (pageSizeList == null || pageSizeList.isEmpty()) {
-            this.pageSize=5;
+            this.pageSize = 5;
         } else {
             int pageSize = Integer.parseInt(pageSizeList.get(0));
             this.pageSize = Math.max(pageSize, 5);
         }
+        this.orderStatuses = paramValue.remove("statuses");
         this.searchParam = new HashMap<>();
-        this.orderStatuses = param.remove("statuses");
-        List<String> rawSearchParam = param.remove("search");
-        if(rawSearchParam != null && !rawSearchParam.isEmpty()){
-            String rawParamString = rawSearchParam.get(0);
-            if (rawParamString.contains(",")){
-               String[] rawElementsParam = rawParamString.split(",");
-               for(String parameter : rawElementsParam){
-                   if(parameter.contains(":")){
-                       String[] concrete = parameter.split(":");
-                       this.searchParam.put(concrete[0],concrete[1]);
-                   }
-               }
+        List<String> rawSearchParam = paramValue.remove("search");
+        if (rawSearchParam != null && !rawSearchParam.isEmpty()) {
+            for (String rawParamString : rawSearchParam) {
+                if (rawParamString.contains(":")) {
+                    String[] concrete = rawParamString.split(":");
+                    String field = searchFields.get(concrete[0].strip());
+                    if(field==null){
+                        throw new OperationNotAllowedException("Неизвестное поле поиска: "+concrete[0]);
+                    }
+                    this.searchParam.put(field, "%"+concrete[1].strip()+"%");
+                }
             }
         }
         System.out.println(this.searchParam);
     }
+
     @Override
     public MultiValueMap<String, String> getRawAttribute() {
         return this.param;
