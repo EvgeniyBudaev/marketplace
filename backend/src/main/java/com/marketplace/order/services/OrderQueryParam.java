@@ -3,6 +3,7 @@ package com.marketplace.order.services;
 import org.springframework.util.MultiValueMap;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderQueryParam {
     MultiValueMap<String, String> getRawAttribute();
@@ -12,4 +13,5 @@ public interface OrderQueryParam {
     Integer getPageSize();
 
     List<String> getStatuses();
+    Map<String, String> getSearchParam();
 }

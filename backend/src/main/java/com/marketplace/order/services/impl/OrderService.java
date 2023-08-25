@@ -10,6 +10,9 @@ import com.marketplace.order.dto.response.OrderResponseDto;
 import com.marketplace.order.dto.response.SimpleOrderResponseDto;
 import com.marketplace.order.mappers.OrderMappers;
 import com.marketplace.order.models.*;
+import com.marketplace.order.services.OrderQueryParam;
+import com.marketplace.order.services.OrderQueryProcessor;
+import com.marketplace.order.services.PaymentVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,17 +36,20 @@ public class OrderService {
     private final RecipientService recipientService;
     private final ShippingAddressService shippingAddressService;
     private final OrderStatusService orderStatusService;
+
+    private final PaymentVariantService paymentVariantService;
     private final OrderMappers orderMappers;
     @PersistenceContext
     private final EntityManager entityManager;
 
 
     @Autowired
-    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, OrderMappers orderMappers, EntityManager entityManager) {
+    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, PaymentVariantService paymentVariantService, OrderMappers orderMappers, EntityManager entityManager) {
         this.cartService = cartService;
         this.recipientService = recipientService;
         this.shippingAddressService = shippingAddressService;
         this.orderStatusService = orderStatusService;
+        this.paymentVariantService = paymentVariantService;
         this.orderMappers = orderMappers;
         this.entityManager = entityManager;
     }
@@ -56,7 +62,7 @@ public class OrderService {
         LocalDateTime createTime = LocalDateTime.now();
         order.setUpdatedAt(createTime);
         order.setCreatedAt(createTime);
-        order.setPaymentVariant(dto.getPayment());
+        order.setPaymentVariant(this.paymentVariantService.getVariantById(dto.getPaymentVariantId()));
         order.setAmount("");
         order.setStatus(orderStatusService.getStartedStatus());
         ShippingAddress shippingAddress = shippingAddressService.getShippingAddressBySession(dto.getUuid());
@@ -92,32 +98,17 @@ public class OrderService {
     }
 
     @Transactional
-    public Paging<SimpleOrderResponseDto> getAllByPage(Integer currentPage, Integer pageSize, List<String> statuses) {
-        String queryCount;
-        String queryList;
-        if(statuses==null){
-            queryCount = "SELECT count(o) FROM Order as o inner join o.status as os ";
-            queryList = "SELECT o FROM Order as o  inner join fetch o.status as os";
-
-        }else {
-            queryCount = "SELECT count(o) FROM Order as o inner join o.status as os where os.status in (:statuses)";
-            queryList = "SELECT o FROM Order as o  inner join fetch o.status as os where os.status in (:statuses)";
-        }
-        TypedQuery<Long> countOrdersQuery = entityManager.createQuery(queryCount, Long.class);
-        if (statuses!=null){
-            countOrdersQuery.setParameter("statuses",statuses);
-        }
+    public Paging<SimpleOrderResponseDto> getAllByPage(OrderQueryParam queryParam) {
+        OrderQueryProcessor queryProcessor = new OrderQueryProcessorImpl(queryParam);
+        TypedQuery<Long> countOrdersQuery = entityManager.createQuery(queryProcessor.getCountQuery(), Long.class);
+        queryProcessor.setCountQueryParameters(countOrdersQuery);
         Integer count = Math.toIntExact(countOrdersQuery.getSingleResult());
         if (count.equals(0)) {
-            throw new ResourceNotFoundException("С данными параметрами результаты не найдены");
+            return new Paging<>(0, queryParam.getPageSize(), 1);
         }
-        Paging<SimpleOrderResponseDto> resultDto = new Paging<>(count,pageSize,currentPage);
-        TypedQuery<Order> orderQueryList = entityManager.createQuery(queryList, Order.class);
-        if(statuses!=null){
-            orderQueryList.setParameter("statuses",statuses);
-        }
-        orderQueryList.setFirstResult((currentPage - 1) * pageSize);
-        orderQueryList.setMaxResults(pageSize);
+        Paging<SimpleOrderResponseDto> resultDto = new Paging<>(count,queryParam.getPageSize(), queryParam.getCurrentPage());
+        TypedQuery<Order> orderQueryList = entityManager.createQuery(queryProcessor.getMainQuery(), Order.class);
+        queryProcessor.setMainQueryParameters(orderQueryList);
         List<Order> orders = orderQueryList.getResultList();
         resultDto.setContent(orders.stream().map(SimpleOrderResponseDto::new).toList());
         return  resultDto;
@@ -134,6 +125,7 @@ public class OrderService {
         if (status==null){
             throw new ResourceNotFoundException("Не найден статус ордера: "+dto.getStatus());
         }
+        order.setPaymentVariant(this.paymentVariantService.getVariantById(dto.getPaymentVariantId()));
         order.setSessionId(oldOrder.getSessionId());
         order.setCreatedAt(oldOrder.getCreatedAt());
         order.setUpdatedAt(LocalDateTime.now());

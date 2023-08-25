@@ -42,9 +42,9 @@ public class Order {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "payment")
-    @Enumerated(EnumType.STRING)
-    private EPaymentVariants paymentVariant;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment")
+    private PaymentVariant paymentVariant;
 
     @Column(name = "amount")
     private String amount;

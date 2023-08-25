@@ -53,7 +53,7 @@ public class OrderController {
            queryString = URLDecoder.decode(rawQueryString, StandardCharsets.UTF_8);
         }
         OrderQueryParam queryParam = urlResolver.resolveQuery(queryString);
-        return orderService.getAllByPage(queryParam.getCurrentPage(),queryParam.getPageSize(),queryParam.getStatuses());
+        return orderService.getAllByPage(queryParam);
     }
 
     @PatchMapping("patch")
