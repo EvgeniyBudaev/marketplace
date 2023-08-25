@@ -93,7 +93,7 @@ public class OrderService {
             amount.set(BigDecimal.valueOf(cartItem.getQuantity() * cartItem.getProduct().getPrice().longValue()));
         });
         order.setAmount(amount.get().toString());
-        /*cartService.clearCart(cart);*/
+        cartService.clearCart(cart);
         OrderEvents event = new OrderEventsImpl(order, EOrderEvents.ORDER_CREATE);
         this.eventPublisher.multicastEvent(new AppOrderEvent(event));
         return true;
