@@ -17,13 +17,13 @@ import java.util.Properties;
 
 @Service
 @Getter
-public class MailSender implements
+public class AppMailSender implements
         ApplicationListener<MailPropertiesChangeEvent>, InitializingBean {
     private final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
     private final PropertiesService propertiesService;
     private final AppProperties appProperties;
 
-    public MailSender(PropertiesService propertiesService, AppProperties appProperties) {
+    public AppMailSender(PropertiesService propertiesService, AppProperties appProperties) {
         this.propertiesService = propertiesService;
         this.appProperties = appProperties;
     }
@@ -52,4 +52,6 @@ public class MailSender implements
         EmailProperty property = (EmailProperty) this.appProperties.getProperty(EPropertiesType.EMAIL);
         updateMailProperty(property);
     }
+
+
 }

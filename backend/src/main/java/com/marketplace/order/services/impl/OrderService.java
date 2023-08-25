@@ -8,12 +8,17 @@ import com.marketplace.order.dto.request.CreateOrderRequestDto;
 import com.marketplace.order.dto.request.PatchOrderRequestDto;
 import com.marketplace.order.dto.response.OrderResponseDto;
 import com.marketplace.order.dto.response.SimpleOrderResponseDto;
+import com.marketplace.order.events.AppOrderEvent;
+import com.marketplace.order.events.EOrderEvents;
+import com.marketplace.order.events.OrderEvents;
+import com.marketplace.order.events.impl.OrderEventsImpl;
 import com.marketplace.order.mappers.OrderMappers;
 import com.marketplace.order.models.*;
 import com.marketplace.order.services.OrderQueryParam;
 import com.marketplace.order.services.OrderQueryProcessor;
 import com.marketplace.order.services.PaymentVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +41,7 @@ public class OrderService {
     private final RecipientService recipientService;
     private final ShippingAddressService shippingAddressService;
     private final OrderStatusService orderStatusService;
-
+    private final ApplicationEventMulticaster eventPublisher;
     private final PaymentVariantService paymentVariantService;
     private final OrderMappers orderMappers;
     @PersistenceContext
@@ -44,11 +49,12 @@ public class OrderService {
 
 
     @Autowired
-    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, PaymentVariantService paymentVariantService, OrderMappers orderMappers, EntityManager entityManager) {
+    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, ApplicationEventMulticaster eventPublisher, PaymentVariantService paymentVariantService, OrderMappers orderMappers, EntityManager entityManager) {
         this.cartService = cartService;
         this.recipientService = recipientService;
         this.shippingAddressService = shippingAddressService;
         this.orderStatusService = orderStatusService;
+        this.eventPublisher = eventPublisher;
         this.paymentVariantService = paymentVariantService;
         this.orderMappers = orderMappers;
         this.entityManager = entityManager;
@@ -87,7 +93,9 @@ public class OrderService {
             amount.set(BigDecimal.valueOf(cartItem.getQuantity() * cartItem.getProduct().getPrice().longValue()));
         });
         order.setAmount(amount.get().toString());
-        cartService.clearCart(cart);
+        /*cartService.clearCart(cart);*/
+        OrderEvents event = new OrderEventsImpl(order, EOrderEvents.ORDER_CREATE);
+        this.eventPublisher.multicastEvent(new AppOrderEvent(event));
         return true;
     }
     @Transactional
