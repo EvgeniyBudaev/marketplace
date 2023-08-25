@@ -86,11 +86,12 @@ public class OrderService {
         entityManager.persist(order);
         order.setOrderItems(new HashSet<>(cart.getItems().hashCode()));
         AtomicReference<BigDecimal> amount = new AtomicReference<>();
+        amount.set(new BigDecimal("0"));
         cart.getItems().forEach(cartItem->{
             OrderItem orderItem = new OrderItem(cartItem,order);
             order.getOrderItems().add(orderItem);
             entityManager.persist(orderItem);
-            amount.set(BigDecimal.valueOf(cartItem.getQuantity() * cartItem.getProduct().getPrice().longValue()));
+            amount.set(amount.get().add(orderItem.getAmount()));
         });
         order.setAmount(amount.get().toString());
         cartService.clearCart(cart);

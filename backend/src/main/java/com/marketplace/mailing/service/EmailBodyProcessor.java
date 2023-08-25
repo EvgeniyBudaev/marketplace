@@ -1,9 +1,9 @@
 package com.marketplace.mailing.service;
 
 import com.marketplace.order.events.OrderEvents;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public interface EmailBodyProcessor {
     String getHtmlEmailBody(OrderEvents event);
 }

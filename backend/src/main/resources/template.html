@@ -188,7 +188,7 @@
 
                                                 <table class="content" border="0" cellpadding="0"
                                                        role="presentation">
-                                                    <tr>
+                                                    <tr appFor="orderItems">
                                                         <td>
                                                             <table class="item-summary" align="left" width="300px"
                                                                    border="0" cellpadding="0"
@@ -203,8 +203,11 @@
                                                                         <p class="item-summary"
                                                                            style="color:#808080; text-transform: uppercase;">
                                                                                 <span
-                                                                                        style="font-weight: 800; color:#000000; text-transform: none;">Зеркало
-                                                                                    x 1</span>
+                                                                                        style="font-weight: 800; color:#000000; text-transform: none;" >
+                                                                                    <span rowData="itemName"></span>
+                                                                                    x
+                                                                                    <span rowData="itemQuantity"></span>
+                                                                                    </span>
                                                                             <br>
                                                                         </p>
                                                                     </td>
@@ -217,7 +220,8 @@
                                                                 <tr>
                                                                     <td>
                                                                         <p style="text-align: right; Margin: 0;">
-                                                                            30 000₽</p>
+                                                                            <span rowData ="itemAmount"></span>
+                                                                            </p>
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -273,6 +277,8 @@
                                                     <br><span datafld="address"></span>
                                                     <br><span datafld="floor"></span>
                                             </td>
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
 

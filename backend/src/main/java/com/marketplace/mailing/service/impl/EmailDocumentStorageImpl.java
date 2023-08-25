@@ -4,16 +4,19 @@ import com.marketplace.mailing.service.EmailDocumentStorage;
 import com.marketplace.order.events.EOrderEvents;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.util.EnumMap;
 import java.util.Map;
-@Service
+import java.util.concurrent.ConcurrentHashMap;
+
+
+@Component
 public class EmailDocumentStorageImpl implements EmailDocumentStorage {
-    private final Map<EOrderEvents, Document> storage = new EnumMap<>(EOrderEvents.class);
+    private final Map<EOrderEvents, Document> storage = new ConcurrentHashMap<>() {
+    };
     @Override
     public Document getHTMLDocument(EOrderEvents event) {
         return storage.get(event);
