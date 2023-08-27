@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.marketplace.order.models.Order;
 import com.marketplace.order.models.OrderItem;
+import com.marketplace.order.models.OrderStatus;
+import com.marketplace.order.models.PaymentVariant;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,12 +27,12 @@ public class OrderResponseDto {
     private Integer countProducts;
     private RecipientDto recipient;
     private ShippingAddressDto shippingAddress;
-    private String paymentVariant;
-    private String status;
+    private PaymentVariantDto paymentVariant;
+    private StatusDto status;
 
     public OrderResponseDto(Order order, String productBaseUrl) {
         this.createdAt = order.getCreatedAt();
-        this.paymentVariant = order.getPaymentVariant().getName();
+        this.paymentVariant = new PaymentVariantDto(order.getPaymentVariant());
         this.modifyDate = order.getUpdatedAt();
         this.orderAmount = order.getAmount();
         this.recipient = new RecipientDto();
@@ -54,7 +56,7 @@ public class OrderResponseDto {
             count[0] = count[0] +1;
             this.items.add(new OrderItemDto(x,productBaseUrl));
         });
-        this.status = order.getStatus().getStatus();
+        this.status = new StatusDto(order.getStatus());
         this.countProducts = count[0];
     }
 
@@ -99,5 +101,26 @@ public class OrderResponseDto {
         private String comment;
     }
 
+    @Data
+    public static class StatusDto{
+        private Long id;
+        private String name;
+
+        public StatusDto(OrderStatus status){
+            this.id = status.getId();
+            this.name = status.getStatus();
+        }
+    }
+
+    @Data
+    public static class PaymentVariantDto{
+        private Long id;
+        private String name;
+
+        public PaymentVariantDto(PaymentVariant paymentVariant){
+            this.id = paymentVariant.getId();
+            this.name = paymentVariant.getName();
+        }
+    }
 
 }
