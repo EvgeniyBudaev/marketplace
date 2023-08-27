@@ -89,13 +89,13 @@ export const loader = async (args: LoaderArgs) => {
     catalog: catalogResponse.data,
     products: productsResponse.data,
     headers,
-    title: t("routes.titles.catalogs"),
+    title: catalogResponse?.data?.name ?? t("routes.titles.catalogs"),
   });
 };
 
 export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return [{ title: i18next.t("routes.titles.catalogs") || "Catalog" }];
+    return [{ title: data?.title || "Catalog" }];
   }
   return [{ title: data?.title || "Catalog" }];
 };

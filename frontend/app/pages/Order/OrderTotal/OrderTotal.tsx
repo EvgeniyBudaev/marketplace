@@ -20,7 +20,7 @@ export const OrderTotal: FC<TProps> = ({ cart }) => {
         </h5>
         <h5 className="OrderTotal-SubTitle">
           <Typography variant={ETypographyVariant.TextH5Bold}>
-            {formatCurrency(cart?.cartAmount ?? "-")} ₽
+            {cart?.cartAmount ? formatCurrency(parseInt(cart.cartAmount)) : "-"} ₽
           </Typography>
         </h5>
       </div>
@@ -32,7 +32,7 @@ export const OrderTotal: FC<TProps> = ({ cart }) => {
         </div>
         <div>
           <Typography variant={ETypographyVariant.TextB3Regular}>
-            {formatCurrency(cart?.cartAmount ?? "-")} ₽
+            {cart?.cartAmount ? formatCurrency(parseInt(cart.cartAmount)) : "-"} ₽
           </Typography>
         </div>
       </div>

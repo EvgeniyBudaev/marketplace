@@ -8,6 +8,8 @@ import type {
   orderDetailParamsSchema,
   orderDetailSchema,
   orderDetailListItemSchema,
+  orderEditParamsSchema,
+  orderEditSchema,
 } from "app/shared/api/orders";
 
 export type TOrder = z.infer<typeof orderSchema>;
@@ -20,3 +22,6 @@ export type TOrderListParams = z.infer<typeof orderListParamsSchema>;
 export type TOrderDetail = z.infer<typeof orderDetailSchema>;
 export type TOrderDetailListItem = z.infer<typeof orderDetailListItemSchema>;
 export type TOrderDetailParams = z.infer<typeof orderDetailParamsSchema>;
+
+export type TOrderEdit = z.infer<typeof orderEditSchema>;
+export type TOrderEditParams = z.infer<typeof orderEditParamsSchema>;

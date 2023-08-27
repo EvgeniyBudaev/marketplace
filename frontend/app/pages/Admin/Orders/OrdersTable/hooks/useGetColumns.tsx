@@ -3,10 +3,12 @@ import { useTranslation } from "react-i18next";
 import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { TableHeader } from "~/components";
 import { ETableColumns } from "~/pages/Admin/Orders/OrdersTable";
-import type { TOrderListItem } from "~/shared/api/orders";
+import type { TTableOrderListItem } from "~/pages/Admin/Orders/OrdersTable/types";
 import { DateTime } from "~/uikit";
 
-type TUseGetColumns = (columnHelper: ColumnHelper<TOrderListItem>) => ColumnDef<TOrderListItem>[];
+type TUseGetColumns = (
+  columnHelper: ColumnHelper<TTableOrderListItem>,
+) => ColumnDef<TTableOrderListItem>[];
 
 export const useGetColumns: TUseGetColumns = (columnHelper) => {
   const { t } = useTranslation();
@@ -43,6 +45,30 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           minSize: 192,
         }),
 
+        columnHelper.accessor(ETableColumns.RecipientSurname, {
+          id: ETableColumns.RecipientSurname,
+          header: () => (
+            <TableHeader>{t("pages.admin.orders.table.columns.info.recipientSurname")}</TableHeader>
+          ),
+          minSize: 192,
+        }),
+
+        columnHelper.accessor(ETableColumns.RecipientName, {
+          id: ETableColumns.RecipientName,
+          header: () => (
+            <TableHeader>{t("pages.admin.orders.table.columns.info.recipientName")}</TableHeader>
+          ),
+          minSize: 192,
+        }),
+
+        columnHelper.accessor(ETableColumns.RecipientPhone, {
+          id: ETableColumns.RecipientPhone,
+          header: () => (
+            <TableHeader>{t("pages.admin.orders.table.columns.info.recipientPhone")}</TableHeader>
+          ),
+          minSize: 192,
+        }),
+
         columnHelper.accessor(ETableColumns.CreatedAt, {
           id: ETableColumns.CreatedAt,
           header: () => (
@@ -66,7 +92,7 @@ export const useGetColumns: TUseGetColumns = (columnHelper) => {
           },
           minSize: 192,
         }),
-      ].filter(Boolean) as ColumnDef<TOrderListItem>[],
+      ].filter(Boolean) as ColumnDef<TTableOrderListItem>[],
     [columnHelper, t],
   );
 };

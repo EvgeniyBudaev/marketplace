@@ -4,5 +4,8 @@ export enum ETableColumns {
   ModifyDate = "modifyDate",
   OrderAmount = "orderAmount",
   RecipientEmail = "recipientEmail",
+  RecipientName = "recipientName",
+  RecipientPhone = "recipientPhone",
+  RecipientSurname = "recipientSurname",
   Status = "status",
 }

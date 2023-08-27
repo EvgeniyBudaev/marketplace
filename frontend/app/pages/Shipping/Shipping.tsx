@@ -120,18 +120,15 @@ export const Shipping: FC<TProps> = (props) => {
         <div className="Shipping-FormContent">
           <div className="Shipping-FormFieldGroup">
             <YMapFormField
-              // TODO: маркер не указывает на defaultValue
-              // defaultValue={isUser ? user.shippingAddress : ""}
-              //  defaultValue="Москва, проспект Вернадского, 42к2"
+              isFocused={true}
               label={t("form.address.title") ?? "Address"}
               name={EFormFields.Address}
-              searchState={searchState}
-              type="text"
-              isFocused={true}
               onBlur={() => {}}
               onFocus={() => {}}
-              onStateChange={setSearchState}
               onSearch={setMapState}
+              onStateChange={setSearchState}
+              searchState={searchState}
+              type="text"
             />
           </div>
           <div className={clsx("Shipping-FormFieldGroup", "Shipping-FormFieldCouple")}>

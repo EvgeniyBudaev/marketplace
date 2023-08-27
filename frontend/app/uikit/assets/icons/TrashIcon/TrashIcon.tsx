@@ -1,21 +1,14 @@
 import { memo } from "react";
-import type { FC, MouseEvent } from "react";
+import type { FC } from "react";
 import type { TIconProps } from "../types";
 
-type TProps = TIconProps & {
-  className?: string;
-  onClick?: (e: MouseEvent<HTMLOrSVGElement>) => void;
-};
-
-const IconComponent: FC<TProps> = ({ className, height = 24, width = 24, onClick, ...props }) => (
+const IconComponent: FC<TIconProps> = ({ height = 24, width = 24, ...props }) => (
   <svg
-    className={className}
     fill="currentColor"
     width={width}
     height={height}
     viewBox="0 0 16 16"
     xmlns="http://www.w3.org/2000/svg"
-    onClick={onClick}
     {...props}
   >
     <path

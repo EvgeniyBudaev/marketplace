@@ -1,6 +1,6 @@
+import isNil from "lodash/isNil";
 import type { FC } from "react";
 import { Link } from "@remix-run/react";
-import isNil from "lodash/isNil";
 import { DEFAULT_IMAGE } from "~/constants";
 import {ERoutes} from "~/enums";
 import { useProxyUrl } from "~/hooks";
@@ -38,8 +38,8 @@ export const OrderProductListItem: FC<TProps> = ({ cartItem }) => {
         <span className="OrderProductListItem-Title">{cartItem.product.name}</span>
       </div>
       <div className="OrderProductListItem-Price">
-        {cartItem.quantity} x {formatCurrency(Number(cartItem.product.price).toFixed())} ={" "}
-        {formatCurrency(cartItem.quantity * Number(cartItem.product.price))} ₽
+        {cartItem.quantity} x {formatCurrency(parseInt(cartItem.product.price))} ={" "}
+        {formatCurrency(cartItem.quantity * parseInt(cartItem.product.price))} ₽
       </div>
     </div>
   );

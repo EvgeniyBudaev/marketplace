@@ -4,8 +4,9 @@ import { useTranslation } from "react-i18next";
 import { EPermissions } from "~/enums";
 import { useTheme, useUser } from "~/hooks";
 import { useGetColumns } from "~/pages/Admin/Orders/OrdersTable/hooks";
-import type { TTableColumn } from "~/pages/Admin/Orders/OrdersTable/types";
-import type { TOrderList, TOrderListItem } from "~/shared/api/orders";
+import type { TTableColumn, TTableOrderListItem } from "~/pages/Admin/Orders/OrdersTable/types";
+import { mapOrderListToTable } from "~/pages/Admin/Orders/OrdersTable/utils";
+import type { TOrderList } from "~/shared/api/orders";
 import { createColumnHelper, Icon, Table as UiTable } from "~/uikit";
 import type { TTableSortingProps } from "~/uikit";
 import type { TTableRowActions } from "~/uikit/components/Table/types";
@@ -37,12 +38,13 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
   ) => {
     const { t } = useTranslation();
     const { user } = useUser();
-    const columnHelper = createColumnHelper<TOrderListItem>();
+    const columnHelper = createColumnHelper<TTableOrderListItem>();
     const columns = useGetColumns(columnHelper);
     const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
     const { theme } = useTheme();
 
     const { content, countOfPage, countOfResult, currentPage, pageSize } = orders;
+    const contentToTable = mapOrderListToTable(content);
 
     const settingsProps = useMemo(
       () => ({
@@ -89,10 +91,10 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
 
     return (
       <div ref={ref}>
-        <UiTable<TOrderListItem>
+        <UiTable<TTableOrderListItem>
           columns={columns}
           currentPage={currentPage}
-          data={content}
+          data={contentToTable ?? []}
           defaultPageSize={pageSize}
           getId={(row) => row.id}
           isLoading={isLoading}

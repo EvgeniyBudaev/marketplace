@@ -1,7 +1,7 @@
-import {z} from "zod";
-import {zfd} from 'zod-form-data';
-import {fileSchema} from "~/shared/api/upload";
-import {paginationSchema} from "../commons";
+import { z } from "zod";
+import { zfd } from "zod-form-data";
+import { fileSchema } from "~/shared/api/upload";
+import { paginationSchema } from "../commons";
 
 const catalogAttributeValueItemSchema = z.object({
   id: z.number(),
@@ -57,7 +57,7 @@ export const catalogsItemSchema = z.object({
 });
 
 export const catalogsSchema = paginationSchema.extend({
-  content: catalogsItemSchema.array(),
+  content: catalogsItemSchema.array().nullish(),
 });
 
 export const catalogsParamsSchema = z.any();

@@ -73,6 +73,9 @@
 .Typography.text-bold {
   font-weight: 700;
 }
+.Typography.text-semiBold {
+  font-weight: 600;
+}
 .Typography.text-medium {
   font-weight: 500;
 }

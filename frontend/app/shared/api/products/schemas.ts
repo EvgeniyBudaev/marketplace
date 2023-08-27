@@ -18,7 +18,7 @@ export const productsItemSchema = z.object({
 });
 
 export const productsSchema = paginationSchema.extend({
-  content: productsItemSchema.array(),
+  content: productsItemSchema.array().nullish(),
 });
 
 export const productsByCatalogItemSchema = z.object({

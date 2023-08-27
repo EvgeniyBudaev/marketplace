@@ -5,5 +5,5 @@ type TProps = {
 
 export const mapOrderToDto = (props: TProps) => {
   const { csrf, ...params } = props;
-  return { session: params.uuid, ...params };
+  return params;
 };

@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import {EColorType} from "~/uikit";
-import type {TColor} from "~/uikit";
-import {ETypographyVariant} from "~/uikit/components/Typography/index";
+import { EColorType } from "~/uikit";
+import type { TColor } from "~/uikit";
+import { ETypographyVariant } from "~/uikit/components/Typography/index";
 import styles from "./Typography.css";
 
 type TThemesOptions = {
@@ -31,6 +31,7 @@ export const TYPOGRAPHY_THEMES = (options: TThemesOptions) => {
     [ETypographyVariant.TextH6Medium]: clsx("Typography text-h6 text-medium", mainStyles),
     [ETypographyVariant.TextH6Regular]: clsx("Typography text-h6 text-regular", mainStyles),
     [ETypographyVariant.TextB2Bold]: clsx("Typography text-b2 text-bold", mainStyles),
+    [ETypographyVariant.TextB2SemiBold]: clsx("Typography text-b2 text-semiBold", mainStyles),
     [ETypographyVariant.TextB2Medium]: clsx("Typography text-b2 text-medium", mainStyles),
     [ETypographyVariant.TextB2Regular]: clsx("Typography text-b2 text-regular", mainStyles),
     [ETypographyVariant.TextB3Bold]: clsx("Typography text-b3 text-bold", mainStyles),
@@ -43,5 +44,5 @@ export const TYPOGRAPHY_THEMES = (options: TThemesOptions) => {
 };
 
 export function typographyLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

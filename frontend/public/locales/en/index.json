@@ -146,6 +146,12 @@
       },
       "orderEdit": {
         "title": "Edit order",
+        "recipient": {
+          "edit": "Edit recipient"
+        },
+        "shipping": {
+          "edit": "Edit shipping address"
+        },
         "table": {
           "columns": {
             "info": {
@@ -168,6 +174,9 @@
               "status": "Status",
               "orderAmount": "Order amount",
               "recipientEmail": "Recipient email",
+              "recipientSurname": "Recipient surname",
+              "recipientName": "Recipient name",
+              "recipientPhone": "Recipient phone",
               "dateAdded": "Date added",
               "dateOfChange": "Date of change"
             }
@@ -294,6 +303,18 @@
     "enabled": {
       "title": "Enabled"
     },
+    "recipient": {
+      "name": "Recipient name",
+      "surname": "Recipient surname",
+      "phone": "Recipient phone",
+      "email": "Recipient email"
+    },
+    "shippingAddress": {
+      "address": "Address",
+      "flat": "Flat",
+      "floor": "Floor",
+      "comment": "Comment"
+    },
     "description": {
       "title": "Description"
     },
@@ -354,6 +375,7 @@
       "productEdit": "Edit product",
       "productAdd": "Add product",
       "cart": "Cart",
+      "mirrors": "Mirrors",
       "product": "Product",
       "contacts": "Contacts",
       "delivery": "Delivery",
@@ -361,6 +383,7 @@
       "settings": "Settings",
       "shipping": "Shipping",
       "recipient": "Recipient",
+      "order": "Order",
       "signup": "SignUp!"
     }
   },
