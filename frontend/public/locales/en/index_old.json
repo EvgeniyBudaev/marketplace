@@ -403,7 +403,7 @@
   "routes": {
     "titles": {
       "catalog": "Catalog",
-      "order": "Order"
+      "catalogDetail": "Добавь сюда перевод!!!"
     }
   }
 }

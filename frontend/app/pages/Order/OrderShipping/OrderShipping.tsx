@@ -1,3 +1,4 @@
+import isNil from "lodash/isNil";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
@@ -36,14 +37,11 @@ export const OrderShipping: FC<TProps> = ({ shipping }) => {
       <div className="OrderShipping-Address">
         <Icon className="OrderShipping-AddressIcon" type="House" />
         <div className="OrderShippingAddressInfo">
-          <div className="OrderShipping-AddressInfoTitle">{shipping?.address}</div>
+          <div className="OrderShipping-AddressInfoTitle">{shipping?.address ?? ""}</div>
           <div className="OrderShipping-AddressInfoSubTitle">
-            {`${t("form.apartment.title")}: ${shipping?.flat}`}
-            <> </>
-            {`${t("form.floor.title")}: ${shipping?.floor}`}
-            <> </>
-            {`${t("form.commentForCourier.title")}: ${shipping?.comment}`}
-            <> </>
+            <div>{!isNil(shipping?.flat) && `${t("form.apartment.title")}: ${shipping?.flat}`}</div>
+            <div>{!isNil(shipping?.floor) && `${t("form.floor.title")}: ${shipping?.floor}`}</div>
+            <div>{!isNil(shipping?.comment) && `${t("form.commentForCourier.title")}: ${shipping?.comment}`}</div>
           </div>
         </div>
       </div>

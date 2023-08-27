@@ -146,6 +146,12 @@
       },
       "orderEdit": {
         "title": "Редактирование заказа",
+        "recipient": {
+          "edit": "Редактирование получателя"
+        },
+        "shipping": {
+          "edit": "Редактирование адреса доставки"
+        },
         "table": {
           "columns": {
             "info": {
@@ -168,6 +174,9 @@
               "status": "Статус",
               "orderAmount": "Сумма заказа",
               "recipientEmail": "Email получателя",
+              "recipientSurname": "Фамилия получателя",
+              "recipientName": "Имя получателя",
+              "recipientPhone": "Телефон получателя",
               "dateAdded": "Дата добавления",
               "dateOfChange": "Дата изменения"
             }
@@ -294,6 +303,18 @@
     "enabled": {
       "title": "Включено"
     },
+    "recipient": {
+      "name": "Имя получателя",
+      "surname": "Фамилия получателя",
+      "phone": "Телефон получателя",
+      "email": "Email получателя"
+    },
+    "shippingAddress": {
+      "address": "Адрес",
+      "flat": "Квартира",
+      "floor": "Этаж",
+      "comment": "Комментарий"
+    },
     "description": {
       "title": "Описание"
     },
@@ -354,6 +375,7 @@
       "productEdit": "Редактирование продукта",
       "productAdd": "Добавление продукта",
       "cart": "Корзина",
+      "mirrors": "Зеркала",
       "product": "Продукт",
       "contacts": "Контакты",
       "delivery": "Доставка",
@@ -361,6 +383,7 @@
       "settings": "Настройки",
       "shipping": "Доставка",
       "recipient": "Получатель",
+      "order": "Заказ",
       "signup": "Регистрация"
     }
   },

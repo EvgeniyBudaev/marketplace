@@ -16,12 +16,13 @@ type TProps = {
   params?: TBreadcrumbParams;
 };
 
-const BreadcrumbsComponent: FC<TProps> = ({ dataTestId = "uikit__breadcrumbs", params = {} }) => {
+const BreadcrumbsComponent: FC<TProps> = ({ dataTestId = "uikit__breadcrumbs" }) => {
   const matches = useMatches();
   const { t } = useTranslation();
 
   const breadcrumbs = matches
-    .map(({ handle, pathname }) => {
+    .map((breadcrumb) => {
+      const { handle, params, pathname } = breadcrumb;
       const result = BreadcrumbHandleSchema.safeParse(handle);
 
       if (!result.success || !result.data.breadcrumb) {
@@ -40,7 +41,6 @@ const BreadcrumbsComponent: FC<TProps> = ({ dataTestId = "uikit__breadcrumbs", p
       };
     })
     .filter(Boolean) as TExtendedBreadcrumb[];
-  console.log("breadcrumbs: ", breadcrumbs);
 
   return (
     <nav className="Breadcrumbs" data-testid={dataTestId}>

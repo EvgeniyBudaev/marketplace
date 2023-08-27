@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { ColumnDef, ColumnHelper } from "@tanstack/react-table";
 import { TableHeader } from "~/components";
-import { ETableColumns } from "~/pages/Admin/Orders/OrderEditItemsTable/enums";
+import { ETableColumns } from "~/pages/Admin/Orders/OrderEditProductsTable/enums";
 import type { TOrderDetailListItem } from "~/shared/api/orders";
 
 type TUseGetColumns = (

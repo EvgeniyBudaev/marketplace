@@ -5,7 +5,7 @@ import type { VisibilityState } from "@tanstack/react-table";
 import clsx from "clsx";
 import isNil from "lodash/isNil";
 import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "~/constants";
-import { Icon, Typography } from "~/uikit";
+import { ETypographyVariant, Icon, Typography } from "~/uikit";
 import { Control } from "~/uikit/components/Table/Control";
 import { ETablePlacement } from "~/uikit/components/Table/enums";
 import { NavigationPanel, navigationPanelLinks } from "~/uikit/components/Table/NavigationPanel";
@@ -128,7 +128,8 @@ const TableComponent = <TColumn extends Record<string, any>>(
       <div className="Table-Head">
         <div>
           {" "}
-          {totalItemsTitle}&nbsp;<span className="Table-HeadCount">{hasData ? totalItems : 0}</span>
+          <Typography variant={ETypographyVariant.TextB2SemiBold}>{totalItemsTitle}</Typography>
+          &nbsp;<span className="Table-HeadCount">{hasData ? totalItems : 0}</span>
         </div>
         <div>{settings && <Control {...settings} columns={table.getAllLeafColumns()} />}</div>
       </div>
