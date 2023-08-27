@@ -2086,6 +2086,55 @@
 					]
 				},
 				{
+					"name": "Dictionaries",
+					"item": [
+						{
+							"name": "get Payment variants",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/dictionaries/paymentVariant",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"dictionaries",
+										"paymentVariant"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get status shipping",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/dictionaries/statusShipping",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"dictionaries",
+										"statusShipping"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "create order",
 					"request": {
 						"method": "POST",

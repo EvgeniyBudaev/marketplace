@@ -14,6 +14,7 @@ import com.marketplace.order.events.OrderEvents;
 import com.marketplace.order.events.impl.OrderEventsImpl;
 import com.marketplace.order.mappers.OrderMappers;
 import com.marketplace.order.models.*;
+import com.marketplace.order.services.DictionariesService;
 import com.marketplace.order.services.OrderQueryParam;
 import com.marketplace.order.services.OrderQueryProcessor;
 import com.marketplace.order.services.PaymentVariantService;
@@ -40,7 +41,7 @@ public class OrderService {
     private final CartService cartService;
     private final RecipientService recipientService;
     private final ShippingAddressService shippingAddressService;
-    private final OrderStatusService orderStatusService;
+    private final DictionariesService dictionariesService;
     private final ApplicationEventMulticaster eventPublisher;
     private final PaymentVariantService paymentVariantService;
     private final OrderMappers orderMappers;
@@ -49,11 +50,11 @@ public class OrderService {
 
 
     @Autowired
-    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, ApplicationEventMulticaster eventPublisher, PaymentVariantService paymentVariantService, OrderMappers orderMappers, EntityManager entityManager) {
+    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, DictionariesService dictionariesService, ApplicationEventMulticaster eventPublisher, PaymentVariantService paymentVariantService, OrderMappers orderMappers, EntityManager entityManager) {
         this.cartService = cartService;
         this.recipientService = recipientService;
         this.shippingAddressService = shippingAddressService;
-        this.orderStatusService = orderStatusService;
+        this.dictionariesService = dictionariesService;
         this.eventPublisher = eventPublisher;
         this.paymentVariantService = paymentVariantService;
         this.orderMappers = orderMappers;
@@ -70,7 +71,7 @@ public class OrderService {
         order.setCreatedAt(createTime);
         order.setPaymentVariant(this.paymentVariantService.getVariantById(dto.getPaymentVariantId()));
         order.setAmount("");
-        order.setStatus(orderStatusService.getStartedStatus());
+        order.setStatus(dictionariesService.getStartedStatus());
         ShippingAddress shippingAddress = shippingAddressService.getShippingAddressBySession(dto.getUuid());
         if(shippingAddress==null){
             throw new ResourceNotFoundException("Не найден адрес доставки");
@@ -130,7 +131,7 @@ public class OrderService {
         Order oldOrder = query.getResultStream().findFirst().orElseThrow(()-> new ResourceNotFoundException("Не найден ордер с id: "+dto.getId()));
         entityManager.detach(oldOrder);
         Order order = orderMappers.orderDtoToEntity(dto);
-        OrderStatus status = orderStatusService.getOrderStatus(dto.getStatus());
+        OrderStatus status = dictionariesService.getOrderStatus(dto.getStatus());
         if (status==null){
             throw new ResourceNotFoundException("Не найден статус ордера: "+dto.getStatus());
         }
