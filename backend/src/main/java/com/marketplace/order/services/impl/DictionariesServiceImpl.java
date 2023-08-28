@@ -28,12 +28,12 @@ public class DictionariesServiceImpl implements DictionariesService {
         return query.getSingleResult();
     }
     @Override
-    public OrderStatus getOrderStatus(String status) {
-        if(status==null){
+    public OrderStatus getOrderStatus(Long statusId) {
+        if(statusId==null){
             return null;
         }
-        TypedQuery<OrderStatus> query= entityManager.createQuery("SELECT s FROM OrderStatus as s where status=: status", OrderStatus.class);
-        query.setParameter("status",status);
+        TypedQuery<OrderStatus> query= entityManager.createQuery("SELECT s FROM OrderStatus as s where id=: status", OrderStatus.class);
+        query.setParameter("status",statusId);
         return query.getResultStream().findFirst().orElse(null);
     }
 

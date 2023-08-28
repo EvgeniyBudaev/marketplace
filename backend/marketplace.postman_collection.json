@@ -1493,7 +1493,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\":\"Максим\",\n    \"middleName\":\"Максимович\",\n    \"lastName\":\"Максимов\",\n    \"phone\":\"+79319672234\",\n    \"email\":\"winterom3446777@gmail.com\",\n    \"password\":\"123456\",\n    \"shippingAddress\": \"Санкт-Петербург Смольный пр-т 15\"\n}",
+							"raw": "{\n    \"firstName\":\"Максим\",\n    \"middleName\":\"Максимович\",\n    \"lastName\":\"Максимов\",\n    \"phone\":\"+79319679235\",\n    \"email\":\"winterom72@gmail.com\",\n    \"password\":\"123456\",\n    \"shippingAddress\": \"Санкт-Петербург Смольный пр-т 15\",\n    \"uuid\":\"be9124c9-0da7-47ab-8d9e-9adb7b87188b\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2210,7 +2210,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/orders/all/?page=1&size=10&statuses=Заказ создан&search=email:winterom@gmail.com,phone:+79219516997",
+							"raw": "http://localhost:8080/api/v1/orders/all/?page=1&size=10&search=email:winterom@gmail.com,phone:+7921",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2234,11 +2234,12 @@
 								},
 								{
 									"key": "statuses",
-									"value": "Заказ создан"
+									"value": "Заказ создан",
+									"disabled": true
 								},
 								{
 									"key": "search",
-									"value": "email:winterom@gmail.com,phone:+79219516997"
+									"value": "email:winterom@gmail.com,phone:+7921"
 								}
 							]
 						}
@@ -2275,7 +2276,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 1,\r\n    \"status\": \"Сформирован на складе\",\r\n    \"paymentVariantId\": \"PAYMENT_BY_CASH\",\r\n    \"items\": [\r\n        {\r\n            \"id\": 5,\r\n            \"productId\": 9,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало в полный рост Франко Фло\",\r\n            \"price\": \"12345.90\",\r\n            \"amount\": \"12345.90\"\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"productId\": 33,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало-солнце Звезда Серебро\",\r\n            \"price\": \"19500.00\",\r\n            \"amount\": \"19500.00\"\r\n        },\r\n        {\r\n            \"id\": 7,\r\n            \"productId\": 32,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало-солнце Звезда Золото\",\r\n            \"price\": \"19500.00\",\r\n            \"amount\": \"19500.00\"\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"productId\": 22,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало-солнце Рэй Золото\",\r\n            \"price\": \"22500.00\",\r\n            \"amount\": \"22500.00\"\r\n        }\r\n    ],\r\n    \"recipient\": {\r\n        \"name\": \"Gritsenko\",\r\n        \"surname\": \"Alexey\",\r\n        \"phone\": \"+79219516997\",\r\n        \"email\": \"winterom@gmail.com\"\r\n    },\r\n    \"shippingAddress\": {\r\n        \"address\": \"Москва, Девяткин переулок, 5с3\",\r\n        \"flat\": \"145\",\r\n        \"floor\": \"3\",\r\n        \"comment\": \"Gev gehev\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"statusId\": 1,\r\n    \"paymentVariantId\": 1,\r\n    \"items\": [\r\n        {\r\n            \"id\": 1,\r\n            \"productId\": 9,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало в полный рост Франко Фло\",\r\n            \"price\": \"12345.90\",\r\n            \"amount\": \"12345.90\"\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"productId\": 33,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало-солнце Звезда Серебро\",\r\n            \"price\": \"19500.00\",\r\n            \"amount\": \"19500.00\"\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"productId\": 32,\r\n            \"quantity\": 1,\r\n            \"name\": \"Зеркало-солнце Звезда Золото\",\r\n            \"price\": \"19500.00\",\r\n            \"amount\": \"19500.00\"\r\n        }\r\n    ],\r\n    \"recipient\": {\r\n        \"name\": \"Gritsenko\",\r\n        \"surname\": \"Alexey\",\r\n        \"phone\": \"+79219516997\",\r\n        \"email\": \"winterom@gmail.com\"\r\n    },\r\n    \"shippingAddress\": {\r\n        \"address\": \"Москва, Девяткин переулок, 5с3\",\r\n        \"flat\": \"145\",\r\n        \"floor\": \"3\",\r\n        \"comment\": \"Gev gehev\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

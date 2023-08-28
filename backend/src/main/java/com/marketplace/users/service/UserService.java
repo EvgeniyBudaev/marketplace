@@ -1,5 +1,6 @@
 package com.marketplace.users.service;
 
+import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.users.dto.user.request.RegisterUserRequestDto;
 import com.marketplace.users.events.RegistrationUserCompleteEvent;
 import com.marketplace.users.model.AppRole;
@@ -55,8 +56,13 @@ public class UserService {
         user.setIsEmailVerified(false);
         user.setIsPhoneVerified(false);
         user.setEnabled(true);
-        user.setSessionId(setNewSessionByNewUser(user));
-        return saveUser(user);
+        SessionId session = sessionIdService.getSession(dto.getUuid());
+        if(session==null){
+            throw new OperationNotAllowedException("Не найдена сессия с uuid "+dto.getUuid());
+        }
+        user.setSessionId(session);
+        userRepository.save(user);
+        return user;
     }
 
     public AppUser getUserByEmail(String email) {
@@ -76,11 +82,7 @@ public class UserService {
     }
 
 
-    public AppUser saveUser(AppUser user) {
-        user.setSessionId(setNewSessionByNewUser(user));
-        userRepository.save(user);
-        return user;
-    }
+
 
     public AppUser findUserById(Long id){
         return userRepository
@@ -88,7 +90,4 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("Не найден пользователь с id " + id));
     }
 
-    public SessionId setNewSessionByNewUser(AppUser user) {
-        return sessionIdService.setNewSessionForNewUser(user);
-    }
 }

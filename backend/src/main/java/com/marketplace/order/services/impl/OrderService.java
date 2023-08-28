@@ -131,9 +131,10 @@ public class OrderService {
         Order oldOrder = query.getResultStream().findFirst().orElseThrow(()-> new ResourceNotFoundException("Не найден ордер с id: "+dto.getId()));
         entityManager.detach(oldOrder);
         Order order = orderMappers.orderDtoToEntity(dto);
-        OrderStatus status = dictionariesService.getOrderStatus(dto.getStatus());
+        OrderStatus status = dictionariesService.getOrderStatus(dto.getStatusId());
+        entityManager.detach(status);
         if (status==null){
-            throw new ResourceNotFoundException("Не найден статус ордера: "+dto.getStatus());
+            throw new ResourceNotFoundException("Не найден статус ордера с id: "+dto.getStatusId());
         }
         order.setPaymentVariant(this.paymentVariantService.getVariantById(dto.getPaymentVariantId()));
         order.setSessionId(oldOrder.getSessionId());

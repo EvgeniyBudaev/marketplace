@@ -11,7 +11,7 @@ import java.util.List;
 public interface DictionariesService {
     OrderStatus getStartedStatus();
 
-    OrderStatus getOrderStatus(String status);
+    OrderStatus getOrderStatus(Long statusId);
 
     List<PaymentVariantsResponseDto> getPaymentVariants();
     List<StatusResponseDto> getOrderStatus();

@@ -31,6 +31,8 @@ public class RegisterUserRequestDto {
     @NotNull
     @Size(min = 15, max = 250)
     private String shippingAddress;
+    @NotNull
+    private String uuid;
 
     public AppUser convertToUser() {
         AppUser user = new AppUser();

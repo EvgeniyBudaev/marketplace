@@ -12,7 +12,7 @@ public class PatchOrderRequestDto {
     private Long id;
     private RecipientDto recipient;
     private ShippingAddressDto shippingAddress;
-    private String status;
+    private Long statusId;
     private Long paymentVariantId;
     private List<OrderItemDto> items;
 
@@ -24,6 +24,7 @@ public class PatchOrderRequestDto {
         private String name;
         private BigDecimal price;
         private Integer quantity;
+        private String image;
     }
     @Data
     public static class RecipientDto {
