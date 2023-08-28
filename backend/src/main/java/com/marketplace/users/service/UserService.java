@@ -1,7 +1,6 @@
 package com.marketplace.users.service;
 
 import com.marketplace.users.dto.user.request.RegisterUserRequestDto;
-
 import com.marketplace.users.events.RegistrationUserCompleteEvent;
 import com.marketplace.users.model.AppRole;
 import com.marketplace.users.model.AppUser;

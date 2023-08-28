@@ -55,7 +55,7 @@ export const Order: FC<TProps> = (props) => {
   };
 
   const handleOrderSubmit = () => {
-    const formattedParams = { payment, csrf, uuid };
+    const formattedParams = { paymentVariantId: payment, csrf, uuid };
     fetcher.submit(
       { ...formattedParams },
       {

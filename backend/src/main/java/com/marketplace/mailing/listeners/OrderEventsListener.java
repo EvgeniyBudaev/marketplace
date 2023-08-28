@@ -1,8 +1,8 @@
 package com.marketplace.mailing.listeners;
 
 import com.marketplace.mailing.exception.MailSenderNotPrepareException;
-import com.marketplace.mailing.service.EmailBodyProcessor;
 import com.marketplace.mailing.service.AppMailSender;
+import com.marketplace.mailing.service.EmailBodyProcessor;
 import com.marketplace.order.events.AppOrderEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -37,7 +37,6 @@ public class OrderEventsListener implements ApplicationListener<AppOrderEvent> {
             helper.setSubject("Создание заказа в интернет магазине");
             helper.setTo(event.getOrderEvents().getOrder().getRecipientEmail());
             appMailSender.getMailSender().send(message);
-            System.out.println("отправили письмо на почту "+event.getOrderEvents().getOrder().getRecipientEmail());
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

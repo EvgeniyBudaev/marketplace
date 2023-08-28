@@ -161,12 +161,12 @@ export const loader = async (args: LoaderArgs) => {
 
 export const meta: V2_MetaFunction = ({ data }) => {
   if (typeof window !== "undefined") {
-    return [{ title: i18next.t("routes.titles.orders") || "Order" }];
+    return [{ title: i18next.t("routes.titles.order") || "Order" }];
   }
   return [{ title: data?.title || "Order" }];
 };
 
-export default function OrderRoute() {
+export default function OrderIndexRoute() {
   const data = useLoaderData<TLoaderData>();
 
   return (

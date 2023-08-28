@@ -4,5 +4,17 @@
 .OrderEdit-FormFieldGroup {
   margin-bottom: 30px;
 }
+.OrderEdit-Form-Group {
+  margin-bottom: 16px;
+}
+.OrderEdit-Form-Field {
+  margin-bottom: 30px;
+}
+.OrderEdit-Form-Recipient-Title {
+  margin-bottom: 16px;
+}
+.OrderEdit-Form-ShippingAddress-Title {
+  margin-bottom: 16px;
+}
 
 /*# sourceMappingURL=OrderEdit.css.map */

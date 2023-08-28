@@ -2,14 +2,14 @@ import { forwardRef, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { EPermissions } from "~/enums";
 import { useTheme, useUser } from "~/hooks";
-import { useGetColumns } from "~/pages/Admin/Orders/OrderEditItemsTable/hooks";
-import type { TTableColumn } from "~/pages/Admin/Orders/OrderEditItemsTable/types";
+import { useGetColumns } from "~/pages/Admin/Orders/OrderEditProductsTable/hooks";
+import type { TTableColumn } from "~/pages/Admin/Orders/OrderEditProductsTable/types";
 import type { TOrderDetailListItem } from "~/shared/api/orders";
 import { createColumnHelper, Icon, Table as UiTable } from "~/uikit";
 import type { TTableSortingProps } from "~/uikit";
 import type { TTableRowActions } from "~/uikit/components/Table/types";
 import { checkPermission } from "~/utils";
-import styles from "./OrderEditItemsTable.css";
+import styles from "./OrderEditProductsTable.css";
 
 type TProps = {
   fieldsSortState: TTableSortingProps;
@@ -48,25 +48,27 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
       [hiddenColumns, t],
     );
 
-    const handleOrderEdit = ({ id }: TTableColumn) => {
-      // onOrderEdit?.(id);
+    const handleProductEdit = ({ id }: TTableColumn) => {
+      console.log("id: ", id);
+      // onProductEdit?.(id);
     };
 
-    const handleOrderDelete = ({ id }: TTableColumn) => {
-      // onOrderDelete?.(id);
+    const handleProductDelete = ({ id }: TTableColumn) => {
+      console.log("id: ", id);
+      // onProductDelete?.(id);
     };
 
     const rowActions: TTableRowActions<TTableColumn> = [
       {
         icon: <Icon type="Trash" />,
         title: t("common.actions.delete"),
-        onClick: handleOrderDelete,
+        onClick: handleProductDelete,
         permission: [EPermissions.Administrator],
       },
       {
         icon: <Icon type="Edit" />,
         title: t("common.actions.edit"),
-        onClick: handleOrderEdit,
+        onClick: handleProductEdit,
         permission: [EPermissions.Administrator],
       },
     ].filter(({ permission }) => checkPermission(user?.permissions ?? null, permission));
@@ -99,8 +101,8 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
 
 TableComponent.displayName = "OrderEditItemsTableComponent";
 
-export const OrderEditItemsTable = memo(TableComponent);
+export const OrderEditProductsTable = memo(TableComponent);
 
-export function orderEditItemsTableLinks() {
+export function orderEditProductsTableLinks() {
   return [{ rel: "stylesheet", href: styles }];
 }

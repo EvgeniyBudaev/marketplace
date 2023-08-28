@@ -3,7 +3,11 @@ import type { TBaseRouteHandle } from "~/types/routes";
 
 export const handle: TBaseRouteHandle = {
   breadcrumb: {
-    title: (t) => t("routes.titles.catalogs"),
+    title: (t, params) => {
+      const { aliasCatalog = "" } = params;
+      const BREADCRUMB_MAPPING = new Map([["mirrors", t("routes.titles.mirrors")]]);
+      return BREADCRUMB_MAPPING.get(aliasCatalog);
+    },
   },
 };
 

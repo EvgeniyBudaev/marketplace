@@ -6,7 +6,6 @@ import com.marketplace.users.dto.auth.request.RefreshTokenUpdateRequestDto;
 import com.marketplace.users.dto.auth.response.AuthResponseDto;
 import com.marketplace.users.model.AppUser;
 import com.marketplace.users.service.AuthService;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
