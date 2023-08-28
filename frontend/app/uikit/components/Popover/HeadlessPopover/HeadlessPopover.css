@@ -59,7 +59,7 @@
 }
 .HeadlessPopover-Panel__left {
   left: -8px !important;
-  transform: translate(-100%, -50%) !important;
+  transform: translate(-100%, 30%) !important;
 }
 .HeadlessPopover-Panel__center {
   left: 2px;

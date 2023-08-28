@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { paginationParamsSchema, paginationSchema } from "~/shared/api/commons";
+import { paymentVariantItemSchema } from "~/shared/api/dictionaries/payment";
+import { statusItemSchema } from "~/shared/api/dictionaries/status";
 
 export const orderParamsSchema = z.object({
   paymentVariantId: z.string(),
@@ -62,10 +64,10 @@ export const orderDetailSchema = z.object({
   items: orderDetailListItemSchema.array(),
   modifyDate: z.string(),
   orderAmount: z.string(),
-  paymentVariant: z.string(),
+  paymentVariant: paymentVariantItemSchema,
   recipient: recipientSchema.nullish(),
   shippingAddress: shippingAddressSchema.nullish(),
-  status: z.string(),
+  status: statusItemSchema,
 });
 
 export const orderEditParamsSchema = z.object({
@@ -77,17 +79,15 @@ export const orderEditParamsSchema = z.object({
   status: z.string(),
 });
 
-// export const orderEditSchema = z.object({
-//   countProducts: z.number(),
-//   createdAt: z.string(),
-//   id: z.number(),
-//   items: orderDetailListItemSchema.array(),
-//   modifyDate: z.string(),
-//   orderAmount: z.string(),
-//   paymentVariant: z.string(),
-//   recipient: recipientSchema.nullish(),
-//   shippingAddress: shippingAddressSchema.nullish(),
-//   status: z.string(),
-// });
-
-export const orderEditSchema = z.any();
+export const orderEditSchema = z.object({
+  countProducts: z.number(),
+  createdAt: z.string(),
+  id: z.number(),
+  items: orderDetailListItemSchema.array(),
+  modifyDate: z.string(),
+  orderAmount: z.string(),
+  paymentVariant: paymentVariantItemSchema,
+  recipient: recipientSchema.nullish(),
+  shippingAddress: shippingAddressSchema.nullish(),
+  status: statusItemSchema,
+});

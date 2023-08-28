@@ -37,9 +37,9 @@ export const OrderEdit: FC<TProps> = (props) => {
   const { isLoading } = getFetcherOptions(fetcherRemix);
   const order: TOrderDetail = fetcherRemix.data?.order ?? props.order;
   // console.log("order: ", order);
-  const selectStatusOptions = [{ value: order.status, label: order.status }];
+  const selectStatusOptions = [{ value: order.status.id.toString(), label: order.status.name }];
   const selectPaymentVariantOptions = [
-    { value: order.paymentVariant, label: order.paymentVariant },
+    { value: order.paymentVariant.id.toString(), label: order.paymentVariant.name },
   ];
 
   const form = useInitForm<TForm>({
@@ -65,7 +65,7 @@ export const OrderEdit: FC<TProps> = (props) => {
     const formattedParams = mapOrderEditToDto({
       params: { ...params, csrf, id: props.id, items: order.items },
     });
-    // console.log("Form formattedParams: ", formattedParams);
+    console.log("Form formattedParams: ", formattedParams);
 
     fetcher.submit(formattedParams, {
       method: EFormMethods.Patch,
