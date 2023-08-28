@@ -1,17 +1,20 @@
+import i18next from "i18next";
 import { inputFromForm } from "remix-domains";
 import { badRequest } from "remix-utils";
 import { json } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
-import i18next from "i18next";
+import { ERoutes } from "~/enums";
+import { LOGIN_FORM_KEYS } from "~/pages/Auth/Login/constants";
 import { Signup, signupLinks } from "~/pages/Auth/Signup";
 import { SIGNUP_FORM_KEYS } from "~/pages/Auth/Signup/constants";
 import { createUserSession, signup } from "~/shared/api/auth";
+import { getUser } from "~/shared/api/users/domain.server";
 import { mapSignupToDto } from "~/shared/api/auth/utils";
 import { getInputErrors } from "~/shared/domain";
 import { getCsrfSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import { checkCSRFToken, getResponseError } from "~/utils";
-import { TBaseRouteHandle } from "~/types";
+import type { TBaseRouteHandle } from "~/types";
+import { checkCSRFToken, createPath, getResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -29,14 +32,27 @@ export const action = async (args: ActionArgs) => {
   if (checkCsrf?.error) return checkCsrf.error;
 
   try {
-    const userResponse = await signup(request, formattedParams);
+    const loginResponse = await signup(request, formattedParams);
 
-    if (!userResponse.success) {
-      const fieldErrors = getInputErrors(userResponse, Object.values(SIGNUP_FORM_KEYS));
+    if (!loginResponse.success) {
+      const fieldErrors = getInputErrors(loginResponse, Object.values(SIGNUP_FORM_KEYS));
       return badRequest({ success: false, fieldErrors });
     }
 
-    return createUserSession(userResponse.data, "/");
+    const userResponse = await getUser(request, {
+      access_token: loginResponse.data.access_token,
+    });
+
+    if (!userResponse.success) {
+      const fieldErrors = getInputErrors(loginResponse, Object.values(LOGIN_FORM_KEYS));
+      return badRequest({ success: false, fieldErrors });
+    }
+
+    return createUserSession(
+      userResponse.data,
+      loginResponse.data,
+      createPath({ route: ERoutes.Root }),
+    );
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};

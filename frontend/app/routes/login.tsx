@@ -3,7 +3,7 @@ import { json, redirect } from "@remix-run/node";
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { badRequest } from "remix-utils";
 import i18next from "i18next";
-
+import { ERoutes } from "~/enums";
 import { Login, loginLinks } from "~/pages/Auth/Login";
 import { LOGIN_FORM_KEYS } from "~/pages/Auth/Login/constants";
 import { createUserSession, login } from "~/shared/api/auth";
@@ -11,8 +11,8 @@ import { getUser } from "~/shared/api/users/domain.server";
 import { getInputErrors } from "~/shared/domain";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import { checkCSRFToken, createBoundaries, getResponseError } from "~/utils";
-import { TBaseRouteHandle } from "~/types";
+import type { TBaseRouteHandle } from "~/types";
+import { checkCSRFToken, createBoundaries, createPath, getResponseError } from "~/utils";
 
 export const action = async (args: ActionArgs) => {
   const { request } = args;
@@ -71,7 +71,11 @@ export const action = async (args: ActionArgs) => {
       return badRequest({ success: false, fieldErrors });
     }
 
-    return createUserSession(userResponse.data, loginResponse.data, "/");
+    return createUserSession(
+      userResponse.data,
+      loginResponse.data,
+      createPath({ route: ERoutes.Root }),
+    );
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
