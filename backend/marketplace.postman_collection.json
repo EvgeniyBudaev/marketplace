@@ -1553,6 +1553,45 @@
 					"response": []
 				},
 				{
+					"name": "Approved email",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdW1AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOSVNUUkFUT1IiLCJNQU5BR0VSIl0sImV4cCI6MTY3MzczNzUyNywiaWF0IjoxNjczNzMzOTI3fQ.8pIcj_1RtEquqXkimGUgJTTf1eGPQBLehzE4i1x9yKk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/activate/email?token=5edc5f0c-d7da-4152-b28f-0b18e4d57430&email=winterom72@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"activate",
+								"email"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "5edc5f0c-d7da-4152-b28f-0b18e4d57430"
+								},
+								{
+									"key": "email",
+									"value": "winterom72@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get user info by Id",
 					"request": {
 						"method": "GET",
@@ -2086,13 +2125,62 @@
 					]
 				},
 				{
+					"name": "Dictionaries",
+					"item": [
+						{
+							"name": "get Payment variants",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/dictionaries/paymentVariant",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"dictionaries",
+										"paymentVariant"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get status shipping",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/dictionaries/statusShipping",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"dictionaries",
+										"statusShipping"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "create order",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"uuid\":\"a1231075-dc8e-4f5a-9032-85888bd36315\",\r\n    \"paymentVariantId\": 1\r\n}",
+							"raw": "{\r\n    \"uuid\":\"1879dca1-1caa-4475-9b95-679d917003ba\",\r\n    \"paymentVariantId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

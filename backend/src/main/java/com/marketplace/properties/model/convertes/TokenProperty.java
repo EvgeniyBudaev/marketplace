@@ -18,7 +18,7 @@ public class TokenProperty {
     @Getter
     @Setter
     public static class CredentialVerifyTokenProperty {
-        private long period = 24 * 60 * 60 * 1000L;/*Жизнь токена в наносекундах*/
+        private long period = 24 * 60 * 60 * 1_000_000_000L;/*Жизнь токена в наносекундах*/
     }
 
     @Getter

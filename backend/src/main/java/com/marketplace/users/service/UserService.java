@@ -66,10 +66,14 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("Не найден пользователь с email " + email));
     }
     @Transactional
-    public void activateUserByEmail(String token) {
-        AppUser user = tokenService.checkEmailToken(token);
+    public Boolean activateEmail(String token, String email) {
+        AppUser user = tokenService.checkEmailToken(token, email);
+        if(user==null){
+            return false;
+        }
         user.setIsEmailVerified(true);
-        saveUser(user);
+        userRepository.save(user);
+        return true;
     }
 
 

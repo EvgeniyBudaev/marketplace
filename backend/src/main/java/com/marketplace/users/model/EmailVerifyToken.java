@@ -31,6 +31,9 @@ public class EmailVerifyToken {
     @Column(name = "expired", nullable = false)
     private LocalDateTime expired;
 
+    @Column(name = "is_used")
+    private Boolean isUsed;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
