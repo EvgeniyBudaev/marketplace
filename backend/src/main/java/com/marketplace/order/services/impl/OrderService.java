@@ -8,12 +8,18 @@ import com.marketplace.order.dto.request.CreateOrderRequestDto;
 import com.marketplace.order.dto.request.PatchOrderRequestDto;
 import com.marketplace.order.dto.response.OrderResponseDto;
 import com.marketplace.order.dto.response.SimpleOrderResponseDto;
+import com.marketplace.order.events.AppOrderEvent;
+import com.marketplace.order.events.EOrderEvents;
+import com.marketplace.order.events.OrderEvents;
+import com.marketplace.order.events.impl.OrderEventsImpl;
 import com.marketplace.order.mappers.OrderMappers;
 import com.marketplace.order.models.*;
+import com.marketplace.order.services.DictionariesService;
 import com.marketplace.order.services.OrderQueryParam;
 import com.marketplace.order.services.OrderQueryProcessor;
 import com.marketplace.order.services.PaymentVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +41,8 @@ public class OrderService {
     private final CartService cartService;
     private final RecipientService recipientService;
     private final ShippingAddressService shippingAddressService;
-    private final OrderStatusService orderStatusService;
-
+    private final DictionariesService dictionariesService;
+    private final ApplicationEventMulticaster eventPublisher;
     private final PaymentVariantService paymentVariantService;
     private final OrderMappers orderMappers;
     @PersistenceContext
@@ -44,11 +50,12 @@ public class OrderService {
 
 
     @Autowired
-    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, OrderStatusService orderStatusService, PaymentVariantService paymentVariantService, OrderMappers orderMappers, EntityManager entityManager) {
+    public OrderService(CartService cartService, RecipientService recipientService, ShippingAddressService shippingAddressService, DictionariesService dictionariesService, ApplicationEventMulticaster eventPublisher, PaymentVariantService paymentVariantService, OrderMappers orderMappers, EntityManager entityManager) {
         this.cartService = cartService;
         this.recipientService = recipientService;
         this.shippingAddressService = shippingAddressService;
-        this.orderStatusService = orderStatusService;
+        this.dictionariesService = dictionariesService;
+        this.eventPublisher = eventPublisher;
         this.paymentVariantService = paymentVariantService;
         this.orderMappers = orderMappers;
         this.entityManager = entityManager;
@@ -64,7 +71,7 @@ public class OrderService {
         order.setCreatedAt(createTime);
         order.setPaymentVariant(this.paymentVariantService.getVariantById(dto.getPaymentVariantId()));
         order.setAmount("");
-        order.setStatus(orderStatusService.getStartedStatus());
+        order.setStatus(dictionariesService.getStartedStatus());
         ShippingAddress shippingAddress = shippingAddressService.getShippingAddressBySession(dto.getUuid());
         if(shippingAddress==null){
             throw new ResourceNotFoundException("Не найден адрес доставки");
@@ -80,14 +87,17 @@ public class OrderService {
         entityManager.persist(order);
         order.setOrderItems(new HashSet<>(cart.getItems().hashCode()));
         AtomicReference<BigDecimal> amount = new AtomicReference<>();
+        amount.set(new BigDecimal("0"));
         cart.getItems().forEach(cartItem->{
             OrderItem orderItem = new OrderItem(cartItem,order);
             order.getOrderItems().add(orderItem);
             entityManager.persist(orderItem);
-            amount.set(BigDecimal.valueOf(cartItem.getQuantity() * cartItem.getProduct().getPrice().longValue()));
+            amount.set(amount.get().add(orderItem.getAmount()));
         });
         order.setAmount(amount.get().toString());
         cartService.clearCart(cart);
+        OrderEvents event = new OrderEventsImpl(order, EOrderEvents.ORDER_CREATE);
+        this.eventPublisher.multicastEvent(new AppOrderEvent(event));
         return true;
     }
     @Transactional
@@ -121,9 +131,10 @@ public class OrderService {
         Order oldOrder = query.getResultStream().findFirst().orElseThrow(()-> new ResourceNotFoundException("Не найден ордер с id: "+dto.getId()));
         entityManager.detach(oldOrder);
         Order order = orderMappers.orderDtoToEntity(dto);
-        OrderStatus status = orderStatusService.getOrderStatus(dto.getStatus());
+        OrderStatus status = dictionariesService.getOrderStatus(dto.getStatusId());
+        entityManager.detach(status);
         if (status==null){
-            throw new ResourceNotFoundException("Не найден статус ордера: "+dto.getStatus());
+            throw new ResourceNotFoundException("Не найден статус ордера с id: "+dto.getStatusId());
         }
         order.setPaymentVariant(this.paymentVariantService.getVariantById(dto.getPaymentVariantId()));
         order.setSessionId(oldOrder.getSessionId());

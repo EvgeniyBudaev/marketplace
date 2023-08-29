@@ -2,6 +2,7 @@ package com.marketplace.users.controllers;
 
 import com.marketplace.users.dto.auth.response.AuthResponseDto;
 import com.marketplace.users.dto.user.request.RegisterUserRequestDto;
+import com.marketplace.users.dto.user.response.EmailApprovedResponseDto;
 import com.marketplace.users.dto.user.response.UserInfoResponseDto;
 import com.marketplace.users.model.AppUser;
 import com.marketplace.users.service.AuthService;
@@ -49,8 +50,9 @@ public class UserController {
         return new UserInfoResponseDto(user);
     }
 
-    @GetMapping("/activate/mail/{token}")
-    public void accountActivateByEmail(@PathVariable String token) {
-        userService.activateUserByEmail(token);
+    @GetMapping("/activate/email")
+    public EmailApprovedResponseDto accountActivateByEmail(@RequestParam String token, @RequestParam String email) {
+        boolean result = userService.activateEmail(token, email);
+        return new EmailApprovedResponseDto(result);
     }
 }

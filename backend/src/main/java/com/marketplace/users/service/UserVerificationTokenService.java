@@ -1,8 +1,6 @@
 package com.marketplace.users.service;
 
-import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.properties.model.convertes.TokenProperty;
-import com.marketplace.users.exception.VerificationTokenExpiredException;
 import com.marketplace.users.model.AppUser;
 import com.marketplace.users.model.EmailVerifyToken;
 import com.marketplace.users.model.enums.ETokenType;
@@ -31,24 +29,27 @@ public class UserVerificationTokenService {
         token.setToken(UUID.randomUUID().toString());
         token.setTokenType(ETokenType.EMAIL_TOKEN);
         token.setUser(user);
+        token.setIsUsed(false);
         token.setExpired(LocalDateTime.now().plusNanos(property.getCredentialVerifyTokenProperty().getPeriod()));
         verificationTokenRepository.save(token);
         return token.getToken();
     }
 
-    public AppUser checkEmailToken(String token) {
+    public AppUser checkEmailToken(String token, String email) {
         TypedQuery<EmailVerifyToken> query =
                 entityManager.createQuery("SELECT t from " +
-                        "EmailVerifyToken as t where t.token=:token and t.tokenType=:tokenType", EmailVerifyToken.class);
+                        "EmailVerifyToken as t inner join fetch t.user as u where t.token=:token and t.tokenType=:tokenType and u.email=:email and t.isUsed=false ", EmailVerifyToken.class);
         query.setParameter("tokenType", ETokenType.EMAIL_TOKEN);
         query.setParameter("token", token);
-        EmailVerifyToken emailVerifyToken = query.getSingleResult();
+        query.setParameter("email", email);
+        EmailVerifyToken emailVerifyToken = query.getResultStream().findFirst().orElse(null);
         if (emailVerifyToken == null) {
-            throw new ResourceNotFoundException("Токен не найден");
+           return null;
         }
         if (LocalDateTime.now().isAfter(emailVerifyToken.getExpired())) {
-            throw new VerificationTokenExpiredException("Срок действия токена истек");
+            return null;
         }
+        emailVerifyToken.setIsUsed(true);
         return emailVerifyToken.getUser();
     }
 }
