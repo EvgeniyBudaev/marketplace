@@ -8,8 +8,8 @@ export default mergeConfig(
     defineConfig({
         test: {
             globals: true,
-            setupFiles: ['@vitest/web-worker', './tests/setup.js'],
-            environment: 'jsdom',
+            setupFiles: ['@vitest/web-worker', 'dotenv/config', './tests/setup.js'],
+            environment: 'happy-dom',
             passWithNoTests: true,
         },
     }),

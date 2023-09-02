@@ -1,4 +1,4 @@
-import { createApi } from "~/utils";
+import { createApi } from "~/utils/createApi";
 import { Environment } from "~/environment.server";
 
 export const { fetchApi, setApiLanguage, getApiLanguage } = createApi({

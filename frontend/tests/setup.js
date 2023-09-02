@@ -1,11 +1,13 @@
-import { expect, afterEach } from 'vitest';
+import { afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { Blob } from 'node:buffer';
-
-expect.extend(matchers);
+import { installGlobals } from '@remix-run/node';
 
 global.Blob = Blob;
+window.ENV = process.env;
+
+installGlobals();
 
 afterEach(() => {
     cleanup();
