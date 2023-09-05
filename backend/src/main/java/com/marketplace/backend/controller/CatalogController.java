@@ -125,7 +125,7 @@ public class CatalogController {
     }
 
     @PutMapping("/put")
-    public ResponseSingleAfterSaveCatalogDto putCatalog(@Valid RequestPutCatalogDto dto,@RequestParam(name = "image",required = false) MultipartFile image) {
+    public ResponseSingleAfterSaveCatalogDto addCatalog(@Valid RequestPutCatalogDto dto, @RequestParam(name = "image",required = false) MultipartFile image) {
         Catalog catalog = catalogService.putCatalog(dto,image);
         return getResponseSingleAfterSaveCatalogDto(catalog);
     }

@@ -1,20 +1,17 @@
 package com.marketplace.backend.dto.product.response;
 
 
-import com.marketplace.backend.model.EFileType;
-import com.marketplace.backend.model.EImageStatus;
 import com.marketplace.backend.model.Product;
 import com.marketplace.backend.model.values.BooleanValue;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
-import com.marketplace.backend.utils.FileUtils;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Data
 public class ResponseProductDto {
@@ -30,7 +27,7 @@ public class ResponseProductDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifyDate;
     private Set<AttributeValueDto> attributes;
-    private Set<String> images;
+    private List<String> images;
     private String defaultImage;
 
     @Data
@@ -40,7 +37,7 @@ public class ResponseProductDto {
         private String value;
     }
 
-    public ResponseProductDto(Product product, String catalogAlias,String baseUrl) {
+    public ResponseProductDto(Product product, String catalogAlias, List<String> images, String defaultImage) {
         this.setCatalogAlias(catalogAlias);
         this.setId(product.getId());
         this.setName(product.getName());
@@ -68,19 +65,9 @@ public class ResponseProductDto {
         if (selValueDto != null) {
             this.getAttributes().addAll(selValueDto);
         }
-        if(product.getProductFiles()!=null&&!product.getProductFiles().isEmpty()){
-            this.images = product.getProductFiles().stream().map(productFile -> {
-                if (productFile.getFileType().equals(EFileType.DOCUMENT)){
-                    return null;
-                }
-                if(Objects.equals(productFile.getImageStatus(),EImageStatus.DEFAULT)){
-                    String url = product.getAlias()+"/"+productFile.getUrl();
-                    this.defaultImage = FileUtils.createUrl(url,EFileType.IMAGE,baseUrl);
-                    return this.defaultImage;
-                }
-                String url = product.getAlias()+"/"+productFile.getUrl();
-                return FileUtils.createUrl(url,EFileType.IMAGE,baseUrl);
-            }).collect(Collectors.toSet());
+        this.defaultImage = defaultImage;
+        if(images!=null&&!images.isEmpty()){
+            this.images=images;
         }else {
             this.images=null;
         }

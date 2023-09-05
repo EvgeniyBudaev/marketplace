@@ -1,10 +1,8 @@
-package com.marketplace.backend.utils;
+package com.marketplace.storage.services.utils.impl;
 
-import com.marketplace.backend.model.EFileType;
+import com.marketplace.storage.services.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tika.Tika;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
@@ -17,60 +15,10 @@ import java.nio.file.attribute.*;
 import java.util.*;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
-@Component
+@Service
 @Slf4j
-public class FileUtils {
-    public static byte[] compressImage(byte[] data) {
-        Deflater deflater = new Deflater();
-        deflater.setLevel(Deflater.BEST_COMPRESSION);
-        deflater.setInput(data);
-        deflater.finish();
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] tmp = new byte[4 * 1024];
-        while (!deflater.finished()) {
-            int size = deflater.deflate(tmp);
-            outputStream.write(tmp, 0, size);
-        }
-        try {
-            outputStream.close();
-        } catch (Exception ignored) {
-        }
-        return outputStream.toByteArray();
-    }
-
-
-    public static byte[] decompressImage(byte[] data) {
-        Inflater inflater = new Inflater();
-        inflater.setInput(data);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] tmp = new byte[4 * 1024];
-        try {
-            while (!inflater.finished()) {
-                int count = inflater.inflate(tmp);
-                outputStream.write(tmp, 0, count);
-            }
-            outputStream.close();
-        } catch (Exception ignored) {
-        }
-        return outputStream.toByteArray();
-    }
-    public static String createUrl(String relativePath, EFileType type, String baseUrl) {
-        String tempUrl = relativePath.replaceAll("\\\\", "/");
-        if (type.equals(EFileType.IMAGE)) {
-            return baseUrl + "images/" + tempUrl;
-        } else {
-            return baseUrl + "doc/" + tempUrl;
-        }
-    }
-    @Nullable
-    public static String createSimpleUrl(String url,String baseUrl){
-        String[] simpleUrl = url.split(baseUrl);
-        if(simpleUrl.length!=1){
-            return null;
-        }
-        return simpleUrl[0];
-    }
+public class FileUtilsImpl implements FileUtils {
+    @Override
     public boolean createIfNotExistProductDir(Path path) {
         if (Files.exists(path)) {
             return true;
@@ -168,21 +116,66 @@ public class FileUtils {
         }
     }
 
-    public Boolean checkImageFile(MultipartFile file) {
-        Tika tika = new Tika();
-        try {
-            String mimeType =  tika.detect(file.getInputStream());
-            String[] type = mimeType.split("/");
-            return type[0].equals("image");
-        }catch (IOException e){
-            return false;
-        }
 
-        /*String mimetype = file.getContentType();
-        if (mimetype == null) {
+
+    @Override
+    public byte[] compressImage(byte[] data) {
+        Deflater deflater = new Deflater();
+        deflater.setLevel(Deflater.BEST_COMPRESSION);
+        deflater.setInput(data);
+        deflater.finish();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] tmp = new byte[4 * 1024];
+        while (!deflater.finished()) {
+            int size = deflater.deflate(tmp);
+            outputStream.write(tmp, 0, size);
+        }
+        try {
+            outputStream.close();
+        } catch (Exception ignored) {
+        }
+        return outputStream.toByteArray();
+    }
+
+
+    @Override
+    public byte[] decompressImage(byte[] data) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] tmp = new byte[4 * 1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(tmp);
+                outputStream.write(tmp, 0, count);
+            }
+            outputStream.close();
+        } catch (Exception ignored) {
+        }
+        return outputStream.toByteArray();
+    }
+
+    @Override
+    public Boolean saveFileOnFileSystem(MultipartFile file, Path path) {
+        try {
+            Files.write(path, file.getBytes());
+            return true;
+        } catch (IOException e) {
+            log.error("Не удалось сохранить файл");
+            log.error(Arrays.toString(e.getStackTrace()));
             return false;
         }
-        String[] type = mimetype.split("/");
-        return type[0].equals("image");*/
+    }
+
+    @Override
+    public Boolean deleteFileFromFileSystem(Path path){
+        try {
+            return Files.deleteIfExists(path);
+        }catch (IOException e){
+            log.error("Не удалось удалить файл "+path);
+            log.error(Arrays.toString(e.getStackTrace()));
+        }
+        return false;
     }
 }

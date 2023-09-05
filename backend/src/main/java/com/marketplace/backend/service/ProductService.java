@@ -14,7 +14,7 @@ import com.marketplace.backend.service.utils.queryes.processor.QueryProcessorImp
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessor;
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryChainProcessorImpl;
 import com.marketplace.backend.service.utils.queryes.product.processor.QueryProcessorParam;
-import com.marketplace.properties.model.properties.GlobalProperty;
+import com.marketplace.storage.services.DocumentStorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +31,12 @@ import java.util.Map;
 @Slf4j
 public class ProductService implements ProductDao {
 
-    private final GlobalProperty globalProperty;
     private final EntityManager entityManager;
+    private final DocumentStorageService documentStorageService;
 
-
-    public ProductService(GlobalProperty globalProperty, EntityManager entityManager) {
-        this.globalProperty = globalProperty;
+    public ProductService( EntityManager entityManager, DocumentStorageService documentStorageService) {
         this.entityManager = entityManager;
+        this.documentStorageService = documentStorageService;
     }
 
 
@@ -55,8 +54,8 @@ public class ProductService implements ProductDao {
         QueryProcessorParam queryProcessorParamCount = chainProcessor.productCountQuery(queryParam);
 
         TypedQuery<Long> productQueryCount = entityManager.createQuery(queryProcessorParamCount.query(), Long.class);
-        /*Ввиду того что при fetch запросе hibernate сначала выберает весь результат запроса в память а потом в памяти устанавливает границы setFirstResult() setMaxResult()
-         * сначала выбираем с ограничениями id продуктов, а вторым запросом пожтягиваем зависимые сущности*/
+        /*Ввиду того что при fetch запросе hibernate сначала выберет весь результат запроса в память, а потом в памяти устанавливает границы setFirstResult() setMaxResult()
+         * сначала выбираем с ограничениями id продуктов, а вторым запросом потягиваем зависимые сущности*/
         setParamInQuery(productQueryCount, queryProcessorParamCount.param());
         Integer count = Math.toIntExact(productQueryCount.getSingleResult());
         /*Если количество результатов равно нулю тогда кидаем эксепшн*/
@@ -79,8 +78,17 @@ public class ProductService implements ProductDao {
         setParamInQuery(productTypedQuery, resultQueryParam.param());
         productTypedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
         List<Product> resultProductList = productTypedQuery.getResultList();
+        List<Long> resultProductIds = resultProductList.stream().map(Product::getId).toList();
+        Map<Long,String> defaultImages = documentStorageService
+                .getDefaultImageUrl(resultProductIds);
+        Map<Long, List<String>> productImages = documentStorageService.getImagesUrl(resultProductIds);
         result.setContent(resultProductList
-                .stream().map(x -> new ResponseProductDto(x, queryParam.getCatalogAlias(),globalProperty.getPRODUCT_BASE_URL())).toList());
+                .stream().map(x ->
+                        new ResponseProductDto(x,
+                                queryParam.getCatalogAlias(),
+                                productImages.get(x.getId()),
+                                defaultImages.get(x.getId())))
+                .toList());
         return result;
     }
 
@@ -122,9 +130,17 @@ public class ProductService implements ProductDao {
                 .createQuery("SELECT p from Product as p where p.id IN (:idList)", Product.class);
         resultQuery.setParameter("idList", productId);
         resultQuery.setHint("javax.persistence.fetchgraph", entityGraph);
-        dtoPaging.setContent(resultQuery
-                .getResultList().stream()
-                .map(x -> new ResponseProductDto(x, x.getCatalog().getAlias(),globalProperty.getPRODUCT_BASE_URL()))
+        List<Product> resultProductList = resultQuery.getResultList();
+        List<Long> resultProductIds = resultProductList.stream().map(Product::getId).toList();
+        Map<Long,String> defaultImages = documentStorageService
+                .getDefaultImageUrl(resultProductIds);
+        Map<Long, List<String>> productImages = documentStorageService.getImagesUrl(resultProductIds);
+        dtoPaging.setContent(resultProductList
+                .stream().map(x ->
+                        new ResponseProductDto(x,
+                                x.getCatalog().getAlias(),
+                                productImages.get(x.getId()),
+                                defaultImages.get(x.getId())))
                 .toList());
         return dtoPaging;
     }
@@ -138,15 +154,19 @@ public class ProductService implements ProductDao {
             countQuery.setParameter("param", param.getSearchString());
         }
         int count = Math.toIntExact(countQuery.getSingleResult());
-        Paging<ResponseProductGetAllDto> result = new Paging<>(count, param.getPageSize(), param.getPage());
+        Paging<ResponseProductGetAllDto> resultDto = new Paging<>(count, param.getPageSize(), param.getPage());
         if (count == 0) {
-            return result;
+            return resultDto;
         }
-        resultQuery.setFirstResult((result.getCurrentPage() - 1) * result.getPageSize());
-        resultQuery.setMaxResults(result.getPageSize());
+        resultQuery.setFirstResult((resultDto.getCurrentPage() - 1) * resultDto.getPageSize());
+        resultQuery.setMaxResults(resultDto.getPageSize());
         List<Product> products = resultQuery.getResultList();
-        result.setContent(products.stream().map(x->new ResponseProductGetAllDto(x,globalProperty)).toList());
-        return result;
+        List<Long> resultProductIds = products.stream().map(Product::getId).toList();
+        /*Map<Long,String> defaultImages = documentStorageService
+                .getDefaultImageUrl(resultProductIds);*/
+        Map<Long, List<String>> productImages = documentStorageService.getImagesUrl(resultProductIds);
+        resultDto.setContent(products.stream().map(x->new ResponseProductGetAllDto(x,productImages.get(x.getId()))).toList());
+        return resultDto;
     }
 
     private void setParamInQuery(TypedQuery<?> query, Map<String, Object> param) {

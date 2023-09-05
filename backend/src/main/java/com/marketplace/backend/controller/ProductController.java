@@ -9,15 +9,12 @@ import com.marketplace.backend.dto.product.response.ResponseProductDtoForAdmin;
 import com.marketplace.backend.dto.product.response.ResponseProductGetAllDto;
 import com.marketplace.backend.exception.AppError;
 import com.marketplace.backend.exception.IllegalRequestParam;
-import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.mappers.ProductMapper;
-import com.marketplace.backend.model.EFileType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.Product;
-import com.marketplace.backend.model.ProductFile;
 import com.marketplace.backend.service.utils.queryes.*;
-import com.marketplace.backend.utils.FileUtils;
-import com.marketplace.properties.model.properties.GlobalProperty;
+import com.marketplace.storage.models.EFileType;
+import com.marketplace.storage.services.DocumentStorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +27,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.util.HashSet;
-
+import java.util.List;
 
 
 @RestController
@@ -42,16 +38,14 @@ public class ProductController {
     private final ProductDao productDao;
     private final ProductMapper productMapper;
     private final ManageProductDao manageProductDao;
-    private final GlobalProperty globalProperty;
-    private final FileUtils fileUtils;
+    private final DocumentStorageService documentStorageService;
 
     @Autowired
-    public ProductController(ProductDao productDao, ProductMapper productMapper, ManageProductDao manageProductDao, GlobalProperty globalProperty, FileUtils fileUtils) {
+    public ProductController(ProductDao productDao, ProductMapper productMapper, ManageProductDao manageProductDao, DocumentStorageService documentStorageService) {
         this.productDao = productDao;
         this.productMapper = productMapper;
         this.manageProductDao = manageProductDao;
-        this.globalProperty = globalProperty;
-        this.fileUtils = fileUtils;
+        this.documentStorageService = documentStorageService;
     }
 
 
@@ -66,7 +60,10 @@ public class ProductController {
 
     @GetMapping("/by_alias")
     public ResponseProductDto getProductByAlias(@RequestParam(value = "alias") String alias) {
-        return new ResponseProductDto(productDao.findProductByAlias(alias), alias,globalProperty.getPRODUCT_BASE_URL());
+        Product product = productDao.findProductByAlias(alias);
+        String defaultImage = documentStorageService.getDefaultImageUrl(product);
+        List<String> images = documentStorageService.getImageUrls(product);
+        return new ResponseProductDto(product,product.getCatalog().getAlias(),images,defaultImage);
 
     }
 
@@ -99,18 +96,7 @@ public class ProductController {
 
     @PostMapping(value = "/save")
     public ResponseProductDto saveWithImageProduct(@Valid RequestSaveWithImageProductDto productDto,@RequestParam(name = "defaultImage",required = false) MultipartFile defaultImage, @RequestParam(name = "files",required = false)MultipartFile[] files) {
-        Product product = manageProductDao.save(productDto);
-        if(files!=null&&files.length!=0){
-            product.setProductFiles(new HashSet<>(files.length));
-            for (MultipartFile file : files) {
-                product.getProductFiles().add(saveFile(file, EFileType.IMAGE, product));
-            }
-        }
-        if(defaultImage!=null){
-            product.getProductFiles().add(saveFile(defaultImage, EFileType.IMAGE, product));
-            manageProductDao.setDefaultFile(product.getProductFiles(),defaultImage.getOriginalFilename());
-        }
-        return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getPRODUCT_BASE_URL());
+        return manageProductDao.save(productDto,defaultImage,files);
     }
     @PutMapping("/put")
     public ResponseProductDto updateProduct(@Valid RequestUpdateWithImageProductDto productDto, @RequestParam(name = "defaultImage",required = false) Object defaultImage, @RequestParam(name = "files",required = false)MultipartFile[] files) {
@@ -120,13 +106,13 @@ public class ProductController {
                 product.setProductFiles(new HashSet<>(files.length));
             }
             for (MultipartFile file : files) {
-                product.getProductFiles().add(saveFile(file, EFileType.IMAGE,product));
+                product.getProductFiles().add(documentStorageService.saveFile(file, EFileType.IMAGE,product));
             }
         }
         if(defaultImage!=null){
             try {
                 MultipartFile  defaultImageFile = (MultipartFile) defaultImage;
-                product.getProductFiles().add(saveFile(defaultImageFile, EFileType.IMAGE, product));
+                product.getProductFiles().add(documentStorageService.saveFile(defaultImageFile, EFileType.IMAGE, product));
                 manageProductDao.setDefaultFile(product.getProductFiles(),defaultImageFile.getOriginalFilename());
             }catch (ClassCastException e){
                 try {
@@ -139,7 +125,9 @@ public class ProductController {
             }
 
         }
-        return new ResponseProductDto(product, productDto.getCatalogAlias(),globalProperty.getPRODUCT_BASE_URL());
+        String savedDefaultImage = documentStorageService.getDefaultImageUrl(product);
+        List<String> images = documentStorageService.getImageUrls(product);
+        return new ResponseProductDto(product,product.getCatalog().getAlias(),images,savedDefaultImage);
     }
 
     @DeleteMapping("delete/{alias}")
@@ -147,7 +135,7 @@ public class ProductController {
         Integer countProductMarkAsDeleted = manageProductDao.delete(alias);
         if (countProductMarkAsDeleted < 1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден продукт с псевдониммом: " + alias));
+                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден продукт с псевдонимом: " + alias));
         }
         return ResponseEntity.ok("Product with alias = " + alias + " was deleted");
     }
@@ -155,7 +143,9 @@ public class ProductController {
     @GetMapping("/admin/by_alias")
     public ResponseProductDtoForAdmin getProductByAliasForAdmin(@RequestParam(value = "alias") String alias) {
         Product product = productDao.findProductByAlias(alias);
-        ResponseProductDtoForAdmin dto = new ResponseProductDtoForAdmin(product,product.getCatalog().getAlias(),globalProperty.getPRODUCT_BASE_URL());
+        String savedDefaultImage = documentStorageService.getDefaultImageUrl(product);
+        List<String> images = documentStorageService.getImageUrls(product);
+        ResponseProductDtoForAdmin dto = new ResponseProductDtoForAdmin(product,product.getCatalog().getAlias(),images,savedDefaultImage);
         if (product.getDoubleValues() != null) {
             dto.setAttributeValuesSet(productMapper.numValuesToDtoForAdmin(product.getDoubleValues()));
         }
@@ -171,24 +161,6 @@ public class ProductController {
         return dto;
     }
 
-    private ProductFile saveFile(MultipartFile uploadFile,EFileType eFileType,Product product){
-        if (eFileType.equals(EFileType.IMAGE) && Boolean.TRUE.equals(globalProperty.getIsProductImageDirectoryAvailability())) {
-            if (Boolean.TRUE.equals(fileUtils.checkImageFile(uploadFile))) {
-                Path imageDir = Path.of(globalProperty.getPRODUCT_IMAGE_DIR().toString(), product.getId().toString());
-                if (!fileUtils.createIfNotExistProductDir(imageDir)) {
-                    throw new OperationNotAllowedException("Не удалось создать директорию продукта");
-                }
-                Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
-                if (Boolean.TRUE.equals(manageProductDao.saveFileOnFileSystem(uploadFile,filePath))) {
-                    return manageProductDao.saveFileDescription(product, uploadFile.getOriginalFilename(), EFileType.IMAGE);
-                } else {
-                    throw new OperationNotAllowedException("Не удалось сохранить файл");
-                }
-            } else {
-                throw new OperationNotAllowedException("Файл не является изображением: " +uploadFile.getOriginalFilename());
-            }
-        }
-        throw new OperationNotAllowedException("Директория для сохранения файла не доступна");
-    }
+
 
 }

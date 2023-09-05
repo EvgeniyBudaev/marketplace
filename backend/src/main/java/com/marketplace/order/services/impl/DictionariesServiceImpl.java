@@ -1,7 +1,7 @@
 package com.marketplace.order.services.impl;
 
-import com.marketplace.order.dto.response.StatusResponseDto;
 import com.marketplace.order.dto.response.PaymentVariantsResponseDto;
+import com.marketplace.order.dto.response.StatusResponseDto;
 import com.marketplace.order.models.OrderStatus;
 import com.marketplace.order.models.PaymentVariant;
 import com.marketplace.order.services.DictionariesService;

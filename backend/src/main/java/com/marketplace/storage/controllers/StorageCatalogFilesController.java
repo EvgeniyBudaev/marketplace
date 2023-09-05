@@ -1,4 +1,4 @@
-package com.marketplace.backend.controller;
+package com.marketplace.storage.controllers;
 
 
 import com.marketplace.backend.model.Catalog;
@@ -21,12 +21,12 @@ import java.util.Arrays;
 @RestController
 @RequestMapping("/api/v1/catalogs/files")
 @Slf4j
-public class AdminCatalogFilesController {
+public class StorageCatalogFilesController {
     private final GlobalProperty globalProperty;
     private final CatalogService catalogService;
 
 
-    public AdminCatalogFilesController(GlobalProperty globalProperty, CatalogService catalogService) {
+    public StorageCatalogFilesController(GlobalProperty globalProperty, CatalogService catalogService) {
         this.globalProperty = globalProperty;
 
         this.catalogService = catalogService;

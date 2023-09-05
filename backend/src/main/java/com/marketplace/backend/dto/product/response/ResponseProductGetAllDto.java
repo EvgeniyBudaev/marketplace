@@ -1,14 +1,10 @@
 package com.marketplace.backend.dto.product.response;
 
-import com.marketplace.backend.model.EFileType;
 import com.marketplace.backend.model.Product;
-import com.marketplace.backend.utils.FileUtils;
-import com.marketplace.properties.model.properties.GlobalProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Data
 public class ResponseProductGetAllDto {
@@ -18,22 +14,18 @@ public class ResponseProductGetAllDto {
     private Boolean enabled;
     private LocalDateTime modifyDate;
     private LocalDateTime createdAt;
-    private Set<String> images;
+    private List<String> images;
 
-    public ResponseProductGetAllDto(Product product, GlobalProperty globalProperty){
+    public ResponseProductGetAllDto(Product product, List<String> images){
         this.setId(product.getId());
         this.setName(product.getName());
         this.setAlias(product.getAlias());
         this.setEnabled(product.getEnabled());
         this.setModifyDate(product.getModifyDate());
         this.setCreatedAt(product.getCreatedAt());
-        this.images = product.getProductFiles().stream().map(productFile -> {
-            if (productFile.getFileType().equals(EFileType.DOCUMENT)){
-                return "";
-            }
-            return FileUtils.createUrl(productFile.getUrl(),EFileType.IMAGE,globalProperty.getPRODUCT_BASE_URL());
-        }).collect(Collectors.toSet());
-        if(this.images.isEmpty()){
+        if(images!=null&&!images.isEmpty()){
+            this.images=images;
+        }else {
             this.images=null;
         }
     }

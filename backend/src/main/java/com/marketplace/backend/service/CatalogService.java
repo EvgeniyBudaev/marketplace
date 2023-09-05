@@ -11,21 +11,22 @@ import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.mappers.CatalogMapper;
 import com.marketplace.backend.model.Attribute;
 import com.marketplace.backend.model.Catalog;
-import com.marketplace.backend.model.EFileType;
 import com.marketplace.backend.model.Paging;
 import com.marketplace.backend.model.values.SelectableValue;
 import com.marketplace.backend.service.utils.queryes.QueryParam;
 import com.marketplace.backend.service.utils.queryes.processor.QueryProcessor;
 import com.marketplace.backend.service.utils.queryes.processor.QueryProcessorImpl;
-import com.marketplace.backend.utils.FileUtils;
-import com.marketplace.properties.model.properties.GlobalProperty;
+import com.marketplace.storage.models.EFileType;
+import com.marketplace.storage.services.DocumentStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
-import java.nio.file.Path;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -37,26 +38,25 @@ public class CatalogService {
     private final CatalogMapper catalogMapper;
     private final AttributeValueService attributeValueService;
     private final AttributeService attributeService;
-    private final GlobalProperty globalProperty;
-    private final FileUtils fileUtils;
-    private final AdminFilesService adminFilesService;
+    private final AdminCatalogService adminCatalogService;
 
+
+    private final DocumentStorageService documentStorageService;
     @PersistenceContext
     private final EntityManager entityManager;
 
     @Autowired
-    public CatalogService(CatalogMapper catalogMapper, AttributeValueService attributeValueService, AttributeService attributeService, GlobalProperty globalProperty, FileUtils fileUtils, AdminFilesService adminFilesService, EntityManager entityManager) {
+    public CatalogService(CatalogMapper catalogMapper, AttributeValueService attributeValueService, AttributeService attributeService, AdminCatalogService adminCatalogService, DocumentStorageService documentStorageService, EntityManager entityManager) {
         this.catalogMapper = catalogMapper;
         this.attributeValueService = attributeValueService;
         this.attributeService = attributeService;
-        this.globalProperty = globalProperty;
-        this.fileUtils = fileUtils;
-        this.adminFilesService = adminFilesService;
+        this.adminCatalogService = adminCatalogService;
+        this.documentStorageService = documentStorageService;
         this.entityManager = entityManager;
     }
 
 
-    @Transactional(rollbackFor = {OperationNotAllowedException.class})
+    @Transactional
     public Catalog saveNewCatalog(RequestSaveCatalogDto dto, MultipartFile image) {
         Catalog catalog = catalogMapper.dtoToEntity(dto);
         entityManager.persist(catalog);
@@ -67,12 +67,11 @@ public class CatalogService {
         catalog.setCreatedAt(LocalDateTime.now());
         catalog.setModifyDate(LocalDateTime.now());
         if(image!=null){
-            saveFile(image,EFileType.IMAGE,catalog);
+            catalog.setImage(documentStorageService.saveFile(image,EFileType.IMAGE,catalog));
         }
         entityManager.flush();
         entityManager.detach(catalog);
-        String imageUrl = catalog.getAlias()+"/"+catalog.getImage();
-        catalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+        catalog.setImage(documentStorageService.getDefaultImageUrl(catalog));
         return catalog;
     }
 
@@ -86,7 +85,7 @@ public class CatalogService {
         updateQuery.setParameter("id", dto.getId());
         updateQuery.setParameter("modify", LocalDateTime.now());
         updateQuery.executeUpdate();
-        Catalog catalog = findCatalogByAliasWithFullAttributes(dto.getAlias());
+        Catalog catalog = adminCatalogService.findCatalogByAliasWithFullAttributes(dto.getAlias());
         Set<Attribute> oldAttributes = catalog.getAttributes();
         Set<Attribute> attributesForDelete = oldAttributes.stream().filter(x -> !newAttributes.contains(x)).collect(Collectors.toSet());
         Set<Attribute> attributesForAdd = newAttributes.stream().filter(x -> !oldAttributes.contains(x)).collect(Collectors.toSet());
@@ -97,14 +96,16 @@ public class CatalogService {
             catalog.addAttribute(attribute);
         }
         if(image!=null){
-            saveFile(image,EFileType.IMAGE,catalog);
+            catalog.setImage(documentStorageService.saveFile(image,EFileType.IMAGE,catalog));
+        }else {
+            catalog.setImage(null);
         }
         entityManager.flush();
         entityManager.detach(catalog);
         Set<Attribute> attributeList = attributeService.getListAttributeByAliasesWithValue(dto.getAttributeAlias());
         catalog.setAttributes(attributeList);
-        String imageUrl = catalog.getAlias()+"/"+catalog.getImage();
-        catalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+
+        catalog.setImage(documentStorageService.getDefaultImageUrl(catalog));
         return catalog;
     }
 
@@ -114,23 +115,12 @@ public class CatalogService {
         catalog.setModifyDate(LocalDateTime.now());
         entityManager.merge(catalog);
         entityManager.detach(catalog);
-        Catalog newCatalog = findCatalogByAliasWithFullAttributes(dto.getAlias());
+        Catalog newCatalog = adminCatalogService.findCatalogByAliasWithFullAttributes(dto.getAlias());
         entityManager.detach(newCatalog);
-        String imageUrl = newCatalog.getAlias()+"/"+newCatalog.getImage();
-        newCatalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+        newCatalog.setImage(documentStorageService.getDefaultImageUrl(catalog));
         return newCatalog;
     }
 
-    public Catalog findCatalogByAliasWithFullAttributes(String alias) {
-        TypedQuery<Catalog> catalogQuery =
-                entityManager.
-                        createQuery("SELECT c from Catalog as c where c.alias=:alias", Catalog.class);
-        catalogQuery.setParameter("alias", alias);
-        EntityGraph<?> entityGraph = entityManager.getEntityGraph("catalog-with-full-attributes");
-        catalogQuery.setHint("javax.persistence.fetchgraph", entityGraph);
-        return catalogQuery.getResultStream()
-                .findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден каталог с псевдонимом " + alias));
-    }
 
     public Set<NumberAttributeDto> findUseNumericAttributesInCatalog(Catalog catalog) {
         return attributeValueService.findUseNumberAttributesUseInCatalog(catalog.getId());
@@ -160,8 +150,8 @@ public class CatalogService {
                 .map(x->{
                     ResponseSimpleCatalogDto dto = catalogMapper.entityToSimpleCatalogDto(x);
                     if(dto.getImage()!=null){
-                        String imageUrl = dto.getAlias()+"/"+dto.getImage();
-                        dto.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+
+                        dto.setImage(documentStorageService.getDefaultImageUrl(x));
                     }
                     return dto;
                 }).toList());
@@ -214,29 +204,9 @@ public class CatalogService {
         entityManager.detach(catalog);
         catalog.setAttributes(attributes);
         if(catalog.getImage()!=null){
-            String imageUrl = catalog.getAlias()+"/"+catalog.getImage();
-            catalog.setImage(FileUtils.createUrl(imageUrl,EFileType.IMAGE,globalProperty.getCATALOG_BASE_URL()));
+            catalog.setImage(documentStorageService.getDefaultImageUrl(catalog));
         }
         return catalog;
     }
-    private void saveFile(MultipartFile uploadFile, EFileType eFileType, Catalog catalog){
-        if (eFileType.equals(EFileType.IMAGE) && Boolean.TRUE.equals(globalProperty.getIsCatalogImageDirectoryAvailability())) {
-            if (Boolean.TRUE.equals(fileUtils.checkImageFile(uploadFile))) {
-                Path imageDir = Path.of(globalProperty.getCATALOG_IMAGE_DIR().toString(), catalog.getId().toString());
-                if (!fileUtils.createIfNotExistProductDir(imageDir)) {
-                    throw new OperationNotAllowedException("Не удалось создать директорию каталога");
-                }
-                Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
-                if (Boolean.TRUE.equals(adminFilesService.saveFileOnFileSystem(uploadFile,filePath))) {
-                    catalog.setImage(uploadFile.getOriginalFilename());
-                    return;
-                } else {
-                    throw new OperationNotAllowedException("Не удалось сохранить файл");
-                }
-            } else {
-                throw new OperationNotAllowedException("Файл не является изображением: " +uploadFile.getOriginalFilename());
-            }
-        }
-        throw new OperationNotAllowedException("Директория для сохранения файла не доступна");
-    }
+
 }
