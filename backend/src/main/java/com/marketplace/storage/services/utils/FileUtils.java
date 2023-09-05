@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Path;
 
 public interface FileUtils {
-    boolean createIfNotExistProductDir(Path path);
+    boolean createIfNotExistDirectory(Path path);
 
     byte[] compressImage(byte[] data);
 

@@ -1,6 +1,7 @@
 package com.marketplace.storage.services.utils.impl;
 
 import com.marketplace.backend.exception.OperationNotAllowedException;
+import com.marketplace.backend.model.Catalog;
 import com.marketplace.backend.model.Product;
 import com.marketplace.properties.model.properties.GlobalProperty;
 import com.marketplace.storage.models.EFileType;
@@ -41,7 +42,7 @@ public class ImageUtilsServiceImpl implements ImageUtilsService {
         if (Boolean.TRUE.equals(globalProperty.getIsProductImageDirectoryAvailability())) {
             if (Boolean.TRUE.equals(checkImageFile(uploadFile))) {
                 Path imageDir = Path.of(globalProperty.getPRODUCT_IMAGE_DIR().toString(), product.getId().toString());
-                if (!fileUtils.createIfNotExistProductDir(imageDir)) {
+                if (!fileUtils.createIfNotExistDirectory(imageDir)) {
                     throw new OperationNotAllowedException("Не удалось создать директорию продукта");
                 }
                 Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
@@ -49,6 +50,22 @@ public class ImageUtilsServiceImpl implements ImageUtilsService {
                 return saveFileDescription(product, uploadFile.getOriginalFilename(), EFileType.IMAGE);
             } else {
                 throw new OperationNotAllowedException("Файл не является изображением: " +uploadFile.getOriginalFilename());
+            }
+        }
+        throw new OperationNotAllowedException("Директория для сохранения файла не доступна");
+    }
+
+    @Override
+    public String saveImageFile(MultipartFile uploadFile, Catalog catalog) {
+        if (Boolean.TRUE.equals(globalProperty.getIsCatalogImageDirectoryAvailability())){
+            if (Boolean.TRUE.equals(checkImageFile(uploadFile))){
+                Path imageDir = Path.of(globalProperty.getCATALOG_IMAGE_DIR().toString(), catalog.getId().toString());
+                if (!fileUtils.createIfNotExistDirectory(imageDir)) {
+                    throw new OperationNotAllowedException("Не удалось создать директорию каталога");
+                }
+                Path filePath = Path.of(imageDir.toString(), uploadFile.getOriginalFilename());
+                fileUtils.saveFileOnFileSystem(uploadFile, filePath);
+                return uploadFile.getOriginalFilename();
             }
         }
         throw new OperationNotAllowedException("Директория для сохранения файла не доступна");

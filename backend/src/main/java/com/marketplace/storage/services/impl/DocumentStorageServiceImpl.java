@@ -142,6 +142,12 @@ public class DocumentStorageServiceImpl implements DocumentStorageService {
 
     @Override
     public String saveFile(MultipartFile uploadFile, EFileType eFileType, Catalog catalog) {
+        if(eFileType.equals(EFileType.DOCUMENT)) {
+            return null;
+        }
+        if (eFileType.equals(EFileType.IMAGE)){
+            return this.imageUtilsService.saveImageFile(uploadFile,catalog);
+        }
         return null;
     }
 

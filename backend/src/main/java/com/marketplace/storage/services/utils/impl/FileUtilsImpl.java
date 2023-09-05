@@ -19,7 +19,7 @@ import java.util.zip.Inflater;
 @Slf4j
 public class FileUtilsImpl implements FileUtils {
     @Override
-    public boolean createIfNotExistProductDir(Path path) {
+    public boolean createIfNotExistDirectory(Path path) {
         if (Files.exists(path)) {
             return true;
         }
