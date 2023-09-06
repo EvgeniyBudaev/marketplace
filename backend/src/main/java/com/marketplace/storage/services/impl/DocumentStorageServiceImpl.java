@@ -60,7 +60,7 @@ public class DocumentStorageServiceImpl implements DocumentStorageService {
         TypedQuery<ProductFile> query = entityManager
                 .createQuery("SELECT pf FROM ProductFile as pf left join fetch pf.product as p WHERE p.id in (:productIds) and pf.imageStatus=:status", ProductFile.class);
         query.setParameter("productIds",productIds);
-        query.setParameter("status",EImageStatus.DEFAULT.name());
+        query.setParameter("status",EImageStatus.DEFAULT);
         query.getResultStream().forEach(productFile -> resultMap.put(productFile.getProduct().getId(), createProductImageUrl(productFile.getProduct(),productFile)));
         return resultMap;
     }
