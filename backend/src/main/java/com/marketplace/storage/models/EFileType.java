@@ -1,4 +1,4 @@
-package com.marketplace.backend.model;
+package com.marketplace.storage.models;
 
 public enum EFileType {
     IMAGE, DOCUMENT

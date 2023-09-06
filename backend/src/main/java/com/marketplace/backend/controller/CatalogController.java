@@ -113,7 +113,7 @@ public class CatalogController {
         int countOfDeleteCatalogs = catalogService.delete(alias);
         if (countOfDeleteCatalogs < 1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден каталог с псевдониммом: " + alias));
+                    .body(new AppError(HttpStatus.BAD_REQUEST.name(), "Не найден каталог с псевдонимом: " + alias));
         }
         return ResponseEntity.ok("Каталог с псевдонимом = " + alias + " удален");
     }
@@ -125,7 +125,7 @@ public class CatalogController {
     }
 
     @PutMapping("/put")
-    public ResponseSingleAfterSaveCatalogDto putCatalog(@Valid RequestPutCatalogDto dto,@RequestParam(name = "image",required = false) MultipartFile image) {
+    public ResponseSingleAfterSaveCatalogDto addCatalog(@Valid RequestPutCatalogDto dto, @RequestParam(name = "image",required = false) MultipartFile image) {
         Catalog catalog = catalogService.putCatalog(dto,image);
         return getResponseSingleAfterSaveCatalogDto(catalog);
     }

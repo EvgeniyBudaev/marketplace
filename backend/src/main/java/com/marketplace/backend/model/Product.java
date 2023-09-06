@@ -4,6 +4,7 @@ package com.marketplace.backend.model;
 import com.marketplace.backend.model.values.BooleanValue;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
+import com.marketplace.storage.models.ProductFile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

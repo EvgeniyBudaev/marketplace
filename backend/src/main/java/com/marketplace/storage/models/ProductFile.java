@@ -1,6 +1,8 @@
-package com.marketplace.backend.model;
+package com.marketplace.storage.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.marketplace.backend.model.EImageStatus;
+import com.marketplace.backend.model.Product;
 import lombok.Getter;
 import lombok.Setter;
 

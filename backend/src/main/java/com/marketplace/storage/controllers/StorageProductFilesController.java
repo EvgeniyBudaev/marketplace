@@ -1,7 +1,8 @@
-package com.marketplace.backend.controller;
+package com.marketplace.storage.controllers;
 
 
-import com.marketplace.backend.service.AdminFilesService;
+
+import com.marketplace.backend.dao.ProductDao;
 import com.marketplace.properties.model.properties.GlobalProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,15 @@ import java.util.Arrays;
 @RestController
 @RequestMapping("/api/v1/products/files")
 @Slf4j
-public class AdminProductFilesController {
+public class StorageProductFilesController {
     private final GlobalProperty globalProperty;
-    private final AdminFilesService filesService;
+    private final ProductDao productDao;
 
 
-    public AdminProductFilesController(GlobalProperty globalProperty, AdminFilesService filesService) {
+
+    public StorageProductFilesController(GlobalProperty globalProperty, ProductDao productDao) {
         this.globalProperty = globalProperty;
-        this.filesService = filesService;
+        this.productDao = productDao;
     }
 
 
@@ -35,7 +37,7 @@ public class AdminProductFilesController {
     @GetMapping("/images/{productAlias}/{fileName}")
     public ResponseEntity<?> getImageByUrl(@PathVariable String productAlias,
                                            @PathVariable String fileName) {
-        Long productId = filesService.findProductIdByAlias(productAlias);
+        Long productId = productDao.findProductIdByAlias(productAlias);
         Path path = globalProperty.getPRODUCT_IMAGE_DIR().resolve(Path.of(productId.toString(), fileName));
         if (!Files.exists(path)) {
             return new ResponseEntity<>("Файл отсутствует", HttpStatus.NOT_FOUND);

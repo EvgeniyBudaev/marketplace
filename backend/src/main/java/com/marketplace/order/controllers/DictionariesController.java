@@ -1,7 +1,7 @@
 package com.marketplace.order.controllers;
 
-import com.marketplace.order.dto.response.StatusResponseDto;
 import com.marketplace.order.dto.response.PaymentVariantsResponseDto;
+import com.marketplace.order.dto.response.StatusResponseDto;
 import com.marketplace.order.services.DictionariesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

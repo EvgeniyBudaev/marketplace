@@ -4,14 +4,18 @@ package com.marketplace.backend.service;
 import com.marketplace.backend.dao.ManageProductDao;
 import com.marketplace.backend.dto.product.request.NumericValue;
 import com.marketplace.backend.dto.product.request.RequestSaveOrUpdate;
+import com.marketplace.backend.dto.product.response.ResponseProductDto;
 import com.marketplace.backend.exception.OperationNotAllowedException;
 import com.marketplace.backend.exception.ResourceNotFoundException;
 import com.marketplace.backend.mappers.ProductMapper;
-import com.marketplace.backend.model.*;
+import com.marketplace.backend.model.Attribute;
+import com.marketplace.backend.model.EImageStatus;
+import com.marketplace.backend.model.Product;
 import com.marketplace.backend.model.values.DoubleValue;
 import com.marketplace.backend.model.values.SelectableValue;
-import com.marketplace.backend.utils.FileUtils;
-import com.marketplace.properties.model.properties.GlobalProperty;
+import com.marketplace.storage.models.EFileType;
+import com.marketplace.storage.models.ProductFile;
+import com.marketplace.storage.services.DocumentStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +28,6 @@ import javax.transaction.Transactional;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,21 +38,18 @@ public class AdminProductService implements ManageProductDao {
     private final EntityManager entityManager;
     private final CatalogService catalogService;
     private final AttributeService attributeService;
-    private final AdminFilesService adminFilesService;
     private final ProductMapper productMapper;
-    private final GlobalProperty globalProperty;
+    private final DocumentStorageService documentStorageService;
 
 
     @Autowired
-    public AdminProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, AdminFilesService adminFilesService, ProductMapper productMapper, GlobalProperty globalProperty) {
+    public AdminProductService(EntityManager entityManager, CatalogService catalogService, AttributeService attributeService, ProductMapper productMapper, DocumentStorageService documentStorageService) {
 
         this.entityManager = entityManager;
         this.catalogService = catalogService;
         this.attributeService = attributeService;
-        this.adminFilesService = adminFilesService;
         this.productMapper = productMapper;
-
-        this.globalProperty = globalProperty;
+        this.documentStorageService = documentStorageService;
     }
 
 
@@ -61,26 +61,7 @@ public class AdminProductService implements ManageProductDao {
         return query.executeUpdate();
     }
 
-    @Override
-    public Boolean saveFileOnFileSystem(MultipartFile file, Path path) {
-        return adminFilesService.saveFileOnFileSystem(file,path);
-    }
 
-    @Override
-    @Transactional
-    public Boolean deleteFileFromFileSystem(ProductFile productFile,Long productId) {
-        Query query = entityManager.createQuery("DELETE FROM ProductFile as p  where p=:p");
-        query.setParameter("p",productFile);
-        query.executeUpdate();
-        String filename = Path.of(productFile.getUrl()).getFileName().toString();
-        Path path = Path.of(globalProperty.getPRODUCT_IMAGE_DIR().toString(),productId.toString(),filename);
-        return adminFilesService.deleteFileFromFileSystem(path);
-    }
-
-    @Override
-    public ProductFile saveFileDescription(Product product, String url, EFileType type) {
-        return adminFilesService.saveProductEntity(product,url,type);
-    }
 
     @Override
     @Transactional
@@ -96,7 +77,7 @@ public class AdminProductService implements ManageProductDao {
 
     @Override
     @Transactional(rollbackOn = {ResourceNotFoundException.class, OperationNotAllowedException.class})
-    public Product save(RequestSaveOrUpdate dto) {
+    public ResponseProductDto save(RequestSaveOrUpdate dto, MultipartFile defaultImage, MultipartFile[] files) {
         checkDto(dto);
         Product newProduct = productMapper.dtoToEntity(dto);
         newProduct.setDoubleValues(new HashSet<>());
@@ -118,11 +99,23 @@ public class AdminProductService implements ManageProductDao {
                     .equals(value.getAttributeAlias())).findFirst().orElseThrow(() -> new ResourceNotFoundException("Не найден атрибут с псевдонимом: " + value.getAttributeAlias())));
             entityManager.persist(doubleValue);
         }
-        return newProduct;
+        if(files!=null&&files.length!=0){
+            newProduct.setProductFiles(new HashSet<>(files.length));
+            for (MultipartFile file : files) {
+                newProduct.getProductFiles().add(documentStorageService.saveFile(file, EFileType.IMAGE, newProduct));
+            }
+        }
+        if(defaultImage!=null){
+            newProduct.getProductFiles().add(documentStorageService.saveFile(defaultImage, EFileType.IMAGE, newProduct));
+            setDefaultFile(newProduct.getProductFiles(),defaultImage.getOriginalFilename());
+        }
+        String savedDefaultImage = documentStorageService.getDefaultImageUrl(newProduct);
+        List<String> images = documentStorageService.getImageUrls(newProduct);
+        return new ResponseProductDto(newProduct,newProduct.getCatalog().getAlias(),images,savedDefaultImage);
     }
 
     @Override
-    @Transactional(rollbackOn = {ResourceNotFoundException.class, OperationNotAllowedException.class})
+    @Transactional
     public Product update(RequestSaveOrUpdate dto) {
         checkDto(dto);
         Product product = productMapper.dtoToEntity(dto);
@@ -157,41 +150,9 @@ public class AdminProductService implements ManageProductDao {
             product.getDoubleValues().add(doubleValue);
             entityManager.persist(doubleValue);
         });
-        TypedQuery<String> query = entityManager.createQuery("SELECT p.alias FROM Product as p where p.id=:id",String.class);
-        query.setParameter("id",dto.getId());
-        String oldAlias = query.getSingleResult();
-        String aliasForUrl;
-        if(oldAlias.equals(product.getAlias())){
-            aliasForUrl= product.getAlias();
-        }else {
-            aliasForUrl = oldAlias;
-        }
         Product finalProduct = entityManager.merge(product);
         finalProduct.setCreatedAt(getCreatedAt(finalProduct));
-        Set<ProductFile> images =new HashSet<>(adminFilesService.getImageFilesByProduct(finalProduct));
-        if(!images.isEmpty()){
-            Iterator<ProductFile> iterator = images.iterator();
-            while (iterator.hasNext()){
-                ProductFile x = iterator.next();
-
-                String url = FileUtils.createUrl(aliasForUrl+"/"+x.getUrl(),EFileType.IMAGE,globalProperty.getPRODUCT_BASE_URL());
-                System.out.println(url);
-                if(!dto.getImages().contains(url)){
-                    deleteFileFromFileSystem(x,finalProduct.getId());
-                    iterator.remove();
-                }else {
-                    String filename = Path.of(x.getUrl()).getFileName().toString();
-                    if(filename.equals(dto.getDefaultImage())){
-                        x.setImageStatus(EImageStatus.DEFAULT);
-                    }else {
-                        if(x.getImageStatus()!=null&&x.getImageStatus().equals(EImageStatus.DEFAULT)){
-                            x.setImageStatus(null);
-                        }
-                    }
-                }
-            }
-        }
-        finalProduct.setProductFiles(images);
+        /*finalProduct.setProductFiles(documentStorageService.updateProductFileInProduct(dto.getImages(),dto.getDefaultImage(),product));*/
         return finalProduct;
     }
 
