@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.Map;
 
 
@@ -38,44 +39,51 @@ public class CartController {
     @PostMapping
     public CartResponseDto getCart(Principal principal, @RequestBody CartRequestDtoImpl dto) {
         Cart cart = findCartByAuthority(principal, dto);
-        Map<Long,String> productDefaultImages = documentStorageService.getDefaultImageUrl(cart.getItems().stream().map(x->x.getProduct().getId()).toList());
+        Map<Long,String> productDefaultImages = Collections.emptyMap();
+        if(cart.getItems()!=null){
+            productDefaultImages = documentStorageService.getDefaultImageUrl(cart.getItems().stream().map(x->x.getProduct().getId()).toList());
+        }
         return new CartResponseDto(cart,productDefaultImages);
     }
 
 
     @PostMapping("/add")
     public CartResponseDto add(Principal principal, @Valid @RequestBody CartManageRequestDto dto) {
-        Cart cart = findCartByAuthority(principal, dto);
+        Cart oldCart = findCartByAuthority(principal, dto);
+        Cart cart = cartService.incrementQuantity(oldCart, dto.getProductAlias());
         Map<Long,String> productDefaultImages = documentStorageService.getDefaultImageUrl(cart.getItems().stream().map(x->x.getProduct().getId()).toList());
         return new CartResponseDto(cart,productDefaultImages);
     }
 
     @PostMapping("/decrement")
     public CartResponseDto decrement(Principal principal, @Valid @RequestBody CartManageRequestDto dto) {
-        Cart cart = findCartByAuthority(principal, dto);
+        Cart oldCart = findCartByAuthority(principal, dto);
+        Cart cart = cartService.decrementQuantity(oldCart, dto.getProductAlias());
         Map<Long,String> productDefaultImages = documentStorageService.getDefaultImageUrl(cart.getItems().stream().map(x->x.getProduct().getId()).toList());
         return new CartResponseDto(cart,productDefaultImages);
     }
 
     @PostMapping("/set_quantity")
     public CartResponseDto setQuantity(Principal principal, @Valid @RequestBody CartSetQuantityRequestDto dto) {
-        Cart cart = findCartByAuthority(principal, dto);
+        Cart oldCart = findCartByAuthority(principal, dto);
+        Cart cart = cartService.setQuantity(oldCart, dto.getProductAlias(), dto.getNewQuantity());
         Map<Long,String> productDefaultImages = documentStorageService.getDefaultImageUrl(cart.getItems().stream().map(x->x.getProduct().getId()).toList());
         return new CartResponseDto(cart,productDefaultImages);
     }
 
     @PostMapping("/remove")
     public CartResponseDto remove(Principal principal, @Valid @RequestBody CartManageRequestDto dto) {
-        Cart cart = findCartByAuthority(principal, dto);
+        Cart oldCart = findCartByAuthority(principal, dto);
+        Cart cart = cartService.removeItemFromCart(oldCart, dto.getProductAlias());
         Map<Long,String> productDefaultImages = documentStorageService.getDefaultImageUrl(cart.getItems().stream().map(x->x.getProduct().getId()).toList());
         return new CartResponseDto(cart,productDefaultImages);
     }
 
     @PostMapping("/clear")
     public CartResponseDto clear(Principal principal, @RequestBody CartRequestDtoImpl dto) {
-        Cart cart = findCartByAuthority(principal, dto);
-        Map<Long,String> productDefaultImages = documentStorageService.getDefaultImageUrl(cart.getItems().stream().map(x->x.getProduct().getId()).toList());
-        return new CartResponseDto(cart,productDefaultImages);
+        Cart oldCart = findCartByAuthority(principal, dto);
+        Cart cart = cartService.clearCart(oldCart);
+        return new CartResponseDto(cart,Collections.emptyMap());
     }
 
 
