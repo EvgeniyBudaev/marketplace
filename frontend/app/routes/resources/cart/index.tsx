@@ -1,7 +1,7 @@
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs } from "@remix-run/node";
 import { inputFromForm } from "remix-domains";
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
   console.log("[resources cart formValues2] ", formValues);

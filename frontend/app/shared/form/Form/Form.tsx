@@ -1,7 +1,8 @@
 import { memo, useCallback, useMemo } from "react";
 import { FormProvider } from "react-hook-form";
 import type { FieldValues } from "react-hook-form";
-import { useHydrated, useAuthenticityToken } from "remix-utils";
+import { useHydrated } from "remix-utils/use-hydrated";
+import { useAuthenticityToken } from "remix-utils/csrf/react";
 import isFunction from "lodash/isFunction";
 
 import { scrollToFirstErrorField } from "~/shared/form/Form/utils";
@@ -43,14 +44,14 @@ const Component = <T extends FieldValues>({
       };
 
       // if (authenticity) {
-      //   preparedData.csrf = csrf;
+      //   preparedData.csrfServer = csrfServer;
       // }
 
       if (handleSubmit) {
         handleSubmit(preparedData, { fetcher });
       }
     },
-    // [authenticity, handleSubmit, csrf, form.fetcher],
+    // [authenticity, handleSubmit, csrfServer, form.fetcher],
     [handleSubmit, fetcher, form.methods.getValues],
   );
 

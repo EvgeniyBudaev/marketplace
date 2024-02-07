@@ -1,11 +1,10 @@
 import type {FC} from "react";
-import type {ThrownResponse} from "@remix-run/react";
 import {useTranslation} from "react-i18next";
 import {Icon} from "~/uikit";
 import styles from "./Error.css";
 
 type TProps = {
-  caught?: ThrownResponse<number, any>;
+  caught?: any; // caught?: ThrownResponse<number, any>; import type {ThrownResponse} from "@remix-run/react";
   error?: Error;
   message?: string;
 };

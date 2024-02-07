@@ -1,8 +1,7 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, ActionArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { badRequest } from "remix-utils";
 import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { Catalogs, catalogsLinks } from "~/pages/Admin/Catalogs";
@@ -22,7 +21,7 @@ type TLoaderData = {
   title?: string;
 };
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const { request } = args;
   const { _method, alias } = await inputFromForm(request);
 
@@ -36,17 +35,17 @@ export const action = async (args: ActionArgs) => {
         });
       }
 
-      return badRequest({ success: false });
+      return json({ success: false });
     }
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
 
-    return badRequest({ success: false, formError, fieldErrors });
+    return json({ success: false, formError, fieldErrors });
   }
 };
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
   const [t, isPermissions] = await Promise.all([
     getStoreFixedT({ request }),
@@ -74,7 +73,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.catalogs") || "Catalogs" }];
   }

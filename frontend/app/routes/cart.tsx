@@ -1,6 +1,6 @@
 import { inputFromForm } from "remix-domains";
 import { json } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import i18next from "i18next";
 import isEmpty from "lodash/isEmpty";
@@ -29,7 +29,7 @@ type TLoaderData = {
   title?: string;
 };
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
 
@@ -62,7 +62,7 @@ export const action = async (args: ActionArgs) => {
   }
 };
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
   const [t] = await Promise.all([getStoreFixedT({ request })]);
   const cartSession = await getCartSession(request);
@@ -93,7 +93,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.cart") || "Cart" }];
   }

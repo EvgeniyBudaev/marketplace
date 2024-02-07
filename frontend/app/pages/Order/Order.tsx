@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetcher } from "@remix-run/react";
-import { useAuthenticityToken } from "remix-utils";
+import { useAuthenticityToken } from "remix-utils/csrf/react";
 
 import { ERoutes } from "~/enums";
 import { EPaymentMethod } from "~/pages/Order/enums";

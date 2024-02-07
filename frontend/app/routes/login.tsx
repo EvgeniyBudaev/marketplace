@@ -1,7 +1,6 @@
 import { inputFromForm } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
-import { badRequest } from "remix-utils";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import i18next from "i18next";
 
 import { Login, loginLinks } from "~/pages/Auth/Login";
@@ -12,9 +11,9 @@ import { getInputErrors } from "~/shared/domain";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
 import { checkCSRFToken, createBoundaries, getResponseError } from "~/utils";
-import { TBaseRouteHandle } from "~/types";
+import type { TBaseRouteHandle } from "~/types";
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const { request } = args;
 
   const [csrfSession, formValues, t] = await Promise.all([
@@ -59,7 +58,7 @@ export const action = async (args: ActionArgs) => {
 
     if (!loginResponse.success) {
       const fieldErrors = getInputErrors(loginResponse, Object.values(LOGIN_FORM_KEYS));
-      return badRequest({ success: false, fieldErrors });
+      return json({ success: false, fieldErrors });
     }
 
     const userResponse = await getUser(request, {
@@ -68,18 +67,18 @@ export const action = async (args: ActionArgs) => {
 
     if (!userResponse.success) {
       const fieldErrors = getInputErrors(loginResponse, Object.values(LOGIN_FORM_KEYS));
-      return badRequest({ success: false, fieldErrors });
+      return json({ success: false, fieldErrors });
     }
 
     return createUserSession(userResponse.data, loginResponse.data, "/");
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    return badRequest({ success: false, formError, fieldErrors });
+    return json({ success: false, formError, fieldErrors });
   }
 };
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
   const [t] = await Promise.all([getStoreFixedT({ request })]);
   const session = await getSession(request.headers.get("Cookie"));
@@ -99,7 +98,7 @@ export const loader = async (args: LoaderArgs) => {
   );
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.login") || "Login" }];
   }

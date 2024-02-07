@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import type { OnChangeValue } from "react-select";
 import { useTranslation } from "react-i18next";
-import { useAuthenticityToken } from "remix-utils";
+import { useAuthenticityToken } from "remix-utils/csrf/react";
 import { useFetcher } from "@remix-run/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import isNil from "lodash/isNil";

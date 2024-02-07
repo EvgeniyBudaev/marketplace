@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useFetcher } from "@remix-run/react";
-import { useAuthenticityToken } from "remix-utils";
+import { useAuthenticityToken } from "remix-utils/csrf/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
 import { useTranslatedResolver } from "~/hooks";

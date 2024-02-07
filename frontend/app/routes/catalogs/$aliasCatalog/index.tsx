@@ -1,9 +1,8 @@
 import { inputFromForm, inputFromSearch } from "remix-domains";
 import { json } from "@remix-run/node";
-import type { LoaderArgs, ActionArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
-import i18next from "i18next";
 import { Catalog, catalogLinks } from "~/pages";
 import { createCartSession, getCart, getCartSession, incrementCartItem } from "~/shared/api/cart";
 import type { TCart } from "~/shared/api/cart";
@@ -26,7 +25,7 @@ type TLoaderData = {
   title?: string;
 };
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
 
@@ -42,7 +41,7 @@ export const action = async (args: ActionArgs) => {
   }
 };
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { params, request } = args;
   const [t] = await Promise.all([getStoreFixedT({ request })]);
   const url = new URL(request.url);
@@ -93,7 +92,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: data?.title || "Catalog" }];
   }

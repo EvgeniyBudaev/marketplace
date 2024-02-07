@@ -3,7 +3,7 @@ import type {ChangeEventHandler, FC} from "react";
 import {useController, useFormContext} from "react-hook-form";
 import ReactInputMask from "react-input-mask";
 import type {BeforeMaskedStateChangeStates, InputState} from "react-input-mask";
-import {ClientOnly} from "remix-utils";
+// import {ClientOnly} from "remix-utils";
 import isFunction from "lodash/isFunction";
 import {Input as InputUi} from "~/uikit";
 import type {IInputProps as IInputPropsUi} from "~/uikit";
@@ -71,8 +71,8 @@ const InputMaskComponent: FC<TInputMaskProps> = (props) => {
   }
 
   return (
-    <ClientOnly>
-      {() => (
+    // <ClientOnly>
+    //   {() => (
         <ReactInputMask
           {...field}
           alwaysShowMask={alwaysShowMask}
@@ -83,8 +83,8 @@ const InputMaskComponent: FC<TInputMaskProps> = (props) => {
         >
           <InputUi {...rest} error={error?.message} isFocused={!!defaultValue} ref={field.ref}/>
         </ReactInputMask>
-      )}
-    </ClientOnly>
+    //   )}
+    // </ClientOnly>
   );
 };
 

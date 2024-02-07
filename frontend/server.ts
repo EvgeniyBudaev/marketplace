@@ -5,7 +5,7 @@ import helmet from "helmet";
 import { createServer } from "http";
 import path from "path";
 import { createRequestHandler } from "@remix-run/express";
-import { installGlobals } from "@remix-run/node";
+import { broadcastDevReady, installGlobals } from "@remix-run/node";
 import {
   SOCKET_RECEIVE_LANGUAGE,
   SOCKET_RECEIVE_THEME,
@@ -128,8 +128,9 @@ app.all(
 
 const port = process.env.PORT || 3000;
 
-httpServer.listen(port, () => {
+httpServer.listen(port, async () => {
   console.log(`Express server listening on port ${port}`);
+  broadcastDevReady(await import(BUILD_DIR));
 });
 
 function purgeRequireCache() {

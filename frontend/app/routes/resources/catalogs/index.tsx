@@ -1,9 +1,9 @@
 import { json } from "@remix-run/node";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { getCatalogs } from "~/shared/api/catalogs";
 import { parseResponseError } from "~/utils";
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
 
   try {

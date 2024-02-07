@@ -1,6 +1,6 @@
 import { InputError, makeDomainFunction } from "remix-domains";
 import type { DomainFunction } from "remix-domains";
-import { serverError } from "remix-utils";
+// import { serverError } from "remix-utils";
 import { z } from "zod";
 import { INPUT_ERROR_PATH } from "~/constants";
 
@@ -33,18 +33,18 @@ export const apiDomainFunction: ApiDomainFunction = (inputSchema, outputSchema) 
     const parsedData = outputSchema?.safeParse(data);
 
     if (parsedData && !parsedData.success) {
-      throw serverError(
-        {
-          error: parsedData.error,
-          responseData: data,
-        },
-        {
-          statusText: "Response data validation error",
-        },
-      );
+      // throw serverError(
+      //   {
+      //     error: parsedData.error,
+      //     responseData: data,
+      //   },
+      //   {
+      //     statusText: "Response data validation error",
+      //   },
+      // );
     }
 
-    return makeDomainFunction(z.any())(async () => (parsedData ? parsedData.data : data))(z.any);
+    return makeDomainFunction(z.any())(async () => (parsedData ? parsedData?.data : data))(z.any);
   };
 
   return fn as DomainFunction<Awaited<ReturnType<typeof handler>>>;

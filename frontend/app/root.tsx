@@ -5,7 +5,7 @@ import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
 import modalStyles from "react-responsive-modal/styles.css";
 import { json } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -15,7 +15,8 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { AuthenticityTokenProvider, createAuthenticityToken } from "remix-utils";
+import { csrf } from "~/utils/csrf.server";
+import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 import clsx from "clsx";
 import { cryptoRandomStringAsync } from "crypto-random-string";
 import isEmpty from "lodash/isEmpty";
@@ -63,7 +64,7 @@ interface RootLoaderData {
   user: TUser | {};
 }
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
 
   const [cartSession, csrfSession, userSession] = await Promise.all([
@@ -76,7 +77,8 @@ export const loader = async (args: LoaderArgs) => {
   if (csrfSession.get("csrf")) {
     csrfToken = csrfSession.get("csrf");
   } else {
-    csrfToken = createAuthenticityToken(csrfSession);
+    // csrfToken = createAuthenticityToken(csrfSession);
+    csrfToken = csrf.generate(64);
   }
 
   const cspScriptNonce = await cryptoRandomStringAsync({ length: 41 });
@@ -143,7 +145,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
   {
     charset: "utf-8",
     title: i18next.t("routes.titles.root") || "FamilyMart",
@@ -217,7 +219,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
         <meta
           name="viewport"
           content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes"
-        ></meta>
+        />
         <Meta />
         <Links />
       </head>

@@ -1,6 +1,6 @@
 import { PassThrough } from "stream";
 import type { EntryContext } from "@remix-run/node";
-import { Response } from "@remix-run/node";
+import { Response } from "@remix-run";
 import { RemixServer } from "@remix-run/react";
 import { renderToPipeableStream } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
@@ -28,7 +28,7 @@ export default async function handleRequest(
 
     const { pipe, abort } = renderToPipeableStream(
       <I18nextProvider i18n={instance}>
-        <RemixServer context={remixContext} url={request.url} />
+        <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />
       </I18nextProvider>,
       {
         onShellReady() {
@@ -50,6 +50,7 @@ export default async function handleRequest(
           reject(err);
         },
         onError(error: unknown) {
+          responseStatusCode = 500;
           didError = true;
 
           console.error(error);

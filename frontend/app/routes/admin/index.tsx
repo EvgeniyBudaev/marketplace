@@ -1,5 +1,5 @@
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import i18next from "i18next";
 import { EPermissions, ERoutes } from "~/enums";
 import { Admin, adminLinks } from "~/pages/Admin";
@@ -7,7 +7,7 @@ import { getStoreFixedT } from "~/shared/store";
 import { createPath } from "~/utils";
 import { checkRequestPermission } from "~/utils/permission";
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
   const [t, isPermissions] = await Promise.all([
     getStoreFixedT({ request }),
@@ -23,7 +23,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.admin") || "Admin panel" }];
   }

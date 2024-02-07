@@ -1,10 +1,10 @@
 import { inputFromSearch } from "remix-domains";
 import { json } from "@remix-run/node";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { searchProducts } from "~/shared/api/search/domain.server";
 import { parseResponseError } from "~/utils";
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
   const url = new URL(request.url);
   const formValues = inputFromSearch(url.searchParams);

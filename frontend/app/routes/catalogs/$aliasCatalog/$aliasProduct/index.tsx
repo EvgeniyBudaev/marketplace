@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import isEmpty from "lodash/isEmpty";
 import i18next from "i18next";
@@ -21,7 +21,7 @@ type TLoaderData = {
   title?: string;
 };
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { params, request } = args;
   const [t] = await Promise.all([getStoreFixedT({ request })]);
   const { aliasProduct } = params as { aliasProduct: string };
@@ -61,7 +61,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.product") || "Product" }];
   }

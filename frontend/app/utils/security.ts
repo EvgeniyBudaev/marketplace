@@ -48,7 +48,7 @@ export const validateCSRFToken = (csrf: string, session: Session, errorMessage: 
 
 export const checkCSRFToken: TCheckCSRFToken = ({ csrfToken, session, t }) => {
   const errorMessage = t("errorBoundary.common.unexpectedError");
-  // csrf должен быть только string
+  // csrfServer должен быть только string
   if (typeof csrfToken !== "string") throw new Error(errorMessage);
 
   try {

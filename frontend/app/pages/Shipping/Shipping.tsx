@@ -5,7 +5,7 @@ import type { Dispatch, FC, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { FullscreenControl, GeolocationControl, ZoomControl } from "@pbe/react-yandex-maps";
 import { Link, useFetcher } from "@remix-run/react";
-import { useAuthenticityToken } from "remix-utils";
+import { useAuthenticityToken } from "remix-utils/csrf/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ERoutes } from "~/enums";
 import { EFormFields } from "~/pages/Shipping/enums";

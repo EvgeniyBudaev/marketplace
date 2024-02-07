@@ -1,7 +1,6 @@
 import { inputFromForm } from "remix-domains";
-import { badRequest } from "remix-utils";
 import { json } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import i18next from "i18next";
 import { Signup, signupLinks } from "~/pages/Auth/Signup";
 import { SIGNUP_FORM_KEYS } from "~/pages/Auth/Signup/constants";
@@ -11,9 +10,9 @@ import { getInputErrors } from "~/shared/domain";
 import { getCsrfSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
 import { checkCSRFToken, getResponseError } from "~/utils";
-import { TBaseRouteHandle } from "~/types";
+import type { TBaseRouteHandle } from "~/types";
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const { request } = args;
 
   const [csrfSession, formValues, t] = await Promise.all([
@@ -33,18 +32,18 @@ export const action = async (args: ActionArgs) => {
 
     if (!userResponse.success) {
       const fieldErrors = getInputErrors(userResponse, Object.values(SIGNUP_FORM_KEYS));
-      return badRequest({ success: false, fieldErrors });
+      return json({ success: false, fieldErrors });
     }
 
     return createUserSession(userResponse.data, "/");
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    return badRequest({ success: false, formError, fieldErrors });
+    return json({ success: false, formError, fieldErrors });
   }
 };
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
   const [t] = await Promise.all([getStoreFixedT({ request })]);
 
@@ -53,7 +52,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.signup") || "Signup" }];
   }

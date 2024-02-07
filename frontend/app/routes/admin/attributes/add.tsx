@@ -1,8 +1,7 @@
 import i18next from "i18next";
 import { inputFromForm } from "remix-domains";
-import { badRequest } from "remix-utils";
 import { json, redirect } from "@remix-run/node";
-import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import { EPermissions, ERoutes } from "~/enums";
@@ -12,9 +11,8 @@ import { mapParamsAddAttributeToDto } from "~/shared/api/attributes/utils";
 import { getResponseError } from "~/shared/domain";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import type { TDomainErrors } from "~/types";
+import type { TBaseRouteHandle, TDomainErrors } from "~/types";
 import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
-import { TBaseRouteHandle } from "~/types";
 
 type TLoaderData = {
   fieldErrors?: TDomainErrors<string>;
@@ -23,7 +21,7 @@ type TLoaderData = {
   title?: string;
 };
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const { request } = args;
 
   const [csrfSession, formValues, t, session] = await Promise.all([
@@ -97,7 +95,7 @@ export const action = async (args: ActionArgs) => {
   }
 };
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
 
   try {
@@ -118,11 +116,11 @@ export const loader = async (args: LoaderArgs) => {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
 
-    return badRequest({ success: false, formError, fieldErrors });
+    return json({ success: false, formError, fieldErrors });
   }
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.attributeAdd") || "Adding an attribute" }];
   }

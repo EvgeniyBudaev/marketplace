@@ -1,10 +1,9 @@
 import {json} from "@remix-run/node";
-import type {ActionArgs} from "@remix-run/node";
-import {badRequest} from "remix-utils";
+import type {ActionFunctionArgs} from "@remix-run/node";
 import {getAttributesByCatalog} from "~/shared/api/attributes";
 import {getResponseError} from "~/shared/domain";
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const {params, request} = args;
   const {alias} = params;
 
@@ -18,14 +17,14 @@ export const action = async (args: ActionArgs) => {
       });
     }
 
-    return badRequest({success: false});
+    return json({success: false});
   } catch (error) {
     const errorResponse = error as Response;
     const {message: formError, fieldErrors} = (await getResponseError(errorResponse)) ?? {};
     console.log("[ERROR] ", error);
     console.log("[fieldErrors] ", fieldErrors);
     console.log("[formError] ", formError);
-    return badRequest({success: false, formError, fieldErrors});
+    return json({success: false, formError, fieldErrors});
   }
 };
 

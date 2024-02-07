@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import type {FC, MouseEvent, ReactElement, ReactNode} from "react";
 import ReactDOM from "react-dom";
 import {usePopper} from "react-popper";
-import {useHydrated} from "remix-utils";
 import clsx from "clsx";
 import {getTooltipOffset} from "~/uikit/components/Tooltip/utils";
 import type {TModifiers, TPlacement} from "./types";
@@ -93,8 +92,6 @@ export const Tooltip: FC<TProps> = ({
     event.stopPropagation();
   };
 
-  const isHydrated = useHydrated();
-
   return (
     <div className="Tooltip-Wrapper" data-testid={dataTestId}>
       <div
@@ -107,8 +104,7 @@ export const Tooltip: FC<TProps> = ({
         {children}
       </div>
 
-      {isHydrated &&
-        (visible || isOpen) &&
+      {(visible || isOpen) &&
         message &&
         ReactDOM.createPortal(
           <div

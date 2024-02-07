@@ -1,20 +1,19 @@
-import { serverError } from "remix-utils";
 import { json } from "@remix-run/node";
 import { getResponseError } from "~/shared/domain";
 import type { TActionResponseFailure } from "~/types";
 
 export async function parseResponseError(error: unknown): Promise<Response> {
   if (!(error instanceof Response)) {
-    return serverError<TActionResponseFailure>({
+    return json<TActionResponseFailure>({
       success: false,
       formError: (error as Error).message,
-    });
+    }, { status:  500 });
   }
 
   const responseError = await getResponseError(error);
 
   if (!responseError) {
-    return serverError<TActionResponseFailure>({ success: false });
+    return json<TActionResponseFailure>({ success: false }, { status:  500 });
   }
 
   const { message: formError, fieldErrors } = responseError;

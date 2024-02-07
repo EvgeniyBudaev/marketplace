@@ -1,11 +1,10 @@
 import { inputFromForm } from "remix-domains";
 import { json } from "@remix-run/node";
-import type { ActionArgs } from "@remix-run/node";
-import { badRequest } from "remix-utils";
+import type { ActionFunctionArgs } from "@remix-run/node";
 import { getResponseError } from "~/shared/domain";
 import { updateTheme } from "~/shared/api/settings";
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const { request } = args;
   const formValues = await inputFromForm(request);
 
@@ -18,10 +17,10 @@ export const action = async (args: ActionArgs) => {
       });
     }
 
-    return badRequest({ success: false });
+    return json({ success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
-    return badRequest({ success: false, formError, fieldErrors });
+    return json({ success: false, formError, fieldErrors });
   }
 };

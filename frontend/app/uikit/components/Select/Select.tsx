@@ -14,7 +14,6 @@ import type {
   MenuPlacement,
 } from "react-select";
 import type { SelectComponents } from "react-select/dist/declarations/src/components";
-import { useHydrated } from "remix-utils";
 import { selectStyles, ETheme } from "~/uikit";
 import type { TSelectOption, isSelectMultiType } from "~/uikit";
 import { generateUUID } from "~/utils";
@@ -70,8 +69,7 @@ const SelectComponent: FC<TSelectProps> = ({
 }) => {
   const uuid = generateUUID();
 
-  const isHydrated = useHydrated();
-  return isHydrated ? (
+  return (
     <ReactSelect
       className={clsx("Select", className)}
       components={components}
@@ -93,7 +91,7 @@ const SelectComponent: FC<TSelectProps> = ({
       styles={!styles && theme ? selectStyles(theme) : styles}
       value={value}
     />
-  ) : null;
+  );
 };
 
 export const Select = memo(SelectComponent);

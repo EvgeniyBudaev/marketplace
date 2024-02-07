@@ -7,7 +7,19 @@ const BASE_PATH = process.env.ROUTER_PREFIX;
  * @type {import('@remix-run/dev').AppConfig}
  */
 module.exports = {
-  serverDependenciesToBundle: ["crypto-random-string", /lodash-es/],
+  serverDependenciesToBundle: [
+    /^remix-utils.*/,
+    "is-ip",
+    "ip-regex",
+    "super-regex",
+    "clone-regexp",
+    "function-timeout",
+    "time-span",
+    "convert-hrtime",
+    "is-regexp",
+    "crypto-random-string",
+    /lodash-es/
+  ],
   devServerPort: 8002,
   ...(!BASE_PATH && {
     ignoredRouteFiles: [".*", "**/*.css", "**/*.test.{js,jsx,ts,tsx}"],
@@ -23,6 +35,6 @@ module.exports = {
     },
   }),
   future: {
-    v2_meta: true,
+    v2_dev: true,
   },
 };

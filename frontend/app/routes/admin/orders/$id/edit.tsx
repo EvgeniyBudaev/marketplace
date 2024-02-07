@@ -1,9 +1,8 @@
 import i18next from "i18next";
 import { inputFromForm } from "remix-domains";
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, V2_MetaFunction, ActionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction, ActionFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { badRequest } from "remix-utils";
 import { EPermissions, ERoutes } from "~/enums";
 import { EFormFields, OrderEdit, orderEditLinks } from "~/pages/Admin/Orders/OrderEdit";
 import type { TForm } from "~/pages/Admin/Orders/OrderEdit";
@@ -25,7 +24,7 @@ type TLoaderData = {
   title?: string;
 };
 
-export const action = async (args: ActionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
   const { params, request } = args;
   const { id = "" } = params;
 
@@ -103,7 +102,7 @@ export const action = async (args: ActionArgs) => {
   }
 };
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { params, request } = args;
   const [t, isPermissions] = await Promise.all([
     getStoreFixedT({ request }),
@@ -145,16 +144,16 @@ export const loader = async (args: LoaderArgs) => {
     // @ts-ignore
     const fieldErrors = getInputErrors<keyof TForm>(orderResponse, Object.values(EFormFields));
 
-    return badRequest({ fieldErrors, success: false });
+    return json({ fieldErrors, success: false });
   } catch (error) {
     const errorResponse = error as Response;
     const { message: formError, fieldErrors } = (await getResponseError(errorResponse)) ?? {};
 
-    return badRequest({ success: false, formError, fieldErrors });
+    return json({ success: false, formError, fieldErrors });
   }
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.orderEdit") || "Order editing" }];
   }

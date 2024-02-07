@@ -1,11 +1,8 @@
-// import { redirect } from "@remix-run/node";
-import type { LoaderArgs } from "@remix-run/node";
-// import { ERoutes } from "~/enums";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Home, homeLinks } from "~/pages/Home";
 import type { TBaseRouteHandle } from "~/types";
 
-export const loader = async (args: LoaderArgs) => {
-  //return redirect(ERoutes.CatalogMirrors);
+export const loader = async (args: LoaderFunctionArgs) => {
   return null;
 };
 

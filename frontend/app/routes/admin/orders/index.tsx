@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import { json, redirect } from "@remix-run/node";
-import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { inputFromSearch } from "remix-domains";
 import { EPermissions, ERoutes } from "~/enums";
@@ -20,7 +20,7 @@ type TLoaderData = {
   title?: string;
 };
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
   const [t, isPermissions] = await Promise.all([
     getStoreFixedT({ request }),
@@ -49,7 +49,7 @@ export const loader = async (args: LoaderArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }: any) => {
   if (typeof window !== "undefined") {
     return [{ title: i18next.t("routes.titles.orders") || "Orders" }];
   }
