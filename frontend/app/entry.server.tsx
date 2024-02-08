@@ -1,6 +1,5 @@
 import { PassThrough } from "stream";
-import type { EntryContext } from "@remix-run/node";
-import { Response } from "@remix-run";
+import { createReadableStreamFromReadable, type EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToPipeableStream } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
@@ -38,7 +37,7 @@ export default async function handleRequest(
           responseHeaders.set("Content-Security-Policy", getContentSecurityPolicy(nonce));
 
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: didError ? INTERNAL_SERVER_ERROR_STATUS_CODE : responseStatusCode,
             }),
