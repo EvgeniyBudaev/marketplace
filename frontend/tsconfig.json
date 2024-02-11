@@ -5,7 +5,8 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "moduleResolution": "bundler",
+    "module": "ES2020",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "target": "ES2020",
     "strict": true,
@@ -15,6 +16,8 @@
     "paths": {
       "~/*": ["./app/*"]
     },
+    "skipLibCheck": true,
+    "noImplicitAny": false,
 
     // Remix takes care of building everything in `remix build`.
     "noEmit": true
