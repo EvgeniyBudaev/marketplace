@@ -55,11 +55,11 @@ import styles from "../styles/app.css";
 
 interface RootLoaderData {
   basename: string | null;
-  cart: TCart;
+  cart: TCart | {};
   csrfToken: string;
   cspScriptNonce: string;
   ENV: Pick<EnvironmentType, "IS_PRODUCTION" | "ROUTER_PREFIX">;
-  settings: TSettings;
+  settings: TSettings | {};
   title: string;
   user: TUser | {};
 }
@@ -90,36 +90,42 @@ export const loader = async (args: LoaderFunctionArgs) => {
   const cart = JSON.parse(cartSession || "{}");
   // console.log("[user.uuid] ", user.uuid);
   // console.log("[cart.uuid] ", cart.uuid);
-  let cartResponse;
-  if (isEmpty(cart)) {
-    cartResponse = await getCart(request, { uuid: null });
-  } else {
-    cartResponse = await getCart(request, { uuid: cart.uuid });
-  }
-  if (!cartResponse.success) {
-    throw internalError();
-  }
+  // let cartResponse;
+  // if (isEmpty(cart)) {
+  //   cartResponse = await getCart(request, { uuid: null });
+  // } else {
+  //   cartResponse = await getCart(request, { uuid: cart.uuid });
+  // }
+  // if (!cartResponse.success) {
+  //   throw internalError();
+  // }
 
-  const [settingsResponse, updatedCartSession] = await Promise.all([
-    getSettings(request, { uuid: cartResponse.data.uuid }),
-    createCartSession(cartResponse.data),
-  ]);
+  // const [settingsResponse, updatedCartSession] = await Promise.all([
+  //   getSettings(request, { uuid: cartResponse.data.uuid }),
+  //   createCartSession(cartResponse.data),
+  // ]);
 
   // Get settings
-  if (!settingsResponse.success) {
-    throw internalError();
-  }
-  setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
-  const [t, updatedSettingsSession] = await Promise.all([
-    getStoreFixedT({ request, uuid: cartResponse.data.uuid }),
-    createSettingsSession(settingsResponse.data),
+  // if (!settingsResponse.success) {
+  //   throw internalError();
+  // }
+  // setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
+  const [
+    t,
+    // updatedSettingsSession
+  ] = await Promise.all([
+    // getStoreFixedT({ request, uuid: cartResponse.data.uuid }),
+    getStoreFixedT({ request, uuid: "123" }),
+    // createSettingsSession(settingsResponse.data),
   ]);
 
   const basename = request.headers.get("x-remix-basename");
 
+  console.log("root cspScriptNonce: ", cspScriptNonce);
   const data: RootLoaderData = {
     basename,
-    cart: cartResponse.data,
+    // cart: cartResponse.data,
+    cart: {},
     csrfToken,
     cspScriptNonce,
     title: t("routes.titles.root"),
@@ -127,18 +133,19 @@ export const loader = async (args: LoaderFunctionArgs) => {
       IS_PRODUCTION: Environment.IS_PRODUCTION,
       ROUTER_PREFIX: Environment.ROUTER_PREFIX,
     },
-    settings: settingsResponse.data,
+    // settings: settingsResponse.data,
+    settings: {},
     user,
   };
 
   const headers = new Headers();
   headers.append("Set-Cookie", await commitCsrfSession(csrfSession));
 
-  [updatedCartSession.headers, updatedSettingsSession.headers]
-    .flatMap((headers) => Object.entries(headers))
-    .forEach(([header, value]) => {
-      headers.append(header, value);
-    });
+  // [updatedCartSession.headers, updatedSettingsSession.headers]
+  //   .flatMap((headers) => Object.entries(headers))
+  //   .forEach(([header, value]) => {
+  //     headers.append(header, value);
+  //   });
 
   return json(data, {
     headers,
@@ -182,10 +189,12 @@ type TDocumentProps = {
 const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, settings }) => {
   const { i18n } = useTranslation();
   // const { storageLanguage, setStorageLanguage } = useLanguageStore();
-  const language = !isNil(settings) ? settings?.language?.toLowerCase() : DEFAULT_LANGUAGE;
+  // const language = !isNil(settings) ? settings?.language?.toLowerCase() : DEFAULT_LANGUAGE;
+  const language = DEFAULT_LANGUAGE;
   useInitLanguage(language);
   useInitDayjs();
-  const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
+  // const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
+  const theme = ETheme.Light;
 
   const lastLanguage = useRef<string | null>(null);
 
@@ -241,7 +250,6 @@ export default function App() {
   const isMounted = useRef<boolean>(false);
   const changeLanguageState = useState(false);
   const [socket, setSocket] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
-  console.log("[root cart uuid] ", cart.uuid);
   const store = useStore();
   const setUser = store.setUser;
   const setCart = store.setCart;
@@ -279,7 +287,7 @@ export default function App() {
       <StoreContextProvider store={store}>
         <AuthenticityTokenProvider token={csrfToken}>
           <ChangeLanguageProvider value={changeLanguageState}>
-            <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
+            <Document cart={undefined} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
               <Outlet />
               <script
                 nonce={cspScriptNonce}

@@ -1,7 +1,7 @@
-const path = require("path");
-const minimatch = require("minimatch");
-const fs = require("fs");
-require("dotenv/config");
+import path from 'path';
+import {minimatch} from 'minimatch';
+import fs from 'fs';
+import "dotenv/config";
 
 const defaultOptions = {
   appDir: "app",
@@ -13,7 +13,7 @@ const defaultOptions = {
 };
 const defaultDefineRoutes = undefined;
 
-function flatRoutes(routeDir, defineRoutes, options = {}) {
+export function flatRoutes(routeDir, defineRoutes, options = {}) {
   const routes = _flatRoutes(
     options.appDir ?? defaultOptions.appDir,
     options.ignoredRouteFiles ?? [],
@@ -360,7 +360,3 @@ function normalizeSlashes(file) {
 function stripFileExtension(file) {
   return file.replace(/\.[a-z0-9]+$/i, "");
 }
-
-module.exports = {
-  flatRoutes,
-};

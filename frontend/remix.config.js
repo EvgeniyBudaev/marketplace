@@ -1,12 +1,12 @@
-const { flatRoutes } = require("./app/utils/flatRoutes");
-require("dotenv/config");
+import { flatRoutes } from "./app/utils/flatRoutes.js";
+import "dotenv/config";
 
 const BASE_PATH = process.env.ROUTER_PREFIX;
 
 /**
  * @type {import('@remix-run/dev').AppConfig}
  */
-module.exports = {
+export default {
   serverDependenciesToBundle: [
     /^remix-utils.*/,
     "is-ip",
@@ -35,6 +35,6 @@ module.exports = {
     },
   }),
   future: {
-    v2_dev: true,
+    v2_routeConvention: true,
   },
 };
