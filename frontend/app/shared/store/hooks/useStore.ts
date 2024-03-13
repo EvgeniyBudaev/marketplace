@@ -1,7 +1,7 @@
-import {useState} from "react";
-import type {TCart} from "~/shared/api/cart";
-import {TSettings} from "~/shared/api/settings";
-import {DEFAULT_CART} from "~/shared/store";
+import { useState } from "react";
+import type { TCart } from "~/shared/api/cart";
+import { TSettings } from "~/shared/api/settings";
+import { DEFAULT_CART } from "~/shared/store";
 
 export const useStore = () => {
   const [cart, setCart] = useState<any>(DEFAULT_CART);
@@ -13,5 +13,5 @@ export const useStore = () => {
   });
   const [user, setUser] = useState<any>();
 
-  return {cart, setCart, settings, setSettings, user, setUser};
+  return { cart, setCart, settings, setSettings, user, setUser };
 };

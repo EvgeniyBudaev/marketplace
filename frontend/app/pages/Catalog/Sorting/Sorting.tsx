@@ -4,7 +4,7 @@ import type { OnChangeValue } from "react-select";
 import { useTranslation } from "react-i18next";
 import { Form } from "@remix-run/react";
 import clsx from "clsx";
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 
 import { useTheme } from "~/hooks";
 import { EFormMethods } from "~/shared/form";

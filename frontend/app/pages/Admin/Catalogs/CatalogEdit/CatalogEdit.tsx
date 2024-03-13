@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 import { useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";

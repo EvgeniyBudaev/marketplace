@@ -1,8 +1,8 @@
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 import type { FC } from "react";
 import { Link } from "@remix-run/react";
 import { DEFAULT_IMAGE } from "~/constants";
-import {ERoutes} from "~/enums";
+import { ERoutes } from "~/enums";
 import { useProxyUrl } from "~/hooks";
 import type { TCartItem } from "~/shared/api/cart";
 import { createPath, formatCurrency } from "~/utils";
@@ -26,7 +26,10 @@ export const OrderProductListItem: FC<TProps> = ({ cartItem }) => {
           className="OrderProductListItem-Link"
           to={createPath({
             route: ERoutes.ProductDetail,
-            params: { aliasCatalog: cartItem.product.catalogAlias, aliasProduct: cartItem.product.alias },
+            params: {
+              aliasCatalog: cartItem.product.catalogAlias,
+              aliasProduct: cartItem.product.alias,
+            },
           })}
         >
           <img

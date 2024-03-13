@@ -2,7 +2,7 @@ import { memo, useCallback } from "react";
 import type { FC } from "react";
 import { useController, useFormContext } from "react-hook-form";
 import type { OnChangeValue } from "react-select";
-import isNull from "lodash/isNull";
+import isNull from "lodash/isNull.js";
 import { Select as SelectUi } from "~/uikit";
 import type { TSelectProps as TSelectPropsUi, isSelectMultiType, TSelectOption } from "~/uikit";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {ETypographyVariant, Typography} from "~/uikit";
+import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./About.css";
 
 export const About: React.FC = () => {
@@ -34,5 +34,5 @@ export const About: React.FC = () => {
 };
 
 export function aboutLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

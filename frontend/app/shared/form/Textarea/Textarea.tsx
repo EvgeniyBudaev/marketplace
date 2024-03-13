@@ -1,24 +1,22 @@
-import {memo, useCallback} from "react";
-import type {ChangeEventHandler, FC} from "react";
-import {useController, useFormContext} from "react-hook-form";
-import {Textarea as TextareaUi} from "~/uikit";
-import type {ITextareaProps as TTextareaPropsUi} from "~/uikit";
+import { memo, useCallback } from "react";
+import type { ChangeEventHandler, FC } from "react";
+import { useController, useFormContext } from "react-hook-form";
+import { Textarea as TextareaUi } from "~/uikit";
+import type { ITextareaProps as TTextareaPropsUi } from "~/uikit";
 
 export type TTextareaProps = TTextareaPropsUi & {
   name: string;
 };
 
 const TextareaComponent: FC<TTextareaProps> = ({
-                                                 className,
-                                                 defaultValue = "",
-                                                 hidden,
-                                                 name,
-                                                 ...props
-                                               }) => {
-  const {control} = useFormContext();
-  const {
-    field,
-  } = useController({
+  className,
+  defaultValue = "",
+  hidden,
+  name,
+  ...props
+}) => {
+  const { control } = useFormContext();
+  const { field } = useController({
     name,
     control,
     defaultValue,

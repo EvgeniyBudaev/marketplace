@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 import { ERoutes } from "~/enums";
 import { useProxyUrl } from "~/hooks";
 import type { TCart } from "~/shared/api/cart";

@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 import { Fragment } from "react";
-import {  isRouteErrorResponse, useRouteError } from "@remix-run/react";
+import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 import { Error as ErrorComponent } from "~/components";
 import type { TCatchBoundaryMessage, TCatchBoundaryStatusMap, TWithChildrenProps } from "./types";
@@ -31,11 +31,14 @@ export const createCatchBoundary = ({
     const formattedDefaultStatusMessage =
       typeof defaultStatusMessage !== "function" ? defaultStatusMessage : defaultStatusMessage(t);
 
-    const message = isRouteErrorResponse(caught) ?
-      statusMapMessage ||
-      caught.data ||
-      formattedDefaultMessage ||
-      `${formattedDefaultStatusMessage}: ${caught.status}` : caught instanceof Error ? caught.message : "Unknown Error";
+    const message = isRouteErrorResponse(caught)
+      ? statusMapMessage ||
+        caught.data ||
+        formattedDefaultMessage ||
+        `${formattedDefaultStatusMessage}: ${caught.status}`
+      : caught instanceof Error
+      ? caught.message
+      : "Unknown Error";
 
     const error = new Error(message);
 

@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";
@@ -43,8 +43,12 @@ export const OrderRecipient: FC<TProps> = ({ recipient }) => {
             {recipient?.name ?? ""}
           </div>
           <div className="OrderRecipient-InfoSubTitle">
-            <div>{!isNil(recipient?.email) && t("form.email.title")}: {recipient?.email}</div>
-            <div>{!isNil(recipient?.phone) && t("form.mobilePhone.title")}: {recipient?.phone}</div>
+            <div>
+              {!isNil(recipient?.email) && t("form.email.title")}: {recipient?.email}
+            </div>
+            <div>
+              {!isNil(recipient?.phone) && t("form.mobilePhone.title")}: {recipient?.phone}
+            </div>
           </div>
         </div>
       </div>

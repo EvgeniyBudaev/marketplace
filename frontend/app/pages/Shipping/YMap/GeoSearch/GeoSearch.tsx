@@ -1,11 +1,11 @@
-import {useCallback, useEffect, useRef} from "react";
-import type {FocusEvent, HTMLProps} from "react";
-import {withYMaps} from "@pbe/react-yandex-maps";
+import { useCallback, useEffect, useRef } from "react";
+import type { FocusEvent, HTMLProps } from "react";
+import { withYMaps } from "@pbe/react-yandex-maps";
 import clsx from "clsx";
-import isEmpty from "lodash/isEmpty";
-import {useDebounce} from "use-debounce";
-import {v4 as uuidv4} from "uuid";
-import {MapInput} from "~/pages";
+import isEmpty from "lodash/isEmpty.js";
+import { useDebounce } from "use-debounce";
+import { v4 as uuidv4 } from "uuid";
+import { MapInput } from "~/pages";
 import styles from "./GeoSearch.css";
 
 export type TGeoSearchState = {
@@ -57,7 +57,7 @@ export default withYMaps(
       ...inputProps
     } = props;
     //eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const {ymaps} = props as any;
+    const { ymaps } = props as any;
 
     const debounce = suggestDebounce ?? 1000;
     const [debouncedValue] = useDebounce(state.value, debounce, {
@@ -161,5 +161,5 @@ export default withYMaps(
 );
 
 export function geoSearchLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

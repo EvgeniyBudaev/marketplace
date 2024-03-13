@@ -1,6 +1,6 @@
-import type {FC} from "react";
-import {useTranslation} from "react-i18next";
-import {Button, ETypographyVariant, Modal, Typography} from "~/uikit";
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { Button, ETypographyVariant, Modal, Typography } from "~/uikit";
 import styles from "./ModalDelete.css";
 
 type TProps = {
@@ -9,8 +9,8 @@ type TProps = {
   onSubmit: () => void;
 };
 
-export const ModalDelete: FC<TProps> = ({isOpen, onClose, onSubmit}) => {
-  const {t} = useTranslation();
+export const ModalDelete: FC<TProps> = ({ isOpen, onClose, onSubmit }) => {
+  const { t } = useTranslation();
 
   return (
     <Modal isOpen={isOpen} onCloseModal={onClose}>
@@ -34,5 +34,5 @@ export const ModalDelete: FC<TProps> = ({isOpen, onClose, onSubmit}) => {
 };
 
 export function modalDeleteLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

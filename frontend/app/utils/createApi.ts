@@ -6,7 +6,7 @@ import { processError } from "~/utils/processError";
 import { gatewayTimeout } from "~/utils/gatewayTimeout";
 import { internalError } from "~/utils/internalError";
 
-let language: string = 'ru';
+let language: string = "ru";
 
 /**
  *  Функция создания api- клиента
@@ -42,7 +42,7 @@ export function createApi(config: TApiConfig): {
       headers: {
         ...contentType,
         //Authorization: `Bearer ${accessToken}`,
-        'Accept-Language': language,
+        "Accept-Language": language,
         traceparent: request.headers.get("traceparent") ?? "",
         ...options?.headers,
       },

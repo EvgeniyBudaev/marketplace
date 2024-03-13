@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@remix-run/react";

@@ -3,7 +3,7 @@ import { NodeCacheBackend, RedisCacheBackend } from "~/process/store";
 import { ESettingsStore } from "../enums";
 
 export const getCacheBackend = () => {
-    console.log("getCacheBackend!!!!!!!!!!!!!!!!!");
+  console.log("getCacheBackend!!!!!!!!!!!!!!!!!");
   // if (Environment.SETTINGS_STORAGE === ESettingsStore.Redis) {
   //   const options = {
   //     port: Environment.REDIS_SESSION_PORT,

@@ -1,14 +1,14 @@
-import type {FC, ReactNode} from "react";
+import type { FC, ReactNode } from "react";
 import styles from "./Container.css";
 
 type TProps = {
   children?: ReactNode;
 };
 
-export const Container: FC<TProps> = ({children}) => {
+export const Container: FC<TProps> = ({ children }) => {
   return <div className="Container">{children}</div>;
 };
 
 export function containerLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

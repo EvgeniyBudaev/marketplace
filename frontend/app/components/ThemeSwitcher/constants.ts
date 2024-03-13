@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import {ESwitcherVariant} from "~/uikit";
+import { ESwitcherVariant } from "~/uikit";
 import styles from "./ThemeSwitcher.css";
 
 export const SWITCHER_THEMES = () => {
@@ -10,5 +10,5 @@ export const SWITCHER_THEMES = () => {
 };
 
 export function themeSwitcherLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

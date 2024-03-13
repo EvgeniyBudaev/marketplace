@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { FieldValues } from "react-hook-form";
 import type { FetcherWithComponents } from "@remix-run/react";
-import isString from "lodash/isString";
+import isString from "lodash/isString.js";
 
 type TError = {
   id?: string;

@@ -1,11 +1,11 @@
-import type {TPlacement} from "~/uikit/components/Tooltip/types";
+import type { TPlacement } from "~/uikit/components/Tooltip/types";
 
 type TGetTooltipOffsetParams = {
   placement?: TPlacement;
   referenceElement?: HTMLDivElement | null;
 };
 
-export const getTooltipOffset = ({placement, referenceElement}: TGetTooltipOffsetParams) => {
+export const getTooltipOffset = ({ placement, referenceElement }: TGetTooltipOffsetParams) => {
   if (placement === "bottom" || placement === "top") {
     return [0, 0];
   } else {

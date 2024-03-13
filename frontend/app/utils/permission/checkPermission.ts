@@ -1,4 +1,4 @@
-import type {EPermissions} from "~/enums";
+import type { EPermissions } from "~/enums";
 
 export function checkPermission(
   userPermissions: EPermissions[] | null,

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
 import modalStyles from "react-responsive-modal/styles.css";
 import { json } from "@remix-run/node";
-import { cssBundleHref } from "@remix-run/css-bundle";
+// import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import {
   Links,
@@ -19,15 +19,14 @@ import { csrf } from "~/utils/csrf.server";
 import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 import clsx from "clsx";
 import { cryptoRandomStringAsync } from "crypto-random-string";
-import isEmpty from "lodash/isEmpty";
-import isNil from "lodash/isNil";
+import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
 import { connect } from "socket.io-client";
 import type { Socket } from "socket.io-client";
 import type { DefaultEventsMap } from "socket.io/dist/typed-events";
 import i18next from "i18next";
 import slickStyles from "slick-carousel/slick/slick.css";
 import slickThemeStyles from "slick-carousel/slick/slick-theme.css";
-
 import { Layout, links as componentsLinks } from "~/components";
 import { DEFAULT_LANGUAGE } from "~/constants";
 import { Environment } from "~/environment.server";
@@ -162,7 +161,7 @@ export const meta: MetaFunction = () => [
 
 export const links: LinksFunction = () => {
   return [
-    ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+    // ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
     { rel: "stylesheet", href: styles },
     { rel: "stylesheet", href: reactToastifyStyles },
     { rel: "stylesheet", href: modalStyles },
@@ -287,7 +286,12 @@ export default function App() {
       <StoreContextProvider store={store}>
         <AuthenticityTokenProvider token={csrfToken}>
           <ChangeLanguageProvider value={changeLanguageState}>
-            <Document cart={undefined} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
+            <Document
+              cart={undefined}
+              cspScriptNonce={cspScriptNonce}
+              env={ENV}
+              settings={settings}
+            >
               <Outlet />
               <script
                 nonce={cspScriptNonce}

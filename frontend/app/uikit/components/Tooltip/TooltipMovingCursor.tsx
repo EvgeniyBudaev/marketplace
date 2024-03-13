@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
-import type {FC, ReactElement, ReactNode} from "react";
+import { useEffect, useState } from "react";
+import type { FC, ReactElement, ReactNode } from "react";
 import ReactDOM from "react-dom";
-import {usePopper} from "react-popper";
-import {useHydrated} from "remix-utils";
+import { usePopper } from "react-popper";
+import { useHydrated } from "remix-utils";
 import clsx from "clsx";
-import {getTooltipOffset, getVirtualReference} from "~/uikit/components/Tooltip/utils";
-import type {TModifiers, TPlacement} from "./types";
+import { getTooltipOffset, getVirtualReference } from "~/uikit/components/Tooltip/utils";
+import type { TModifiers, TPlacement } from "./types";
 import styles from "./Tooltip.css";
 
 type TProps = {
@@ -19,14 +19,14 @@ type TProps = {
 };
 
 export const Tooltip: FC<TProps> = ({
-                                      children,
-                                      dataTestId,
-                                      isOpen,
-                                      message,
-                                      modifiers,
-                                      className = "",
-                                      placement = "right",
-                                    }) => {
+  children,
+  dataTestId,
+  isOpen,
+  message,
+  modifiers,
+  className = "",
+  placement = "right",
+}) => {
   const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>(null);
   const [virtualReference, setVirtualReference] = useState<ReturnType<
     typeof getVirtualReference
@@ -56,7 +56,7 @@ export const Tooltip: FC<TProps> = ({
     {
       name: "offset",
       options: {
-        offset: getTooltipOffset({placement, referenceElement}),
+        offset: getTooltipOffset({ placement, referenceElement }),
       },
     },
     {
@@ -71,7 +71,7 @@ export const Tooltip: FC<TProps> = ({
     popperModifiers = popperModifiers.concat(modifiers);
   }
 
-  const {styles, attributes} = usePopper(virtualReference, popperElement, {
+  const { styles, attributes } = usePopper(virtualReference, popperElement, {
     modifiers: popperModifiers,
     placement,
   });
@@ -84,7 +84,7 @@ export const Tooltip: FC<TProps> = ({
 
   useEffect(() => {
     if (visible) {
-      const listener = ({clientX, clientY}: MouseEvent) => {
+      const listener = ({ clientX, clientY }: MouseEvent) => {
         setVirtualReference(getVirtualReference(clientX, clientY));
       };
 
@@ -125,7 +125,7 @@ export const Tooltip: FC<TProps> = ({
             {...attributes.popper}
           >
             {message}
-            <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow}/>
+            <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow} />
           </div>,
           document.body,
         )}
@@ -134,5 +134,5 @@ export const Tooltip: FC<TProps> = ({
 };
 
 export function tooltipLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

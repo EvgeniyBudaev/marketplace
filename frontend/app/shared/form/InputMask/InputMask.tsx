@@ -1,12 +1,12 @@
-import {memo, useCallback, useEffect, useState} from "react";
-import type {ChangeEventHandler, FC} from "react";
-import {useController, useFormContext} from "react-hook-form";
+import { memo, useCallback, useEffect, useState } from "react";
+import type { ChangeEventHandler, FC } from "react";
+import { useController, useFormContext } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
-import type {BeforeMaskedStateChangeStates, InputState} from "react-input-mask";
+import type { BeforeMaskedStateChangeStates, InputState } from "react-input-mask";
 // import {ClientOnly} from "remix-utils";
-import isFunction from "lodash/isFunction";
-import {Input as InputUi} from "~/uikit";
-import type {IInputProps as IInputPropsUi} from "~/uikit";
+import isFunction from "lodash/isFunction.js";
+import { Input as InputUi } from "~/uikit";
+import type { IInputProps as IInputPropsUi } from "~/uikit";
 
 export type TInputMaskProps = IInputPropsUi & {
   alwaysShowMask?: boolean;
@@ -35,10 +35,10 @@ const InputMaskComponent: FC<TInputMaskProps> = (props) => {
 
   const [showChild, setShowChild] = useState(false);
 
-  const {control} = useFormContext();
+  const { control } = useFormContext();
   const {
     field,
-    fieldState: {error},
+    fieldState: { error },
   } = useController({
     name,
     control,
@@ -73,16 +73,16 @@ const InputMaskComponent: FC<TInputMaskProps> = (props) => {
   return (
     // <ClientOnly>
     //   {() => (
-        <ReactInputMask
-          {...field}
-          alwaysShowMask={alwaysShowMask}
-          beforeMaskedStateChange={beforeMaskedStateChange}
-          mask={mask}
-          maskPlaceholder={maskPlaceholder}
-          onChange={handleChange}
-        >
-          <InputUi {...rest} error={error?.message} isFocused={!!defaultValue} ref={field.ref}/>
-        </ReactInputMask>
+    <ReactInputMask
+      {...field}
+      alwaysShowMask={alwaysShowMask}
+      beforeMaskedStateChange={beforeMaskedStateChange}
+      mask={mask}
+      maskPlaceholder={maskPlaceholder}
+      onChange={handleChange}
+    >
+      <InputUi {...rest} error={error?.message} isFocused={!!defaultValue} ref={field.ref} />
+    </ReactInputMask>
     //   )}
     // </ClientOnly>
   );

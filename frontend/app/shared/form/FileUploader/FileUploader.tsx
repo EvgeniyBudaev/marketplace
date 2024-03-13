@@ -1,13 +1,13 @@
 import clsx from "clsx";
-import {useCallback, useEffect, useState} from "react";
-import type {FC, ReactElement} from "react";
-import {useTranslation} from "react-i18next";
-import isNil from "lodash/isNil";
-import {Previews, previewsLinks} from "~/shared/form/FileUploader/Previews";
-import {filterDuplicatedFiles, getTypes} from "~/shared/form/FileUploader/utils";
-import type {TFile} from "~/types";
-import {Button, Dropzone, ETypographyVariant, Typography} from "~/uikit";
-import type {TDropzoneProps} from "~/uikit";
+import { useCallback, useEffect, useState } from "react";
+import type { FC, ReactElement } from "react";
+import { useTranslation } from "react-i18next";
+import isNil from "lodash/isNil.js";
+import { Previews, previewsLinks } from "~/shared/form/FileUploader/Previews";
+import { filterDuplicatedFiles, getTypes } from "~/shared/form/FileUploader/utils";
+import type { TFile } from "~/types";
+import { Button, Dropzone, ETypographyVariant, Typography } from "~/uikit";
+import type { TDropzoneProps } from "~/uikit";
 import styles from "./FileUploader.css";
 
 export type TFileUploaderProps = {
@@ -21,26 +21,26 @@ export type TFileUploaderProps = {
 } & TDropzoneProps;
 
 export const FileUploader: FC<TFileUploaderProps> = ({
-                                                       accept,
-                                                       files,
-                                                       Input,
-                                                       isLoading,
-                                                       maxFiles,
-                                                       onAddFile,
-                                                       onAddFiles,
-                                                       onDeleteFile,
-                                                       ...rest
-                                                     }) => {
-  const {t} = useTranslation();
+  accept,
+  files,
+  Input,
+  isLoading,
+  maxFiles,
+  onAddFile,
+  onAddFiles,
+  onDeleteFile,
+  ...rest
+}) => {
+  const { t } = useTranslation();
   const types = getTypes(accept);
   const [countFiles, setCountFiles] = useState(1);
 
   const onDrop = useCallback(
     (addedFiles: File[]) => {
       if (maxFiles && countFiles > maxFiles) return;
-      const {acceptedFiles, newFiles} = filterDuplicatedFiles(addedFiles, files);
+      const { acceptedFiles, newFiles } = filterDuplicatedFiles(addedFiles, files);
       onAddFiles(acceptedFiles, newFiles);
-      setCountFiles(prevState => prevState + 1);
+      setCountFiles((prevState) => prevState + 1);
     },
     [countFiles, files, maxFiles, onAddFiles],
   );
@@ -51,7 +51,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
         let newFiles = [...files];
         newFiles = newFiles.filter((file) => file !== deletedFile);
         onDeleteFile(deletedFile, newFiles);
-        setCountFiles(prevState => prevState - 1);
+        setCountFiles((prevState) => prevState - 1);
       }
     },
     [onDeleteFile, files],
@@ -74,7 +74,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
         onDrop={onDrop}
         accept={accept}
         disabled={isLoading}
-        className={clsx("FileUploader-Dropzone", {"FileUploader-Dropzone__isLoading": isLoading})}
+        className={clsx("FileUploader-Dropzone", { "FileUploader-Dropzone__isLoading": isLoading })}
         {...rest}
       >
         <div className="FileUploader-Dropzone-Inner">
@@ -84,7 +84,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
           </Typography>
           {types && (
             <Typography variant={ETypographyVariant.TextB3Regular}>
-              {t("fileUploader.subTitle", {types})}
+              {t("fileUploader.subTitle", { types })}
             </Typography>
           )}
           <Button className="FileUploader-Dropzone-Button">{t("fileUploader.action")}</Button>
@@ -102,5 +102,5 @@ export const FileUploader: FC<TFileUploaderProps> = ({
 };
 
 export function fileUploaderLinks() {
-  return [{rel: "stylesheet", href: styles}, ...previewsLinks()];
+  return [{ rel: "stylesheet", href: styles }, ...previewsLinks()];
 }

@@ -18,7 +18,7 @@ export default {
     "convert-hrtime",
     "is-regexp",
     "crypto-random-string",
-    /lodash-es/
+    /lodash-es/,
   ],
   devServerPort: 8002,
   ...(!BASE_PATH && {

@@ -1,5 +1,5 @@
-import isEmpty from "lodash/isEmpty";
-import isNil from "lodash/isNil";
+import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
 import type { TAttributesByCatalog } from "~/shared/api/attributes";
 
 type TUseGetCatalogAlias = ({

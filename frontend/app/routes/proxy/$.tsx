@@ -1,4 +1,4 @@
-import { Response , json } from "@remix-run/node";
+import { Response, json } from "@remix-run/node";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 
 const COPIED_HEADERS = ["Content-Type"];

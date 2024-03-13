@@ -1,4 +1,4 @@
-import type {TFile} from "~/types";
+import type { TFile } from "~/types";
 
 export type TFilesArgs = {
   isEmpty?: boolean;

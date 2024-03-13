@@ -1,16 +1,16 @@
-import {forwardRef, useCallback, useEffect} from "react";
-import type {ForwardedRef} from "react";
-import {useFetcher, useNavigate} from "@remix-run/react";
+import { forwardRef, useCallback, useEffect } from "react";
+import type { ForwardedRef } from "react";
+import { useFetcher, useNavigate } from "@remix-run/react";
 import clsx from "clsx";
 //import { ROUTES } from "~/constants";
 //import { scrollSelector } from "ducks/selectors";
-import {ERoutes} from "~/enums";
+import { ERoutes } from "~/enums";
 //import { useMounted } from "hooks/useMounted";
 //import { useSelector } from "hooks";
 
-import type {TParams} from "~/types";
-import {CatalogList, catalogListLinks} from "./CatalogList";
-import {catalogListItemLinks} from "./CatalogListItem";
+import type { TParams } from "~/types";
+import { CatalogList, catalogListLinks } from "./CatalogList";
+import { catalogListItemLinks } from "./CatalogListItem";
 import styles from "./CatalogDropDown.css";
 
 type TProps = {
@@ -21,7 +21,7 @@ type TProps = {
 };
 
 export const CatalogDropDown = forwardRef(
-  ({className, isOpen, onClose}: TProps, ref: ForwardedRef<HTMLDivElement>): JSX.Element => {
+  ({ className, isOpen, onClose }: TProps, ref: ForwardedRef<HTMLDivElement>): JSX.Element => {
     const navigate = useNavigate();
     const fetcher = useFetcher();
     const isLoading = fetcher.state !== "idle";
@@ -60,5 +60,5 @@ export const CatalogDropDown = forwardRef(
 CatalogDropDown.displayName = "CatalogDropDown";
 
 export function catalogDropDownLinks() {
-  return [{rel: "stylesheet", href: styles}, ...catalogListLinks(), ...catalogListItemLinks()];
+  return [{ rel: "stylesheet", href: styles }, ...catalogListLinks(), ...catalogListItemLinks()];
 }

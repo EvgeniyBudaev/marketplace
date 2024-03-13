@@ -1,5 +1,5 @@
 import { initReactI18next } from "react-i18next";
-import { RemixI18Next } from "remix-i18next";
+import { RemixI18Next } from "remix-i18next/server";
 import { createInstance } from "i18next";
 import ICU from "i18next-icu";
 import Backend from "i18next-fs-backend";

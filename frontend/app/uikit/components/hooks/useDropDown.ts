@@ -1,6 +1,6 @@
-import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
-import {DropDownContext} from "~/uikit/context";
-import type {TDropDownState} from "~/uikit/context";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { DropDownContext } from "~/uikit/context";
+import type { TDropDownState } from "~/uikit/context";
 
 export const useDropDownContext = (): TDropDownState | null => {
   return useContext(DropDownContext);
@@ -17,23 +17,25 @@ export const useDropDown: TUseDropDown = () => {
     setIsDropDownOpen((prevState?: boolean) => !prevState);
   }, []);
 
-  const handleClickOutsideDropDown = useCallback((event: MouseEvent) => {
-    if (
-      isDropDownOpen &&
-      refButtonDropDown.current &&
-      event.target instanceof HTMLElement &&
-      !refButtonDropDown.current.contains(event.target)
-    ) {
-      if (refPanelDropDown.current && !refPanelDropDown.current.contains(event.target)) {
-        setIsDropDownOpen((prevState: boolean) => (prevState ? false : prevState));
+  const handleClickOutsideDropDown = useCallback(
+    (event: MouseEvent) => {
+      if (
+        isDropDownOpen &&
+        refButtonDropDown.current &&
+        event.target instanceof HTMLElement &&
+        !refButtonDropDown.current.contains(event.target)
+      ) {
+        if (refPanelDropDown.current && !refPanelDropDown.current.contains(event.target)) {
+          setIsDropDownOpen((prevState: boolean) => (prevState ? false : prevState));
+        }
       }
-    }
-  }, [isDropDownOpen]);
+    },
+    [isDropDownOpen],
+  );
 
   const handleScroll = useCallback(() => {
     setIsDropDownOpen((prevState: boolean) => (prevState ? false : prevState));
   }, []);
-
 
   useEffect(() => {
     window.addEventListener("click", handleClickOutsideDropDown);

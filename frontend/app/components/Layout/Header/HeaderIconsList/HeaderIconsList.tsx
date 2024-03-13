@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import isEmpty from "lodash/isEmpty";
+import isEmpty from "lodash/isEmpty.js";
 import { useState } from "react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";

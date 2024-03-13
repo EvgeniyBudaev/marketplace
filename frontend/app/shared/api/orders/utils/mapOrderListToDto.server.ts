@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
 import type { TParams } from "~/types";

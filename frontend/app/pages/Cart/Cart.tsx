@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetcher, useNavigate } from "@remix-run/react";
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 import { ERoutes } from "~/enums";
 import type { TCart, TCartItem } from "~/shared/api/cart";
 import { Button, ETypographyVariant, Typography } from "~/uikit";

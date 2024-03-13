@@ -1,28 +1,39 @@
-import {forwardRef, memo, useCallback, useState} from "react";
-import {useTranslation} from "react-i18next";
-import type {FetcherWithComponents} from "@remix-run/react";
-import {ModalDelete} from "~/components/modal";
-import {SelectableEditModal} from "~/pages/Admin/Attributes/SelectableEditModal";
-import type {TDeleteModalState, TEditModalState} from "~/pages/Admin/Attributes/SelectableTable";
-import {useGetColumns} from "~/pages/Admin/Attributes/SelectableTable";
-import type {TAttributeDetail, TSelectableItem} from "~/shared/api/attributes";
-import {createColumnHelper, Table as UiTable} from "~/uikit";
+import { forwardRef, memo, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { ModalDelete } from "~/components/modal";
+import { SelectableEditModal } from "~/pages/Admin/Attributes/SelectableEditModal";
+import type { TDeleteModalState, TEditModalState } from "~/pages/Admin/Attributes/SelectableTable";
+import { useGetColumns } from "~/pages/Admin/Attributes/SelectableTable";
+import type { TAttributeDetail, TSelectableItem } from "~/shared/api/attributes";
+import { createColumnHelper, Table as UiTable } from "~/uikit";
 
 type TProps = {
   attribute: TAttributeDetail;
   csrf: string;
   fetcher: FetcherWithComponents<any>;
   items: TSelectableItem[];
-  onChangePage?: ({selected}: { selected: number }) => void;
+  onChangePage?: ({ selected }: { selected: number }) => void;
   onDeleteSelectableValue?: (id: number) => void;
-  onEditSelectableValue?: ({id, value}: { id: number; value: string }) => void;
+  onEditSelectableValue?: ({ id, value }: { id: number; value: string }) => void;
 };
 
 const TableComponent = forwardRef<HTMLDivElement, TProps>(
-  ({attribute, csrf, fetcher, items, onChangePage, onDeleteSelectableValue, onEditSelectableValue}, ref) => {
-    const {t} = useTranslation();
-    const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({isOpen: false});
-    const [editModal, setEditModal] = useState<TEditModalState>({isOpen: false});
+  (
+    {
+      attribute,
+      csrf,
+      fetcher,
+      items,
+      onChangePage,
+      onDeleteSelectableValue,
+      onEditSelectableValue,
+    },
+    ref,
+  ) => {
+    const { t } = useTranslation();
+    const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({ isOpen: false });
+    const [editModal, setEditModal] = useState<TEditModalState>({ isOpen: false });
 
     const handleClickDeleteSelectableValue = useCallback(
       (id: number) => {
@@ -47,18 +58,17 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
 
     const columnHelper = createColumnHelper<TSelectableItem>();
     const columns = useGetColumns({
-        columnHelper,
-        onDelete: handleClickDeleteSelectableValue,
-        onEdit: handleClickEditSelectableValue,
-      }
-    );
+      columnHelper,
+      onDelete: handleClickDeleteSelectableValue,
+      onEdit: handleClickEditSelectableValue,
+    });
 
     const handleCloseDeleteModal = () => {
-      setDeleteModal((prev) => ({...prev, isOpen: false}));
+      setDeleteModal((prev) => ({ ...prev, isOpen: false }));
     };
 
     const handleCloseEditModal = () => {
-      setEditModal((prev) => ({...prev, isOpen: false}));
+      setEditModal((prev) => ({ ...prev, isOpen: false }));
     };
 
     const handleSubmitDeleteModal = () => {
@@ -68,10 +78,10 @@ const TableComponent = forwardRef<HTMLDivElement, TProps>(
       }
     };
 
-    const handleSubmitEditModal = ({id, value}: { id: number; value: string }) => {
-      onEditSelectableValue?.({id, value})
+    const handleSubmitEditModal = ({ id, value }: { id: number; value: string }) => {
+      onEditSelectableValue?.({ id, value });
       handleCloseEditModal();
-    }
+    };
 
     return (
       <div ref={ref}>

@@ -5,4 +5,4 @@ export const DEFAULT_CART = {
   items: null,
   modifyDate: "",
   uuid: "",
-}
+};

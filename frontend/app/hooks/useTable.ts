@@ -1,15 +1,15 @@
-import {useCallback, useState} from "react";
-import type {ChangeEvent, KeyboardEvent} from "react";
-import {useSearchParams} from "@remix-run/react";
-import debounce from "lodash/debounce";
-import isEmpty from "lodash/isEmpty";
-import isNull from "lodash/isNull";
-import isNil from "lodash/isNil";
-import type {TDeleteModalState} from "~/components/modal";
-import type {TSearchParams} from "~/components/search";
-import {DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from "~/constants";
-import {mapTableSortingToDto} from "~/shared/api/sorting";
-import type {TTableSortingColumnState} from "~/uikit/components/Table/types";
+import { useCallback, useState } from "react";
+import type { ChangeEvent, KeyboardEvent } from "react";
+import { useSearchParams } from "@remix-run/react";
+import debounce from "lodash/debounce.js";
+import isEmpty from "lodash/isEmpty.js";
+import isNull from "lodash/isNull.js";
+import isNil from "lodash/isNil.js";
+import type { TDeleteModalState } from "~/components/modal";
+import type { TSearchParams } from "~/components/search";
+import { DEBOUNCE_TIMEOUT, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "~/constants";
+import { mapTableSortingToDto } from "~/shared/api/sorting";
+import type { TTableSortingColumnState } from "~/uikit/components/Table/types";
 
 type TParams = {
   onDelete?: (alias: string) => void;
@@ -21,7 +21,7 @@ type TUseTable = (params: TParams) => {
   defaultSearch: string;
   deleteModal: { isOpen: boolean };
   isSearchActive: boolean;
-  onChangePage: ({selected}: { selected: number }) => void;
+  onChangePage: ({ selected }: { selected: number }) => void;
   onChangeSize: (size: number) => void;
   onClickDeleteIcon: (alias: string) => void;
   onCloseDeleteModal: () => void;
@@ -33,8 +33,8 @@ type TUseTable = (params: TParams) => {
   onSortTableByProperty: (params?: TTableSortingColumnState | TTableSortingColumnState[]) => void;
 };
 
-export const useTable: TUseTable = ({onDelete, pageOption, sizeOption}) => {
-  const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({isOpen: false});
+export const useTable: TUseTable = ({ onDelete, pageOption, sizeOption }) => {
+  const [deleteModal, setDeleteModal] = useState<TDeleteModalState>({ isOpen: false });
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
@@ -62,7 +62,7 @@ export const useTable: TUseTable = ({onDelete, pageOption, sizeOption}) => {
   };
 
   const handleChangePage = useCallback(
-    ({selected}: { selected: number }) => {
+    ({ selected }: { selected: number }) => {
       setSearchParams(
         getSearchParams({
           page: (selected + 1).toString(),
@@ -114,7 +114,7 @@ export const useTable: TUseTable = ({onDelete, pageOption, sizeOption}) => {
   };
 
   const handleCloseDeleteModal = () => {
-    setDeleteModal((prev) => ({...prev, isOpen: false}));
+    setDeleteModal((prev) => ({ ...prev, isOpen: false }));
   };
 
   const handleClickDeleteIcon = useCallback(

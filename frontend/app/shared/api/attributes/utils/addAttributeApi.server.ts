@@ -1,7 +1,7 @@
-import {fetchApi} from "~/shared/api";
-import type {TApiFunction} from "~/shared/api";
-import type {TAttributeAdd, TAttributeAddParams} from "~/shared/api/attributes";
-import {EFormMethods} from "~/shared/form";
+import { fetchApi } from "~/shared/api";
+import type { TApiFunction } from "~/shared/api";
+import type { TAttributeAdd, TAttributeAddParams } from "~/shared/api/attributes";
+import { EFormMethods } from "~/shared/form";
 
 export const addAttributeApi: TApiFunction<TAttributeAddParams, TAttributeAdd> = (
   request,

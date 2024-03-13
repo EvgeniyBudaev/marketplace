@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
-import type {FC, MouseEvent, ReactElement, ReactNode} from "react";
+import { useEffect, useState } from "react";
+import type { FC, MouseEvent, ReactElement, ReactNode } from "react";
 import ReactDOM from "react-dom";
-import {usePopper} from "react-popper";
+import { usePopper } from "react-popper";
 import clsx from "clsx";
-import {getTooltipOffset} from "~/uikit/components/Tooltip/utils";
-import type {TModifiers, TPlacement} from "./types";
+import { getTooltipOffset } from "~/uikit/components/Tooltip/utils";
+import type { TModifiers, TPlacement } from "./types";
 import styles from "./Tooltip.css";
 
 type TProps = {
@@ -19,15 +19,15 @@ type TProps = {
 };
 
 export const Tooltip: FC<TProps> = ({
-                                      children,
-                                      dataTestId,
-                                      isOpen,
-                                      message,
-                                      modifiers,
-                                      className = "",
-                                      placement = "top",
-                                      timerDelay = 100,
-                                    }) => {
+  children,
+  dataTestId,
+  isOpen,
+  message,
+  modifiers,
+  className = "",
+  placement = "top",
+  timerDelay = 100,
+}) => {
   const [referenceElement, setReferenceElement] = useState<HTMLDivElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
@@ -46,7 +46,7 @@ export const Tooltip: FC<TProps> = ({
     {
       name: "offset",
       options: {
-        offset: getTooltipOffset({placement, referenceElement}),
+        offset: getTooltipOffset({ placement, referenceElement }),
       },
     },
     {
@@ -61,7 +61,7 @@ export const Tooltip: FC<TProps> = ({
     popperModifiers = popperModifiers.concat(modifiers);
   }
 
-  const {styles, attributes} = usePopper(referenceElement, popperElement, {
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
     modifiers: popperModifiers,
     placement,
   });
@@ -72,8 +72,8 @@ export const Tooltip: FC<TProps> = ({
 
   useEffect(() => {
     const listener = () => setVisible(false);
-    document.addEventListener('scroll', listener);
-    return () => document.removeEventListener('scroll', listener);
+    document.addEventListener("scroll", listener);
+    return () => document.removeEventListener("scroll", listener);
   }, []);
 
   const handleMouseOver = () => {
@@ -118,11 +118,9 @@ export const Tooltip: FC<TProps> = ({
             }}
             {...attributes.popper}
           >
-            <div
-              className="Tooltip-ElementInner"
-            >
+            <div className="Tooltip-ElementInner">
               {message}
-              <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow}/>
+              <div className="Tooltip-Arrow" ref={setArrowElement} style={styles.arrow} />
             </div>
           </div>,
           document.body,
@@ -132,5 +130,5 @@ export const Tooltip: FC<TProps> = ({
 };
 
 export function tooltipLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

@@ -1,4 +1,4 @@
-import type {FC} from "react";
+import type { FC } from "react";
 import styles from "./AttributeItem.css";
 
 type TAttribute = {
@@ -10,8 +10,8 @@ type TProps = {
   attribute: TAttribute;
 };
 
-export const AttributeItem: FC<TProps> = ({attribute}) => {
-  const {attributeName, value} = attribute;
+export const AttributeItem: FC<TProps> = ({ attribute }) => {
+  const { attributeName, value } = attribute;
   return (
     <li className="AttributeItem-RowLine">
       <div className="AttributeItem-LabelLine">{attributeName}:</div>
@@ -21,5 +21,5 @@ export const AttributeItem: FC<TProps> = ({attribute}) => {
 };
 
 export function attributeItemLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

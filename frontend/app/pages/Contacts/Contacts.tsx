@@ -1,5 +1,5 @@
-import type {FC} from "react";
-import {ETypographyVariant, Typography} from "~/uikit";
+import type { FC } from "react";
+import { ETypographyVariant, Typography } from "~/uikit";
 import styles from "./Contacts.css";
 
 export const Contacts: FC = () => {
@@ -63,5 +63,5 @@ export const Contacts: FC = () => {
 };
 
 export function contactsLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

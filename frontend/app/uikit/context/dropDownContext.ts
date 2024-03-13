@@ -1,5 +1,5 @@
-import {createContext} from "react";
-import type {RefObject} from "react";
+import { createContext } from "react";
+import type { RefObject } from "react";
 
 export type TDropDownState = {
   isDropDownOpen?: boolean;

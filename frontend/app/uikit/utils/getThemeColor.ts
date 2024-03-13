@@ -1,5 +1,5 @@
 class ThemeColor extends String {
-  static styles = typeof window !== 'undefined' ? window.getComputedStyle(document.body) : null;
+  static styles = typeof window !== "undefined" ? window.getComputedStyle(document.body) : null;
 
   static getColor(colorVariable: string): string {
     const color = ThemeColor.styles?.getPropertyValue(colorVariable) ?? `var(${colorVariable})`;
@@ -10,7 +10,7 @@ class ThemeColor extends String {
   private colorVariable: string;
 
   constructor(colorVariable: string) {
-    super('');
+    super("");
 
     this.colorVariable = colorVariable;
   }

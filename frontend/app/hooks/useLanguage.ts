@@ -1,14 +1,14 @@
-import {useCallback, useContext} from "react";
-import {useTranslation} from "react-i18next";
-import {useFetcher} from "@remix-run/react";
+import { useCallback, useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { useFetcher } from "@remix-run/react";
 import dayjs from "dayjs";
 
-import {ERoutes} from "~/enums";
-import {useLanguageStore, useSettings} from "~/hooks";
-import {ChangeLanguageContext} from "~/shared/context";
-import {EFormMethods} from "~/shared/form";
-import type {ELanguages} from "~/uikit";
-import {createPath} from "~/utils";
+import { ERoutes } from "~/enums";
+import { useLanguageStore, useSettings } from "~/hooks";
+import { ChangeLanguageContext } from "~/shared/context";
+import { EFormMethods } from "~/shared/form";
+import type { ELanguages } from "~/uikit";
+import { createPath } from "~/utils";
 
 type TUseLanguage = () => {
   isChangingLanguage: boolean;
@@ -18,10 +18,10 @@ type TUseLanguage = () => {
 
 export const useLanguage: TUseLanguage = () => {
   const fetcher = useFetcher();
-  const {settings} = useSettings();
-  const {i18n} = useTranslation();
+  const { settings } = useSettings();
+  const { i18n } = useTranslation();
   const [isChangingLanguage, setIsChangingLanguage] = useContext(ChangeLanguageContext);
-  const {setStorageLanguage} = useLanguageStore();
+  const { setStorageLanguage } = useLanguageStore();
 
   const handleChangeLanguage = useCallback(
     async (language: ELanguages) => {
@@ -30,7 +30,7 @@ export const useLanguage: TUseLanguage = () => {
       });
 
       fetcher.submit(
-        {language, uuid: settings.uuid},
+        { language, uuid: settings.uuid },
         {
           action: path,
           method: EFormMethods.Patch,

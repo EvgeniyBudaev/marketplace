@@ -1,5 +1,5 @@
-import {z} from "zod";
-import {EFormFields} from "~/pages/Shipping/enums";
+import { z } from "zod";
+import { EFormFields } from "~/pages/Shipping/enums";
 
 export const formSchema = z.object({
   [EFormFields.Address]: z.string().trim(),

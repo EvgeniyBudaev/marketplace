@@ -1,12 +1,12 @@
-import {memo, useState} from "react";
-import type {FC} from "react";
-import type {OnChangeValue} from "react-select";
+import { memo, useState } from "react";
+import type { FC } from "react";
+import type { OnChangeValue } from "react-select";
 import clsx from "clsx";
-import isNil from "lodash/isNil";
-import {Select, ETheme} from "~/uikit";
-import type {TSelectOption, isSelectMultiType} from "~/uikit";
-import type {ETablePlacement} from "~/uikit/components/Table/enums";
-import {getPageSizeOptions} from "~/uikit/components/Table/PageSize/index";
+import isNil from "lodash/isNil.js";
+import { Select, ETheme } from "~/uikit";
+import type { TSelectOption, isSelectMultiType } from "~/uikit";
+import type { ETablePlacement } from "~/uikit/components/Table/enums";
+import { getPageSizeOptions } from "~/uikit/components/Table/PageSize/index";
 import styles from "./PageSize.css";
 
 type TProps = {
@@ -18,12 +18,12 @@ type TProps = {
 };
 
 const Component: FC<TProps> = ({
-                                 defaultPageSize,
-                                 dropdownPosition,
-                                 options,
-                                 onChangePageSize,
-                                 theme = ETheme.Light,
-                               }) => {
+  defaultPageSize,
+  dropdownPosition,
+  options,
+  onChangePageSize,
+  theme = ETheme.Light,
+}) => {
   const [isSelectOpened, setIsSelectOpened] = useState(false);
   const selectOptions = getPageSizeOptions(options);
 
@@ -68,5 +68,5 @@ const Component: FC<TProps> = ({
 export const PageSize = memo(Component);
 
 export function pageSizeLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

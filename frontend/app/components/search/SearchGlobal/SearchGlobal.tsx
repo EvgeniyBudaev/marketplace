@@ -1,20 +1,20 @@
-import {useCallback, useRef, useState} from "react";
-import type {KeyboardEvent, FC, FormEvent} from "react";
-import {CSSTransition} from "react-transition-group";
-import {useTranslation} from "react-i18next";
-import {Form, useFetcher, useSearchParams} from "@remix-run/react";
+import { useCallback, useRef, useState } from "react";
+import type { KeyboardEvent, FC, FormEvent } from "react";
+import { CSSTransition } from "react-transition-group";
+import { useTranslation } from "react-i18next";
+import { Form, useFetcher, useSearchParams } from "@remix-run/react";
 import clsx from "clsx";
-import debounce from "lodash/debounce";
-import isNull from "lodash/isNull";
+import debounce from "lodash/debounce.js";
+import isNull from "lodash/isNull.js";
 
-import {DEBOUNCE_TIMEOUT, TRANSITION} from "~/constants";
-import {ERoutes} from "~/enums";
-import type {TProductsByCatalog} from "~/shared/api/products";
-import {EFormMethods} from "~/shared/form";
-import {Icon, Overlay} from "~/uikit";
+import { DEBOUNCE_TIMEOUT, TRANSITION } from "~/constants";
+import { ERoutes } from "~/enums";
+import type { TProductsByCatalog } from "~/shared/api/products";
+import { EFormMethods } from "~/shared/form";
+import { Icon, Overlay } from "~/uikit";
 
-import {SearchGlobalList, searchGlobalListLinks} from "./SearchGlobalList";
-import {searchGlobalListItemLinks} from "./SearchGlobalListItem";
+import { SearchGlobalList, searchGlobalListLinks } from "./SearchGlobalList";
+import { searchGlobalListItemLinks } from "./SearchGlobalListItem";
 import commonStyles from "./Common.css";
 import styles from "./SearchGlobal.css";
 
@@ -23,11 +23,11 @@ type TProps = {
   transition?: number;
 };
 
-export const SearchGlobal: FC<TProps> = ({className, transition = TRANSITION}) => {
+export const SearchGlobal: FC<TProps> = ({ className, transition = TRANSITION }) => {
   const [isActive, setIsActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const nodeRef = useRef<HTMLDivElement>(null);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
   const defaultSearch: string = !isNull(search) ? search : "";
@@ -41,7 +41,7 @@ export const SearchGlobal: FC<TProps> = ({className, transition = TRANSITION}) =
   const handleFocus = () => {
     setIsActive(true);
     fetcher.submit(
-      {search: ""},
+      { search: "" },
       {
         method: EFormMethods.Get,
         action: ERoutes.ResourcesSearch,
@@ -96,7 +96,7 @@ export const SearchGlobal: FC<TProps> = ({className, transition = TRANSITION}) =
               />
             </Form>
           </div>
-          <Icon className="SearchGlobal-Icon" type="Search"/>
+          <Icon className="SearchGlobal-Icon" type="Search" />
         </div>
         <CSSTransition
           className="SearchGlobalDropDownWindow"
@@ -106,19 +106,19 @@ export const SearchGlobal: FC<TProps> = ({className, transition = TRANSITION}) =
           unmountOnExit
         >
           <div ref={nodeRef}>
-            <SearchGlobalList productList={productList} onBlur={handleBlur}/>
+            <SearchGlobalList productList={productList} onBlur={handleBlur} />
           </div>
         </CSSTransition>
       </div>
-      <Overlay timeout={transition} isActive={isActive} onClick={handleBlur}/>
+      <Overlay timeout={transition} isActive={isActive} onClick={handleBlur} />
     </>
   );
 };
 
 export function searchGlobalLinks() {
   return [
-    {rel: "stylesheet", href: styles},
-    {rel: "stylesheet", href: commonStyles},
+    { rel: "stylesheet", href: styles },
+    { rel: "stylesheet", href: commonStyles },
     ...searchGlobalListLinks(),
     ...searchGlobalListItemLinks(),
   ];

@@ -1,4 +1,4 @@
-import {t} from "~/utils";
+import { t } from "~/utils";
 
 export const LETTERS_EN = "a-zA-Z";
 export const LETTERS_RU = "а-яА-ЯёЁ";
@@ -20,6 +20,6 @@ export const PHONE_REGEXP = /\+7\s?\(?\d\d\d\)?\s?\d\d\d\s?\d\d\s?\d\d/;
 // export const PHONE_REGEXP = /(\+7)(\d{3})(\d{3})(\d{2})(\d{2})/g;
 export const PHONE_ERROR_MESSAGE = t("common.validation.wrongCharacter");
 
-export const FILE_TYPE_MESSAGE = t('common.validation.file.expectedFile');
-export const FILE_MAX_SIZE_MESSAGE = t('common.validation.file.maxSize');
-export const FILE_MAX_AMOUNT_MESSAGE = t('common.validation.file.maxAmount');
+export const FILE_TYPE_MESSAGE = t("common.validation.file.expectedFile");
+export const FILE_MAX_SIZE_MESSAGE = t("common.validation.file.maxSize");
+export const FILE_MAX_AMOUNT_MESSAGE = t("common.validation.file.maxAmount");

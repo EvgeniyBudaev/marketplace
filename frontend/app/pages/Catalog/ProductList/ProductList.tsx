@@ -1,12 +1,12 @@
-import {useEffect, useRef} from "react";
-import type {FC} from "react";
-import {useFetcher} from "@remix-run/react";
+import { useEffect, useRef } from "react";
+import type { FC } from "react";
+import { useFetcher } from "@remix-run/react";
 import clsx from "clsx";
-import isNil from "lodash/isNil";
-import type {TCart} from "~/shared/api/cart";
-import type {TCatalogDetail} from "~/shared/api/catalogs";
-import type {TProductByCatalog} from "~/shared/api/products";
-import {ProductListItem} from "../ProductListItem";
+import isNil from "lodash/isNil.js";
+import type { TCart } from "~/shared/api/cart";
+import type { TCatalogDetail } from "~/shared/api/catalogs";
+import type { TProductByCatalog } from "~/shared/api/products";
+import { ProductListItem } from "../ProductListItem";
 import styles from "./ProductList.css";
 
 type TProps = {
@@ -21,13 +21,13 @@ type TProps = {
 const getRandomString = () => Math.random().toString(36).substring(7);
 
 export const ProductList: FC<TProps> = ({
-                                          cart,
-                                          catalog,
-                                          pages,
-                                          isCardsLine,
-                                          onPageChange,
-                                          scrollIntoPage,
-                                        }) => {
+  cart,
+  catalog,
+  pages,
+  isCardsLine,
+  onPageChange,
+  scrollIntoPage,
+}) => {
   const fetcher = useFetcher();
   const listItems = useRef<(HTMLLIElement | null)[][]>([]);
   const page = useRef<number | null>(null);
@@ -70,7 +70,7 @@ export const ProductList: FC<TProps> = ({
       const firstProduct = page[0];
 
       if (firstProduct) {
-        firstProduct.scrollIntoView({behavior: "smooth"});
+        firstProduct.scrollIntoView({ behavior: "smooth" });
       }
     }
   }, [scrollIntoPage]);
@@ -87,24 +87,24 @@ export const ProductList: FC<TProps> = ({
           page === undefined
             ? []
             : page.map((product, j) => {
-              // console.log("product: ", product);
-              return (
-                <ProductListItem
-                  key={getRandomString() + product.id}
-                  cart={cart}
-                  catalog={catalog}
-                  product={product}
-                  ref={(el) => ((listItems.current[i] || (listItems.current[i] = []))[j] = el)}
-                  isCardsLine={isCardsLine}
-                  fetcher={fetcher}
-                />
-              );
-            }),
+                // console.log("product: ", product);
+                return (
+                  <ProductListItem
+                    key={getRandomString() + product.id}
+                    cart={cart}
+                    catalog={catalog}
+                    product={product}
+                    ref={(el) => ((listItems.current[i] || (listItems.current[i] = []))[j] = el)}
+                    isCardsLine={isCardsLine}
+                    fetcher={fetcher}
+                  />
+                );
+              }),
         )}
     </ul>
   );
 };
 
 export function productListLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

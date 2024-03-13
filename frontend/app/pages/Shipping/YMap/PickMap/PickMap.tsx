@@ -1,7 +1,7 @@
-import {memo, useCallback, useEffect, useMemo, useRef} from "react";
-import type {ReactNode, ComponentProps} from "react";
-import {Map, withYMaps} from "@pbe/react-yandex-maps";
-import {useDebounce} from "use-debounce";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
+import type { ReactNode, ComponentProps } from "react";
+import { Map, withYMaps } from "@pbe/react-yandex-maps";
+import { useDebounce } from "use-debounce";
 
 type MapProps = ComponentProps<typeof Map>;
 

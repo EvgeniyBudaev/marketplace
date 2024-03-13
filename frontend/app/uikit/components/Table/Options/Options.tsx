@@ -1,22 +1,22 @@
-import {memo, useCallback, useEffect, useState} from "react";
-import {flexRender} from "@tanstack/react-table";
-import type {HeaderContext} from "@tanstack/react-table";
+import { memo, useCallback, useEffect, useState } from "react";
+import { flexRender } from "@tanstack/react-table";
+import type { HeaderContext } from "@tanstack/react-table";
 import clsx from "clsx";
-import xor from "lodash/xor";
-import {Button, ETypographyVariant, IconButton, Modal, Typography, useModalWindow} from "~/uikit";
-import type {TTableOptionsProps} from "~/uikit/components/Table/Options/types";
+import xor from "lodash/xor.js";
+import { Button, ETypographyVariant, IconButton, Modal, Typography, useModalWindow } from "~/uikit";
+import type { TTableOptionsProps } from "~/uikit/components/Table/Options/types";
 import styles from "./Options.css";
 
 const Component = <T extends object>({
-                                       columns,
-                                       hiddenColumns,
-                                       optionsCancelText,
-                                       optionsChangeText,
-                                       optionsFieldHeader,
-                                       optionsModalHeader,
-                                       setHiddenColumns,
-                                     }: TTableOptionsProps<T>) => {
-  const {isOpenModal, closeModal, openModal} = useModalWindow();
+  columns,
+  hiddenColumns,
+  optionsCancelText,
+  optionsChangeText,
+  optionsFieldHeader,
+  optionsModalHeader,
+  setHiddenColumns,
+}: TTableOptionsProps<T>) => {
+  const { isOpenModal, closeModal, openModal } = useModalWindow();
   const [localHiddenColls, setLocalHiddenColls] = useState(hiddenColumns || []);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Component = <T extends object>({
 
   return (
     <>
-      <IconButton onClick={openModal} typeIcon="Settings"/>
+      <IconButton onClick={openModal} typeIcon="Settings" />
       <Modal isOpen={isOpenModal} onCloseModal={handleCloseModal}>
         <Modal.Header>
           <Typography variant={ETypographyVariant.TextH6Bold}>
@@ -96,5 +96,5 @@ const Component = <T extends object>({
 export const Options = memo(Component) as typeof Component;
 
 export function optionsLinks() {
-  return [{rel: "stylesheet", href: styles}];
+  return [{ rel: "stylesheet", href: styles }];
 }

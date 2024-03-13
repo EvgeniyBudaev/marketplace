@@ -1,8 +1,8 @@
-import {useCallback} from "react";
-import {useStoreContext} from "~/shared/store";
+import { useCallback } from "react";
+import { useStoreContext } from "~/shared/store";
 
 export const useCart = () => {
-  const {cart, setCart} = useStoreContext();
+  const { cart, setCart } = useStoreContext();
 
   const onChangeCart = useCallback(
     async (value: any) => {
@@ -11,5 +11,5 @@ export const useCart = () => {
     [setCart],
   );
 
-  return {cart, onChangeCart};
+  return { cart, onChangeCart };
 };

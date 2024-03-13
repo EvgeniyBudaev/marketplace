@@ -29,7 +29,7 @@ import {
 } from "~/shared/api/attributes/utils";
 import { commitSession, getCsrfSession, getSession } from "~/shared/session";
 import { getStoreFixedT } from "~/shared/store";
-import type { TDomainErrors , TBaseRouteHandle } from "~/types";
+import type { TDomainErrors, TBaseRouteHandle } from "~/types";
 import { checkCSRFToken, checkRequestPermission, createPath } from "~/utils";
 
 type TLoaderData = {

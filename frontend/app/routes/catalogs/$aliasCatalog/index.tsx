@@ -2,7 +2,7 @@ import { inputFromForm, inputFromSearch } from "remix-domains";
 import { json } from "@remix-run/node";
 import type { LoaderFunctionArgs, ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import isEmpty from "lodash/isEmpty";
+import isEmpty from "lodash/isEmpty.js";
 import { Catalog, catalogLinks } from "~/pages";
 import { createCartSession, getCart, getCartSession, incrementCartItem } from "~/shared/api/cart";
 import type { TCart } from "~/shared/api/cart";

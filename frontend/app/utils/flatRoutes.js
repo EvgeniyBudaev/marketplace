@@ -1,6 +1,6 @@
-import path from 'path';
-import {minimatch} from 'minimatch';
-import fs from 'fs';
+import path from "path";
+import { minimatch } from "minimatch";
+import fs from "fs";
 import "dotenv/config";
 
 const defaultOptions = {

@@ -1,5 +1,5 @@
-import pickBy from "lodash/pickBy";
-import isNil from "lodash/isNil";
+import pickBy from "lodash/pickBy.js";
+import isNil from "lodash/isNil.js";
 import type { TParams } from "~/types";
 
 export function omitEmptyFields<T extends TParams>(fields: T): TParams {

@@ -1,4 +1,4 @@
-import type {TTableSortingProps} from "~/uikit/components/Table/types";
+import type { TTableSortingProps } from "~/uikit/components/Table/types";
 
 export function getInitialSortingColumnState(params?: TTableSortingProps) {
   if (params?.defaultSorting)

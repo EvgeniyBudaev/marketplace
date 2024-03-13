@@ -1,9 +1,9 @@
-import get from "lodash/get";
+// import get from "lodash/get";
 // import { getCacheBackend } from "~/process/store";
 import type { ICacheBackend } from "~/process/store";
 import { getSettings, getSettingsSession } from "~/shared/api/settings";
 import type { TSettings } from "~/shared/api/settings";
-import {getCartSession} from "~/shared/api/cart";
+import { getCartSession } from "~/shared/api/cart";
 
 class UserProfileStore {
   // private cache: ICacheBackend;
@@ -50,7 +50,7 @@ class UserProfileStore {
   }
 
   public async getItem<T>(request: Request, key: string, uuid?: string) {
-  // public async getItem<T>(request: Request, key: string, defaultValue?: T, uuid?: string) {
+    // public async getItem<T>(request: Request, key: string, defaultValue?: T, uuid?: string) {
     const data = (await this.get(request, uuid)) as Record<string, any>;
     // console.log("getItem data: ", data);
     // return get(data, key, defaultValue);

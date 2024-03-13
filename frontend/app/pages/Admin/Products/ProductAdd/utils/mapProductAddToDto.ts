@@ -1,4 +1,4 @@
-import type {TFile, TParams} from "~/types";
+import type { TFile, TParams } from "~/types";
 
 type TResponse = {
   alias: string | null;
@@ -14,7 +14,11 @@ type TResponse = {
   selectableValues: number[] | null;
 };
 
-export const mapProductAddToDto = (params: TParams, enabled: boolean, catalogAlias?: string): TResponse => {
+export const mapProductAddToDto = (
+  params: TParams,
+  enabled: boolean,
+  catalogAlias?: string,
+): TResponse => {
   return {
     ...params,
     alias: params?.alias ? params.alias : null,

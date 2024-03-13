@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 import { fetchApi } from "~/shared/api";
 import type { TApiFunction } from "~/shared/api";
 import type { TOrderList, TOrderListParams } from "app/shared/api/orders";

@@ -1,15 +1,19 @@
-import type {TFile, TParams} from "~/types";
+import type { TFile, TParams } from "~/types";
 
 type TResponse = {
   alias: string | null;
-  attributeAlias: { value: string, label: string }[] | null;
+  attributeAlias: { value: string; label: string }[] | null;
   enabled: string;
   id: string;
   image: TFile[];
   name: string | null;
 };
 
-export const mapCatalogEditToDto = (params: TParams, id: string | number, enabled: boolean): TResponse => {
+export const mapCatalogEditToDto = (
+  params: TParams,
+  id: string | number,
+  enabled: boolean,
+): TResponse => {
   return {
     ...params,
     alias: params?.alias ? params.alias : null,

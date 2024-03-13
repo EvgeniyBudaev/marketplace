@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 import type { TFile } from "~/types";
 import { Icon, Tooltip } from "~/uikit";
 import styles from "./Previews.css";

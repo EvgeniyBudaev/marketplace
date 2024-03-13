@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
-import "dayjs/locale/ru";
+import "dayjs/locale/ru.js";
 
 export type TDayjs = typeof dayjs;
 

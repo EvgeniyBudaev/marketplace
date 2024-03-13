@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import type { FC, ReactNode } from "react";
-import { useDropzone } from "react-dropzone";
+import dropzone from "react-dropzone";
 import type { DropzoneOptions } from "react-dropzone";
 import styles from "./Dropzone.css";
 
@@ -17,6 +17,7 @@ export const Dropzone: FC<TDropzoneProps> = ({
   dataTestId = "uikit__dropzone",
   ...rest
 }) => {
+  const { useDropzone } = dropzone;
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, ...rest });
 
   return (

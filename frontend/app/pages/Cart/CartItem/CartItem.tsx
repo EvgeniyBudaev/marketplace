@@ -5,7 +5,7 @@ import { useMediaQuery } from "react-responsive";
 import { Link } from "@remix-run/react";
 import type { FetcherWithComponents } from "@remix-run/react";
 import clsx from "clsx";
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 import { ERoutes } from "~/enums";
 import { useProxyUrl } from "~/hooks";
 import type { TCartItem } from "~/shared/api/cart";
@@ -141,7 +141,10 @@ export const CartItem: FC<TProps> = ({ cartItem, cartUuid, fetcher }) => {
             className="CartItem-ProductContentLink"
             to={createPath({
               route: ERoutes.ProductDetail,
-              params: { aliasCatalog: cartItem.product.catalogAlias, aliasProduct: cartItem.product.alias },
+              params: {
+                aliasCatalog: cartItem.product.catalogAlias,
+                aliasProduct: cartItem.product.alias,
+              },
             })}
           >
             {!isNil(cartItem.product.defaultImage) ? (

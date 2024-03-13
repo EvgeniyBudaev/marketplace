@@ -1,13 +1,13 @@
-import {useContext, useEffect, useState} from "react";
-import type {FC} from "react";
-import type {OnChangeValue} from "react-select";
-import {useTranslation} from "react-i18next";
+import { useContext, useEffect, useState } from "react";
+import type { FC } from "react";
+import type { OnChangeValue } from "react-select";
+import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import isNil from "lodash/isNil";
+import isNil from "lodash/isNil.js";
 
-import {ThemeSwitcher} from "~/components";
-import {SOCKET_RECEIVE_LANGUAGE, SOCKET_SEND_LANGUAGE} from "~/constants";
-import {useLanguage, useTheme} from "~/hooks";
+import { ThemeSwitcher } from "~/components";
+import { SOCKET_RECEIVE_LANGUAGE, SOCKET_SEND_LANGUAGE } from "~/constants";
+import { useLanguage, useTheme } from "~/hooks";
 import {
   SettingSelectControl,
   settingSelectControlLinks,
@@ -16,15 +16,15 @@ import {
   SettingSelectOption,
   settingSelectOptionLinks,
 } from "~/pages/Settings/SettingSelectOption";
-import {SocketContext} from "~/shared/context";
-import {ELanguages, ETypographyVariant, Icon, Select, Typography} from "~/uikit";
-import type {isSelectMultiType, TSelectOption} from "~/uikit";
+import { SocketContext } from "~/shared/context";
+import { ELanguages, ETypographyVariant, Icon, Select, Typography } from "~/uikit";
+import type { isSelectMultiType, TSelectOption } from "~/uikit";
 import styles from "./Settings.css";
 
 export const Settings: FC = () => {
-  const {language, onChangeLanguage} = useLanguage();
-  const {theme} = useTheme();
-  const {t} = useTranslation();
+  const { language, onChangeLanguage } = useLanguage();
+  const { theme } = useTheme();
+  const { t } = useTranslation();
   const [isSelectOpened, setIsSelectOpened] = useState(false);
   const socket = useContext(SocketContext);
 
@@ -40,16 +40,18 @@ export const Settings: FC = () => {
     {
       value: ELanguages.Ru,
       label: t("pages.settings.language.options.ru"),
-      prefixIcon: <Icon type="RussianLanguage"/>,
+      prefixIcon: <Icon type="RussianLanguage" />,
     },
     {
       value: ELanguages.En,
       label: t("pages.settings.language.options.en"),
-      prefixIcon: <Icon type="EnglishLanguage"/>,
+      prefixIcon: <Icon type="EnglishLanguage" />,
     },
   ];
 
-  const handleChangeLanguage = (selectedOption?: OnChangeValue<TSelectOption, isSelectMultiType>) => {
+  const handleChangeLanguage = (
+    selectedOption?: OnChangeValue<TSelectOption, isSelectMultiType>,
+  ) => {
     if (isNil(selectedOption)) return;
     if (Array.isArray(selectedOption)) {
       socket && socket.emit(SOCKET_SEND_LANGUAGE, selectedOption[0].value);
@@ -84,7 +86,7 @@ export const Settings: FC = () => {
           className={clsx("Settings-Select", {
             "Settings-Select__active": isSelectOpened,
           })}
-          components={{Control: SettingSelectControl, Option: SettingSelectOption}}
+          components={{ Control: SettingSelectControl, Option: SettingSelectOption }}
           isMulti={false}
           onBlur={handleBlurLanguage}
           onChange={handleChangeLanguage}
@@ -100,7 +102,7 @@ export const Settings: FC = () => {
         </Typography>
       </div>
       <div className="Settings-Block">
-        <ThemeSwitcher/>
+        <ThemeSwitcher />
       </div>
     </section>
   );
@@ -108,7 +110,7 @@ export const Settings: FC = () => {
 
 export function settingsLinks() {
   return [
-    {rel: "stylesheet", href: styles},
+    { rel: "stylesheet", href: styles },
     ...settingSelectOptionLinks(),
     ...settingSelectControlLinks(),
   ];

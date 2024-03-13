@@ -1,9 +1,9 @@
-import type {TParams} from "~/types";
-import type {TFile} from "~/types";
+import type { TParams } from "~/types";
+import type { TFile } from "~/types";
 
 type TResponse = {
   alias: string | null;
-  attributeAlias: { value: string, label: string }[] | null;
+  attributeAlias: { value: string; label: string }[] | null;
   enabled: string;
   image: TFile[];
   name: string | null;

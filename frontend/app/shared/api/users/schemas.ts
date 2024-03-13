@@ -24,4 +24,3 @@ export const userDetailsParamsSchema = z.object({
   access_token: z.string(),
   id: z.number(),
 });
-
