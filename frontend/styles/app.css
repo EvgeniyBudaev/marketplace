@@ -1,0 +1,142 @@
+@layer base {
+  @font-face {
+    font-weight: 300;
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-display: swap;
+    src: url("/fonts/roboto/Roboto-Light.ttf") format("truetype");
+  }
+  @font-face {
+    font-weight: 400;
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-display: swap;
+    src: url("/fonts/roboto/Roboto-Regular.ttf") format("truetype");
+  }
+  @font-face {
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-display: swap;
+    src: url("/fonts/roboto/Roboto-Medium.ttf") format("truetype");
+  }
+  @font-face {
+    font-weight: 700;
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-display: swap;
+    src: url("/fonts/roboto/Roboto-Bold.ttf") format("truetype");
+  }
+}
+/* -------------------- Global Styles -------------------- */
+html {
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  min-width: 320px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.25;
+}
+
+#__next {
+  height: 100%;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+section {
+  margin: 30px 0;
+}
+
+button {
+  cursor: pointer;
+  outline: transparent;
+}
+
+.no_image {
+  background-color: #ebebeb;
+}
+
+.theme-dark {
+  background-color: rgba(24, 24, 31, 1);
+  color: #fff;
+}
+
+.theme-dark .text-dark {
+  color: #fff;
+}
+
+.theme-dark .icon-dark {
+  color: #fff;
+  fill: #fff;
+}
+
+.theme-dark .no_image {
+  background-color: #1f2029;
+}
+
+/* Roboto/12/Regular */
+/* Roboto/12/Bold */
+/* Roboto/14/Regular */
+/* Roboto/14/Medium */
+/* Roboto/14/Bold */
+/* Roboto/16/Regular */
+/* Roboto/16/Medium */
+/* Roboto/16/Bold */
+/* Roboto/18/Medium */
+/* Roboto/18/Bold */
+/* Roboto/20/Bold */
+/* Roboto/22/Medium */
+/* Roboto/22/Bold */
+/* Roboto/24/Regular */
+/* Roboto/24/Medium */
+/* Roboto/24/Bold */
+/* Roboto/26/Medium */
+/* Roboto/28/Medium */
+/* Roboto/32/Medium */
+/* Roboto/32/Bold */
+
+/*# sourceMappingURL=app.css.map */

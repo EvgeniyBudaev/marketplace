@@ -1,0 +1,168 @@
+/* #b0976a */
+/* #927E5CFF */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Order-Title {
+  margin-bottom: 16px;
+}
+.Order-Inner {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.Order-BlockLeft {
+  margin-right: 20px;
+  max-width: 740px;
+  width: 100%;
+}
+.Order-BlockRight {
+  max-width: 390px;
+  width: 100%;
+}
+.Order-Link {
+  display: flex;
+  align-items: center;
+  color: rgb(176, 151, 106);
+  transition: all 0s;
+}
+.Order-Link:hover {
+  color: rgb(146, 126, 92);
+}
+.Order-Controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 106px;
+  max-width: 590px;
+  width: 100%;
+}
+.Order-ControlsLink {
+  display: flex;
+  align-items: center;
+  color: rgb(176, 151, 106);
+  transition: all 0s;
+}
+.Order-ControlsLink svg {
+  width: 30px;
+  height: 30px;
+  fill: rgb(176, 151, 106);
+  transition: all 0s;
+}
+.Order-ControlsLink:hover {
+  color: rgb(146, 126, 92);
+}
+.Order-ControlsLink:hover svg {
+  fill: rgb(146, 126, 92);
+}
+.Order-ControlsText {
+  margin-left: 4px;
+}
+.Order-ModalDefence {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+}
+.Order-ModalDefenceIcon {
+  margin-right: 8px;
+}
+.Order-ModalDefenceIcon svg {
+  width: 24px;
+  height: 24px;
+}
+.Order-ModalDefenceIcon path {
+  fill: rgb(51, 51, 51);
+}
+.theme-dark .Order-Payment,
+.theme-dark .Order-Products,
+.theme-dark .Order-Recipient,
+.theme-dark .Order-Shipping,
+.theme-dark .Order-Total {
+  background: linear-gradient(
+      40deg,
+      rgba(138, 143, 160, 0.16),
+      rgba(31, 32, 41, 0.24) 16%
+    ),
+    linear-gradient(
+      210deg,
+      rgba(138, 143, 160, 0.5),
+      rgba(31, 32, 41, 0.24) 20%
+    );
+  border: 1px solid rgb(35, 40, 56);
+}
+
+@media (max-width: 1000px) {
+  .Order-InnerMobile {
+    flex-direction: column;
+  }
+  .Order-BlockLeft {
+    margin-right: 0;
+  }
+  .Order-RadioCardPaymentMethodMobile {
+    margin-bottom: 16px;
+  }
+  .Order-RadioCardPaymentMethodMobile:last-child {
+    margin-bottom: 0;
+  }
+}
+@media (max-width: 768px) {
+  .Order-Controls {
+    margin-top: 0;
+  }
+  .Order-ControlsLink svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+@media (max-width: 500px) {
+  .Order-Product {
+    flex-direction: column;
+  }
+  .Order-ProductInfo {
+    flex-direction: column;
+  }
+  .Order-ProductTitle {
+    margin: 8px 0;
+  }
+  .Order-AddressIcon svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/*# sourceMappingURL=Order.css.map */

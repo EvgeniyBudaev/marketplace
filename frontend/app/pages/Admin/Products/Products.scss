@@ -1,0 +1,37 @@
+.Products {
+  &-Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    &Controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  &-Column {
+    width: 50px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #000;
+    padding: 8px;
+  }
+
+  &-SearchingPanel {
+    margin-right: 16px;
+  }
+
+  &-LinkButton {
+    height: 42px;
+
+    span {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+@import "component";
+
+.About {
+  &-Title {
+    margin-bottom: 30px;
+  }
+
+  &-Paragraph {
+    margin-bottom: 16px;
+  }
+}

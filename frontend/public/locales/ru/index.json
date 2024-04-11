@@ -1,0 +1,395 @@
+{
+  "errorBoundary": {
+    "common": {
+      "unexpectedError": "Произошла непредвиденная ошибка"
+    }
+  },
+  "footer": {
+    "about": "О компании",
+    "shipping": "Доставка и оплата",
+    "contacts": "Контакты"
+  },
+  "header": {
+    "settings": "Настройки",
+    "cart": "Корзина",
+    "adminPanel": "Административная панель",
+    "exit": "Выйти",
+    "enter": "Войти"
+  },
+  "common": {
+    "modal": {
+      "deleteQuestion": "Вы действительно хотите удалить?!"
+    },
+    "actions": {
+      "cancel": "Отменить",
+      "delete": "Удалить",
+      "search": "Поиск",
+      "create": "Создать",
+      "add": "Добавить",
+      "update": "Обновить",
+      "save": "Сохранить",
+      "apply": "Применить",
+      "edit": "Редактировать",
+      "addToCart": "В корзину",
+      "sort": "Сортировать",
+      "choose": "Выбрать",
+      "change": "Изменить",
+      "back": "Назад",
+      "continue": "Продолжить"
+    },
+    "table": {
+      "options": {
+        "fields": "Поля таблицы",
+        "modal": "Настройка таблицы",
+        "sorting": {
+          "asc": "По возрастанию",
+          "default": "По умолчанию",
+          "desc": "По убыванию",
+          "hide": "Скрыть столбец"
+        }
+      }
+    },
+    "info": {
+      "noData": "Нет данных",
+      "inCart": "В корзине",
+      "inStock": "В наличии",
+      "itemOutOfStock": "Товар отсутствует",
+      "total": "Итого"
+    },
+    "validation": {
+      "email": "Email указан неправильно",
+      "cyrillicEmail": "Только латинские символы",
+      "empty": "Поле не может быть пустым!",
+      "onlyLetters": "Допустимые символы: только буквы",
+      "passwordNotMatch": "Пароли не совпадают",
+      "wrongCharacter": "Допустимые символы: 0-9, \"-\", \" \", \"+\", \"(\", \")\"",
+      "file": {
+        "expectedFile": "Прикрепить можно только файл",
+        "maxSize": "Максимальный размер 200mb",
+        "maxAmount": "Максимальное кол-во файлов 50"
+      }
+    }
+  },
+  "pages": {
+    "admin": {
+      "title": "Административная панель",
+      "link": {
+        "catalogs": "Каталоги",
+        "products": "Продукты",
+        "attributes": "Атрибуты",
+        "orders": "Заказы"
+      },
+      "attributeAdd": {
+        "title": "Добавление атрибута",
+        "addValue": "Добавить значение в список"
+      },
+      "attributeEdit": {
+        "title": "Редактирование атрибута",
+        "tooltip": {
+          "buttonAdd": "Нажмите кнопку 'Обновить'"
+        },
+        "addModal": {
+          "title": "Добавление нового значения"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "value": "Значение",
+              "edit": "Редактирование",
+              "delete": "Удаление"
+            }
+          },
+          "header": "Всего значений"
+        }
+      },
+      "attributes": {
+        "title": "Атрибуты",
+        "table": {
+          "header": "Всего атрибутов",
+          "columns": {
+            "info": {
+              "name": "Название",
+              "alias": "Псевдоним"
+            }
+          }
+        }
+      },
+      "catalogAdd": {
+        "title": "Добавление каталога"
+      },
+      "product": {
+        "previews": {
+          "addImage": "Добавить новое изображение в галлерею",
+          "defaultImage": "Изображение по умолчанию",
+          "addDefaultImage": "Выбрать данное изображение по умолчанию",
+          "deleteImage": "Удалить изображение"
+        }
+      },
+      "catalogEdit": {
+        "title": "Редактирование каталога"
+      },
+      "catalogs": {
+        "title": "Каталоги",
+        "table": {
+          "header": "Всего каталогов",
+          "columns": {
+            "info": {
+              "image": "Изображение",
+              "name": "Название",
+              "alias": "Псевдоним",
+              "status": "Статус",
+              "dateAdded": "Дата добавления",
+              "dateOfChange": "Дата изменения"
+            }
+          }
+        }
+      },
+      "orderEdit": {
+        "title": "Редактирование заказа",
+        "recipient": {
+          "edit": "Редактирование получателя"
+        },
+        "shipping": {
+          "edit": "Редактирование адреса доставки"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "id": "ID продукта",
+              "name": "Наименование",
+              "quantity": "Количество",
+              "price": "Цена за единицу",
+              "amount": "Сумма"
+            }
+          },
+          "header": "Редактирование продуктов"
+        }
+      },
+      "orders": {
+        "title": "Заказы",
+        "table": {
+          "columns": {
+            "info": {
+              "id": "Номер заказа",
+              "status": "Статус",
+              "orderAmount": "Сумма заказа",
+              "recipientEmail": "Email получателя",
+              "recipientSurname": "Фамилия получателя",
+              "recipientName": "Имя получателя",
+              "recipientPhone": "Телефон получателя",
+              "dateAdded": "Дата добавления",
+              "dateOfChange": "Дата изменения"
+            }
+          },
+          "header": "Заказы"
+        }
+      },
+      "productAdd": {
+        "title": "Добавление продукта",
+        "selectCatalog": "Выбрать каталог"
+      },
+      "productEdit": {
+        "title": "Редактирование продукта",
+        "addDefaultImage": "Выбрать данное изображение по умолчанию",
+        "deleteImage": "Удалить изображение"
+      },
+      "products": {
+        "title": "Продукты",
+        "table": {
+          "columns": {
+            "info": {
+              "tooltip": {
+                "name": "Название продукта",
+                "alias": "URL продукта",
+                "status": "Отображать/скрыть продукт"
+              },
+              "name": "Название",
+              "alias": "Псевдоним",
+              "status": "Статус",
+              "dateAdded": "Дата добавления",
+              "dateOfChange": "Дата изменения"
+            }
+          },
+          "header": "Всего продуктов"
+        }
+      }
+    },
+    "login": {
+      "title": "Вход",
+      "enter": "Войти",
+      "noAccount": "нет аккаунта?",
+      "register": "Зарегистрироваться"
+    },
+    "signup": {
+      "title": "Регистрация",
+      "register": "Зарегистрироваться",
+      "haveAccount": "Есть аккаунт?",
+      "enter": "Войти"
+    },
+    "cart": {
+      "title": "Моя корзина",
+      "noItemInCart": "В корзине нет товаров",
+      "products": "{items, plural, one {# товар} few {# товара} other {# товаров}}",
+      "goToCheckout": "Перейти к оформлению",
+      "backToShopping": "Вернуться назад"
+    },
+    "catalogs": {
+      "from": "из",
+      "goods": "товаров",
+      "sorting": {
+        "asc": "по возрастанию цены",
+        "desc": "по убыванию цены"
+      }
+    },
+    "home": {
+      "title": "Домашняя страница"
+    },
+    "order": {
+      "payWithCard": "Оплатить картой при получении",
+      "payWithCash": "Оплатить наличными при получении",
+      "fullReturn": "Полный возврат средств, если вы не получили товар",
+      "title": "Оформление заказа",
+      "goods": "Товары",
+      "cartEmpty": "Ваша корзина пуста",
+      "checkout": "Оформить заказ",
+      "recipient": "Получатель",
+      "courierDelivery": "Доставка курьером"
+    },
+    "productDetail": {
+      "description": "Описание",
+      "goods": "Товар",
+      "paymentVariants": "Картой онлайн/курьеру, наличными"
+    },
+    "recipient": {
+      "step": "Шаг 2 из 3",
+      "title": "Получатель",
+      "specify": "Указывайте",
+      "realData": "реальные данные",
+      "passport": "У вас могут попросить паспорт,",
+      "order": "прежде чем вручить оплаченный заказ"
+    },
+    "settings": {
+      "language": {
+        "options": {
+          "ru": "Русский",
+          "en": "Английский"
+        }
+      },
+      "title": "Настройки",
+      "languageSwitcher": "Выбор языка",
+      "themeSwitcher": "Выбор темы",
+      "meta": {
+        "title": "Настройки"
+      }
+    },
+    "shipping": {
+      "step": "Шаг 1 из 3",
+      "title": "Где Вы хотите получить заказ?"
+    }
+  },
+  "form": {
+    "alias": {
+      "title": "Псевдоним"
+    },
+    "name": {
+      "title": "Название"
+    },
+    "filter": {
+      "title": "Фильтр"
+    },
+    "value": {
+      "title": "Значение"
+    },
+    "enabled": {
+      "title": "Включено"
+    },
+    "recipient": {
+      "name": "Имя получателя",
+      "surname": "Фамилия получателя",
+      "phone": "Телефон получателя",
+      "email": "Email получателя"
+    },
+    "shippingAddress": {
+      "address": "Адрес",
+      "flat": "Квартира",
+      "floor": "Этаж",
+      "comment": "Комментарий"
+    },
+    "description": {
+      "title": "Описание"
+    },
+    "count": {
+      "title": "Количество"
+    },
+    "price": {
+      "title": "Цена"
+    },
+    "email": {
+      "title": "Электронная почта"
+    },
+    "password": {
+      "title": "Пароль"
+    },
+    "firstName": {
+      "title": "Имя"
+    },
+    "lastName": {
+      "title": "Фамилия"
+    },
+    "middleName": {
+      "title": "Отчество"
+    },
+    "mobilePhone": {
+      "title": "Мобильный телефон"
+    },
+    "address": {
+      "title": "Адрес"
+    },
+    "passwordConfirm": {
+      "title": "Подтверждение пароля"
+    },
+    "apartment": {
+      "title": "Квартира"
+    },
+    "floor": {
+      "title": "Этаж"
+    },
+    "commentForCourier": {
+      "title": "Комментарий для курьера"
+    }
+  },
+  "routes": {
+    "titles": {
+      "root": "FamilyMart",
+      "about": "О нас",
+      "admin": "Админ панель",
+      "attributes": "Атрибуты",
+      "attributeEdit": "Редактирование атрибута",
+      "attributeAdd": "Добавление атрибута",
+      "catalogs": "Каталоги",
+      "catalogEdit": "Редактирование каталога",
+      "catalogAdd": "Добавление каталога",
+      "orders": "Заказы",
+      "orderEdit": "Редактирование заказа",
+      "products": "Продукты",
+      "productEdit": "Редактирование продукта",
+      "productAdd": "Добавление продукта",
+      "cart": "Корзина",
+      "mirrors": "Зеркала",
+      "product": "Продукт",
+      "contacts": "Контакты",
+      "delivery": "Доставка",
+      "login": "Авторизация",
+      "settings": "Настройки",
+      "shipping": "Доставка",
+      "recipient": "Получатель",
+      "order": "Заказ",
+      "signup": "Регистрация"
+    }
+  },
+  "fileUploader": {
+    "title": "Перетащите свои файлы или нажмите, чтобы загрузить",
+    "subTitle": "Поддерживаемые типы файлов: {types}",
+    "action": "Добавить"
+  }
+}

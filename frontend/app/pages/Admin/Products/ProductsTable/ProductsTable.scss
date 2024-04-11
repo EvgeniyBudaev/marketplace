@@ -1,0 +1,10 @@
+.ProductsTable {
+  &-Actions {
+    display: flex;
+    align-items: center;
+
+    &Edit {
+      margin-right: 16px;
+    }
+  }
+}

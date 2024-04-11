@@ -1,0 +1,47 @@
+@import "component";
+
+.Sorting {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+
+  &-Label {
+    display: inline-block;
+    margin-right: 30px;
+  }
+
+  &-Select {
+    max-width: 220px;
+    width: 100%;
+
+    svg {
+      fill: $color-black;
+      transition: all $transition;
+    }
+
+    &__active {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.theme-dark {
+  .Sorting {
+    &-Select {
+      svg {
+        fill: $color-white;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .Sorting {
+    &-Label {
+      margin-right: 8px;
+    }
+  }
+}

@@ -1,0 +1,99 @@
+/* #b0976a */
+/* #927E5CFF */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Tooltip {
+  display: flex;
+  align-items: center;
+}
+.Tooltip-Wrapper {
+  display: flex;
+  align-items: center;
+}
+.Tooltip-Element {
+  display: inline-block;
+  max-width: 300px;
+  width: 100%;
+  background-color: transparent;
+  border-radius: 4px;
+  padding: 4px;
+  z-index: 10;
+}
+.Tooltip-ElementInner {
+  background-color: rgb(0, 0, 0);
+  border-radius: 4px;
+  color: #fff;
+  padding: 16px 24px;
+  width: 100%;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+}
+.Tooltip-Arrow,
+.Tooltip-Arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+.Tooltip-Arrow {
+  visibility: hidden;
+}
+.Tooltip-Arrow::before {
+  content: "";
+  visibility: visible;
+  transform: rotate(45deg);
+}
+.Tooltip-Element[data-popper-placement^="top"] .Tooltip-Arrow {
+  bottom: 0;
+}
+.Tooltip-Element[data-popper-placement^="bottom"] .Tooltip-Arrow {
+  top: 0;
+}
+.Tooltip-Element[data-popper-placement^="left"] .Tooltip-Arrow {
+  right: 0;
+}
+.Tooltip-Element[data-popper-placement^="right"] .Tooltip-Arrow {
+  left: 0;
+}
+
+/*# sourceMappingURL=Tooltip.css.map */

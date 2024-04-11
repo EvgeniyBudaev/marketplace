@@ -1,0 +1,395 @@
+{
+  "errorBoundary": {
+    "common": {
+      "unexpectedError": "Unexpected error"
+    }
+  },
+  "footer": {
+    "about": "About company",
+    "shipping": "Shipping and payment",
+    "contacts": "Contacts"
+  },
+  "header": {
+    "settings": "Settings",
+    "cart": "Cart",
+    "adminPanel": "Admin panel",
+    "exit": "Exit",
+    "enter": "Enter"
+  },
+  "common": {
+    "modal": {
+      "deleteQuestion": "Are you sure you want to delete?"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "search": "Search",
+      "create": "Create",
+      "add": "Add",
+      "update": "Update",
+      "save": "Save",
+      "apply": "Apply",
+      "edit": "Edit",
+      "addToCart": "Add to cart",
+      "sort": "Sort",
+      "choose": "Choose",
+      "change": "Change",
+      "back": "Back",
+      "continue": "Continue"
+    },
+    "table": {
+      "options": {
+        "fields": "Table fields",
+        "modal": "Table properties",
+        "sorting": {
+          "asc": "Ascending",
+          "default": "Default",
+          "desc": "Descending",
+          "hide": "Hide column"
+        }
+      }
+    },
+    "info": {
+      "noData": "No data",
+      "inCart": "In the cart",
+      "inStock": "In stock",
+      "itemOutOfStock": "Item out of stock",
+      "total": "Total"
+    },
+    "validation": {
+      "email": "Invalid email",
+      "cyrillicEmail": "Only Latin characters",
+      "empty": "Field cannot be empty",
+      "onlyLetters": "Allowed characters: letters only",
+      "passwordNotMatch": "Password mismatch",
+      "wrongCharacter": "Allowed characters: 0-9, \"-\", \" \", \"+\", \"(\", \")\"",
+      "file": {
+        "expectedFile": "You can only attach a file",
+        "maxSize": "Maximum size 200mb",
+        "maxAmount": "Maximum number of files 50"
+      }
+    }
+  },
+  "pages": {
+    "admin": {
+      "title": "Admin panel",
+      "link": {
+        "catalogs": "Catalogs",
+        "products": "Products",
+        "attributes": "Attributes",
+        "orders": "Orders"
+      },
+      "attributeAdd": {
+        "title": "Adding an attribute",
+        "addValue": "Add value to list"
+      },
+      "attributeEdit": {
+        "title": "Editing an Attribute",
+        "tooltip": {
+          "buttonAdd": "Click the 'Update' button"
+        },
+        "addModal": {
+          "title": "Adding a new value"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "value": "Value",
+              "edit": "Edit",
+              "delete": "Delete"
+            }
+          },
+          "header": "Total values"
+        }
+      },
+      "attributes": {
+        "title": "Attributes",
+        "table": {
+          "header": "Total attributes",
+          "columns": {
+            "info": {
+              "name": "Name",
+              "alias": "Alias"
+            }
+          }
+        }
+      },
+      "catalogAdd": {
+        "title": "Adding a catalog"
+      },
+      "product": {
+        "previews": {
+          "addImage": "Add new image to gallery",
+          "defaultImage": "Default image",
+          "addDefaultImage": "Select this image as default",
+          "deleteImage": "Delete image"
+        }
+      },
+      "catalogEdit": {
+        "title": "Catalog editing"
+      },
+      "catalogs": {
+        "title": "Catalogs",
+        "table": {
+          "header": "Total directories",
+          "columns": {
+            "info": {
+              "image": "Image",
+              "name": "Name",
+              "alias": "Alias",
+              "status": "Status",
+              "dateAdded": "Date added",
+              "dateOfChange": "Date of change"
+            }
+          }
+        }
+      },
+      "orderEdit": {
+        "title": "Edit order",
+        "recipient": {
+          "edit": "Edit recipient"
+        },
+        "shipping": {
+          "edit": "Edit shipping address"
+        },
+        "table": {
+          "columns": {
+            "info": {
+              "id": "ID",
+              "name": "Name",
+              "quantity": "Quantity",
+              "price": "Price",
+              "amount": "Amount"
+            }
+          },
+          "header": "Edit products"
+        }
+      },
+      "orders": {
+        "title": "Orders",
+        "table": {
+          "columns": {
+            "info": {
+              "id": "Order number",
+              "status": "Status",
+              "orderAmount": "Order amount",
+              "recipientEmail": "Recipient email",
+              "recipientSurname": "Recipient surname",
+              "recipientName": "Recipient name",
+              "recipientPhone": "Recipient phone",
+              "dateAdded": "Date added",
+              "dateOfChange": "Date of change"
+            }
+          },
+          "header": "Orders"
+        }
+      },
+      "productAdd": {
+        "title": "Product addition",
+        "selectCatalog": "Select catalog"
+      },
+      "productEdit": {
+        "title": "Product editing",
+        "addDefaultImage": "Select this image as default",
+        "deleteImage": "Delete image"
+      },
+      "products": {
+        "title": "Products",
+        "table": {
+          "columns": {
+            "info": {
+              "tooltip": {
+                "name": "The product's name",
+                "alias": "The product's url",
+                "status": "Show/hide product"
+              },
+              "name": "Name",
+              "alias": "Alias",
+              "status": "Status",
+              "dateAdded": "Date added",
+              "dateOfChange": "Date of change"
+            }
+          },
+          "header": "Total products"
+        }
+      }
+    },
+    "login": {
+      "title": "Entry",
+      "enter": "Login",
+      "noAccount": "no account?",
+      "register": "Register"
+    },
+    "signup": {
+      "title": "Registration",
+      "register": "Signup",
+      "haveAccount": "Have an account?",
+      "enter": "Enter"
+    },
+    "cart": {
+      "title": "My cart",
+      "noItemInCart": "There are no items in the cart",
+      "products": "{items, plural, one {# product} few {# products} other {# products}}",
+      "goToCheckout": "Go to checkout",
+      "backToShopping": "Go to back"
+    },
+    "catalogs": {
+      "from": "from",
+      "goods": "goods",
+      "sorting": {
+        "asc": "ascending price",
+        "desc": "descending price"
+      }
+    },
+    "home": {
+      "title": "Home page"
+    },
+    "order": {
+      "payWithCard": "Pay by card upon receipt",
+      "payWithCash": "Pay in cash upon receipt",
+      "fullReturn": "Full refund if you don't receive the item",
+      "title": "Checkout",
+      "goods": "Goods",
+      "cartEmpty": "Your basket is empty",
+      "checkout": "Checkout",
+      "recipient": "Recipient",
+      "courierDelivery": "Courier delivery"
+    },
+    "productDetail": {
+      "description": "Description",
+      "goods": "Goods",
+      "paymentVariants": "Card online / courier, cash"
+    },
+    "recipient": {
+      "step": "Step 2 of 3",
+      "title": "Recipient",
+      "specify": "Specify",
+      "realData": "real data",
+      "passport": "You may be asked for a passport",
+      "order": "before handing over the paid order"
+    },
+    "settings": {
+      "language": {
+        "options": {
+          "ru": "Russian",
+          "en": "English"
+        }
+      },
+      "title": "Settings",
+      "languageSwitcher": "Language switcher",
+      "themeSwitcher": "Theme switcher",
+      "meta": {
+        "title": "Settings"
+      }
+    },
+    "shipping": {
+      "step": "Step 1 of 3",
+      "title": "Where would you like to receive your order?"
+    }
+  },
+  "form": {
+    "alias": {
+      "title": "Alias"
+    },
+    "name": {
+      "title": "Name"
+    },
+    "filter": {
+      "title": "Filter"
+    },
+    "value": {
+      "title": "Value"
+    },
+    "enabled": {
+      "title": "Enabled"
+    },
+    "recipient": {
+      "name": "Recipient name",
+      "surname": "Recipient surname",
+      "phone": "Recipient phone",
+      "email": "Recipient email"
+    },
+    "shippingAddress": {
+      "address": "Address",
+      "flat": "Flat",
+      "floor": "Floor",
+      "comment": "Comment"
+    },
+    "description": {
+      "title": "Description"
+    },
+    "count": {
+      "title": "Count"
+    },
+    "price": {
+      "title": "Price"
+    },
+    "email": {
+      "title": "Email"
+    },
+    "password": {
+      "title": "Password"
+    },
+    "firstName": {
+      "title": "First name"
+    },
+    "lastName": {
+      "title": "Last name"
+    },
+    "middleName": {
+      "title": "Middle name"
+    },
+    "mobilePhone": {
+      "title": "Mobile phone"
+    },
+    "address": {
+      "title": "Address"
+    },
+    "passwordConfirm": {
+      "title": "Password confirm"
+    },
+    "apartment": {
+      "title": "Apartment"
+    },
+    "floor": {
+      "title": "Floor"
+    },
+    "commentForCourier": {
+      "title": "Comment for the courier"
+    }
+  },
+  "routes": {
+    "titles": {
+      "root": "FamilyMart",
+      "about": "About",
+      "admin": "Admin panel",
+      "attributes": "Attributes",
+      "attributeEdit": "Edit attribute",
+      "attributeAdd": "Add attribute",
+      "catalogs": "Catalogs",
+      "catalogEdit": "Edit catalog",
+      "catalogAdd": "Add catalog",
+      "orders": "Orders",
+      "orderEdit": "Edit order",
+      "products": "Products",
+      "productEdit": "Edit product",
+      "productAdd": "Add product",
+      "cart": "Cart",
+      "mirrors": "Mirrors",
+      "product": "Product",
+      "contacts": "Contacts",
+      "delivery": "Delivery",
+      "login": "SignIn",
+      "settings": "Settings",
+      "shipping": "Shipping",
+      "recipient": "Recipient",
+      "order": "Order",
+      "signup": "SignUp!"
+    }
+  },
+  "fileUploader": {
+    "title": "Drag and drop your files or click to upload",
+    "subTitle": "Supported file types: {types}",
+    "action": "Add!"
+  }
+}

@@ -1,0 +1,39 @@
+@import "component";
+
+.TableRow {
+  display: flex;
+  width: 100%;
+  background-color: transparent;
+  transition: background-color $transition;
+
+  .MoreActions-Icon {
+    transition: background-color $transition;
+  }
+
+  &:hover {
+    background-color: $color-primary-hover;
+    color: $color-white;
+    fill: $color-white;
+
+    .MoreActions {
+      background: linear-gradient(
+        270deg,
+        rgb(146, 126, 92) 69.02%,
+        rgba(146, 126, 92, 0) 100%
+      );
+      transition: all $transition;
+
+      &-Icon {
+        background: linear-gradient(
+          270deg,
+          rgb(146, 126, 92) 69.02%,
+          rgba(146, 126, 92, 0) 100%
+        );
+
+        path {
+          stroke: $color-white;
+        }
+      }
+    }
+  }
+}

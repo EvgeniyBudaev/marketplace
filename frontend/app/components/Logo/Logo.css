@@ -1,0 +1,78 @@
+/* #b0976a */
+/* #927E5CFF */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Logo {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: max-content;
+}
+.Logo svg {
+  max-width: 100px;
+  width: 50px;
+  height: 50px;
+  opacity: 0.9;
+  transition: all 0s;
+}
+.Logo svg path {
+  transition: all 0s;
+}
+.Logo svg:hover {
+  fill: rgb(176, 151, 106);
+  opacity: 1;
+}
+.Logo svg:hover path {
+  opacity: 1;
+}
+
+@media (max-width: 500px) {
+  .Logo {
+    height: 35px;
+    width: 35px;
+  }
+}
+@media (max-width: 350px) {
+  .Logo {
+    height: 24px;
+    width: 24px;
+  }
+}
+
+/*# sourceMappingURL=Logo.css.map */

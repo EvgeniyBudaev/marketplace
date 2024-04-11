@@ -1,0 +1,43 @@
+@import "component";
+
+.Panel {
+  margin-bottom: 30px;
+
+  &-Inner {
+    position: relative;
+  }
+
+  &-Inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  &-Switcher {
+    &-DisplayButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 38px;
+      width: 40px;
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+
+      svg {
+        height: 20px;
+        width: 20px;
+        fill: $color-dark-gray;
+      }
+
+      &__checked {
+        svg {
+          fill: $color-black;
+        }
+      }
+    }
+  }
+}

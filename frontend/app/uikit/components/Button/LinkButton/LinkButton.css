@@ -1,0 +1,101 @@
+/* #b0976a */
+/* #927E5CFF */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.LinkButton {
+  position: relative;
+  padding: 10px 30px;
+  height: max-content;
+  width: max-content;
+  color: rgb(255, 255, 255);
+  background-color: rgb(176, 151, 106);
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 2;
+  transition: all 0.3s;
+}
+.LinkButton span {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+  height: max-content;
+  transition: all 0.3s;
+}
+.LinkButton:hover {
+  color: rgb(255, 255, 255);
+  z-index: 2;
+}
+.LinkButton:hover::before {
+  transform: translateY(-50%) scaleY(1);
+}
+.LinkButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 200%;
+  background-image: url("/assets/images/btn-hover.svg");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 100% 100%;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    -webkit-transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(0) scaleY(0);
+}
+.LinkButton.LinkButton__disabled {
+  color: rgb(191, 191, 191);
+  background-color: #f5f5f5;
+  border-color: rgb(191, 191, 191);
+}
+.LinkButton.LinkButton__disabled:active {
+  transform: none;
+}
+.LinkButton.LinkButton__disabled:hover {
+  color: rgb(191, 191, 191);
+  background-color: #f5f5f5;
+  border-color: rgb(191, 191, 191);
+  cursor: not-allowed;
+}
+
+/*# sourceMappingURL=LinkButton.css.map */
