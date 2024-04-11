@@ -5,7 +5,11 @@ import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
 import modalStyles from "react-responsive-modal/styles.css";
 import { json } from "@remix-run/node";
 // import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -15,7 +19,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { csrf } from "~/utils/csrf.server";
+import { csrf } from "#app/utils/csrf.server";
 import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 import clsx from "clsx";
 import { cryptoRandomStringAsync } from "crypto-random-string";
@@ -27,29 +31,33 @@ import type { DefaultEventsMap } from "socket.io/dist/typed-events";
 import i18next from "i18next";
 import slickStyles from "slick-carousel/slick/slick.css";
 import slickThemeStyles from "slick-carousel/slick/slick-theme.css";
-import { Layout, links as componentsLinks } from "~/components";
-import { DEFAULT_LANGUAGE } from "~/constants";
-import { Environment } from "~/environment.server";
-import type { EnvironmentType } from "~/environment.server";
-import { useInitDayjs, useInitLanguage } from "~/hooks";
-import { links as sharedLinks } from "~/shared";
-import { setApiLanguage } from "~/shared/api";
-import { getUserSession } from "~/shared/api/auth";
-import type { TUser } from "~/shared/api/users/types";
-import type { TCart } from "~/shared/api/cart";
-import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
-import type { TSettings } from "~/shared/api/settings";
-import { createSettingsSession, getSettings } from "~/shared/api/settings";
-import { ChangeLanguageProvider, SocketProvider } from "~/shared/context";
-import { commitCsrfSession, getCsrfSession } from "~/shared/session";
+import { Layout, links as componentsLinks } from "#app/components";
+import { DEFAULT_LANGUAGE } from "#app/constants";
+import { Environment } from "#app/environment.server";
+import type { EnvironmentType } from "#app/environment.server";
+import { useInitDayjs, useInitLanguage } from "#app/hooks";
+import { links as sharedLinks } from "#app/shared";
+import { setApiLanguage } from "#app/shared/api";
+import { getUserSession } from "#app/shared/api/auth";
+import type { TUser } from "#app/shared/api/users/types";
+import type { TCart } from "#app/shared/api/cart";
+import {
+  createCartSession,
+  getCart,
+  getCartSession,
+} from "#app/shared/api/cart";
+import type { TSettings } from "#app/shared/api/settings";
+import { createSettingsSession, getSettings } from "#app/shared/api/settings";
+import { ChangeLanguageProvider, SocketProvider } from "#app/shared/context";
+import { commitCsrfSession, getCsrfSession } from "#app/shared/session";
 import {
   getStoreFixedT,
   parseAcceptLanguage,
   StoreContextProvider,
   useStore,
-} from "~/shared/store";
-import { ETheme, links as uikitLinks, ToastContainer } from "~/uikit";
-import { createBoundaries, internalError } from "~/utils";
+} from "#app/shared/store";
+import { ETheme, links as uikitLinks, ToastContainer } from "#app/uikit";
+import { createBoundaries, internalError } from "#app/utils";
 import styles from "../styles/app.css";
 
 interface RootLoaderData {
@@ -185,7 +193,13 @@ type TDocumentProps = {
   settings?: TSettings;
 };
 
-const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, settings }) => {
+const Document: FC<TDocumentProps> = ({
+  cart,
+  children,
+  cspScriptNonce,
+  env,
+  settings,
+}) => {
   const { i18n } = useTranslation();
   // const { storageLanguage, setStorageLanguage } = useLanguageStore();
   // const language = !isNil(settings) ? settings?.language?.toLowerCase() : DEFAULT_LANGUAGE;
@@ -245,10 +259,12 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
 };
 
 export default function App() {
-  const { cart, csrfToken, cspScriptNonce, ENV, settings, user } = useLoaderData<typeof loader>();
+  const { cart, csrfToken, cspScriptNonce, ENV, settings, user } =
+    useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
   const changeLanguageState = useState(false);
-  const [socket, setSocket] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
+  const [socket, setSocket] =
+    useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
   const store = useStore();
   const setUser = store.setUser;
   const setCart = store.setCart;

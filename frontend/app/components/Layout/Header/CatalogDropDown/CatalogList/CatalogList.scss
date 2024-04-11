@@ -1,8 +1,0 @@
-$categoryWidth: 158px;
-
-.CatalogList {
-  display: grid;
-  gap: 30px;
-  grid-template-columns: repeat(auto-fill, minmax($categoryWidth, 1fr));
-  width: 100%;
-}
