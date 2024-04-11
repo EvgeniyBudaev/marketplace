@@ -10,7 +10,7 @@
     "build": "remix vite:build --sourcemapServer --sourcemapClient",
     "dev": "npm-run-all --parallel dev:*",
     "dev:sass": "sass --update --watch app/:app/ styles/:styles/ -I styles",
-    "dev:remix": "remix dev --manual -c 'ts-node-esm app/server.ts'",
+    "dev:remix": "remix dev --manual -c 'ts-node-esm server.ts'",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "cross-env NODE_ENV=production node build/server/index.js",
     "typecheck": "tsc"
@@ -95,7 +95,7 @@
     "@types/react-dom": "^18.2.7",
     "@types/react-input-mask": "^3.0.2",
     "@types/react-slick": "^0.23.10",
-    "@types/react-transition-group": "^4.4.5",F
+    "@types/react-transition-group": "^4.4.5",
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
