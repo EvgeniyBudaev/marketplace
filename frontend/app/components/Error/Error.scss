@@ -1,0 +1,46 @@
+.Error {
+  background-color: rgba(249, 249, 252, 1);
+  flex: 1;
+
+  &-Inner {
+    padding: 16px;
+    background-color: rgba(254, 242, 242, 1);
+    border: 1px solid red;
+    border-radius: 6px;
+  }
+
+  &-Content {
+    display: flex;
+    color: rgba(153, 27, 27, 1);
+  }
+
+  &-IconBox {
+    flex-shrink: 0;
+  }
+
+  &-Icon {
+    fill: rgba(153, 27, 27, 1);
+  }
+
+  &-Message {
+    margin-left: 12px;
+  }
+
+  &-Title {
+    margin-bottom: 8px;
+  }
+
+  &-TitleProd {
+  }
+
+  &-Caught {
+    margin-bottom: 8px;
+
+    &Formatted {
+      white-space: pre-wrap;
+    }
+  }
+
+  &-Stack {
+  }
+}

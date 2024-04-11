@@ -1,0 +1,86 @@
+/* #b0976a */
+/* #927E5CFF */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.Options-FieldHeader {
+  margin-bottom: 8px;
+}
+.Options-Columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+.Options-ColumnsButton {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  border-radius: 100px;
+  transition: all 0s;
+  border: 1px solid transparent;
+  color: rgb(255, 255, 255);
+}
+.Options-ColumnsButton:hover {
+  background-color: rgb(146, 126, 92);
+}
+.Options-ColumnsButton__canHide {
+  cursor: pointer;
+}
+.Options-ColumnsButton__notCanHide {
+  color: rgb(87, 87, 87);
+  background-color: rgb(179, 179, 179);
+  cursor: default;
+}
+.Options-ColumnsButton__notLocalHiddenColls {
+  background-color: rgb(176, 151, 106);
+  border-color: rgb(146, 126, 92);
+}
+.Options-ColumnsButton__localHiddenColls {
+  border-color: rgb(87, 87, 87);
+  background-color: rgb(191, 191, 191);
+}
+.Options-ModalCancel {
+  margin-right: 24px;
+}
+
+.theme-dark .Options-ColumnsButton {
+  color: rgb(255, 255, 255);
+}
+
+/*# sourceMappingURL=Options.css.map */

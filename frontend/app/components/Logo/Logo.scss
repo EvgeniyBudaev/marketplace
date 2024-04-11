@@ -1,0 +1,44 @@
+@import "component";
+
+.Logo {
+  $this: &;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: max-content;
+
+  svg {
+    max-width: 100px;
+    width: 50px;
+    height: 50px;
+    opacity: 0.9;
+    transition: all $transition;
+
+    path {
+      transition: all $transition;
+    }
+
+    &:hover {
+      fill: $color-primary;
+      opacity: 1;
+
+      path {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .Logo {
+    height: 35px;
+    width: 35px;
+  }
+}
+
+@media (max-width: 350px) {
+  .Logo {
+    height: 24px;
+    width: 24px;
+  }
+}

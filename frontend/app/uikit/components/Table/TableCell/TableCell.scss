@@ -1,0 +1,8 @@
+@import "component";
+
+.TableCell {
+  flex-grow: 1;
+  padding: 20px;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  width: 100%;
+}

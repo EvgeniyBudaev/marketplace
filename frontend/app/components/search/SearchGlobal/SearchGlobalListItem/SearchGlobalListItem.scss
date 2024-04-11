@@ -1,0 +1,75 @@
+@import "component";
+
+.SearchGlobalListItem {
+  $this: &;
+  margin: 3px;
+  border-radius: 4px;
+  min-height: 44px;
+
+  &-Link {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+
+    &__active {
+      background-color: $color-primary;
+      color: $color-white;
+
+      #{$this}-Title {
+        color: $color-white;
+      }
+
+      #{$this}-Price {
+        color: $color-white;
+      }
+    }
+  }
+
+  &-Images {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 28px;
+    width: 28px;
+    overflow: hidden;
+  }
+
+  &-Image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &-Title {
+    margin: 0 10px;
+    color: $color-text;
+    //overflow: hidden;
+    //white-space: nowrap;
+    //text-overflow: ellipsis;
+  }
+
+  &-Price {
+    color: $color-text;
+    white-space: nowrap;
+  }
+
+  &-ByCatalog {
+    border-bottom: 1px solid $color-light-gray;
+  }
+}
+
+.theme-dark {
+  & .SearchGlobalListItem {
+    $this: &;
+
+    &-Link {
+      &__active {
+        span.text-dark {
+          color: $color-white;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+@import "component";
+
+.Footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 15px;
+  height: 24px;
+  width: 100%;
+  background-color: $color-primary;
+  overflow-y: hidden;
+  z-index: 1;
+
+  &-Inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  &-Info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-Text {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all $transition;
+
+    &__noHover {
+      color: inherit;
+    }
+
+    &__isActive {
+      color: $color-white;
+    }
+
+    &:hover {
+      color: $color-white;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .Footer-Text {
+    margin-bottom: 8px;
+    margin-left: 0;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

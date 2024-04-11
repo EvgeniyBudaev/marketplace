@@ -1,0 +1,27 @@
+.OrderEdit {
+  &-Title {
+    margin-bottom: 30px;
+  }
+
+  &-FormFieldGroup {
+    margin-bottom: 30px;
+  }
+
+  &-Form {
+    &-Group {
+      margin-bottom: 16px;
+    }
+
+    &-Field {
+      margin-bottom: 30px;
+    }
+
+    &-Recipient-Title {
+      margin-bottom: 16px;
+    }
+
+    &-ShippingAddress-Title {
+      margin-bottom: 16px;
+    }
+  }
+}

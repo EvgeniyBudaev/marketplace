@@ -1,0 +1,13 @@
+{
+  "errorBoundary": {
+    "common": {
+      "unexpectedStatus": "Unexpected response from server with status",
+      "internalError": "Internal server error",
+      "notImplemented": "Command not supported",
+      "gatewayTimeout": "Gateway Timeout",
+      "badRequest": "Bad Request",
+      "accessDenied": "Access denied",
+      "notFound": "Page not found"
+    }
+  }
+}

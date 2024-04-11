@@ -1,0 +1,9 @@
+@import "component";
+
+.Home {
+  position: relative;
+
+  &-Block {
+    margin: 24px;
+  }
+}

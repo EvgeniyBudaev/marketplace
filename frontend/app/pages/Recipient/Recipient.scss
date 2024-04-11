@@ -1,0 +1,130 @@
+@import "component";
+
+.Recipient {
+  &-Step {
+    margin-left: 20px;
+    color: $color-suit-gray;
+  }
+
+  &-Title {
+    margin-bottom: 16px;
+  }
+
+  &-Inner {
+    display: flex;
+    width: 100%;
+  }
+
+  &-Form {
+    max-width: 590px;
+    width: 100%;
+
+    &Content {
+      margin-bottom: 232px;
+    }
+
+    &Footer {
+      padding-top: 24px;
+      border-top: 1px solid $color-light-gray;
+    }
+  }
+
+  &-Controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    max-width: 590px;
+    width: 100%;
+
+    &Link {
+      display: flex;
+      align-items: center;
+      color: $color-primary;
+      transition: all $transition;
+
+      svg {
+        width: 30px;
+        height: 30px;
+        fill: $color-primary;
+        transition: all $transition;
+      }
+    }
+
+    &Link:hover {
+      color: $color-primary-hover;
+
+      svg {
+        fill: $color-primary-hover;
+      }
+    }
+
+    &Text {
+      margin-left: 4px;
+    }
+  }
+
+  &-Info {
+    display: flex;
+    margin-left: 46px;
+
+    &Icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    &Text {
+      margin-left: 12px;
+    }
+
+    &Title {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.theme-dark {
+  .Recipient {
+  }
+}
+
+@media (max-width: 1000px) {
+  .Recipient {
+    &-Inner {
+      flex-direction: column-reverse;
+    }
+
+    &-FormContent {
+      margin-bottom: 0;
+    }
+
+    &-Info {
+      margin-left: 0;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .Recipient {
+    & input {
+    }
+
+    &-Step {
+      margin-left: 0;
+    }
+
+    &-Title {
+    }
+
+    &-InfoTitle {
+    }
+
+    &-ControlsLink {
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}

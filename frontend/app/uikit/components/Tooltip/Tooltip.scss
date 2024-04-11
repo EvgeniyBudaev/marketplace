@@ -1,0 +1,78 @@
+@import "component";
+
+.Tooltip {
+  $this: &;
+  display: flex;
+  align-items: center;
+
+  &-Wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &-Element {
+    display: inline-block;
+    max-width: 300px;
+    width: 100%;
+    background-color: transparent;
+    border-radius: 4px;
+    padding: 4px;
+    z-index: 10;
+
+    &Inner {
+      background-color: $color-black;
+      border-radius: 4px;
+      color: #fff;
+      padding: 16px 24px;
+      width: 100%;
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+
+  &-Arrow,
+  &-Arrow::before {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+  }
+
+  &-Arrow {
+    visibility: hidden;
+  }
+
+  &-Arrow::before {
+    content: "";
+    visibility: visible;
+    transform: rotate(45deg);
+  }
+
+  &-Element[data-popper-placement^="top"] {
+    #{$this}-Arrow {
+      bottom: 0;
+    }
+  }
+
+  &-Element[data-popper-placement^="bottom"] {
+    #{$this}-Arrow {
+      top: 0;
+    }
+  }
+
+  &-Element[data-popper-placement^="left"] {
+    #{$this}-Arrow {
+      right: 0;
+    }
+  }
+
+  &-Element[data-popper-placement^="right"] {
+    #{$this}-Arrow {
+      left: 0;
+    }
+  }
+}

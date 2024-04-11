@@ -1,0 +1,133 @@
+/* #b0976a */
+/* #927E5CFF */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.ProductDetail {
+  width: 100%;
+}
+.ProductDetail-Title {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.ProductDetail-Navigation {
+  margin-bottom: 20px;
+}
+.ProductDetail-NavigationText {
+  color: rgb(176, 151, 106);
+  transition: all 0s;
+}
+.ProductDetail-NavigationText:hover {
+  color: rgb(146, 126, 92);
+}
+.ProductDetail-Info {
+  display: flex;
+  justify-content: space-between;
+}
+.ProductDetail-ColMedia {
+  max-width: 400px;
+  width: 100%;
+}
+.ProductDetail-ColSpecification {
+  padding: 0 25px;
+}
+.ProductDetail-SpecificationTitle {
+  margin-bottom: 16px;
+}
+.ProductDetail-SpecificationList {
+  margin-bottom: 8px;
+}
+.ProductDetail-Specification li {
+  position: relative;
+  padding-left: 12px;
+}
+.ProductDetail-Specification li::before {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  display: block;
+  width: 4px;
+  height: 4px;
+  content: " ";
+  border-radius: 4px;
+  background: #999;
+}
+.ProductDetail-Specification li + li {
+  margin-top: 8px;
+}
+.ProductDetail-ColPrice {
+  padding: 20px;
+  max-width: 330px;
+  width: 100%;
+  height: max-content;
+  border-radius: 4px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+.ProductDetail-ColPriceTitle {
+  display: inline-block;
+}
+.ProductDetail-Price {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.ProductDetail-Status {
+  display: inline-block;
+  color: rgb(176, 151, 106);
+}
+.ProductDetail-Pay {
+  margin: 8px 0 16px;
+}
+
+.theme-dark .ProductDetail-ColPrice {
+  background: linear-gradient(
+      40deg,
+      rgba(138, 143, 160, 0.16),
+      rgba(31, 32, 41, 0.24) 16%
+    ),
+    linear-gradient(
+      210deg,
+      rgba(138, 143, 160, 0.5),
+      rgba(31, 32, 41, 0.24) 20%
+    );
+  border: 1px solid rgb(35, 40, 56);
+}
+
+/*# sourceMappingURL=ProductDetail.css.map */

@@ -1,0 +1,55 @@
+.Layout {
+  height: 100%;
+
+  &-Wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  &-Content {
+    flex: 1 0 auto;
+  }
+
+  &-Main {
+    padding-top: 0;
+    height: 100%;
+
+    &__isScroll {
+      padding-top: 120px;
+    }
+  }
+
+  &-Container {
+    /*ширина контейнера чистая 1200px*/
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 1470px;
+    width: 100%;
+
+    &__is404 {
+      padding: 0;
+      max-width: 100%;
+    }
+  }
+
+  &-ContainerHomePage {
+    /*ширина контейнера чистая 1440px*/
+    max-width: 1470px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .Layout {
+    &-Main {
+      padding-top: 0;
+
+      &__isScroll {
+        padding-top: 140px;
+      }
+    }
+  }
+}

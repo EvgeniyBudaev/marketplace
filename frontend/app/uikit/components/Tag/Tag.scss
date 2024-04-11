@@ -1,0 +1,15 @@
+@import "component";
+
+.Tag {
+  $this: &;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid $color-light-gray;
+
+  &-Title {
+    white-space: nowrap;
+  }
+}

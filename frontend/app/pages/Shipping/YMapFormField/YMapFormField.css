@@ -1,0 +1,177 @@
+/* #b0976a */
+/* #927E5CFF */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #333333 */
+/* #b0976a */
+/* #bab9b9 */
+/* #bab9b9 */
+/* #efeae1 */
+/* #dfd5c3 */
+/* #414B5A */
+/* #b3b3b3 */
+/* #fff */
+/* #000 */
+/* #18181f */
+/* #1f2029 */
+/* #232838 */
+/* #8a8fa0 */
+/* #b0976a */
+/* #997e4d */
+/* #dfd3c3 */
+/* #e31235 */
+/* #fbe4e3 */
+/* #FADBDA */
+/* #e5e5e5 */
+/* #b9b5b5 */
+/* #8e8e93 */
+/* #e4e4e4 */
+/* #ebebeb */
+/* #e8e8e8 */
+/* #dedede */
+/* #bfbfbf */
+/* #999999 */
+/* #f0ad4e */
+/* #ffd25d */
+/* #c1c712 */
+/* #2fb457 */
+/* #8cb400 */
+/* #008dd3 */
+/* #0044BB */
+.YMapFormField {
+  position: relative;
+  margin-bottom: 30px;
+  height: 56px;
+  width: 100%;
+  border-radius: 4px;
+  word-wrap: break-word;
+  /* -------------------- Fix autocomplete form -------------------- */
+}
+.YMapFormField-Label {
+  position: absolute;
+  top: 20px;
+  left: 12px;
+  z-index: 1;
+  color: rgb(138, 143, 160);
+  pointer-events: none;
+  transition: all 0s;
+}
+.YMapFormField-Input__error {
+  background-color: rgb(251, 228, 227);
+}
+.YMapFormField_Visibility {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 12px;
+}
+.YMapFormField_Visibility svg {
+  fill: rgba(0, 0, 0, 0.54);
+}
+.YMapFormField__active {
+  width: 100%;
+}
+.YMapFormField__active .YMapFormField-Label {
+  top: 0;
+  padding: 0;
+  color: rgb(138, 143, 160);
+}
+.YMapFormField__active .YMapFormField-Input__active {
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.54);
+  border-radius: 4px;
+  color: rgb(51, 51, 51);
+}
+.YMapFormField__active .YMapFormField-Input__active input:hover,
+.YMapFormField__active .YMapFormField-Input__active input {
+  background-color: rgb(255, 255, 255);
+}
+.YMapFormField__active input:-webkit-autofill.Input__active,
+.YMapFormField__active input:-webkit-autofill.Input__active:hover,
+.YMapFormField__active input:-webkit-autofill.Input__active:focus,
+.YMapFormField__active input:-webkit-autofill.Input__active:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+.YMapFormField__active textarea,
+.YMapFormField__active textarea:hover {
+  background-color: rgb(255, 255, 255);
+}
+.YMapFormField__active .YMapFormField-Input__active.YMapFormField-Input__error {
+  border: 1px solid rgb(227, 18, 53);
+  background-color: rgb(255, 255, 255);
+}
+.YMapFormField .YMapFormField-Inner:-webkit-autofill {
+  -webkit-background-clip: text;
+}
+.YMapFormField .YMapFormField-Inner:-webkit-autofill {
+  border: 1px solid rgba(0, 0, 0, 0.54);
+}
+.YMapFormField .YMapFormField-Inner:-webkit-autofill ~ .YMapFormField-Label {
+  top: 0;
+  padding: 0;
+  color: rgb(51, 51, 51);
+  background-color: rgb(255, 255, 255);
+}
+.YMapFormField-ErrorMessage {
+  display: block;
+  position: relative;
+  padding-top: 5px;
+  color: rgb(227, 18, 53);
+  z-index: 10;
+  transition: all 0.3s;
+}
+
+.theme-dark .YMapFormField {
+  /* -------------------- Fix autocomplete form -------------------- */
+}
+.theme-dark .YMapFormField-Label .text-dark {
+  color: rgb(138, 143, 160);
+}
+.theme-dark .YMapFormField__active .YMapFormField-Input__active {
+  border: 1px solid rgb(176, 151, 106);
+}
+.theme-dark .YMapFormField__active .YMapFormField-Input__active input:hover,
+.theme-dark .YMapFormField__active .YMapFormField-Input__active input {
+  background-color: rgb(31, 32, 41);
+  color: rgb(255, 255, 255);
+}
+.theme-dark .YMapFormField__active input:-webkit-autofill.Input__active,
+.theme-dark .YMapFormField__active input:-webkit-autofill.Input__active:hover,
+.theme-dark .YMapFormField__active input:-webkit-autofill.Input__active:focus,
+.theme-dark .YMapFormField__active input:-webkit-autofill.Input__active:active {
+  -webkit-box-shadow: 0 0 0 30px rgb(31, 32, 41) inset !important;
+}
+.theme-dark .YMapFormField__active textarea,
+.theme-dark .YMapFormField__active textarea:hover {
+  background-color: rgb(31, 32, 41);
+}
+.theme-dark .YMapFormField .YMapFormField-ErrorField .text-dark {
+  color: rgb(227, 18, 53);
+}
+.theme-dark .YMapFormField .YMapFormField-Input:-webkit-autofill {
+  color: red;
+}
+.theme-dark
+  .YMapFormField
+  .YMapFormField-Input:-webkit-autofill
+  ~ .YMapFormField-Label {
+  color: rgb(255, 255, 255);
+}
+.theme-dark .YMapFormField .YMapFormField-Input input:-webkit-autofill {
+  -webkit-text-fill-color: rgb(255, 255, 255);
+}
+.theme-dark .GeoSearch-DropDown {
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+  border: 1px solid transparent;
+}
+.theme-dark .GeoSearch-DropDown__active {
+  background-color: rgb(31, 32, 41);
+  border-color: rgb(176, 151, 106);
+}
+.theme-dark .GeoSearch-DropDown p:hover {
+  background-color: rgb(176, 151, 106);
+}
+
+/*# sourceMappingURL=YMapFormField.css.map */
