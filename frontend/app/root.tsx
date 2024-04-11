@@ -4,8 +4,12 @@ import { useTranslation } from "react-i18next";
 import reactToastifyStyles from "react-toastify/dist/ReactToastify.css";
 import modalStyles from "react-responsive-modal/styles.css";
 import { json } from "@remix-run/node";
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+// import { cssBundleHref } from "@remix-run/css-bundle";
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -15,55 +19,59 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { AuthenticityTokenProvider, createAuthenticityToken } from "remix-utils";
+import { csrf } from "#app/utils/csrf.server";
+import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 import clsx from "clsx";
 import { cryptoRandomStringAsync } from "crypto-random-string";
-import isEmpty from "lodash/isEmpty";
-import isNil from "lodash/isNil";
+import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
 import { connect } from "socket.io-client";
 import type { Socket } from "socket.io-client";
 import type { DefaultEventsMap } from "socket.io/dist/typed-events";
 import i18next from "i18next";
 import slickStyles from "slick-carousel/slick/slick.css";
 import slickThemeStyles from "slick-carousel/slick/slick-theme.css";
-
-import { Layout, links as componentsLinks } from "~/components";
-import { DEFAULT_LANGUAGE } from "~/constants";
-import { Environment } from "~/environment.server";
-import type { EnvironmentType } from "~/environment.server";
-import { useInitDayjs, useInitLanguage } from "~/hooks";
-import { links as sharedLinks } from "~/shared";
-import { setApiLanguage } from "~/shared/api";
-import { getUserSession } from "~/shared/api/auth";
-import type { TUser } from "~/shared/api/users/types";
-import type { TCart } from "~/shared/api/cart";
-import { createCartSession, getCart, getCartSession } from "~/shared/api/cart";
-import type { TSettings } from "~/shared/api/settings";
-import { createSettingsSession, getSettings } from "~/shared/api/settings";
-import { ChangeLanguageProvider, SocketProvider } from "~/shared/context";
-import { commitCsrfSession, getCsrfSession } from "~/shared/session";
+import { Layout, links as componentsLinks } from "#app/components";
+import { DEFAULT_LANGUAGE } from "#app/constants";
+import { Environment } from "#app/environment.server";
+import type { EnvironmentType } from "#app/environment.server";
+import { useInitDayjs, useInitLanguage } from "#app/hooks";
+import { links as sharedLinks } from "#app/shared";
+import { setApiLanguage } from "#app/shared/api";
+import { getUserSession } from "#app/shared/api/auth";
+import type { TUser } from "#app/shared/api/users/types";
+import type { TCart } from "#app/shared/api/cart";
+import {
+  createCartSession,
+  getCart,
+  getCartSession,
+} from "#app/shared/api/cart";
+import type { TSettings } from "#app/shared/api/settings";
+import { createSettingsSession, getSettings } from "#app/shared/api/settings";
+import { ChangeLanguageProvider, SocketProvider } from "#app/shared/context";
+import { commitCsrfSession, getCsrfSession } from "#app/shared/session";
 import {
   getStoreFixedT,
   parseAcceptLanguage,
   StoreContextProvider,
   useStore,
-} from "~/shared/store";
-import { ETheme, links as uikitLinks, ToastContainer } from "~/uikit";
-import { createBoundaries, internalError } from "~/utils";
+} from "#app/shared/store";
+import { ETheme, links as uikitLinks, ToastContainer } from "#app/uikit";
+import { createBoundaries, internalError } from "#app/utils";
 import styles from "../styles/app.css";
 
 interface RootLoaderData {
   basename: string | null;
-  cart: TCart;
+  cart: TCart | {};
   csrfToken: string;
   cspScriptNonce: string;
   ENV: Pick<EnvironmentType, "IS_PRODUCTION" | "ROUTER_PREFIX">;
-  settings: TSettings;
+  settings: TSettings | {};
   title: string;
   user: TUser | {};
 }
 
-export const loader = async (args: LoaderArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
   const { request } = args;
 
   const [cartSession, csrfSession, userSession] = await Promise.all([
@@ -76,7 +84,8 @@ export const loader = async (args: LoaderArgs) => {
   if (csrfSession.get("csrf")) {
     csrfToken = csrfSession.get("csrf");
   } else {
-    csrfToken = createAuthenticityToken(csrfSession);
+    // csrfToken = createAuthenticityToken(csrfSession);
+    csrfToken = csrf.generate(64);
   }
 
   const cspScriptNonce = await cryptoRandomStringAsync({ length: 41 });
@@ -88,36 +97,42 @@ export const loader = async (args: LoaderArgs) => {
   const cart = JSON.parse(cartSession || "{}");
   // console.log("[user.uuid] ", user.uuid);
   // console.log("[cart.uuid] ", cart.uuid);
-  let cartResponse;
-  if (isEmpty(cart)) {
-    cartResponse = await getCart(request, { uuid: null });
-  } else {
-    cartResponse = await getCart(request, { uuid: cart.uuid });
-  }
-  if (!cartResponse.success) {
-    throw internalError();
-  }
+  // let cartResponse;
+  // if (isEmpty(cart)) {
+  //   cartResponse = await getCart(request, { uuid: null });
+  // } else {
+  //   cartResponse = await getCart(request, { uuid: cart.uuid });
+  // }
+  // if (!cartResponse.success) {
+  //   throw internalError();
+  // }
 
-  const [settingsResponse, updatedCartSession] = await Promise.all([
-    getSettings(request, { uuid: cartResponse.data.uuid }),
-    createCartSession(cartResponse.data),
-  ]);
+  // const [settingsResponse, updatedCartSession] = await Promise.all([
+  //   getSettings(request, { uuid: cartResponse.data.uuid }),
+  //   createCartSession(cartResponse.data),
+  // ]);
 
   // Get settings
-  if (!settingsResponse.success) {
-    throw internalError();
-  }
-  setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
-  const [t, updatedSettingsSession] = await Promise.all([
-    getStoreFixedT({ request, uuid: cartResponse.data.uuid }),
-    createSettingsSession(settingsResponse.data),
+  // if (!settingsResponse.success) {
+  //   throw internalError();
+  // }
+  // setApiLanguage(settingsResponse.data.language ?? parseAcceptLanguage(request));
+  const [
+    t,
+    // updatedSettingsSession
+  ] = await Promise.all([
+    // getStoreFixedT({ request, uuid: cartResponse.data.uuid }),
+    getStoreFixedT({ request, uuid: "123" }),
+    // createSettingsSession(settingsResponse.data),
   ]);
 
   const basename = request.headers.get("x-remix-basename");
 
+  console.log("root cspScriptNonce: ", cspScriptNonce);
   const data: RootLoaderData = {
     basename,
-    cart: cartResponse.data,
+    // cart: cartResponse.data,
+    cart: {},
     csrfToken,
     cspScriptNonce,
     title: t("routes.titles.root"),
@@ -125,25 +140,26 @@ export const loader = async (args: LoaderArgs) => {
       IS_PRODUCTION: Environment.IS_PRODUCTION,
       ROUTER_PREFIX: Environment.ROUTER_PREFIX,
     },
-    settings: settingsResponse.data,
+    // settings: settingsResponse.data,
+    settings: {},
     user,
   };
 
   const headers = new Headers();
   headers.append("Set-Cookie", await commitCsrfSession(csrfSession));
 
-  [updatedCartSession.headers, updatedSettingsSession.headers]
-    .flatMap((headers) => Object.entries(headers))
-    .forEach(([header, value]) => {
-      headers.append(header, value);
-    });
+  // [updatedCartSession.headers, updatedSettingsSession.headers]
+  //   .flatMap((headers) => Object.entries(headers))
+  //   .forEach(([header, value]) => {
+  //     headers.append(header, value);
+  //   });
 
   return json(data, {
     headers,
   });
 };
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
   {
     charset: "utf-8",
     title: i18next.t("routes.titles.root") || "FamilyMart",
@@ -153,7 +169,7 @@ export const meta: V2_MetaFunction = () => [
 
 export const links: LinksFunction = () => {
   return [
-    ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+    // ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
     { rel: "stylesheet", href: styles },
     { rel: "stylesheet", href: reactToastifyStyles },
     { rel: "stylesheet", href: modalStyles },
@@ -177,13 +193,21 @@ type TDocumentProps = {
   settings?: TSettings;
 };
 
-const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, settings }) => {
+const Document: FC<TDocumentProps> = ({
+  cart,
+  children,
+  cspScriptNonce,
+  env,
+  settings,
+}) => {
   const { i18n } = useTranslation();
   // const { storageLanguage, setStorageLanguage } = useLanguageStore();
-  const language = !isNil(settings) ? settings?.language?.toLowerCase() : DEFAULT_LANGUAGE;
+  // const language = !isNil(settings) ? settings?.language?.toLowerCase() : DEFAULT_LANGUAGE;
+  const language = DEFAULT_LANGUAGE;
   useInitLanguage(language);
   useInitDayjs();
-  const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
+  // const theme = !isNil(settings) ? (settings.theme as ETheme) : ETheme.Light;
+  const theme = ETheme.Light;
 
   const lastLanguage = useRef<string | null>(null);
 
@@ -217,7 +241,7 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
         <meta
           name="viewport"
           content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes"
-        ></meta>
+        />
         <Meta />
         <Links />
       </head>
@@ -235,11 +259,12 @@ const Document: FC<TDocumentProps> = ({ cart, children, cspScriptNonce, env, set
 };
 
 export default function App() {
-  const { cart, csrfToken, cspScriptNonce, ENV, settings, user } = useLoaderData<typeof loader>();
+  const { cart, csrfToken, cspScriptNonce, ENV, settings, user } =
+    useLoaderData<typeof loader>();
   const isMounted = useRef<boolean>(false);
   const changeLanguageState = useState(false);
-  const [socket, setSocket] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
-  console.log("[root cart uuid] ", cart.uuid);
+  const [socket, setSocket] =
+    useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
   const store = useStore();
   const setUser = store.setUser;
   const setCart = store.setCart;
@@ -277,7 +302,12 @@ export default function App() {
       <StoreContextProvider store={store}>
         <AuthenticityTokenProvider token={csrfToken}>
           <ChangeLanguageProvider value={changeLanguageState}>
-            <Document cart={cart} cspScriptNonce={cspScriptNonce} env={ENV} settings={settings}>
+            <Document
+              cart={undefined}
+              cspScriptNonce={cspScriptNonce}
+              env={ENV}
+              settings={settings}
+            >
               <Outlet />
               <script
                 nonce={cspScriptNonce}

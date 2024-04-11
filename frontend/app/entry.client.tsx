@@ -1,5 +1,5 @@
 import { RemixBrowser } from "@remix-run/react";
-import { getInitialNamespaces } from "remix-i18next";
+import { getInitialNamespaces } from "remix-i18next/client";
 import { startTransition, StrictMode } from "react";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { hydrateRoot } from "react-dom/client";
@@ -37,7 +37,7 @@ async function hydrate() {
         <I18nextProvider i18n={i18next}>
           <RemixBrowser />
         </I18nextProvider>
-      </StrictMode>,
+      </StrictMode>
     );
   });
 }
