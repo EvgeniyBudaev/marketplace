@@ -3,6 +3,7 @@ import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
 import { createServer } from "http";
+import os from "os";
 import path from "path";
 import { Server } from "socket.io";
 import { createRequestHandler } from "@remix-run/express";
@@ -102,8 +103,15 @@ app.use(
 // more aggressive with this caching.
 app.use(express.static("public", { maxAge: "1h" }));
 
+const formatPath = (path: string) => {
+  if (os.platform() === "win32") {
+    return `file://${path}`;
+  }
+  return path;
+};
+
 async function loadBuild() {
-  const path = `${BUILD_DIR}/index.js`;
+  const path = formatPath(`${BUILD_DIR}/index.js`);
   let build = await import(path);
   build = registerAccessTokenRefresh(
     build,

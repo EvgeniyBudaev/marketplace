@@ -1,5 +1,5 @@
 // const { flatRoutes } = require("./app/utils/flatRoutes");
-import 'dotenv/config';
+import "dotenv/config";
 
 const BASE_PATH = process.env.ROUTER_PREFIX;
 
