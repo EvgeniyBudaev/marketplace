@@ -3,7 +3,7 @@ import type { FC } from "react";
 import type { OnChangeValue } from "react-select";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 
 import { ThemeSwitcher } from "#app/components";
 import { SOCKET_RECEIVE_LANGUAGE, SOCKET_SEND_LANGUAGE } from "#app/constants";

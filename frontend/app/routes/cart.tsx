@@ -7,7 +7,7 @@ import type {
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import i18next from "i18next";
-import isEmpty from "lodash/isEmpty.js";
+import isEmpty from "lodash/isEmpty";
 import { Cart, cartLinks } from "#app/pages/Cart";
 import {
   createCartSession,

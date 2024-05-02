@@ -53,19 +53,11 @@
   fill: rgb(255, 255, 255);
 }
 .TableRow:hover .MoreActions {
-  background: linear-gradient(
-    270deg,
-    rgb(146, 126, 92) 69.02%,
-    rgba(146, 126, 92, 0) 100%
-  );
+  background: linear-gradient(270deg, rgb(146, 126, 92) 69.02%, rgba(146, 126, 92, 0) 100%);
   transition: all 0s;
 }
 .TableRow:hover .MoreActions-Icon {
-  background: linear-gradient(
-    270deg,
-    rgb(146, 126, 92) 69.02%,
-    rgba(146, 126, 92, 0) 100%
-  );
+  background: linear-gradient(270deg, rgb(146, 126, 92) 69.02%, rgba(146, 126, 92, 0) 100%);
 }
 .TableRow:hover .MoreActions-Icon path {
   stroke: rgb(255, 255, 255);

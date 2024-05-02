@@ -61,15 +61,13 @@
   color: #fff;
   padding: 16px 24px;
   width: 100%;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 20px;
 }
-.Tooltip-Arrow,
-.Tooltip-Arrow::before {
+.Tooltip-Arrow, .Tooltip-Arrow::before {
   position: absolute;
   width: 8px;
   height: 8px;
@@ -83,16 +81,16 @@
   visibility: visible;
   transform: rotate(45deg);
 }
-.Tooltip-Element[data-popper-placement^="top"] .Tooltip-Arrow {
+.Tooltip-Element[data-popper-placement^=top] .Tooltip-Arrow {
   bottom: 0;
 }
-.Tooltip-Element[data-popper-placement^="bottom"] .Tooltip-Arrow {
+.Tooltip-Element[data-popper-placement^=bottom] .Tooltip-Arrow {
   top: 0;
 }
-.Tooltip-Element[data-popper-placement^="left"] .Tooltip-Arrow {
+.Tooltip-Element[data-popper-placement^=left] .Tooltip-Arrow {
   right: 0;
 }
-.Tooltip-Element[data-popper-placement^="right"] .Tooltip-Arrow {
+.Tooltip-Element[data-popper-placement^=right] .Tooltip-Arrow {
   left: 0;
 }
 

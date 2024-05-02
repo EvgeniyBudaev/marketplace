@@ -1,7 +1,7 @@
 import type { ChangeEvent, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Form } from "@remix-run/react";
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 import { TRANSITION } from "#app/constants";
 import type {
   TCatalogDetail,

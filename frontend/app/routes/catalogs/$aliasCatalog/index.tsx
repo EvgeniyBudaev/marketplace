@@ -6,7 +6,7 @@ import type {
   MetaFunction,
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import isEmpty from "lodash/isEmpty.js";
+import isEmpty from "lodash/isEmpty";
 import i18next from "i18next";
 import { Catalog, catalogLinks } from "#app/pages";
 import {

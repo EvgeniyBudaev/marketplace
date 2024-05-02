@@ -3,7 +3,7 @@ import { FormProvider } from "react-hook-form";
 import type { FieldValues } from "react-hook-form";
 import { useHydrated } from "remix-utils/use-hydrated";
 import { useAuthenticityToken } from "remix-utils/csrf/react";
-import isFunction from "lodash/isFunction.js";
+import isFunction from "lodash/isFunction";
 
 import { scrollToFirstErrorField } from "#app/shared/form/Form/utils";
 import { generateUUID, omitEmptyFields } from "#app/utils";

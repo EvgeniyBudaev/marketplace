@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 import type { FC } from "react";
 import { useProxyUrl } from "#app/hooks";
 import { Icon } from "#app/uikit";

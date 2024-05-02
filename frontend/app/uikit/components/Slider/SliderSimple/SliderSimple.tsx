@@ -1,4 +1,4 @@
-import isEmpty from "lodash/isEmpty.js";
+import isEmpty from "lodash/isEmpty";
 import { memo } from "react";
 import type { FC } from "react";
 import Slider from "react-slick";

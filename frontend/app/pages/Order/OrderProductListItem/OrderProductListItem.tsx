@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 import type { FC } from "react";
 import { Link } from "@remix-run/react";
 import { DEFAULT_IMAGE } from "#app/constants";

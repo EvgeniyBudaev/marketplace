@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { FC, MouseEvent } from "react";
 import { useNavigate } from "@remix-run/react";
-import isEmpty from "lodash/isEmpty.js";
-import isNil from "lodash/isNil.js";
+import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
 import { SearchGlobalListItem } from "#app/components/search/SearchGlobal/SearchGlobalListItem";
 import type {
   TFocusDirection,

@@ -1,4 +1,4 @@
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 import type { TFile } from "#app/types";
 
 type TFilterDuplicatedFilesResponse = {

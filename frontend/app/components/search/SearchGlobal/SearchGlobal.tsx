@@ -4,8 +4,8 @@ import { CSSTransition } from "react-transition-group";
 import { useTranslation } from "react-i18next";
 import { Form, useFetcher, useSearchParams } from "@remix-run/react";
 import clsx from "clsx";
-import debounce from "lodash/debounce.js";
-import isNull from "lodash/isNull.js";
+import debounce from "lodash/debounce";
+import isNull from "lodash/isNull";
 
 import { DEBOUNCE_TIMEOUT, TRANSITION } from "#app/constants";
 import { ERoutes } from "#app/enums";

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import xor from "lodash/xor.js";
+import xor from "lodash/xor";
 import { Fragment, useCallback } from "react";
 import type { ReactElement } from "react";
 import { Popover as UiPopover, Transition } from "@headlessui/react";

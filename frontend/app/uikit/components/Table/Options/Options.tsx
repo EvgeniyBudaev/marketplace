@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { flexRender } from "@tanstack/react-table";
 import type { HeaderContext } from "@tanstack/react-table";
 import clsx from "clsx";
-import xor from "lodash/xor.js";
+import xor from "lodash/xor";
 import {
   Button,
   ETypographyVariant,

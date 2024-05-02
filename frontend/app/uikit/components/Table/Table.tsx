@@ -9,7 +9,7 @@ import type { ForwardedRef, ReactElement } from "react";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import type { VisibilityState } from "@tanstack/react-table";
 import clsx from "clsx";
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_LIST } from "#app/constants";
 import { ETypographyVariant, Icon, Typography } from "#app/uikit";
 import { Control } from "#app/uikit/components/Table/Control";

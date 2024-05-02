@@ -66,8 +66,7 @@
   background-color: white;
   border: 1px solid transparent;
   border-radius: 4px;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   max-width: 200px;
   width: 100%;
 }
@@ -102,8 +101,7 @@
 
 .theme-dark .TableHeaderItem-DropDownList {
   background-color: rgb(31, 32, 41);
-  box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px,
-    rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
+  box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px, rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
 }
 .theme-dark .TableHeaderItem-Button svg {
   fill: rgb(255, 255, 255);

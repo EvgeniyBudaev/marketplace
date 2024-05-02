@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node";
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 import type { TUser } from "#app/shared/api/users/types";
 import { commitSession, destroySession, getSession } from "#app/shared/session";
 import type { TLogin } from "#app/shared/api/auth/types";

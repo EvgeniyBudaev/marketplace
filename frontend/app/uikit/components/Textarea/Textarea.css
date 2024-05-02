@@ -86,8 +86,7 @@
 .TextareaField__active textarea:-webkit-autofill.Textarea__active:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-.TextareaField__active textarea,
-.TextareaField__active textarea:hover {
+.TextareaField__active textarea, .TextareaField__active textarea:hover {
   background-color: rgb(255, 255, 255);
 }
 .TextareaField .TextareaField-Inner:-webkit-autofill {
@@ -132,28 +131,18 @@
   background-color: rgb(31, 32, 41);
 }
 .theme-dark .TextareaField__active textarea:-webkit-autofill.Textarea__active,
-.theme-dark
-  .TextareaField__active
-  textarea:-webkit-autofill.Textarea__active:hover,
-.theme-dark
-  .TextareaField__active
-  textarea:-webkit-autofill.Textarea__active:focus,
-.theme-dark
-  .TextareaField__active
-  textarea:-webkit-autofill.Textarea__active:active {
+.theme-dark .TextareaField__active textarea:-webkit-autofill.Textarea__active:hover,
+.theme-dark .TextareaField__active textarea:-webkit-autofill.Textarea__active:focus,
+.theme-dark .TextareaField__active textarea:-webkit-autofill.Textarea__active:active {
   -webkit-box-shadow: 0 0 0 30px rgb(31, 32, 41) inset !important;
 }
-.theme-dark .TextareaField__active textarea,
-.theme-dark .TextareaField__active textarea:hover {
+.theme-dark .TextareaField__active textarea, .theme-dark .TextareaField__active textarea:hover {
   background-color: rgb(31, 32, 41);
 }
 .theme-dark .TextareaField .TextareaField-Inner:-webkit-autofill {
   color: red;
 }
-.theme-dark
-  .TextareaField
-  .TextareaField-Inner:-webkit-autofill
-  ~ .TextareaField-Label {
+.theme-dark .TextareaField .TextareaField-Inner:-webkit-autofill ~ .TextareaField-Label {
   color: rgb(255, 255, 255);
 }
 .theme-dark .TextareaField .TextareaField-Inner textarea:-webkit-autofill {

@@ -7,7 +7,7 @@ import type {
   InputState,
 } from "react-input-mask";
 // import {ClientOnly} from "remix-utils";
-import isFunction from "lodash/isFunction.js";
+import isFunction from "lodash/isFunction";
 import { Input as InputUi } from "#app/uikit";
 import type { IInputProps as IInputPropsUi } from "#app/uikit";
 

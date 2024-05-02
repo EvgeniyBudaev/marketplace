@@ -2,7 +2,7 @@ import { memo, useState } from "react";
 import type { FC } from "react";
 import type { OnChangeValue } from "react-select";
 import clsx from "clsx";
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 import { Select, ETheme } from "#app/uikit";
 import type { TSelectOption, isSelectMultiType } from "#app/uikit";
 import type { ETablePlacement } from "#app/uikit/components/Table/enums";

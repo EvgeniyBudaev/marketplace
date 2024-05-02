@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import type { FC } from "react";
 import { useFetcher } from "@remix-run/react";
 import clsx from "clsx";
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 import type { TCart } from "#app/shared/api/cart";
 import type { TCatalogDetail } from "#app/shared/api/catalogs";
 import type { TProductByCatalog } from "#app/shared/api/products";

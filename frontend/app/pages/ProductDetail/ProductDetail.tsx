@@ -4,8 +4,8 @@ import {
   Link,
   // useFetcher
 } from "@remix-run/react";
-import isEmpty from "lodash/isEmpty.js";
-import isNil from "lodash/isNil.js";
+import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
 
 import { DEFAULT_IMAGE } from "#app/constants";
 import { ERoutes } from "#app/enums";

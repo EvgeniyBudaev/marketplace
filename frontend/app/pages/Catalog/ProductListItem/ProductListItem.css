@@ -48,8 +48,7 @@
 }
 .ProductListItem:hover {
   border: 1px solid rgb(176, 151, 106);
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 .ProductListItem-Wrapper {
   display: flex;
@@ -164,12 +163,10 @@
   max-width: 360px;
   width: 100%;
 }
-.ProductListItem.ProductListItem__line
-  .ProductListItem-ContentDescriptionLinePrice {
+.ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLinePrice {
   display: none;
 }
-.ProductListItem.ProductListItem__line
-  .ProductListItem-ContentDescriptionLineStatus {
+.ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLineStatus {
   display: none;
   margin-top: 8px;
   margin-bottom: 16px;
@@ -197,34 +194,19 @@
 }
 
 .theme-dark .ProductListItem {
-  background: linear-gradient(
-      40deg,
-      rgba(138, 143, 160, 0.16),
-      rgba(31, 32, 41, 0.24) 16%
-    ),
-    linear-gradient(
-      210deg,
-      rgba(138, 143, 160, 0.5),
-      rgba(31, 32, 41, 0.24) 20%
-    );
+  background: linear-gradient(40deg, rgba(138, 143, 160, 0.16), rgba(31, 32, 41, 0.24) 16%), linear-gradient(210deg, rgba(138, 143, 160, 0.5), rgba(31, 32, 41, 0.24) 20%);
   border: 1px solid rgb(35, 40, 56);
 }
 .theme-dark .ProductListItem:hover {
   border: 1px solid rgb(176, 151, 106);
-  box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px,
-    rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
+  box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px, rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
 }
 
 @media (max-width: 1100px) {
   .ProductListItem.ProductListItem__line {
     max-height: max-content;
   }
-  .ProductListItem.ProductListItem__line
-    .ProductListItem-ContentDescriptionLinePrice,
-  .ProductListItem.ProductListItem__line
-    .ProductListItem-ContentDescriptionLineStatus,
-  .ProductListItem.ProductListItem__line
-    .ProductListItem-ContentDescriptionLineAddToCartLine {
+  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLinePrice, .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLineStatus, .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLineAddToCartLine {
     display: block;
   }
   .ProductListItem.ProductListItem__line .ProductListItem-Footer {
@@ -235,8 +217,7 @@
   .ProductListItem.ProductListItem__line .ProductListItem-ContentImg {
     margin-left: 0;
   }
-  .ProductListItem.ProductListItem__line
-    .ProductListItem-ContentDescriptionLine {
+  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLine {
     max-width: 320px;
     margin-left: 15px;
   }
@@ -255,13 +236,10 @@
   .ProductListItem.ProductListItem__line .ProductListItem-ContentTitle {
     margin-bottom: 8px;
   }
-  .ProductListItem.ProductListItem__line
-    .ProductListItem-ContentDescriptionLine {
+  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLine {
     max-width: 100%;
   }
-  .ProductListItem.ProductListItem__line
-    .ProductListItem-ContentDescriptionLine
-    .ProductListItemAddToCartLine {
+  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLine .ProductListItemAddToCartLine {
     margin-bottom: 8px;
   }
 }
@@ -270,13 +248,11 @@
     flex-direction: column;
     align-items: center;
   }
-  .ProductListItem.ProductListItem__line
-    .ProductListItem-ContentDescriptionLine {
+  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLine {
     margin-left: 0;
     max-width: 290px;
   }
-  .ProductListItem.ProductListItem__line
-    .ProductListItem-ContentDescriptionLinePrice,
+  .ProductListItem.ProductListItem__line .ProductListItem-ContentDescriptionLinePrice,
   .ProductListItem.ProductListItem__line .ProductListItem-ContentTitleLine {
     text-align: center;
   }
@@ -285,8 +261,7 @@
   .ProductListItem-Content .ProductListItem-ContentContainerImage {
     height: 140px;
   }
-  .ProductListItem-ButtonAddToCart,
-  .ProductListItem-ButtonGoAtCart {
+  .ProductListItem-ButtonAddToCart, .ProductListItem-ButtonGoAtCart {
     padding: 10px 20px;
     height: 36px;
   }

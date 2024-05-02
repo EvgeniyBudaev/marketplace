@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useCallback, useEffect, useState } from "react";
 import type { FC, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 import {
   Previews,
   previewsLinks,

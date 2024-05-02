@@ -98,8 +98,7 @@
 }
 
 .theme-dark .Accordion-Header:hover {
-  box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px,
-    rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
+  box-shadow: rgba(138, 143, 160, 0.12) 0px 2px 4px 0px, rgba(138, 143, 160, 0.32) 0px 2px 16px 0px;
 }
 
 /*# sourceMappingURL=Accordion.css.map */

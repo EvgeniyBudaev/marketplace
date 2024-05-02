@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
 import type { ChangeEvent, KeyboardEvent } from "react";
 import { useSearchParams } from "@remix-run/react";
-import debounce from "lodash/debounce.js";
-import isEmpty from "lodash/isEmpty.js";
-import isNull from "lodash/isNull.js";
-import isNil from "lodash/isNil.js";
+import debounce from "lodash/debounce";
+import isEmpty from "lodash/isEmpty";
+import isNull from "lodash/isNull";
+import isNil from "lodash/isNil";
 import type { TDeleteModalState } from "#app/components/modal";
 import type { TSearchParams } from "#app/components/search";
 import {

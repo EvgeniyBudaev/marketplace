@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import type { FocusEvent, HTMLProps } from "react";
 import { withYMaps } from "@pbe/react-yandex-maps";
 import clsx from "clsx";
-import isEmpty from "lodash/isEmpty.js";
+import isEmpty from "lodash/isEmpty";
 import { useDebounce } from "use-debounce";
 import { v4 as uuidv4 } from "uuid";
 import { MapInput } from "#app/pages";

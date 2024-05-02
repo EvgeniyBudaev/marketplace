@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import isEmpty from "lodash/isEmpty.js";
+import isEmpty from "lodash/isEmpty";
 import i18next from "i18next";
 import { ProductDetail, productDetailLinks } from "#app/pages";
 import {

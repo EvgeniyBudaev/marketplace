@@ -7,7 +7,7 @@ import type { TProductByCatalog } from "#app/shared/api/products";
 import { ETypographyVariant, Icon, Typography } from "#app/uikit";
 import { createPath, formatCurrency } from "#app/utils";
 import styles from "./SearchGlobalListItem.css";
-import isNil from "lodash/isNil.js";
+import isNil from "lodash/isNil";
 
 type TProps = {
   index: number;

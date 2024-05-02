@@ -1,5 +1,5 @@
-import isNil from "lodash/isNil.js";
-import isNull from "lodash/isNull.js";
+import isNil from "lodash/isNil";
+import isNull from "lodash/isNull";
 import { useCallback, useEffect, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 import type { OnChangeValue } from "react-select";
